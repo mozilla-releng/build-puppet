@@ -1,0 +1,5 @@
+node default {
+    notify {
+        "hello!": ;
+    }
+}
