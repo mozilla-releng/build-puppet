@@ -75,11 +75,16 @@ mv /etc/issue{~,}
 
 # set up for first boot
 
-# TODO...
+wget -O/root/puppetize.sh "$hgrepo/raw-file/tip/setup/puppetize.sh" || exit 1
+chmod +x /root/puppetize.sh
+(
+    grep -v puppetize /etc/rc.local
+    echo '/bin/bash /root/puppetize.sh'
+) > /etc/rc.local~
+mv /etc/rc.local{~,}
 
 # finish cleanup
-
-rm -rf /tmp/puppet
+rm "$0"
 
 echo "Ready to image - halting system"
 sleep 2
