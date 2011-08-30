@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -x
+
 # parameters
 
 hgrepo="http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet"
@@ -51,12 +53,12 @@ rm -f /root/.bash_history || exit 1
 : > /var/log/wtmp || exit 1
 
 # remove persistent udev rules
-rm /etc/udev/rules.d/*persistent*
+rm /etc/udev/rules.d/*persistent* || echo '  (ignored)'
 
 # remove any existing yum repositories
 rm -f /etc/yum.repos.d/*
 
-# kill selinux
+# kill selinux, as it won't let anything start
 cat >/etc/sysconfig/selinux <<EOF
 SELINUX=disabled
 SELINUXTYPE=targeted 
@@ -78,7 +80,6 @@ mv /etc/issue{~,}
 # finish cleanup
 
 rm -rf /tmp/puppet
-#rm -f "$0" # remove this script
 
 echo "Ready to image - halting system"
 sleep 2
