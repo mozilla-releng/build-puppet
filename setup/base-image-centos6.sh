@@ -1,29 +1,56 @@
 #! /bin/bash
 
-# Supported distros/os's:
-#  - CentOS 6.0
-# remember, you can use facter to make this generic
+# parameters
+
+hgrepo="http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet"
+
+# warning
 
 clear
 echo "This script will reset this system to its state as a base image, ready to"
-echo "be captured.  This assumes the system was just installed from media, and"
-echo "has puppet installed."
+echo "be captured.  This assumes the system was just installed from media and"
+echo "this script installed, with no further changes."
 echo ""
 echo "When this script finishes, the host will be stopped.  When it is started"
-echo "again, it will try to re-puppetize itself."
+echo "again, it will try to puppetize itself."
 echo ""
 echo -n "Do you want to proceed? [yN] "
 read YN
 [ "$YN" = "y" ] || exit 1
 
-# parameters
+# install puppet and wget, using the local mirrors
 
-hgrepo="http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet"
+rm -f /etc/yum.repos.d/*
+cat > /etc/yum.repos.d/init.repo <<'EOF'
+[epel]
+name=epel
+baseurl=http://puppet/yum/mirrors/epel/6/latest/$basearch/
+enabled=1
+gpgcheck=0
 
-# check that puppet is installed
+[releng-public]
+name=releng-public
+baseurl=http://puppet/yum/releng/public/noarch
+enabled=1
+gpgcheck=0
 
+[os]
+name=os
+baseurl=http://puppet/yum/mirrors/centos/6.0/os/$basearch
+enabled=1
+gpgcheck=0
+
+[updates]
+name=os
+baseurl=http://puppet/yum/mirrors/centos/6.0/latest/updates/$basearch
+enabled=1
+gpgcheck=0
+EOF
+yum install -y puppet wget || exit 1
+
+# check that puppet is installed properly
 if ! puppet --version >/dev/null; then
-    echo "Puppet does not appear to be installed."
+    echo "Puppet does not appear to be installed properly."
     exit 1
 fi
 
@@ -70,4 +97,4 @@ rm -rf /tmp/puppet
 
 echo "Ready to image - halting system"
 sleep 2
-/sbin/halt
+#/sbin/halt
