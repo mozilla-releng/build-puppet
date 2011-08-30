@@ -34,8 +34,8 @@ yum clean all || exit 1
 
 # clean history
 rm -f /root/.bash_history || exit 1
-cat > /var/log/messages || exit 1
-cat > /var/log/wtmp || exit 1
+: > /var/log/messages || exit 1
+: > /var/log/wtmp || exit 1
 
 # remove persistent udev rules
 rm /etc/udev/rules.d/*persistent*
