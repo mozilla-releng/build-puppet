@@ -1,5 +1,5 @@
 #! /bin/bash
 
-while ! /usr/bin/puppet; do
+while ! /usr/bin/puppet agent; do
     :
 done
