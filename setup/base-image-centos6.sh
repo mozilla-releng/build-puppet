@@ -4,20 +4,6 @@
 
 hgrepo="http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet"
 
-# warning
-
-clear
-echo "This script will reset this system to its state as a base image, ready to"
-echo "be captured.  This assumes the system was just installed from media and"
-echo "this script installed, with no further changes."
-echo ""
-echo "When this script finishes, the host will be stopped.  When it is started"
-echo "again, it will try to puppetize itself."
-echo ""
-echo -n "Do you want to proceed? [yN] "
-read YN
-[ "$YN" = "y" ] || exit 1
-
 # install puppet and wget, using the local mirrors
 
 rm -f /etc/yum.repos.d/*
@@ -87,7 +73,6 @@ mv /etc/issue{~,}
 
 # set up for first boot
 
-hg clone "$hgrepo" /tmp/puppet || exit 1
 # TODO...
 
 # finish cleanup
