@@ -34,7 +34,7 @@ baseurl=http://puppet/yum/mirrors/centos/6.0/latest/updates/$basearch
 enabled=1
 gpgcheck=0
 EOF
-yum install -y puppet wget openssh-client || exit 1
+yum install -y puppet wget openssh-clients || exit 1
 
 # check that puppet is installed properly
 if ! puppet --version >/dev/null; then
