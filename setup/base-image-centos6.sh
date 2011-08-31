@@ -34,7 +34,7 @@ baseurl=http://puppet/yum/mirrors/centos/6.0/latest/updates/$basearch
 enabled=1
 gpgcheck=0
 EOF
-yum install -y puppet wget || exit 1
+yum install -y puppet wget openssh-client || exit 1
 
 # check that puppet is installed properly
 if ! puppet --version >/dev/null; then
@@ -75,6 +75,10 @@ mv /etc/issue{~,}
 
 # set up for first boot
 
+# get the deploy key
+scp root@puppet:/etc/puppet/deploykey /root/deploykey || exit 1
+
+# set up the puppetize script to run at boot
 wget -O/root/puppetize.sh "$hgrepo/raw-file/tip/setup/puppetize.sh" || exit 1
 chmod +x /root/puppetize.sh
 (
