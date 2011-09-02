@@ -1,5 +1,13 @@
 #! /bin/bash
 
+echo "Puppetize output is in /root/puppetize.log"
+
+exec >/root/puppetize.log 2>&1
+
+if ! [ -f /root/deploykey ]; then
+    echo "No deploykey found; cannot puppetize"
+fi
+
 # make sure the time is set correctly, or SSL will fail, badly.
 ntprunning=`ps ax | grep ntpd | grep -v grep`
 [ -n "$ntprunning" ] && /sbin/service ntpd stop
@@ -31,7 +39,8 @@ openssl x509 -text -in certs/$fqdn.pem | grep -A2 Valididty
 echo "ca.pem" validity
 openssl x509 -text -in certs/ca.pem | grep -A2 Valididty
 
-# TODO: delete deploykey here
+echo "deleting deploykey"
+rm /root/deploykey || exit 1
 
 while ! /usr/bin/puppet agent --no-daemonize --onetime --server=puppet; do
     echo "Puppet run failed; re-trying"
