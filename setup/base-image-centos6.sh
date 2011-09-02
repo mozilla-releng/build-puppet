@@ -6,7 +6,7 @@ set -x
 
 hgrepo="http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet"
 
-# install puppet and wget, using the local mirrors
+# install puppet and a few other things for setup, using the local mirrors
 
 rm -f /etc/yum.repos.d/*
 cat > /etc/yum.repos.d/init.repo <<'EOF'
@@ -34,7 +34,7 @@ baseurl=http://puppet/yum/mirrors/centos/6.0/latest/updates/$basearch
 enabled=1
 gpgcheck=0
 EOF
-yum install -y puppet wget openssh-clients || exit 1
+yum install -y puppet wget openssh-clients ntp || exit 1
 
 # check that puppet is installed properly
 if ! puppet --version >/dev/null; then

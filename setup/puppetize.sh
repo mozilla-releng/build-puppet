@@ -1,5 +1,11 @@
 #! /bin/bash
 
+# make sure the time is set correctly, or SSL will fail, badly.
+ntprunning=`ps ax | grep ntpd | grep -v grep`
+[ -n "$ntprunning" ] && /sbin/service ntpd stop
+/usr/sbin/ntpdate pool.ntp.org
+[ -n "$ntprunning" ] && /sbin/service ntpd start
+
 # first, get some certificates generated and set up.  This uses a deployment-only
 # SSH key to re-generate the SSH certificates for this machine.
 while ! ssh -i /root/deploykey deployment@puppet > /root/certs.sh; do
