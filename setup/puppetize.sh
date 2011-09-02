@@ -19,7 +19,9 @@ if ! [ -e private_keys/$fqdn.pem -a -e certs/$fqdn.pem -a -e certs/ca.pem ]; the
     exit 1
 fi
 
-while ! /usr/bin/puppet agent; do
+# TODO: delete deploykey here
+
+while ! /usr/bin/puppet agent --no-daemonize --onetime --server=puppet; do
     echo "Puppet run failed; re-trying"
     sleep 10
 done
