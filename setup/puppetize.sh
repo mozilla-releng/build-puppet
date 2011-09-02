@@ -25,6 +25,12 @@ if ! [ -e private_keys/$fqdn.pem -a -e certs/$fqdn.pem -a -e certs/ca.pem ]; the
     exit 1
 fi
 
+date
+echo "$fqdn.pem" validity
+openssl x509 -text -in certs/$fqdn.pem | grep -A2 Valididty
+echo "ca.pem" validity
+openssl x509 -text -in certs/ca.pem | grep -A2 Valididty
+
 # TODO: delete deploykey here
 
 while ! /usr/bin/puppet agent --no-daemonize --onetime --server=puppet; do
