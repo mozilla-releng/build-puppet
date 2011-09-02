@@ -46,3 +46,9 @@ while ! /usr/bin/puppet agent --no-daemonize --onetime --server=puppet; do
     echo "Puppet run failed; re-trying"
     sleep 10
 done
+
+# don't run puppetize at boot anymore
+(
+    grep -v puppetize /etc/rc.local
+) > /etc/rc.d/rc.local~
+mv /etc/rc.d/rc.local{~,}

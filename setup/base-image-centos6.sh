@@ -34,6 +34,11 @@ baseurl=http://puppet/yum/mirrors/centos/6.0/latest/updates/$basearch
 enabled=1
 gpgcheck=0
 EOF
+
+# puppet: that's why we're here
+# wget: used below
+# openssh-clients: puppetize.sh uses ssh
+# ntp: to synchronize time so certificates work
 yum install -y puppet wget openssh-clients ntp || exit 1
 
 # check that puppet is installed properly
@@ -84,12 +89,12 @@ chmod +x /root/puppetize.sh
 (
     grep -v puppetize /etc/rc.local
     echo '/bin/bash /root/puppetize.sh'
-) > /etc/rc.local~
-mv /etc/rc.local{~,}
+) > /etc/rc.d/rc.local~
+mv /etc/rc.d/rc.local{~,}
 
 # finish cleanup
 rm "$0"
 
 echo "Ready to image - halting system"
 sleep 2
-#/sbin/halt
+/sbin/halt
