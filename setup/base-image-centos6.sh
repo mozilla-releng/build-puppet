@@ -6,6 +6,16 @@ set -x
 
 hgrepo="http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet"
 
+# kill selinux, as it won't let anything start
+if selinuxenabled; then
+    cat >/etc/sysconfig/selinux <<EOF
+SELINUX=disabled
+SELINUXTYPE=targeted 
+EOF
+    echo "selinux is enabled; you must reboot now to disable it"
+    exit 1
+fi
+
 # install puppet and a few other things for setup, using the local mirrors
 
 rm -f /etc/yum.repos.d/*
@@ -62,12 +72,6 @@ rm /etc/udev/rules.d/*persistent* || echo '  (ignored)'
 
 # remove any existing yum repositories
 rm -f /etc/yum.repos.d/*
-
-# kill selinux, as it won't let anything start
-cat >/etc/sysconfig/selinux <<EOF
-SELINUX=disabled
-SELINUXTYPE=targeted 
-EOF
 
 # fix up /etc/issue
 (
