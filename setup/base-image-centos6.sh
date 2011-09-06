@@ -94,6 +94,7 @@ chmod +x /root/puppetize.sh
     echo '/bin/bash /root/puppetize.sh'
 ) > /etc/rc.d/rc.local~
 mv /etc/rc.d/rc.local{~,}
+chmod +x /etc/rc.d/rc.local
 
 # finish cleanup
 rm "$0"
