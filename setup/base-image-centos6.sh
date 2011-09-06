@@ -10,7 +10,7 @@ if selinuxenabled; then
 SELINUX=disabled
 SELINUXTYPE=targeted 
 EOF
-    echo "selinux is enabled; you must reboot now to disable it"
+    echo "selinux is enabled; you must reboot now to disable it, and login via SSH"
     exit 1
 fi
 
