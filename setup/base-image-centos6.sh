@@ -1,7 +1,5 @@
 #! /bin/bash
 
-set -x
-
 # parameters
 
 hgrepo="http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet"
@@ -85,6 +83,7 @@ mv /etc/issue{~,}
 # set up for first boot
 
 # get the deploy key
+echo "NOTE: you will need to use an SSH agent with a root key on the puppet server!"
 scp root@puppet:/etc/puppet/deploykey /root/deploykey || exit 1
 
 # set up the puppetize script to run at boot
