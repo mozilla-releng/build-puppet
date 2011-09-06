@@ -22,7 +22,8 @@ while ! ssh -i /root/deploykey deployment@puppet > /root/certs.sh; do
 done
 
 # source the shell script we got from the deploykey run
-mkdir -p /var/lib/puppet/ssl || exit 1
+mkdir -p /var/lib/puppet/ssl/private_keys || exit 1
+mkdir -p /var/lib/puppet/ssl/certs || exit 1
 cd /var/lib/puppet/ssl || exit 1
 . /root/certs.sh
 
