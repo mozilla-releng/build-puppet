@@ -3,6 +3,7 @@
 # every node inherits from 'base'
 node "base" {
     include puppet
+    include packages::setup
 }
 
 node "slave" inherits "base" {
