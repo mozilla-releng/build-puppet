@@ -3,4 +3,5 @@
 # other systems run the latter.
 class puppet {
     include puppet::install
+    include puppet::config
 }
