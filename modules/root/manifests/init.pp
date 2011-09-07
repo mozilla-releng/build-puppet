@@ -1,12 +1,12 @@
 class root {
-    include settings
+    include secrets
 
-    if ($settings::root_pw_hash == '') {
+    if ($secrets::root_pw_hash == '') {
         fail('No root password hash set')
     }
 
     user {
         "root":
-            password => $settings::root_pw_hash;
+            password => $secrets::root_pw_hash;
     }
 }
