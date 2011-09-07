@@ -4,6 +4,6 @@ class puppet::install {
 
     package {
         "puppet":
-            ensure => "puppet-$puppet_version";
+            ensure => "$puppet_version";
     }
 }
