@@ -5,7 +5,7 @@ class yum-repo::releng-public {
     $repo_url = "http://puppet/yum/releng/public/noarch"
 
     file {
-        "/etc/yum.repos.d/base.repo":
+        "/etc/yum.repos.d/releng-public.repo":
             content => template("yum-repo/repo.erb");
     }
 }

@@ -5,7 +5,7 @@ class yum-repo::updates {
     $repo_url = "http://puppet/yum/mirrors/centos/6.0/latest/updates/$hardwaremodel"
 
     file {
-        "/etc/yum.repos.d/base.repo":
+        "/etc/yum.repos.d/updates.repo":
             content => template("yum-repo/repo.erb");
     }
 }
