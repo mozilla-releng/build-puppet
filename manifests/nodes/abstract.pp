@@ -4,6 +4,7 @@
 node "base" {
     include puppet
     include packages::setup
+    include root
 }
 
 node "slave" inherits "base" {
