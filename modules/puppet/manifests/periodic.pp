@@ -8,6 +8,6 @@ class puppet::periodic {
 
     file {
         "/etc/cron.d/puppetcheck.cron":
-            contents => template("puppet/puppetcheck.cron.erb");
+            content => template("puppet/puppetcheck.cron.erb");
     }
 }
