@@ -1,0 +1,10 @@
+# Managed by puppet
+
+[main]
+    logdir = /var/log/puppet
+    rundir = /var/run/puppet
+    ssldir = /var/lib/puppet/ssl
+
+[agent]
+    classfile = $vardir/classes.txt
+    localconfig = $vardir/localconfig
