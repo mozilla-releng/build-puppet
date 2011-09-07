@@ -5,10 +5,11 @@ node "base" {
     include puppet
 }
 
-# buildslaves inherit from 'slave'
 node "slave" inherits "base" {
+    #include puppet::atboot
 }
 
 # servers (non-slaves, really) inherit from 'server'
 node "server" inherits "base" {
+    include puppet::periodic
 }
