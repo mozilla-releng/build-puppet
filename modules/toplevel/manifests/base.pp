@@ -4,5 +4,5 @@
 class toplevel::base {
     include puppet
     include packages::setup
-    include root
+    include user::root
 }
