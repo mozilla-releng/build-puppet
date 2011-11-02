@@ -1,6 +1,6 @@
 # Set up the root user (or equvalent, e.g., Administrator on windows)
 
-class user::root {
+class users::root {
     include secrets
 
     if ($secrets::root_pw_hash == '') {
