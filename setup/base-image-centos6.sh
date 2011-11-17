@@ -2,7 +2,7 @@
 
 # parameters
 
-hgrepo="http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet"
+hgrepo="http://hg.mozilla.org/build/puppet"
 
 # kill selinux, as it won't let anything start
 if selinuxenabled; then
