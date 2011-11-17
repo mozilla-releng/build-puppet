@@ -87,10 +87,10 @@ echo "NOTE: you will need to use an SSH agent with a root key on the puppet serv
 scp root@puppet:/etc/puppet/deploykey /root/deploykey || exit 1
 
 # set up the puppetize script to run at boot
-wget -O/root/puppetize.sh "$hgrepo/raw-file/tip/setup/puppetize.sh" || exit 1
+wget -O/root/puppetize.sh "$hgrepo/raw-file/default/setup/puppetize.sh" || exit 1
 chmod +x /root/puppetize.sh
 (
-    grep -v puppetize /etc/rc.local
+    grep -v puppetize /etc/rc.d/rc.local
     echo '/bin/bash /root/puppetize.sh'
 ) > /etc/rc.d/rc.local~
 mv /etc/rc.d/rc.local{~,}
