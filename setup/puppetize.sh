@@ -51,6 +51,6 @@ done
 
 # don't run puppetize at boot anymore
 (
-    grep -v puppetize /etc/rc.local
+    grep -v puppetize /etc/rc.d/rc.local
 ) > /etc/rc.d/rc.local~
 mv /etc/rc.d/rc.local{~,}
