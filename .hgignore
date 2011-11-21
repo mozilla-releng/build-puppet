@@ -1,0 +1,3 @@
+syntax: regexp
+# ignore the user-created secrets.pp
+^manifests/secrets.pp
