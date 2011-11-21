@@ -54,3 +54,5 @@ done
     grep -v puppetize /etc/rc.d/rc.local
 ) > /etc/rc.d/rc.local~
 mv /etc/rc.d/rc.local{~,}
+
+echo "System Installed:" `date` >> /etc/issue
