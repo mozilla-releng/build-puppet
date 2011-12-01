@@ -3,4 +3,5 @@
 # if you add a new key here, add it to the wiki as well!
 class settings {
     $puppet_notif_email = "dustin@mozilla.com"
+    $puppet_server = "puppet"
 }
