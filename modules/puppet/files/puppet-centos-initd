@@ -55,9 +55,10 @@ start() {
         count=$((count+1))
         if [ $count -gt $REBOOT_AFTER ]; then
             # If DHCP fails to get a (correct) IP address for this system, then
-            # we will sit in this loop until help arrives, which can be a long
+            # we would sit in this loop until help arrives, which can be a long
             # time.  In theory, DHCP should block until it gets an address, but
-            # this is not the case - see bug 636390.
+            # this is not the case - see bug 636390.  So we bail out after REBOOT_
+            # AFTER tries, in hopes we'll get better info from DHCP.
             echo "maybe a reboot will help.."
             /sbin/reboot
         fi
