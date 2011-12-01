@@ -10,8 +10,8 @@ if selinuxenabled; then
 SELINUX=disabled
 SELINUXTYPE=targeted 
 EOF
-    echo "selinux is enabled; you must reboot now to disable it, and login via SSH"
-    exit 1
+    echo 0 > /selinux/enforce
+    echo "Disabled selinux"
 fi
 
 # install puppet and a few other things for setup, using the local mirrors
