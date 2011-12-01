@@ -1,0 +1,84 @@
+#!/bin/bash
+# puppet        Init script for running the puppet client daemon
+#
+# Author:       Duane Griffin <d.griffin@psenterprise.com>
+#               David Lutterkort <dlutter@redhat.com>
+#
+# chkconfig: - 98 02
+#
+# description: Enables periodic system configuration checks through puppet.
+# processname: puppet
+# config: /etc/sysconfig/puppet
+
+PATH=/usr/bin:/sbin:/bin:/usr/sbin
+export PATH
+
+[ -f /etc/sysconfig/puppet ] && . /etc/sysconfig/puppet
+lockfile=${LOCKFILE-/var/lock/subsys/puppet}
+pidfile=${PIDFILE-/var/run/puppet/puppetd.pid}
+puppetd=${PUPPETD-/usr/sbin/puppetd}
+RETVAL=0
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+PUPPET_OPTS=""
+[ -n "${PUPPET_SERVER}" ] && PUPPET_OPTS="--server=${PUPPET_SERVER}"
+[ -n "$PUPPET_PORT" ] && PUPPET_OPTS="${PUPPET_OPTS} --port=${PUPPET_PORT}"
+
+run_puppet() {
+	echo $"Starting puppet.."
+
+    # check for 'err:' in the output; this catches errors even
+    # when the puppet exit status is incorrect.
+    # stderr redirection fixes a problem where grep would get a
+    # broken pipe. not sure why the redirect fixes it.
+	tmp=`mktemp`
+	$puppetd ${PUPPET_OPTS} ${PUPPET_EXTRA_OPTS} &> $tmp
+	RETVAL=$?
+	if grep -q "^err:" $tmp
+	then
+		RETVAL=1
+	fi
+
+	rm $tmp
+    return $RETVAL
+}
+
+start() {
+    count=0
+	while true
+	do
+        # try running puppet
+        run_puppet && break
+
+        count=$((count+1))
+        if [ $count -gt $REBOOT_AFTER ]; then
+            # If DHCP fails to get a (correct) IP address for this system, then
+            # we will sit in this loop until help arrives, which can be a long
+            # time.  In theory, DHCP should block until it gets an address, but
+            # this is not the case - see bug 636390.
+            echo "maybe a reboot will help.."
+            /sbin/reboot
+        fi
+
+        /sbin/ifconfig # for debugging purposes
+	done
+}
+
+case "$1" in
+  start)
+	start
+	;;
+  stop) 
+	exit 0 # sure, I stopped..
+	;;
+  status)
+    exit 0 # working just fine, thanks
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|status}"
+	exit 1
+esac
+
+exit $RETVAL
