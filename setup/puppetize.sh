@@ -16,7 +16,7 @@ ntprunning=`ps ax | grep ntpd | grep -v grep`
 
 # first, get some certificates generated and set up.  This uses a deployment-only
 # SSH key to re-generate the SSH certificates for this machine.
-while ! ssh -i /root/deploykey deployment@puppet > /root/certs.sh; do
+while ! ssh -oStrictHostKeyChecking=no -i /root/deploykey deployment@puppet > /root/certs.sh; do
     echo "Failed to get certificates"
     sleep 60
 done
