@@ -4,4 +4,5 @@
 class settings {
     $puppet_notif_email = "dustin@mozilla.com"
     $puppet_server = "puppet"
+    $yum_server = $puppet_server
 }

@@ -2,7 +2,12 @@
 # parameters that apply to all releng hosts.
 
 class toplevel::base {
+    # Manage this in the packagesetup stage so that they are in place by the
+    # time any Package resources are managed.
+    class {
+        'packages::setup': stage => packagesetup,
+    }
+
     include puppet
-    include packages::setup
     include users::root
 }
