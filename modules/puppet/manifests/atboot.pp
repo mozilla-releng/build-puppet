@@ -7,7 +7,7 @@ class puppet::atboot {
             file {
                 "/etc/init.d/puppet":
                     mode => 0755,
-                    source => "puppet:///puppet/puppet-centos-initd";
+                    source => "puppet:///modules/puppet/puppet-centos-initd";
                 "/etc/sysconfig/puppet":
                     content => template("puppet/sysconfig-puppet.erb");
             }
