@@ -8,7 +8,7 @@ hgrepo="http://hg.mozilla.org/build/puppet"
 if selinuxenabled; then
     cat >/etc/sysconfig/selinux <<EOF
 SELINUX=disabled
-SELINUXTYPE=targeted 
+SELINUXTYPE=targeted
 EOF
     echo 0 > /selinux/enforce
     echo "Disabled selinux"
@@ -73,7 +73,7 @@ rm -f /etc/yum.repos.d/*
 
 # fix up /etc/issue
 (
-    grep -v '^Base Image' /etc/issue 
+    grep -v '^Base Image' /etc/issue
     echo "Base Image Date:" `date`
     echo "Base Image OS:" `facter operatingsystem` `facter operatingsystemrelease`
     echo "Base Image Host:" `facter fqdn`
