@@ -1,5 +1,5 @@
 # The puppetmaster server
-PUPPET_SERVER=<%= scope.lookupvar('settings::puppet_server') %>
+PUPPET_SERVER=<%= scope.lookupvar('::config::puppet_server') %>
 
 # If you wish to specify the port to connect to do so here
 #PUPPET_PORT=8140

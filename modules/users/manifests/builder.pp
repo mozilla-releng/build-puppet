@@ -3,18 +3,18 @@
 
 class users::builder {
     include secrets
-    include settings
+    include config
 
     if ($secrets::builder_pw_hash == '') {
         fail('No builder password hash set')
     }
 
-    if ($settings::builder_username == '') {
+    if ($config::builder_username == '') {
         fail('No builder username set')
     }
 
     user {
-        "$settings::builder_username":
+        "$config::builder_username":
             password => $secrets::builder_pw_hash,
             shell => "/bin/bash",
             managehome => true,

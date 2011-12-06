@@ -8,4 +8,4 @@
 [agent]
     classfile = $vardir/classes.txt
     localconfig = $vardir/localconfig
-    server = <%= scope.lookupvar('settings::puppet_server') %>
+    server = <%= scope.lookupvar('::config::puppet_server') %>

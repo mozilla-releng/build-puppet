@@ -2,7 +2,7 @@
 #
 
 class puppet::periodic {
-    include settings
+    include config
 
     file {
         # This is done via crontab due to a memory leak in puppet identified by

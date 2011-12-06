@@ -1,5 +1,5 @@
 class puppet::atboot {
-    include settings
+    include config
 
     # create a service
     case $operatingsystem {
