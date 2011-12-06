@@ -82,9 +82,10 @@ mv /etc/issue{~,}
 
 # set up for first boot
 
-# get the deploy key
-echo "NOTE: you will need to use an SSH agent with a root key on the puppet server!"
-scp root@puppet:/etc/puppet/deploykey /root/deploykey || exit 1
+# get the deploy password
+echo -n "deploy password (to be embedded in image; will be echoed, sorry): "
+read deploypass
+echo $deploypass > /root/deploypass
 
 # set up the puppetize script to run at boot
 wget -O/root/puppetize.sh "$hgrepo/raw-file/default/setup/puppetize.sh" || exit 1
