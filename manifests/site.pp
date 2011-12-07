@@ -1,5 +1,5 @@
 # Setup extlookup which we only use for config magic
-$extlookup_datadir = "modules/config/data"
+$extlookup_datadir = "$settings::manifestdir/extlookup"
 $extlookup_precedence = ["local-config", "default-config"]
 
 # basic top-level classes with basic settings
