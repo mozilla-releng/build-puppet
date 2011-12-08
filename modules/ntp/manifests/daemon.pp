@@ -26,5 +26,16 @@ class ntp::daemon {
                 enable => true,
                 hasstatus => false;
         }
+    } else {
+        # actively disable ntp on virtual machines, just in case
+        service {
+            "ntpd": 
+                enable => false,
+                hasstatus => true,
+                ensure => stopped;
+            "ntpdate": 
+                enable => false,
+                hasstatus => false;
+        }
     }
 }
