@@ -22,6 +22,9 @@ class ntp::daemon {
                 enable => true,
                 hasstatus => true,
                 ensure => running;
+            "ntpdate": 
+                enable => true,
+                hasstatus => false;
         }
     }
 }
