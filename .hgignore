@@ -1,5 +1,5 @@
 syntax: regexp
 # ignore the user-created secrets.pp
-^manifests/secrets.pp
+^manifests/extlookup/secrets.csv
 # ignore the local config file/symlink if present
 ^manifests/extlookup/local-config.csv
