@@ -7,6 +7,8 @@ class puppet::atboot {
             file {
                 "/etc/init.d/puppet":
                     mode => 0755,
+                    owner => 'root',
+                    group => 'root',
                     source => "puppet:///modules/puppet/puppet-centos-initd";
                 "/etc/sysconfig/puppet":
                     content => template("puppet/sysconfig-puppet.erb");
