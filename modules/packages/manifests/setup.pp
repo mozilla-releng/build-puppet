@@ -11,13 +11,13 @@ class packages::setup {
 
     packages::yumrepo {
         "base":
-            baseurl => "http://$config::yum_server/yum/mirrors/centos/$operatingsystemrelease/os/$hardwaremodel";
+            baseurl => "http://$config::yum_server/repos/yum/mirrors/centos/$operatingsystemrelease/os/$hardwaremodel";
         "epel":
-            baseurl => "http://$config::yum_server/yum/mirrors/epel/6/latest/$hardwaremodel";
+            baseurl => "http://$config::yum_server/repos/yum/mirrors/epel/6/latest/$hardwaremodel";
         "updates":
-            baseurl => "http://$config::yum_server/yum/mirrors/centos/6.0/latest/updates/$hardwaremodel";
+            baseurl => "http://$config::yum_server/repos/yum/mirrors/centos/6.0/latest/updates/$hardwaremodel";
         "releng-public":
-            baseurl => "http://$config::yum_server/yum/releng/public/noarch";
+            baseurl => "http://$config::yum_server/repos/yum/releng/public/noarch";
     }
 
 }
