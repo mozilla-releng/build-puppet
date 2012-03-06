@@ -20,25 +20,25 @@ rm -f /etc/yum.repos.d/*
 cat > /etc/yum.repos.d/init.repo <<'EOF'
 [epel]
 name=epel
-baseurl=http://puppet/yum/mirrors/epel/6/latest/$basearch/
+baseurl=http://puppet/repos/yum/mirrors/epel/6/latest/$basearch/
 enabled=1
 gpgcheck=0
 
 [releng-public]
 name=releng-public
-baseurl=http://puppet/yum/releng/public/noarch
+baseurl=http://puppet/repos/yum/releng/public/noarch
 enabled=1
 gpgcheck=0
 
 [os]
 name=os
-baseurl=http://puppet/yum/mirrors/centos/6.0/os/$basearch
+baseurl=http://puppet/repos/yum/mirrors/centos/6.0/os/$basearch
 enabled=1
 gpgcheck=0
 
 [updates]
 name=os
-baseurl=http://puppet/yum/mirrors/centos/6.0/latest/updates/$basearch
+baseurl=http://puppet/repos/yum/mirrors/centos/6.0/latest/updates/$basearch
 enabled=1
 gpgcheck=0
 EOF

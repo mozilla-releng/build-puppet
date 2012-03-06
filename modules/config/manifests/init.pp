@@ -4,6 +4,8 @@
 
 # We use config rather than settings because "settings" is a magic class
 class config {
+    include config::secrets
+    
     $puppet_notif_email = extlookup("puppet_notif_email")
     $puppet_server = extlookup("puppet_server")
     $yum_server = extlookup("yum_server")
