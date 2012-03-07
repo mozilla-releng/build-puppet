@@ -9,6 +9,9 @@ class puppet::atboot {
                     mode => 0755,
                     owner => 'root',
                     group => 'root',
+                    # puppet::install will overwrite this file, so make sure it gets
+                    # installed first
+                    require => Class['puppet::install'],
                     source => "puppet:///modules/puppet/puppet-centos-initd";
                 "/etc/sysconfig/puppet":
                     content => template("puppet/sysconfig-puppet.erb");
