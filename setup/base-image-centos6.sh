@@ -30,15 +30,15 @@ baseurl=http://repos/repos/yum/mirrors/puppetlabs/el/6/products/$basearch
 enabled=1
 gpgcheck=0
 
-[os]
+[os]  
 name=os
-baseurl=http://repos/repos/yum/mirrors/centos/6.0/os/$basearch
+baseurl=http://repos/repos/yum/mirrors/centos/6/latest/os/$basearch
 enabled=1
 gpgcheck=0
 
 [updates]
-name=os
-baseurl=http://repos/repos/yum/mirrors/centos/6.0/latest/updates/$basearch
+name=os 
+baseurl=http://repos/repos/yum/mirrors/centos/6/latest/updates/$basearch
 enabled=1
 gpgcheck=0
 EOF
