@@ -18,6 +18,8 @@ class packages::setup {
             baseurl => "http://$config::yum_server/repos/yum/mirrors/centos/6/latest/updates/$hardwaremodel";
         "releng-public":
             baseurl => "http://$config::yum_server/repos/yum/releng/public/noarch";
+        "puppetlabs":
+            baseurl => "http://$config::yum_server/repos/yum/mirrors/puppetlabs/el/6/products/$hardwaremodel";
     }
 
 }
