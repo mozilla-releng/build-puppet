@@ -1,0 +1,3 @@
+Host *mozilla.com *mozilla.org
+    BatchMode Yes
+    

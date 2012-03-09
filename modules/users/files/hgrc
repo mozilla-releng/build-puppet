@@ -1,0 +1,7 @@
+[diff]
+git=True
+showfunc=True
+ignoreblanklines=True
+
+[ui]
+username = Mozilla Release Engineering <release@mozilla.com>
