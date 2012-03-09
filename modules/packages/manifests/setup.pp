@@ -13,7 +13,7 @@ class packages::setup {
         "epel":
             baseurl => "http://$config::yum_server/repos/yum/mirrors/epel/6/latest/$hardwaremodel";
         "base":
-            baseurl => "http://$config::yum_server/repos/yum/mirrors/centos/6/latest/os/$hardwaremodel";
+            baseurl => "http://$config::yum_server/repos/yum/mirrors/centos/6/latest/os/$hardwaremodel/Packages";
         "updates":
             baseurl => "http://$config::yum_server/repos/yum/mirrors/centos/6/latest/updates/$hardwaremodel";
         "releng-public":
