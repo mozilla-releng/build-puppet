@@ -20,9 +20,8 @@ class packages::setup {
         #    baseurl => "http://$config::yum_server/repos/yum/mozilla/centos/6/latest/$hardwaremodel";
         "johnford-org-centos6-x86_64":
             baseurl => "http://johnford.org/repos/";
-        # This repository does not work
-        #"releng-public":
-        #    baseurl => "http://$config::yum_server/repos/yum/releng/public/noarch";
+        "releng-public":
+            baseurl => "http://$config::yum_server/repos/yum/releng/public/noarch";
         "puppetlabs":
             baseurl => "http://$config::yum_server/repos/yum/mirrors/puppetlabs/el/6/products/$hardwaremodel";
     }
