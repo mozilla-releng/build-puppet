@@ -19,6 +19,8 @@ class packages::mozilla-tools {
                     ensure => latest;
                 "mozilla-python27-virtualenv":
                     ensure => latest;
+                "mozilla-python27-zope-interface":
+                    ensure => latest;
                 "mozilla-python27-twisted":
                     ensure => latest;
                 "mozilla-git":
