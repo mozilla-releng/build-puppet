@@ -35,6 +35,17 @@ class packages::mozilla-tools {
 
             }
 
+            file {
+                "/builds/":
+                    ensure => directory,
+                    mode => 0755;
+                "/builds/hg-shared":
+                    ensure => directory,
+                    owner => "$config::builder_username",
+                    group => "$config::builder_username",
+                    mode => 0755;
+            }
+
             # The puppet group type can't do this it seems
             exec {
                 "mock_mozilla-add":
