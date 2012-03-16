@@ -42,6 +42,10 @@ baseurl=http://repos/repos/yum/mirrors/centos/6/latest/updates/$basearch
 enabled=1
 gpgcheck=0
 EOF
+yum clean all || fail
+
+# install upgrades from the os base that anaconda put in place
+yum upgrade -y || fail
 
 # puppet: that's why we're here
 # wget: used below
