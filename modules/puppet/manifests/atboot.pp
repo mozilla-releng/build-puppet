@@ -1,6 +1,15 @@
 class puppet::atboot {
     include config
 
+    # signal puppetize.sh to reboot after this puppet run, if we're running
+    # puppetize.sh (identified via the $puppetizing fact)
+    if ($puppetizing) {
+        file {
+            "/REBOOT_AFTER_PUPPET":
+                content => "please!";
+        }
+    }
+
     # create a service
     case $operatingsystem {
         CentOS: {
