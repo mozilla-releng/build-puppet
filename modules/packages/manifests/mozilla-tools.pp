@@ -8,22 +8,13 @@ class packages::mozilla-tools {
         CentOS: {
             # These are mozilla custom tools
             package {
-                "mozilla-python27":
-                    ensure => latest;
-                "mozilla-python26":
-                    ensure => latest;
-                "mozilla-python27-setuptools":
-                    ensure => latest;
-                "mozilla-python26-setuptools":
-                    ensure => latest;
                 "mozilla-python27-mercurial":
-                    ensure => latest;
+                    ensure => latest,
+                    require => Class['packages::python27'];
                 "mozilla-python27-virtualenv":
-                    ensure => latest;
-                "mozilla-python27-zope-interface":
-                    ensure => latest;
-                "mozilla-python27-twisted":
-                    ensure => latest;
+                    ensure => latest,
+                    require => Class['packages::python27'];
+
                 "mozilla-git":
                     ensure => latest;
                 "mock_mozilla":
