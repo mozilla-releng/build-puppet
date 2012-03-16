@@ -4,5 +4,6 @@ class toplevel::slave::build inherits toplevel::slave {
     include dirs::builds::hg-shared
     include ntp::daemon
     include packages::mozilla-tools
+    include tweaks::nofile
 }
 
