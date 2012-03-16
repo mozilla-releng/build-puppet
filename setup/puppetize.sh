@@ -2,6 +2,8 @@
 
 echo "Puppetize output is in /root/puppetize.log"
 
+REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
+
 exec >/root/puppetize.log 2>&1
 
 hang() {
@@ -52,7 +54,9 @@ openssl x509 -text -in certs/ca.pem | grep -A2 Valididty
 echo "deleting deploypass"
 rm /root/deploypass || exit 1
 
-while ! /usr/bin/puppet agent --no-daemonize --onetime --server=puppet; do
+rm -f "$REBOOT_FLAG_FILE"
+
+while ! FACTER_PUPPETIZING=true /usr/bin/puppet agent --no-daemonize --onetime --server=puppet; do
     echo "Puppet run failed; re-trying"
     sleep 10
 done
@@ -64,3 +68,10 @@ done
 mv /etc/rc.d/rc.local{~,}
 
 echo "System Installed:" `date` >> /etc/issue
+
+if [ -f "$REBOOT_FLAG_FILE" ]; then
+    rm -f "$REBOOT_FLAG_FILE"
+    echo "Rebooting as requested"
+    sleep 10
+    reboot
+fi
