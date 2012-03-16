@@ -1,20 +1,5 @@
 # Handle installing Python virtualenvs containing Python packages.
 # https://wiki.mozilla.org/ReleaseEngineering/Puppet/Modules/python
-
-# Install a virtualenv, based on a particular Python, and containing
-# a particular set of packages.
-#
-# Package dependencies are not followed - list *all* required packages in the
-# packages parameter.  Note that this cannot uninstall packages, although it
-# can be used to upgrade/downgrade packages (as pip will automatically
-# uninstall the previous version)
-#
-# title: virtualenv directory
-# python: python executable on which to base the virtualenv
-# ensure: present or absent
-# packages: array of package names and versions to install
-# user: username to own the virtualenv
-# group: group to own the virtualenv
 define python::virtualenv($python, $ensure="present", $packages, $user=null, $group=null) {
     include python::virtualenv::settings
     include python::virtualenv::prerequisites
