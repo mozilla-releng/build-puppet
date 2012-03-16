@@ -2,6 +2,7 @@
 # tools packages
 
 class packages::mozilla-tools {
+    include dirs::tools
 
     case $operatingsystem{
         CentOS: {
@@ -36,14 +37,6 @@ class packages::mozilla-tools {
             }
 
             file {
-                "/builds/":
-                    ensure => directory,
-                    mode => 0755;
-                "/builds/hg-shared":
-                    ensure => directory,
-                    owner => "$config::builder_username",
-                    group => "$config::builder_username",
-                    mode => 0755;
                 "/tools/tooltool.py":
                     ensure => present,
                     source => "puppet:///modules/packages/tooltool.py";
