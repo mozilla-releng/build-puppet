@@ -7,5 +7,5 @@
 #  - https://wiki.mozilla.org/ReleaseEngineering/Buildslave_Versions
 class buildslave {
     include buildslave::install
-    #include buildslave::startup
+    include buildslave::startup
 }
