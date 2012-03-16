@@ -13,6 +13,9 @@
 PATH=/usr/bin:/sbin:/bin:/usr/sbin
 export PATH
 
+# number of tries to make between attempts to run puppet
+REBOOT_AFTER=10
+
 [ -f /etc/sysconfig/puppet ] && . /etc/sysconfig/puppet
 lockfile=${LOCKFILE-/var/lock/subsys/puppet}
 pidfile=${PIDFILE-/var/run/puppet/puppetd.pid}
@@ -64,6 +67,7 @@ start() {
         fi
 
         /sbin/ifconfig # for debugging purposes
+        sleep 60
     done
 }
 
