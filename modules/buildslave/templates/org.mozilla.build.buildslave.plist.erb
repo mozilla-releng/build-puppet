@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+
+    <!-- MOZILLA DEPLOYMENT NOTES
+         This file is distributed by Puppet to all darwin slaves
+         it lives in the 'buildslave' puppet module -->
+
+    <!-- note that this service is run by the cltbld launchd, not by the system
+         launchd, so it does not need to specify a UserName (and in fact, this
+         field is ignored) -->
+
+<dict>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>CVS_RSH</key>
+        <string>ssh</string>
+        <key>PATH</key>
+        <string><%= buildslave_path %></string>
+        <% if buildslave_pythonpath != "NONE" %>
+        <key>PYTHONPATH</key>
+        <string><%= buildslave_pythonpath %></string>
+        <% end %>
+    </dict>
+    <key>Label</key>
+    <string>org.mozilla.build.buildslave</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python</string>
+        <string>/usr/local/bin/runslave.py</string>
+    </array>
+    <!-- do not run immediately when loaded -->
+    <key>RunAtLoad</key>
+    <false/>
+    <!-- but run when puppet (which is running as root) touches this file -->
+    <key>WatchPaths</key>
+    <array>
+        <string>/var/puppet/run/puppet.finished</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/cltbld</string>
+</dict>
+</plist>
+

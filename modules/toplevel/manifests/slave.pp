@@ -3,6 +3,7 @@
 class toplevel::slave inherits toplevel::base {
     include users::builder
     include puppet::atboot
+    include buildslave
 
     # apply tweaks
     include tweaks::dev-ptmx
