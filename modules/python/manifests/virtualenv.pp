@@ -71,16 +71,13 @@ define python::virtualenv($python, $ensure="present", $packages, $user=null, $gr
                     creates => "$virtualenv/bin/pip";
             }
 
-            # TODO: requires regsubst, which is not in 0.24.8:
-#            # now install each package; we use regsubst to qualify the resource name
-#            # with the virtualenv; a similar regsubst will be used in the python::virtualenv::package
-#            # define to separate these two values
-#            $qualified_packages = regsubst($packages, "^", "$virtualenv||")
-#            python::virtualenv::package { $qualified_packages: }
+            # now install each package; we use regsubst to qualify the resource
+            # name with the virtualenv; a similar regsubst will be used in the
+            # python::virtualenv::package define to separate these two values
+            $qualified_packages = regsubst($packages, "^", "$virtualenv||")
             python::virtualenv::package {
-                $packages: 
-                    user => $ve_user,
-                    virtualenv => $virtualenv;
+                $qualified_packages:
+                    user => $ve_user;
             }
         }
 

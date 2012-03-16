@@ -1,26 +1,23 @@
 # (private)
 #
 # Install the given Python package into the given virtualenv.
-define python::virtualenv::package($virtualenv, $user) { # TODO: extract $virtualenv from $title (see above)
+define python::virtualenv::package($user) {
     include python::virtualenv::settings
     include python::misc_python_dir
     include python::pip_check_py
 
-    # TODO: requires regsubst, which is not in 0.24.8:
-#    # extract the virtualenv and tarball from the title
-#    $virtualenv = regsubst($title, "\|\|.*$", "")
-#    $pkg = regsubst($title, "^.*\|\|", "")
-    $pkg = $title
+    # extract the virtualenv and tarball from the title
+    $virtualenv = regsubst($title, "\\|\\|.*$", "")
+    $pkg = regsubst($title, "^.*\\|\\|", "")
 
     $pip_check_py = $python::pip_check_py::file
+    $pkg_http = $python::virtualenv::settings::packages_dir_http
+    $pip_options = "--no-deps --no-index --find-links $pkg_http"
 
     exec {
         # point pip at the package directory so that it can select the best option
-        "pip-$virtualenv||$pkg":
-            name => "$virtualenv/bin/pip install \
-                    --no-deps --no-index \
-                    --find-links=${python::virtualenv::settings::packages_dir_http} \
-                    $pkg",
+        "pip $title":
+            name => "$virtualenv/bin/pip install $pip_options $pkg",
             logoutput => on_failure,
             onlyif => "$virtualenv/bin/python $pip_check_py $pkg",
             user => $user,
