@@ -37,7 +37,7 @@ enabled=1
 gpgcheck=0
 
 [updates]
-name=os 
+name=updates
 baseurl=http://repos/repos/yum/mirrors/centos/6/latest/updates/$basearch
 enabled=1
 gpgcheck=0
