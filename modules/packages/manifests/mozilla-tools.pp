@@ -14,7 +14,6 @@ class packages::mozilla-tools {
                 "mozilla-python27-virtualenv":
                     ensure => latest,
                     require => Class['packages::python27'];
-
                 "mozilla-git":
                     ensure => latest;
                 "mock_mozilla":
