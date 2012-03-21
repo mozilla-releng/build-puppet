@@ -16,8 +16,8 @@ class packages::setup {
             baseurl => "http://$config::yum_server/repos/yum/mirrors/centos/6/latest/os/$hardwaremodel/Packages";
         "updates":
             baseurl => "http://$config::yum_server/repos/yum/mirrors/centos/6/latest/updates/$hardwaremodel";
-        #"mozilla-centos6-x86_64":
-        #    baseurl => "http://$config::yum_server/repos/yum/mozilla/centos/6/latest/$hardwaremodel";
+        "mozilla-centos6-x86_64":
+            baseurl => "http://$config::yum_server/repos/yum/mozilla/CentOS/6/$hardwaremodel";
         "releng-public":
             baseurl => "http://$config::yum_server/repos/yum/releng/public/noarch";
         "puppetlabs":
