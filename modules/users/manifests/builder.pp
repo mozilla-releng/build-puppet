@@ -21,21 +21,11 @@ class users::builder {
             comment => "Builder";
     }
 
-    # XXX This is a little bit of a kludge.  We should really
-    # be figuring out what the /home/ part is based on the real system
-    # instead of specifying it per kernel (OS family)
-    case $kernel {
-        "Linux": {
-            $home_base = "/home/"
-        }
-        "Darwin": {
-            $home_base = "/Users/"
-        }
-        default: {
-            fail('I dont how to figure out the homedir on $kernel')
-        }
+    # calculate the proper homedir
+    $home_base = $operatingsystem ? {
+        Darwin => '/Users',
+        default => '/home'
     }
-
     $home_dir = "$home_base/$config::builder_username"
 
     # Manage some configuration files
