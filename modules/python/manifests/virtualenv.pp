@@ -18,7 +18,7 @@ define python::virtualenv($python, $ensure="present", $packages, $user=null, $gr
     }
     case $group {
         null: {
-            case $kernel {
+            case $::kernel {
                 Linux: {
                     $ve_group = "root"
                 }
