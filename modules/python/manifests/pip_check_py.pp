@@ -10,6 +10,9 @@ class python::pip_check_py {
     file {
         "$file":
             source => "puppet:///modules/python/pip-check.py",
+            owner => root,
+            group => root,
+            mode => 0644,
             require => Class["python::misc_python_dir"];
     }
 }
