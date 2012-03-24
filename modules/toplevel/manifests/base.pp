@@ -10,5 +10,6 @@ class toplevel::base {
 
     include puppet
     include users::root
+    include users::global
     include network
 }
