@@ -14,4 +14,13 @@ class users::global {
             group => root,
             content => template("users/releng-path.erb");
     }
+
+    # put some basic information in /etc/motd
+    file {
+        "/etc/motd":
+            mode => 644,
+            owner => root,
+            group => root,
+            content => inline_template("This is <%= fqdn %> (<%= ipaddress %>)");
+    }
 }
