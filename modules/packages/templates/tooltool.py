@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#! <%= python %>
 
 # An manifest file specifies files in that directory that are stored
 # elsewhere.  This file should only contain file in the directory

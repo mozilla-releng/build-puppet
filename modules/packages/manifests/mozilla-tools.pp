@@ -26,11 +26,6 @@ class packages::mozilla-tools {
 
             }
 
-            file {
-                "/tools/tooltool.py":
-                    ensure => present,
-                    source => "puppet:///modules/packages/tooltool.py";
-            }
 
             # The puppet group type can't do this it seems
             exec {
