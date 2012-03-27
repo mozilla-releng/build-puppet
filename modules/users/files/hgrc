@@ -5,3 +5,9 @@ ignoreblanklines=True
 
 [ui]
 username = Mozilla Release Engineering <release@mozilla.com>
+
+[extensions]
+share=
+rebase=
+mq=
+purge=
