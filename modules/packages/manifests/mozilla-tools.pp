@@ -25,6 +25,11 @@ class packages::mozilla-tools {
                 "createrepo": ensure => latest;
 
             }
+            file {
+                "/etc/mock_mozilla/mozilla-f11-i386.cfg":
+                    ensure => present,
+                    source => "puppet:///modules/packages/mozilla-f11-i386.cfg";
+            }
 
 
             # The puppet group type can't do this it seems
