@@ -9,5 +9,6 @@ class config {
     $puppet_notif_email = extlookup("puppet_notif_email")
     $puppet_server = extlookup("puppet_server")
     $yum_server = extlookup("yum_server")
+    $repo_servers = extlookup("repo_servers")
     $builder_username = extlookup("builder_username")
 }

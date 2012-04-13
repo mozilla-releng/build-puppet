@@ -2,3 +2,4 @@ puppet_notif_email,dustin@mozilla.com
 puppet_server,puppet
 yum_server,repos
 builder_username,cltbld
+repo_servers,%{yum_server}

@@ -1,4 +1,13 @@
-define packages::yumrepo ($repo_name = $title, $baseurl) {
+define packages::yumrepo ($repo_name = $title, $url_path) {
+    include config
+    include yum_config
+
+    $mirror_file = "/etc/yum.repos.d/$repo_name.mirrors"
+
+    # for the template
+    $ipaddress = $::ipaddress
+    $repo_servers = $config::repo_servers
+    $yum_server = $config::yum_server
 
     # For now (puppet 2.7.1 as of this writing)
     # we have to use the file resource here, the
@@ -10,5 +19,8 @@ define packages::yumrepo ($repo_name = $title, $baseurl) {
     file {
         "/etc/yum.repos.d/$repo_name.repo":
             content => template("packages/yumrepo.erb");
+
+        $mirror_file:
+            content => template("packages/mirrorlist.erb");
     }
 }
