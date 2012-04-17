@@ -1,0 +1,11 @@
+# set up the puppetize script to run at boot
+hgrepo="http://hg.mozilla.org/build/puppet"
+wget -O/root/puppetize.sh "$hgrepo/raw-file/default/setup/puppetize.sh" || fail
+chmod +x /root/puppetize.sh
+(
+    grep -v puppetize /etc/rc.d/rc.local
+    echo 'echo "puppetize output is in puppetize.log"'
+    echo '/bin/bash /root/puppetize.sh 2>&1 | tee /root/puppetize.log'
+) > /etc/rc.d/rc.local~
+mv /etc/rc.d/rc.local{~,}
+chmod +x /etc/rc.d/rc.local

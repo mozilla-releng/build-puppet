@@ -1,0 +1,14 @@
+<%-
+    # from http://www.ruby-forum.com/topic/142476
+    class ERB
+        @output_num = 0
+        class << self
+            attr_accessor :output_num
+        end
+    end
+
+    def import path
+        n = ERB.output_num += 1
+        ERB.new(File.read(path), nil, nil, '_sub_template_'+n.to_s).result()
+    end
+-%>

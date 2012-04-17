@@ -25,12 +25,12 @@ part / --fstype ext4 --size=1024 --grow --ondisk=sda
 
 reboot
 
-%packages
+%%packages
 @core
 # do not install rhgb, as it obscures the puppetize.sh output
 -rhgb
 
-%post
+%%post
 # This script runs inside the chroot'd new filesystem during install.  It gets
 # a puppet password from the kernel command line, and passes that to puppetize.sh
 # in /root/deploypass.
@@ -41,14 +41,11 @@ reboot
 set -x
 
 # parameters
-
-hgrepo="http://hg.mozilla.org/build/puppet"
 nameserver="xxx" ########## <- add your nameserver's IP here; KS can't get it from dhcp
 
 echo "== executing kickstart-post-centos6.sh =="
 
 fail() {
-    set +x
 	echo "INSTALL FAILED"
 	# if we exit, the install will continue.  That's not what we want.  So busyloop.
 	while true; do
@@ -75,61 +72,8 @@ if [ -z "$PUPPET_PASS" ]; then
     fail
 fi
 
-# install puppet and a few other things for setup, using the local mirrors
-# (note that this assumes that the repo server resolves as 'repos')
-
-mkdir -p /etc/yum.repos.d
-rm -f /etc/yum.repos.d/*
-cat > /etc/yum.repos.d/init.repo <<'EOF'
-[epel]
-name=epel
-baseurl=http://repos/repos/yum/mirrors/epel/6/latest/$basearch/
-enabled=1
-gpgcheck=0
-
-[puppetlabs]
-name=puppetlabs
-baseurl=http://repos/repos/yum/mirrors/puppetlabs/el/6/products/$basearch
-enabled=1
-gpgcheck=0
-
-[os]  
-name=os
-baseurl=http://repos/repos/yum/mirrors/centos/6/latest/os/$basearch
-enabled=1
-gpgcheck=0
-
-[updates]
-name=updates
-baseurl=http://repos/repos/yum/mirrors/centos/6/latest/updates/$basearch
-enabled=1
-gpgcheck=0
-EOF
-yum clean all || fail
-
-# install upgrades from the os base that anaconda put in place
-yum upgrade -y || fail
-
-# puppet: that's why we're here
-# wget: used below
-# openssh-clients: puppetize.sh uses ssh
-# ntp: to synchronize time so certificates work
-yum install -y puppet wget openssh-clients ntp || fail
-
-# check that puppet is installed properly
-if ! puppet --version >/dev/null; then
-    echo "Puppet does not appear to be installed properly."
-    fail
-fi
-
-yum clean all || exit 1
-
-# remove any existing yum repositories
-rm -f /etc/yum.repos.d/*
-
-# install the deploy key
-echo $PUPPET_PASS > /root/deploypass
-chmod 600 /root/deploypass
+<%= import('common/setup-repos.erb') %>
+<%= import('common/install-puppet.erb') %>
 
 # fix up /etc/issue
 (
@@ -139,15 +83,5 @@ chmod 600 /root/deploypass
 ) > /etc/issue~
 mv /etc/issue{~,}
 
-# set up the puppetize script to run at boot
-# (NOTE: CentOS claims that /etc/resolv.conf is not correct if using DHCP, which
-# would make this fail.  Yet, it works!)
-wget -O/root/puppetize.sh "$hgrepo/raw-file/default/setup/puppetize.sh" || fail
-chmod +x /root/puppetize.sh
-(
-    grep -v puppetize /etc/rc.d/rc.local
-    echo 'echo "puppetize output is in puppetize.log"'
-    echo '/bin/bash /root/puppetize.sh 2>&1 | tee /root/puppetize.log'
-) > /etc/rc.d/rc.local~
-mv /etc/rc.d/rc.local{~,}
-chmod +x /etc/rc.d/rc.local
+<%= import('common/install-deploykey.erb') %>
+<%= import('common/install-puppetize.erb') %>

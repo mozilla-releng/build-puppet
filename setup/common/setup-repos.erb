@@ -1,0 +1,41 @@
+# blow away any existing repositories and add our own
+# (note that this assumes that the repo server resolves as 'repos')
+mkdir -p /etc/yum.repos.d
+rm -f /etc/yum.repos.d/*
+cat > /etc/yum.repos.d/init.repo <<'EOF'
+[epel]
+name=epel
+baseurl=http://repos/repos/yum/mirrors/epel/6/latest/$basearch/
+enabled=1
+gpgcheck=1
+
+[puppetlabs]
+name=puppetlabs
+baseurl=http://repos/repos/yum/mirrors/puppetlabs/el/6/products/$basearch
+enabled=1
+gpgcheck=0
+
+[os]  
+name=os
+baseurl=http://repos/repos/yum/mirrors/centos/6/latest/os/$basearch/Packages
+enabled=1
+gpgcheck=1
+
+[updates]
+name=updates
+baseurl=http://repos/repos/yum/mirrors/centos/6/latest/updates/$basearch
+enabled=1
+gpgcheck=1
+EOF
+yum clean all || fail
+
+# import keys for those repos (except puppetlabs); these are copied from modules/packages via erb
+cat >/tmp/epel.txt <<EOF
+<%= import("../modules/packages/files/0608B895.txt") %>
+EOF
+rpm --import /tmp/epel.txt || fail
+
+cat >/tmp/centos.txt <<EOF
+<%= import("../modules/packages/files/RPM-GPG-KEY-CentOS-6") %>
+EOF
+rpm --import /tmp/centos.txt || fail
