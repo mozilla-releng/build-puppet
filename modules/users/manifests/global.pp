@@ -21,6 +21,6 @@ class users::global {
             mode => 644,
             owner => root,
             group => root,
-            content => inline_template("This is <%= fqdn %> (<%= ipaddress %>)");
+            content => inline_template("This is <%= fqdn %> (<%= ipaddress %>)\n");
     }
 }
