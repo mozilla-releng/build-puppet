@@ -1,0 +1,6 @@
+# clean up a bit
+yum clean all || fail
+
+# remove any existing yum repositories
+rm -f /etc/yum.repos.d/*
+

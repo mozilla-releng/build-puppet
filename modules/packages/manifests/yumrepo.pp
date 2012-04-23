@@ -1,4 +1,4 @@
-define packages::yumrepo ($repo_name = $title, $url_path) {
+define packages::yumrepo ($repo_name = $title, $url_path, $gpg_key='', $gpg_key_pkg='') {
     include config
     include yum_config
 
@@ -22,5 +22,19 @@ define packages::yumrepo ($repo_name = $title, $url_path) {
 
         $mirror_file:
             content => template("packages/mirrorlist.erb");
+    }
+
+    if ($gpg_key) {
+        file {
+            "/etc/pki/${repo_name}-pubkey.txt":
+                source => $gpg_key,
+                notify => Exec["install-${repo_name}-repo-pubkey"];
+        }
+        exec {
+            "install-${repo_name}-repo-pubkey":
+                command => "/bin/rpm --import /etc/pki/${repo_name}-pubkey.txt",
+                logoutput => on_failure,
+                unless => "/bin/rpm -q $gpg_key_pkg";
+        }
     }
 }

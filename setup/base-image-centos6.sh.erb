@@ -1,0 +1,53 @@
+#! /bin/bash
+
+fail() {
+	echo "INSTALL FAILED"
+    exit 1
+}
+
+# kill selinux, as it won't let anything start
+if selinuxenabled; then
+    cat >/etc/sysconfig/selinux <<EOF
+SELINUX=disabled
+SELINUXTYPE=targeted
+EOF
+    echo 0 > /selinux/enforce
+    echo "Disabled selinux"
+fi
+
+<%= import('common/setup-repos.erb') %>
+<%= import('common/install-puppet.erb') %>
+<%= import('common/cleanup-system.erb') %>
+
+# clean history
+rm -f /root/.bash_history || exit 1
+: > /var/log/messages || exit 1
+: > /var/log/wtmp || exit 1
+
+# remove persistent udev rules
+rm /etc/udev/rules.d/*persistent* || echo '  (ignored)'
+
+# fix up /etc/issue
+(
+    grep -v '^Base Image' /etc/issue
+    echo "Base Image Date:" `date`
+    echo "Base Image OS:" `facter operatingsystem` `facter operatingsystemrelease`
+    echo "Base Image Host:" `facter fqdn`
+) > /etc/issue~
+mv /etc/issue{~,}
+
+# set up for first boot
+
+# get the deploy password
+echo -n "deploy password (to be embedded in image; will be echoed, sorry): "
+read PUPPET_PASS
+
+<%= import('common/install-deploykey.erb') %>
+<%= import('common/install-puppetize.erb') %>
+
+# finish cleanup
+rm "$0"
+
+echo "Ready to image - halting system"
+sleep 2
+/sbin/halt

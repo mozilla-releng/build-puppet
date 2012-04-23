@@ -3,3 +3,5 @@ syntax: regexp
 ^manifests/extlookup/secrets.csv
 # ignore the local config file/symlink if present
 ^manifests/extlookup/local-config.csv
+setup/base-image-centos6.sh
+setup/centos6-kickstart.cfg
