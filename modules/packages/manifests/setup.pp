@@ -11,17 +11,17 @@ class packages::setup {
 
     packages::yumrepo {
         "epel":
-            baseurl => "http://$config::yum_server/repos/yum/mirrors/epel/6/latest/$hardwaremodel";
+            url_path => "repos/yum/mirrors/epel/6/latest/$hardwaremodel";
         "base":
-            baseurl => "http://$config::yum_server/repos/yum/mirrors/centos/6/latest/os/$hardwaremodel";
+            url_path => "repos/yum/mirrors/centos/6/latest/os/$hardwaremodel";
         "updates":
-            baseurl => "http://$config::yum_server/repos/yum/mirrors/centos/6/latest/updates/$hardwaremodel";
+            url_path => "repos/yum/mirrors/centos/6/latest/updates/$hardwaremodel";
         "mozilla-centos6-x86_64":
-            baseurl => "http://$config::yum_server/repos/yum/mozilla/CentOS/6/$hardwaremodel";
+            url_path => "repos/yum/mozilla/CentOS/6/$hardwaremodel";
         "releng-public":
-            baseurl => "http://$config::yum_server/repos/yum/releng/public/noarch";
+            url_path => "repos/yum/releng/public/noarch";
         "puppetlabs":
-            baseurl => "http://$config::yum_server/repos/yum/mirrors/puppetlabs/el/6/products/$hardwaremodel";
+            url_path => "repos/yum/mirrors/puppetlabs/el/6/products/$hardwaremodel";
     }
 
 }
