@@ -51,8 +51,8 @@ openssl x509 -text -in certs/$fqdn.pem | grep -A2 Valididty
 echo "ca.pem" validity
 openssl x509 -text -in certs/ca.pem | grep -A2 Valididty
 
-echo "deleting deploypass"
-rm /root/deploypass || exit 1
+echo "shredding deploypass"
+shred -u -n 7 -z /root/deploypass || exit 1
 
 rm -f "$REBOOT_FLAG_FILE"
 
