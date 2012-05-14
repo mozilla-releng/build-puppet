@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+
+import httplib
+from socket import gethostbyname
+import sys
+import urllib
+from urlparse import urlparse
+
+OK = 0
+WARNINGS = 1
+CRITICAL = 2
+UNKNOWN = 3
+
+def check_redirect(url):
+    scheme,netloc,path,params,query,fragment = urlparse(url)
+    con = httplib.HTTPConnection(netloc)
+    con.request("GET", path + '?' + query)
+    response = con.getresponse()
+    redirect = response.getheader("Location")
+    if redirect:
+        host = urlparse(redirect)[1]
+        return host, gethostbyname(host)
+    else:
+        return None, None
+
+if __name__ == '__main__':
+    from optparse import OptionParser
+
+    parser = OptionParser()
+    parser.add_option("-U", "--url", dest="url",
+                      help="URL to test")
+    parser.add_option("-I", "--ip", dest="ip")
+
+    options, args = parser.parse_args()
+    if not options.url or not options.ip:
+        print >> sys.stderr, "Invalid options"
+        sys.exit(UNKNOWN)
+
+    try:
+        host, redirectIp = check_redirect(urllib.unquote(options.url))
+    except:
+        host = None
+        redirectIp = None
+    if not redirectIp or not host:
+        print "Redirect UNKNOWN"
+        sys.exit(UNKNOWN)
+    elif redirectIp.startswith(options.ip):
+        print "Redirect OK: Host: %s, IP: %s" % (host, redirectIp)
+        sys.exit(OK)
+    else:
+        print "Redirect CRITICAL: Host: %s, IP: %s" % (host, redirectIp)
+        sys.exit(CRITICAL)
