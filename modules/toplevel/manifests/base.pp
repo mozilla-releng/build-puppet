@@ -12,4 +12,5 @@ class toplevel::base {
     include users::root
     include users::global
     include network
+    include sudoers
 }

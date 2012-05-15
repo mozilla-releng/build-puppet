@@ -3,6 +3,7 @@
 class toplevel::slave inherits toplevel::base {
     include users::builder
     include puppet::atboot
+    include sudoers::reboot
     include buildslave
 
     # packages common to all slaves
