@@ -46,7 +46,7 @@ define python::virtualenv($python, $ensure="present", $packages, $user=null, $gr
             exec {
                 "virtualenv $virtualenv":
                     name => "$python -BE ${python::virtualenv::settings::misc_python_dir}/virtualenv.py \
-                            --python=$python --distribute $virtualenv",
+                            --python=$python --distribute --never-download $virtualenv",
                     user => $ve_user,
                     logoutput => on_failure,
                     require => [
