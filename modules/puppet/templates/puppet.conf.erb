@@ -9,3 +9,8 @@
     classfile = $vardir/classes.txt
     localconfig = $vardir/localconfig
     server = <%= scope.lookupvar('::config::puppet_server') %>
+
+    # don't check the master's CRL; see
+    #   https://projects.puppetlabs.com/issues/14550
+    # for why this doesn't work with chained certs
+    certificate_revocation = false
