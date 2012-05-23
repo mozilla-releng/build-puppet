@@ -1,8 +1,6 @@
-# Set up puppet to run periodically.
-#
-
 class puppet::periodic {
     include config
+    include puppet::puppetize_sh
 
     file {
         # This is done via crontab due to a memory leak in puppet identified by

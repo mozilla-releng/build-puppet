@@ -1,29 +1,45 @@
 #! /bin/bash
 
-echo "Puppetize output is in /root/puppetize.log"
-
 REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
+tty -s && interactive=true || interactive=false
 
-exec >/root/puppetize.log 2>&1
+set -x
 
 hang() {
     echo "${@}"
     while true; do sleep 60; done
 }
 
-if ! [ -f /root/deploypass ]; then
-    hang "No deploypass found; cannot puppetize"
+if ! $interactive; then
+    echo "Puppetize output is in /root/puppetize.log"
+    exec >/root/puppetize.log 2>&1
 fi
-deploypass=$(</root/deploypass)
+
+fqdn=`facter fqdn`
+
+if [ -f /root/deploypass ]; then
+    deploypass=$(</root/deploypass)
+    password_option="--http-password=$deploypass"
+else
+    $interactive || hang "No /root/deploypass and not connected to a tty"
+    password_option="--ask-password"
+fi
+
+# set up and clean up
+mkdir -p /var/lib/puppet/ssl/private_keys || exit 1
+mkdir -p /var/lib/puppet/ssl/certs || exit 1
+rm -f /var/lib/puppet/ssl/private_keys/$fqdn.pem || exit 1
+rm -f /var/lib/puppet/ssl/certs/$fqdn.pem || exit 1
+rm -f /var/lib/puppet/ssl/certs/ca.pem || exit 1
 
 # try to get the certs; note that we can't check the SSL cert here, because it
 # is self-signed by whatever puppet master we find; the SSL is mainly to
 # encipher the password, so this isn't a big problem.
 while ! wget -O /root/certs.sh --http-user=deploy --no-check-certificate \
-    --http-password=$deploypass https://puppet/deploy/getcert.cgi
+    $password_option https://puppet/deploy/getcert.cgi
 do
     echo "Failed to get certificates; re-trying"
-    sleep 60
+    $interactive || sleep 60
 done
 
 # make sure the time is set correctly, or SSL will fail, badly.
@@ -33,13 +49,10 @@ ntprunning=`ps ax | grep ntpd | grep -v grep`
 [ -n "$ntprunning" ] && /sbin/service ntpd start
 
 # source the shell script we got from the deploy run
-mkdir -p /var/lib/puppet/ssl/private_keys || exit 1
-mkdir -p /var/lib/puppet/ssl/certs || exit 1
 cd /var/lib/puppet/ssl || exit 1
 . /root/certs.sh
 
 # sanity check
-fqdn=`facter fqdn`
 if ! [ -e private_keys/$fqdn.pem -a -e certs/$fqdn.pem -a -e certs/ca.pem ]; then
     find . -type f
     hang "Got incorrect certificates (!?)"
@@ -51,8 +64,17 @@ openssl x509 -text -in certs/$fqdn.pem | grep -A2 Valididty
 echo "ca.pem" validity
 openssl x509 -text -in certs/ca.pem | grep -A2 Valididty
 
-echo "shredding deploypass"
-shred -u -n 7 -z /root/deploypass || exit 1
+if ! $interactive; then
+    echo "shredding deploypass"
+    if test -f /root/deploypass; then
+        shred -u -n 7 -z /root/deploypass || exit 1
+    fi
+fi
+
+if $interactive; then
+    echo "Certificates are ready; run puppet now."
+    exit 0
+fi
 
 rm -f "$REBOOT_FLAG_FILE"
 

@@ -1,5 +1,6 @@
 class puppet::atboot {
     include config
+    include puppet::puppetize_sh
 
     # signal puppetize.sh to reboot after this puppet run, if we're running
     # puppetize.sh (identified via the $puppetizing fact)
