@@ -67,5 +67,9 @@ class users::builder {
             group => "$config::builder_username",
             source => "puppet:///modules/users/vimrc";
     }
+
+    python::user_pip_conf {
+        "$config::builder_username": ;
+    }
 }
 

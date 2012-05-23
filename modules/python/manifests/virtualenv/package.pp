@@ -11,8 +11,7 @@ define python::virtualenv::package($user) {
     $pkg = regsubst($title, "^.*\\|\\|", "")
 
     $pip_check_py = $python::pip_check_py::file
-    $pkg_http = $python::virtualenv::settings::packages_dir_http
-    $pip_options = "--no-deps --no-index --find-links $pkg_http"
+    $pip_options = "--no-deps"
 
     exec {
         # point pip at the package directory so that it can select the best option

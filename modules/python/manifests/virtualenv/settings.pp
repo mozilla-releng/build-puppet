@@ -5,7 +5,4 @@ class python::virtualenv::settings {
 
     # the puppet URL for the python/packages downloads
     $packages_dir_source = "puppet:///python/packages"
-
-    # the http URL for the python/packages downloads
-    $packages_dir_http = "http://${config::yum_server}/python/packages"
 }

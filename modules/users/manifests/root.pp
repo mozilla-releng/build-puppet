@@ -11,4 +11,9 @@ class users::root {
         "root":
             password => $config::secrets::root_pw_hash;
     }
+
+    python::user_pip_conf {
+        "root":
+            homedir => '/root';
+    }
 }
