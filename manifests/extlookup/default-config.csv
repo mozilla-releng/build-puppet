@@ -1,6 +1,6 @@
-puppet_notif_email,dustin@mozilla.com
+puppet_notif_email,nobody@mozilla.com
 puppet_server,puppet
 yum_server,repos
 builder_username,cltbld
-repo_servers,relabs-puppet.build.mtv1.mozilla.com,releng-puppet1.build.scl1.mozilla.com,releng-puppet1.srv.releng.scl3.mozilla.com
-nrpe_allowed_hosts,"10.2.71.20,10.12.75.9,127.0.0.1,10.26.75.30"
+repo_servers,%{yum_server}
+nrpe_allowed_hosts,"127.0.0.1"
