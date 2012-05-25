@@ -10,9 +10,9 @@ define buildslave::install::version($active=false, $ensure="present") {
     # $packages explicitly.
     case $version {
         "0.8.4-pre-moz2": {
-            include packages::python27
+            include packages::mozilla::python27
             $python = "/tools/python27/bin/python2.7"
-            $py_require = Class['packages::python27']
+            $py_require = Class['packages::mozilla::python27']
             $packages = [
                           "zope.interface==3.6.1",
                           "buildbot-slave==$version",

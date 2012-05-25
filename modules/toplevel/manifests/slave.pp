@@ -7,7 +7,7 @@ class toplevel::slave inherits toplevel::base {
     include buildslave
 
     # packages common to all slaves
-    include packages::tooltool
+    include packages::mozilla::tooltool
 
     # apply tweaks
     include tweaks::dev-ptmx

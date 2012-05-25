@@ -1,4 +1,5 @@
-class packages::tooltool {
+class packages::mozilla::tooltool {
+    include packages::mozilla::python27
     # this package is simple enough that its source code is embedded in the
     # puppet repo.  It gets the Python intepreter added to its shebang line
     $python = '/tools/python27/bin/python2.7'

@@ -12,7 +12,6 @@ class users::builder {
         fail('No builder username set')
     }
 
-    # XXX should we be setting group explicitly?
     user {
         "$config::builder_username":
             password => $config::secrets::builder_pw_hash,
