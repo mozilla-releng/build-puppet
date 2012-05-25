@@ -16,28 +16,26 @@ export PATH
 # number of tries to make between attempts to run puppet
 REBOOT_AFTER=10
 
-[ -f /etc/sysconfig/puppet ] && . /etc/sysconfig/puppet
-lockfile=${LOCKFILE-/var/lock/subsys/puppet}
-pidfile=${PIDFILE-/var/run/puppet/puppetd.pid}
-puppetd=${PUPPETD-/usr/sbin/puppetd}
 RETVAL=0
 
 # Source function library.
 . /etc/rc.d/init.d/functions
 
-PUPPET_OPTS=""
-[ -n "${PUPPET_SERVER}" ] && PUPPET_OPTS="--server=${PUPPET_SERVER}"
-[ -n "$PUPPET_PORT" ] && PUPPET_OPTS="${PUPPET_OPTS} --port=${PUPPET_PORT}"
+PUPPETMASTERS=$(< /etc/puppet/puppetmasters.txt)
+
+# note that --test implies --detailed-exitcodes, which we don't want
+PUPPET_OPTIONS="--onetime --no-daemonize --logdest=console --logdest=syslog --color=false"
 
 run_puppet() {
-    echo $"Starting puppet.."
+    puppet_server="$1"
+    echo $"Running puppet agent against server '$puppet_server'"
 
     # check for 'err:' in the output; this catches errors even
     # when the puppet exit status is incorrect.
     # stderr redirection fixes a problem where grep would get a
     # broken pipe. not sure why the redirect fixes it.
     tmp=`mktemp`
-    $puppetd ${PUPPET_OPTS} ${PUPPET_EXTRA_OPTS} &> $tmp
+    /usr/bin/puppet agent $PUPPET_OPTIONS --server ${puppet_server} &> $tmp
     RETVAL=$?
     if grep -q "^err:" $tmp
     then
@@ -50,24 +48,28 @@ run_puppet() {
 
 start() {
     count=0
-    while true
+    success=false
+    while ! $success
     do
-        # try running puppet
-        run_puppet && break
+        for puppetmaster in $PUPPETMASTERS; do
+            # try running puppet, and sleep 60s if it fails
+            if run_puppet $puppetmaster; then
+                success=true
+                break
+            fi
+            sleep 60
+        done
 
+        # If DHCP fails to get a (correct) IP address for this system, then we
+        # would sit in this loop until help arrives, which can be a long time.
+        # In theory, DHCP should block until it gets an address, but this is
+        # not the case - see bug 636390.  So we bail out after REBOOT_AFTER
+        # tries, in hopes we'll get better info from DHCP.
         count=$((count+1))
         if [ $count -gt $REBOOT_AFTER ]; then
-            # If DHCP fails to get a (correct) IP address for this system, then
-            # we would sit in this loop until help arrives, which can be a long
-            # time.  In theory, DHCP should block until it gets an address, but
-            # this is not the case - see bug 636390.  So we bail out after REBOOT_
-            # AFTER tries, in hopes we'll get better info from DHCP.
             echo "maybe a reboot will help.."
             /sbin/reboot
         fi
-
-        /sbin/ifconfig # for debugging purposes
-        sleep 60
     done
 }
 

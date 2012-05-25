@@ -1,6 +1,12 @@
 class puppet::atboot {
-    include config
+    include ::config
     include puppet::puppetize_sh
+
+    $repo_servers = $::config::repo_servers
+    $puppet_server = $::config::puppet_server
+    notify {
+        $repo_servers : ;
+    }
 
     # signal puppetize.sh to reboot after this puppet run, if we're running
     # puppetize.sh (identified via the $puppetizing fact)
@@ -9,6 +15,12 @@ class puppet::atboot {
             "/REBOOT_AFTER_PUPPET":
                 content => "please!";
         }
+    }
+
+    # install the list of puppetmaster mirrors
+    file {
+        "/etc/puppet/puppetmasters.txt":
+            content => template("puppet/puppetmasters.txt.erb");
     }
 
     # create a service
