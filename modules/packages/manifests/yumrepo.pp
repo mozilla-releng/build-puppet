@@ -9,6 +9,10 @@ define packages::yumrepo ($repo_name = $title, $url_path, $gpg_key='', $gpg_key_
     $repo_servers = $config::repo_servers
     $yum_server = $config::yum_server
 
+    # This class uses numeric user/group IDs since this resource is in the
+    # 'packagesetup' state, which comes before the 'main' stage where
+    # User['root'] occurs..
+
     # For now (puppet 2.7.1 as of this writing)
     # we have to use the file resource here, the
     # yumrepo resource is unable to purge. And even if
@@ -18,9 +22,15 @@ define packages::yumrepo ($repo_name = $title, $url_path, $gpg_key='', $gpg_key_
     # and creating files.
     file {
         "/etc/yum.repos.d/$repo_name.repo":
+            owner => 0,
+            group => 0,
+            mode => 0644,
             content => template("packages/yumrepo.erb");
 
         $mirror_file:
+            owner => 0,
+            group => 0,
+            mode => 0644,
             content => template("packages/mirrorlist.erb");
     }
 
@@ -28,6 +38,9 @@ define packages::yumrepo ($repo_name = $title, $url_path, $gpg_key='', $gpg_key_
         file {
             "/etc/pki/${repo_name}-pubkey.txt":
                 source => $gpg_key,
+                owner => 0,
+                group => 0,
+                mode => 0644,
                 notify => Exec["install-${repo_name}-repo-pubkey"];
         }
         exec {
