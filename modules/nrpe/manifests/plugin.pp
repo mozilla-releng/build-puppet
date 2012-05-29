@@ -9,6 +9,6 @@ define nrpe::plugin {
             group => root,
             mode => 0755,
             require => Class['nrpe::install'],
-            source => "puppet:///nrpe/$title";
+            source => "puppet:///modules/nrpe/$title";
     }
 }
