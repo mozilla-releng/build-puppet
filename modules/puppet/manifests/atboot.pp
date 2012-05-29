@@ -4,9 +4,6 @@ class puppet::atboot {
 
     $repo_servers = $::config::repo_servers
     $puppet_server = $::config::puppet_server
-    notify {
-        $repo_servers : ;
-    }
 
     # signal puppetize.sh to reboot after this puppet run, if we're running
     # puppetize.sh (identified via the $puppetizing fact)
