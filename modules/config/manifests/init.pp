@@ -8,8 +8,9 @@ class config {
     
     $puppet_notif_email = extlookup("puppet_notif_email")
     $puppet_server = extlookup("puppet_server")
-    $yum_server = extlookup("yum_server")
-    $repo_servers = extlookup("repo_servers")
+    $data_server = extlookup("data_server")
+    $data_servers = extlookup("data_servers")
+    $puppet_servers = extlookup("puppet_servers")
     $builder_username = extlookup("builder_username")
     $nrpe_allowed_hosts = extlookup("nrpe_allowed_hosts")
     $ntp_server = extlookup("ntp_server")

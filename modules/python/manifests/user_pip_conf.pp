@@ -8,8 +8,8 @@ define python::user_pip_conf($homedir='') {
     }
 
     # for the template
-    $repo_servers = $config::repo_servers
-    $yum_server = $config::yum_server
+    $data_servers = $config::data_servers
+    $data_server = $config::data_server
 
     file {
         "$homedir_/.pip":

@@ -1,6 +1,6 @@
 # local master
-http://<%= yum_server %>/<%= url_path %>
-<% if repo_servers.respond_to?('shuffle') -%>
+http://<%= data_server %>/<%= url_path %>
+<% if data_servers.respond_to?('shuffle') -%>
 # all available puppetagain masters (if any)
 <%
 
@@ -11,10 +11,10 @@ http://<%= yum_server %>/<%= url_path %>
 old_seed = rand()
 srand(ipaddress.sub('.', '').to_i)
 
-repo_servers.shuffle.each do |mirror_server|
+data_servers.shuffle.each do |mirror_server|
     # note that this will not catch 'repos' vs. a master fqdn; there's
     # no harm in listing a host twice in this case
-    if mirror_server != yum_server -%>
+    if mirror_server != data_server -%>
 http://<%= mirror_server %>/<%= url_path %>
 <%  end
 end

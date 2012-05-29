@@ -1,10 +1,10 @@
 <%= puppet_server %>
-<% if repo_servers.respond_to?('shuffle') -%>
+<% if puppet_servers.respond_to?('shuffle') -%>
 <% # see comments in mirrorlist.erb
 old_seed = rand()
 srand(ipaddress.sub('.', '').to_i)
 
-repo_servers.shuffle.each do |mirror_server|
+puppet_servers.shuffle.each do |mirror_server|
     # note that this will not catch 'repos' vs. a master fqdn; there's
     # no harm in listing a host twice in this case
     if mirror_server != puppet_server -%>
