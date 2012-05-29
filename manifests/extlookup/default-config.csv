@@ -4,3 +4,4 @@ yum_server,repos
 builder_username,cltbld
 repo_servers,%{yum_server}
 nrpe_allowed_hosts,"127.0.0.1"
+ntp_server,pool.ntp.org

@@ -12,4 +12,5 @@ class config {
     $repo_servers = extlookup("repo_servers")
     $builder_username = extlookup("builder_username")
     $nrpe_allowed_hosts = extlookup("nrpe_allowed_hosts")
+    $ntp_server = extlookup("ntp_server")
 }
