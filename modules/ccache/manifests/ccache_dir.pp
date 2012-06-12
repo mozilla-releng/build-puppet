@@ -8,7 +8,7 @@ define ccache::ccache_dir($owner, $maxsize, $mode=0755) {
             ensure => directory,
             owner => $owner,
             group => $owner,
-            mode => 0755;
+            mode => $mode;
         "$ccache_dir/.puppet-maxsize":
             content => "$maxsize",
             notify => Exec["ccache-maxsize-$ccache_dir"];
