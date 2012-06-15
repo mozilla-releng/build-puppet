@@ -5,5 +5,6 @@ class toplevel::server inherits toplevel::base {
     include puppet::periodic
     include ntp::daemon
     include smarthost
+    include disableservices::server
 }
 
