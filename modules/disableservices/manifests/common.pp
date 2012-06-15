@@ -9,7 +9,7 @@ class disableservices::common {
             }
         }
         Darwin: {
-            service { ['com.apple.screensharing','com.apple.blued']:
+            service { ['com.apple.blued']:
                enable => false,
                ensure => stopped,
             }
