@@ -1,0 +1,14 @@
+soft_bounce = no
+command_directory = /usr/sbin
+daemon_directory = /usr/libexec/postfix
+mail_owner = postfix
+myhostname = <%= hostname %>
+mydomain = <%= domain %>
+myorigin = $mydomain
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+unknown_local_recipient_reject_code = 550
+relay_domains = <%= scope.lookupvar('::config::relay_domains') %> 
+smtpd_reject_unlisted_recipient = yes
+unverified_recipient_reject_code = 550
+smtpd_banner = $myhostname ESMTP
+setgid_group = postdrop
