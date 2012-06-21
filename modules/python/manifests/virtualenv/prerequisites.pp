@@ -8,6 +8,6 @@ class python::virtualenv::prerequisites {
         # these two need to be in the same dir as virtualenv.py, or it will
         # want to download them from pypi
         "pip-0.8.2.tar.gz": ;
-        "distribute-0.6.26.tar.gz": ;
+        "distribute-0.6.24.tar.gz": ; # the virtualenv.py above looks for this version
     }
 }
