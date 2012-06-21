@@ -58,12 +58,6 @@ if ! [ -e private_keys/$fqdn.pem -a -e certs/$fqdn.pem -a -e certs/ca.pem ]; the
     hang "Got incorrect certificates (!?)"
 fi
 
-date
-echo "$fqdn.pem" validity
-openssl x509 -text -in certs/$fqdn.pem | grep -A2 Valididty
-echo "ca.pem" validity
-openssl x509 -text -in certs/ca.pem | grep -A2 Valididty
-
 if ! $interactive; then
     echo "shredding deploypass"
     if test -f /root/deploypass; then
@@ -80,7 +74,7 @@ rm -f "$REBOOT_FLAG_FILE"
 
 while ! FACTER_PUPPETIZING=true /usr/bin/puppet agent --no-daemonize --onetime --server=puppet; do
     echo "Puppet run failed; re-trying"
-    sleep 10
+    sleep 600
 done
 
 # don't run puppetize at boot anymore
