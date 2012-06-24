@@ -10,7 +10,7 @@ class packages::editors {
         }
  
         Darwin: {
-            // installed by default
+            # installed by default
         }
 
         default: {
