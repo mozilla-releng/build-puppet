@@ -8,6 +8,10 @@ class packages::editors {
                     ensure => latest;
             }
         }
+ 
+        Darwin: {
+            // installed by default
+        }
 
         default: {
             fail("cannot install on $operatingsystem")
