@@ -3,6 +3,7 @@
 
 class users::builder {
     include config
+    include users::settings
 
     if ($config::secrets::builder_pw_hash == '') {
         fail('No builder password hash set')
@@ -21,11 +22,8 @@ class users::builder {
     }
 
     # calculate the proper homedir
-    $home_base = $operatingsystem ? {
-        Darwin => '/Users',
-        default => '/home'
-    }
-    $home_dir = "$home_base/$config::builder_username"
+    $home_base = $users::settings::home_base
+    $home_dir = $users::settings::home_dir
 
     # Manage some configuration files
     file {

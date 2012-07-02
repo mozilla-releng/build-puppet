@@ -2,14 +2,13 @@ class ntp::atboot {
     include packages::ntp
 
     case $operatingsystem {
-        CentOS: {
+        'CentOS', 'Darwin': {
             service {
-                "ntpdate": 
+                "ntpdate":
                     enable => true,
                     hasstatus => false;
             }
         }
-
         default: {
             fail("cannot instantiate on $operatingsystem")
         }
