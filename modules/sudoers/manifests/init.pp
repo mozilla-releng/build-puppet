@@ -1,25 +1,28 @@
 class sudoers {
+        include sudoers::settings
+        include packages::sudo
 
-    package {
-        "sudo":
-            ensure => latest;
-    }
+        file {
+                "sudoers" :
+                    require => Class['packages::sudo'],
+                        path => "/etc/sudoers",
+                        mode => "$sudoers::settings::mode",
+                        owner => "$sudoers::settings::owner",
+                        group => "$sudoers::settings::group",
+                        source => "puppet:///modules/sudoers/sudoers.$operatingsystem" ;
 
-    file {
-        "sudoers":
-            path => "/etc/sudoers",
-            require => Package[sudo],
-            mode => "440",
-            owner => root,
-            group => root,
-            source => "puppet:///modules/sudoers/sudoers";
-
-        "/etc/sudoers.d":
-            require => Package[sudo],
-            recurse => true,
-            purge => true,
-            owner => root,
-            group => root,
-            ensure => directory;
-    }
+                "/etc/sudoers.d" :
+                    require => Class['packages::sudo'],
+                        recurse => true,
+                        purge => true,
+                        owner => "$sudoers::settings::owner",
+                        group => "$sudoers::settings::group",
+                        ensure => directory ;
+        }
 }
+
+
+
+
+
+
