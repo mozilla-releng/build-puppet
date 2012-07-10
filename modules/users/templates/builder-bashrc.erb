@@ -1,0 +1,14 @@
+<% case scope.lookupvar('::operatingsystem')
+    when "CentOS", "RedHat"
+        # include the default bashrc for CentOS/RHEL
+        %>
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+<% end -%>
+
+# custom stuff (from puppet)
+PATH=/usr/local/bin:$PATH
