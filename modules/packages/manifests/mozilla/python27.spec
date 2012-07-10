@@ -7,7 +7,7 @@
 
 Name:       mozilla-%{realname}
 Version:	%{pyver}.%{pyrel}
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
 Group:		mozilla
@@ -58,13 +58,7 @@ make altinstall DESTDIR=$RPM_BUILD_ROOT
 
 # add /usr/local/bin links
 mkdir -p $RPM_BUILD_ROOT/usr/local/bin
-(
-    cd $RPM_BUILD_ROOT/%{_prefix}/bin/
-    for f in *; do
-        ln -s %{_prefix}/bin/$f $RPM_BUILD_ROOT/usr/local/bin
-    done
-)
-
+ln -s %{_prefix}/bin/python%{pyver} $RPM_BUILD_ROOT/usr/local/bin/python%{pyver}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -74,11 +68,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %dir %_prefix
 %_prefix/*
-/usr/local/bin
+/usr/local/bin/python%{pyver}
 
 
 
 %changelog
+* Tue Jul 10 2012 Dustin J. Mitchell <dustin mozilla com> 2.7.2-5
+- only add the versioned python link; others conflict between 2.6 and 2.7
+
 * Mon Jul 09 2012 Dustin J. Mitchell <dustin mozilla com> 2.7.2-4
 - add links from /usr/local/bin to all binaries
 

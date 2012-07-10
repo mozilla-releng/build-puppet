@@ -7,7 +7,7 @@
 
 Name:       mozilla-%{realname}
 Version:	%{pyver}.%{pyrel}
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
 Group:		mozilla
@@ -60,14 +60,9 @@ mkdir -p $RPM_BUILD_ROOT/%{_prefix}/share/man/
 # instead of %_libdir, because we override this value
 #chmod +w $RPM_BUILD_ROOT/%{_libdir}/libpython%{pyver}.a
 
-# add /usr/local/bin links
+# add a /usr/local/bin link for the versioned python executable
 mkdir -p $RPM_BUILD_ROOT/usr/local/bin
-(
-    cd $RPM_BUILD_ROOT/%{_prefix}/bin/
-    for f in *; do
-        ln -s %{_prefix}/bin/$f $RPM_BUILD_ROOT/usr/local/bin
-    done
-)
+ln -s %{_prefix}/bin/python%{pyver} $RPM_BUILD_ROOT/usr/local/bin/python%{pyver}
 
 
 %clean
@@ -77,10 +72,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %_prefix
-/usr/local/bin
+/usr/local/bin/python%{pyver}
 
 
 %changelog
+* Tue Jul 10 2012 Dustin J. Mitchell <dustin mozilla com> 2.6.7-5
+- only add the versioned python link; others conflict between 2.6 and 2.7
+
 * Tue Jul 10 2012 Dustin J. Mitchell <dustin mozilla com> 2.6.7-4
 - add links from /usr/local/bin to all binaries
 
