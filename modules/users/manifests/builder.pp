@@ -53,6 +53,11 @@ class users::builder {
             owner => "$config::builder_username",
             group => "$config::builder_username",
             source => "puppet:///modules/users/gitconfig";
+        "$home_dir/.bashrc":
+            mode => 0644,
+            owner => "$config::builder_username",
+            group => "$config::builder_username",
+            content => template("${module_name}/builder-bashrc.erb");
         "$home_dir/.hgrc":
             mode => 0644,
             owner => "$config::builder_username",

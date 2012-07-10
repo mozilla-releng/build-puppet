@@ -5,7 +5,7 @@
 
 Name:       mozilla-%{realname}
 Version:    1.7.9.4
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
 Group:      mozilla
@@ -53,6 +53,15 @@ rm -rf $RPM_BUILD_ROOT/%{_datadir}/git-gui
 rm -rf $RPM_BUILD_ROOT/%{_datadir}/gitk
 rm -rf $RPM_BUILD_ROOT/%{_datadir}/gitweb
 
+# add /usr/local/bin links
+mkdir -p $RPM_BUILD_ROOT/usr/local/bin
+(
+    cd $RPM_BUILD_ROOT/%{_prefix}/bin/
+    for f in *; do
+        ln -s %{_prefix}/bin/$f $RPM_BUILD_ROOT/usr/local/bin
+    done
+)
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -61,8 +70,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc
 %_prefix
+/usr/local/bin
 
 %changelog
+* Mon Jul 09 2012 Dustin J. Mitchell <dustin mozilla com> 1.7.9.4-3
+- add links from /usr/local/bin to all binaries
+
 * Tue Mar 13 2012 John Ford <jhford mozilla com> - 1.7.9.4-2
 - remove link from 1.7.9.4-2 and remove version from prefix
 

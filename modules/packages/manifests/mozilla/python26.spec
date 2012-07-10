@@ -7,7 +7,7 @@
 
 Name:       mozilla-%{realname}
 Version:	%{pyver}.%{pyrel}
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
 Group:		mozilla
@@ -60,6 +60,15 @@ mkdir -p $RPM_BUILD_ROOT/%{_prefix}/share/man/
 # instead of %_libdir, because we override this value
 #chmod +w $RPM_BUILD_ROOT/%{_libdir}/libpython%{pyver}.a
 
+# add /usr/local/bin links
+mkdir -p $RPM_BUILD_ROOT/usr/local/bin
+(
+    cd $RPM_BUILD_ROOT/%{_prefix}/bin/
+    for f in *; do
+        ln -s %{_prefix}/bin/$f $RPM_BUILD_ROOT/usr/local/bin
+    done
+)
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -68,9 +77,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %_prefix
+/usr/local/bin
 
 
 %changelog
+* Tue Jul 10 2012 Dustin J. Mitchell <dustin mozilla com> 2.6.7-4
+- add links from /usr/local/bin to all binaries
+
 * Tue Mar 13 2012 John Ford <jhford mozilla com> 2.6.7-3
 - change prefix to make link from 2.6.7-2 redundant
 
