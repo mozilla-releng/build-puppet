@@ -31,4 +31,19 @@ class packages::setup {
         "releng-public-${operatingsystem}${majorver}-noarch":
             url_path => "repos/yum/releng/public/$operatingsystem/$majorver/noarch";
     }
+
+    # to flush the metadata cache, increase this value by one (or
+    # anything, really, just change it).
+    $repoflag = 2
+    file {
+        "/etc/.repo-flag":
+            content => "# see \$repoflag in modules/packages/manifests/setup.pp\n$repoflag\n",
+            notify => Exec['yum-clean-expire-cache'];
+    }
+    exec {
+        yum-clean-expire-cache:
+            # this will expire all yum metadata caches
+            command => "/usr/bin/yum clean expire-cache",
+            refreshonly => true;
+    }
 }
