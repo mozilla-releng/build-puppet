@@ -19,11 +19,8 @@ class concat::setup {
     default => $id
   }
 
-  if $::concat_basedir {
-    $concatdir = $::concat_basedir
-  } else {
-    fail ("\$concat_basedir not defined. Try running again with pluginsync enabled")
-  }
+  # modified for Mozilla: do not use a plugin to get this value
+  $concatdir = "$settings::vardir/concat"
 
   $majorversion = regsubst($::puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
 
