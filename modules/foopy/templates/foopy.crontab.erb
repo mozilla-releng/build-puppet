@@ -1,0 +1,4 @@
+#  m h dom mth dow user
+*/5 * *   *   *  <%= scope.lookupvar('::config::builder_username') %> /builds/tegra_stats.sh > /builds/tegra_stats.log 2>&1
+42  * *   *   *  <%= scope.lookupvar('::config::builder_username') %> /builds/check.sh -c > /builds/check.log 2>&1
+24  * *   *   *  <%= scope.lookupvar('::config::builder_username') %> /builds/check.sh -r > /builds/check2.log 2>&1

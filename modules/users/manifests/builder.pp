@@ -68,6 +68,12 @@ class users::builder {
             owner => "$config::builder_username",
             group => "$config::builder_username",
             source => "puppet:///modules/users/vimrc";
+        "$home_dir/.screenrc":
+            mode => 0644,
+            owner => "$config::builder_username",
+            group => "$config::builder_username",
+            source => "puppet:///modules/users/screenrc";
+
     }
 
     python::user_pip_conf {

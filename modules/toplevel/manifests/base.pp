@@ -14,5 +14,6 @@ class toplevel::base {
     include network
     include sudoers
     include packages::editors
+    include packages::screen
     include powermanagement
 }
