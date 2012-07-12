@@ -1,7 +1,7 @@
 #! /bin/bash
 
 REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
-tty -s && interactive=true || interactive=false
+[ -f /root/deploypass ] && interactive=false || interactive=true
 
 set -x
 
@@ -72,7 +72,7 @@ fi
 
 rm -f "$REBOOT_FLAG_FILE"
 
-while ! FACTER_PUPPETIZING=true /usr/bin/puppet agent --no-daemonize --onetime --server=puppet; do
+while ! FACTER_PUPPETIZING=true /usr/bin/puppet agent --no-daemonize --onetime --server=puppet --pluginsync; do
     echo "Puppet run failed; re-trying"
     sleep 600
 done
