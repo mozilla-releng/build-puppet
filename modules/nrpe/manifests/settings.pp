@@ -1,6 +1,4 @@
 class nrpe::settings {
-    $plugins_dir = $hardwaremodel ? {
-        i686   => "/usr/lib/nagios/plugins",
-        x86_64 => "/usr/lib64/nagios/plugins",
-    }
+    include ::shared
+    $plugins_dir = "/usr/${::shared::lib_arch_dir}/nagios/plugins"
 }

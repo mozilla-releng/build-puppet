@@ -1,6 +1,7 @@
 # Ensure that a buildslave starts up on this machine
 
 class buildslave::startup {
+    include ::shared
     include buildslave::install
 
     $startuptype = $operatingsystem ? {
@@ -15,10 +16,7 @@ class buildslave::startup {
         "/usr/local/bin/runslave.py":
             source => "puppet:///modules/buildslave/runslave.py",
             owner  => "root",
-            group  => $operatingsystem ? {
-                        Darwin => "wheel",
-                        default => "root",
-                    },
+            group => $::shared::root_group,
             mode => 755;
     }
 

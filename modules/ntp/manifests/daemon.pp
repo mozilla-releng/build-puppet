@@ -2,16 +2,13 @@ class ntp::daemon {
 
 # NTP daemons don't work on VMWare, so don't install them there
 	if ($::virtual != "vmware") {
+        include ::shared
 		include packages::ntp
 		include config 
 		include users::settings
 		 
 		$ntpserver = $config::ntp_server
 		
-		$group = $operatingsystem ? {
-			Darwin => wheel,
-			default => root
-		}
 		case $operatingsystem {
 			CentOS : {
 				file {
@@ -19,7 +16,7 @@ class ntp::daemon {
 						content => template("ntp/ntp.conf.erb"),
 						mode => 644,
 						owner => root,
-						group => $group ;
+						group => $::shared::root_group;
 				}
 				service {
 					"ntpd" :

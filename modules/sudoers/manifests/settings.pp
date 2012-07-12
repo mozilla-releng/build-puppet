@@ -1,8 +1,6 @@
 class sudoers::settings {
-    $group = $operatingsystem ? {
-        Darwin => wheel,
-        default => root
-    }
+    include ::shared
+    $group = $::shared::root_group
     $owner = "root"
     $mode = "440"
 }
