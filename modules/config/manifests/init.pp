@@ -15,4 +15,5 @@ class config {
     $nrpe_allowed_hosts = extlookup("nrpe_allowed_hosts")
     $ntp_server = extlookup("ntp_server")
     $relay_domains = extlookup("relay_domains")
+    $ganglia_config_class = extlookup("ganglia_config_class", "")
 }

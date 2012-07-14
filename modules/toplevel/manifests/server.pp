@@ -6,5 +6,6 @@ class toplevel::server inherits toplevel::base {
     include ntp::daemon
     include smarthost
     include disableservices::server
+    include ganglia
 }
 
