@@ -1,5 +1,4 @@
-# Install the required version of puppet
-class puppet::install {
+class packages::puppet {
     $puppet_version = "2.7.11-2.el6"
 
     package {

@@ -1,6 +1,7 @@
 class puppet::atboot {
     include ::config
     include puppet::puppetize_sh
+    include packages::puppet
 
     $puppet_server = $::config::puppet_server
     $puppet_servers = $::config::puppet_servers
@@ -28,9 +29,9 @@ class puppet::atboot {
                     mode => 0755,
                     owner => 'root',
                     group => 'root',
-                    # puppet::install will overwrite this file, so make sure it gets
+                    # packages::puppet will overwrite this file, so make sure it gets
                     # installed first
-                    require => Class['puppet::install'],
+                    require => Class['packages::puppet'],
                     source => "puppet:///modules/puppet/puppet-centos-initd";
                 "/etc/sysconfig/puppet":
                     content => template("puppet/sysconfig-puppet.erb");

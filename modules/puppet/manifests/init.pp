@@ -2,6 +2,6 @@
 # puppet::atboot and puppet::periodic; the former is used for slaves, while
 # other systems run the latter.
 class puppet {
-    include puppet::install
+    include packages::puppet
     include puppet::config
 }
