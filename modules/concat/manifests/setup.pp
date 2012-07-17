@@ -13,6 +13,7 @@
 #
 # It also copies out the concatfragments.sh file to ${concatdir}/bin
 class concat::setup {
+  include packages::diffutils
   $id = $::id
   $root_group = $id ? {
     root    => 0,
@@ -28,6 +29,7 @@ class concat::setup {
     owner  => $id,
     group  => $root_group,
     mode   => '0755',
+    require => Class['packages::diffutils'],
     source => $majorversion ? {
       24      => 'puppet:///concat/concatfragments.sh',
       default => 'puppet:///modules/concat/concatfragments.sh'
