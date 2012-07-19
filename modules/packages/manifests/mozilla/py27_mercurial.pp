@@ -8,6 +8,12 @@ class packages::mozilla::py27_mercurial {
                     require => Class['packages::mozilla::python27'];
             }
         }
+        Darwin: {
+            packages::pkgdmg {
+                python27-mercurial:
+                    version => "2.1.1-1";
+            }
+        }
         default: {
             fail("cannot install on $operatingsystem")
         }

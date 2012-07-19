@@ -8,6 +8,12 @@ class packages::mozilla::py27_virtualenv {
                     require => Class['packages::mozilla::python27'];
             }
         }
+        Darwin: {
+            packages::pkgdmg {
+                python27-virtualenv:
+                    version => "1.7.1.2-1";
+            }
+        }
         default: {
             fail("cannot install on $operatingsystem")
         }
