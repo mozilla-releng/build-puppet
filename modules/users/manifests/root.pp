@@ -3,13 +3,10 @@
 class users::root {
     include config
 
-    if ($config::secrets::root_pw_hash == '') {
-        fail('No root password hash set')
-    }
-    
-    user {
-        "root":
-            password => $config::secrets::root_pw_hash;
+    # public variables used by other modules
+    $group = $::operatingsystem ? {
+        Darwin => wheel,
+        default => root
     }
 
     $home = $operatingsystem ? {
@@ -17,8 +14,25 @@ class users::root {
         default => '/root'
     }
 
+    if ($config::secrets::root_pw_hash == '') {
+        fail('No root password hash set')
+    }
+    
+    case $::operatingsystem {
+        CentOS: {
+            user {
+                "root":
+                    password => $config::secrets::root_pw_hash;
+            }
+        }
+        Darwin: {
+            notice('need to support setting the root password on OS X')
+        }
+    }
+
     python::user_pip_conf {
         "root":
-            homedir => $home;
+            homedir => $home,
+            group => $group;
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>Label</key>
+        <string>com.mozilla.puppet</string>
+        <key>OnDemand</key>
+        <false/>
+        <key>ProgramArguments</key>
+        <array>
+                <string>/bin/bash</string>
+                <string>-c</string>
+                <string>sleep $(((RANDOM*5*60)/32768)) &amp;&amp; /usr/bin/puppet agent --enable &amp;&amp /usr/bin/puppet agent --onetime --no-daemonize</string>
+        </array>
+        <key>StartInterval</key>
+        <integer>1800</integer>
+</dict>
+</plist>
+

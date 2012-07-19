@@ -1,0 +1,35 @@
+#!/bin/bash
+# puppet        Init script for running the puppet client daemon
+#
+# Author:       Duane Griffin <d.griffin@psenterprise.com>
+#               David Lutterkort <dlutter@redhat.com>
+#
+# chkconfig: - 98 02
+#
+# description: Enables periodic system configuration checks through puppet.
+# processname: puppet
+# config: /etc/sysconfig/puppet
+
+PATH=/usr/bin:/sbin:/bin:/usr/sbin
+export PATH
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# common atboot code
+<%= puppet_atboot_common %>
+
+case "$1" in
+  start)
+    run_until_success
+    ;;
+  stop)
+    exit 0 # sure, I stopped..
+    ;;
+  status)
+    exit 0 # working just fine, thanks
+    ;;
+  *)
+    echo $"Usage: $0 {start|stop|status}"
+    exit 1
+esac

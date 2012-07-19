@@ -1,26 +1,5 @@
-#!/bin/bash
-# puppet        Init script for running the puppet client daemon
-#
-# Author:       Duane Griffin <d.griffin@psenterprise.com>
-#               David Lutterkort <dlutter@redhat.com>
-#
-# chkconfig: - 98 02
-#
-# description: Enables periodic system configuration checks through puppet.
-# processname: puppet
-# config: /etc/sysconfig/puppet
-
-PATH=/usr/bin:/sbin:/bin:/usr/sbin
-export PATH
-
 # number of tries to make between attempts to run puppet
 REBOOT_AFTER=10
-
-RETVAL=0
-
-# Source function library.
-. /etc/rc.d/init.d/functions
-
 PUPPETMASTERS=$(< /etc/puppet/puppetmasters.txt)
 
 # note that --test implies --detailed-exitcodes, which we don't want
@@ -32,21 +11,19 @@ run_puppet() {
 
     # check for 'err:' in the output; this catches errors even
     # when the puppet exit status is incorrect.
-    # stderr redirection fixes a problem where grep would get a
-    # broken pipe. not sure why the redirect fixes it.
-    tmp=`mktemp`
-    /usr/bin/puppet agent $PUPPET_OPTIONS --server ${puppet_server} &> $tmp
-    RETVAL=$?
+    tmp=`mktemp /tmp/puppet-outputXXXXXX`
+    /usr/bin/puppet agent $PUPPET_OPTIONS --server ${puppet_server} > $tmp 2>1
+    retval=$?
     if grep -q "^err:" $tmp
     then
-        RETVAL=1
+        retval=1
     fi
 
     rm $tmp
-    return $RETVAL
+    return $retval
 }
 
-start() {
+run_until_success() {
     count=0
     success=false
     while ! $success
@@ -72,20 +49,3 @@ start() {
         fi
     done
 }
-
-case "$1" in
-  start)
-    start
-    ;;
-  stop)
-    exit 0 # sure, I stopped..
-    ;;
-  status)
-    exit 0 # working just fine, thanks
-    ;;
-  *)
-    echo $"Usage: $0 {start|stop|status}"
-    exit 1
-esac
-
-exit $RETVAL

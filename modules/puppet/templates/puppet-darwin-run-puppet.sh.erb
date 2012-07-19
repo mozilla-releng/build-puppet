@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# common atboot code
+<%= puppet_atboot_common %>
+
+run_until_success
+
+# touch a semaphore file that causes the user-level launchd to start buildbot.
+# This arrangemnet assumes that autologin has occurred and user-level launchd
+# is already started, which is in no way guaranteed.
+touch /var/tmp/puppet.finished

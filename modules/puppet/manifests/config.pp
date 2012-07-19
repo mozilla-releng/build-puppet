@@ -1,5 +1,5 @@
 class puppet::config {
-    include config
+    include ::config
 
     file {
         "/etc/puppet/puppet.conf":

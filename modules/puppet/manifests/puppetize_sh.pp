@@ -1,9 +1,10 @@
 class puppet::puppetize_sh {
+    include users::root
     file {
-        "/root/puppetize.sh":
+        "${users::root::home}/puppetize.sh":
             source => "puppet:///modules/puppet/puppetize.sh",
             owner => root,
-            group => root,
+            group => $users::root::group,
             mode => 0755;
     }
 }
