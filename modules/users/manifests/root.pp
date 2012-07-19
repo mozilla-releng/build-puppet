@@ -6,14 +6,19 @@ class users::root {
     if ($config::secrets::root_pw_hash == '') {
         fail('No root password hash set')
     }
-
+    
     user {
         "root":
             password => $config::secrets::root_pw_hash;
     }
 
+    $home = $operatingsystem ? {
+        Darwin => '/var/root',
+        default => '/root'
+    }
+
     python::user_pip_conf {
         "root":
-            homedir => '/root';
+            homedir => $home;
     }
 }
