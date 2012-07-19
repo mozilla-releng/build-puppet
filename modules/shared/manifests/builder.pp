@@ -6,7 +6,7 @@ class shared::builder {
         default => $config::builder_username
     }
    
-     #specifying the uid is temporary util usr is fixed on 10.8    
+     #specifying the uid is temporary util usr is fixed on 10.8 in puppet   
      $uid = $operatingsystem ? {
         Darwin => 501,
         default => 500
