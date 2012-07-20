@@ -6,7 +6,9 @@ class packages::diffutils {
                     ensure => latest;
             }
         }
-
+        Darwin: {
+          # doesn't apply this platform 
+        }
         default: {
             fail("cannot install on $operatingsystem")
         }
