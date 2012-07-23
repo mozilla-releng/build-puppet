@@ -5,7 +5,7 @@ class ntp::daemon {
         include ::shared
 		include packages::ntp
 		include config 
-		include users::settings
+		include users::root
 		 
 		$ntpserver = $config::ntp_server
 		
@@ -16,7 +16,7 @@ class ntp::daemon {
 						content => template("ntp/ntp.conf.erb"),
 						mode => 644,
 						owner => root,
-						group => $::shared::root_group;
+						group => $users::root::group;
 				}
 				service {
 					"ntpd" :
@@ -38,7 +38,7 @@ class ntp::daemon {
 						refreshonly => true ;
 				}
 				file {
-					"$users::settings::home_dir/.puppet-ntpserver" :
+					"$vardir/.puppet-ntpserver" :
 						content => "$ntpserver",
 						notify => Exec["set-time-server"] ;
 				}

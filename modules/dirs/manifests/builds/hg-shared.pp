@@ -1,11 +1,12 @@
 class dirs::builds::hg-shared {
     include dirs::builds
+    include users::builder
 
     file {
         "/builds/hg-shared":
             ensure => directory,
-            owner => "$config::builder_username",
-            group => "$config::builder_username",
+            owner => "$users::builder::username",
+            group => "$users::builder::group",
             mode => 0755;
     }
 }

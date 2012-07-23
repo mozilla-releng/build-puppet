@@ -3,6 +3,8 @@ class toplevel::slave::build inherits toplevel::slave {
     include dirs::builds::slave
     include dirs::builds::hg-shared
 
+    include users::builder
+
     include ntp::daemon
     include tweaks::nofile
 
@@ -18,6 +20,6 @@ class toplevel::slave::build inherits toplevel::slave {
     ccache::ccache_dir {
         "/builds/ccache":
             maxsize => "10G",
-            owner => $::config::builder_username;
+            owner => $users::builder::username;
     }
 }

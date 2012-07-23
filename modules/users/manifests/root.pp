@@ -4,6 +4,8 @@ class users::root {
     include config
 
     # public variables used by other modules
+    $username = 'root' # here for symmetry; no need to use this everywhere
+
     $group = $::operatingsystem ? {
         Darwin => wheel,
         default => root
@@ -21,7 +23,7 @@ class users::root {
     case $::operatingsystem {
         CentOS: {
             user {
-                "root":
+                $username:
                     password => $config::secrets::root_pw_hash;
             }
         }
@@ -31,7 +33,7 @@ class users::root {
     }
 
     python::user_pip_conf {
-        "root":
+        $username:
             homedir => $home,
             group => $group;
     }

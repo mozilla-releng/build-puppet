@@ -1,5 +1,8 @@
 class powermanagement::setup {
-    include config case $operatingsystem {
+    include config
+    include users::builder
+
+    case $operatingsystem {
         Darwin : {
             osxutils::systemsetup {
                 sleep :
@@ -22,7 +25,7 @@ class powermanagement::setup {
                     domain => "com.apple.screensaver",
                     key => "idleTime",
                     value => 0,
-                    user => $config::builder_username
+                    user => $users::builder::username;
             }
         }
         CentOS : {

@@ -8,8 +8,8 @@ class toplevel::slave::build::mock inherits toplevel::slave::build {
     # good way to communicate the need to that class.
     exec {
         'add-builder-to-mock_mozilla':
-            command => "/usr/bin/gpasswd -a $::config::builder_username mock_mozilla",
-            unless => "/usr/bin/groups $::config::builder_username | grep '\\<mock_mozilla\\>'",
+            command => "/usr/bin/gpasswd -a $users::builder::username mock_mozilla",
+            unless => "/usr/bin/groups $users::builder::username | grep '\\<mock_mozilla\\>'",
             require => [Class['packages::mozilla::mock_mozilla'], Class['users::builder']];
     }
 }

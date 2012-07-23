@@ -1,6 +1,6 @@
 class sudoers::settings {
     include ::shared
-    $group = $::shared::root_group
-    $owner = "root"
+    $group = $users::root::group
+    $owner = $users::root::username
     $mode = "440"
 }

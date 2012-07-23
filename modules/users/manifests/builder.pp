@@ -3,82 +3,101 @@
 
 class users::builder {
     include config
-    include users::settings
-    include shared::builder
-    
+
+    # public variables used by other modules
+    $username = $::config::builder_username
+
+    #files are owned by staff group on macosx, rather than a group named after the user
+    $group = $operatingsystem ? {
+        Darwin => 'staff',
+        default => $username
+    }
+
+    # specifying the uid is temporary util usr is fixed on 10.8 in puppet   
+    # (http://projects.puppetlabs.com/issues/12833)
+    $uid = $operatingsystem ? {
+        Darwin => 501,
+        default => 500
+    }
+
+    # calculate the proper homedir
+    $home = $operatingsystem ? {
+        Darwin => "/Users/$username",
+        default => "/home/$username"
+    }
+
+    # sanity checks
+
     if ($config::secrets::builder_pw_hash == '') {
         fail('No builder password hash set')
     }
 
-    if ($config::builder_username == '') {
+    if ($username == '') {
         fail('No builder username set')
     }
 
-    # calculate the proper homedir
-    $home_dir = $users::settings::home_dir
-    $group = $shared::builder::group
-    case $operatingsystem {
-        CentOS : {
+    case $::operatingsystem {
+        CentOS: {
             user {
-                "$config::builder_username" :
+                $username:
                     password => $config::secrets::builder_pw_hash,
                     shell => "/bin/bash",
-                   comment => "Builder" ;
+                    managehome => true,
+                    comment => "Builder";
             }
-       }
-       Darwin : {
-        #build user is temporarily created by base image until "user" on 10.8 is fixed in puppet
-       }
-   }
-  
+        }
+        Darwin: {
+            # TODO, pending http://projects.puppetlabs.com/issues/12833
+        }
+    }
+
     # Manage some configuration files
-          # Manage some configuration files
     file {
-        "$home_dir/.ssh":
+        "$home/.ssh":
             ensure => directory,
             mode => 0755,
-            owner => "$config::builder_username",
-            group =>"$group";
-        "$home_dir/.ssh/config":
+            owner => $username,
+            group => $group;
+        "$home/.ssh/config":
             mode => 0644,
-            owner => "$config::builder_username",
-            group => "$group",
+            owner => $username,
+            group => $group,
             source => "puppet:///modules/users/ssh_config";
         # XXX Authorized keys should be generated from LDAP not a static file
-        "$home_dir/.ssh/authorized_keys":
+        "$home/.ssh/authorized_keys":
             mode => 0644,
-            owner => "$config::builder_username",
-            group => "$group",
+            owner => $username,
+            group => $group,
             content => template("users/ssh_authorized_keys.erb");
-        "$home_dir/.ssh/known_hosts":
+        "$home/.ssh/known_hosts":
             mode => 0644,
-            owner => "$config::builder_username",
-            group => "$group",
+            owner => $username,
+            group => $group,
             source => "puppet:///modules/users/ssh_known_hosts";
-        "$home_dir/.gitconfig":
+        "$home/.gitconfig":
             mode => 0644,
-            owner => "$config::builder_username",
-            group => "$group",
+            owner => $username,
+            group => $group,
             source => "puppet:///modules/users/gitconfig";
-        "$home_dir/.bashrc":
+        "$home/.bashrc":
             mode => 0644,
-            owner => "$config::builder_username",
-            group => "$group",
+            owner => $username,
+            group => $group,
             content => template("${module_name}/builder-bashrc.erb");
-        "$home_dir/.hgrc":
+        "$home/.hgrc":
             mode => 0644,
-            owner => "$config::builder_username",
-            group => "$group",
+            owner => $username,
+            group => $group,
             source => "puppet:///modules/users/hgrc";
-        "$home_dir/.vimrc":
+        "$home/.vimrc":
             mode => 0644,
-            owner => "$config::builder_username",
-            group => "$group",
+            owner => $username,
+            group => $group,
             source => "puppet:///modules/users/vimrc";
-        "$home_dir/.screenrc":
+        "$home/.screenrc":
             mode => 0644,
-            owner => "$config::builder_username",
-            group => "$group",
+            owner => $username,
+            group => $group,
             source => "puppet:///modules/users/screenrc";
     }
     
@@ -101,7 +120,9 @@ class users::builder {
     }
 
     python::user_pip_conf {
-        "$config::builder_username": ;
+        $username:
+            homedir => $home,
+            group => $group;
     }
 }
 

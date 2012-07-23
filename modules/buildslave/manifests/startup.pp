@@ -3,6 +3,7 @@
 class buildslave::startup {
     include ::shared
     include buildslave::install
+    include users::root
 
     $startuptype = $operatingsystem ? {
         CentOS      => "initd",
@@ -16,7 +17,7 @@ class buildslave::startup {
         "/usr/local/bin/runslave.py":
             source => "puppet:///modules/buildslave/runslave.py",
             owner  => "root",
-            group => $::shared::root_group,
+            group => $users::root::group,
             mode => 755;
     }
 

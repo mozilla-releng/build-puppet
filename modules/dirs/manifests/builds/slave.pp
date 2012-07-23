@@ -1,13 +1,13 @@
 class dirs::builds::slave {
     include dirs::builds
-    include shared::builder
+    include users::builder
     include config
    
     file {
             "/builds/slave" :
             ensure => directory,
-            owner => "$config::builder_username",
-            group => "$shared::builder::group",
+            owner => "$users::builder::username",
+            group => "$users::builder::group",
             mode => 0755;
     }
 }
