@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+
+    <!-- note that this service is run by the user-level launchd, not by the
+         system launchd on login, so it does not need to specify a UserName (and in
+         fact, this field is ignored) -->
+
+<dict>
+        <key>Label</key>
+        <string>com.mozilla.buildslave</string>
+
+        <key>ProgramArguments</key>
+        <array>
+            <string>/usr/bin/python</string>
+            <string>/usr/local/bin/runslave.py</string>
+        </array>
+
+        <!-- do not run immediately when loaded -->
+        <key>RunAtLoad</key>
+        <false/>
+
+        <!-- but run when puppet (which is running as root) touches this file -->
+        <key>WatchPaths</key>
+        <array>
+            <string>/var/tmp/puppet.finished</string>
+        </array>
+
+        <!-- the working directory doesn't get used, so point it somewhere inoccuous -->
+        <key>WorkingDirectory</key>
+        <string>/Users</string>
+
+        <key>StandardErrorPath</key>
+        <string>/var/tmp/buildslave.err</string>
+
+        <key>StandardOutPath</key>
+        <string>/var/tmp/buildslave.out</string>
+</dict>
+</plist>
+
+

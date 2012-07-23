@@ -4,6 +4,7 @@
 class python::pip_check_py {
     include python::virtualenv::settings
     include python::misc_python_dir
+    include users::root
 
     $file = "${python::virtualenv::settings::misc_python_dir}/pip-check.py"
 
@@ -11,7 +12,7 @@ class python::pip_check_py {
         "$file":
             source => "puppet:///modules/python/pip-check.py",
             owner => root,
-            group => root,
+            group => $::users::root::group,
             mode => 0644,
             require => Class["python::misc_python_dir"];
     }

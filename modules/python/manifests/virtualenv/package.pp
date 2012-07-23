@@ -5,6 +5,7 @@ define python::virtualenv::package($user) {
     include python::virtualenv::settings
     include python::misc_python_dir
     include python::pip_check_py
+    include users::root
 
     # extract the virtualenv and tarball from the title
     $virtualenv = regsubst($title, "\\|\\|.*$", "")
@@ -20,9 +21,13 @@ define python::virtualenv::package($user) {
             logoutput => on_failure,
             onlyif => "$virtualenv/bin/python $pip_check_py $pkg",
             user => $user,
+            environment => [
+                "HOME=$::users::root::home", # because sudo will sometimes lead pip to ~administrator/.pip
+            ],
             require => [
                 Class['python::pip_check_py'],
                 Exec["virtualenv $virtualenv"],
+                Class['users::root'], # for pip.conf
             ];
     }
 }
