@@ -1,5 +1,6 @@
 class disableservices::common {
 # This class disables unnecessary services common to both server and slave
+    
     case $operatingsystem {
         CentOS : {
             service {
@@ -17,6 +18,20 @@ class disableservices::common {
                 ['com.apple.blued'] :
                     enable => false,
                     ensure => stopped,
+            }
+            exec {
+                "disable-indexing" :
+                    command => "/usr/bin/mdutil -a -i off",
+                    refreshonly => true ;
+
+                "remove-index" :
+                    command => "/usr/bin/mdutil -a -E",
+                    refreshonly => true ;
+            }
+            file {
+                "$settings::vardir/.puppet-indexing" :
+                    content => "indexing-disabled",
+                    notify => Exec["disable-indexing", "remove-index"] ;
             }
         }
     }
