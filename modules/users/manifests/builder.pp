@@ -90,10 +90,14 @@ class users::builder {
             # as well
                 "verify-resolution" :
                     command =>
-                    "/usr/local/bin/screenresolution set 1280x1024x32",
+                    "/usr/local/bin/screenresolution set 1280x1024x32@60",
                     unless =>
-                    "/usr/local/bin/screenresolution get 2>&1 | /usr/bin/grep 'Display 0: 1280x1024x32'",
+                    "/usr/local/bin/screenresolution get 2>&1 | /usr/bin/grep 'Display 0: 1280x1024x32@60'",
                     require => Class["packages::mozilla::screenresolution"]
+            }
+            #Probably too late at this point, but lets get rid of them for the next reboot
+            tidy {
+                "$home/Library/Saved\ Application\ State/*.savedState":
             }
         }
     }
