@@ -53,27 +53,6 @@ class users::builder {
 
     # Manage some configuration files
     file {
-        "$home/.ssh":
-            ensure => directory,
-            mode => 0755,
-            owner => $username,
-            group => $group;
-        "$home/.ssh/config":
-            mode => 0644,
-            owner => $username,
-            group => $group,
-            source => "puppet:///modules/users/ssh_config";
-        # XXX Authorized keys should be generated from LDAP not a static file
-        "$home/.ssh/authorized_keys":
-            mode => 0644,
-            owner => $username,
-            group => $group,
-            content => template("users/ssh_authorized_keys.erb");
-        "$home/.ssh/known_hosts":
-            mode => 0644,
-            owner => $username,
-            group => $group,
-            source => "puppet:///modules/users/ssh_known_hosts";
         "$home/.gitconfig":
             mode => 0644,
             owner => $username,
@@ -122,6 +101,16 @@ class users::builder {
     python::user_pip_conf {
         $username:
             homedir => $home,
+            group => $group;
+    }
+    class {
+        'ssh::setup':
+            home => $home,
+            owner => $username,
+            group => $group;
+        'ssh::common_known_hosts':
+            home => $home,
+            owner => $username,
             group => $group;
     }
 }
