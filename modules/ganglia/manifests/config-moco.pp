@@ -1,5 +1,5 @@
 class ganglia::config-moco {
-    include shared
+    include users::root
     
     $mode = "mcast"
     # Mozilla configuration
@@ -27,7 +27,7 @@ class ganglia::config-moco {
             require => Class['packages::ganglia'],
             content => template("ganglia/moco-gmond.conf.erb"),
             owner => "root",
-            group => "$::shared::root_group",
+            group => "$::users::root::group",
             mode => 644;
     }
 }

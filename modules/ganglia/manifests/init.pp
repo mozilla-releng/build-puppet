@@ -4,7 +4,7 @@ class ganglia {
         # No Ganglia Config defined, don't install
     } else {
         include packages::ganglia
-        include shared
+        include users::root
 
         class {
             $::config::ganglia_config_class:
@@ -15,7 +15,7 @@ class ganglia {
             "/etc/ganglia":
                 ensure => directory,
                 owner => "root",
-                group => "$::shared::root_group",
+                group => "$::users::root::group",
                 mode => 644;
         }
         
