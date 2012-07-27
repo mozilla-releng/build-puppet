@@ -10,4 +10,5 @@ class config::secrets {
     $builder_pw_pbkdf2 = extlookup("builder_pw_pbkdf2")
     $builder_pw_pbkdf2_salt = extlookup("builder_pw_pbkdf2_salt")
     $builder_pw_pbkdf2_iterations = extlookup("builder_pw_pbkdf2_iterations")
+    $builder_pw_kcpassword_base64 = extlookup("builder_pw_kcpassword_base64")
 }

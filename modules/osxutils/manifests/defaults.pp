@@ -1,10 +1,9 @@
 define osxutils::defaults ($domain = undef,
     $key = undef,
     $value = undef,
-    $user = undef) {
+    $user = 'root') {
     $defaults_cmd = "/usr/bin/defaults"
-    if (($domain != undef) and ($key != undef)) and (($value != undef) and
-    ($user != undef)) {
+    if ($domain != undef) and ($key != undef) and ($value != undef) {
         exec {
             "osx_defaults write ${domain} ${key}=>${value}" :
                 command =>
