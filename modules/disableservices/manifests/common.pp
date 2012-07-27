@@ -27,6 +27,10 @@ class disableservices::common {
                 "remove-index" :
                     command => "/usr/bin/mdutil -a -E",
                     refreshonly => true ;
+                "disable-updater" :
+                    command => "/usr/sbin/softwareupdate --schedule off",
+                    unless =>
+                    "/usr/sbin/softwareupdate --schedule off | egrep 'off'" ;                   
             }
             file {
                 "$settings::vardir/.puppet-indexing" :
