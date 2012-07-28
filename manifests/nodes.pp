@@ -18,6 +18,10 @@ node "relabs-slave.build.mtv1.mozilla.com" {
     include toplevel::slave::test
 }
 
+node /foopy\d+.build.mtv1.mozilla.com/ {
+    include toplevel::server::foopy
+}
+
 node "linux-foopy-test.build.mtv1.mozilla.com" {
     include toplevel::server::foopy
 }
