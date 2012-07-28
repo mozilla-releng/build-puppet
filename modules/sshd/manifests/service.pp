@@ -17,7 +17,7 @@ class sshd::service {
 
             # Delete the com.apple.access_ssh group.  If present, this group limits
             # SSH logins to those in the group, but without it, any user can log in.
-            group: {
+            group {
                 'com.apple.access_ssh':
                     ensure => absent;
             }
