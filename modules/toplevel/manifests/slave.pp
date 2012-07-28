@@ -8,6 +8,7 @@ class toplevel::slave inherits toplevel::base {
 
     # packages common to all slaves
     include packages::mozilla::tooltool
+    include packages::wget
 
     # apply tweaks
     include tweaks::dev-ptmx
