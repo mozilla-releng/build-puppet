@@ -30,7 +30,11 @@ class disableservices::common {
                 "disable-updater" :
                     command => "/usr/sbin/softwareupdate --schedule off",
                     unless =>
-                    "/usr/sbin/softwareupdate --schedule off | egrep 'off'" ;                   
+                    "/usr/sbin/softwareupdate --schedule off | egrep 'off'" ;
+                "disable-wifi" :
+                    command => "/usr/sbin/networksetup -setairportpower en1 off",
+                    unless =>
+                    "/usr/sbin/networksetup -getairportpower en1 | egrep 'off'" ;
             }
             file {
                 "$settings::vardir/.puppet-indexing" :
