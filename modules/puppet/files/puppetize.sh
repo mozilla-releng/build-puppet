@@ -1,6 +1,6 @@
 #! /bin/bash
 
-FQDN=`facter fqdn`
+
 REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
 if [ `facter operatingsystem` = Darwin ]; then
     OS=Darwin
@@ -9,6 +9,14 @@ else
     OS=Linux
     ROOT=/root
 fi
+
+# wait for all networking services to become available.  This prevents a race condition with network availablity
+# use ipconfig waitall for darwin and do nothing for linux
+if [ ${OS} = "Darwin" ]; then
+	ipconfig waitall
+fi
+
+FQDN=`facter fqdn`
 
 # determine interactivity based on the presence of a deploypass file
 [ -f $ROOT/deploypass ] && interactive=false || interactive=true
@@ -116,12 +124,14 @@ while ! FACTER_PUPPETIZING=true /usr/bin/puppet agent --no-daemonize --onetime -
     sleep 600
 done
 
-# don't run puppetize at boot anymore (nothing to do on Darwin)
+# don't run puppetize at boot anymore
 if [ $OS = Linux ]; then
     (
         grep -v puppetize /etc/rc.d/rc.local
     ) > /etc/rc.d/rc.local~
     mv /etc/rc.d/rc.local{~,}
+else
+    /usr/bin/defaults write /Library/LaunchDaemons/org.mozilla.puppetize.plist Disabled -bool TRUE
 fi
 
 # record the installation date (note that this won't appear anywhere on Darwin)

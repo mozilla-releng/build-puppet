@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Disabled</key>
+	<true/>
+	<key>Label</key>
+	<string>org.mozilla.puppetize</string>
+	<key>Program</key>
+	<string>/var/root/puppetize.sh</string>
+	<key>RunAtLoad</key>
+	<true/>
+        <key>LaunchOnlyOnce</key>
+        <true/>
+        <key>KeepAlive</key>
+        <false/>
+</dict>
+</plist>
