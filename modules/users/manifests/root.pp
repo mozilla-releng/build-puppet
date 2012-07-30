@@ -3,6 +3,7 @@
 class users::root {
     include config
 
+    ##
     # public variables used by other modules
     $username = 'root' # here for symmetry; no need to use this everywhere
 
@@ -16,25 +17,21 @@ class users::root {
         default => '/root'
     }
 
-    if ($config::secrets::root_pw_hash == '') {
-        fail('No root password hash set')
-    }
-    
-    case $::operatingsystem {
-        CentOS: {
-            user {
-                $username:
-                    password => $config::secrets::root_pw_hash;
-            }
-        }
-        Darwin: {
-            notice('need to support setting the root password on OS X')
-        }
-    }
+    ##
+    # manage some configuration files
 
     python::user_pip_conf {
         $username:
             homedir => $home,
-            group => $group;
+            group => $group,
+            require => Class['users::root::account'];
+    }
+
+    # defer account creation to a subclass so we can require it
+    class {
+        'users::root::account':
+            username => $username,
+            group => $group,
+            home => $home;
     }
 }
