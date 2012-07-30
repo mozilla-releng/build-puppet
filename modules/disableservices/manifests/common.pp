@@ -34,7 +34,7 @@ class disableservices::common {
                 "disable-wifi" :
                     command => "/usr/sbin/networksetup -setairportpower en1 off",
                     unless =>
-                    "/usr/sbin/networksetup -getairportpower en1 | egrep 'off'" ;
+                    "/usr/sbin/networksetup -getairportpower en1 | egrep 'Off'" ;
             }
             file {
                 "$settings::vardir/.puppet-indexing" :
