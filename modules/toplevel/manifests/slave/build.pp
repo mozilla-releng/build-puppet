@@ -14,7 +14,6 @@ class toplevel::slave::build inherits toplevel::slave {
     include nrpe::check::child_procs_regex
 
     include packages::mozilla::git
-    include packages::mozilla::py27_mercurial
     include packages::mozilla::py27_virtualenv
 
     ccache::ccache_dir {

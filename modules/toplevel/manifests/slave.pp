@@ -9,6 +9,7 @@ class toplevel::slave inherits toplevel::base {
 
     # packages common to all slaves
     include packages::mozilla::tooltool
+    include packages::mozilla::py27_mercurial
     include packages::wget
 
     # apply tweaks
