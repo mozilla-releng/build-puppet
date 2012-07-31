@@ -9,7 +9,7 @@ define osxutils::defaults ($domain = undef,
                 command =>
                 "${defaults_cmd} -currentHost write ${domain} ${key} ${value}",
                 unless =>
-                "${defaults_cmd} -currentHost read ${domain} | egrep '${key} = ${value}'",
+                "/bin/test x`${defaults_cmd} -currentHost read ${domain} ${key}` = x'${value}'",
                 user => $user,
         }
     }
