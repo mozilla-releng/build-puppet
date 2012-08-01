@@ -32,10 +32,6 @@ class disableservices::common {
                 "remove-index" :
                     command => "/usr/bin/mdutil -a -E",
                     refreshonly => true ;
-                "disable-wifi" :
-                    command => "/usr/sbin/networksetup -setairportpower en1 off",
-                    unless =>
-                    "/usr/sbin/networksetup -getairportpower en1 | egrep 'Off'" ;
             }
             file {
                 "$settings::vardir/.puppet-indexing" :
