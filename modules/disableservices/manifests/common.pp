@@ -15,7 +15,12 @@ class disableservices::common {
         }
         Darwin : {
             service {
-                ['com.apple.blued'] :
+                [
+                    # bluetooth keyboard prompt
+                    'com.apple.blued',
+                    # periodic software update checks
+                    'com.apple.softwareupdatecheck.initial', 'com.apple.softwareupdatecheck.periodic',
+                ]:
                     enable => false,
                     ensure => stopped,
             }
@@ -27,10 +32,6 @@ class disableservices::common {
                 "remove-index" :
                     command => "/usr/bin/mdutil -a -E",
                     refreshonly => true ;
-                "disable-updater" :
-                    command => "/usr/sbin/softwareupdate --schedule off",
-                    unless =>
-                    "/usr/sbin/softwareupdate --schedule off | egrep 'off'" ;
                 "disable-wifi" :
                     command => "/usr/sbin/networksetup -setairportpower en1 off",
                     unless =>
