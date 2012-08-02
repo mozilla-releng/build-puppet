@@ -2,9 +2,6 @@ class users::root::account($username, $group, $home) {
     include config
 
     ##
-    # sanity checks
-
-    ##
     # create the user
 
     case $::operatingsystem {
