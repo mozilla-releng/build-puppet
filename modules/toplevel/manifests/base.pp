@@ -16,5 +16,4 @@ class toplevel::base {
     include packages::editors
     include packages::screen
     include powermanagement
-    include sshd
 }
