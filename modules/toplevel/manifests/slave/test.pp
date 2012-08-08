@@ -4,6 +4,7 @@ class toplevel::slave::test inherits toplevel::slave {
     include vnc
     include screenresolution::talos
     include users::builder::autologin
+    include talos
 
     include ntp::atboot
 }
