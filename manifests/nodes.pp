@@ -29,3 +29,7 @@ node /foopy\d+.build.scl1.mozilla.com/ {
 node "linux-foopy-test.build.mtv1.mozilla.com" {
     include toplevel::server::foopy
 }
+
+node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
+    include toplevel::slave::test
+}
