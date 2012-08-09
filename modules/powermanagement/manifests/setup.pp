@@ -20,17 +20,9 @@ class powermanagement::setup {
                 allowpowerbuttontosleepcomputer :
                     setting => "off" ;
             }
-            osxutils::defaults {
-                "disable screensaver" :
-                    domain => "com.apple.screensaver",
-                    key => "idleTime",
-                    value => 0,
-                    user => $users::builder::username;
-            }
         }
         CentOS : {
         # not yet implemented
-
         }
         default : {
             fail(" cannot install on $operatingsystem ")
