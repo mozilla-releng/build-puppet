@@ -1,9 +1,9 @@
 class screenresolution::talos {
-    $width = 1280
-    $height = 1024
+    $width = 1600
+    $height = 1200
     $depth = 32
     $refresh = 60
-
+   
     case $::operatingsystem {
         Darwin: {
             include packages::mozilla::screenresolution 
