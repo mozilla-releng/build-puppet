@@ -1,4 +1,10 @@
 class packages::mozilla::python27 {
+    anchor {
+        'packages::mozilla::python27::begin': ;
+        'packages::mozilla::python27::end': ;
+    }
+
+    Anchor['packages::mozilla::python27::begin'] ->
     case $operatingsystem{
         CentOS: {
             package {
@@ -15,5 +21,5 @@ class packages::mozilla::python27 {
         default: {
             fail("cannot install on $operatingsystem")
         }
-    }
+    } -> Anchor['packages::mozilla::python27::end']
 }

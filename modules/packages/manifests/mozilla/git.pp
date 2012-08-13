@@ -1,4 +1,10 @@
 class packages::mozilla::git {
+    anchor {
+        'packages::mozilla::git::begin': ;
+        'packages::mozilla::git::end': ;
+    }
+
+    Anchor['packages::mozilla::git::begin'] ->
     case $operatingsystem{
         CentOS: {
             package {
@@ -15,5 +21,5 @@ class packages::mozilla::git {
         default: {
             fail("cannot install on $operatingsystem")
         }
-    }
+    } -> Anchor['packages::mozilla::git::end']
 }
