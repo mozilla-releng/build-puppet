@@ -6,6 +6,11 @@
 define buildslave::install::version($active=false, $ensure="present") {
     $version = $title
 
+    anchor {
+        "buildslave::install::version::${version}::begin": ;
+        "buildslave::install::version::${version}::end": ;
+    }
+
     # set the parameters for the virtualenv below.  Each version should set
     # $packages explicitly.
     case $version {
@@ -28,6 +33,7 @@ define buildslave::install::version($active=false, $ensure="present") {
         }
     }
 
+    Anchor["buildslave::install::version::${version}::begin"] ->
     case $ensure {
         present: {
             python::virtualenv {
@@ -55,6 +61,6 @@ define buildslave::install::version($active=false, $ensure="present") {
                     ensure => absent;
             }
         }
-    }
+    } -> Anchor["buildslave::install::version::${version}::end"]
 }
 
