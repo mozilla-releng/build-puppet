@@ -1,4 +1,6 @@
 class vnc {
+    include vnc::appearance
+
     case $::operatingsystem {
         Darwin: {
             osxutils::defaults {
