@@ -33,3 +33,11 @@ node "linux-foopy-test.build.mtv1.mozilla.com" {
 node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
     include toplevel::slave::test
 }
+
+node /seamicro-test\d+.build.releng.scl3.mozilla.com/ {
+    include toplevel::slave::build
+}
+
+node /seamicro-test\d+.try.releng.scl3.mozilla.com/ {
+    include toplevel::slave::build
+}

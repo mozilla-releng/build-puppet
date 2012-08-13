@@ -35,9 +35,7 @@ reboot
 # a puppet password from the kernel command line, and passes that to puppetize.sh
 # in /root/deploypass.
 
-# NOTE: the output of this script does not go to the screen!  It goes to
-# /mnt/sysimage/tmp/kx-*.log.
-
+exec </dev/console >/dev/console 2>/dev/console
 set -x
 
 # parameters
