@@ -1,7 +1,11 @@
-class sshd::service {
+class ssh::service {
     case $operatingsystem {
         CentOS : {
-            # running by default
+            service {
+                "sshd":
+                    enable => "true",
+                    ensure => "running";
+            }
         }
         Darwin : {
             exec {
