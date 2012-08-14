@@ -6,6 +6,8 @@ class puppet::periodic {
 
     case $::operatingsystem {
         CentOS: {
+            $minute1 = fqdn_rand(30)
+            $minute2 = $minute1+30
             file {
                 # This is done via crontab due to a memory leak in puppet identified by
                 # Mozilla IT.  There is enough splay here to avoid killing the master
