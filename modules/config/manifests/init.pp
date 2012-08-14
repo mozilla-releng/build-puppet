@@ -27,4 +27,5 @@ class config {
     $ganglia_config_class = extlookup("ganglia_config_class", "")
     $crl_sync_url= extlookup("crl_sync_url", "")
     $puppet_again_repo = extlookup("puppet_again_repo")
+    $global_authorized_keys = extlookup("global_authorized_keys", "")
 }
