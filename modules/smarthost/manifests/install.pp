@@ -1,7 +1,7 @@
 class smarthost::install {
     anchor {
-        'smarthost::install::begin': ;;
-        'smarthost::install::end': ;;
+        'smarthost::install::begin': ;
+        'smarthost::install::end': ;
     }
     
     Anchor['smarthost::install::begin'] ->
