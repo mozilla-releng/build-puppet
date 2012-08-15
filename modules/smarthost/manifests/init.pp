@@ -1,7 +1,7 @@
 class smarthost {
     anchor {
-        'smarthost::begin': ;;
-        'smarthost::end': ;;
+        'smarthost::begin': ;
+        'smarthost::end': ;
     }
     Anchor['smarthost::begin'] ->
     class {
