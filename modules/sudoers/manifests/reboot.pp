@@ -10,6 +10,6 @@ class sudoers::reboot {
             owner => $sudoers::settings::owner,
             group => $sudoers::settings::group,
             ensure => file,
-            content => "${users::builder::username} ALL=NOPASSWD: /sbin/reboot\n" ;
+            content => "${users::builder::username} ALL=NOPASSWD: $sudoers::settings::rebootpath\n" ;
     }
 }
