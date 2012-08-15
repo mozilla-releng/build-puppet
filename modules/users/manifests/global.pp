@@ -11,4 +11,13 @@ class users::global {
             content => inline_template("This is <%= fqdn %> (<%= ipaddress %>)\n"),
             order => '00';
     } -> Anchor['users::global::end']
+
+    # On OS X, the Administrator user is created at system install time.  We
+    # don't want to keep it around.
+    if ($::operatingsystem == "Darwin") {
+        darwinuser {
+            "administrator":
+                ensure => absent;
+        }
+    }
 }
