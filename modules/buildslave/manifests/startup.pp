@@ -1,6 +1,11 @@
 # Ensure that a buildslave starts up on this machine
 
 class buildslave::startup {
+    anchor {
+        'buildslave::startup::begin': ;
+        'buildslave::startup::end': ;
+    }
+
     include ::shared
     include buildslave::install
     include dirs::usr::local::bin
@@ -22,5 +27,8 @@ class buildslave::startup {
         # not done in PuppetAgain yet:
         #Fedora      => "desktop",
     }
-    class { "buildslave::startup::$startuptype": }
+    Anchor['buildslave::startup::begin'] ->
+    class {
+        "buildslave::startup::$startuptype":
+    } -> Anchor['buildslave::startup::end']
 }

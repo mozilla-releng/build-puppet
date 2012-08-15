@@ -1,4 +1,10 @@
 class packages::mozilla::python26 {
+    anchor {
+        'packages::mozilla::python26::begin': ;
+        'packages::mozilla::python26::end': ;
+    }
+
+    Anchor['packages::mozilla::python26::begin'] ->
     case $operatingsystem{
         CentOS: {
             package {
@@ -15,5 +21,5 @@ class packages::mozilla::python26 {
         default: {
             fail("cannot install on $operatingsystem")
         }
-    }
+    } -> Anchor['packages::mozilla::python26::end']
 }

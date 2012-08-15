@@ -1,4 +1,10 @@
 class packages::wget {
+    anchor {
+        'packages::wget::begin': ;
+        'packages::wget::end': ;
+    }
+
+    Anchor['packages::wget::begin'] ->
     case $operatingsystem{
         CentOS: {
             package {
@@ -15,5 +21,5 @@ class packages::wget {
         default: {
             fail("cannot install on $operatingsystem")
         }
-    }
+    } -> Anchor['packages::wget::end']
 }

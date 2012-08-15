@@ -1,6 +1,5 @@
 class smarthost::setup {
-
-   include config
+   include ::config
 
    file { "/etc/postfix/main.cf":
         owner => "postfix",
@@ -11,5 +10,4 @@ class smarthost::setup {
         require => Class["smarthost::install"],
         notify => Class["smarthost::daemon"],
    }
-
 }

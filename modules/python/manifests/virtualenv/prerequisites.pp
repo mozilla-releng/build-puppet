@@ -2,6 +2,12 @@
 # platform.  This way, other resources (in python::virtualenv) can just require
 # Class['python::virtualenv::prerequisites'].
 class python::virtualenv::prerequisites {
+    anchor {
+        'python::virtualenv::prerequisites::begin': ;
+        'python::virtualenv::prerequisites::end': ;
+    }
+
+    Anchor['python::virtualenv::prerequisites::begin'] ->
     python::misc_python_file {
         "virtualenv.py": ;
 
@@ -9,5 +15,5 @@ class python::virtualenv::prerequisites {
         # want to download them from pypi
         "pip-0.8.2.tar.gz": ;
         "distribute-0.6.24.tar.gz": ; # the virtualenv.py above looks for this version
-    }
+    } -> Anchor['python::virtualenv::prerequisites::end']
 }

@@ -1,7 +1,11 @@
 # Set up the root user (or equvalent, e.g., Administrator on windows)
 
 class users::root {
-    include config
+    include ::config
+    anchor {
+        'users::root::begin': ;
+        'users::root::end': ;
+    }
 
     ##
     # public variables used by other modules
@@ -17,21 +21,20 @@ class users::root {
         default => '/root'
     }
 
-    ##
-    # manage some configuration files
-
-    python::user_pip_conf {
-        $username:
-            homedir => $home,
-            group => $group,
-            require => Class['users::root::account'];
-    }
-
-    # defer account creation to a subclass so we can require it
+    # account happens in the users stage, and is not included in the anchor
     class {
         'users::root::account':
+            stage => users,
             username => $username,
             group => $group,
             home => $home;
     }
+
+    Anchor['users::root::begin'] ->
+    class {
+        'users::root::setup':
+            username => $username,
+            group => $group,
+            home => $home;
+    } -> Anchor['users::root::end']
 }

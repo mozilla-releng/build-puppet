@@ -1,5 +1,12 @@
 class packages::mozilla::py27_virtualenv {
+    anchor {
+        'packages::mozilla::py27_virtualenv::begin': ;
+        'packages::mozilla::py27_virtualenv::end': ;
+    }
+
     include packages::mozilla::python27
+
+    Anchor['packages::mozilla::py27_virtualenv::begin'] ->
     case $operatingsystem{
         CentOS: {
             package {
@@ -17,5 +24,5 @@ class packages::mozilla::py27_virtualenv {
         default: {
             fail("cannot install on $operatingsystem")
         }
-    }
+    } -> Anchor['packages::mozilla::py27_virtualenv::end']
 }

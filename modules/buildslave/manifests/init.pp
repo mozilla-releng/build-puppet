@@ -6,6 +6,14 @@
 #  - https://wiki.mozilla.org/ReleaseEngineering/Buildslave_Startup_Process
 #  - https://wiki.mozilla.org/ReleaseEngineering/Buildslave_Versions
 class buildslave {
-    include buildslave::install
-    include buildslave::startup
+    anchor {
+        'buildslave::begin': ;
+        'buildslave::end': ;
+    }
+
+    Anchor['buildslave::begin'] ->
+    class {
+        'buildslave::install': ;
+        'buildslave::startup': ;
+    } -> Anchor['buildslave::end']
 }
