@@ -1,8 +1,7 @@
 class network {
-    # ensure that the host uses its fqdn
+    # always set the hostname to the fqdn
     case $operatingsystem {
         CentOS: {
-            # always set the hostname to the fqdn
             file {
                 "/etc/sysconfig/network":
                     content => "NETWORKING=yes\nHOSTNAME=$fqdn\n",
@@ -14,13 +13,37 @@ class network {
                     command => "/bin/hostname $fqdn",
                     refreshonly => true;
             }
+        }
+        Darwin: {
+            # nothing to do
+        }
+    }
 
-            # and ensure we don't use peer NTP configuration (as that comes from puppet)
+    # ensure interface configuration is correct
+    # (in particular, don't use peer NTP configuration, as that comes from puppet)
+    case $operatingsystem {
+        CentOS: {
             file {
                 "/etc/sysconfig/network-scripts/ifcfg-eth0":
                     content => template("network/centos6-ifcfg-eth0.erb");
             }
         }
+        Darwin: {
+            # nothing to do
+        }
     }
 
+    # disable wifi
+    case $operatingsystem {
+        CentOS: {
+            # existing CentOS systems do not have wifi hardware
+        }
+        Darwin: {
+            exec {
+                "disable-wifi":
+                    command => "/usr/sbin/networksetup -setairportpower en1 off",
+                    unless => "/usr/sbin/networksetup -getairportpower en1 | egrep 'Off'";
+            }
+        }
+    }
 }

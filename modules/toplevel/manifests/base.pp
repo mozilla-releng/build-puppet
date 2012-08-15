@@ -17,4 +17,5 @@ class toplevel::base {
     include packages::screen
     include powermanagement
     include sshd
+    include clean
 }

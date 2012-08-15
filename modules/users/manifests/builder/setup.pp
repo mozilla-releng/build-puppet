@@ -30,18 +30,6 @@ class users::builder::setup($home, $username, $group) {
     } -> Anchor['users::builder::setup::end']
 
     ##
-    # Cleanup
-
-    case $operatingsystem {
-        Darwin : {
-            #Probably too late at this point, but lets get rid of them for the next reboot
-            tidy {
-                "$home/Library/Saved\ Application\ State/*.savedState":
-            }
-        }
-    }
-
-    ##
     # Manage some configuration files
 
     file {

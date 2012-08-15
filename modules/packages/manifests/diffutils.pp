@@ -7,7 +7,7 @@ class packages::diffutils {
             }
         }
         Darwin: {
-          # doesn't apply this platform 
+            # installed by default on Darwin
         }
         default: {
             fail("cannot install on $operatingsystem")

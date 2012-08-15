@@ -16,9 +16,9 @@
         <key>ServiceIPC</key>
         <false/>
         <key>StandardErrorPath</key>
-        <string>/var/puppet/log/puppet.err</string>
+        <string>/var/log/puppet/puppet.err</string>
         <key>StandardOutPath</key>
-        <string>/var/puppet/log/puppet.out</string>
+        <string>/var/log/puppet/puppet.out</string>
 </dict>
 </plist>
 
