@@ -1,16 +1,11 @@
-class packages::httpd {
+class packages::mod_passenger {
     case $operatingsystem {
         CentOS: {
             package {
-                "httpd":
+                "mod_passenger":
                     ensure => latest;
             }
         }
-
-        Darwin: {
-            # installed by default
-        }
-
         default: {
             fail("cannot install on $operatingsystem")
         }

@@ -1,4 +1,4 @@
-class toplevel::server::master inherits toplevel::master {
+class toplevel::server::master inherits toplevel::server {
     # incomplete
     include nrpe
 

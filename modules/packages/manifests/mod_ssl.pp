@@ -1,16 +1,11 @@
-class packages::httpd {
+class packages::mod_ssl {
     case $operatingsystem {
         CentOS: {
             package {
-                "httpd":
+                "mod_ssl":
                     ensure => latest;
             }
         }
-
-        Darwin: {
-            # installed by default
-        }
-
         default: {
             fail("cannot install on $operatingsystem")
         }

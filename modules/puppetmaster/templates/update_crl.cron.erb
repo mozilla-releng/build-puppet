@@ -1,0 +1,4 @@
+MAILTO="<%= scope.lookupvar('::config::puppet_notif_email') %>"
+# sleep a random splay before running
+*/30 * * * * root sleep $(((RANDOM*5*60)/32768)) && /etc/puppet/update_crl.sh
+MAILTO=root

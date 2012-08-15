@@ -5,7 +5,6 @@ class puppet::atboot {
     include packages::puppet
     include dirs::usr::local::bin
 
-    $puppet_server = $::config::puppet_server
     $puppet_servers = $::config::puppet_servers
 
     # signal puppetize.sh to reboot after this puppet run, if we're running
@@ -40,16 +39,11 @@ class puppet::atboot {
                     # installed first
                     require => Class['packages::puppet'],
                     content => template("puppet/puppet-centos-initrd.erb");
-                "/etc/sysconfig/puppet":
-                    content => template("puppet/sysconfig-puppet.erb");
             }
 
             service {
                 "puppet":
-                    require => [
-                        File['/etc/init.d/puppet'],
-                        File['/etc/sysconfig/puppet']
-                    ],
+                    require => File['/etc/init.d/puppet'],
                     # note we do not try to run the service (running)
                     enable => true;
             }

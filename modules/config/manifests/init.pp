@@ -5,15 +5,24 @@
 # We use config rather than settings because "settings" is a magic class
 class config {
     include config::secrets
-    
+
     $puppet_notif_email = extlookup("puppet_notif_email")
-    $puppet_server = extlookup("puppet_server")
     $data_server = extlookup("data_server")
     $data_servers = extlookup("data_servers")
     $puppet_servers = extlookup("puppet_servers")
+    # use a random puppet master if pupper_server is not defined
+    $random_puppet_server = template("config/calculate-random-puppet-server.erb")
+    # Use randmom puppet server from puppet_servers if it's set to <<RANDOM>>
+    if extlookup("puppet_server") == "<<RANDOM>>" {
+        $puppet_server = $random_puppet_server
+    } else {
+        $puppet_server = extlookup("puppet_server")
+    }
     $builder_username = extlookup("builder_username")
     $nrpe_allowed_hosts = extlookup("nrpe_allowed_hosts")
     $ntp_server = extlookup("ntp_server")
     $relay_domains = extlookup("relay_domains")
     $ganglia_config_class = extlookup("ganglia_config_class", "")
+    $crl_sync_url= extlookup("crl_sync_url", "")
+    $puppet_again_repo = extlookup("puppet_again_repo")
 }

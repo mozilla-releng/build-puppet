@@ -18,3 +18,11 @@
     # sync plugins from the master - this gets us custom facts, among other
     # things
     pluginsync = true
+
+[master]
+    # default to looking in the production/ subdirectory of /etc/puppet
+    manifestdir = $confdir/production/manifests
+    modulepath = $confdir/production/modules
+    templatedir = $confdir/production/templates
+    manifest = $manifestdir/site.pp
+    ca = false

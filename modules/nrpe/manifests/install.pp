@@ -1,5 +1,5 @@
 class nrpe::install {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "nrpe":

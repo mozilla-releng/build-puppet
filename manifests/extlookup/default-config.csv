@@ -8,3 +8,5 @@ nrpe_allowed_hosts,"127.0.0.1"
 ntp_server,pool.ntp.org
 relay_domains,smtp.mozilla.org
 ganglia_config_class,
+crl_sync_url,
+puppet_again_repo,http://hg.mozilla.org/build/puppet

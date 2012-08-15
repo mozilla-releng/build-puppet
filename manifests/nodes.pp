@@ -41,3 +41,15 @@ node /seamicro-test\d+.build.releng.scl3.mozilla.com/ {
 node /seamicro-test\d+.try.releng.scl3.mozilla.com/ {
     include toplevel::slave::build
 }
+
+node /.*\.build\.aws-.*\.mozilla\.com/ {
+    # Make sure we get our /etc/hosts set up
+    class {
+        "network::aws": stage => network,
+    }
+    include toplevel::slave::build::mock
+}
+
+node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
+    include toplevel::server::puppetmaster::standalone
+}

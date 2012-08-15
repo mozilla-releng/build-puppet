@@ -1,16 +1,11 @@
-class packages::httpd {
+class packages::mercurial {
     case $operatingsystem {
         CentOS: {
             package {
-                "httpd":
+                "mercurial":
                     ensure => latest;
             }
         }
-
-        Darwin: {
-            # installed by default
-        }
-
         default: {
             fail("cannot install on $operatingsystem")
         }

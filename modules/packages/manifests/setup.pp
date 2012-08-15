@@ -34,6 +34,8 @@ class packages::setup {
                     url_path => "repos/yum/releng/public/$operatingsystem/$majorver/$architecture" ;
                 "releng-public-${operatingsystem}${majorver}-noarch":
                     url_path => "repos/yum/releng/public/$operatingsystem/$majorver/noarch" ;
+                "passenger":
+                    url_path => "repos/yum/mirrors/passenger/rhel/$majorver/latest/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or

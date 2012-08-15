@@ -1,4 +1,4 @@
 MAILTO="<%= scope.lookupvar('::config::puppet_notif_email') %>"
 # sleep a random splay before running puppetd
-*/30 * * * * root sleep $(((RANDOM*5*60)/32768)) && /usr/bin/puppet agent --enable && /usr/bin/puppet agent --onetime --no-daemonize
+*/30 * * * * root sleep $(((RANDOM*5*60)/32768)) && if test -f /etc/puppet/standalone; then /etc/puppet/update.sh; else /usr/bin/puppet agent --enable && /usr/bin/puppet agent --onetime --no-daemonize; fi
 MAILTO=root

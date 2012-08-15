@@ -1,0 +1,90 @@
+#! /bin/bash
+
+if ! test -f /etc/puppet/standalone; then
+    echo "This script is for a standalone puppet master only."
+    exit 1
+fi
+
+errormailto="<%= scope.lookupvar('::config::puppet_notif_email') %>"
+changemailto="<%= scope.lookupvar('::config::puppet_notif_email') %>"
+repo="<%= scope.lookupvar('::config::puppet_again_repo') %>"
+repodir="/etc/puppet/production"
+
+hostname=`hostname -s`
+cd $repodir
+
+# check for uncommitted changes
+output=`/usr/bin/hg stat`
+if [ -n "$output" ]; then
+    (
+        echo "Uncommitted local changes to $hostname:$repodir!"
+        echo ''
+        echo $output
+    ) | mail -s "[PuppetAgain Errors] Uncommitted local changes in $hostname:$repodir" $errormailto
+    exit 1
+fi
+
+try_update() {
+    rev_before=`/usr/bin/hg ident -i`
+    rev_current=`/usr/bin/hg ident -i $repo`
+    if [ $? -ne 0 ] || [ -z "$rev_current" ]; then
+        return 1
+    fi
+
+    if [ $rev_before == $rev_current ]; then
+        # nothing to do
+        return 0
+    fi
+
+    # update (and pass on the exit status)
+    /usr/bin/hg pull -u
+}
+
+
+# retry that five times
+LOGFILE=$(mktemp)
+ok=false
+for try in {1..5}; do
+    if try_update >> $LOGFILE 2>&1; then
+        ok=true
+        break
+    else
+        # don't sleep too long, or we'll overlap the next crontask
+        sleep 1
+    fi
+    echo '' >> $LOGFILE
+done
+
+if ! $ok; then
+    (
+        echo "Errors pulling from mercurial for puppet on $hostname:"
+        echo ''
+        cat $LOGFILE
+    ) | mail -s "[PuppetAgain Errors] Errors pulling from mercurial for puppet on $hostname" $errormailto
+else
+    # get a new rev, in case something landed during this run
+    rev_after=`/usr/bin/hg ident -i`
+    if [ $rev_before != $rev_after ]; then
+        (
+            echo "Puppet changes applied at $hostname:"
+            echo ''
+            hg diff -r $rev_before -r $rev_after
+            echo ''
+            echo "puppet apply output:"
+            echo ''
+            /usr/bin/puppet apply \
+                --color false \
+                --modulepath $repodir/modules \
+                --manifestdir $repodir/manifests \
+                --detailed-exitcodes \
+                $repodir/manifests/site.pp
+            RC=$?
+            if ! [ $RC = 0 -o $RC = 2 ]; then
+                echo ''
+                echo 'ERROR running puppet apply'
+            fi
+        ) | mail -s "[PuppetAgain Changes] Puppet changes applied at $hostname" $changemailto
+    fi
+fi
+
+rm -f $LOGFILE
