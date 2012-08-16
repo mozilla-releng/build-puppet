@@ -1,5 +1,6 @@
 class vnc {
     include vnc::appearance
+    include users::builder
 
     case $::operatingsystem {
         Darwin: {
@@ -17,6 +18,13 @@ class vnc {
                 'com.apple.screensharing':
                     enable => true,
                     ensure => running,
+            }
+            $kickstart = "/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart"
+            exec {
+                #allow builder user to connect via screensharing
+                "enable-remote-builduser-access":
+                 command => "$kickstart -configure -allowAccessFor -specifiedUsers; $kickstart -activate -configure -access -on -users $::users::builder::username -privs -all -restart -agent -menu",
+                 refreshonly => true;         
             }
         }
         default: {
