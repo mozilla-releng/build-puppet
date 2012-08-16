@@ -5,10 +5,16 @@ class foopy {
     include packages::nslookup
     include packages::rsync
     include packages::unzip
+    include packages::alsa
+    include packages::pango
+    include packages::gtk2
+    include packages::telnet
+    include packages::x_libs
     include packages::mozilla::python26
     include packages::mozilla::python27
     include packages::mozilla::py27_mercurial
     include buildslave::install
+    include disableservices::iptables
     include foopy::repos
 
     include config
