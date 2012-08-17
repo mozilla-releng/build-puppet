@@ -23,6 +23,10 @@ class users::builder::setup($home, $username, $group) {
             home => $home,
             owner => $username,
             group => $group;
+   } -> Anchor['users::builder::setup::end']
+
+   Anchor['users::builder::setup::begin'] ->
+   class {
         'ssh::common_known_hosts':
             home => $home,
             owner => $username,
