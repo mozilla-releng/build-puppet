@@ -14,6 +14,10 @@ class buildslave {
     Anchor['buildslave::begin'] ->
     class {
         'buildslave::install': ;
+    } -> Anchor['buildslave::end']
+
+    Anchor['buildslave::begin'] ->
+    class {
         'buildslave::startup': ;
     } -> Anchor['buildslave::end']
 }

@@ -33,22 +33,23 @@ define buildslave::install::version($active=false, $ensure="present") {
         }
     }
 
-    Anchor["buildslave::install::version::${version}::begin"] ->
     case $ensure {
         present: {
+	    Anchor["buildslave::install::version::${version}::begin"] ->
             python::virtualenv {
                 "/tools/buildbot-$version":
                     python => $python,
                     require => $py_require,
                     packages => $packages;
-            }
+            } -> Anchor["buildslave::install::version::${version}::end"]
 
             if $active {
+		Anchor["buildslave::install::version::${version}::begin"] ->
                 file {
                     "/tools/buildbot":
                         ensure => "link",
                         target => "/tools/buildbot-$version";
-                }
+                } -> Anchor["buildslave::install::version::${version}::end"]
             }
         }
 
@@ -61,6 +62,6 @@ define buildslave::install::version($active=false, $ensure="present") {
                     ensure => absent;
             }
         }
-    } -> Anchor["buildslave::install::version::${version}::end"]
+    }
 }
 

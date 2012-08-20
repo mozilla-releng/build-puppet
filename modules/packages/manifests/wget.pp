@@ -4,22 +4,23 @@ class packages::wget {
         'packages::wget::end': ;
     }
 
-    Anchor['packages::wget::begin'] ->
     case $operatingsystem{
         CentOS: {
+	    Anchor['packages::wget::begin'] ->
             package {
                 "wget":
                     ensure => latest;
-            }
+            } -> Anchor['packages::wget::end']
         }
         Darwin: {
+	    Anchor['packages::wget::begin'] ->
             packages::pkgdmg {
                 wget:
                     version => "1.12-1";
-            }
+            } -> Anchor['packages::wget::end']
         }
         default: {
             fail("cannot install on $operatingsystem")
         }
-    } -> Anchor['packages::wget::end']
+    }
 }
