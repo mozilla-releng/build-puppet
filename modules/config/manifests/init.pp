@@ -14,8 +14,10 @@ class config {
     $random_puppet_server = template("config/calculate-random-puppet-server.erb")
     # Use randmom puppet server from puppet_servers if it's set to <<RANDOM>>
     if extlookup("puppet_server") == "<<RANDOM>>" {
+        $use_random_order = true
         $puppet_server = $random_puppet_server
     } else {
+        $use_random_order = false
         $puppet_server = extlookup("puppet_server")
     }
     $builder_username = extlookup("builder_username")
