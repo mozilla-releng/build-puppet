@@ -3,7 +3,6 @@ class users::root::setup($home, $username, $group) {
         'users::root::setup::begin': ;
         'users::root::setup::end': ;
     }
-    include ::config
 
     ##
     # install a pip.conf for the root user
@@ -14,16 +13,4 @@ class users::root::setup($home, $username, $group) {
             homedir => $home,
             group => $group;
     } -> Anchor['users::root::setup::end']
-
-    ##
-    # set up SSH configuration
-
-    Anchor['users::root::setup::begin'] ->
-    ssh::userconfig {
-        $username:
-            home => $home,
-            group => $group,
-            authorized_keys => $::config::global_authorized_keys;
-    } -> Anchor['users::root::setup::end']
-
 }

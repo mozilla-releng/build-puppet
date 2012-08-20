@@ -18,12 +18,19 @@ class users::builder::setup($home, $username, $group) {
     # set up SSH configuration
 
     Anchor['users::builder::setup::begin'] ->
-    ssh::userconfig {
-        $username:
+    class {
+        'ssh::setup':
             home => $home,
-            group => $group,
-            authorized_keys => $::config::global_authorized_keys,
-            config => template("users/builder-ssh-config.erb");
+            owner => $username,
+            group => $group;
+   } -> Anchor['users::builder::setup::end']
+
+   Anchor['users::builder::setup::begin'] ->
+   class {
+        'ssh::common_known_hosts':
+            home => $home,
+            owner => $username,
+            group => $group;
     } -> Anchor['users::builder::setup::end']
 
     ##
