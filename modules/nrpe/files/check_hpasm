@@ -1,0 +1,5056 @@
+#! /usr/bin/perl -w
+#
+# check_hpasm - nagios plugin which checks the hardware health of
+# compaq proliant servers
+#
+# Copyright (C) 2007 Gerhard Lausser, gerhard.lausser@consol.de
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#
+#
+# Report bugs to:  gerhard.lausser@consol.de
+# http://www.consol.com/opensource/nagios/check-hpasm
+#
+
+#
+#  Download the hpasm rpm for your platform/distribution
+#  from ftp://ftp.compaq.com/pub/products/servers/supportsoftware/linux
+#  Start the hpasmd daemon.
+#
+# !!!!!! NOTE: !!!!!!
+#
+# HP management CLI command needs administrator rights.
+# Please add this line to /etc/sudoers :
+# --------------------------------------------------
+# nagios      ALL=NOPASSWD: /sbin/hpasmcli
+
+package SNMP::Utils;
+
+use strict;
+
+{
+  sub get_indices {
+    my $oids = shift;
+    my $entry = shift;
+    my $numindices = shift;
+    # find all oids beginning with $entry
+    # then skip one field for the sequence
+    # then read the next numindices fields
+    my $entrypat = $entry;
+    $entrypat =~ s/\./\\\./g;
+    my @indices = map {
+        /^$entrypat\.\d+\.(.*)/ && $1;
+    } grep {
+        /^$entrypat/
+    } keys %{$oids};
+    my %seen = ();
+    my @o = map {[split /\./]} sort grep !$seen{$_}++, @indices;
+    return @o;
+  }
+
+  sub get_size {
+    my $oids = shift;
+    my $entry = shift;
+    my $entrypat = $entry;
+    $entrypat =~ s/\./\\\./g;
+    my @entries = grep {
+        /^$entrypat/
+    } keys %{$oids};
+    return scalar(@entries);
+  }
+
+  sub get_object {
+    my $oids = shift;
+    my $object = shift;
+    my @indices = @_;
+    #my $oid = $object.'.'.join('.', @indices);
+    my $oid = $object;
+    $oid .= '.'.join('.', @indices) if (@indices);
+    return $oids->{$oid};
+  }
+
+  sub get_object_value {
+    my $oids = shift;
+    my $object = shift;
+    my $values = shift;
+    my @indices = @_;
+    my $key = get_object($oids, $object, @indices);
+    if (defined $key) {
+      return $values->{$key};
+    } else {
+      return undef;
+    }
+  }
+
+  #SNMP::Utils::counter([$idxs1, $idxs2], $idx1, $idx2),
+  # this flattens a n-dimensional array and returns the absolute position
+  # of the element at position idx1,idx2,...,idxn
+  # element 1,2 in table 0,0 0,1 0,2 1,0 1,1 1,2 2,0 2,1 2,2 is at pos 6
+  sub get_number {
+    my $indexlists = shift; #, zeiger auf array aus [1, 2]
+    my @element = @_;
+    my $dimensions = scalar(@{$indexlists->[0]});
+    my @sorted = ();
+    my $number = 0;
+    if ($dimensions == 1) {
+      @sorted =
+          sort { $a->[0] <=> $b->[0] } @{$indexlists};
+    } elsif ($dimensions == 2) {
+      @sorted =
+          sort { $a->[0] <=> $b->[0] || $a->[1] <=> $b->[1] } @{$indexlists};
+    }
+    foreach (@sorted) {
+      if ($dimensions == 1) {
+        if ($_->[0] == $element[0]) {
+          last;
+        }
+      } elsif ($dimensions == 2) {
+        if ($_->[0] == $element[0] && $_->[1] == $element[1]) {
+          last;
+        }
+      }
+      $number++;
+    }
+    return ++$number;
+  }
+
+}
+
+package Proliant::Hardware;
+
+use strict;
+
+my %ERRORS=( OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3 );
+my %ERRORCODES=( 0 => 'OK', 1 => 'WARNING', 2 => 'CRITICAL', 3 => 'UNKNOWN' );
+
+my $with_raid = 1;
+
+{
+  our $HWINFO = 0;
+  our $PERFDATA = 0; # 0=none, 1=long, 2=short
+  our $EXTENDEDINFO = 0;
+  our $HPASMCLI = 0; # filename = read simulation data, else ignore
+  our $HPACUCLI = 0;
+  our $SNMP = 0;
+  our $SESSION = undef;
+  our $HOSTNAME = "127.0.0.1";
+  our $COMMUNITY = "public";
+  our $VERSION = "snmpv2c";
+  our $SNMPRESPONSE = undef;
+  our @oks = ("hardware working fine");
+  our @warnings = ();
+  our @criticals = ();
+  our @unknowns = ();
+  our @perfdata = ();
+  our @extendedinfo = ();
+  our @babble = ();
+  our $verbose = 0;
+  our $debug = 0;
+  our $blacklist = undef;
+  our $customthresholds = undef;
+  our $nagios_level = 0;
+  our $nagios_message = "you should never see this message";
+
+  sub ready_to_run {
+    if (Proliant::Hardware::Hpasm::ready_to_run()) {
+      if ($HPACUCLI) {
+        if ($Proliant::Hardware::SNMP) {
+          return 1;
+        } elsif (Proliant::Hardware::Hpacu::ready_to_run()) {
+          return 1;
+        }
+      } else {
+        return 1;
+      }
+    }
+    return 0;
+  }
+
+  sub init {
+    if ($blacklist) {
+      if (-f $blacklist) {
+        open BL, $blacklist;
+        $blacklist = <BL>;
+        close BL;
+      }
+    }
+    Proliant::Hardware::Hpasm::init();
+    Proliant::Hardware::Hpacu::init() if $HPACUCLI;
+    Proliant::Hardware::Hpsas::init() if $HPACUCLI;
+    Proliant::Hardware::Hpide::init() if $HPACUCLI;
+    Proliant::Hardware::Hpfca::init() if $HPACUCLI;
+    #Proliant::Hardware::Hpss::init() if $HPACUCLI;
+  }
+
+  sub nagios_status {
+    Proliant::Hardware::Hpasm::nagios_status();
+    Proliant::Hardware::Hpacu::nagios_status() if $HPACUCLI;
+    Proliant::Hardware::Hpsas::nagios_status() if $HPACUCLI;
+    Proliant::Hardware::Hpide::nagios_status() if $HPACUCLI;
+    Proliant::Hardware::Hpfca::nagios_status() if $HPACUCLI;
+    #Proliant::Hardware::Hpss::nagios_status() if $HPACUCLI;
+    if ($HWINFO) {
+      unshift (@oks, sprintf "System: '%s', S/N: '%s', ROM: '%s'",
+        $Proliant::Hardware::Hpasm::Server::system,
+        $Proliant::Hardware::Hpasm::Server::serial,
+        $Proliant::Hardware::Hpasm::Server::rom);
+    }
+    push(@oks, @Proliant::Hardware::Hpasm::oks);
+    push(@warnings, @Proliant::Hardware::Hpasm::warnings);
+    push(@criticals, @Proliant::Hardware::Hpasm::criticals);
+    push(@unknowns, @Proliant::Hardware::Hpasm::unknowns);
+    push(@perfdata, @Proliant::Hardware::Hpasm::perfdata);
+    push(@extendedinfo, @Proliant::Hardware::Hpasm::extendedinfo);
+    push(@oks, @Proliant::Hardware::Hpacu::oks) if $HPACUCLI;
+    push(@warnings, @Proliant::Hardware::Hpacu::warnings) if $HPACUCLI;
+    push(@criticals, @Proliant::Hardware::Hpacu::criticals) if $HPACUCLI;
+    push(@unknowns, @Proliant::Hardware::Hpacu::unknowns) if $HPACUCLI;
+    push(@perfdata, @Proliant::Hardware::Hpacu::perfdata) if $HPACUCLI;
+    push(@extendedinfo, @Proliant::Hardware::Hpacu::extendedinfo) if $HPACUCLI;
+    push(@oks, @Proliant::Hardware::Hpsas::oks) if $HPACUCLI;
+    push(@warnings, @Proliant::Hardware::Hpsas::warnings) if $HPACUCLI;
+    push(@criticals, @Proliant::Hardware::Hpsas::criticals) if $HPACUCLI;
+    push(@unknowns, @Proliant::Hardware::Hpsas::unknowns) if $HPACUCLI;
+    push(@perfdata, @Proliant::Hardware::Hpsas::perfdata) if $HPACUCLI;
+    push(@extendedinfo, @Proliant::Hardware::Hpsas::extendedinfo) if $HPACUCLI;
+    push(@oks, @Proliant::Hardware::Hpide::oks) if $HPACUCLI;
+    push(@warnings, @Proliant::Hardware::Hpide::warnings) if $HPACUCLI;
+    push(@criticals, @Proliant::Hardware::Hpide::criticals) if $HPACUCLI;
+    push(@unknowns, @Proliant::Hardware::Hpide::unknowns) if $HPACUCLI;
+    push(@perfdata, @Proliant::Hardware::Hpide::perfdata) if $HPACUCLI;
+    push(@extendedinfo, @Proliant::Hardware::Hpide::extendedinfo) if $HPACUCLI;
+    push(@oks, @Proliant::Hardware::Hpfca::oks) if $HPACUCLI;
+    push(@warnings, @Proliant::Hardware::Hpfca::warnings) if $HPACUCLI;
+    push(@criticals, @Proliant::Hardware::Hpfca::criticals) if $HPACUCLI;
+    push(@unknowns, @Proliant::Hardware::Hpfca::unknowns) if $HPACUCLI;
+    push(@perfdata, @Proliant::Hardware::Hpfca::perfdata) if $HPACUCLI;
+    push(@extendedinfo, @Proliant::Hardware::Hpfca::extendedinfo) if $HPACUCLI;
+    #push(@oks, @Proliant::Hardware::Hpss::oks) if $HPACUCLI;
+    #push(@warnings, @Proliant::Hardware::Hpss::warnings) if $HPACUCLI;
+    #push(@criticals, @Proliant::Hardware::Hpss::criticals) if $HPACUCLI;
+    #push(@unknowns, @Proliant::Hardware::Hpss::unknowns) if $HPACUCLI;
+    #push(@perfdata, @Proliant::Hardware::Hpss::perfdata) if $HPACUCLI;
+    #push(@extendedinfo, @Proliant::Hardware::Hpss::extendedinfo) if $HPACUCLI;
+    if (@unknowns) {
+      $nagios_level = $ERRORS{UNKNOWN};
+    }
+    if (@warnings) {
+      $nagios_level = $ERRORS{WARNING};
+    }
+    if (@criticals) {
+      $nagios_level = $ERRORS{CRITICAL};
+    }
+    if (@warnings || @criticals || @unknowns) {
+      $nagios_message = sprintf "%s - %s", $ERRORCODES{$nagios_level},
+          join(", ", (@criticals, @unknowns, @warnings));
+    } else {
+      $nagios_level = $ERRORS{OK};
+      $nagios_message = sprintf "OK - %s", join(", ", (@oks));
+    }
+    if ($EXTENDEDINFO) {
+      $nagios_message .= " ".join(" ", @extendedinfo)." ";
+    }
+    if ($PERFDATA) {
+      $nagios_message .= "| ".join(" ", @perfdata);
+    }
+    if (@babble && $verbose) {
+      $nagios_message .= "\n".join("\n", @babble);
+    }
+  }
+
+  sub babble {
+    my $message = shift;
+    if ($debug) {
+      printf "%s\n", $message;
+    } else {
+      push(@babble, $message);
+    }
+  }
+
+  sub debug {
+    my $message = shift;
+    if ($debug) {
+      babble($message);
+    }
+  }
+}
+
+
+package Proliant::Hardware::Hpasm;
+
+use strict;
+
+use constant DEFAULT_PATH_TO_HPASMCLI => "/sbin/hpasmcli";
+use constant ALTERNATE_PATH_TO_HPASMCLI => "/lfs/opt/hpasm/bin/hpasmcli.cmd";
+
+our @ISA = qw(Proliant::Hardware);
+
+{
+  our $server = undef;
+  my @components = ();
+  our $hpasmcli = undef;
+  my $obstacle = undef;
+  my $multiproc_os_signatures_files = {
+      '/etc/SuSE-release' => 'VERSION\s*=\s*8',
+      '/etc/trustix-release' => '.*',
+      '/etc/redhat-release' => '.*Pensacola.*',
+      '/etc/debian_version' => '3\.1',
+      '/etc/issue' => '.*Kernel 2\.4\.9-vmnix2.*', # VMware ESX Server 2.5.4
+  };
+  our $buggyfirmware = 0;
+  our $scrapiron = 0;
+  our @oks = ();
+  our @warnings = ();
+  our @criticals = ();
+  our @unknowns = ();
+  our @perfdata = ();
+  our @extendedinfo = ();
+  our $nagios_level = 0;
+  our $nagios_message = "you should never see this message";
+  our $hpasmcli_show_server = undef;
+  our $hpasmcli_show_powersupply = undef;
+  our $hpasmcli_show_fans = undef;
+  our $hpasmcli_show_temp = undef;
+  our $hpasmcli_show_dimm = undef;
+
+  sub get_components {
+    return @components;
+  }
+
+  sub init {
+    if (-f $Proliant::Hardware::SNMP) {
+      my $response = {};
+      if (-x $Proliant::Hardware::SNMP) {
+        $Proliant::Hardware::VERSION =~ s/snmpv//g;
+        my $cmd = sprintf "%s -On -v%s -c%s %s 1.3.6.1.4.1.232 2>&1",
+            $Proliant::Hardware::SNMP,
+            $Proliant::Hardware::VERSION,
+            $Proliant::Hardware::COMMUNITY,
+            $Proliant::Hardware::HOSTNAME;
+        open(WALK, "$cmd |");
+        while (<WALK>) {
+          if (/^.*?\.(232\.[\d\.]+) = .*?: (\-*\d+)/) {
+            $response->{'1.3.6.1.4.1.'.$1} = $2;
+          } elsif (/^.*?\.(232\.[\d\.]+) = .*?: "(.*?)"/) {
+            $response->{'1.3.6.1.4.1.'.$1} = $2;
+            $response->{'1.3.6.1.4.1.'.$1} =~ s/\s+$//;
+          }
+        }
+        close WALK;
+      } else {
+        open(MESS, $Proliant::Hardware::SNMP);
+        while(<MESS>) {
+          # SNMPv2-SMI::enterprises.232.6.2.6.7.1.3.1.4 = INTEGER: 6
+          if (/^.*?\.(232\.[\d\.]+) = .*?: (\-*\d+)/) {
+            $response->{'1.3.6.1.4.1.'.$1} = $2;
+          } elsif (/^.*?\.(232\.[\d\.]+) = .*?: "(.*?)"/) {
+            $response->{'1.3.6.1.4.1.'.$1} = $2;
+            $response->{'1.3.6.1.4.1.'.$1} =~ s/\s+$//;
+          }
+        }
+        close MESS;
+      }
+      map { $response->{$_} =~ s/^\s+//; $response->{$_} =~ s/\s+$//; }
+          keys %$response;
+      $Proliant::Hardware::SNMPRESPONSE = $response;
+      $hpasmcli_show_server = $response;
+      $hpasmcli_show_powersupply = $response;
+      $hpasmcli_show_fans = $response;
+      $hpasmcli_show_temp = $response;
+      $hpasmcli_show_dimm = $response;
+    } elsif ($Proliant::Hardware::SNMP) {
+      Proliant::Hardware::debug(
+          sprintf "Protocol is %s", $Proliant::Hardware::VERSION);
+      my $cpqStdEquipment = "1.3.6.1.4.1.232";
+      my $cpqSeProcessor =  "1.3.6.1.4.1.232.1.2.2";
+      my $cpqSeRom =        "1.3.6.1.4.1.232.1.2.6";
+      my $cpqHeComponent =  "1.3.6.1.4.1.232.6.2";
+      my $cpqHePComponent = "1.3.6.1.4.1.232.6.2.9";
+      my $cpqHeFComponent = "1.3.6.1.4.1.232.6.2.6.7";
+      my $cpqHeTComponent = "1.3.6.1.4.1.232.6.2.6.8";
+      my $cpqHeMComponent = "1.3.6.1.4.1.232.6.2.14";
+      my $cpqDaComponent =  "1.3.6.1.4.1.232.3.2";
+      my $cpqSasComponent =  "1.3.6.1.4.1.232.5";
+      my $cpqIdeComponent =  "1.3.6.1.4.1.232.14";
+      my $cpqFcaComponent =  "1.3.6.1.4.1.232.16.2";
+      my $cpqSiComponent =  "1.3.6.1.4.1.232.2.2";
+      $Proliant::Hardware::SESSION->translate;
+      #my $response = $Proliant::Hardware::SESSION->get_table(
+      #    -baseoid => $cpqStdEquipment);
+      my $response = {}; #break the walk up in smaller pieces
+      my $tic = time; my $tac = $tic;
+      my $response1 = $Proliant::Hardware::SESSION->get_table(
+          -baseoid => $cpqSeProcessor);
+      $tac = time;
+      Proliant::Hardware::debug(
+          sprintf "%03d seconds for walk cpqSeProcessor (%d oids)",
+          $tac - $tic, scalar(keys %{$response1}));
+      # Walk for PowerSupply
+      $tic = time;
+      my $response2p = $Proliant::Hardware::SESSION->get_table(
+          -maxrepetitions => 1,
+          -baseoid => $cpqHePComponent);
+      if (scalar (keys %{$response2p}) == 0) {
+        Proliant::Hardware::debug(
+            sprintf "maxrepetitions failed. fallback");
+        $response2p = $Proliant::Hardware::SESSION->get_table(
+            -baseoid => $cpqHePComponent);
+      }
+      $tac = time;
+      Proliant::Hardware::debug(
+          sprintf "%03d seconds for walk cpqHePComponent (%d oids)",
+          $tac - $tic, scalar(keys %{$response2p}));
+      # Walk for Fans
+      $tic = time;
+      my $response2f = $Proliant::Hardware::SESSION->get_table(
+          -maxrepetitions => 1,
+          -baseoid => $cpqHeFComponent);
+      if (scalar (keys %{$response2f}) == 0) {
+        Proliant::Hardware::debug(
+            sprintf "maxrepetitions failed. fallback");
+        $response2f = $Proliant::Hardware::SESSION->get_table(
+            -baseoid => $cpqHeFComponent);
+      }
+      $tac = time;
+      Proliant::Hardware::debug(
+          sprintf "%03d seconds for walk cpqHeFComponent (%d oids)",
+          $tac - $tic, scalar(keys %{$response2f}));
+      # Walk for Temp
+      $tic = time;
+      my $response2t = $Proliant::Hardware::SESSION->get_table(
+          -maxrepetitions => 1,
+          -baseoid => $cpqHeTComponent);
+      if (scalar (keys %{$response2t}) == 0) {
+        Proliant::Hardware::debug(
+            sprintf "maxrepetitions failed. fallback");
+        $response2t = $Proliant::Hardware::SESSION->get_table(
+            -baseoid => $cpqHeTComponent);
+      }
+      $tac = time;
+      Proliant::Hardware::debug(
+          sprintf "%03d seconds for walk cpqHeTComponent (%d oids)",
+          $tac - $tic, scalar(keys %{$response2t}));
+      # Walk for Mem
+      $tic = time;
+      my $response2m = $Proliant::Hardware::SESSION->get_table(
+          -maxrepetitions => 1,
+          -baseoid => $cpqHeMComponent);
+      if (scalar (keys %{$response2m}) == 0) {
+        Proliant::Hardware::debug(
+            sprintf "maxrepetitions failed. fallback");
+        $response2m = $Proliant::Hardware::SESSION->get_table(
+            -baseoid => $cpqHeMComponent);
+      }
+      $tac = time;
+      Proliant::Hardware::debug(
+          sprintf "%03d seconds for walk cpqHeMComponent (%d oids)",
+          $tac - $tic, scalar(keys %{$response2m}));
+      #
+      $tic = time;
+      my $response3 = $Proliant::Hardware::SESSION->get_table(
+          -baseoid => $cpqDaComponent);
+      $tac = time;
+      Proliant::Hardware::debug(
+          sprintf "%03d seconds for walk cpqDaComponent (%d oids)",
+          $tac - $tic, scalar(keys %{$response3}));
+      $tic = time;
+      my $response4 = $Proliant::Hardware::SESSION->get_table(
+          -baseoid => $cpqSiComponent);
+      $tac = time;
+      Proliant::Hardware::debug(
+          sprintf "%03d seconds for walk cpqSiComponent (%d oids)",
+          $tac - $tic, scalar(keys %{$response4}));
+      $tic = time;
+      my $response5 = $Proliant::Hardware::SESSION->get_table(
+          -baseoid => $cpqSeRom);
+      $tac = time;
+      Proliant::Hardware::debug(
+          sprintf "%03d seconds for walk cpqSeRom (%d oids)",
+          $tac - $tic, scalar(keys %{$response5}));
+      $tic = time;
+      my $response6 = $Proliant::Hardware::SESSION->get_table(
+          -baseoid => $cpqSasComponent);
+      $tac = time;
+      Proliant::Hardware::debug(
+          sprintf "%03d seconds for walk cpqSasComponent (%d oids)",
+          $tac - $tic, scalar(keys %{$response6}));
+      $tic = time;
+      my $response7 = $Proliant::Hardware::SESSION->get_table(
+          -baseoid => $cpqIdeComponent);
+      $tac = time;
+      Proliant::Hardware::debug(
+          sprintf "%03d seconds for walk cpqIdeComponent (%d oids)",
+          $tac - $tic, scalar(keys %{$response7}));
+      $tic = time;
+      my $response8 = $Proliant::Hardware::SESSION->get_table(
+          -baseoid => $cpqFcaComponent);
+      $tac = time;
+      Proliant::Hardware::debug(
+          sprintf "%03d seconds for walk cpqFcaComponent (%d oids)",
+          $tac - $tic, scalar(keys %{$response8}));
+      $tic = time;
+      $Proliant::Hardware::SESSION->close;
+      map { $response->{$_} = $response1->{$_} } keys %{$response1};
+      map { $response->{$_} = $response2p->{$_} } keys %{$response2p};
+      map { $response->{$_} = $response2f->{$_} } keys %{$response2f};
+      map { $response->{$_} = $response2t->{$_} } keys %{$response2t};
+      map { $response->{$_} = $response2m->{$_} } keys %{$response2m};
+      #map { $response->{$_} = $response2->{$_} } keys %{$response2};
+      map { $response->{$_} = $response3->{$_} } keys %{$response3};
+      map { $response->{$_} = $response4->{$_} } keys %{$response4};
+      map { $response->{$_} = $response5->{$_} } keys %{$response5};
+      map { $response->{$_} = $response6->{$_} } keys %{$response6};
+      map { $response->{$_} = $response7->{$_} } keys %{$response7};
+      map { $response->{$_} = $response8->{$_} } keys %{$response8};
+      map { $response->{$_} =~ s/^\s+//; $response->{$_} =~ s/\s+$//; }
+          keys %$response;
+      $Proliant::Hardware::SNMPRESPONSE = $response;
+      $hpasmcli_show_server = $response;
+      $hpasmcli_show_powersupply = $response;
+      $hpasmcli_show_fans = $response;
+      $hpasmcli_show_temp = $response;
+      $hpasmcli_show_dimm = $response;
+    } elsif (-f $Proliant::Hardware::HPASMCLI) {
+      no strict 'refs';
+      open(BIRK, $Proliant::Hardware::HPASMCLI);
+      # all output in one file prefixed with server|powersupply|fans|temp|dimm
+      while(<BIRK>) {
+        chomp;
+        if (/^(\w+) (.*?)\s*$/) {
+          ${"hpasmcli_show_".$1} = "" if ! defined ${"hpasmcli_show_".$1};
+          ${"hpasmcli_show_".$1} .= $2."\n";
+        } elsif (/^(\w+)\s*$/) {
+          ${"hpasmcli_show_".$1} = "" if ! defined ${"hpasmcli_show_".$1};
+          ${"hpasmcli_show_".$1} .= "\n";
+        }
+      }
+      close BIRK;
+      my $diag = <<'EOEO';
+      hpasmcli=$(which hpasmcli)
+      hpacucli=$(which hpacucli)
+      for i in server powersupply fans temp dimm
+      do
+        $hpasmcli -s "show $i" | while read line
+        do
+          printf "%s %s\n" $i "$line"
+        done
+      done
+      if [ -x "$hpacucli" ]; then
+        for i in config status
+        do
+          $hpacucli ctrl all show $i | while read line
+          do
+            printf "%s %s\n" $i "$line"
+          done
+        done
+      fi
+EOEO
+    } else {
+      $hpasmcli_show_server = `$hpasmcli -s "show server" 2>&1`;
+      $hpasmcli_show_powersupply = `$hpasmcli -s "show powersupply" 2>&1`;
+      $hpasmcli_show_fans = `$hpasmcli -s "show fans" 2>&1`;
+      $hpasmcli_show_temp = `$hpasmcli -s "show temp" 2>&1`;
+      $hpasmcli_show_dimm = `$hpasmcli -s "show dimm" 2>&1`;
+    }
+    Proliant::Hardware::Hpasm::Server::init(
+        hpasmcli_output => $Proliant::Hardware::Hpasm::hpasmcli_show_server,
+    );
+    Proliant::Hardware::Hpasm::Component::init();
+    push(@components, Proliant::Hardware::Hpasm::Component::get_components());
+    if ($Proliant::Hardware::blacklist) {
+      foreach (@components) {
+        $_->blacklist();
+      }
+    }
+  }
+
+  sub nagios_status {
+    Proliant::Hardware::Hpasm::Component::nagios_status();
+    push(@oks, @Proliant::Hardware::Hpasm::Component::oks);
+    push(@warnings, @Proliant::Hardware::Hpasm::Component::warnings);
+    push(@criticals, @Proliant::Hardware::Hpasm::Component::criticals);
+    push(@unknowns, @Proliant::Hardware::Hpasm::Component::unknowns);
+    push(@perfdata, @Proliant::Hardware::Hpasm::Component::perfdata);
+    push(@extendedinfo, @Proliant::Hardware::Hpasm::Component::extendedinfo);
+  }
+
+  sub ready_to_run {
+    if ($Proliant::Hardware::SNMP && $Proliant::Hardware::SNMP ne "1") {
+      $obstacle = "nofile" if ! -f $Proliant::Hardware::SNMP;
+      if (-x $Proliant::Hardware::SNMP) {
+        $Proliant::Hardware::VERSION =~ s/snmpv//g;
+        my $cmd = sprintf "%s -On -v%s -c%s %s 1.3.6.1.4.1.232.6.1 2>&1",
+            $Proliant::Hardware::SNMP,
+            $Proliant::Hardware::VERSION,
+            $Proliant::Hardware::COMMUNITY,
+            $Proliant::Hardware::HOSTNAME;
+        my @walk = `$cmd`;
+        if (! grep /232.6.1/, @walk) {
+          $obstacle = "nocmapeer";
+        }
+      }
+    } elsif ($Proliant::Hardware::SNMP) {
+      my $error;
+      if (eval "require Net::SNMP") {
+        my %params = ();
+        $params{'-hostname'} = $Proliant::Hardware::HOSTNAME;
+        $params{'-version'} = $Proliant::Hardware::VERSION;
+        if ($Proliant::Hardware::PORT) {
+          $params{'-port'} = $Proliant::Hardware::PORT;
+        }
+        if ($Proliant::Hardware::VERSION eq "3") {
+          $params{'-username'} = $Proliant::Hardware::USERNAME;
+          if ($Proliant::Hardware::AUTHPASSWORD) {
+            $params{'-authpassword'} = $Proliant::Hardware::AUTHPASSWORD;
+          }
+          if ($Proliant::Hardware::AUTHPROTOCOL) {
+            $params{'-authprotocol'} = $Proliant::Hardware::AUTHPROTOCOL;
+          }
+          if ($Proliant::Hardware::PRIVPASSWORD) {
+            $params{'-privpassword'} = $Proliant::Hardware::PRIVPASSWORD;
+          }
+          if ($Proliant::Hardware::PRIVPROTOCOL) {
+            $params{'-privprotocol'} = $Proliant::Hardware::PRIVPROTOCOL;
+          }
+        } else {
+          $params{'-community'} = $Proliant::Hardware::COMMUNITY;
+        }
+        ($Proliant::Hardware::SESSION, $error) =
+            Net::SNMP->session(%params);
+        if (! defined $Proliant::Hardware::SESSION) {
+          $obstacle = "nosnmp";
+        } else {
+          my $sysUpTime = '1.3.6.1.2.1.1.3.0';
+          my $result = $Proliant::Hardware::SESSION->get_request(
+              -varbindlist => [$sysUpTime]
+          );
+          if (!defined($result)) {
+            $obstacle = "nosnmp";
+            $Proliant::Hardware::SESSION->close;
+          } else {
+            # revMajor is often used for discovery of hp devices
+            my $cpqSeMibRev = '1.3.6.1.4.1.232.6.1';
+            my $cpqSeMibRevMajor = '1.3.6.1.4.1.232.6.1.1.0';
+            my $cpqSeMibCondition = '1.3.6.1.4.1.232.6.1.3.0';
+            my $result = $Proliant::Hardware::SESSION->get_request(
+                -varbindlist => [$cpqSeMibCondition]
+            );
+            if (!defined($result)) {
+              $obstacle = "nocmapeer";
+              $Proliant::Hardware::SESSION->close;
+            } else {
+              # this is not reliable. many agents return 4=failed
+              #if ($result->{$cpqSeMibCondition} != 2) {
+              #  $obstacle = "cmapeerstart";
+              #}
+            }
+          }
+        }
+      } else {
+        $obstacle = "nonetsnmp";
+      }
+    } elsif (-f $Proliant::Hardware::HPASMCLI) {
+      # simulation.
+    } else {
+      if (-f ALTERNATE_PATH_TO_HPASMCLI || -l ALTERNATE_PATH_TO_HPASMCLI) {
+        $hpasmcli = ALTERNATE_PATH_TO_HPASMCLI;
+      } elsif (-f DEFAULT_PATH_TO_HPASMCLI || -l DEFAULT_PATH_TO_HPASMCLI) {
+        $hpasmcli = DEFAULT_PATH_TO_HPASMCLI;
+      } else {
+        $obstacle = "noinst";
+      }
+      if ($hpasmcli) {
+        if ($< != 0) {
+          $hpasmcli = "sudo ".$hpasmcli;
+        }
+        if (open PS, "/bin/ps -e -ocmd|") {
+          my $numprocs = 0;
+          my $numcliprocs = 0;
+          my @procs = <PS>;
+          close PS;
+          $numprocs = grep /hpasm.*d$/, map { (split /\s+/, $_)[0] } @procs;
+          $numcliprocs = grep /hpasmcli/, @procs;
+          if (! $numprocs ) {
+            $obstacle = "noproc";
+          } elsif ($numprocs > 1) {
+            $obstacle = "toomuchprocs";
+            foreach my $osfile (keys %{$multiproc_os_signatures_files}) {
+              if (-f $osfile) {
+                open OSSIG, $osfile;
+                if (grep /$multiproc_os_signatures_files->{$osfile}/, <OSSIG>) {
+                  $obstacle = undef;
+                }
+                close OSSIG;
+              }
+            }
+          }
+          if ($numcliprocs == 1) {
+            $obstacle = "alreadycli";
+          } elsif ($numcliprocs > 1) {
+            $obstacle = "hangingcli";
+          }
+        } else {
+          $obstacle = "noproc";
+        }
+        if (! $obstacle) {
+          if (open HPASMCLI, "$hpasmcli -s help 2>&1 |") {
+            my @output = <HPASMCLI>;
+            close HPASMCLI;
+            if (grep /Could not communicate with hpasmd/, @output) {
+              $obstacle = "noproc";
+            } elsif (grep /(asswor[dt]:)|(You must be root)/, @output) {
+              $obstacle = "nopriv";
+            } elsif (grep /must have a tty/, @output) {
+              $obstacle = "notty";
+            } elsif (! grep /CLEAR/, @output) {
+              $obstacle = "nopriv";
+            }
+          } else {
+            $obstacle = "nopriv";
+          }
+        }
+      }
+    }
+    if ($obstacle) {
+      if ($obstacle eq "nopriv") {
+        push(@unknowns, sprintf "insufficient rights to call %s", $hpasmcli);
+      } elsif ($obstacle eq "notty") {
+        push(@criticals, "sudo must be configured with requiretty=no (man sudo)");
+
+      } elsif ($obstacle eq "noproc") {
+        push(@criticals, "hpasmd needs to be started");
+      } elsif ($obstacle eq "toomuchprocs") {
+        push(@unknowns, "multiple hpasmd procs");
+      } elsif ($obstacle eq "alreadycli") {
+        push(@unknowns, "another hpasmdcli is running");
+      } elsif ($obstacle eq "hangingcli") {
+        push(@unknowns, "hanging hpasmdcli processes");
+      } elsif ($obstacle eq "noinst") {
+        if (lc "unknown" eq "warning") {
+          push(@warnings, "hpasm is not installed");
+        } elsif (lc "unknown" eq "critical") {
+          push(@criticals, "hpasm is not installed");
+        } elsif (lc "unknown" eq "unknown") {
+          push(@unknowns, "hpasm is not installed");
+        } else {
+          push(@oks, "at least i hope so because hpasm is not installed");
+        }
+      } elsif ($obstacle eq "nofile") {
+        push(@unknowns, "no file with snmpwalk data found");
+      } elsif ($obstacle eq "nonetsnmp") {
+        push(@unknowns, "could not find Net::SNMP module");
+      } elsif ($obstacle eq "nosnmp") {
+        push(@unknowns, "could not contact snmp agent");
+      } elsif ($obstacle eq "nocmapeer") {
+        push(@unknowns, "snmpwalk returns no health data (cpqhlth-mib)");
+      } elsif ($obstacle eq "cmapeerstart") {
+        push(@unknowns, "hpasm startup in progress");
+      } else {
+        push(@unknowns, "unknown error");
+      }
+    }
+    return $obstacle ? 0 : 1;
+  }
+
+}
+
+
+sub blacklist {
+  my $self = shift;
+  if ($self->blacklisted()) {
+    $self->{blacklisted} = 1;
+  }
+}
+
+sub blacklisted {
+  my $self = shift;
+  my $type = shift;
+  my $name = shift;
+  foreach my $bl_items (split(/\//, $Proliant::Hardware::blacklist)) {
+    if ($bl_items =~ /^([pftcd]):([\d\-,]+)$/) {
+      foreach my $name (split(/,/, $2)) {
+        if (((ref($self) eq "Proliant::Hardware::Hpasm::Component::Cpu") &&
+            ($1 eq "c") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpasm::Component::Powersupply") &&
+            ($1 eq "p") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpasm::Component::Fan") &&
+            ($1 eq "f") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpasm::Component::Temperature") &&
+            ($1 eq "t") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpasm::Component::Dimm") &&
+            ($1 eq "d") && ($name eq $self->{cartridge}.'-'.$self->{module}))) {
+          $self->{blacklisted} = 1;
+        }
+      }
+    }
+  }
+}
+
+
+package Proliant::Hardware::Hpasm::Server;
+
+use strict;
+our @ISA = qw(Proliant::Hardware::Hpasm);
+
+{
+  our $system = 'unknown';
+  our $serial = 'unknown';
+  our $rom = 'unknown';
+
+  sub init {
+    my %params = @_;
+    ($system, $serial, $rom) =
+        ref ($params{hpasmcli_output}) eq "HASH" ?
+        init_with_snmp(%params) : init_local(%params);
+    Proliant::Hardware::babble(sprintf "%-14s:%s", "System", $system);
+    Proliant::Hardware::babble(sprintf "%-14s:%s", "Serial No.", $serial);
+    Proliant::Hardware::babble(sprintf "%-14s:%s", "ROM version", $rom);
+  }
+
+  sub init_local {
+    my %params = @_;
+    foreach (split(/\n/, $params{hpasmcli_output})) {
+      if (/System\s+:\s+(.*[^\s])/) {
+        $system = lc $1;
+      } elsif (/Serial No\.\s+:\s+(\w+)/) {
+        $serial = $1;
+      } elsif (/ROM version\s+:\s+(.*[^\s])/) {
+        $rom = $1;
+      }
+    }
+    return($system, $serial, $rom);
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpasmcli_output};
+    my $cpqSiSysSerialNum = "1.3.6.1.4.1.232.2.2.2.1.0";
+    my $cpqSiProductName = "1.3.6.1.4.1.232.2.2.4.2.0";
+    my $cpqSeSysRomVer = "1.3.6.1.4.1.232.1.2.6.1.0";
+
+    my $serial = SNMP::Utils::get_object($snmpwalk, $cpqSiSysSerialNum);
+    my $product = SNMP::Utils::get_object($snmpwalk, $cpqSiProductName);
+    my $romversion = SNMP::Utils::get_object($snmpwalk, $cpqSeSysRomVer);
+    if ($romversion =~
+        #/(\d{2}\/\d{2}\/\d{4}).*?([ADP]{1}\d{2}).*/) {
+        /(\d{2}\/\d{2}\/\d{4}).*?Family.*?([A-Z]{1})(\d+).*/) {
+      $romversion = sprintf("%s%02d %s", $2, $3, $1);
+    } elsif ($romversion =~
+        /([ADP]{1}\d{2})\-(\d{2}\/\d{2}\/\d{4})/) {
+      $romversion = sprintf("%s %s", $1, $2);
+    }
+    if (!$serial && $romversion) {
+      # this probably is a very, very old server.
+      $serial = "METHUSALEM";
+      $Proliant::Hardware::Hpasm::scrapiron = 1;
+    }
+    return (lc $product,$serial, $romversion);
+  }
+
+  sub has_buggy_firmware {
+    my @buggyfirmwares = (
+        "P24 12/11/2001",
+        "P24 11/15/2002",
+        "D13 06/03/2003",
+        "D13 09/15/2004",
+        "P20 12/17/2002"
+    );
+    return grep /^$rom/, @buggyfirmwares;
+  }
+}
+
+
+package Proliant::Hardware::Hpasm::Component;
+
+use strict;
+our @ISA = qw(Proliant::Hardware::Hpasm);
+
+{
+  my @components = ();
+  our @oks = ();
+  our @warnings = ();
+  our @criticals = ();
+  our @unknowns = ();
+  our @perfdata = ();
+  our @extendedinfo = ();
+
+  sub get_components {
+    return @components;
+  }
+
+  sub init {
+    Proliant::Hardware::Hpasm::Component::Cpu::init(
+        hpasmcli_output => $Proliant::Hardware::Hpasm::hpasmcli_show_server);
+    Proliant::Hardware::Hpasm::Component::Powersupply::init(
+        hpasmcli_output => $Proliant::Hardware::Hpasm::hpasmcli_show_powersupply);
+    Proliant::Hardware::Hpasm::Component::Fan::init(
+        hpasmcli_output => $Proliant::Hardware::Hpasm::hpasmcli_show_fans);
+    Proliant::Hardware::Hpasm::Component::Temperature::init(
+        hpasmcli_output => $Proliant::Hardware::Hpasm::hpasmcli_show_temp);
+    Proliant::Hardware::Hpasm::Component::Dimm::init(
+        hpasmcli_output => $Proliant::Hardware::Hpasm::hpasmcli_show_dimm);
+    push(@components,
+        Proliant::Hardware::Hpasm::Component::Cpu::get_components());
+    push(@components,
+        Proliant::Hardware::Hpasm::Component::Powersupply::get_components());
+    push(@components,
+        Proliant::Hardware::Hpasm::Component::Fan::get_components());
+    push(@components,
+        Proliant::Hardware::Hpasm::Component::Temperature::get_components());
+    push(@components,
+        Proliant::Hardware::Hpasm::Component::Dimm::get_components());
+  }
+
+  sub nagios_status {
+    my $lastcategory = "";
+    my $na_dimms = 0;
+    foreach (Proliant::Hardware::Hpasm::Component::Cpu::get_components(),
+        Proliant::Hardware::Hpasm::Component::Powersupply::get_components(),
+        Proliant::Hardware::Hpasm::Component::Fan::get_components(),
+        Proliant::Hardware::Hpasm::Component::Temperature::get_components()) {
+      $_->nagios_status();
+      if ($_->get_category() ne $lastcategory) {
+        Proliant::Hardware::debug(sprintf "checking %s", $_->get_category());
+        $lastcategory = $_->get_category();
+      }
+      Proliant::Hardware::babble(sprintf "%s%s", $_->{nagios_message},
+          $_->{blacklisted} ? " (blacklisted)" : "");
+      if (! $_->{blacklisted}) {
+        if ($_->{nagios_level} == 1) {
+          push(@warnings, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 2) {
+          push(@criticals, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 3) {
+          push(@unknowns, $_->{nagios_message});
+        }
+      }
+      if (exists $_->{perfdata}) {
+        push(@perfdata, $_->{perfdata});
+      }
+      if (exists $_->{extendedinfo}) {
+        push(@extendedinfo, $_->{extendedinfo});
+      }
+    }
+    Proliant::Hardware::debug("checking memory modules");
+    foreach (Proliant::Hardware::Hpasm::Component::Dimm::get_components()) {
+      $_->nagios_status();
+      if (($_->{condition} eq 'n/a') &&
+          Proliant::Hardware::Hpasm::Server::has_buggy_firmware()) {
+        Proliant::Hardware::babble(sprintf "skipping n/a dimm %d@%d (buggy fw %s)",
+            $_->{module}, $_->{cartridge}, $Proliant::Hardware::Hpasm::Server::rom);
+      } else {
+        Proliant::Hardware::babble(sprintf "%s%s", $_->{nagios_message},
+            $_->{blacklisted} ? " (blacklisted)" : "");
+      }
+      if (! $_->has_avaliable_condition() && $_->is_present()) {
+        $na_dimms++;
+      }
+    }
+    if ((scalar(grep { $_->is_present() }
+        Proliant::Hardware::Hpasm::Component::Dimm::get_components())
+        == $na_dimms) && ($na_dimms > 0)) {
+      if ($Proliant::Hardware::Hpasm::Component::Dimm::ignore_dimms) {
+        push(@oks, sprintf "ignoring %d dimms with status 'n/a' ", $na_dimms);
+      } elsif (Proliant::Hardware::Hpasm::Server::has_buggy_firmware()) {
+        push(@oks, sprintf "ignoring %d dimms with status 'n/a' because of buggy firmware", $na_dimms);
+      } else {
+        push(@warnings,
+          sprintf "status of all %d dimms is n/a (please upgrade firmware)", $na_dimms);
+      }
+    } else {
+      foreach (Proliant::Hardware::Hpasm::Component::Dimm::get_components()) {
+        if (! $_->{blacklisted}) {
+          if ($_->{nagios_level} == 1) {
+            push(@warnings, $_->{nagios_message});
+          } elsif ($_->{nagios_level} == 2) {
+            push(@criticals, $_->{nagios_message});
+          } elsif ($_->{nagios_level} == 3) {
+            push(@unknowns, $_->{nagios_message});
+          }
+        }
+      }
+    }
+    #push(@oks, sprintf "%d dimms in %d slots",
+    #    $Proliant::Hardware::Hpasm::Component::Dimm::riegels,
+    #    $Proliant::Hardware::Hpasm::Component::Dimm::slots);
+  }
+}
+
+
+package Proliant::Hardware::Hpasm::Component::Cpu;
+
+use strict;
+our @ISA = qw(Proliant::Hardware::Hpasm::Component);
+
+{
+
+  my @cpus = ();
+
+  sub get_components {
+    return @cpus;
+  }
+
+  sub get_category {
+    return "cpus";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpasmcli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+    my %tmpcpu = ();
+    my $inblock = 0;
+    foreach (split(/\n/, $params{hpasmcli_output})) {
+      if (/Processor:\s+(\d+)/) {
+        $tmpcpu{name} = $1;
+        $inblock = 1;
+      } elsif (/Status\s*:\s+(.+?)\s*$/) {
+        $tmpcpu{status} = lc $1;
+      } elsif (/^\s*$/) {
+        if ($inblock) {
+          $inblock = 0;
+          push(@cpus, Proliant::Hardware::Hpasm::Component::Cpu->new(%tmpcpu));
+          %tmpcpu = ();
+        }
+      }
+    }
+    if ($inblock) {
+      push(@cpus, Proliant::Hardware::Hpasm::Component::Cpu->new(%tmpcpu));
+    }
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpasmcli_output};
+    # CPQSTDEQ-MIB
+    my $cpqSeCpuEntry = "1.3.6.1.4.1.232.1.2.2.1.1";
+    my $cpqSeCpuUnitIndex = "1.3.6.1.4.1.232.1.2.2.1.1.1";
+    my $cpqSeCpuName = "1.3.6.1.4.1.232.1.2.2.1.1.3";
+    my $cpqSeCpuStatus = "1.3.6.1.4.1.232.1.2.2.1.1.6";
+    my $cpqSeCpuStatusValues = {
+        1 => "unknown",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+        5 => "disabled",
+    };
+
+    # INDEX { cpqSeCpuUnitIndex }
+    my @indexes = SNMP::Utils::get_indices($snmpwalk, $cpqSeCpuEntry);
+    foreach (@indexes) {
+      my $idx1 = $_->[0];
+      push(@cpus, Proliant::Hardware::Hpasm::Component::Cpu->new(
+        name =>
+          SNMP::Utils::get_object($snmpwalk, $cpqSeCpuUnitIndex, $idx1),
+        status =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqSeCpuStatus,
+              $cpqSeCpuStatusValues,
+              $idx1),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    name => $params{name},
+    status => $params{status},
+    blacklisted => 0,
+    nagios_message => sprintf("cpu #%d is %s", $params{name}, $params{status}),
+    nagios_level => $ERRORS{OK},
+  };
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} ne "ok") {
+    if ($Proliant::Hardware::Hpasm::scrapiron && ($self->{status} eq "unknown")) {
+      $self->{nagios_message} = sprintf "cpu #%d probably ok (%s)",
+          $self->{name}, $self->{status};
+      $self->{nagios_level} = $ERRORS{OK};
+    } else {
+      $self->{nagios_message} = sprintf "cpu #%d needs attention (%s)",
+          $self->{name}, $self->{status};
+      $self->{nagios_level} = $ERRORS{CRITICAL};
+    }
+  }
+  $self->{extendedinfo} = sprintf "cpu_%s=%s",
+      $self->{name}, $self->{status};
+}
+
+package Proliant::Hardware::Hpasm::Component::Powersupply;
+our @ISA = qw(Proliant::Hardware::Hpasm::Component);
+
+use strict;
+
+{
+  my @powersupplies = ();
+
+  sub get_components {
+    return @powersupplies;
+  }
+
+  sub get_category {
+    return "power supplies";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpasmcli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+    my %tmpps = ();
+    my $inblock = 0;
+    foreach (split(/\n/, $params{hpasmcli_output})) {
+      if (/^Power supply #(\d+)/) {
+        $tmpps{name} = $1;
+        $inblock = 1;
+      } elsif (/\s*Present\s+:\s+(\w+)/) {
+        $tmpps{present} = lc $1 eq "yes" ? "present" : lc $1;
+      } elsif (/\s*Redundant\s*:\s+(\w+)/) {
+        $tmpps{redundant} = lc $1;
+      } elsif (/\s*Condition\s*:\s+(\w+)/) {
+        $tmpps{condition} = lc $1;
+      } elsif (/\s*Power Supply not present/) {
+        $tmpps{present} = "absent";
+        $tmpps{condition} = "n/a";
+        $tmpps{redundant} = "no";
+      } elsif (/^\s*$/) {
+        if ($inblock) {
+          $inblock = 0;
+          push(@powersupplies, Proliant::Hardware::Hpasm::Component::Powersupply->new(%tmpps));
+          %tmpps = ();
+        }
+      }
+    }
+    if ($inblock) {
+      push(@powersupplies, Proliant::Hardware::Hpasm::Component::Powersupply->new(%tmpps));
+    }
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpasmcli_output};
+    my $cpqHeFltTolPowerSupplyEntry = "1.3.6.1.4.1.232.6.2.9.3.1";
+    my $cpqHeFltTolPowerSupplyChassis = "1.3.6.1.4.1.232.6.2.9.3.1.1";
+    my $cpqHeFltTolPowerSupplyBay = "1.3.6.1.4.1.232.6.2.9.3.1.2";
+    my $cpqHeFltTolPowerSupplyPresent = "1.3.6.1.4.1.232.6.2.9.3.1.3";
+    my $cpqHeFltTolPowerSupplyCondition = "1.3.6.1.4.1.232.6.2.9.3.1.4";
+    my $cpqHeFltTolPowerSupplyRedundant = "1.3.6.1.4.1.232.6.2.9.3.1.9";
+    my $cpqSeCpuStatus = "1.3.6.1.4.1.232.1.2.2.1.1.6";
+    my $cpqHeFltTolPowerSupplyPresentValues = {
+        1 => "other",
+        2 => "absent",
+        3 => "present",
+    };
+    my $cpqHeFltTolPowerSupplyConditionValues = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+    my $cpqHeFltTolPowerSupplyRedundantValues = {
+        1 => "other",
+        2 => "notRedundant",
+        3 => "redundant",
+    };
+
+    # INDEX { cpqHeFltTolPowerSupplyChassis, cpqHeFltTolPowerSupplyBay }
+    my @indexes =
+        SNMP::Utils::get_indices($snmpwalk, $cpqHeFltTolPowerSupplyEntry);
+    foreach (@indexes) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@powersupplies,
+          Proliant::Hardware::Hpasm::Component::Powersupply->new(
+        name =>
+          SNMP::Utils::get_number(\@indexes, $idx1, $idx2),
+        present =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqHeFltTolPowerSupplyPresent,
+              $cpqHeFltTolPowerSupplyPresentValues,
+              $idx1, $idx2),
+        condition =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqHeFltTolPowerSupplyCondition,
+              $cpqHeFltTolPowerSupplyConditionValues,
+              $idx1, $idx2),
+        redundant =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqHeFltTolPowerSupplyRedundant,
+              $cpqHeFltTolPowerSupplyRedundantValues,
+              $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    name => $params{name},
+    present => $params{present},
+    redundant => $params{redundant},
+    condition => $params{condition},
+    blacklisted => 0,
+    nagios_message => sprintf("powersupply #%d is %s", $params{name}, $params{condition}),
+    nagios_level => $ERRORS{OK},
+  };
+  bless $self, $class;
+  return $self;
+}
+
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{present} eq "present") {
+    if ($self->{condition} ne "ok") {
+      if ($self->{condition} eq "n/a") {
+        $self->{nagios_message} = sprintf "powersupply #%d is missing", $self->{name};
+      } else {
+        $self->{nagios_message} = sprintf "powersupply #%d needs attention (%s)",
+            $self->{name}, $self->{condition};
+      }
+      $self->{nagios_level} = $ERRORS{CRITICAL};
+    }
+    $self->{extendedinfo} = sprintf "ps_%s=%s",
+        $self->{name}, $self->{condition};
+  } else {
+    $self->{nagios_message} = sprintf "powersupply #%d is %s",
+        $self->{name}, $self->{present};
+    $self->{extendedinfo} = sprintf "ps_%s=%s",
+        $self->{name}, $self->{present};
+  }
+}
+
+
+package Proliant::Hardware::Hpasm::Component::Fan;
+our @ISA = qw(Proliant::Hardware::Hpasm::Component);
+
+use strict;
+
+{
+  my @fans = ();
+  our $ignore_redundancy = 0;
+
+  sub get_components {
+    return @fans;
+  }
+
+  sub get_category {
+    return "fans";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpasmcli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+    foreach (split(/\n/, $params{hpasmcli_output})) {
+      if (/^#(\d+)\s+([\w#_\/\-]+)\s+(\w+)\s+(\w+)\s+(FAILED|[N\/A\d]+)%*\s+([\w\/]+)\s+(FAILED|[N\/A\d]+)/) {
+        my %tmpfan = (
+            name => $1,
+            location => lc $2,
+            present => lc $3,
+            speed => lc $4,
+            pctmax => $5,
+            redundant => lc $6,
+            partner => $7,
+        );
+        $tmpfan{pctmax} = 0 if ($tmpfan{pctmax} !~ /^\d+$/);
+        push(@fans, Proliant::Hardware::Hpasm::Component::Fan->new(%tmpfan));
+      } elsif (/^#(\d+)\s+([\w#_\/\-]+?)(Yes|No|N\/A)\s+(\w+)\s+(FAILED|[N\/A\d]+)%*\s+([\w\/]+)\s+(FAILED|[N\/A\d]+)/) {
+        # #5   SCSI_BACKPLANE_ZONEYes     NORMAL N/A  ....
+        my %tmpfan = (
+            name => $1,
+            location => lc $2,
+            present => lc $3,
+            speed => lc $4,
+            pctmax => $5,
+            redundant => lc $6,
+            partner => $7,
+        );
+        $tmpfan{pctmax} = 0 if ($tmpfan{pctmax} !~ /^\d+$/);
+        push(@fans, Proliant::Hardware::Hpasm::Component::Fan->new(%tmpfan));
+      } elsif (/^#(\d+)\s+([\w#_\/\-]+)\s+[NOno]+\s/) {
+        # Fan is not installed. #2   CPU#2   No   -   -    No      N/A      -
+      } elsif (/^#(\d+)/) {
+        main::contact_author("FAN", $_);
+      }
+    }
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpasmcli_output};
+    my $cpqHeFltTolFanEntry = "1.3.6.1.4.1.232.6.2.6.7.1";
+    my $cpqHeFltTolFanChassis = "1.3.6.1.4.1.232.6.2.6.7.1.1";
+    my $cpqHeFltTolFanIndex = "1.3.6.1.4.1.232.6.2.6.7.1.2";
+    my $cpqHeFltTolFanLocale = "1.3.6.1.4.1.232.6.2.6.7.1.3";
+    my $cpqHeFltTolFanPresent = "1.3.6.1.4.1.232.6.2.6.7.1.4";
+    my $cpqHeFltTolFanType = "1.3.6.1.4.1.232.6.2.6.7.1.5";
+    my $cpqHeFltTolFanSpeed = "1.3.6.1.4.1.232.6.2.6.7.1.6";
+    my $cpqHeFltTolFanRedundant = "1.3.6.1.4.1.232.6.2.6.7.1.7";
+    my $cpqHeFltTolFanRedundantPartner = "1.3.6.1.4.1.232.6.2.6.7.1.8";
+    my $cpqHeFltTolFanCondition = "1.3.6.1.4.1.232.6.2.6.7.1.9";
+    my $cpqHeFltTolFanLocaleValue = {
+        1 => "other",
+        2 => "unknown",
+        3 => "system",
+        4 => "systemBoard",
+        5 => "ioBoard",
+        6 => "cpu",
+        7 => "memory",
+        8 => "storage",
+        9 => "removableMedia",
+        10 => "powerSupply",
+        11 => "ambient",
+        12 => "chassis",
+        13 => "bridgeCard",
+    };
+    my $cpqHeFltTolFanPresentValue = {
+        1 => "other",
+        2 => "absent",
+        3 => "present",
+    };
+    my $cpqHeFltTolFanSpeedValue = {
+        1 => "other",
+        2 => "normal",
+        3 => "high",
+    };
+    my $cpqHeFltTolFanRedundantValue = {
+        1 => "other",
+        2 => "notRedundant",
+        3 => "redundant",
+    };
+    my $cpqHeFltTolFanTypeValue = {
+        1 => "other",
+        2 => "tachInput",
+        3 => "spinDetect",
+    };
+    my $cpqHeFltTolFanConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+
+    # INDEX { cpqHeFltTolFanChassis, cpqHeFltTolFanIndex }
+    my @indexes = SNMP::Utils::get_indices($snmpwalk, $cpqHeFltTolFanEntry);
+    foreach (@indexes) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@fans, Proliant::Hardware::Hpasm::Component::Fan->new(
+        name =>
+          SNMP::Utils::get_number(\@indexes, $idx1, $idx2),
+        location =>
+          lc SNMP::Utils::get_object_value(
+            $snmpwalk, $cpqHeFltTolFanLocale,
+            $cpqHeFltTolFanLocaleValue,
+            $idx1, $idx2),
+        present =>
+          SNMP::Utils::get_object($snmpwalk, $cpqHeFltTolFanPresent,
+              $idx1, $idx2) == 3 ? "yes" : "no",
+        condition => lc SNMP::Utils::get_object_value(
+            $snmpwalk, $cpqHeFltTolFanCondition,
+            $cpqHeFltTolFanConditionValue,
+            $idx1, $idx2),
+        speed => lc SNMP::Utils::get_object_value(
+            $snmpwalk, $cpqHeFltTolFanSpeed,
+            $cpqHeFltTolFanSpeedValue,
+            $idx1, $idx2),
+# nur mit spindetect getestet. gibts bei tachinput evt eine zahl?
+        pctmax => 50, # if absent 0
+        redundant =>
+          SNMP::Utils::get_object($snmpwalk, $cpqHeFltTolFanRedundant,
+              $idx1, $idx2) == 3 ? "yes" : "no",
+        partner =>
+          SNMP::Utils::get_object($snmpwalk, $cpqHeFltTolFanRedundantPartner,
+              $idx1, $idx2) || 'N/A',
+      ));
+    }
+    if ($ignore_redundancy) {
+      @fans = grep { $_->{present} eq "yes" } @fans;
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    name => $params{name},
+    location => $params{location},
+    present => $params{present},
+    speed => $params{speed},
+    pctmax => $params{pctmax},
+    redundant => $params{redundant},
+    condition => $params{condition},
+    partner => $params{partner},
+    blacklisted => 0,
+    nagios_message => sprintf("fan %d speed is %s, pctmax is %s%%, location is %s, redundance is %s, partner is %s",
+        $params{name}, $params{speed}, $params{pctmax},
+        $params{location}, $params{redundant}, $params{partner}),
+    nagios_level => $ERRORS{OK},
+  };
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{speed} eq "high") {
+    $self->{nagios_message} = sprintf "fan #%d (%s) runs at high speed",
+        $self->{name}, $self->{location};
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  } elsif ($self->{speed} ne "normal") {
+    $self->{nagios_message} = sprintf "fan #%d (%s) needs attention",
+        $self->{name}, $self->{location};
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+  if ($self->{redundant} eq "yes") {
+    if ((! defined $self->{partner}) || ($self->{partner} eq "N/A")){
+      $self->{nagios_message} = sprintf "fan #%d (%s) is not redundant",
+          $self->{name}, $self->{location};
+      $self->{nagios_level} = $ERRORS{WARNING};
+    }
+  } elsif ($self->{redundant} eq "no") {
+    if ($Proliant::Hardware::Hpasm::Component::Fan::ignore_redundancy) {
+      if ($self->{condition} eq "failed") {
+        $self->{nagios_message} = sprintf "fan #%d (%s) failed",
+            $self->{name}, $self->{location};
+        $self->{nagios_level} = $ERRORS{CRITICAL};
+      } elsif ($self->{condition} eq "degraded") {
+        $self->{nagios_message} = sprintf "fan #%d (%s) degraded",
+            $self->{name}, $self->{location};
+        $self->{nagios_level} = $ERRORS{WARNING};
+      }
+    } else {
+      if (defined $self->{partner} && $self->{partner} ne "N/A") {
+        $self->{nagios_message} = sprintf "fan #%d (%s) is not redundant",
+            $self->{name}, $self->{location};
+        $self->{nagios_level} = $ERRORS{WARNING};
+      }
+    }
+  } elsif ($self->{redundant} eq "n/a") {
+    #seen on a dl320 g5p with bios from 2008.
+    # maybe redundancy is not supported at all
+  }
+  $self->{perfdata} = sprintf "fan_%s=%d%%;0;0", $self->{name}, $self->{pctmax};
+  $self->{extendedinfo} = sprintf "fan_%s=%d%%", $self->{name}, $self->{pctmax};
+}
+
+sub perfdata {
+}
+
+
+package Proliant::Hardware::Hpasm::Component::Temperature;
+our @ISA = qw(Proliant::Hardware::Hpasm::Component);
+
+use strict;
+
+{
+  our $CELSIUS = 1;
+  our $customthresholds = undef;
+  my $thresholds = {};
+  my @temperatures = ();
+
+  sub get_components {
+    return @temperatures;
+  }
+
+  sub get_category {
+    return "temperatures";
+  }
+
+  sub init {
+    my %params = @_;
+    if ($customthresholds) {
+      if (-f $customthresholds) {
+        open CT, $customthresholds;
+        $thresholds = <CT>;
+        close CT;
+      }
+      foreach my $ct_items (split(/\//, $customthresholds)) {
+        if ($ct_items =~ /^(\d+):(\d+)$/) {
+          my $temp = $2;
+          $thresholds->{$1} = $temp;
+        } else {
+          Proliant::Hardware::debug(sprintf "invalid threshold %s", $ct_items);
+        }
+      }
+    }
+    if (ref($params{hpasmcli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+    my $tempcnt = 1;
+    foreach (split(/\n/, $params{hpasmcli_output})) {
+      if (/^#(\d+)\s+([\w_\/\-#]+)\s+(\d+)C\/(\d+)F\s+(\d+)C\/(\d+)F/) {
+        push(@temperatures,
+            Proliant::Hardware::Hpasm::Component::Temperature->new(
+                name => $1,
+                location => lc $2,
+                degrees => $CELSIUS ? $3 : $4,
+                threshold => exists $thresholds->{$1} ? $thresholds->{$1} :
+                    $CELSIUS ? $5 : $6,
+                counter => $tempcnt++ ));
+      } elsif (/^#(\d+)\s+([\w_\/\-#]+)\s+\-\s+(\d+)C\/(\d+)F/) {
+        # #3        CPU#2                -       0C/0F
+        Proliant::Hardware::debug(sprintf "skipping temperature %s", $_);
+      } elsif (/^#(\d+)\s+([\w_\/\-#]+)\s+(\d+)C\/(\d+)F\s+\-/) {
+        # #3        CPU#2                0C/0F       -
+        Proliant::Hardware::debug(sprintf "skipping temperature %s", $_);
+      } elsif (/^#(\d+)\s+([\w_\/\-#]+)\s+\-\s+\-/) {
+        # #3        CPU#2                -       -
+        Proliant::Hardware::debug(sprintf "skipping temperature %s", $_);
+      } elsif (/^#(\d+)/) {
+        main::contact_author("TEMP", $_);
+      }
+    }
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpasmcli_output};
+    my $cpqHeTemperatureEntry = "1.3.6.1.4.1.232.6.2.6.8.1";
+    my $cpqHeTemperatureChassis = "1.3.6.1.4.1.232.6.2.6.8.1.1";
+    my $cpqHeTemperatureIndex = "1.3.6.1.4.1.232.6.2.6.8.1.2";
+    my $cpqHeTemperatureLocale = "1.3.6.1.4.1.232.6.2.6.8.1.3";
+    my $cpqHeTemperatureCelsius = "1.3.6.1.4.1.232.6.2.6.8.1.4";
+    my $cpqHeTemperatureThreshold = "1.3.6.1.4.1.232.6.2.6.8.1.5";
+    my $cpqHeTemperatureCondition = "1.3.6.1.4.1.232.6.2.6.8.1.6";
+    my $cpqHeTemperatureLocaleValue = {
+        1 => "other",
+        2 => "unknown",
+        3 => "system",
+        4 => "systemBoard",
+        5 => "ioBoard",
+        6 => "cpu",
+        7 => "memory",
+        8 => "storage",
+        9 => "removableMedia",
+        10 => "powerSupply",
+        11 => "ambient",
+        12 => "chassis",
+        13 => "bridgeCard",
+    };
+    my $cpqHeFltTolPowerSupplyPresentValues = {
+        1 => "other",
+        2 => "absent",
+        3 => "present",
+    };
+    my $cpqHeTemperatureConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+    my $cpqHeFltTolPowerSupplyRedundantValues = {
+        1 => "other",
+        2 => "notRedundant",
+        3 => "redundant",
+    };
+  #$CELSIUS = 0;
+    # INDEX { cpqHeTemperatureChassis, cpqHeTemperatureIndex }
+    my @indexes =
+        SNMP::Utils::get_indices($snmpwalk, $cpqHeTemperatureEntry);
+    foreach (@indexes) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      my $name = SNMP::Utils::get_number(\@indexes, $idx1, $idx2);
+      my $degrees = SNMP::Utils::get_object(
+          $snmpwalk, $cpqHeTemperatureCelsius, $idx1, $idx2);
+      $degrees = ((($degrees * 9) / 5) + 32) unless $CELSIUS;
+      my $threshold = (exists $thresholds->{$name}) ?
+          $thresholds->{$name} :
+          $CELSIUS ?
+              SNMP::Utils::get_object(
+                  $snmpwalk, $cpqHeTemperatureThreshold, $idx1, $idx2) :
+              ((SNMP::Utils::get_object(
+                  $snmpwalk, $cpqHeTemperatureThreshold, $idx1, $idx2)
+                  * 9) / 5) + 32;
+      push(@temperatures,
+        Proliant::Hardware::Hpasm::Component::Temperature->new(
+          name => $name,
+          location =>
+            lc SNMP::Utils::get_object_value(
+                $snmpwalk, $cpqHeTemperatureLocale,
+                $cpqHeTemperatureLocaleValue,
+                $idx1, $idx2),
+          degrees => $degrees,
+          threshold => $threshold,
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    name => $params{name},
+    location => $params{location},
+    degrees => $params{degrees},
+    threshold => $params{threshold},
+    counter => $params{counter},
+    blacklisted => 0,
+    nagios_message => sprintf("%d %s temperature is %d (%d max)",
+        $params{name}, $params{location}, $params{degrees}, $params{threshold}),
+    nagios_level => $ERRORS{OK},
+  };
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{degrees} > $self->{threshold}) {
+    $self->{nagios_message} = sprintf "%s temperature too high (%d%s)",
+        $self->{location}, $self->{degrees},
+        $Proliant::Hardware::Hpasm::Component::Temperature::CELSIUS ? "C" : "F";
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+  if ($Proliant::Hardware::PERFDATA == 2) {
+    $self->{perfdata} = sprintf "'temp_%s'=%d;%d;%d",
+        $self->{name},
+        $self->{degrees}, $self->{threshold},
+        $self->{threshold};
+  } elsif ($Proliant::Hardware::PERFDATA == 1) {
+    $self->{perfdata} = sprintf "'temp_%s_%s'=%d;%d;%d",
+        $self->{name}, $self->{location},
+        $self->{degrees}, $self->{threshold},
+        $self->{threshold};
+  }
+  $self->{extendedinfo} = sprintf "temp_%s=%d",
+      $self->{name},
+      $self->{degrees};
+}
+
+
+package Proliant::Hardware::Hpasm::Component::Dimm;
+our @ISA = qw(Proliant::Hardware::Hpasm::Component);
+
+use strict;
+
+{
+  our $ignore_dimms = 0;
+  our $slots = 0;
+  our $riegels = 0;
+
+  my @dimms = ();
+
+  sub get_components {
+    return @dimms;
+  }
+
+  sub get_category {
+    return "memory modules";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpasmcli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  # snmp		hpasmcli	plugin
+  #
+  # status		present		present
+  # condition		status		condition
+  sub init_local {
+    my %params = @_;
+    my %tmpdimm = ();
+    my $inblock = 0;
+    foreach (split(/\n/, $params{hpasmcli_output})) {
+      if (/Cartridge #:\s+(\d+)/) {
+        $tmpdimm{cartridge} = $1;
+        $inblock = 1;
+      } elsif (/Module #:\s+(\d+)/) {
+        $tmpdimm{module} = $1;
+      } elsif (/Present:\s+(\w+)/) {
+        $tmpdimm{present} = lc $1;
+      } elsif (/Status:\s+(.+?)\s*$/) {
+        $tmpdimm{condition} = lc $1;
+      } elsif (/^\s*$/) {
+        if ($inblock) {
+          $inblock = 0;
+          push(@dimms, Proliant::Hardware::Hpasm::Component::Dimm->new(%tmpdimm));
+          %tmpdimm = ();
+        }
+      }
+    }
+    if ($inblock) {
+      push(@dimms, Proliant::Hardware::Hpasm::Component::Dimm->new(%tmpdimm));
+    }
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpasmcli_output};
+    my $cpqSiMemModuleEntry = "1.3.6.1.4.1.232.2.2.4.5.1";
+    my $cpqSiMemBoardIndex = "1.3.6.1.4.1.232.2.2.4.5.1.1"; # 0 = on system board
+    my $cpqSiMemModuleIndex = "1.3.6.1.4.1.232.2.2.4.5.1.2";
+    my $cpqSiMemModuleSize = "1.3.6.1.4.1.232.2.2.4.5.1.3";
+    my $cpqSiMemECCStatus = "1.3.6.1.4.1.232.2.2.4.5.1.11";
+    my $cpqSiMemECCStatusValue = {
+        0 => "n/a",
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "degradedModuleIndexUnknown",
+    };
+
+    my $cpqHeResMemModuleEntry = "1.3.6.1.4.1.232.6.2.14.11.1";
+    my $cpqHeResMemBoardIndex = "1.3.6.1.4.1.232.6.2.14.11.1.1"; # 0 = on system board
+    my $cpqHeResMemModuleIndex = "1.3.6.1.4.1.232.6.2.14.11.1.2";
+    my $cpqHeResMemModuleStatus = "1.3.6.1.4.1.232.6.2.14.11.1.4";
+    my $cpqHeResMemModuleCondition = "1.3.6.1.4.1.232.6.2.14.11.1.5";
+
+    my $cpqHeResMemModuleStatusValue = {
+        1 => "other",         # unknown or could not be determined
+        2 => "notPresent",    # not present or un-initialized
+        3 => "present",       # present but not in use
+        4 => "good",          # present and in use. ecc threshold not exceeded
+        5 => "add",           # added but not yet in use
+        6 => "upgrade",       # upgraded but not yet in use
+        7 => "missing",       # expected but missing
+        8 => "doesNotMatch",  # does not match the other modules in the bank
+        9 => "notSupported",  # module not supported
+        10 => "badConfig",    # violates add/upgrade configuration
+        11 => "degraded",     # ecc exceeds threshold
+    };
+    my $cpqHeResMemModuleConditionValue = {
+        0 => "n/a", # this appears only with buggy firmwares.
+        # (only 1 module shows up)
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+    };
+    #
+    # erst pruefen ob scalar(cpqHeResMemModuleEntry) == 1
+    # dieser wert beinhaltet evt die anzahl der module und den gesamtstatus
+    # scalar(cpqHeResMemModuleEntry) == 0 bedeutet: keine health info
+    # z.b. 11/08/2000, Family 386P(11|12|9), Type 03
+    # z.b. P29-05/01/2004
+    # z.b. P24-08/17/2002   = openview appliance
+    #
+    # INDEX { cpqSiMemBoardIndex, cpqSiMemModuleIndex }
+    my @si_indexes =
+        SNMP::Utils::get_indices($snmpwalk, $cpqSiMemModuleEntry);
+    # INDEX { cpqHeResMemBoardIndex, cpqHeResMemModuleIndex }
+    my @he_indexes =
+        SNMP::Utils::get_indices($snmpwalk, $cpqHeResMemModuleEntry);
+    my $first_si_board = -1;
+    my $first_he_board = -1;
+    foreach (sort {
+      $a->[0] <=> $b->[0] || $a->[1] <=> $b->[1] #board, module
+    } @si_indexes) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      my $board = SNMP::Utils::get_object(
+          $snmpwalk, $cpqSiMemBoardIndex,
+          $idx1, $idx2);
+      my $module = SNMP::Utils::get_object(
+          $snmpwalk, $cpqSiMemModuleIndex,
+          $idx1, $idx2);
+      my $size = SNMP::Utils::get_object(
+          $snmpwalk, $cpqSiMemModuleSize,
+          $idx1, $idx2);
+      my $sicondition = lc SNMP::Utils::get_object_value(
+          $snmpwalk, $cpqSiMemECCStatus,
+          $cpqSiMemECCStatusValue,
+          $idx1, $idx2);
+      push(@dimms, Proliant::Hardware::Hpasm::Component::Dimm->new(
+        cartridge => $board,
+        module => $module,
+        present => ($size > 0) ? "yes" : "no",
+        condition => $sicondition,
+        size => $size,
+      ));
+      $slots++;
+      $riegels++ if $size;
+    }
+    if (@dimms) {
+      $first_si_board = $dimms[0]->{cartridge};
+    }
+    foreach my $dimm (@dimms) {
+      if ($dimm->{present} eq "yes") {
+        if (SNMP::Utils::get_size($snmpwalk, $cpqHeResMemModuleEntry) == 0) {
+          # there is absolutely no oid 1.3.6.1.4.1.232.6.2.14.11.1.*
+          $dimm->{condition} = "n/a";
+          $dimm->update_message();
+        } elsif (SNMP::Utils::get_size($snmpwalk, $cpqHeResMemModuleEntry) == 1) {
+          # there is absolutely no oid 1.3.6.1.4.1.232.6.2.14.11.1.*
+          # he collapsed to one single line
+          my $condition = lc SNMP::Utils::get_object(
+              $snmpwalk, $cpqHeResMemModuleEntry.'.1.0.'.scalar(@si_indexes));
+          if (! defined $condition) {
+            $condition = "n/a";
+          } elsif ($condition == 0) {
+            $condition = "ok"; # i do hope so
+          } else {
+            $condition = "other";
+          }
+          $dimm->{condition} = $condition;
+          $dimm->update_message();
+        } elsif ((scalar(@he_indexes) == 1) && (scalar(@si_indexes) > 1)) {
+          #crap he
+          # there is only one entry (usually with zero values).
+          # i had a test machine with 2 dimms where hpasmcli showed 2 x n/a
+          $dimm->{condition} = "n/a";
+          $dimm->update_message();
+        } else {
+          my $found = 0;
+          my $board_offset = 0;
+          if (scalar(@si_indexes) == scalar(@he_indexes)) {
+            # also check this scenario
+            # si board 0..6
+            # he board 1..7
+            # snmp table indexes
+            if ($first_he_board == -1) {
+              $first_he_board = SNMP::Utils::get_object(
+                  $snmpwalk, $cpqHeResMemBoardIndex,
+                  $he_indexes[0]->[0], $he_indexes[0]->[1]);
+            }
+
+            if ($first_si_board != $first_he_board) {
+              # README case 5
+              $board_offset = $first_si_board - $first_he_board;
+            }
+          }
+          foreach (@he_indexes) {
+            my($idx1, $idx2) = ($_->[0], $_->[1]);
+            my $cartridge = SNMP::Utils::get_object(
+                $snmpwalk, $cpqHeResMemBoardIndex, $idx1, $idx2);
+            my $module = SNMP::Utils::get_object(
+                $snmpwalk, $cpqHeResMemModuleIndex, $idx1, $idx2);
+            if (! $module && $cartridge == 0) {
+              # this usually means
+              $module = $idx2;
+            }
+            if (($dimm->{cartridge} == ($cartridge + $board_offset)) &&
+                ($dimm->{module} == $module)) {
+              my $present = lc SNMP::Utils::get_object_value(
+                  $snmpwalk, $cpqHeResMemModuleStatus,
+                  $cpqHeResMemModuleStatusValue,
+                  $idx1, $idx2) =~ /^(present)|(good)|(add)|(upgraded)|(degraded)$/ ?
+                  "yes" : "no";
+              my $condition = lc SNMP::Utils::get_object_value(
+                  $snmpwalk, $cpqHeResMemModuleCondition,
+                  $cpqHeResMemModuleConditionValue,
+                  $idx1, $idx2);
+              $condition = ($condition eq "other") ? "n/a" : $condition;
+              $dimm->{present} = $present;
+              $dimm->{condition} = $condition;
+              $dimm->update_message();
+              $found++;
+              last;
+            }
+          }
+        }
+      }
+    }
+    if ((scalar(@si_indexes) == scalar(@he_indexes)) &&
+        (scalar(grep { $_->{present} eq "yes" && $_->{condition} eq "n/a" } @dimms))) {
+      printf STDERR "please send the output of snmpwalk 1.3.6.1.4.1.232 to the author\n";
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    cartridge => $params{cartridge},
+    module => $params{module},
+    present => $params{present},
+    size => $params{size} || 0,
+    condition => $params{condition},
+    blacklisted => 0,
+    nagios_message => $params{present} eq "yes" ?
+        sprintf("dimm %d@%d is %s",
+        $params{module}, $params{cartridge}, $params{condition})
+        :
+        sprintf("dimm %d@%d is not present",
+        $params{module}, $params{cartridge}),
+    nagios_level => $ERRORS{OK}
+  };
+  bless $self, $class;
+  return $self;
+}
+
+sub update_message {
+  my $self = shift;
+  $self->{nagios_message} = $self->{present} eq "yes" ?
+        sprintf("dimm %d@%d is %s",
+        $self->{module}, $self->{cartridge}, $self->{condition})
+        :
+        sprintf("dimm %d@%d is not present",
+        $self->{module}, $self->{cartridge});
+}
+
+sub nagios_status {
+  my $self = shift;
+  if (($self->{condition} eq 'n/a') && Proliant::Hardware::Hpasm::Server::has_buggy_firmware()) {
+  } elsif (($self->{present} eq "yes") && ($self->{condition} ne "ok")) {
+    $self->{nagios_message} = sprintf "dimm module %d @ cartridge %d needs attention (%s)",
+        $self->{module}, $self->{cartridge}, $self->{condition};
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+sub is_present {
+  my $self = shift;
+  return $self->{present} eq "yes";
+}
+
+sub has_avaliable_condition {
+  my $self = shift;
+  return $self->{condition} ne "n/a";
+}
+
+package Proliant::Hardware::Hpacu;
+
+use strict;
+
+use constant DEFAULT_PATH_TO_HPACUCLI => "/usr/sbin/hpacucli";
+use constant ALTERNATE_PATH_TO_HPACUCLI => "/usr/local/sbin/hpacucli";
+
+{
+  our $hpacucli = undef;
+  my $obstacle = undef;
+  our @oks = ();
+  our @warnings = ();
+  our @criticals = ();
+  our @unknowns = ();
+  our @perfdata = ();
+  our @extendedinfo = ();
+  our @components = ();
+  our $hpacucli_ctrl_all_show_config = undef;
+  our $hpacucli_ctrl_all_show_status = undef;
+
+  sub get_components {
+    return @components;
+  }
+
+  sub ready_to_run {
+    if ($Proliant::Hardware::SNMP) {
+      if (scalar (keys %{$Proliant::Hardware::SNMPRESPONSE}) == 0) {
+        $obstacle = "nosnmp";
+      }
+    } elsif (-f $Proliant::Hardware::HPASMCLI) {
+      # simulation.
+    } else {
+      if (-f ALTERNATE_PATH_TO_HPACUCLI || -l ALTERNATE_PATH_TO_HPACUCLI) {
+        $hpacucli = ALTERNATE_PATH_TO_HPACUCLI;
+      } elsif (-f DEFAULT_PATH_TO_HPACUCLI || -l DEFAULT_PATH_TO_HPACUCLI) {
+        $hpacucli = DEFAULT_PATH_TO_HPACUCLI;
+      } else {
+        $obstacle = "noinst";
+      }
+      if ($hpacucli) {
+        if ($< != 0) {
+          $hpacucli = "sudo ".$hpacucli;
+        }
+      }
+      if (! $obstacle) {
+        if (open HPACUCLI, "$hpacucli help 2>&1 |") {
+          my @output = <HPACUCLI>;
+          close HPACUCLI;
+          if (grep /Another instance of hpacucli is running/, @output) {
+            $obstacle = "alreadycli";
+          } elsif (grep /You need to have administrator rights/, @output) {
+            $obstacle = "nopriv";
+          } elsif (grep /(asswor[dt]:)|(You must be root)/, @output) {
+            $obstacle = "nopriv";
+          } elsif (! grep /CLI Syntax/, @output) {
+            $obstacle = "nopriv";
+          }
+        } else {
+          $obstacle = "nopriv";
+        }
+      }
+    }
+    if ($obstacle) {
+      if ($obstacle eq "nopriv") {
+        push(@unknowns, sprintf "insufficient rights to call %s", $hpacucli);
+      } elsif ($obstacle eq "noproc") {
+        push(@criticals, "hpasmd needs to be started");
+      } elsif ($obstacle eq "toomuchprocs") {
+        push(@unknowns, "multiple hpasmd procs");
+      } elsif ($obstacle eq "alreadycli") {
+        push(@unknowns, "another hpacucli is running");
+      } elsif ($obstacle eq "hangingcli") {
+        push(@unknowns, "hanging hpasmdcli processes");
+      } elsif ($obstacle eq "noinst") {
+        if (lc "unknown" eq "warning") {
+          push(@warnings, "hpacucli is not installed");
+        } elsif (lc "unknown" eq "critical") {
+          push(@criticals, "hpacucli is not installed");
+        } elsif (lc "unknown" eq "unknown") {
+          push(@unknowns, "hpacucli is not installed");
+        } else {
+          push(@oks, "at least i hope so because hpacucli is not installed");
+        }
+      } else {
+        push(@unknowns, "unknown error");
+      }
+    }
+    return $obstacle ? 0 : 1;
+  }
+
+  sub init {
+    if ($Proliant::Hardware::SNMP) {
+      $hpacucli_ctrl_all_show_config = $Proliant::Hardware::SNMPRESPONSE;
+      $hpacucli_ctrl_all_show_status = $Proliant::Hardware::SNMPRESPONSE;
+    } elsif (-f $Proliant::Hardware::HPASMCLI) {
+      no strict 'refs';
+      open(BIRK, $Proliant::Hardware::HPASMCLI);
+      # all output in one file prefixed with server|powersupply|fans|temp|dimm
+      while(<BIRK>) {
+        chomp;
+        if (/^(\w+) (.*?)\s*$/) {
+            ${"hpacucli_ctrl_all_show_".$1} = "" if ! defined ${"hpacucli_ctrl_all_show_".$1};
+            ${"hpacucli_ctrl_all_show_".$1} .= $2."\n";
+        }
+      }
+      close BIRK;
+      $hpacucli_ctrl_all_show_config = "" if ! $hpacucli_ctrl_all_show_config;
+      $hpacucli_ctrl_all_show_status = "" if ! $hpacucli_ctrl_all_show_status;
+    } else {
+      $hpacucli_ctrl_all_show_config = <<EOHH;
+
+Smart Array 5i in Slot 0      ()
+
+   array A (Parallel SCSI, Unused Space: 0 MB)
+
+      logicaldrive 1 (67.8 GB, RAID 1+0, OK)
+
+      physicaldrive 2:0   (port 2:id 0 , Parallel SCSI, 36.4 GB, OK)
+      physicaldrive 2:1   (port 2:id 1 , Parallel SCSI, 36.4 GB, OK)
+      physicaldrive 2:2   (port 2:id 2 , Parallel SCSI, 36.4 GB, OK)
+      physicaldrive 2:3   (port 2:id 3 , Parallel SCSI, 36.4 GB, OK)
+
+das muss spaeter in ein eigenes cli sas modul
+Smart Array P400i in Slot 0   (sn: PH87MR6762     )
+
+   array A (SAS, Unused Space: 0 MB)
+
+      logicaldrive 1 (683.5 GB, RAID 5, OK)
+
+      physicaldrive 1I:1:1 (port 1I:box 1:bay 1, SAS, 146 GB, OK)
+      physicaldrive 1I:1:2 (port 1I:box 1:bay 2, SAS, 146 GB, OK)
+      physicaldrive 1I:1:3 (port 1I:box 1:bay 3, SAS, 146 GB, OK)
+      physicaldrive 1I:1:4 (port 1I:box 1:bay 4, SAS, 146 GB, OK)
+      physicaldrive 2I:1:5 (port 2I:box 1:bay 5, SAS, 146 GB, OK)
+      physicaldrive 2I:1:6 (port 2I:box 1:bay 6, SAS, 146 GB, OK)
+
+
+EOHH
+      $hpacucli_ctrl_all_show_config = `$hpacucli ctrl all show config 2>&1`;
+      $hpacucli_ctrl_all_show_status = <<EOHH;
+
+Smart Array 5i in Slot 0
+   Controller Status: OK
+   Cache Status: OK
+
+Smart Array P400i in Slot 0
+   Controller Status: OK
+   Cache Status: OK
+   Battery Status: OK
+
+EOHH
+      $hpacucli_ctrl_all_show_status = `$hpacucli ctrl all show status 2>&1`;
+    }
+    Proliant::Hardware::Hpacu::Controller::init(
+        hpacucli_output => $hpacucli_ctrl_all_show_status);
+    Proliant::Hardware::Hpacu::ControllerCache::init(
+        hpacucli_output => $hpacucli_ctrl_all_show_status);
+    Proliant::Hardware::Hpacu::ControllerBattery::init(
+        hpacucli_output => $hpacucli_ctrl_all_show_status);
+    Proliant::Hardware::Hpacu::LogicalDrive::init(
+        hpacucli_output => $hpacucli_ctrl_all_show_config);
+    Proliant::Hardware::Hpacu::PhysicalDrive::init(
+        hpacucli_output => $hpacucli_ctrl_all_show_config);
+    push(@components,
+        Proliant::Hardware::Hpacu::Controller::get_controllers());
+    push(@components,
+        Proliant::Hardware::Hpacu::ControllerCache::get_caches());
+    push(@components,
+        Proliant::Hardware::Hpacu::ControllerBattery::get_batteries());
+    push(@components,
+        Proliant::Hardware::Hpacu::LogicalDrive::get_drives());
+    push(@components,
+        Proliant::Hardware::Hpacu::PhysicalDrive::get_drives());
+    if ($Proliant::Hardware::blacklist) {
+      foreach (@components) {
+        $_->blacklist();
+      }
+    }
+    assign_drives_to_controllers();
+  }
+
+  sub nagios_status {
+    Proliant::Hardware::debug("checking drives");
+    my $phys = 0;
+    my $log = 0;
+    my $ctrl = 0;
+    foreach (@components) {
+      $_->nagios_status();
+      Proliant::Hardware::babble(sprintf "%s%s", $_->{nagios_message},
+          $_->{blacklisted} ? " (blacklisted)" : "");
+      if (! $_->{blacklisted}) {
+        if ($_->{nagios_level} == 1) {
+          push(@warnings, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 2) {
+          push(@criticals, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 3) {
+          push(@unknowns, $_->{nagios_message});
+        }
+      }
+      if ((ref($_) eq "Proliant::Hardware::Hpacu::Controller") &&
+          scalar(@{$_->{physical_disks}})) {
+        push(@oks, sprintf "da: %d logical drives, %d physical drives",
+            scalar(@{$_->{logical_disks}}),
+            scalar(@{$_->{physical_disks}}));
+      }
+    }
+  }
+
+  sub assign_drives_to_controllers {
+    foreach my $controller
+        (Proliant::Hardware::Hpacu::Controller::get_controllers()) {
+      foreach my $physical_disk
+          (Proliant::Hardware::Hpacu::PhysicalDrive::get_drives()) {
+        if ($controller->{index} == $physical_disk->{controller_index}) {
+          push(@{$controller->{physical_disks}}, $physical_disk);
+        }
+      }
+      foreach my $logical_disk
+          (Proliant::Hardware::Hpacu::LogicalDrive::get_drives()) {
+        if ($controller->{index} == $logical_disk->{controller_index}) {
+          push(@{$controller->{logical_disks}}, $logical_disk);
+        }
+      }
+    }
+  }
+}
+
+
+sub blacklist {
+  my $self = shift;
+  if ($self->blacklisted()) {
+    $self->{blacklisted} = 1;
+  }
+}
+
+sub blacklisted {
+  my $self = shift;
+  my $type = shift;
+  my $name = shift;
+  foreach my $bl_items (split(/\//, $Proliant::Hardware::blacklist)) {
+    if ($bl_items =~ /^(l|y|co|cc|cb):([\d:,\.]+)$/) {
+      foreach my $name (split(/,/, $2)) {
+        if (((ref($self) eq "Proliant::Hardware::Hpacu::LogicalDrive") &&
+            ($1 eq "l") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpacu::PhysicalDrive") &&
+            ($1 eq "y") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpacu::Controller") &&
+            ($1 eq "co") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpacu::ControllerCache") &&
+            ($1 eq "cc") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpacu::ControllerBattery") &&
+            ($1 eq "cb") && ($name eq $self->{name}))) {
+          $self->{blacklisted} = 1;
+        }
+      }
+    }
+  }
+}
+
+
+package Proliant::Hardware::Hpacu::Controller;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpacu);
+
+{
+  my @controllers = ();
+
+  sub get_controllers {
+    return @controllers;
+  }
+
+  sub get_category {
+    return "controllers";
+  }
+
+  sub get_controller {
+    my $index = shift;
+    my @controllers =  grep { $_->{index} == $index } get_controllers();
+    $controllers[0];
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpacucli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+    my $slot = 0;
+    my $type = "unkn";
+    foreach (split(/\n/, $params{hpacucli_output})) {
+      if (/(\w+) in Slot\s+(\d+)/) {
+        $type = $1;
+        $slot = $2;
+      } elsif (/Controller Status:\s+(.*)/) {
+        push(@controllers, Proliant::Hardware::Hpacu::Controller->new(
+            index => $slot,
+            slot => $slot,
+            type => $type,
+            status => $1,
+        ));
+      }
+    }
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpacucli_output};
+    # CPQIDA-MIB
+    my $cpqDaCntlrEntry = "1.3.6.1.4.1.232.3.2.2.1.1";
+    my $cpqDaCntlrIndex = "1.3.6.1.4.1.232.3.2.2.1.1.1";
+    my $cpqDaCntlrSlot = "1.3.6.1.4.1.232.3.2.2.1.1.5";
+    my $cpqDaCntlrCondition  = "1.3.6.1.4.1.232.3.2.2.1.1.6";
+    my $cpqDaCntlrConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+
+    # INDEX { cpqDaCntlrIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqDaCntlrEntry);
+    foreach (@indices) {
+      my $idx1 = $_->[0];
+      push(@controllers, Proliant::Hardware::Hpacu::Controller->new(
+          index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqDaCntlrIndex, $idx1),
+          slot =>
+            SNMP::Utils::get_object($snmpwalk, $cpqDaCntlrSlot, $idx1),
+          status =>
+            lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqDaCntlrCondition,
+              $cpqDaCntlrConditionValue, $idx1),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    index => $params{index},
+    name => $params{slot},
+    slot => $params{slot},
+    cache => undef,
+    battery => undef,
+    physical_disks => [],
+    logical_disks => [],
+    status => lc $params{status} || "ok",
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "da controller in slot %s is ok", $self->{slot};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "other") {
+    if (scalar(@{$self->{physical_disks}})) {
+      $self->{nagios_message} =
+          sprintf "da controller in slot %s needs attention", $self->{slot};
+      $self->{nagios_level} = $ERRORS{CRITICAL};
+    } else {
+      $self->{nagios_message} = sprintf "da controller in slot %s is ok and unused",
+          $self->{slot};
+      $self->{blacklisted} = 1;
+    }
+  } elsif ($self->{status} ne "ok") {
+    $self->{nagios_message} =
+        sprintf "da controller in slot %s needs attention", $self->{slot};
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+sub physical_disks {
+  my $self = shift;
+  return @{$self->{physical_disks}};
+}
+
+
+package Proliant::Hardware::Hpacu::ControllerCache;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpacu);
+
+{
+  my @caches = ();
+
+  sub get_caches {
+    return @caches;
+  }
+
+  sub get_category {
+    return "caches";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpacucli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+    my $slot = 0;
+    foreach (split(/\n/, $params{hpacucli_output})) {
+      if (/in Slot\s+(\d+)/) {
+        $slot = $1;
+      } elsif (/Cache Status:\s+(.*)/) {
+        push(@caches, Proliant::Hardware::Hpacu::ControllerCache->new(
+            slot => $slot,
+            condition => $1
+        ));
+      }
+    }
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpacucli_output};
+    my $cpqDaAccelEntry = "1.3.6.1.4.1.232.3.2.2.2.1";
+    my $cpqDaAccelCntlrIndex = "1.3.6.1.4.1.232.3.2.2.2.1.1";
+    my $cpqDaAccelStatus = "1.3.6.1.4.1.232.3.2.2.2.1.2";
+    my $cpqDaAccelSlot = "1.3.6.1.4.1.232.3.2.2.2.1.5";
+    my $cpqDaAccelCondition  = "1.3.6.1.4.1.232.3.2.2.2.1.6";
+    my $cpqDaAccelConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+
+    # INDEX { cpqDaAccelCntlrIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqDaAccelEntry);
+    foreach (@indices) {
+      my $idx1 = $_->[0];
+      my $status = lc SNMP::Utils::get_object(
+          $snmpwalk, $cpqDaAccelStatus, $idx1);
+      if ($status != 2) {
+        my $ctrlidx =
+            SNMP::Utils::get_object($snmpwalk, $cpqDaAccelCntlrIndex, $idx1);
+        my $slot = (map { $_->{slot} } grep { $_->{index} == $ctrlidx } Proliant::Hardware::Hpacu::Controller::get_controllers())[0];
+        push(@caches, Proliant::Hardware::Hpacu::ControllerCache->new(
+            slot =>
+              $slot,
+            condition =>
+              lc SNMP::Utils::get_object_value(
+                  $snmpwalk, $cpqDaAccelCondition,
+                  $cpqDaAccelConditionValue, $idx1),
+        ));
+      }
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    name => $params{slot},
+    slot => $params{slot},
+    condition => lc $params{condition} || "ok",
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "controller cache in slot %s is ok", $self->{slot};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{condition} ne "ok") {
+    $self->{nagios_message} =
+        sprintf "controller cache in slot %s needs attention", $self->{slot};
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+
+package Proliant::Hardware::Hpacu::ControllerBattery;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpacu);
+
+{
+  my @batteries = ();
+
+  sub get_batteries {
+    return @batteries;
+  }
+
+  sub get_category {
+    return "batteries";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpacucli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+    my $slot = 0;
+    foreach (split(/\n/, $params{hpacucli_output})) {
+      if (/in Slot\s+(\d+)/) {
+        $slot = $1;
+      } elsif (/Battery Status:\s+(.*)/) {
+        push(@batteries, Proliant::Hardware::Hpacu::ControllerBattery->new(
+            slot => $slot,
+            status => $1
+        ));
+      }
+    }
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpacucli_output};
+    my $cpqDaAccelEntry = "1.3.6.1.4.1.232.3.2.2.2.1";
+    my $cpqDaAccelCntlrIndex = "1.3.6.1.4.1.232.3.2.2.2.1.1";
+    my $cpqDaAccelBattery  = "1.3.6.1.4.1.232.3.2.2.2.1.6";
+    my $cpqDaAccelBatteryValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "recharging",
+        4 => "failed",
+        5 => "degraded",
+        6 => "notPresent",
+    };
+
+    # INDEX { cpqDaAccelCntlrIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqDaAccelEntry);
+    foreach (@indices) {
+      my $idx1 = $_->[0];
+      my $status = lc SNMP::Utils::get_object(
+          $snmpwalk, $cpqDaAccelBattery, $idx1);
+      if ($status != 6) {
+        my $ctrlidx =
+            SNMP::Utils::get_object($snmpwalk, $cpqDaAccelCntlrIndex, $idx1);
+        my $slot = (map { $_->{slot} } grep { $_->{index} == $ctrlidx } Proliant::Hardware::Hpacu::Controller::get_controllers())[0];
+        push(@batteries, Proliant::Hardware::Hpacu::ControllerBattery->new(
+            slot =>
+              $slot,
+            status =>
+              lc SNMP::Utils::get_object_value(
+                  $snmpwalk, $cpqDaAccelBattery,
+                  $cpqDaAccelBatteryValue, $idx1),
+        ));
+      }
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    name => $params{slot},
+    slot => $params{slot},
+    status => lc $params{status} || "ok",
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "controller battery in slot %s is ok", $self->{slot};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "recharging") {
+    $self->{nagios_message} =
+        sprintf "controller in slot %s battery recharging", $self->{slot};
+    $self->{nagios_level} = $ERRORS{WARNING};
+  } elsif ($self->{status} ne "ok") {
+    $self->{nagios_message} =
+        sprintf "controller in slot %s battery needs attention", $self->{slot};
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+
+package Proliant::Hardware::Hpacu::LogicalDrive;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpacu);
+
+{
+  my @drives = ();
+
+  sub get_drives {
+    return @drives;
+  }
+
+  sub get_category {
+    return "logical drive";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpacucli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+    my $slot = 0;
+    foreach (split(/\n/, $params{hpacucli_output})) {
+      if (/in Slot (\d+)/) {
+        $slot = $1;
+      } elsif (/logicaldrive\s+(.+?)\s+\((.*)\)/) {
+        my $name = $1;
+        my($size, $level, $condition) = split(/,/, $2);
+        $condition =~ s/^\s+//g;
+        $condition =~ s/\s+$//g;
+        $condition = lc $condition;
+        # logicaldrive 1 (67.8 GB, RAID 1+0, OK)
+        push(@drives, Proliant::Hardware::Hpacu::LogicalDrive->new(
+            controller_index => $slot,
+            name => $name,
+            size => $size,
+            level => $level,
+            condition => $condition,
+        ));
+      }
+    }
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpacucli_output};
+
+    my $cpqDaLogDrvEntry = "1.3.6.1.4.1.232.3.2.3.1.1";
+    my $cpqDaLogDrvCntlrIndex = "1.3.6.1.4.1.232.3.2.3.1.1.1";
+    my $cpqDaLogDrvIndex = "1.3.6.1.4.1.232.3.2.3.1.1.2";
+    my $cpqDaLogDrvFaultTol = "1.3.6.1.4.1.232.3.2.3.1.1.3";
+    my $cpqDaLogDrvStatus = "1.3.6.1.4.1.232.3.2.3.1.1.4";
+    my $cpqDaLogDrvSize = "1.3.6.1.4.1.232.3.2.3.1.1.9";
+    my $cpqDaLogDrvCondition = "1.3.6.1.4.1.232.3.2.3.1.1.11";
+    my $cpqDaLogDrvPercentRebuild = "1.3.6.1.4.1.232.3.2.3.1.1.12";
+    my $cpqDaLogDrvFaultTolValue = {
+        1 => "other",
+        2 => "none",
+        3 => "mirroring",
+        4 => "dataGuard",
+        5 => "distribDataGuard",
+        7 => "advancedDataGuard",
+    };
+    my $cpqDaLogDrvConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+    my $cpqDaLogDrvStatusValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "failed",
+        4 => "unconfigured",
+        5 => "recovering",
+        6 => "readyForRebuild",
+        7 => "rebuilding",
+        8 => "wrongDrive",
+        9 => "badConnect",
+        10 => "overheating",
+        11 => "shutdown",
+        12 => "expanding",
+        13 => "notAvailable",
+        14 => "queuedForExpansion",
+    };
+
+    # INDEX { cpqDaLogDrvCntlrIndex, cpqDaLogDrvIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqDaLogDrvEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@drives, Proliant::Hardware::Hpacu::LogicalDrive->new(
+        controller_index =>
+          SNMP::Utils::get_object($snmpwalk, $cpqDaLogDrvCntlrIndex, $idx1, $idx2),
+        name =>
+          SNMP::Utils::get_number(\@indices, $idx1, $idx2),
+        size =>
+          SNMP::Utils::get_object($snmpwalk, $cpqDaLogDrvSize, $idx1, $idx2),
+        level =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqDaLogDrvFaultTol,
+              $cpqDaLogDrvFaultTolValue, $idx1, $idx2),
+        condition =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqDaLogDrvStatus,
+              $cpqDaLogDrvStatusValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    controller_index => $params{controller_index},
+    name => $params{name},
+    size => $params{size},
+    level => $params{level},
+    condition => $params{condition},
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "logical drive %s is %s (%s)",
+      $self->{name}, $self->{condition}, $self->{level};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{condition} eq "ok") {
+    $self->{nagios_level} = $ERRORS{OK};
+  } elsif ($self->{condition} =~ /rebuild/) {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  } elsif ($self->{condition} =~ /failed/) {
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  } elsif ($self->{condition} =~ /recover/) {
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  } elsif ($self->{condition} =~ /predict/) {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  } else {
+    $self->{nagios_level} = $ERRORS{UNKNOWN};
+  }
+}
+
+
+package Proliant::Hardware::Hpacu::PhysicalDrive;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpacu);
+
+{
+  my @drives = ();
+
+  sub get_drives {
+    return @drives;
+  }
+
+  sub get_category {
+    return "physical drive";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpacucli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+    my $slot = 0;
+    # physicaldrive 1I:1:1 (port 1I:box 1:bay 1, SAS, 146 GB, OK)
+    foreach (split(/\n/, $params{hpacucli_output})) {
+      if (/in Slot (\d+)/) {
+        $slot = $1;
+      } elsif (/physicaldrive\s+(.+?)\s+\((.*)\)/) {
+        # physicaldrive 2:0   (port 2:id 0 , Parallel SCSI, 36.4 GB, OK)
+        my $name = $1;
+        my($port, $bus, $size, $status) = split(/,/, $2);
+        $status =~ s/^\s+//g;
+        $status =~ s/\s+$//g;
+        $status = lc $status;
+        push(@drives, Proliant::Hardware::Hpacu::PhysicalDrive->new(
+            name => $name,
+            controller_index => $slot, # cli only shows slot, not both
+            port => $port,
+            bus => $bus,
+            size => $size,
+            status => $status ));
+      }
+    }
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpacucli_output};
+
+    my $cpqDaPhyDrvEntry = "1.3.6.1.4.1.232.3.2.5.1.1";
+    my $cpqDaPhyDrvCntlrIndex = "1.3.6.1.4.1.232.3.2.5.1.1.1";
+    my $cpqDaPhyDrvIndex = "1.3.6.1.4.1.232.3.2.5.1.1.2";
+    my $cpqDaPhyDrvBay = "1.3.6.1.4.1.232.3.2.5.1.1.5";
+    my $cpqDaPhyDrvStatus = "1.3.6.1.4.1.232.3.2.5.1.1.6";
+    my $cpqDaPhyDrvSize = "1.3.6.1.4.1.232.3.2.5.1.1.9";
+    my $cpqDaPhyDrvCondition = "1.3.6.1.4.1.232.3.2.5.1.1.11";
+    my $cpqDaPhyDrvBusNumber = "1.3.6.1.4.1.232.3.2.5.1.1.50";
+    my $cpqDaPhyDrvConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+    my $cpqDaPhyDrvStatusValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "failed",
+        4 => "predictiveFailure",
+    };
+
+    # INDEX { cpqDaLogDrvCntlrIndex, cpqDaLogDrvIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqDaPhyDrvEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@drives, Proliant::Hardware::Hpacu::PhysicalDrive->new(
+        controller_index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqDaPhyDrvCntlrIndex, $idx1, $idx2),
+        name =>
+# physicaldrive 2:1   (port 2:id 1
+# "2:1" "2:2"
+#
+# 16:0
+            SNMP::Utils::get_object($snmpwalk, $cpqDaPhyDrvCntlrIndex, $idx1, $idx2)
+            .':'.
+            SNMP::Utils::get_object($snmpwalk, $cpqDaPhyDrvBay, $idx1, $idx2),
+        port => "kaas",
+        bus => "kaas",
+        size =>
+          SNMP::Utils::get_object($snmpwalk, $cpqDaPhyDrvSize, $idx1, $idx2),
+        status =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqDaPhyDrvStatus,
+              $cpqDaPhyDrvStatusValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    controller_index => $params{controller_index},
+    name => $params{name},
+    port => $params{port},
+    bus => $params{bus},
+    size => $params{size},
+    status => $params{status},
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+# simulierter fehler
+#if ($params{name} eq "2:1") {
+#  $self->{status} = "predictive failure";
+#}
+  $self->{nagios_message} = sprintf "physical drive %s is %s", $self->{name}, $self->{status};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "ok") {
+    $self->{nagios_level} = $ERRORS{OK};
+  } else {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  }
+}
+
+
+package Proliant::Hardware::Hpsas;
+
+use strict;
+
+use constant DEFAULT_PATH_TO_HPACUCLI => "/usr/sbin/hpsascli";
+use constant ALTERNATE_PATH_TO_HPACUCLI => "/usr/local/sbin/hpsascli";
+
+{
+  our $hpsascli = undef;
+  my $obstacle = undef;
+  our @oks = ();
+  our @warnings = ();
+  our @criticals = ();
+  our @unknowns = ();
+  our @perfdata = ();
+  our @extendedinfo = ();
+  our @components = ();
+  our $hpsascli_ctrl_all_show_config = undef;
+  our $hpsascli_ctrl_all_show_status = undef;
+
+  sub get_components {
+    return @components;
+  }
+
+  sub ready_to_run {
+    if ($Proliant::Hardware::SNMP) {
+      if (scalar (keys %{$Proliant::Hardware::SNMPRESPONSE}) == 0) {
+        $obstacle = "nosnmp";
+      }
+    } elsif (-f $Proliant::Hardware::HPASMCLI) {
+      # simulation.
+    } else {
+      # gibt nix ausser snmp
+    }
+    return $obstacle ? 0 : 1;
+  }
+
+  sub init {
+    if ($Proliant::Hardware::SNMP) {
+      $hpsascli_ctrl_all_show_config = $Proliant::Hardware::SNMPRESPONSE;
+      $hpsascli_ctrl_all_show_status = $Proliant::Hardware::SNMPRESPONSE;
+    }
+    Proliant::Hardware::Hpsas::Hba::init(
+        hpsascli_output => $hpsascli_ctrl_all_show_status);
+    Proliant::Hardware::Hpsas::LogicalDrive::init(
+        hpsascli_output => $hpsascli_ctrl_all_show_config);
+    Proliant::Hardware::Hpsas::PhysicalDrive::init(
+        hpsascli_output => $hpsascli_ctrl_all_show_config);
+    push(@components,
+        Proliant::Hardware::Hpsas::Hba::get_controllers());
+    push(@components,
+        Proliant::Hardware::Hpsas::LogicalDrive::get_drives());
+    push(@components,
+        Proliant::Hardware::Hpsas::PhysicalDrive::get_drives());
+    if ($Proliant::Hardware::blacklist) {
+      foreach (@components) {
+        $_->blacklist();
+      }
+    }
+    assign_drives_to_controllers();
+  }
+
+  sub nagios_status {
+    Proliant::Hardware::debug("checking drives");
+    my $phys = 0;
+    my $log = 0;
+    my $ctrl = 0;
+    foreach (@components) {
+      $_->nagios_status();
+      Proliant::Hardware::babble(sprintf "%s%s", $_->{nagios_message},
+          $_->{blacklisted} ? " (blacklisted)" : "");
+      if (! $_->{blacklisted}) {
+        if ($_->{nagios_level} == 1) {
+          push(@warnings, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 2) {
+          push(@criticals, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 3) {
+          push(@unknowns, $_->{nagios_message});
+        }
+      }
+      if ((ref($_) eq "Proliant::Hardware::Hpsas::Hba") &&
+          scalar(@{$_->{physical_disks}})) {
+        push(@oks, sprintf "sas: %d logical drives, %d physical drives",
+            scalar(@{$_->{logical_disks}}),
+            scalar(@{$_->{physical_disks}}));
+      }
+    }
+  }
+
+  sub assign_drives_to_controllers {
+    foreach my $controller
+        (Proliant::Hardware::Hpsas::Hba::get_controllers()) {
+      foreach my $physical_disk
+          (Proliant::Hardware::Hpsas::PhysicalDrive::get_drives()) {
+        if ($controller->{index} == $physical_disk->{controller_index}) {
+          push(@{$controller->{physical_disks}}, $physical_disk);
+        }
+      }
+      foreach my $logical_disk
+          (Proliant::Hardware::Hpsas::LogicalDrive::get_drives()) {
+        if ($controller->{index} == $logical_disk->{controller_index}) {
+          push(@{$controller->{logical_disks}}, $logical_disk);
+        }
+      }
+    }
+  }
+
+}
+
+
+sub blacklist {
+  my $self = shift;
+  if ($self->blacklisted()) {
+    $self->{blacklisted} = 1;
+  }
+}
+
+sub blacklisted {
+  my $self = shift;
+  my $type = shift;
+  my $name = shift;
+  foreach my $bl_items (split(/\//, $Proliant::Hardware::blacklist)) {
+    if ($bl_items =~ /^(l|y|co|cc|cb):([\d:,\.]+)$/) {
+      foreach my $name (split(/,/, $2)) {
+        if (((ref($self) eq "Proliant::Hardware::Hpsas::LogicalDrive") &&
+            ($1 eq "l") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpsas::PhysicalDrive") &&
+            ($1 eq "y") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpsas::Controller") &&
+            ($1 eq "co") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpsas::ControllerCache") &&
+            ($1 eq "cc") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpsas::ControllerBattery") &&
+            ($1 eq "cb") && ($name eq $self->{name}))) {
+          $self->{blacklisted} = 1;
+        }
+      }
+    }
+  }
+}
+
+
+package Proliant::Hardware::Hpsas::Hba;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpsas);
+
+{
+  my @controllers = ();
+
+  sub get_controllers {
+    return @controllers;
+  }
+
+  sub get_category {
+    return "controllers";
+  }
+
+  sub get_controller {
+    my $index = shift;
+    my @controllers =  grep { $_->{index} == $index } get_controllers();
+    $controllers[0];
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpsascli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpsascli_output};
+    # CPQSCSI-MIB
+    my $cpqSasHbaEntry = "1.3.6.1.4.1.232.5.5.1.1.1";
+    my $cpqSasHbaIndex = "1.3.6.1.4.1.232.5.5.1.1.1.1";
+    my $cpqSasHbaLocation = "1.3.6.1.4.1.232.5.5.1.1.1.2";
+    my $cpqSasHbaStatus  = "1.3.6.1.4.1.232.5.5.1.1.1.4";
+    my $cpqSasHbaStatusValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "failed",
+    };
+    my $cpqSasHbaCondition  = "1.3.6.1.4.1.232.5.5.1.1.1.5";
+    my $cpqSasHbaConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+
+    # INDEX { cpqSasHbaIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqSasHbaEntry);
+    foreach (@indices) {
+      my $idx1 = $_->[0];
+      push(@controllers, Proliant::Hardware::Hpsas::Hba->new(
+          index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqSasHbaIndex, $idx1),
+          location =>
+            SNMP::Utils::get_object($snmpwalk, $cpqSasHbaLocation, $idx1),
+          status =>
+            lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqSasHbaCondition,
+              $cpqSasHbaConditionValue, $idx1),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    index => $params{index},
+    location => $params{location},
+    status => lc $params{status} || "ok",
+    physical_disks => [],
+    logical_disks => [],
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "sas hba at location %s is ok", $self->{location};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "other") {
+    if (scalar(@{$self->{physical_disks}})) {
+      $self->{nagios_message} =
+          sprintf "sas controller at location %s needs attention", $self->{location};
+      $self->{nagios_level} = $ERRORS{CRITICAL};
+    } else {
+      $self->{nagios_message} = sprintf "sas controller at location %s is ok and unused",
+          $self->{location};
+      $self->{blacklisted} = 1;
+    }
+  } elsif ($self->{status} ne "ok") {
+    $self->{nagios_message} =
+        sprintf "sas controller at location %s needs attention", $self->{location};
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+
+package Proliant::Hardware::Hpsas::PhysicalDrive;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpsas);
+
+{
+  my @drives = ();
+
+  sub get_drives {
+    return @drives;
+  }
+
+  sub get_category {
+    return "physical drive";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpsascli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpsascli_output};
+
+    my $cpqSasPhyDrvEntry = "1.3.6.1.4.1.232.5.5.2.1.1";
+    my $cpqSasPhyDrvHbaIndex = "1.3.6.1.4.1.232.5.5.2.1.1.1";
+    my $cpqSasPhyDrvIndex = "1.3.6.1.4.1.232.5.5.2.1.1.2";
+    my $cpqSasPhyDrvLocationString = "1.3.6.1.4.1.232.5.5.2.1.1.3";
+    my $cpqSasPhyDrvStatus = "1.3.6.1.4.1.232.5.5.2.1.1.5";
+    my $cpqSasPhyDrvSize = "1.3.6.1.4.1.232.5.5.2.1.1.8";
+    my $cpqSasPhyDrvCondition = "1.3.6.1.4.1.232.5.5.2.1.1.6";
+    my $cpqSasPhyDrvConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+    my $cpqSasPhyDrvStatusValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "predictiveFailure",
+        4 => "offline",
+        5 => "failed",
+        6 => "missingWasOk",
+        7 => "missingWasPredictiveFailure",
+        8 => "missingWasOffline",
+        9 => "missingWasFailed",
+    };
+
+    # INDEX { cpqSasPhyDrvHbaIndex, cpqSasPhyDrvIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqSasPhyDrvEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@drives, Proliant::Hardware::Hpsas::PhysicalDrive->new(
+        controller_index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqSasPhyDrvHbaIndex, $idx1, $idx2),
+        name =>
+            SNMP::Utils::get_object($snmpwalk, $cpqSasPhyDrvHbaIndex, $idx1, $idx2)
+            .':'.
+            SNMP::Utils::get_object($snmpwalk, $cpqSasPhyDrvIndex, $idx1, $idx2),
+        location => SNMP::Utils::get_object($snmpwalk, $cpqSasPhyDrvLocationString, $idx1, $idx2),
+        size =>
+          SNMP::Utils::get_object($snmpwalk, $cpqSasPhyDrvSize, $idx1, $idx2),
+        status =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqSasPhyDrvStatus,
+              $cpqSasPhyDrvStatusValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    controller_index => $params{controller_index},
+    name => $params{name},
+    port => $params{port},
+    bus => $params{bus},
+    size => $params{size},
+    status => $params{status},
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+# simulierter fehler
+#if ($params{name} eq "2:1") {
+#  $self->{status} = "predictive failure";
+#}
+  $self->{nagios_message} = sprintf "physical drive %s is %s", $self->{name}, $self->{status};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "ok") {
+    $self->{nagios_level} = $ERRORS{OK};
+  } else {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  }
+}
+
+package Proliant::Hardware::Hpsas::LogicalDrive;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpsas);
+
+{
+  my @drives = ();
+
+  sub get_drives {
+    return @drives;
+  }
+
+  sub get_category {
+    return "logical drive";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpsascli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpsascli_output};
+
+    my $cpqSasLogDrvEntry = "1.3.6.1.4.1.232.5.5.3.1.1";
+    my $cpqSasLogDrvHbaIndex = "1.3.6.1.4.1.232.5.5.3.1.1.1";
+    my $cpqSasLogDrvIndex = "1.3.6.1.4.1.232.5.5.3.1.1.2";
+    my $cpqSasLogDrvStatus = "1.3.6.1.4.1.232.5.5.3.1.1.4";
+    my $cpqSasLogDrvCondition = "1.3.6.1.4.1.232.5.5.3.1.1.5";
+    my $cpqSasLogDrvRebuildingPercent = "1.3.6.1.4.1.232.5.5.3.1.1.12";
+    my $cpqSasLogDrvRaidLevel= "1.3.6.1.4.1.232.5.5.3.1.1.3";
+    my $cpqSasLogDrvRaidLevelValue = {
+        1 => "other",
+        2 => "raid0",
+        3 => "raid1",
+        4 => "raid0plus1",
+        5 => "raid5",
+        6 => "raid15",
+        7 => "volume",
+    };
+    my $cpqSasLogDrvConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+    my $cpqSasLogDrvStatusValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "rebuilding",
+        5 => "failed",
+        6 => "offline",
+    };
+
+    # INDEX { cpqSasLogDrvCntlrIndex, cpqSasLogDrvIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqSasLogDrvEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@drives, Proliant::Hardware::Hpsas::LogicalDrive->new(
+        controller_index =>
+          SNMP::Utils::get_object($snmpwalk, $cpqSasLogDrvHbaIndex, $idx1, $idx2),
+        name =>
+          SNMP::Utils::get_object($snmpwalk, $cpqSasLogDrvHbaIndex, $idx1, $idx2)
+          .':'.
+          SNMP::Utils::get_object($snmpwalk, $cpqSasLogDrvIndex, $idx1, $idx2),
+        level =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqSasLogDrvRaidLevel,
+              $cpqSasLogDrvRaidLevelValue, $idx1, $idx2),
+        status =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqSasLogDrvStatus,
+              $cpqSasLogDrvStatusValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    controller_index => $params{controller_index},
+    name => $params{name},
+    status => $params{status},
+    level => $params{level},
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "logical drive %s is %s (%s)", $self->{name}, $self->{status}, $self->{level};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "ok") {
+    $self->{nagios_level} = $ERRORS{OK};
+  } elsif ($self->{status} =~ /degraded/) {
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  } elsif ($self->{status} =~ /rebuild/) {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  } elsif ($self->{status} =~ /failed/) {
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  } elsif ($self->{status} =~ /offline/) {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  } else {
+    $self->{nagios_level} = $ERRORS{UNKNOWN};
+  }
+}
+
+package Proliant::Hardware::Hpide;
+
+use strict;
+
+use constant DEFAULT_PATH_TO_HPACUCLI => "/usr/sbin/hpsascli";
+use constant ALTERNATE_PATH_TO_HPACUCLI => "/usr/local/sbin/hpsascli";
+
+{
+  our $hpsascli = undef;
+  my $obstacle = undef;
+  our @oks = ();
+  our @warnings = ();
+  our @criticals = ();
+  our @unknowns = ();
+  our @perfdata = ();
+  our @extendedinfo = ();
+  our @components = ();
+  our $hpsascli_ctrl_all_show_config = undef;
+  our $hpsascli_ctrl_all_show_status = undef;
+
+  sub get_components {
+    return @components;
+  }
+
+  sub ready_to_run {
+    if ($Proliant::Hardware::SNMP) {
+      if (scalar (keys %{$Proliant::Hardware::SNMPRESPONSE}) == 0) {
+        $obstacle = "nosnmp";
+      }
+    } elsif (-f $Proliant::Hardware::HPASMCLI) {
+      # simulation.
+    } else {
+      # ide nur mit snmp
+    }
+    if ($obstacle) {
+      if ($obstacle eq "nopriv") {
+        # nur als beispiel falls es evt. doch ein command line tool gibt
+        push(@unknowns, sprintf "insufficient rights to call %s", $hpsascli);
+      } else {
+        push(@unknowns, "unknown error");
+      }
+    }
+    return $obstacle ? 0 : 1;
+  }
+
+  sub init {
+    if ($Proliant::Hardware::SNMP) {
+      $hpsascli_ctrl_all_show_config = $Proliant::Hardware::SNMPRESPONSE;
+      $hpsascli_ctrl_all_show_status = $Proliant::Hardware::SNMPRESPONSE;
+    }
+    Proliant::Hardware::Hpide::Controller::init(
+        hpsascli_output => $hpsascli_ctrl_all_show_status);
+    Proliant::Hardware::Hpide::LogicalDrive::init(
+        hpsascli_output => $hpsascli_ctrl_all_show_config);
+    Proliant::Hardware::Hpide::PhysicalDrive::init(
+        hpsascli_output => $hpsascli_ctrl_all_show_config);
+    push(@components,
+        Proliant::Hardware::Hpide::Controller::get_controllers());
+    push(@components,
+        Proliant::Hardware::Hpide::LogicalDrive::get_drives());
+    push(@components,
+        Proliant::Hardware::Hpide::PhysicalDrive::get_drives());
+    if ($Proliant::Hardware::blacklist) {
+      foreach (@components) {
+        $_->blacklist();
+      }
+    }
+    assign_drives_to_controllers();
+  }
+
+  sub nagios_status {
+    Proliant::Hardware::debug("checking drives");
+    my $phys = 0;
+    my $log = 0;
+    my $ctrl = 0;
+    foreach (@components) {
+      $_->nagios_status();
+      Proliant::Hardware::babble(sprintf "%s%s", $_->{nagios_message},
+          $_->{blacklisted} ? " (blacklisted)" : "");
+      if (! $_->{blacklisted}) {
+        if ($_->{nagios_level} == 1) {
+          push(@warnings, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 2) {
+          push(@criticals, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 3) {
+          push(@unknowns, $_->{nagios_message});
+        }
+      }
+      if ((ref($_) eq "Proliant::Hardware::Hpide::Controller") &&
+          scalar(@{$_->{physical_disks}})) {
+        push(@oks, sprintf "ide: %d logical drives, %d physical drives",
+            scalar(@{$_->{logical_disks}}),
+            scalar(@{$_->{physical_disks}}));
+      }
+    }
+  }
+
+  sub assign_drives_to_controllers {
+    foreach my $controller
+        (Proliant::Hardware::Hpide::Controller::get_controllers()) {
+      foreach my $physical_disk
+          (Proliant::Hardware::Hpide::PhysicalDrive::get_drives()) {
+        if ($controller->{index} == $physical_disk->{controller_index}) {
+          push(@{$controller->{physical_disks}}, $physical_disk);
+        }
+      }
+      foreach my $logical_disk
+          (Proliant::Hardware::Hpide::LogicalDrive::get_drives()) {
+        if ($controller->{index} == $logical_disk->{controller_index}) {
+          push(@{$controller->{logical_disks}}, $logical_disk);
+        }
+      }
+    }
+  }
+
+}
+
+
+sub blacklist {
+  my $self = shift;
+  if ($self->blacklisted()) {
+    $self->{blacklisted} = 1;
+  }
+}
+
+sub blacklisted {
+  my $self = shift;
+  my $type = shift;
+  my $name = shift;
+  foreach my $bl_items (split(/\//, $Proliant::Hardware::blacklist)) {
+    if ($bl_items =~ /^(l|y|co|cc|cb):([\d:,\.]+)$/) {
+      foreach my $name (split(/,/, $2)) {
+        if (((ref($self) eq "Proliant::Hardware::Hpide::LogicalDrive") &&
+            ($1 eq "l") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpide::PhysicalDrive") &&
+            ($1 eq "y") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpide::Controller") &&
+            ($1 eq "co") && ($name eq $self->{name}))) {
+          $self->{blacklisted} = 1;
+        }
+      }
+    }
+  }
+}
+
+
+package Proliant::Hardware::Hpide::Controller;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpide);
+
+{
+  my @controllers = ();
+
+  sub get_controllers {
+    return @controllers;
+  }
+
+  sub get_category {
+    return "controllers";
+  }
+
+  sub get_controller {
+    my $index = shift;
+    my @controllers =  grep { $_->{index} == $index } get_controllers();
+    $controllers[0];
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpsascli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpsascli_output};
+    # CPQIDE-MIB
+    my $cpqIdeControllerEntry = "1.3.6.1.4.1.232.14.2.3.1.1";
+    my $cpqIdeControllerIndex = "1.3.6.1.4.1.232.14.2.3.1.1.1";
+    my $cpqIdeControllerSlot = "1.3.6.1.4.1.232.14.2.3.1.1.5";
+    my $cpqIdeControllerOverallCondition  = "1.3.6.1.4.1.232.14.2.3.1.1.2";
+    my $cpqIdeControllerOverallConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+
+    # INDEX { cpqIdeControllerIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqIdeControllerEntry);
+    foreach (@indices) {
+      my $idx1 = $_->[0];
+      push(@controllers, Proliant::Hardware::Hpide::Controller->new(
+          index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqIdeControllerIndex, $idx1),
+          slot =>
+            SNMP::Utils::get_object($snmpwalk, $cpqIdeControllerSlot, $idx1),
+          status =>
+            lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqIdeControllerOverallCondition,
+              $cpqIdeControllerOverallConditionValue, $idx1),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    index => $params{index},
+    slot => $params{slot},
+    status => lc $params{status},
+    physical_disks => [],
+    logical_disks => [],
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "ide controller in slot %s is ok", $self->{slot};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "other") {
+    if (scalar(@{$self->{physical_disks}})) {
+      $self->{nagios_message} =
+          sprintf "ide controller in slot %s needs attention", $self->{slot};
+      $self->{nagios_level} = $ERRORS{CRITICAL};
+    } else {
+      $self->{nagios_message} = sprintf "ide controller in slot %s is ok and unused",
+          $self->{slot};
+      $self->{blacklisted} = 1;
+    }
+  } elsif ($self->{status} ne "ok") {
+    $self->{nagios_message} =
+        sprintf "ide controller in slot %s needs attention", $self->{slot};
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+
+package Proliant::Hardware::Hpide::PhysicalDrive;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpide);
+
+{
+  my @drives = ();
+
+  sub get_drives {
+    return @drives;
+  }
+
+  sub get_category {
+    return "physical drive";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpsascli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpsascli_output};
+
+    my $cpqIdeAtaDiskEntry = "1.3.6.1.4.1.232.14.2.4.1.1";
+    my $cpqIdeAtaDiskControllerIndex = "1.3.6.1.4.1.232.14.2.4.1.1.1";
+    my $cpqIdeAtaDiskIndex = "1.3.6.1.4.1.232.14.2.4.1.1.2";
+    my $cpqIdeAtaDiskStatus = "1.3.6.1.4.1.232.14.2.4.1.1.6";
+    my $cpqIdeAtaDiskStatusValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "smartError",
+        4 => "failed",
+    };
+    # INDEX { cpqIdeAtaDiskHbaIndex, cpqIdeAtaDiskIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqIdeAtaDiskEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@drives, Proliant::Hardware::Hpide::PhysicalDrive->new(
+        controller_index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqIdeAtaDiskControllerIndex, $idx1, $idx2),
+        name =>
+            SNMP::Utils::get_object($snmpwalk, $cpqIdeAtaDiskControllerIndex, $idx1, $idx2)
+            .':'.
+            SNMP::Utils::get_object($snmpwalk, $cpqIdeAtaDiskIndex, $idx1, $idx2),
+        status =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqIdeAtaDiskStatus,
+              $cpqIdeAtaDiskStatusValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    controller_index => $params{controller_index},
+    name => $params{name},
+    status => $params{status},
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+# simulierter fehler
+#if ($params{name} eq "2:1") {
+#  $self->{status} = "predictive failure";
+#}
+  $self->{nagios_message} = sprintf "physical drive %s is %s", $self->{name}, $self->{status};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "ok") {
+    $self->{nagios_level} = $ERRORS{OK};
+  } else {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  }
+}
+
+package Proliant::Hardware::Hpide::LogicalDrive;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpide);
+
+{
+  my @drives = ();
+
+  sub get_drives {
+    return @drives;
+  }
+
+  sub get_category {
+    return "logical drive";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpsascli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpsascli_output};
+    my $cpqIdeLogicalDriveEntry = "1.3.6.1.4.1.232.14.2.6.1.1";
+    my $cpqIdeLogicalDriveControllerIndex = "1.3.6.1.4.1.232.14.2.6.1.1.1";
+    my $cpqIdeLogicalDriveIndex = "1.3.6.1.4.1.232.14.2.6.1.1.2";
+    my $cpqIdeLogicalDriveRaidLevel = "1.3.6.1.4.1.232.14.2.6.1.1.3";
+    my $cpqIdeLogicalDriveCapacity = "1.3.6.1.4.1.232.14.2.6.1.1.4";
+    my $cpqIdeLogicalDriveStatus = "1.3.6.1.4.1.232.14.2.6.1.1.5";
+    my $cpqIdeLogicalDriveCondition = "1.3.6.1.4.1.232.14.2.6.1.1.6";
+    my $cpqIdeLogicalDriveDiskIds = "1.3.6.1.4.1.232.14.2.6.1.1.7";
+    my $cpqIdeLogicalDriveStripeSize = "1.3.6.1.4.1.232.14.2.6.1.1.8";
+    my $cpqIdeLogicalDriveSpareIds = "1.3.6.1.4.1.232.14.2.6.1.1.9";
+    my $cpqIdeLogicalDriveRebuildingDisk = "1.3.6.1.4.1.232.14.2.6.1.1.10";
+    my $cpqIdeLogicalDriveRaidLevelValue = {
+        1 => "other",
+        2 => "raid0",
+        3 => "raid1",
+        4 => "raid0plus1",
+    };
+    my $cpqIdeLogicalDriveStatusValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "rebuilding",
+        5 => "failed",
+    };
+
+    # INDEX { cpqIdeLogicalDriveControllerIndex, cpqIdeLogicalDriveIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqIdeLogicalDriveEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@drives, Proliant::Hardware::Hpide::LogicalDrive->new(
+        controller_index =>
+          SNMP::Utils::get_object($snmpwalk, $cpqIdeLogicalDriveControllerIndex, $idx1, $idx2),
+        name =>
+          SNMP::Utils::get_object($snmpwalk, $cpqIdeLogicalDriveControllerIndex, $idx1, $idx2)
+          .':'.
+          SNMP::Utils::get_object($snmpwalk, $cpqIdeLogicalDriveIndex, $idx1, $idx2),
+        level =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqIdeLogicalDriveRaidLevel,
+              $cpqIdeLogicalDriveRaidLevelValue, $idx1, $idx2),
+        status =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqIdeLogicalDriveStatus,
+              $cpqIdeLogicalDriveStatusValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    controller_index => $params{controller_index},
+    name => $params{name},
+    status => $params{status},
+    level => $params{level},
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "logical drive %s is %s (%s)", $self->{name}, $self->{status}, $self->{level};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "ok") {
+    $self->{nagios_level} = $ERRORS{OK};
+  } elsif ($self->{status} =~ /degraded/) {
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  } elsif ($self->{status} =~ /rebuild/) {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  } elsif ($self->{status} =~ /failed/) {
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  } elsif ($self->{status} =~ /offline/) {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  } else {
+    $self->{nagios_level} = $ERRORS{UNKNOWN};
+  }
+}
+
+
+package Proliant::Hardware::Hpfca;
+
+use strict;
+
+use constant DEFAULT_PATH_TO_HPACUCLI => "/usr/sbin/hpfcacli";
+use constant ALTERNATE_PATH_TO_HPACUCLI => "/usr/local/sbin/hpfcacli";
+
+{
+  our $hpfcacli = undef;
+  my $obstacle = undef;
+  our @oks = ();
+  our @warnings = ();
+  our @criticals = ();
+  our @unknowns = ();
+  our @perfdata = ();
+  our @extendedinfo = ();
+  our @components = ();
+  our $hpfcacli_ctrl_all_show_config = undef;
+  our $hpfcacli_ctrl_all_show_status = undef;
+
+  sub get_components {
+    return @components;
+  }
+
+  sub ready_to_run {
+    if ($Proliant::Hardware::SNMP) {
+      if (scalar (keys %{$Proliant::Hardware::SNMPRESPONSE}) == 0) {
+        $obstacle = "nosnmp";
+      }
+    } elsif (-f $Proliant::Hardware::HPASMCLI) {
+      # simulation.
+    } else {
+      # ide nur mit snmp
+    }
+    if ($obstacle) {
+      if ($obstacle eq "nopriv") {
+        # nur als beispiel falls es evt. doch ein command line tool gibt
+        push(@unknowns, sprintf "insufficient rights to call %s", $hpfcacli);
+      } else {
+        push(@unknowns, "unknown error");
+      }
+    }
+    return $obstacle ? 0 : 1;
+  }
+
+  sub init {
+    if ($Proliant::Hardware::SNMP) {
+      $hpfcacli_ctrl_all_show_config = $Proliant::Hardware::SNMPRESPONSE;
+      $hpfcacli_ctrl_all_show_status = $Proliant::Hardware::SNMPRESPONSE;
+    }
+    Proliant::Hardware::Hpfca::Controller::init(
+        hpfcacli_output => $hpfcacli_ctrl_all_show_status);
+    Proliant::Hardware::Hpfca::LogicalDrive::init(
+        hpfcacli_output => $hpfcacli_ctrl_all_show_config);
+    Proliant::Hardware::Hpfca::PhysicalDrive::init(
+        hpfcacli_output => $hpfcacli_ctrl_all_show_config);
+    push(@components,
+        Proliant::Hardware::Hpfca::Controller::get_controllers());
+    push(@components,
+        Proliant::Hardware::Hpfca::LogicalDrive::get_drives());
+    push(@components,
+        Proliant::Hardware::Hpfca::PhysicalDrive::get_drives());
+    if ($Proliant::Hardware::blacklist) {
+      foreach (@components) {
+        $_->blacklist();
+      }
+    }
+    assign_drives_to_controllers();
+  }
+
+  sub nagios_status {
+    Proliant::Hardware::debug("checking drives");
+    my $phys = 0;
+    my $log = 0;
+    my $ctrl = 0;
+    foreach (@components) {
+      $_->nagios_status();
+      Proliant::Hardware::babble(sprintf "%s%s", $_->{nagios_message},
+          $_->{blacklisted} ? " (blacklisted)" : "");
+      if (! $_->{blacklisted}) {
+        if ($_->{nagios_level} == 1) {
+          push(@warnings, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 2) {
+          push(@criticals, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 3) {
+          push(@unknowns, $_->{nagios_message});
+        }
+      }
+      if ((ref($_) eq "Proliant::Hardware::Hpfca::Controller") &&
+          scalar(@{$_->{physical_disks}})) {
+        push(@oks, sprintf "extarray: %d logical drives, %d physical drives",
+            scalar(@{$_->{logical_disks}}),
+            scalar(@{$_->{physical_disks}}));
+      }
+    }
+  }
+
+  sub assign_drives_to_controllers {
+    # this is not clear to me.
+    # hp writes: NOTE: The MSA20 had an onboard controller module. When the MSA20 is directly attached to a ProLiant server with a Smart Array controller, the MSA20 controller module functions as the array controller and the Smart Array Controller acts as the Host Adapter. When the MSA20 is connected to a MSA1500 controller shelf, the MSA1500 or MSA1510i controller functions as the array controller and present the MSA20 as a JBOD.
+    # this means to me, the disks are assigned to the controller
+    # but i see no relationship between a disk and a controller, only to a box
+    # well, as long as there is just one controller...
+    foreach my $controller
+        (Proliant::Hardware::Hpfca::Controller::get_controllers()) {
+      foreach my $physical_disk
+          (Proliant::Hardware::Hpfca::PhysicalDrive::get_drives()) {
+        if ($controller->{box_index} == $physical_disk->{box_index}) {
+          push(@{$controller->{physical_disks}}, $physical_disk);
+        }
+      }
+      foreach my $logical_disk
+          (Proliant::Hardware::Hpfca::LogicalDrive::get_drives()) {
+        if ($controller->{box_index} == $logical_disk->{box_index}) {
+          push(@{$controller->{logical_disks}}, $logical_disk);
+        }
+      }
+    }
+  }
+
+}
+
+
+sub blacklist {
+  my $self = shift;
+  if ($self->blacklisted()) {
+    $self->{blacklisted} = 1;
+  }
+}
+
+sub blacklisted {
+  my $self = shift;
+  my $type = shift;
+  my $name = shift;
+  foreach my $bl_items (split(/\//, $Proliant::Hardware::blacklist)) {
+    if ($bl_items =~ /^(l|y|co|cc|cb):([\d:,\.]+)$/) {
+      foreach my $name (split(/,/, $2)) {
+        if (((ref($self) eq "Proliant::Hardware::Hpfca::LogicalDrive") &&
+            ($1 eq "l") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpfca::PhysicalDrive") &&
+            ($1 eq "y") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpfca::Controller") &&
+            ($1 eq "co") && ($name eq $self->{name}))) {
+          $self->{blacklisted} = 1;
+        }
+      }
+    }
+  }
+}
+
+
+package Proliant::Hardware::Hpfca::Controller;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpfca);
+
+{
+  my @controllers = ();
+
+  sub get_controllers {
+    return @controllers;
+  }
+
+  sub get_category {
+    return "controllers";
+  }
+
+  sub get_controller {
+    my $index = shift;
+    my @controllers =  grep { $_->{index} == $index } get_controllers();
+    $controllers[0];
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpfcacli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpfcacli_output};
+    # CPQIDE-MIB
+    my $cpqFcaCntlrEntry = "1.3.6.1.4.1.232.16.2.2.1.1";
+    my $cpqFcaCntlrBoxIndex = "1.3.6.1.4.1.232.16.2.2.1.1.1";
+    my $cpqFcaCntlrBoxIoSlot = "1.3.6.1.4.1.232.16.2.2.1.1.2";
+    my $cpqFcaCntlrModel = "1.3.6.1.4.1.232.16.2.2.1.1.3";
+    my $cpqFcaCntlrModelValue = {
+        1 => "other",
+        2 => "fibreArray",
+        3 => "msa1000",
+        4 => "smartArrayClusterStorage",
+        5 => "hsg80",
+        6 => "hsv110",
+        7 => "msa500g2",
+        8 => "msa20",
+    };
+    my $cpqFcaCntlrStatus = "1.3.6.1.4.1.232.16.2.2.1.1.5";
+    my $cpqFcaCntlrCondition = "1.3.6.1.4.1.232.16.2.2.1.1.6";
+    my $cpqFcaCntlrConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+
+    # INDEX {  cpqFcaCntlrBoxIndex, cpqFcaCntlrBoxIoSlot }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqFcaCntlrEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@controllers, Proliant::Hardware::Hpfca::Controller->new(
+          box_index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqFcaCntlrBoxIndex, $idx1, $idx2),
+          ioslot_index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqFcaCntlrBoxIoSlot, $idx1, $idx2),
+          name =>
+            SNMP::Utils::get_object($snmpwalk, $cpqFcaCntlrBoxIndex, $idx1, $idx2).':'.SNMP::Utils::get_object($snmpwalk, $cpqFcaCntlrBoxIoSlot, $idx1, $idx2),
+          status =>
+            lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqFcaCntlrCondition,
+              $cpqFcaCntlrConditionValue, $idx1, $idx2),
+          model =>
+            lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqFcaCntlrModel,
+              $cpqFcaCntlrModelValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    name => $params{name},
+    box_index => $params{box_index},
+    ioslot_index => $params{ioslot_index},
+    status => lc $params{status},
+    model => lc $params{model} || "unknown(contact lausser)",
+    physical_disks => [],
+    logical_disks => [],
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "%s controller in box %s slot %s is ok",
+      $self->{model}, $self->{box_index}, $self->{ioslot_index};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "other") {
+    if (scalar(@{$self->{physical_disks}})) {
+      $self->{nagios_message} =
+          sprintf "%s controller in box %s slot %s needs attention",
+              $self->{model}, $self->{box_index}, $self->{ioslot_index};
+      $self->{nagios_level} = $ERRORS{CRITICAL};
+    } else {
+      $self->{nagios_message} = sprintf "%s controller in box %s slot %s is ok and unused",
+          $self->{model}, $self->{box_index}, $self->{ioslot_index};
+      $self->{blacklisted} = 1;
+    }
+  } elsif ($self->{status} ne "ok") {
+    $self->{nagios_message} =
+        sprintf "%s controller in box %s slot %s needs attention",
+            $self->{model}, $self->{box_index}, $self->{ioslot_index};
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+
+package Proliant::Hardware::Hpfca::PhysicalDrive;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpfca);
+
+{
+  my @drives = ();
+
+  sub get_drives {
+    return @drives;
+  }
+
+  sub get_category {
+    return "physical drive";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpfcacli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpfcacli_output};
+
+    my $cpqFcaPhyDrvEntry = "1.3.6.1.4.1.232.16.2.5.1.1";
+    my $cpqFcaPhyDrvBoxIndex = "1.3.6.1.4.1.232.16.2.5.1.1.1";
+    my $cpqFcaPhyDrvDrvIndex = "1.3.6.1.4.1.232.16.2.5.1.1.2";
+    my $cpqFcaPhyDrvStatus = "1.3.6.1.4.1.232.16.2.5.1.1.6";
+    my $cpqFcaPhyDrvStatusValue = {
+        1 => "other",
+        2 => "unconfigured",
+        3 => "ok",
+        4 => "threshExceeded",
+        5 => "predictiveFailure",
+        6 => "failed",
+    };
+    # INDEX { cpqFcaPhyDrvBoxIndex, cpqFcaPhyDrvIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqFcaPhyDrvEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@drives, Proliant::Hardware::Hpfca::PhysicalDrive->new(
+        box_index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqFcaPhyDrvBoxIndex, $idx1, $idx2),
+        drv_index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqFcaPhyDrvDrvIndex, $idx1, $idx2),
+name =>
+            SNMP::Utils::get_object($snmpwalk, $cpqFcaPhyDrvBoxIndex, $idx1, $idx2)
+            .':'.
+            SNMP::Utils::get_object($snmpwalk, $cpqFcaPhyDrvDrvIndex, $idx1, $idx2),
+        status =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqFcaPhyDrvStatus,
+              $cpqFcaPhyDrvStatusValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    box_index => $params{box_index},
+    drive_index => $params{drive_index},
+    name => $params{name},
+    status => $params{status},
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+# simulierter fehler
+#if ($params{name} eq "2:1") {
+#  $self->{status} = "predictive failure";
+#}
+  $self->{nagios_message} = sprintf "physical drive %s is %s", $self->{name}, $self->{status};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "ok") {
+    $self->{nagios_level} = $ERRORS{OK};
+  } elsif ($self->{status} eq "unconfigured") {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  } else {
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+package Proliant::Hardware::Hpfca::LogicalDrive;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpfca);
+
+{
+  my @drives = ();
+
+  sub get_drives {
+    return @drives;
+  }
+
+  sub get_category {
+    return "logical drive";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpfcacli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpfcacli_output};
+    my $cpqFcaLogDrvEntry = "1.3.6.1.4.1.232.16.2.3.1.1";
+    my $cpqFcaLogDrvBoxIndex = "1.3.6.1.4.1.232.16.2.3.1.1.1";
+    my $cpqFcaLogDrvIndex = "1.3.6.1.4.1.232.16.2.3.1.1.2";
+    my $cpqFcaLogDrvStatus = "1.3.6.1.4.1.232.16.2.3.1.1.4";
+    my $cpqFcaLogDrvPercentRebuild = "1.3.6.1.4.1.232.16.2.3.1.1.6";
+    my $cpqFcaLogDrvStatusValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "failed",
+        4 => "unconfigured",
+        5 => "recovering",
+        6 => "readyForRebuild",
+        7 => "rebuilding",
+        8 => "wrongDrive",
+        9 => "badConnect",
+        10 => "overheating",
+        11 => "shutdown",
+        12 => "expanding",
+        13 => "notAvailable",
+        14 => "queuedForExpansion",
+        15 => "hardError"
+    };
+    my $cpqFcaLogDrvfaultTol = "1.3.6.1.4.1.232.16.2.3.1.1.3";
+    my $cpqFcaLogDrvfaultTolValue = {
+        1 => "other",
+        2 => "none",
+        3 => "mirroring",
+        4 => "dataGuard",
+        5 => "distribDataGuard",
+        7 => "advancedDataGuard",
+    };
+
+    # INDEX { cpqFcaLogDrvBoxIndex, cpqFcaLogDrvIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqFcaLogDrvEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@drives, Proliant::Hardware::Hpfca::LogicalDrive->new(
+        box_index =>
+          SNMP::Utils::get_object($snmpwalk, $cpqFcaLogDrvBoxIndex, $idx1, $idx2),
+        drv_index =>
+          SNMP::Utils::get_object($snmpwalk, $cpqFcaLogDrvIndex, $idx1, $idx2),
+        name =>
+          SNMP::Utils::get_object($snmpwalk, $cpqFcaLogDrvBoxIndex, $idx1, $idx2)
+          .':'.
+          SNMP::Utils::get_object($snmpwalk, $cpqFcaLogDrvIndex, $idx1, $idx2),
+        level =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqFcaLogDrvfaultTol,
+              $cpqFcaLogDrvfaultTolValue, $idx1, $idx2),
+        status =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqFcaLogDrvStatus,
+              $cpqFcaLogDrvStatusValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    box_index => $params{box_index},
+    drv_index => $params{drv_index},
+    name => $params{name},
+    status => $params{status},
+    level => $params{level},
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "logical drive %s is %s (%s)", $self->{name}, $self->{status}, $self->{level};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "ok") {
+    $self->{nagios_level} = $ERRORS{OK};
+  } elsif ($self->{status} =~ /recovering|rebuilding|expanding/) {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  } elsif ($self->{status} =~ /other/) {
+    $self->{nagios_level} = $ERRORS{UNKNOWN};
+  } else {
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+package Proliant::Hardware::Hpss;
+
+use strict;
+
+use constant DEFAULT_PATH_TO_HPACUCLI => "/usr/sbin/hpsscli";
+use constant ALTERNATE_PATH_TO_HPACUCLI => "/usr/local/sbin/hpsscli";
+
+{
+  our $hpsscli = undef;
+  my $obstacle = undef;
+  our @oks = ();
+  our @warnings = ();
+  our @criticals = ();
+  our @unknowns = ();
+  our @perfdata = ();
+  our @extendedinfo = ();
+  our @components = ();
+  our $hpsscli_ctrl_all_show_config = undef;
+  our $hpsscli_ctrl_all_show_status = undef;
+
+  sub get_components {
+    return @components;
+  }
+
+  sub ready_to_run {
+    if ($Proliant::Hardware::SNMP) {
+      if (scalar (keys %{$Proliant::Hardware::SNMPRESPONSE}) == 0) {
+        $obstacle = "nosnmp";
+      }
+    } elsif (-f $Proliant::Hardware::HPASMCLI) {
+      # simulation.
+    } else {
+      # ide nur mit snmp
+    }
+    if ($obstacle) {
+      if ($obstacle eq "nopriv") {
+        # nur als beispiel falls es evt. doch ein command line tool gibt
+        push(@unknowns, sprintf "insufficient rights to call %s", $hpsscli);
+      } else {
+        push(@unknowns, "unknown error");
+      }
+    }
+    return $obstacle ? 0 : 1;
+  }
+
+  sub init {
+    if ($Proliant::Hardware::SNMP) {
+      $hpsscli_ctrl_all_show_config = $Proliant::Hardware::SNMPRESPONSE;
+      $hpsscli_ctrl_all_show_status = $Proliant::Hardware::SNMPRESPONSE;
+    }
+    Proliant::Hardware::Hpss::Controller::init(
+        hpsscli_output => $hpsscli_ctrl_all_show_status);
+    Proliant::Hardware::Hpss::LogicalDrive::init(
+        hpsscli_output => $hpsscli_ctrl_all_show_config);
+    Proliant::Hardware::Hpss::PhysicalDrive::init(
+        hpsscli_output => $hpsscli_ctrl_all_show_config);
+    push(@components,
+        Proliant::Hardware::Hpss::Controller::get_controllers());
+    push(@components,
+        Proliant::Hardware::Hpss::LogicalDrive::get_drives());
+    push(@components,
+        Proliant::Hardware::Hpss::PhysicalDrive::get_drives());
+    if ($Proliant::Hardware::blacklist) {
+      foreach (@components) {
+        $_->blacklist();
+      }
+    }
+    assign_drives_to_controllers();
+  }
+
+  sub nagios_status {
+    Proliant::Hardware::debug("checking drives");
+    my $phys = 0;
+    my $log = 0;
+    my $ctrl = 0;
+    foreach (@components) {
+      $_->nagios_status();
+      Proliant::Hardware::babble(sprintf "%s%s", $_->{nagios_message},
+          $_->{blacklisted} ? " (blacklisted)" : "");
+      if (! $_->{blacklisted}) {
+        if ($_->{nagios_level} == 1) {
+          push(@warnings, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 2) {
+          push(@criticals, $_->{nagios_message});
+        } elsif ($_->{nagios_level} == 3) {
+          push(@unknowns, $_->{nagios_message});
+        }
+      }
+      if ((ref($_) eq "Proliant::Hardware::Hpss::Controller") &&
+          scalar(@{$_->{physical_disks}})) {
+        push(@oks, sprintf "extarray: %d logical drives, %d physical drives",
+            scalar(@{$_->{logical_disks}}),
+            scalar(@{$_->{physical_disks}}));
+      }
+    }
+  }
+
+  sub assign_drives_to_controllers {
+    # this is not clear to me.
+    # hp writes: NOTE: The MSA20 had an onboard controller module. When the MSA20 is directly attached to a ProLiant server with a Smart Array controller, the MSA20 controller module functions as the array controller and the Smart Array Controller acts as the Host Adapter. When the MSA20 is connected to a MSA1500 controller shelf, the MSA1500 or MSA1510i controller functions as the array controller and present the MSA20 as a JBOD.
+    # this means to me, the disks are assigned to the controller
+    # but i see no relationship between a disk and a controller, only to a box
+    # well, as long as there is just one controller...
+    foreach my $controller
+        (Proliant::Hardware::Hpss::Controller::get_controllers()) {
+      foreach my $physical_disk
+          (Proliant::Hardware::Hpss::PhysicalDrive::get_drives()) {
+        if ($controller->{box_index} == $physical_disk->{box_index}) {
+          push(@{$controller->{physical_disks}}, $physical_disk);
+        }
+      }
+      foreach my $logical_disk
+          (Proliant::Hardware::Hpss::LogicalDrive::get_drives()) {
+        if ($controller->{box_index} == $logical_disk->{box_index}) {
+          push(@{$controller->{logical_disks}}, $logical_disk);
+        }
+      }
+    }
+  }
+
+}
+
+
+sub blacklist {
+  my $self = shift;
+  if ($self->blacklisted()) {
+    $self->{blacklisted} = 1;
+  }
+}
+
+sub blacklisted {
+  my $self = shift;
+  my $type = shift;
+  my $name = shift;
+  foreach my $bl_items (split(/\//, $Proliant::Hardware::blacklist)) {
+    if ($bl_items =~ /^(l|y|co|cc|cb):([\d:,\.]+)$/) {
+      foreach my $name (split(/,/, $2)) {
+        if (((ref($self) eq "Proliant::Hardware::Hpss::LogicalDrive") &&
+            ($1 eq "l") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpss::PhysicalDrive") &&
+            ($1 eq "y") && ($name eq $self->{name})) ||
+            ((ref($self) eq "Proliant::Hardware::Hpss::Controller") &&
+            ($1 eq "co") && ($name eq $self->{name}))) {
+          $self->{blacklisted} = 1;
+        }
+      }
+    }
+  }
+}
+
+
+package Proliant::Hardware::Hpss::Controller;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpss);
+
+{
+  my @controllers = ();
+
+  sub get_controllers {
+    return @controllers;
+  }
+
+  sub get_category {
+    return "controllers";
+  }
+
+  sub get_controller {
+    my $index = shift;
+    my @controllers =  grep { $_->{index} == $index } get_controllers();
+    $controllers[0];
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpsscli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpsscli_output};
+    # CPQIDE-MIB
+    my $cpqSsCntlrEntry = "1.3.6.1.4.1.232.16.2.2.1.1";
+    my $cpqSsCntlrBoxIndex = "1.3.6.1.4.1.232.16.2.2.1.1.1";
+    my $cpqSsCntlrBoxIoSlot = "1.3.6.1.4.1.232.16.2.2.1.1.2";
+    my $cpqSsCntlrModel = "1.3.6.1.4.1.232.16.2.2.1.1.3";
+    my $cpqSsCntlrModelValue = {
+        1 => "other",
+        2 => "fibreArray",
+        3 => "msa1000",
+        4 => "smartArrayClusterStorage",
+        5 => "hsg80",
+        6 => "hsv110",
+        7 => "msa500g2",
+        8 => "msa20",
+    };
+    my $cpqSsCntlrStatus = "1.3.6.1.4.1.232.16.2.2.1.1.5";
+    my $cpqSsCntlrCondition = "1.3.6.1.4.1.232.16.2.2.1.1.6";
+    my $cpqSsCntlrConditionValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "degraded",
+        4 => "failed",
+    };
+
+    # INDEX {  cpqSsCntlrBoxIndex, cpqSsCntlrBoxIoSlot }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqSsCntlrEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@controllers, Proliant::Hardware::Hpss::Controller->new(
+          box_index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqSsCntlrBoxIndex, $idx1, $idx2),
+          ioslot_index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqSsCntlrBoxIoSlot, $idx1, $idx2),
+          name =>
+            SNMP::Utils::get_object($snmpwalk, $cpqSsCntlrBoxIndex, $idx1, $idx2).':'.SNMP::Utils::get_object($snmpwalk, $cpqSsCntlrBoxIoSlot, $idx1, $idx2),
+          status =>
+            lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqSsCntlrCondition,
+              $cpqSsCntlrConditionValue, $idx1, $idx2),
+          model =>
+            lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqSsCntlrModel,
+              $cpqSsCntlrModelValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    name => $params{name},
+    box_index => $params{box_index},
+    ioslot_index => $params{ioslot_index},
+    status => lc $params{status},
+    model => lc $params{model} || "unknown(contact lausser)",
+    physical_disks => [],
+    logical_disks => [],
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "%s controller in box %s slot %s is ok",
+      $self->{model}, $self->{box_index}, $self->{ioslot_index};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "other") {
+    if (scalar(@{$self->{physical_disks}})) {
+      $self->{nagios_message} =
+          sprintf "%s controller in box %s slot %s needs attention",
+              $self->{model}, $self->{box_index}, $self->{ioslot_index};
+      $self->{nagios_level} = $ERRORS{CRITICAL};
+    } else {
+      $self->{nagios_message} = sprintf "%s controller in box %s slot %s is ok and unused",
+          $self->{model}, $self->{box_index}, $self->{ioslot_index};
+      $self->{blacklisted} = 1;
+    }
+  } elsif ($self->{status} ne "ok") {
+    $self->{nagios_message} =
+        sprintf "%s controller in box %s slot %s needs attention",
+            $self->{model}, $self->{box_index}, $self->{ioslot_index};
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+
+package Proliant::Hardware::Hpss::PhysicalDrive;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpss);
+
+{
+  my @drives = ();
+
+  sub get_drives {
+    return @drives;
+  }
+
+  sub get_category {
+    return "physical drive";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpsscli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpsscli_output};
+
+    my $cpqSsPhyDrvEntry = "1.3.6.1.4.1.232.16.2.5.1.1";
+    my $cpqSsPhyDrvBoxIndex = "1.3.6.1.4.1.232.16.2.5.1.1.1";
+    my $cpqSsPhyDrvDrvIndex = "1.3.6.1.4.1.232.16.2.5.1.1.2";
+    my $cpqSsPhyDrvStatus = "1.3.6.1.4.1.232.16.2.5.1.1.6";
+    my $cpqSsPhyDrvStatusValue = {
+        1 => "other",
+        2 => "unconfigured",
+        3 => "ok",
+        4 => "threshExceeded",
+        5 => "predictiveFailure",
+        6 => "failed",
+    };
+    # INDEX { cpqSsPhyDrvBoxIndex, cpqSsPhyDrvIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqSsPhyDrvEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@drives, Proliant::Hardware::Hpss::PhysicalDrive->new(
+        box_index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqSsPhyDrvBoxIndex, $idx1, $idx2),
+        drv_index =>
+            SNMP::Utils::get_object($snmpwalk, $cpqSsPhyDrvDrvIndex, $idx1, $idx2),
+name =>
+            SNMP::Utils::get_object($snmpwalk, $cpqSsPhyDrvBoxIndex, $idx1, $idx2)
+            .':'.
+            SNMP::Utils::get_object($snmpwalk, $cpqSsPhyDrvDrvIndex, $idx1, $idx2),
+        status =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqSsPhyDrvStatus,
+              $cpqSsPhyDrvStatusValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    box_index => $params{box_index},
+    drive_index => $params{drive_index},
+    name => $params{name},
+    status => $params{status},
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+# simulierter fehler
+#if ($params{name} eq "2:1") {
+#  $self->{status} = "predictive failure";
+#}
+  $self->{nagios_message} = sprintf "physical drive %s is %s", $self->{name}, $self->{status};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "ok") {
+    $self->{nagios_level} = $ERRORS{OK};
+  } elsif ($self->{status} eq "unconfigured") {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  } else {
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+package Proliant::Hardware::Hpss::LogicalDrive;
+
+use strict;
+
+our @ISA = qw(Proliant::Hardware::Hpss);
+
+{
+  my @drives = ();
+
+  sub get_drives {
+    return @drives;
+  }
+
+  sub get_category {
+    return "logical drive";
+  }
+
+  sub init {
+    my %params = @_;
+    if (ref($params{hpsscli_output}) eq "HASH") {
+      init_with_snmp(%params);
+    } else {
+      init_local(%params)
+    }
+  }
+
+  sub init_local {
+    my %params = @_;
+  }
+
+  sub init_with_snmp {
+    my %params = @_;
+    my $snmpwalk = $params{hpsscli_output};
+    my $cpqSsLogDrvEntry = "1.3.6.1.4.1.232.16.2.3.1.1";
+    my $cpqSsLogDrvBoxIndex = "1.3.6.1.4.1.232.16.2.3.1.1.1";
+    my $cpqSsLogDrvIndex = "1.3.6.1.4.1.232.16.2.3.1.1.2";
+    my $cpqSsLogDrvStatus = "1.3.6.1.4.1.232.16.2.3.1.1.4";
+    my $cpqSsLogDrvPercentRebuild = "1.3.6.1.4.1.232.16.2.3.1.1.6";
+    my $cpqSsLogDrvStatusValue = {
+        1 => "other",
+        2 => "ok",
+        3 => "failed",
+        4 => "unconfigured",
+        5 => "recovering",
+        6 => "readyForRebuild",
+        7 => "rebuilding",
+        8 => "wrongDrive",
+        9 => "badConnect",
+        10 => "overheating",
+        11 => "shutdown",
+        12 => "expanding",
+        13 => "notAvailable",
+        14 => "queuedForExpansion",
+        15 => "hardError"
+    };
+    my $cpqSsLogDrvfaultTol = "1.3.6.1.4.1.232.16.2.3.1.1.3";
+    my $cpqSsLogDrvfaultTolValue = {
+        1 => "other",
+        2 => "none",
+        3 => "mirroring",
+        4 => "dataGuard",
+        5 => "distribDataGuard",
+        7 => "advancedDataGuard",
+    };
+
+    # INDEX { cpqSsLogDrvBoxIndex, cpqSsLogDrvIndex }
+    my @indices = SNMP::Utils::get_indices($snmpwalk, $cpqSsLogDrvEntry);
+    foreach (@indices) {
+      my($idx1, $idx2) = ($_->[0], $_->[1]);
+      push(@drives, Proliant::Hardware::Hpss::LogicalDrive->new(
+        box_index =>
+          SNMP::Utils::get_object($snmpwalk, $cpqSsLogDrvBoxIndex, $idx1, $idx2),
+        drv_index =>
+          SNMP::Utils::get_object($snmpwalk, $cpqSsLogDrvIndex, $idx1, $idx2),
+        name =>
+          SNMP::Utils::get_object($snmpwalk, $cpqSsLogDrvBoxIndex, $idx1, $idx2)
+          .':'.
+          SNMP::Utils::get_object($snmpwalk, $cpqSsLogDrvIndex, $idx1, $idx2),
+        level =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqSsLogDrvfaultTol,
+              $cpqSsLogDrvfaultTolValue, $idx1, $idx2),
+        status =>
+          lc SNMP::Utils::get_object_value(
+              $snmpwalk, $cpqSsLogDrvStatus,
+              $cpqSsLogDrvStatusValue, $idx1, $idx2),
+      ));
+    }
+  }
+
+}
+
+
+sub new {
+  my $class = shift;
+  my %params = @_;
+  my $self = {
+    box_index => $params{box_index},
+    drv_index => $params{drv_index},
+    name => $params{name},
+    status => $params{status},
+    level => $params{level},
+    blacklisted => 0,
+    nagios_level => $ERRORS{OK},
+  };
+  $self->{nagios_message} = sprintf "logical drive %s is %s (%s)", $self->{name}, $self->{status}, $self->{level};
+  bless $self, $class;
+  return $self;
+}
+
+sub nagios_status {
+  my $self = shift;
+  if ($self->{status} eq "ok") {
+    $self->{nagios_level} = $ERRORS{OK};
+  } elsif ($self->{status} =~ /recovering|rebuilding|expanding/) {
+    $self->{nagios_level} = $ERRORS{WARNING};
+  } elsif ($self->{status} =~ /other/) {
+    $self->{nagios_level} = $ERRORS{UNKNOWN};
+  } else {
+    $self->{nagios_level} = $ERRORS{CRITICAL};
+  }
+}
+
+
+
+
+package main;
+
+use strict;
+use Data::Dumper;
+use Getopt::Long qw(:config no_ignore_case getopt_compat);
+
+use vars qw($PROGNAME $REVISION $CONTACT $TIMEOUT $CELSIUS $PERFDATA
+    $HWINFO $HPACUCLI $EXTENDEDINFO
+    $opt_V $opt_h $opt_t $opt_v $opt_d $opt_id $opt_if $opt_blacklist
+    $opt_customthresholds $opt_perfdata $opt_snmpwalk $opt_C $opt_H $opt_P
+    $opt_hpasmcli $opt_username $opt_authpassword $opt_authprotocol
+    $opt_privpassword $opt_privprotocol $opt_port);
+
+$PROGNAME = "check_hpasm";
+$REVISION = '$Revision: 3.5 $';
+$CONTACT = 'gerhard.lausser@consol.de';
+$TIMEOUT = 30;
+$CELSIUS = 1;
+$PERFDATA = 0;
+$EXTENDEDINFO = 0;
+$HWINFO = 1;
+$HPACUCLI = 0;
+
+
+sub print_usage () {
+  print <<EOUS;
+  Usage:
+    $PROGNAME [-d] [-v] [-t <timeout>] [-b <blacklist>] [-c <customthresholds>] [-p]
+    $PROGNAME [-H <hostname> -C <snmp community>] ...
+    $PROGNAME [-h | --help]
+    $PROGNAME [-V | --version]
+
+  Options:
+    -b, --blacklist
+       Blacklist some (missing/failed) components
+    -i, --ignore-dimms
+       Ignore "N/A"-DIMM status on misc. servers (e.g. older DL320)
+    --ignore-fan-redundancy
+       Ignore missing redundancy partners.
+    -c, --customthresh
+       Overide the machine-default temperature thresholds
+    -p, --perfdata
+       Output performance data. If your performance data string becomes
+       too long and is truncated by Nagios, then you can use --perfdata=short
+       instead. This will output temperature tags without location information.
+    -v, --verbose
+       Be verbose and output multiple lines (for Nagios 3.x)
+    -d, --debug
+       Watch the internals
+    -t, --timeout
+       The number of seconds after which the plugin will abort
+    -h, --help
+       Print detailed help screen
+    -V, --version
+       Print version information
+
+    Using the following  parameters tells the plugin to collect
+    hardware information with SNMP instead of using hpasmcli.
+
+    -H, --host=<host or ip>
+    --port=<udp port> (default: 161)
+    -P, --protocol=[1|2c|3]
+       SNMP protocol version
+
+    with SNMP v1 or v2:
+    -C, --community=<snmp community>
+    with SNMP v3:
+    --username=<securityName for the USM security model>
+    --authpassword=<password>
+    --authprotocol=[md5|sha] (optional)
+    --privpassword=<password for authPriv security level> (optional)
+    --privprotocol=[des|aes|aes128|3des|3desde] (optional)
+
+
+    Blacklist example: -b p:1,2/f:2/t:3,4/c:1/d:0-1,0-2
+    where p means power supply, f means fan,
+    t means temperature, c means cpu, d means dimm,
+    l means logical drive, y means physical drive,
+    cc means controller cache, cb means controller battery,
+    and co means controller (including cache and battery).
+    d:0-1 means cartridge #0, module #1
+    cb:3 means battery status of controller in slot 3
+    If you give the -b parameter the name of an existing file,
+    the list of blacklisted components will be read from that file
+
+    Custom temperature thresholds example: -c 1:60/4:80/5:50
+    Sets limit for temperature 1 to 60 degrees, temperature 4 to 80 degrees
+    and temperature 5 to 50 degrees. You get the consecutive numbers by
+    calling check_hpasm -v
+
+    Meanwhile there are a lot of command line parameters, which may be
+    a bit confusing (-p ,-P, --port). I recommend to use always the long form.
+
+  Important note!!!!!!
+  HP management CLI command needs administrator rights.
+  Please add this line to /etc/sudoers :
+  --------------------------------------------------
+  nagios      ALL=NOPASSWD: /sbin/hpasmcli
+
+
+EOUS
+}
+
+
+sub print_help () {
+  print "Copyright (c) 2007 Gerhard Lausser\n\n";
+  print "\n";
+  print "  Check the hardware of hp/compaq proliant servers\n";
+  print "\n";
+  print_usage();
+  support();
+}
+
+
+sub print_revision ($$) {
+  my $commandName = shift;
+  my $pluginRevision = shift;
+  $pluginRevision =~ s/^\$Revision: //;
+  $pluginRevision =~ s/ \$\s*$//;
+  print "$commandName $pluginRevision\n";
+  print "This nagios plugin comes with ABSOLUTELY NO WARRANTY. You may redistribute\ncopies of this plugin under the terms of the GNU General Public License.\n";
+}
+
+sub support () {
+  my $support='Send email to gerhard.lausser@consol.de if you have questions\nregarding use of this software. \nPlease include version information with all correspondence (when possible,\nuse output from the --version option of the plugin itself).\n';
+  $support =~ s/@/\@/g;
+  $support =~ s/\\n/\n/g;
+  print $support;
+}
+
+sub contact_author ($$) {
+  my $item = shift;
+  my $strangepattern = shift;
+  if ($opt_v) {
+    printf STDERR
+        "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n".
+        "You found a line which is not recognized by %s\n".
+        "This means, certain components of your system cannot be checked.\n".
+        "Please contact the author %s and\nsend him the following output:\n\n".
+        "%s /%s/\n\nThank you!\n".
+        "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n",
+            $PROGNAME, $CONTACT, $item, $strangepattern;
+  }
+}
+
+if (! GetOptions(
+    "t|timeout=i" => \$opt_t,
+    "V|version" => \$opt_V,
+    "h|help" => \$opt_h,
+    "v|verbose" => \$opt_v,
+    "d|debug" => \$opt_d,
+    "b|blacklist=s" => \$opt_blacklist,
+    "i|ignore-dimms" => \$opt_id,
+    "ignore-fan-redundancy" => \$opt_if,
+    "c|customthresh=s" => \$opt_customthresholds,
+    "p|perfdata:s" => \$opt_perfdata,
+    "H|hostname|host:s" => \$opt_H,
+    "C|community:s" => \$opt_C,
+    "P|protocol:s" => \$opt_P,
+    "port:i" => \$opt_port,
+    "username:s" => \$opt_username,
+    "authpassword:s" => \$opt_authpassword,
+    "authprotocol:s" => \$opt_authprotocol,
+    "privpassword:s" => \$opt_privpassword,
+    "privprotocol:s" => \$opt_privprotocol,
+    "s|snmpwalk:s" => \$opt_snmpwalk,  # for simulation
+    "hpasmcli:s" => \$opt_hpasmcli,    # for simulation
+ )) {
+  print_help();
+  exit $ERRORS{UNKNOWN};
+}
+
+if ($opt_V) {
+  print_revision($PROGNAME, $REVISION);
+  exit $ERRORS{OK};
+}
+
+if ($opt_h) {
+  print_help();
+  exit $ERRORS{OK};
+}
+
+if ($opt_t) {
+  $TIMEOUT = $opt_t;
+}
+
+$Proliant::Hardware::HPACUCLI = $HPACUCLI;
+
+if ($opt_snmpwalk || $opt_H) {
+  $Proliant::Hardware::SNMP = $opt_snmpwalk || 1;
+  $Proliant::Hardware::HOSTNAME = $opt_H if $opt_H;
+  $Proliant::Hardware::COMMUNITY = $opt_C if $opt_C;
+  $Proliant::Hardware::PORT = $opt_port if $opt_port;
+  $Proliant::Hardware::VERSION = "snmpv1" if $opt_P && $opt_P eq "1";
+  $Proliant::Hardware::VERSION = "snmpv3" if $opt_P && $opt_P eq "3";
+  $Proliant::Hardware::USERNAME = $opt_username if $opt_username;
+  $Proliant::Hardware::AUTHPASSWORD = $opt_authpassword if $opt_authpassword;
+  $Proliant::Hardware::AUTHPROTOCOL = $opt_authprotocol if $opt_authprotocol;
+  $Proliant::Hardware::PRIVPASSWORD = $opt_privpassword if $opt_privpassword;
+  $Proliant::Hardware::PRIVPROTOCOL = $opt_privprotocol if $opt_privprotocol;
+
+  $Proliant::Hardware::HPACUCLI = 1;   # when using snmp, no hpacucli is required
+  if ($opt_P && $opt_P ne "1" && $opt_P ne "2c" && $opt_P ne "2" && $opt_P ne "3") {
+    print_help();
+    exit $ERRORS{UNKNOWN};
+  }
+} elsif ($opt_hpasmcli) {
+  $Proliant::Hardware::HPASMCLI = $opt_hpasmcli || 1;
+}
+
+$SIG{'ALRM'} = sub {
+  printf "UNKNOWN - %s timed out after %d seconds\n", $PROGNAME, $TIMEOUT;
+  exit $ERRORS{UNKNOWN};
+};
+alarm($TIMEOUT);
+
+if (Proliant::Hardware::ready_to_run()) {
+  $Proliant::Hardware::blacklist = $opt_blacklist;
+  $Proliant::Hardware::Hpasm::Component::Temperature::customthresholds = $opt_customthresholds;
+  $Proliant::Hardware::verbose = $opt_v;
+  $Proliant::Hardware::debug = $opt_d;
+  $Proliant::Hardware::Hpasm::Component::Temperature::CELSIUS = $CELSIUS;
+  $Proliant::Hardware::PERFDATA = (defined $opt_perfdata) ?
+      ($opt_perfdata eq "short" ? 2 : 1) : $PERFDATA;
+  $Proliant::Hardware::EXTENDEDINFO = $EXTENDEDINFO;
+  $Proliant::Hardware::HWINFO = $HWINFO;
+  $Proliant::Hardware::Hpasm::Component::Dimm::ignore_dimms = $opt_id;
+  $Proliant::Hardware::Hpasm::Component::Fan::ignore_redundancy = $opt_if;
+  Proliant::Hardware::init();
+}
+Proliant::Hardware::nagios_status();
+
+printf "%s\n", $Proliant::Hardware::nagios_message;
+exit $Proliant::Hardware::nagios_level;

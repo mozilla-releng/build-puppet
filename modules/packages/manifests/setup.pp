@@ -36,6 +36,8 @@ class packages::setup {
                     url_path => "repos/yum/releng/public/$operatingsystem/$majorver/noarch" ;
                 "passenger":
                     url_path => "repos/yum/mirrors/passenger/rhel/$majorver/latest/$architecture";
+                "hp-proliantsupportpack":
+                    url_path => "repos/yum/mirrors/hp/proliantsupportpack/CentOS/$majorver/$architecture/current";
             }
 
             # to flush the metadata cache, increase this value by one (or

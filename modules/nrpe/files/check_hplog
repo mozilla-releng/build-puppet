@@ -1,0 +1,223 @@
+#!/bin/bash
+# vim: set sw=4 ts=4 ai si :
+#
+# Ok, lets try this as a shell script, see how ugly it gets
+#
+# Exit default is STATE_UNKNOWN.  Or '3' prior to 'STATE_UNKNOWN' being known..
+#
+# WARNING:
+# This is a BASH script.  It's possible this will work with Posix SH or KSH,
+# but it definately wont work with just Born-shell
+#
+
+PATH="/bin:/usr/bin"
+
+REVISION="0.2"
+
+PLUGIN_NAME="$(/bin/basename "$0")"
+PLUGIN_PATH="$(/usr/bin/dirname "$0")"
+
+SUDO_PATH="/usr/bin/sudo"
+
+HPLOG_PATH="/sbin/hplog"
+HPLOG_SUDO="yes"
+
+if [ ! -r "${PLUGIN_PATH}/utils.sh" ]
+then
+	echo "Can't find 'utils.sh'.  Death."
+	exit 3
+fi
+
+. ${PLUGIN_PATH}/utils.sh
+
+STATE_STRING[${STATE_OK}]="OK"
+STATE_STRING[${STATE_WARNING}]="WARNING"
+STATE_STRING[${STATE_CRITICAL}]="CRITICAL"
+STATE_STRING[${STATE_UNKNOWN}]="UNKNOWN"
+STATE_STRING[${STATE_DEPENDENT}]="DEPENDENT"
+
+#
+# +( ) extended globbing is used, turn it on.
+#
+shopt -s extglob
+
+#
+# Internal-functions
+#
+usage() {
+	$ECHO "Available arguments: ${PLUGIN_NAME} -t [flpt]\n"
+	$ECHO "		-t f :	Check Fans\n"
+	$ECHO "		-t l :	Check Log Entries\n"
+	$ECHO "		-t p :	Check Power Supply\n"
+	$ECHO "		-t t :	Check Temperatures\n"
+}
+
+call_hplog() {
+	if [ "$HPLOG_SUDO" != "" ]
+	then
+		$SUDO_PATH $HPLOG_PATH $*
+	else
+		$HPLOG_PATH $*
+	fi
+}
+
+get_state() {
+		L="$*"
+		J="${L:32:8}"
+		$ECHO "${J/%+( )}"
+}
+
+get_id() {
+		L="$*"
+		J="${L:0:2}"
+		$ECHO "${J// }"
+}
+
+get_obj() {
+	L="$*"
+	J="${L:16:15}"
+	$ECHO "${J/%+( )/}"
+}
+
+#
+# The actual checks
+#
+parse_state() {
+	while read LINE
+	do
+		if [ "${LINE%% *}" == "ID" -o "${LINE}" == "" ]
+		then
+			continue
+		fi
+#
+# Extract the object ID from the string
+#
+		ID=$(get_id "${LINE}")
+#
+# Extract the object state
+#
+		STATE=$(get_state "${LINE}")
+#
+# Parase the state
+#
+		if [ "$STATE" == "Critical" ]
+		then
+			EXIT_STATE=$STATE_CRITICAL
+		elif [ "$STATE" == "Caution" ]
+		then
+			if [ $EXIT_STATE -eq $STATE_UNKNOWN -o $EXIT_STATE -le $STATE_WARNING ]
+			then
+				EXIT_STATE=$STATE_WARNING
+			fi
+		elif [ "$STATE" == "Normal" ]
+		then
+			if [ $EXIT_STATE -eq $STATE_UNKNOWN -o $EXIT_STATE -eq $STATE_OK ]
+			then
+				EXIT_STATE=$STATE_OK
+			fi
+		fi
+#
+# Extract the Location
+#
+		OUTLINE="$(get_obj "${LINE}")"
+
+		JUNK="${INTERNAL}${ID}:${STATE}:${OUTLINE}; "
+		INTERNAL="$JUNK"
+	done < <( call_hplog $1 )
+
+	EXIT_STRING="${INTERNAL%; *}"
+}
+
+parse_log() {
+	while read LINE
+	do
+		if [ "${LINE%% *}" == "ID" -o "${LINE}" == "" -o "${LINE:0:2}" == "--" ]
+		then
+			continue
+		fi
+		STUMP=${LINE:0:4}
+		if [ "$STUMP" == "LOG:" ]
+		then
+			EXIT_STRING="$ID: ${LINE:5}"
+		else
+			ID=$STUMP
+			JUNK=${LINE:5:12}
+			STATE=${JUNK/%+( )}
+
+			if [ "$STATE" == "Critical" ]
+			then
+				EXIT_STATE=$STATE_CRITICAL
+			elif [ "$STATE" == "Caution" ]
+			then
+				if [ $EXIT_STATE -eq $STATE_UNKNOWN -o $EXIT_STATE -le $STATE_WARNING ]
+				then
+					EXIT_STATE=$STATE_WARNING
+				fi
+			elif [ "$STATE" == "Information" -o "$STATE" == "Repaired" ]
+			then
+				if [ $EXIT_STATE -eq $STATE_UNKNOWN -o $EXIT_STATE -le $STATE_OK ]
+				then
+					EXIT_STATE=$STATE_OK
+				fi
+			fi
+		fi
+	done < <( call_hplog -v )
+}
+
+#
+# The Argument handler and Main execution rig
+#
+TEST=""
+
+EXIT_STATE=${STATE_UNKNOWN}
+EXIT_STRING=""
+
+if [ "$#" == "0" ]
+then
+	usage
+	exit ${STATE_UNKNOWN}
+fi
+
+while getopts "t:" TMP_STRING
+do
+	case $TMP_STRING in
+		t)
+			case $OPTARG in
+				f)
+					parse_state -f
+					;;
+				l)
+					parse_log
+					;;
+				p)
+					parse_state -p
+					;;
+				t)
+					parse_state -t
+					;;
+				*)
+					if [ "$TMP_STRING" != "?" ]
+					then
+						$ECHO "$0: unknown test passed to option -- $OPTARG\n"
+					fi
+					usage
+					exit ${STATE_UNKNOWN}
+					;;
+			esac
+			;;
+		*)
+			if [ "$TMP_STRING" != "?" ]
+			then
+				$ECHO "$0: unknown argument passed -- $TMP_STRING\n"
+			fi
+			usage
+			exit ${STATE_UNKNOWN}
+			;;
+	esac
+done
+
+#
+# The exit
+#
+${ECHO} "%s %s\n" ${STATE_STRING[${EXIT_STATE}]} "${EXIT_STRING}"
+exit ${EXIT_STATE}

@@ -18,4 +18,5 @@ class toplevel::base {
     include powermanagement
     include sshd
     include clean
+    include hardware
 }
