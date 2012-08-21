@@ -18,5 +18,8 @@ class ssh::common_known_hosts($home, $owner, $group) {
         "symbols1.dmz.phx1.mozilla.com":
             home => $home,
             hostkey => "symbols1.dmz.phx1.mozilla.com,10.8.74.48 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA8C9kssmf2rAl2Y6iS6JONcgArpYJBMVzUwLE8Bd4A4qr1TIqLKUTTSkU3T8/+6lBj8UWmzRNwZ/eXCAquvsm0vSa1PX2shBrcuIi8w8JvyYszTMNseiLJmA7ADZ3NpQFr6KKTyH/JsB+vnbU0lO/KNsUcaFkaSelSrwR8rPmhAxrsxUbWKgSLMCtiaw9m7+WBgh+LpzQJPZh6gbmVWWPi7sQx7XgAsSOxkDQAQR3rCucXAVo/snG993d+etqWZqQzIt1gr2tx326ZywV5p+8lv0tHUtD8GR7lEN5uVp6xzvouXfzrhGIuZNc/GoY1MFBCmBdenF0h3Xvrj0JDHKolw==";
+        "aus3-staging.mozilla.org":
+            home => $home,
+            hostkey => "aus3-staging.mozilla.org,10.8.74.30 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NsitnPbGVF9cNcnrrA5l/VsyMV3+fSL4orH8EkDLaZF0AHzgOa40kYKLqQ/nw+hEvK1Nt/L42IhneD9Cv8+FEoc36AKgHeg4m3EhutOMup5wfci9elonIlXf253tveC4+FCrGn2D/u4mVjAgdFGxGxMTnqvecS8hbuedNS1xXKx6tIGKwpzk4Mi2/CduEeAl5xybSVUdEcWtjNsJIQRawTqUytZ/N222nN+g3eKwBqYBpQIlqkW/kenlZg2eslnqrIMk6obh93RlxcNDkSdhzZh/6mCYxPc6B8dj07oysA8HyVan/0O7JxhhY4Cs/O2hWs6ocPfuR0AQlTFq77pdQ==";
     }
 }
