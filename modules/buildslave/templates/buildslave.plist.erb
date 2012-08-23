@@ -7,9 +7,13 @@
          fact, this field is ignored) -->
 
 <dict>
+        <key>EnvironmentVariables</key>
+        <dict>
+            <key>PATH</key>
+            <string><%= buildslave_path %></string>
+        </dict> 
         <key>Label</key>
         <string>com.mozilla.buildslave</string>
-
         <key>ProgramArguments</key>
         <array>
             <string>/usr/bin/python</string>

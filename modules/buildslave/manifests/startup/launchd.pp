@@ -19,11 +19,14 @@ class buildslave::startup::launchd {
     # buildslave will never be triggered.  This system has worked well in
     # practice, though, so perhaps this race condition is never triggered.
     
+    $buildslave_path = "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin"
+                        
     file {
         "/Library/LaunchAgents/com.mozilla.buildslave.plist":
             owner => root,
             group => wheel,
             mode => 0644,
-            source => "puppet:///modules/buildslave/buildslave.plist";
+            content => template("buildslave/buildslave.plist.erb");
+
     }
 }
