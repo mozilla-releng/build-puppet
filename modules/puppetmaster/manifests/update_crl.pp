@@ -1,7 +1,7 @@
 class puppetmaster::update_crl {
-    include config
+    include ::config
 
-    if $config::crl_sync_url != "" {
+    if $::config::crl_sync_url != "" {
         case $operatingsystem {
             CentOS: {
                 file {
