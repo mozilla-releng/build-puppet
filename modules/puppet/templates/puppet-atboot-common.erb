@@ -44,8 +44,17 @@ run_until_success() {
         # tries, in hopes we'll get better info from DHCP.
         count=$((count+1))
         if [ $count -gt $REBOOT_AFTER ]; then
-            echo "maybe a reboot will help.."
-            /sbin/reboot
+            do_reboot
         fi
     done
+}
+
+do_reboot() {
+    echo "maybe a reboot will help.."
+    if [ -x /sbin/reboot ]; then
+        /sbin/reboot
+    else
+        /usr/bin/reboot
+    fi
+    sleep 120
 }

@@ -3,6 +3,23 @@
 # common atboot code
 <%= puppet_atboot_common %>
 
+# Wait for the DNS service to start.  This *should* happen even if there's no network
+# (we're waiting for launchd to run lookupd), but in case it doesn't we'll reboot after
+# 600s of this.
+wait_for_dns() {
+    count=0
+    while scutil --dns | grep 'No DNS configuration available'; do
+        echo "..waiting for DNS"
+        sleep 1
+
+        count=$((count+1))
+        if [ $count -gt 600 ]; then
+            do_reboot
+        fi
+    done
+}
+
+wait_for_dns
 run_until_success
 
 # touch a semaphore file that causes the user-level launchd to start buildbot.
