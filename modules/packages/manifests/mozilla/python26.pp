@@ -5,7 +5,7 @@ class packages::mozilla::python26 {
     }
 
     Anchor['packages::mozilla::python26::begin'] ->
-    case $operatingsystem{
+    case $::operatingsystem {
         CentOS: {
             package {
                 "mozilla-python26":

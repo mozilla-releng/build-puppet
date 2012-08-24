@@ -6,7 +6,7 @@ class packages::mozilla::py27_virtualenv {
 
     include packages::mozilla::python27
 
-    case $operatingsystem{
+    case $::operatingsystem {
         CentOS: {
 	    Anchor['packages::mozilla::py27_virtualenv::begin'] ->
             package {

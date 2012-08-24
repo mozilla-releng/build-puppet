@@ -1,5 +1,5 @@
 class packages::hp_health {
-    case $operatingsystem{
+    case $::operatingsystem {
         CentOS: {
             package {
                 "hp-health":

@@ -6,7 +6,7 @@ class packages::mozilla::py27_mercurial {
 
     include packages::mozilla::python27
 
-    case $operatingsystem{
+    case $::operatingsystem {
         CentOS: {
 	    Anchor['packages::mozilla::py27_mercurial::begin'] ->
             package {

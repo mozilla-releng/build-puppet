@@ -1,5 +1,5 @@
 class packages::mock {
-    case $operatingsystem{
+    case $::operatingsystem {
         CentOS: {
             package {
                 "mock":

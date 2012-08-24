@@ -4,7 +4,7 @@ class packages::mozilla::git {
         'packages::mozilla::git::end': ;
     }
 
-    case $operatingsystem{
+    case $::operatingsystem {
         CentOS: {
 	    Anchor['packages::mozilla::git::begin'] ->
             package {

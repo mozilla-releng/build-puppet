@@ -4,7 +4,7 @@ class packages::mozilla::python27 {
         'packages::mozilla::python27::end': ;
     }
 
-    case $operatingsystem{
+    case $::operatingsystem {
         CentOS: {
 	    Anchor['packages::mozilla::python27::begin'] ->
             package {

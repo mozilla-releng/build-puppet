@@ -8,7 +8,7 @@ class packages::puppet {
     $puppet_rpm_version = "${puppet_version}-2.el6"
     $facter_version = "1.6.10"
 
-    case $operatingsystem{
+    case $::operatingsystem {
         CentOS: {
             package {
                 "puppet":

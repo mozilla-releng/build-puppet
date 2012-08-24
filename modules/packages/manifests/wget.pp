@@ -4,7 +4,7 @@ class packages::wget {
         'packages::wget::end': ;
     }
 
-    case $operatingsystem{
+    case $::operatingsystem {
         CentOS: {
 	    Anchor['packages::wget::begin'] ->
             package {
