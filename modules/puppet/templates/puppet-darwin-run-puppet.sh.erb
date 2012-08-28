@@ -18,9 +18,22 @@ wait_for_dns() {
         fi
     done
 
-    # temporary until bug 785371 is solved:
-    echo "checking DNS"
-    host puppet 2>&1
+    # And even then, sometimes DNS doesn't work yet!  We try looking up the puppet
+    # masters, and if one succeeds, we call it good
+    count=0
+    while true; do
+        for pm in $PUPPETMASTERS; do
+            host $pm && return
+        done
+
+        echo "..apparently DNS is still down"
+        sleep 1
+
+        count=$((count+1))
+        if [ $count -gt 600 ]; then
+            do_reboot
+        fi
+    done
 }
 
 echo "Starting run-puppet.sh at" `date`
