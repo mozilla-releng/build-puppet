@@ -17,8 +17,13 @@ wait_for_dns() {
             do_reboot
         fi
     done
+
+    # temporary until bug 785371 is solved:
+    echo "checking DNS"
+    host puppet 2>&1
 }
 
+echo "Starting run-puppet.sh at" `date`
 wait_for_dns
 run_until_success
 
