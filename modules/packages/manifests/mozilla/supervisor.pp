@@ -1,4 +1,4 @@
-class packages::supervisord {
+class packages::mozilla::supervisor {
     case $operatingsystem {
         CentOS: {
             package {

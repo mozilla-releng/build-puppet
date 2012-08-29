@@ -1,6 +1,6 @@
 # NB: This is specific to supervisord version 2
 class supervisord::base {
-    include packages::supervisord
+    include packages::mozilla::supervisor
 
     # The flow here is pretty straightforward
     # Files in /etc/supervisord.conf.d are the root of the dependency tree
@@ -38,7 +38,7 @@ class supervisord::base {
     service {
         "supervisord":
             require => [
-                Class["packages::supervisord"],
+                Class["packages::mozilla::supervisor"],
                 File["/etc/supervisord.conf"],
             ],
             restart => "/usr/bin/supervisorctl reload",
