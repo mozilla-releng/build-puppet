@@ -1,5 +1,7 @@
 class mockbuild {
     include packages::mozilla::mock_mozilla
+    include mockbuild::services
+
     file {
         "/etc/mock_mozilla/mozilla-f16-i386.cfg":
             require => Class["packages::mozilla::mock_mozilla"],
