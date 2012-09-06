@@ -13,3 +13,8 @@ minprocs=200                ; (min. avail process descriptors;default 200)
 [supervisorctl]
 serverurl=unix:///var/tmp/supervisor.sock ; use a unix:// URL  for a unix socket
 
+[unix_http_server]
+file = /var/tmp/supervisor.sock
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
