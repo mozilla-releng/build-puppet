@@ -13,4 +13,15 @@ class hardware {
                 require => Class['packages::hp_health'];
         }
     }
+
+    # SeaMicro nodes can start up with incorrect time - see bug 789064
+    if ($::manufacturer == "SeaMicro" and $::productname == "SM10000-XE") {
+        # only known to work on CentOS so far, although it should work on any Linux
+        if ($::operatingsystem == "CentOS") {
+            file {
+                "/etc/e2fsck.conf":
+                    source => "puppet:///modules/hardware/seamicro-e2fsck.conf";
+            }
+        }
+    }
 }
