@@ -5,6 +5,9 @@
     rundir = /var/run/puppet
     ssldir = /var/lib/puppet/ssl
 
+    diff = echo
+    diff_args = DIFFS DISABLED - https://bugzilla.mozilla.org/show_bug.cgi?id=791102
+
 [agent]
     classfile = $vardir/classes.txt
     localconfig = $vardir/localconfig
