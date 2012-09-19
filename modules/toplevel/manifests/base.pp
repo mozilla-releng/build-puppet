@@ -19,4 +19,5 @@ class toplevel::base {
     include clean
     include hardware
     include ssh
+    include timezone
 }
