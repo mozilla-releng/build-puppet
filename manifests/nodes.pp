@@ -35,11 +35,11 @@ node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
 }
 
 node /seamicro-test\d+.build.releng.scl3.mozilla.com/ {
-    include toplevel::slave::build
+    include toplevel::slave::build::mock
 }
 
 node /seamicro-test\d+.try.releng.scl3.mozilla.com/ {
-    include toplevel::slave::build
+    include toplevel::slave::build::mock
 }
 
 node /.*\.build\.aws-.*\.mozilla\.com/ {
