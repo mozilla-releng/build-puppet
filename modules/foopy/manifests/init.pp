@@ -31,14 +31,6 @@ class foopy {
             ensure => file,
             mode => 0644;
 
-        # This will be created manually, but needs proper permissions, ensure them.
-        "/builds/tegra_stats.sh":
-            owner => $users::builder::username,
-            group => $users::builder::group,
-            ensure => file,
-            mode => 0755;
-            #content based on http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/mobile/tegra_stats.sh.in
-
         # Link the helper scripts for humans to /builds
         "/builds/check.sh":
             owner => $users::builder::username,
@@ -60,6 +52,11 @@ class foopy {
             group => $users::builder::group,
             ensure => link,
             target => "/builds/tools/buildfarm/mobile/kill_stalled.sh";
+        "/builds/tegra_stats.sh":
+            owner => $users::builder::username,
+            group => $users::builder::group,
+            ensure => link,
+            target => "/builds/tools/buildfarm/mobile/tegra_stats.sh";
 
         # Attach needed cron jobs
         "/etc/cron.d/foopy":

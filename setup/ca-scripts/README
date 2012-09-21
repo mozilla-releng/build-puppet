@@ -1,0 +1,40 @@
+= Scripts used for puppet certificate generation =
+
+These scripts are used for generating puppet certificates (server and agent) and
+sign them by a self signed CA. Using a single CA allows agents to talk to
+multiple servers.
+
+
+== Requirements ==
+* make sure that openssl and procmail (for lockfile) packages are installed
+
+== CA Setup ==
+
+* Create a skeleton:
+
+ mkdir /var/lib/puppet/ssl-master
+ cd /var/lib/puppet/ssl-master
+ mkdir -p ca/{private,certs} certdir client_certs/revoke
+ touch ca/inventory.txt
+ # Use a hex serial (default is decimal)
+ echo "0x1" > ca/serial
+
+* Create OpenSSL configuration file
+
+ cp openssl.conf.example /var/lib/puppet/ssl-master/ca/
+
+* Generate a private key "ca_key.pem" and a self signed CA certificate.  You
+  will be prompted to enter a password. Save it to "private/ca.pass" file and
+  chmod 400
+
+ openssl req  -new -newkey rsa:2048 -keyout ca/ca_key.pem \
+   -days 3650 -x509 -out ca/ca_crt.pem \
+   -subj 'C=US,ST=California,L=San Francisco,O=Mozilla Corporation,OU=Releng,CN=ca.build.mozilla.org,emailAddress=release@mozilla.com'
+
+* Verify the certificate
+
+ openssl x509 -noout -text -in  ca/ca_crt.pem
+
+== Usage ==
+"generate-cert.sh $hostname $output_directory" will generate a certificate for
+$hostname and put all needed files into $output_directory.
