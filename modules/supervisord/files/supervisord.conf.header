@@ -18,6 +18,3 @@ file = /var/tmp/supervisor.sock
 
 [rpcinterface:supervisor]
 supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
-
-[include]
-files = /etc/supervisord.conf.d/*
