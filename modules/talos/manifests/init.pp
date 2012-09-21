@@ -2,6 +2,7 @@ class talos {
 	include talos::settings 
 	include httpd 
 	include packages::xcode_cmdline_tools
+	include packages::java
 	include users::builder 
 	include dirs::builds::slave
 	
