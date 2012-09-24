@@ -9,6 +9,10 @@ targetdir="$2"
 # exercise an abundance of caution:
 host=$(echo "$host" | tr ' /' --)
 
+LOCKFILE="${master_ssldir}/generate-cert.lock"
+lockfile -10 -r10 $LOCKFILE
+trap "rm -f $LOCKFILE" INT TERM EXIT
+
 # revoke the old cert, if necessary
 if [ -f "$client_certs_dir/$host.crt" ]; then
     h=`openssl x509 -hash -noout -in "$client_certs_dir/$host.crt"`
@@ -42,3 +46,5 @@ cp -f "$targetdir/${host}.crt" "${master_ssldir}/client_certs/"
 cp "$ca_dir/ca_crt.pem" "$targetdir"
 # and current CRL
 cp "$certdir/ca_crl.pem" "$targetdir"
+
+rm -f "$LOCKFILE"
