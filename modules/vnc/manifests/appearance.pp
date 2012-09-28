@@ -11,7 +11,8 @@ if (!$puppetizing) {
                         unless => "/usr/bin/defaults read com.apple.desktop Background | egrep 'Solid Aqua Blue.png'",
                         notify => Exec["restart-Dock"] ;
                 "restart-Dock" :
-                        command => "/usr/bin/killall Dock";
+                        command => "/usr/bin/killall Dock",
+                        refreshonly => true;
         }
         file {
                 "/usr/local/bin/changebackground.sh" :
@@ -22,4 +23,5 @@ if (!$puppetizing) {
                         notify => Exec["set-background-image"] ;
         }
     }
-}		
+}
+

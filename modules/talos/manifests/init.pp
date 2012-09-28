@@ -27,7 +27,7 @@ class talos {
 					ensure => directory,
 					owner => "$users::builder::username",
 					group => "$users::builder::group",
-					mode => 0755 ;
+					mode => 0775 ;
 			}
 			httpd::config {
 				"talos.conf" :
