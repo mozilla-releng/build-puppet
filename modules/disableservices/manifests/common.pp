@@ -10,6 +10,7 @@ class disableservices::common {
                 'mcstrans', 'mdmonitor', 'pcscd', 'restorecond', 'rpcgssd',
                 'rpcidmapd', 'sendmail', 'smartd', 'vncserver',
                 'yum-updatesd'] :
+                    enable => false,
                     ensure => stopped,
             }
         }
