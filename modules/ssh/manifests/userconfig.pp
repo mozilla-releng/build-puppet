@@ -14,7 +14,7 @@ define ssh::userconfig($home='', $config='', $group='', $authorized_keys=[]) {
     if ($group != '') {
         $group_ = $group
     } else {
-        $group = $username
+        $group_ = $username
     }
 
     file {
@@ -31,13 +31,13 @@ define ssh::userconfig($home='', $config='', $group='', $authorized_keys=[]) {
         "$home_/.ssh/authorized_keys":
             mode => 0600,
             owner => $username,
-            group => $group,
+            group => $group_,
             content => template("ssh/ssh_authorized_keys.erb");
         "$home_/.ssh/known_hosts":
             # note that this must be in the user homedir for mock builders - see bug 784177
             mode => 0600,
             owner => $username,
-            group => $group,
+            group => $group_,
             content => template("${module_name}/known_hosts.erb");
     }
 }
