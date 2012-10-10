@@ -1,5 +1,5 @@
 class blackmobilemagic::config::httpd {
-    include httpd
+    include ::httpd
 
     httpd::config {
         "bmm_httpd.conf" :

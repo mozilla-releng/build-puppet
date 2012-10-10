@@ -3,7 +3,7 @@ class tftpd {
     include packages::tftp-server
 
     case $operatingsystem {
-        CentOS : {
+        CentOS: {
 
             service {
                 "xinetd":
@@ -23,6 +23,9 @@ class tftpd {
                     ensure => link,
                     target => "/var/lib/tftpboot";
             }
+        }
+        default: {
+            fail("Can't set up tftpd on this platform")
         }
     }
 }

@@ -1,5 +1,5 @@
 class blackmobilemagic::config::tftpd {
-    include tftpd
+    include ::tftpd
 
     file {
        "/var/lib/tftpboot/pxelinux.cfg":
