@@ -1,0 +1,12 @@
+####  This file under configuration management control
+####  DO NOT EDIT MANUALLY
+#
+# Black Mobile Magic rsyslog RULE
+
+# enable incoming UDP syslog
+$ModLoad imudp.so
+$UDPServerRun 514
+
+# Save incoming mobile messages to unique hostname log file
+$template bmm,"/opt/bmm/logs/%hostname%.log"
+local0.* ?bmm

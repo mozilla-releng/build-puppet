@@ -1,14 +1,25 @@
 class httpd {
-        case $operatingsystem {
-                Darwin : {
-                        include packages::httpd
-              
-                        service {
-                                'org.apache.httpd' :
-                                        enable => true,
-                                        ensure => running ;
-                        }
-                }
+    include packages::httpd
+
+    case $operatingsystem {
+
+        Darwin : {
+            service {
+                'org.apache.httpd' :
+                    require => Class["packages::httpd"],
+                    enable => true,
+                    ensure => running ;
+            }
         }
+
+        CentOS : {
+            service {
+                'httpd' :
+                    require => Class["packages::httpd"],
+                    enable => true,
+                    ensure => running;
+            }
+        }
+    }
 }
 

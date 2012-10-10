@@ -1,0 +1,10 @@
+####  This file under configuration management control
+####  DO NOT EDIT MANUALLY
+default panda-live
+prompt 0
+timeout 10
+
+label panda-live
+kernel panda-live/uImage
+initrd panda-live/uInitrd
+    append console=ttyO2,115200n8 rw fixrtc vram=48M omapfb.vram=0:24M mem=1G@0x80000000 text earlyprintk=ttyO2 fetch=http://<%= @ipaddress%>/squashfs/precise-panda-live-build.1.squashfs boot=live mobile-imaging-url=http://<%= @ipaddress%>/scripts/second-stage.sh syslog-server=<%= @ipaddress%> live-noconfig dhcp
