@@ -11,4 +11,8 @@ class config::secrets {
     $builder_pw_pbkdf2_salt = extlookup("builder_pw_pbkdf2_salt")
     $builder_pw_pbkdf2_iterations = extlookup("builder_pw_pbkdf2_iterations")
     $builder_pw_kcpassword_base64 = extlookup("builder_pw_kcpassword_base64")
+    $bmm_inventory_url = extlookup("bmm_inventory_url")
+    $bmm_inventory_username = extlookup("bmm_inventory_username")
+    $bmm_inventory_password = extlookup("bmm_inventory_password")
+    $bmm_db_url = extlookup("bmm_db_url")
 }

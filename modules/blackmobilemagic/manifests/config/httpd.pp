@@ -1,4 +1,5 @@
 class blackmobilemagic::config::httpd {
+    include blackmobilemagic::settings
     include ::httpd
 
     httpd::config {
@@ -26,6 +27,15 @@ class blackmobilemagic::config::httpd {
             source => [ "puppet:///bmm/artifacts", "puppet:///bmm/private/artifacts" ],
             sourceselect => all,
             ensure => directory;
+
+        # /frontend runs the frontend CGI
+        "/opt/bmm/www/frontend":
+            recurse => true,
+            purge => true,
+            ensure => directory;
+        "/opt/bmm/www/frontend/index.cgi":
+            ensure => link,
+            target => "/opt/bmm/frontend/bin/bmm-server";
    }
 }
 

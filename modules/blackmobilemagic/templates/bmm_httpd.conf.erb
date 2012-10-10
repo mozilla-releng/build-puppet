@@ -26,5 +26,16 @@
          Allow from all
      </Location>
 
+     # Serve /api from the frontend CGI, using mod_rewrite to make this work
+     # for a CGI script
+
+     RewriteEngine on
+     RewriteRule ^(/api/.*)$ /frontend/index.cgi$1 [PT]
+     <Location /frontend>
+        SetEnv BMM_CONFIG <%= scope.lookupvar('::blackmobilemagic::settings::config_ini') %>
+        SetHandler cgi-script
+        Options +ExecCGI
+     </Location>
+
 </VirtualHost>
 
