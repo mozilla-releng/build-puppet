@@ -16,7 +16,7 @@ class blackmobilemagic::config::frontend {
                 "python-daemon==1.5.5",
                 "which==1.1.0",
                 "Tempita==0.5.1",
-                # templeton?! (currently hand-installed; mcote will do a 0.6 release 10/10/2012
+                'templeton==0.6.1',
                 "flup==1.0.3.dev-20110405",
                 "blackmobilemagic==0.1.0",
             ];
