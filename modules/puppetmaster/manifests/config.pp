@@ -1,5 +1,6 @@
 class puppetmaster::config {
     include packages::httpd
+    include ::config
 
     file {
         "/etc/puppet/fileserver.conf":
@@ -8,6 +9,8 @@ class puppetmaster::config {
             group => root,
             require => Class["puppet"],
             source => "puppet:///modules/puppetmaster/fileserver.conf";
+        "/etc/puppet/tagmail.conf":
+            content => template("puppetmaster/tagmail.conf.erb");
         "/etc/httpd/conf.d/yum_mirrors.conf":
             require => Class["packages::httpd"],
             source => "puppet:///modules/puppetmaster/yum_mirrors.conf";

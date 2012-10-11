@@ -28,4 +28,6 @@ class config {
     $crl_sync_url= extlookup("crl_sync_url", "")
     $puppet_again_repo = extlookup("puppet_again_repo")
     $global_authorized_keys = extlookup("global_authorized_keys", "")
+    $puppet_server_reports = extlookup("puppet_server_reports")
+    $puppet_server_reporturl = extlookup("puppet_server_reporturl")
 }

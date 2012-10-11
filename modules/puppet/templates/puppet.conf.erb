@@ -29,3 +29,5 @@
     templatedir = $confdir/production/templates
     manifest = $manifestdir/site.pp
     ca = false
+    reports = <%= scope.lookupvar('::config::puppet_server_reports') %>
+    reporturl = <%= scope.lookupvar('::config::puppet_server_reporturl') %>
