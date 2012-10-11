@@ -5,13 +5,15 @@ class disableservices::common {
         CentOS : {
             service {
                 ['acpid', 'anacron', 'apmd', 'atd', 'auditd', 'autofs',
-                'avahi-daemon', 'avahi-dnsconfd', 'bluetooth', 'cpuspeed',
+                'avahi-daemon', 'avahi-dnsconfd', 'bluetooth',
                 'cups', 'cups-config-daemon', 'gpm', 'hidd', 'hplip', 'kudzu',
                 'mcstrans', 'mdmonitor', 'pcscd', 'restorecond', 'rpcgssd',
                 'rpcidmapd', 'sendmail', 'smartd', 'vncserver',
                 'yum-updatesd'] :
                     enable => false,
-                    ensure => stopped,
+                    ensure => stopped;
+                ['cpuspeed', 'rc.local'] :
+                            enable => false;
             }
         }
         Darwin : {
