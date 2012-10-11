@@ -55,5 +55,5 @@ node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
 }
 
 node "mobile-services.build.scl1.mozilla.com" {
-     include toplevel::server::mobile-services
+     include toplevel::server::bmm
 }
