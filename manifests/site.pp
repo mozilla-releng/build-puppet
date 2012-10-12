@@ -1,6 +1,6 @@
 # Setup extlookup which we only use for config magic
 $extlookup_datadir = "$settings::manifestdir/extlookup"
-$extlookup_precedence = ["local-config", "default-config", "secrets"]
+$extlookup_precedence = ["local-config", "default-config", "secrets", "secrets-template"]
 
 # basic top-level classes with basic settings
 import "stages.pp"
