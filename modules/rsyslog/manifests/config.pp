@@ -1,6 +1,10 @@
-define rsyslog::config ($file = $title, $contents = '') {
+define rsyslog::config ($file = $title, $contents = '', $need_mysql=false) {
     include rsyslog
     include packages::rsyslog
+
+    if ($need_mysql) {
+        include packages::rsyslog_mysql
+    }
  
     case $operatingsystem {
         CentOS : {

@@ -14,5 +14,8 @@ class config::secrets {
     $bmm_inventory_url = extlookup("bmm_inventory_url")
     $bmm_inventory_username = extlookup("bmm_inventory_username")
     $bmm_inventory_password = extlookup("bmm_inventory_password")
-    $bmm_db_url = extlookup("bmm_db_url")
+    $bmm_db_hostname = extlookup("bmm_db_hostname")
+    $bmm_db_username = extlookup("bmm_db_username")
+    $bmm_db_password = extlookup("bmm_db_password")
+    $bmm_db_database = extlookup("bmm_db_database")
 }
