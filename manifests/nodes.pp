@@ -55,6 +55,6 @@ node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
 }
 
 node "mobile-services.build.scl1.mozilla.com" {
-     $is_bmm_admin_node = 1
+     $is_bmm_admin_host = 1
      include toplevel::server::bmm
 }
