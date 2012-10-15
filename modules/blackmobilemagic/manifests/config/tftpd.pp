@@ -3,7 +3,10 @@ class blackmobilemagic::config::tftpd {
 
     file {
        "/var/lib/tftpboot/pxelinux.cfg":
-            ensure => directory;
+            ensure => directory,
+            # owned by apache so the CGI can write to it
+            owner => apache,
+            group => apache;
         "/var/lib/tftpboot/pxelinux.cfg/panda-live.cfg":
             ensure => file,
             content => template("blackmobilemagic/panda-live.cfg.erb");
