@@ -34,7 +34,7 @@ class blackmobilemagic::config::frontend {
         notice("hi")
         file {
             "/etc/cron.d/bmm-inventorysync":
-                content => "15,45 * * * * apache BMM_CONFIG=${::blackmobilemagic::settings::config_ini} /opt/bmm/frontend/bin/bmm-inventorysync";
+                content => "15,45 * * * * apache BMM_CONFIG=${::blackmobilemagic::settings::config_ini} /opt/bmm/frontend/bin/bmm-inventorysync\n";
         }
     } else {
         file {
