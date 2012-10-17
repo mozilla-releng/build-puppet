@@ -7,6 +7,7 @@ class foopy {
     include packages::unzip
     include packages::alsa
     include packages::pango
+    include packages::patch
     include packages::gtk2
     include packages::telnet
     include packages::x_libs
