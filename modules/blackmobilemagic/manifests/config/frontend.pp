@@ -19,7 +19,7 @@ class blackmobilemagic::config::frontend {
                 'templeton==0.6.1',
                 "flup==1.0.3.dev-20110405",
                 "pymysql==0.5",
-                "blackmobilemagic==0.1.0",
+                "blackmobilemagic==0.1.2",
             ];
     }
 
