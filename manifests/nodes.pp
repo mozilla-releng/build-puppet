@@ -3,7 +3,6 @@ node /bld-centos6-hp-\d+.build.scl1.mozilla.com/ {
 }
 
 node "relabs07.build.mtv1.mozilla.com" {
-    include toplevel::slave::build
 }
 
 node "relabs08.build.mtv1.mozilla.com" {
