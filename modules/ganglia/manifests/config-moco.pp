@@ -12,6 +12,12 @@ class ganglia::config-moco {
             $cluster = "RelEngSCL1"
             $addr = "239.2.11.201"
         }
+        /^.*\.releng\.scl1\.mozilla\.com$/: {
+            # note that there's no ganglia server in these VLANs, so this doesn't
+            # actually work, but it at least gets the hosts configured
+            $cluster = "RelEngSCL1"
+            $addr = "239.2.11.201"
+        }
         /^.*\.build\.mtv1\.mozilla\.com$/: {
             $cluster = "RelEngMTV1"
             $addr = "239.2.11.203"
