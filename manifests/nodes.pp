@@ -25,6 +25,10 @@ node /foopy\d+.build.scl1.mozilla.com/ {
     include toplevel::server::foopy
 }
 
+node /foopy\d+.p\d+.releng.scl1.mozilla.com/ {
+    include toplevel::server::foopy
+}
+
 node "linux-foopy-test.build.mtv1.mozilla.com" {
     include toplevel::server::foopy
 }
