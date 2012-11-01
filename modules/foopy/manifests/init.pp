@@ -58,6 +58,19 @@ class foopy {
             group => $users::builder::group,
             ensure => link,
             target => "/builds/tools/buildfarm/mobile/tegra_stats.sh";
+        
+        # Symlink minidump_stackwalk to tools repo, needed only until we drop
+        # OSX Foopies
+        "$::users::builder::home/bin":
+            owner => $users::builder::username,
+            group => $users::builder::group,
+            ensure => directory,
+            mode => 0755;
+        "$::users::builder::home/bin/minidump_stackwalk":
+            owner => $users::builder::username,
+            group => $users::builder::group,
+            ensure => link,
+            target => "/builds/tools/breakpad/linux64/minidump_stackwalk";
 
         # Attach needed cron jobs
         "/etc/cron.d/foopy":
