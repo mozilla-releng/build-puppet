@@ -61,12 +61,7 @@ class foopy {
         
         # Symlink minidump_stackwalk to tools repo, needed only until we drop
         # OSX Foopies
-        "$::users::builder::home/bin":
-            owner => $users::builder::username,
-            group => $users::builder::group,
-            ensure => directory,
-            mode => 0755;
-        "$::users::builder::home/bin/minidump_stackwalk":
+        "/builds/minidump_stackwalk":
             owner => $users::builder::username,
             group => $users::builder::group,
             ensure => link,
@@ -87,5 +82,13 @@ class foopy {
                 File["/builds/check2.log"],
                 File["/builds/tegra_stats.log"],
             ];
+    }
+    
+    # Obsolete
+    file {
+        "$::users::builder::home/bin":
+            ensure => absent;
+        "$::users::builder::home/bin/minidump_stackwalk":
+            ensure => absent;
     }
 }
