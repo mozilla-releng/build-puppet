@@ -1,6 +1,6 @@
 class disableservices::common {
 # This class disables unnecessary services common to both server and slave
-    
+
     case $operatingsystem {
         CentOS : {
             service {
@@ -14,11 +14,6 @@ class disableservices::common {
                     ensure => stopped;
                 'cpuspeed' :
                     enable => false;
-            }
-            exec {
-                "disable-rc.local":
-                    command => "/sbin/chkconfig --del rc.local",
-                    onlyif  => "/bin/ls /etc/rc.d/rc*.d/*rc.local > /dev/null 2>&1";
             }
         }
         Darwin : {
