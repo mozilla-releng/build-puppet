@@ -3,4 +3,6 @@ command=<%=command%>
 autostart=<%=autostart%>
 autorestart=<%=autorestart%>
 user=<%=user%>
-
+<% if environment -%>
+environment=<%= environment.join(',') %>
+<% end -%>

@@ -1,4 +1,4 @@
-define supervisord::supervise($command, $user, $autostart=true, $autorestart=true) {
+define supervisord::supervise($command, $user, $autostart=true, $autorestart=true, $environment=[]) {
     include supervisord::base
 
     file {
