@@ -101,6 +101,7 @@ class BuildbotTac:
             linux_test='/home/cltbld/talos-slave',
             mac_test='/Users/cltbld/talos-slave',
             win_test=r'c:\talos-slave',
+            new_win_test=r'c:\slave',
         )
 
         # first try to guess based on the slave name
@@ -117,6 +118,8 @@ class BuildbotTac:
                 basedir = dirs['mac_test']
             elif slave_matches('xp', 'w7', 'w764'):
                 basedir = dirs['win_test']
+        elif slave_matches('-w864-'):
+            basedir = dirs['new_win_test']
 
         # failing that, find a directory that exists
         if not basedir:
