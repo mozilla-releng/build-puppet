@@ -1,0 +1,14 @@
+####  This file under configuration management control
+####  DO NOT EDIT MANUALLY
+
+# proxy /api to the mozpool daemon
+<Location /api>
+    ProxyPass http://127.0.0.1:8010/api
+    ProxyPassReverse http://127.0.0.1:8010/api
+</Location>
+
+# point /ui to the root of the static HTML, inside the virtualenv
+Alias /ui /opt/mozpool/frontend/lib/python2.7/site-packages/mozpool/html/ui
+
+# redirect hits to / to the UI
+RedirectMatch ^/$ /ui/

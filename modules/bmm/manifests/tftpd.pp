@@ -1,4 +1,4 @@
-class blackmobilemagic::config::tftpd {
+class bmm::tftpd {
     include ::tftpd
 
     file {
@@ -7,9 +7,6 @@ class blackmobilemagic::config::tftpd {
             # owned by apache so the CGI can write to it
             owner => apache,
             group => apache;
-        "/var/lib/tftpboot/pxelinux.cfg/panda-live.cfg":
-            ensure => file,
-            content => template("blackmobilemagic/panda-live.cfg.erb");
         "/var/lib/tftpboot/panda-live":
             ensure => directory;
         "/var/lib/tftpboot/panda-live/uImage":
