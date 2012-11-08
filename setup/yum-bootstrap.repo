@@ -1,6 +1,6 @@
-[mozilla]
-name=Mozilla Package Repo - $basearch
-baseurl=file:///data/repos/yum/mozilla/CentOS/6/$basearch
+[releng]
+name=Releng CentOS 6 Custom RPMs - $basearch
+baseurl=file:///data/repos/yum/releng/public/CentOS/6/$basearch
 enabled=1
 gpgcheck=0
 
