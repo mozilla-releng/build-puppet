@@ -10,5 +10,8 @@ class network::aws {
         "hg.mozilla.org":
             ensure => present,
             ip => "10.22.74.30";
+        "ntp.build.mozilla.org":
+            ensure => present,
+            ip => "10.12.48.11";
     }
 }
