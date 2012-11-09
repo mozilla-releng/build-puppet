@@ -1,5 +1,4 @@
 class mozpool {
-    include nrpe::check::procs_regex
     include mozpool::settings
     include mozpool::virtualenv
     include mozpool::config
@@ -11,6 +10,8 @@ class mozpool {
             ensure => directory;
     }
 
+    include nrpe::check::swap
+    include nrpe::check::ntp_time
 
     # remove remnants of bmm (not needed for long)
     file {

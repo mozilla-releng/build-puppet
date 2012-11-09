@@ -15,10 +15,10 @@ class mozpool::virtualenv {
                 "python-daemon==1.5.5",
                 "which==1.1.0",
                 "Tempita==0.5.1",
-                'templeton==0.6.1',
+                'templeton==0.6.2',
                 "flup==1.0.3.dev-20110405",
                 "pymysql==0.5",
-                "mozpool==0.3.1",
+                "mozpool==0.3.2",
             ],
             notify => Service['supervisord'];
     }
