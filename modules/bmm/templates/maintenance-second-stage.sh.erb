@@ -1,23 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 ####  This file under configuration management control
 ####  DO NOT EDIT MANUALLY
+
 #
 # Black Mobile Magic
 # This script puts the device into maintenance mode
 #
 
-log () {
-   logger -p local0.info -t "second-stage.sh" "${1}"
-   echo ${1} >> /opt/log.txt
-}
+# get and source utils
+wget http://<%= @ipaddress %>/scripts/liveutil.sh || exit 1
+source liveutil.sh
 
-
-log "Beginning second-stage.sh"
-HOSTNAME=`cat /etc/hostname`
-
-# Call to lifeguard to inform entering maintenace state
-wget --post-data='' http://<%= @ipaddress %>/api/device/${HOSTNAME}/bootcomplete/
-
+lifeguard_event maint_mode
 log "Exiting into maintenance mode"
-exit 0
-

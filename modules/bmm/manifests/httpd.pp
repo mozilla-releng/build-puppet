@@ -11,9 +11,12 @@ class bmm::httpd {
             ensure => directory;
         "/opt/bmm/www/scripts":
             ensure => directory;
-        "/opt/bmm/www/scripts/second-stage.sh":
+        "/opt/bmm/www/scripts/liveutil.sh":
             ensure => file,
-            content => template("bmm/second-stage.sh.erb");
+            content => template("bmm/liveutil.sh.erb");
+        "/opt/bmm/www/scripts/android-second-stage.sh":
+            ensure => file,
+            content => template("bmm/android-second-stage.sh.erb");
         "/opt/bmm/www/scripts/maintenance-second-stage.sh":
             ensure => file,
             content => template("bmm/maintenance-second-stage.sh.erb");

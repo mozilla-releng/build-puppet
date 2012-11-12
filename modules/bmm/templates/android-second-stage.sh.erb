@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ####  This file under configuration management control
 ####  DO NOT EDIT MANUALLY
 #
@@ -6,23 +6,28 @@
 # This script re-images the SD Card with downloaded Android artifacts.
 #
 
-log () {
-   logger -p local0.info -t "second-stage.sh" "${1}"
-   echo ${1} >> /opt/log.txt
-}
+# get and source utils
+wget http://<%= @ipaddress %>/scripts/liveutil.sh || exit 1
+source liveutil.sh
+
+lifeguard_event android_downloading
+
+# fail on any errors
+set -e
 
 log "Beginning second-stage.sh"
 mkdir -p /opt/artifacts /opt/scripts /opt/mnt/boot /opt/mnt/system /opt/mnt/userdata
 
-OUTPUT=$(ntpdate ntp.build.mozilla.com)
-log "${OUTPUT}"
+OUTPUT=$(ntpdate ntp.build.mozilla.org)
+log "setting time: ${OUTPUT}"
 
-WGET_OUTPUT=$(wget -nv --directory-prefix=/opt/artifacts/ http://<%= @ipaddress %>/artifacts/panda-jb-gcc47-tilt-stable-blob-12.08-release/system.tar.bz2 2>&1)
-log "${WGET_OUTPUT}"
-WGET_OUTPUT=$(wget -nv --directory-prefix=/opt/artifacts/ http://<%= @ipaddress %>/artifacts/panda-jb-gcc47-tilt-stable-blob-12.08-release/userdata.tar.bz2 2>&1)
-log "${WGET_OUTPUT}"
-WGET_OUTPUT=$(wget -nv --directory-prefix=/opt/artifacts/ http://<%= @ipaddress %>/artifacts/panda-jb-gcc47-tilt-stable-blob-12.08-release/boot.tar.bz2  2>&1)
-log "${WGET_OUTPUT}"
+ANDROID_IMAGE="$(kernel_cmdline_param android_image)"
+for file in system userdata boot; do
+    if ! wget -nv --directory-prefix=/opt/artifacts/ http://${IMAGING_SERVER}/artifacts/${ANDROID_IMAGE}/${file}.tar.bz2 2>&1 >/tmp/wget-output; then
+        log "wget failed: $(cat /tmp/wget-output)"
+        exit 1
+    fi
+done
 
 log "Formatting partitions"
 mkfs.ext4 -L "System" /dev/mmcblk0p2
@@ -35,16 +40,20 @@ mount -t vfat /dev/mmcblk0p1 /opt/mnt/boot
 mount -t ext4 /dev/mmcblk0p2 /opt/mnt/system
 mount -t ext4 /dev/mmcblk0p5 /opt/mnt/userdata
 
+lifeguard_event android_extracting
+
 log "Extracting artifacts"
-tar -jxf /opt/artifacts/boot.tar.bz2 -C /opt/mnt/boot --strip=1 boot/uImage boot/uInitrd
+# FAT and tar don't get along as far as ownership, so don't set the owner here
+tar -jxf /opt/artifacts/boot.tar.bz2 -C /opt/mnt/boot --strip=1 --no-same-owner boot/uImage boot/uInitrd
 tar -jxf /opt/artifacts/system.tar.bz2 -C /opt/mnt/system --strip=1 system
 tar -jxf /opt/artifacts/userdata.tar.bz2 -C /opt/mnt/userdata --strip=1 data
 
 log "Unmounting partitions"
+sync
 umount /opt/mnt/boot /opt/mnt/system /opt/mnt/userdata
 
 log "Imaging complete. Rebooting"
+lifeguard_event android_rebooting
 reboot
 
 exit 0
-
