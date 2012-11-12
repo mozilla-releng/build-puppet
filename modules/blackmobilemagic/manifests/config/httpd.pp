@@ -17,7 +17,7 @@ class blackmobilemagic::config::httpd {
             content => template("blackmobilemagic/second-stage.sh.erb");
         "/opt/bmm/www/scripts/maintenance-second-stage.sh":
             ensure => file,
-            content => template("blackmobilemagic/maintenace-second-stage.sh.erb");
+            content => template("blackmobilemagic/maintenance-second-stage.sh.erb");
         "/opt/bmm/www/squashfs":
             recurse => true,
             purge => true,
