@@ -18,9 +18,15 @@ class mozpool::virtualenv {
                 'templeton==0.6.2',
                 "flup==1.0.3.dev-20110405",
                 "pymysql==0.5",
-                "mozpool==0.3.2",
+                "mozpool==0.4.2",
             ],
             notify => Service['supervisord'];
+    }
+
+    # add the virtualenv's bin/ to the global PATH
+    shellprofile::file {
+        "mozpool_path":
+            content => "export PATH=\$PATH:${mozpool::settings::root}/frontend/bin";
     }
 }
 

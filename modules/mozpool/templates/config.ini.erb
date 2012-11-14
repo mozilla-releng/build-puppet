@@ -1,10 +1,10 @@
 [database]
-engine = mysql+pymysql://<%= scope.lookupvar('::config::secrets::bmm_db_username') %>:<%= scope.lookupvar('::config::secrets::bmm_db_password') %>@<%= scope.lookupvar('::config::secrets::bmm_db_hostname') %>/<%= scope.lookupvar('::config::secrets::bmm_db_database') %>
+engine = mysql+pymysql://<%= scope.lookupvar('::config::secrets::mozpool_db_username') %>:<%= scope.lookupvar('::config::secrets::mozpool_db_password') %>@<%= scope.lookupvar('::config::secrets::mozpool_db_hostname') %>/<%= scope.lookupvar('::config::secrets::mozpool_db_database') %>
 
 [inventory]
-url = <%= scope.lookupvar('::config::secrets::bmm_inventory_url') %>
-username = <%= scope.lookupvar('::config::secrets::bmm_inventory_username') %>
-password = <%= scope.lookupvar('::config::secrets::bmm_inventory_password') %>
+url = <%= scope.lookupvar('::config::secrets::mozpool_inventory_url') %>
+username = <%= scope.lookupvar('::config::secrets::mozpool_inventory_username') %>
+password = <%= scope.lookupvar('::config::secrets::mozpool_inventory_password') %>
 filter = hostname__startswith=panda-
 
 [server]
