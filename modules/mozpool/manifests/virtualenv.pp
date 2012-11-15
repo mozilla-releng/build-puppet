@@ -8,6 +8,7 @@ class mozpool::virtualenv {
             python => "/tools/python27/bin/python2.7",
             require => Class['packages::mozilla::python27'],
             packages => [
+                "argparse==1.1",
                 "SQLAlchemy==0.7.9",
                 "web.py==0.37",
                 "requests==0.14.1",
