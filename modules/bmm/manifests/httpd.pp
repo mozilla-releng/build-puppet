@@ -11,15 +11,6 @@ class bmm::httpd {
             ensure => directory;
         "/opt/bmm/www/scripts":
             ensure => directory;
-        "/opt/bmm/www/scripts/liveutil.sh":
-            ensure => file,
-            content => template("bmm/liveutil.sh.erb");
-        "/opt/bmm/www/scripts/android-second-stage.sh":
-            ensure => file,
-            content => template("bmm/android-second-stage.sh.erb");
-        "/opt/bmm/www/scripts/maintenance-second-stage.sh":
-            ensure => file,
-            content => template("bmm/maintenance-second-stage.sh.erb");
         "/opt/bmm/www/squashfs":
             recurse => true,
             purge => true,
@@ -32,6 +23,13 @@ class bmm::httpd {
             source => [ "puppet:///bmm/artifacts", "puppet:///bmm/private/artifacts" ],
             sourceselect => all,
             ensure => directory;
-   }
+    }
+
+    bmm::script {
+        "liveutil.sh": ;
+        "android-second-stage.sh": ;
+        "b2g-second-stage.sh": ;
+        "maintenance-second-stage.sh": ;
+    }
 }
 

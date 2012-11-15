@@ -1,0 +1,76 @@
+#!/bin/bash
+####  This file under configuration management control
+####  DO NOT EDIT MANUALLY
+#
+# Black Mobile Magice
+# This script re-images the SD Card with downloaded Android artifacts.
+#
+
+# get and source utils
+wget http://<%= @ipaddress %>/scripts/liveutil.sh || exit 1
+source liveutil.sh
+
+lifeguard_event b2g_downloading
+
+# fail on any errors
+set -e
+
+log "Beginning b2g-second-stage.sh"
+mkdir -p /opt/artifacts /opt/scripts /opt/mnt/boot /opt/mnt/system /opt/mnt/userdata
+
+OUTPUT=$(ntpdate ntp.build.mozilla.org)
+log "setting time: ${OUTPUT}"
+
+B2G_URL=$(wget -o/dev/null -O- http://${IMAGING_SERVER}/api/device/${HOSTNAME}/bootconfig/)
+if [ -z "$B2G_URL" ]; then
+    log "Got no bootconfig"
+    exit
+fi
+# strip a trailing slash
+B2G_URL=$(echo $B2G_URL | sed -e 's!/$!!')
+log "B2G URL: $B2G_URL"
+for file in system userdata boot; do
+    if ! wget -nv --directory-prefix=/opt/artifacts/ $B2G_URL/${file}.tar.bz2 2>&1 >/tmp/wget-output; then
+        log "wget failed: $(cat /tmp/wget-output)"
+        exit 1
+    fi
+done
+
+log "Formatting partitions"
+mkfs.ext4 -L "System" /dev/mmcblk0p2
+mkfs.ext4 -L "Cache" /dev/mmcblk0p3
+mkfs.ext4 -L "Userdata" /dev/mmcblk0p5
+mkfs.ext4 -L "Media" /dev/mmcblk0p6
+
+log "Mounting partitions"
+mount -t vfat /dev/mmcblk0p1 /opt/mnt/boot
+mount -t ext4 /dev/mmcblk0p2 /opt/mnt/system
+mount -t ext4 /dev/mmcblk0p5 /opt/mnt/userdata
+
+# need to convert boot.tar.bz2 from kernel/ramdisk.img to uImage/uInitrd.  This will eventually
+# be in the squashfs, cuz this is definitely sub-optimal!  NOTE: adjust state-machine timeouts when
+# removing this.
+lifeguard_event b2g_apt
+log "updating apt to get uboot-mkimage"
+apt-get update
+apt-get install -y uboot-mkimage
+
+lifeguard_event b2g_extracting
+log "wrapping kernel and initrd"
+tar -jxf /opt/artifacts/boot.tar.bz2 -C /opt/artifacts boot/kernel boot/ramdisk.img
+mkimage -A arm -T kernel -O linux -C none -n "B2G Kernel via b2g-second-stage.sh" -a 0x80008000 -e 0x80008000 -d /opt/artifacts/boot/kernel /opt/mnt/boot/uImage
+mkimage -A arm -T ramdisk -O linux -C none -n "B2G Initrd via b2g-second-stage.sh" -a 0x00000000 -e 0x00000000 -d /opt/artifacts/boot/ramdisk.img /opt/mnt/boot/uInitrd
+
+log "extracting system and userdata"
+tar -jxf /opt/artifacts/system.tar.bz2 -C /opt/mnt/system --strip=1 system
+tar -jxf /opt/artifacts/userdata.tar.bz2 -C /opt/mnt/userdata --strip=1 data
+
+log "Unmounting partitions"
+sync
+umount /opt/mnt/boot /opt/mnt/system /opt/mnt/userdata
+
+lifeguard_event b2g_rebooting
+log "Imaging complete. Rebooting"
+reboot
+
+exit 0
