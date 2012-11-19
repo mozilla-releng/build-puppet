@@ -58,11 +58,11 @@ node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
 }
 
 node "mobile-services.build.scl1.mozilla.com" {
-     $is_mozpool_admin_host = 0
+     $is_bmm_admin_host = 0
      include toplevel::server::mozpool
 }
 
 node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
-     $is_mozpool_admin_host = $fqdn ? { /^mobile-imaging-001/ => 1, default => 0 }
+     $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => 1, default => 0 }
      include toplevel::server::mozpool
 }

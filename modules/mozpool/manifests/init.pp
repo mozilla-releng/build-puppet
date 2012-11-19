@@ -4,6 +4,7 @@ class mozpool {
     include mozpool::config
     include mozpool::daemon
     include mozpool::httpd
+    include mozpool::inventorysync
 
     file {
         $mozpool::settings::root:
