@@ -27,7 +27,8 @@ class hardware {
 
     # Nodes running IPMI-compliant hardware should install OpenIPMI
     if (($::manufacturer == "HP" and $::productname =~ /ProLiant/) or
-        ($::manufacturer == "iXsystems" and $::productname == "iX700-C")) {
+        ($::manufacturer == "iXsystems" and $::productname == "iX700-C") or
+        ($::manufacturer == "iXsystems" and $::productname == "iX21X4-STIBTRF")) {
         include packages::openipmi
     }
 }
