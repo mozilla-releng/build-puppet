@@ -3,7 +3,8 @@
 
 # proxy /api to the mozpool daemon
 <Location /api>
-    ProxyPass http://127.0.0.1:8010/api
+    # retry=1 here instructs Apache to retry a failed backed after only 1 second
+    ProxyPass http://127.0.0.1:8010/api retry=1
     ProxyPassReverse http://127.0.0.1:8010/api
 </Location>
 
