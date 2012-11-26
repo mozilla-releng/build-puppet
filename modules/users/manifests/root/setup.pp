@@ -23,7 +23,13 @@ class users::root::setup($home, $username, $group) {
         $username:
             home => $home,
             group => $group,
-            authorized_keys => $::config::global_authorized_keys;
+            authorized_keys => [
+                $::config::global_authorized_keys,
+                # get the node-scoped value, if any
+                $extra_root_keys ? {
+                    undef => [ ],
+                    default => $extra_root_keys
+                }];
     } -> Anchor['users::root::setup::end']
 
 }

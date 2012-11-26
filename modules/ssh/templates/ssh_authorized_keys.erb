@@ -1,6 +1,6 @@
 <%
     by_name = scope.lookupvar('ssh::keys::by_name')
-    authorized_keys.each do |name|
+    authorized_keys.flatten.each do |name|
         key = by_name[name]
         %><%= key %> <%= name %>
 <%  end %>
