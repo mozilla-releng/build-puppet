@@ -1,5 +1,5 @@
 [database]
-engine = mysql+pymysql://<%= scope.lookupvar('::config::secrets::mozpool_db_username') %>:<%= scope.lookupvar('::config::secrets::mozpool_db_password') %>@<%= scope.lookupvar('::config::secrets::mozpool_db_hostname') %>/<%= scope.lookupvar('::config::secrets::mozpool_db_database') %>
+engine = mysql+pymysql://<%= scope.lookupvar('::mozpool::settings::db_username') %>:<%= scope.lookupvar('::mozpool::settings::db_password') %>@<%= scope.lookupvar('::mozpool::settings::db_hostname') %>/<%= scope.lookupvar('::mozpool::settings::db_database') %>
 
 [inventory]
 url = <%= scope.lookupvar('::config::secrets::mozpool_inventory_url') %>

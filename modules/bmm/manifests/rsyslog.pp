@@ -1,7 +1,13 @@
 class bmm::rsyslog {
     include ::rsyslog
     include packages::logrotate
-    include ::config::secrets
+    include mozpool::settings
+
+    # steal some settings from mozpool
+    $db_database = $::mozpool::settings::db_database
+    $db_username = $::mozpool::settings::db_username
+    $db_password = $::mozpool::settings::db_password
+    $db_hostname = $::mozpool::settings::db_hostname
 
     rsyslog::config {
         "bmm_rsyslog.conf" :

@@ -18,4 +18,8 @@ class config::secrets {
     $mozpool_db_username = extlookup("mozpool_db_username")
     $mozpool_db_password = extlookup("mozpool_db_password")
     $mozpool_db_database = extlookup("mozpool_db_database")
+    $mozpool_staging_db_hostname = extlookup("mozpool_staging_db_hostname")
+    $mozpool_staging_db_username = extlookup("mozpool_staging_db_username")
+    $mozpool_staging_db_password = extlookup("mozpool_staging_db_password")
+    $mozpool_staging_db_database = extlookup("mozpool_staging_db_database")
 }

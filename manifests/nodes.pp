@@ -57,14 +57,26 @@ node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
     include toplevel::server::puppetmaster::standalone
 }
 
+# this host will die soon - it's for testing/devel
 node "mobile-services.build.scl1.mozilla.com" {
     $extra_root_keys = [ 'mcote' ]
-    $is_bmm_admin_host = 0
+    $is_bmm_admin_host = false
+    $mozpool_staging = false
+    include toplevel::server::mozpool
+}
+
+# staging server per bug 815758; this must come before the general regexp below
+node /mobile-imaging-001\.p\d+\.releng\.scl1\.mozilla\.com/ {
+    $extra_root_keys = [ 'mcote' ]
+    $mozpool_staging = true
+    # staging has no admin host; db is manually maintained
+    $is_bmm_admin_host = false
     include toplevel::server::mozpool
 }
 
 node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
     $extra_root_keys = [ 'mcote' ]
-    $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => 1, default => 0 }
+    $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-002/ => 1, default => 0 }
+    $mozpool_staging = false
     include toplevel::server::mozpool
 }
