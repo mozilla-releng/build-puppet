@@ -7,6 +7,15 @@ username = <%= scope.lookupvar('::config::secrets::mozpool_inventory_username') 
 password = <%= scope.lookupvar('::config::secrets::mozpool_inventory_password') %>
 filter = hostname__startswith=panda-
 
+<%# ignore servers not in the cluster (staging or production) %>
+<% if scope.lookupvar('mozpool_staging') -%>
+# this is staging, so exclude devices on production imaging servers
+ignore_devices_on_servers_re = (mobile-services|mobile-imaging-(00[2-9]|010)).*
+<% else -%>
+# this is prod, so ignore devices on the staging servers
+ignore_devices_on_servers_re = mobile-imaging-001.*
+<% end -%>
+
 [server]
 fqdn = <%= scope.lookupvar('::fqdn') %>
 
