@@ -10,35 +10,43 @@
 wget http://<%= @ipaddress %>/scripts/liveutil.sh || exit 1
 source liveutil.sh
 
-lifeguard_event b2g_downloading
+log "beginning b2g-second-stage.sh"
 
-# fail on any errors
-set -e
-
-log "Beginning b2g-second-stage.sh"
 mkdir -p /opt/artifacts /opt/scripts /opt/mnt/boot /opt/mnt/system /opt/mnt/userdata
 
-OUTPUT=$(ntpdate ntp.build.mozilla.org)
-log "setting time: ${OUTPUT}"
+log "setting time with ntpdate"
+ntpdate -b ntp.build.mozilla.org
+
+lifeguard_event b2g_downloading
+
+SRC_URL="http://${IMAGING_SERVER}/api/device/${HOSTNAME}/bootconfig/"
+log "getting B2G_URL from $SRC_URL"
 
 B2G_URL=$(python <<EOF
-src_url="http://${IMAGING_SERVER}/api/device/${HOSTNAME}/bootconfig/"
+src_url="$SRC_URL"
 import urllib2, json
 data = json.loads(urllib2.urlopen(src_url).read())
-assert data['version'] == 1
-print data['b2gbase']
+if data.get('version') != 1 or 'b2gbase' not in data:
+    print "INVALID BOOTCONFIG"
+else:
+    print data['b2gbase']
 EOF
 )
 
 if [ -z "$B2G_URL" ]; then
     log "Got no bootconfig"
     exit
+elif [ "$B2G_URL" = "INVALID BOOTCONFIG" ]; then
+    log "Invalid bootconfig"
+    exit
 fi
+
 # strip a trailing slash
 B2G_URL=$(echo $B2G_URL | sed -e 's!/$!!')
 log "B2G URL: $B2G_URL"
 
 for file in system userdata boot; do
+    log "fetching $B2G_URL/${file}.tar.bz2"
     if ! wget -nv --directory-prefix=/opt/artifacts/ $B2G_URL/${file}.tar.bz2 2>&1 >/tmp/wget-output; then
         log "wget failed: $(cat /tmp/wget-output)"
         exit 1

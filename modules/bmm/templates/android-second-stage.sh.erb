@@ -10,20 +10,22 @@
 wget http://<%= @ipaddress %>/scripts/liveutil.sh || exit 1
 source liveutil.sh
 
-lifeguard_event android_downloading
+log "beginning android-second-stage.sh"
 
-# fail on any errors
-set -e
-
-log "Beginning second-stage.sh"
 mkdir -p /opt/artifacts /opt/scripts /opt/mnt/boot /opt/mnt/system /opt/mnt/userdata
 
-OUTPUT=$(ntpdate ntp.build.mozilla.org)
-log "setting time: ${OUTPUT}"
+log "setting time with ntpdate"
+ntpdate -b ntp.build.mozilla.org
+
+lifeguard_event android_downloading
 
 ANDROID_IMAGE="$(kernel_cmdline_param android_image)"
+log "got android image $ANDROID_IMAGE"
+
 for file in system userdata boot; do
-    if ! wget -nv --directory-prefix=/opt/artifacts/ http://${IMAGING_SERVER}/artifacts/${ANDROID_IMAGE}/${file}.tar.bz2 2>&1 >/tmp/wget-output; then
+    URL="http://${IMAGING_SERVER}/artifacts/${ANDROID_IMAGE}/${file}.tar.bz2"
+    log "fetching $URL"
+    if ! wget -nv --directory-prefix=/opt/artifacts/ "$URL" 2>&1 >/tmp/wget-output; then
         log "wget failed: $(cat /tmp/wget-output)"
         exit 1
     fi
@@ -34,14 +36,12 @@ mkfs.ext4 -L "System" /dev/mmcblk0p2
 mkfs.ext4 -L "Cache" /dev/mmcblk0p3
 mkfs.ext4 -L "Userdata" /dev/mmcblk0p5
 mkfs.ext4 -L "Media" /dev/mmcblk0p6
-
 log "Mounting partitions"
 mount -t vfat /dev/mmcblk0p1 /opt/mnt/boot
 mount -t ext4 /dev/mmcblk0p2 /opt/mnt/system
 mount -t ext4 /dev/mmcblk0p5 /opt/mnt/userdata
 
 lifeguard_event android_extracting
-
 log "Extracting artifacts"
 # FAT and tar don't get along as far as ownership, so don't set the owner here
 tar -jxf /opt/artifacts/boot.tar.bz2 -C /opt/mnt/boot --strip=1 --no-same-owner boot/uImage boot/uInitrd
