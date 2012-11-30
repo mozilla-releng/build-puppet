@@ -26,7 +26,7 @@ B2G_URL=$(python <<EOF
 src_url="$SRC_URL"
 import urllib2, json
 data = json.loads(urllib2.urlopen(src_url).read())
-if data.get('version') != 1 or 'b2gbase' not in data:
+if 'b2gbase' not in data:
     print "INVALID BOOTCONFIG"
 else:
     print data['b2gbase']
