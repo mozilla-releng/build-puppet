@@ -1,16 +1,16 @@
-class packages::mozilla::hgtool {
+class packages::mozilla::gittool {
     case $::operatingsystem {
         Darwin,CentOS: {
             file  {
-                "/usr/local/bin/hgtool.py":
-                    source => "puppet:///modules/packages/hgtool.py",
+                "/usr/local/bin/gittool.py":
+                    source => "puppet:///modules/packages/gittool.py",
                     owner => "$users::root::username",
                     group => "$users::root::group",
                     mode => 0755;
             }
         }
         default: {
-            fail("Don't know where to put hgtool on this platform")
+            fail("Don't know where to put gittool on this platform")
         }
     }
 }

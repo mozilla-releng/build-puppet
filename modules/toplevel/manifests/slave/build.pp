@@ -16,6 +16,8 @@ class toplevel::slave::build inherits toplevel::slave {
     include packages::mozilla::git
     include packages::mozilla::py27_virtualenv
     include packages::mozilla::hgtool
+    include packages::mozilla::gittool
+    include packages::mozilla::retry
 
     ccache::ccache_dir {
         "/builds/ccache":
