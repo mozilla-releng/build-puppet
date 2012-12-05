@@ -57,7 +57,7 @@ log "Formatting partitions"
 mkfs.ext4 -L "System" /dev/mmcblk0p2
 mkfs.ext4 -L "Cache" /dev/mmcblk0p3
 mkfs.ext4 -L "Userdata" /dev/mmcblk0p5
-mkfs.ext4 -L "Media" /dev/mmcblk0p6
+mkdosfs -F 32 -n "Media" /dev/mmcblk0p6
 
 log "Mounting partitions"
 mount -t vfat /dev/mmcblk0p1 /opt/mnt/boot
