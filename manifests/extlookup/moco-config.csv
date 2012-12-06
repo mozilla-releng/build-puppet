@@ -5,4 +5,4 @@ data_servers,releng-puppet1.build.mtv1.mozilla.com,releng-puppet1.build.scl1.moz
 nrpe_allowed_hosts,"10.2.71.20,10.12.75.9,127.0.0.1,10.26.75.30"
 ntp_server,ntp.build.mozilla.org
 ganglia_config_class,ganglia::config-moco
-global_authorized_keys,armenzg,asasaki,bhearsum,catlee,callek,coop,joduinn,nthomas,rail,dustin,cltbld,arr,zandr,mlarrain,jhopkins,kmoir
+global_authorized_keys,armenzg,asasaki,bhearsum,catlee,callek,coop,joduinn,nthomas,rail,dustin,cltbld,arr,zandr,jhopkins,kmoir,jwatkins
