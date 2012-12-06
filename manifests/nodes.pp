@@ -67,8 +67,7 @@ node "mobile-services.build.scl1.mozilla.com" {
 
 node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
     $extra_root_keys = [ 'mcote' ]
-    ## temporarily, nothing is the admin host - no cronjobs until I'm sure it works
-    $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => 0, default => 0 }
+    $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => true, default => false }
     $mozpool_staging = false
     include toplevel::server::mozpool
 }
