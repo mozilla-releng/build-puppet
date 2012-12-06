@@ -19,7 +19,7 @@ class mozpool::virtualenv {
                 'templeton==0.6.2',
                 "flup==1.0.3.dev-20110405",
                 "pymysql==0.5",
-                "mozpool==1.0.0",
+                "mozpool==1.1.0",
             ],
             notify => Service['supervisord'];
     }
