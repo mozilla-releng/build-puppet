@@ -1,0 +1,2 @@
+# This just runs the 'dbcron' stored procedure
+mysql -h <%= scope.lookupvar('::mozpool::settings::db_hostname') %> --user=<%= scope.lookupvar('::mozpool::settings::db_username') %> --password='<%= scope.lookupvar('::mozpool::settings::db_password') %>' <%= scope.lookupvar('::mozpool::settings::db_database') %> -e 'call dbcron();'

@@ -5,6 +5,7 @@ class mozpool {
     include mozpool::daemon
     include mozpool::httpd
     include mozpool::inventorysync
+    include mozpool::dbcron
 
     file {
         $mozpool::settings::root:
@@ -13,14 +14,4 @@ class mozpool {
 
     include nrpe::check::swap
     include nrpe::check::ntp_time
-
-    # remove remnants of bmm (not needed for long)
-    file {
-        "/etc/cron.d/bmm-inventorysync":
-            ensure => absent;
-        "/opt/bmm/frontend":
-            ensure => absent,
-            recurse => true,
-            force => true;
-    }
 }
