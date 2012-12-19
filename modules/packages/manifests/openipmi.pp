@@ -2,9 +2,7 @@ class packages::openipmi {
     case $operatingsystem {
         CentOS: {
             package {
-                [ "OpenIPMI",
-                  "OpenIPMI-tools",
-                ]:
+                "OpenIPMI":
                     ensure => latest;
             }
         }
