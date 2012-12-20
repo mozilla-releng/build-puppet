@@ -1,4 +1,6 @@
 class mozpool::dbcron {
+    include packages::mysql
+
     $dbcron_sh = "/opt/mozpool/dbcron.sh"
     file {
         $dbcron_sh:
