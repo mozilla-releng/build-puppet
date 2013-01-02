@@ -46,3 +46,15 @@ kernel_cmdline_param() {
     done
     echo "${default}"
 }
+
+# Executes the $1 from a single qouted arg.  If the called exec fails then log and exit.
+exec_cmd () {
+    local cmdarr
+    local IFS=' '
+    read -a cmdarr <<< $@
+
+    if ! eval $@ 2>&1 >/tmp/cmd-output; then
+        log "${cmdarr[0]} failed: $(cat /tmp/cmd-output)"
+        exit 1
+    fi
+}
