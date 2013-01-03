@@ -14,9 +14,6 @@ log "beginning android-second-stage.sh"
 
 mkdir -p /opt/artifacts /opt/scripts /opt/mnt/boot /opt/mnt/system /opt/mnt/userdata
 
-log "setting time with ntpdate"
-ntpdate -b ntp.build.mozilla.org
-
 lifeguard_event android_downloading
 
 ANDROID_IMAGE="$(kernel_cmdline_param android_image)"
@@ -31,28 +28,36 @@ for file in system userdata boot; do
     fi
 done
 
-log "Formatting partitions"
-mkfs.ext4 -L "System" /dev/mmcblk0p2
-mkfs.ext4 -L "Cache" /dev/mmcblk0p3
-mkfs.ext4 -L "Userdata" /dev/mmcblk0p5
-mkdosfs -F 32 -n "Media" /dev/mmcblk0p6
-log "Mounting partitions"
-mount -t vfat /dev/mmcblk0p1 /opt/mnt/boot
-mount -t ext4 /dev/mmcblk0p2 /opt/mnt/system
-mount -t ext4 /dev/mmcblk0p5 /opt/mnt/userdata
+log "formatting system partition"
+exec_cmd 'mkfs.ext4 -L "System" /dev/mmcblk0p2'
+log "formatting cache partition"
+exec_cmd 'mkfs.ext4 -L "Cache" /dev/mmcblk0p3'
+log "formatting userdata partition"
+exec_cmd 'mkfs.ext4 -L "Userdata" /dev/mmcblk0p5'
+log "formatting media partition"
+exec_cmd 'mkdosfs -F 32 -n "Media" /dev/mmcblk0p6'
+
+log "mounting boot partition"
+exec_cmd 'mount -t vfat /dev/mmcblk0p1 /opt/mnt/boot'
+log "mounting system partition"
+exec_cmd 'mount -t ext4 /dev/mmcblk0p2 /opt/mnt/system'
+log "mounting userdata partition"
+exec_cmd 'mount -t ext4 /dev/mmcblk0p5 /opt/mnt/userdata'
 
 lifeguard_event android_extracting
-log "Extracting artifacts"
+log "extracting boot artifact"
 # FAT and tar don't get along as far as ownership, so don't set the owner here
-tar -jxf /opt/artifacts/boot.tar.bz2 -C /opt/mnt/boot --strip=1 --no-same-owner boot/uImage boot/uInitrd
-tar -jxf /opt/artifacts/system.tar.bz2 -C /opt/mnt/system --strip=1 system
-tar -jxf /opt/artifacts/userdata.tar.bz2 -C /opt/mnt/userdata --strip=1 data
+exec_cmd 'tar -jxf /opt/artifacts/boot.tar.bz2 -C /opt/mnt/boot --strip=1 --no-same-owner boot/uImage boot/uInitrd'
+log "extracting system artifact"
+exec_cmd 'tar -jxf /opt/artifacts/system.tar.bz2 -C /opt/mnt/system --strip=1 --numeric-owner system'
+log "extracting userdata artifact"
+exec_cmd 'tar -jxf /opt/artifacts/userdata.tar.bz2 -C /opt/mnt/userdata --strip=1 --numeric-owner data'
 
-log "Unmounting partitions"
+log "unmounting partitions"
 sync
-umount /opt/mnt/boot /opt/mnt/system /opt/mnt/userdata
+exec_cmd 'umount /opt/mnt/boot /opt/mnt/system /opt/mnt/userdata'
 
-log "Imaging complete. Rebooting"
+log "imaging complete. Rebooting"
 lifeguard_event android_rebooting
 reboot
 
