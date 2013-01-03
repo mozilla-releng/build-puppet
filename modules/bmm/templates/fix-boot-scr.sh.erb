@@ -10,12 +10,18 @@
 wget http://<%= @ipaddress %>/scripts/liveutil.sh || exit 1
 source liveutil.sh
 
+mkdir -p /opt/mnt/boot
+
 log "mounting boot partition"
 exec_cmd 'mount -t vfat /dev/mmcblk0p1 /opt/mnt/boot'
 log "fetching new boot.scr"
-exec_cmd 'wget -nv --directory-prefix=/opt/mnt/boot/ http://people.mozilla.com/~jwatkins/bmm/boot/boot.scr'
+exec_cmd 'wget -nv --directory-prefix=/opt/mnt/boot/ -O /opt/mnt/boot/boot.scr http://people.mozilla.com/~jwatkins/bmm/boot/boot.scr'
 log "fetching new boot.txt"
-exec_cmd 'wget -nv --directory-prefix=/opt/mnt/boot/ http://people.mozilla.com/~jwatkins/bmm/boot/boot.txt'
+exec_cmd 'wget -nv --directory-prefix=/opt/mnt/boot/ -O /opt/mnt/boot/boot.txt http://people.mozilla.com/~jwatkins/bmm/boot/boot.txt'
+
+log "unmounting boot partition"
+sync
+exec_cmd 'umount /opt/mnt/boot'
 
 lifeguard_event maint_mode
 log "Exiting into maintenance mode"
