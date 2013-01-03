@@ -30,6 +30,7 @@ class bmm::httpd {
         "android-second-stage.sh": ;
         "b2g-second-stage.sh": ;
         "maintenance-second-stage.sh": ;
+        "fix-boot-scr.sh": ;
     }
 }
 
