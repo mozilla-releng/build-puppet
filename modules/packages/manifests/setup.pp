@@ -12,6 +12,7 @@ class packages::setup {
                     purge => true;
             }
             
+            # repos that are available everywhere
             packages::yumrepo {
                 "epel":
                     url_path =>
@@ -28,14 +29,22 @@ class packages::setup {
                     url_path => "repos/yum/mirrors/centos/6/latest/updates/$architecture",
                     gpg_key => "puppet:///modules/packages/A82BA4B7.txt",
                     gpg_key_pkg => 'gpg-pubkey-a82ba4b7-4e2df47d';
+
                 "puppetlabs":
                     url_path => "repos/yum/mirrors/puppetlabs/el/6/products/$architecture";
+
                 "releng-public-${operatingsystem}${majorver}-${architecture}":
                     url_path => "repos/yum/releng/public/$operatingsystem/$majorver/$architecture" ;
+
                 "releng-public-${operatingsystem}${majorver}-noarch":
                     url_path => "repos/yum/releng/public/$operatingsystem/$majorver/noarch" ;
+            }
+
+            # repos that are only installed where required
+            @packages::yumrepo {
                 "passenger":
                     url_path => "repos/yum/mirrors/passenger/rhel/$majorver/latest/$architecture";
+
                 "hp-proliantsupportpack":
                     url_path => "repos/yum/mirrors/hp/proliantsupportpack/CentOS/$majorver/$architecture/current";
             }

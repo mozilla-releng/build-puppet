@@ -1,6 +1,9 @@
 class packages::puppetserver {
     include packages::puppet
 
+    # puppet-server requires passenger, which is in its own repo
+    realize(Packages::Yumrepo['passenger'])
+
     case $operatingsystem {
         CentOS: {
             package {

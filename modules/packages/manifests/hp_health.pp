@@ -1,4 +1,6 @@
 class packages::hp_health {
+    realize(Packages::Yumrepo['hp-proliantsupportpack'])
+
     case $::operatingsystem {
         CentOS: {
             package {
