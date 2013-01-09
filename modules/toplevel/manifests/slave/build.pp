@@ -9,6 +9,7 @@ class toplevel::slave::build inherits toplevel::slave {
     include ntp::daemon
     include tweaks::nofile
 
+    include nrpe
     include nrpe::check::buildbot
     include nrpe::check::ide_smart
     include nrpe::check::procs_regex

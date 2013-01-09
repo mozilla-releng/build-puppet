@@ -11,7 +11,4 @@ class mozpool {
         $mozpool::settings::root:
             ensure => directory;
     }
-
-    include nrpe::check::swap
-    include nrpe::check::ntp_time
 }
