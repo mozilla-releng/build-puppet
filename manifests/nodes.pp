@@ -70,8 +70,10 @@ node "mobile-services.build.scl1.mozilla.com" {
 }
 
 node "mobile-imaging-stage1.build.scl1.mozilla.com" {
-    # will be a mozpool server, but just get the basics in place first
-    include toplevel::server
+    $extra_root_keys = [ 'mcote' ]
+    $is_bmm_admin_host = true
+    $mozpool_staging = true
+    include toplevel::server::mozpool
 }
 
 node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
