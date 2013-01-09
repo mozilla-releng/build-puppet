@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# From https://github.com/fastly/ganglia/blob/master/contrib/check_ganglia.py
+
 # This check examines one ganglia metric for a specified host 
 #
 # options:

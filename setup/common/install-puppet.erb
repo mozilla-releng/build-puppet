@@ -1,3 +1,6 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # install upgrades from the os base that anaconda put in place
 yum upgrade -y || fail
@@ -15,4 +18,3 @@ if ! puppet --version >/dev/null; then
     echo "Puppet does not appear to be installed properly."
     fail
 fi
-
