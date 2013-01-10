@@ -14,7 +14,7 @@ class mozpool::virtualenv {
                 "argparse==1.1",
                 "SQLAlchemy==0.7.9",
                 "web.py==0.37",
-                "requests==0.14.1",
+                "requests==1.0.4",
                 "lockfile==0.9.1",
                 "python-daemon==1.5.5",
                 "which==1.1.0",

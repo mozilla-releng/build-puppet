@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#
+# Black Mobile Magic
+# This script self-tests a panda device
+#
+
+# get and source utils
+wget http://<%= @ipaddress %>/scripts/liveutil.sh || exit 1
+source liveutil.sh
+
+lifeguard_event self_test_running
+
+# TODO: something to test, beyond "hey look I booted"
+
+log "test passed; halting"
+lifeguard_event self_test_ok
+halt
+
+exit 0
