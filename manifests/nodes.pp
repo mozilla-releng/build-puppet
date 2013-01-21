@@ -2,6 +2,9 @@ node /bld-centos6-hp-\d+.build.scl1.mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
+node "relabs02.build.mtv1.mozilla.com" {
+}
+
 node "relabs06.build.mtv1.mozilla.com" {
     include toplevel::server::puppetmaster::standalone
 }
