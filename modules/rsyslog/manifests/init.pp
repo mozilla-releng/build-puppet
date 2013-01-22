@@ -1,7 +1,7 @@
 class rsyslog {
     include packages::rsyslog
 
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS : {
             service { "rsyslog":
                require => Class["packages::rsyslog"],

@@ -1,8 +1,14 @@
 class packages::httpd {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "httpd":
+                    ensure => latest;
+            }
+        }
+        Ubuntu: {
+            package {
+                "apache2":
                     ensure => latest;
             }
         }
@@ -12,7 +18,7 @@ class packages::httpd {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

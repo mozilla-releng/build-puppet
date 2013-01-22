@@ -1,7 +1,7 @@
 class packages::tftp-server {
     include packages::xinetd
  
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "tftp-server":
@@ -11,7 +11,7 @@ class packages::tftp-server {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

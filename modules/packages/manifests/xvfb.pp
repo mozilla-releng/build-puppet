@@ -8,9 +8,17 @@ class packages::xvfb {
                     ensure => latest;
             }
         }
-
+        Ubuntu: {
+            package {
+                ["xauth", "xvfb"]:
+                    ensure => latest;
+            }
+        }
+        Darwin: {
+            # N/A
+        }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

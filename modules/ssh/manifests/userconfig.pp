@@ -5,7 +5,7 @@ define ssh::userconfig($home='', $config='', $group='', $authorized_keys=[]) {
     if ($home != '') {
         $home_ = $home
     } else {
-        $home_ = $operatingsystem ? {
+        $home_ = $::operatingsystem ? {
             Darwin => "/Users/$username",
             default => "/home/$username"
         }

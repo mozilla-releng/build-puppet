@@ -2,11 +2,13 @@ class screenresolution::talos {
     $width = 1600
     $height = 1200
     $depth = 32
+    # 24==32 for Xvfb
+    $xvfb_depth = 24
     $refresh = 60
-   
+
     case $::operatingsystem {
         Darwin: {
-            include packages::mozilla::screenresolution 
+            include packages::mozilla::screenresolution
             $resolution = "${width}x${height}x${depth}@${refresh}"
 
             # this can't run while puppetizing, since the automatic login isn't in place yet, and
@@ -19,6 +21,9 @@ class screenresolution::talos {
                         require => Class["packages::mozilla::screenresolution"];
                 }
             }
+        }
+        Ubuntu: {
+            # Ubuntu uses the class variables defined above in the configs
         }
         default: {
             fail("Don't have a mechanism to set screen resolution on $::operatingsystem")

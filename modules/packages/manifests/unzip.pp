@@ -1,5 +1,5 @@
 class packages::unzip {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "unzip":
@@ -8,7 +8,7 @@ class packages::unzip {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

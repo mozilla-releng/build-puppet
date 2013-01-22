@@ -1,5 +1,5 @@
 class packages::mod_ssl {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "mod_ssl":
@@ -7,7 +7,7 @@ class packages::mod_ssl {
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

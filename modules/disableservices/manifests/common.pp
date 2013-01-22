@@ -1,7 +1,7 @@
 class disableservices::common {
 # This class disables unnecessary services common to both server and slave
 
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS : {
             service {
                 ['acpid', 'anacron', 'apmd', 'atd', 'auditd', 'autofs',
@@ -14,6 +14,14 @@ class disableservices::common {
                     ensure => stopped;
                 'cpuspeed' :
                     enable => false;
+            }
+        }
+        Ubuntu: {
+            service {
+                ['acpid', 'avahi-daemon', 'anacron', 'apport', 'modemmanager',
+                 'whoopsie', 'cups', 'bluetooth', 'lightdm', 'network-manager']:
+                    enable => false,
+                    ensure => stopped;
             }
         }
         Darwin : {

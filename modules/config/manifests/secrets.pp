@@ -11,6 +11,7 @@ class config::secrets {
     $builder_pw_pbkdf2_salt = extlookup("builder_pw_pbkdf2_salt")
     $builder_pw_pbkdf2_iterations = extlookup("builder_pw_pbkdf2_iterations")
     $builder_pw_kcpassword_base64 = extlookup("builder_pw_kcpassword_base64")
+    $builder_pw_vnc_base64 = extlookup("builder_pw_vnc_base64")
     $mozpool_inventory_url = extlookup("mozpool_inventory_url")
     $mozpool_inventory_username = extlookup("mozpool_inventory_username")
     $mozpool_inventory_password = extlookup("mozpool_inventory_password")

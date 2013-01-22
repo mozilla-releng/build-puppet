@@ -1,5 +1,5 @@
 class packages::openipmi {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 [ "OpenIPMI",
@@ -9,7 +9,7 @@ class packages::openipmi {
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

@@ -5,7 +5,7 @@ class mozpool::virtualenv {
 
     python::virtualenv {
         "$mozpool::settings::root/frontend":
-            python => "/tools/python27/bin/python2.7",
+            python => $::packages::mozilla::python27::python,
             require => Class['packages::mozilla::python27'],
             packages => [
                 "argparse==1.1",

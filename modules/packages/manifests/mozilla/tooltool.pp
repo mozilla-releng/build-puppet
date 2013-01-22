@@ -3,7 +3,7 @@ class packages::mozilla::tooltool {
     include users::root
     # this package is simple enough that its source code is embedded in the
     # puppet repo.  It gets the Python intepreter added to its shebang line
-    $python = '/tools/python27/bin/python2.7'
+    $python = $::packages::mozilla::python27::python
     file {
         "/tools/tooltool.py":
             owner => $users::root::username,

@@ -1,5 +1,5 @@
 class packages::rsync {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "rsync":
@@ -8,7 +8,7 @@ class packages::rsync {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

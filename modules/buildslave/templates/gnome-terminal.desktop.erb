@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=gnome-terminal -x <%= scope.lookupvar('::packages::mozilla::python27::python') %> /usr/local/bin/runslave.py
+Hidden=false
+X-GNOME-Autostart-enabled=true
+Name=Talos slave
+Comment=Start runslave in a terminal session
+StartupNotify=false
+Terminal=false
+Type=Application

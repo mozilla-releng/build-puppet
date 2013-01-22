@@ -1,5 +1,5 @@
 class packages::mysql {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "mysql":
@@ -8,7 +8,7 @@ class packages::mysql {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

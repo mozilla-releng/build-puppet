@@ -13,7 +13,7 @@ class packages::hp_health {
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

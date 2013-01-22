@@ -1,5 +1,5 @@
 class puppetmaster::service {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             service {
                 "puppetmaster":
@@ -20,7 +20,7 @@ class puppetmaster::service {
         }
 
         default: {
-            fail("puppetmaster::service support missing for $operatingsystem")
+            fail("puppetmaster::service support missing for $::operatingsystem")
         }
     }
 }

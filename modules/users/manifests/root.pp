@@ -16,7 +16,7 @@ class users::root {
         default => root
     }
 
-    $home = $operatingsystem ? {
+    $home = $::operatingsystem ? {
         Darwin => '/var/root',
         default => '/root'
     }

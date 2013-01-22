@@ -1,0 +1,7 @@
+description "Start <%= scope.lookupvar('::config::builder_username') %> X session in Xvfb"
+
+start on started xvfb
+
+script
+  su - -c "DISPLAY=:0 /etc/X11/Xsession" <%= scope.lookupvar('::config::builder_username') %>
+end script

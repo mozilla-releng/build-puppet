@@ -1,6 +1,6 @@
 class packages::tzdata {
     case $::operatingsystem {
-        CentOS: {
+        CentOS, Ubuntu: {
             package {
                 "tzdata":
                     ensure => latest;

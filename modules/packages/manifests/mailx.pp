@@ -1,5 +1,5 @@
 class packages::mailx {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "mailx":
@@ -8,7 +8,7 @@ class packages::mailx {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

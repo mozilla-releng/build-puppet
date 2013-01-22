@@ -8,7 +8,7 @@ class packages::mozilla::py27_virtualenv {
 
     case $::operatingsystem {
         CentOS: {
-	    Anchor['packages::mozilla::py27_virtualenv::begin'] ->
+            Anchor['packages::mozilla::py27_virtualenv::begin'] ->
             package {
                 "mozilla-python27-virtualenv":
                     ensure => latest,
@@ -16,14 +16,14 @@ class packages::mozilla::py27_virtualenv {
             } -> Anchor['packages::mozilla::py27_virtualenv::end']
         }
         Darwin: {
-	    Anchor['packages::mozilla::py27_virtualenv::begin'] ->
+            Anchor['packages::mozilla::py27_virtualenv::begin'] ->
             packages::pkgdmg {
                 python27-virtualenv:
                     version => "1.7.1.2-1";
             } -> Anchor['packages::mozilla::py27_virtualenv::end']
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

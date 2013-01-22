@@ -1,7 +1,7 @@
 class tweaks::rc_local {
 
     case $::operatingsystem {
-        CentOS: {
+        CentOS, Ubuntu: {
             file {
                 "/etc/rc.local":
                     source => "puppet:///modules/tweaks/rc.local",

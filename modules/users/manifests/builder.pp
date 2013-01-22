@@ -14,13 +14,13 @@ class users::builder {
     $username = $::config::builder_username
 
     #files are owned by staff group on macosx, rather than a group named after the user
-    $group = $operatingsystem ? {
+    $group = $::operatingsystem ? {
         Darwin => 'staff',
         default => $username
     }
 
     # calculate the proper homedir
-    $home = $operatingsystem ? {
+    $home = $::operatingsystem ? {
         Darwin => "/Users/$username",
         default => "/home/$username"
     }

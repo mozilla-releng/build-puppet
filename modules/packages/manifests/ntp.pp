@@ -1,6 +1,6 @@
 class packages::ntp {
-    case $operatingsystem {
-        CentOS: {
+    case $::operatingsystem {
+        CentOS, Ubuntu: {
             package {
                 "ntp":
                     ensure => latest;
@@ -10,7 +10,7 @@ class packages::ntp {
             #ntpd is installed with base install image
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

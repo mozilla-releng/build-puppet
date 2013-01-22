@@ -21,11 +21,10 @@ class buildslave::startup {
     }
 
     # select an implementation class based on operating system
-    $startuptype = $operatingsystem ? {
+    $startuptype = $::operatingsystem ? {
         CentOS      => "initd",
-        Darwin      => "launchd"
-        # not done in PuppetAgain yet:
-        #Fedora      => "desktop",
+        Darwin      => "launchd",
+        Ubuntu      => "desktop"
     }
     Anchor['buildslave::startup::begin'] ->
     class {

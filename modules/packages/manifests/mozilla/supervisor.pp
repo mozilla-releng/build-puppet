@@ -1,5 +1,5 @@
 class packages::mozilla::supervisor {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "supervisor":
@@ -8,7 +8,7 @@ class packages::mozilla::supervisor {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

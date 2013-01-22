@@ -1,5 +1,5 @@
 class packages::pango {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "pango":
@@ -8,7 +8,7 @@ class packages::pango {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

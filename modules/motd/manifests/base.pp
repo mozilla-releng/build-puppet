@@ -1,7 +1,7 @@
 class motd::base {
     include concat::setup
 
-    $group = $operatingsystem ? {
+    $group = $::operatingsystem ? {
         Darwin => wheel,
         default => root
     }

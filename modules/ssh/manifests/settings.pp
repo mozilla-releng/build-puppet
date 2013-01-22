@@ -1,7 +1,7 @@
 class ssh::settings {
     # config files' paths are different per platform
-    case $operatingsystem {
-        CentOS: {
+    case $::operatingsystem {
+        CentOS, Ubuntu: {
             $ssh_config = "/etc/ssh/ssh_config"
             $sshd_config = "/etc/ssh/sshd_config"
         }

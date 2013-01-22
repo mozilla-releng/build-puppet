@@ -1,5 +1,5 @@
 class ssh::service {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS : {
             service {
                 "sshd":

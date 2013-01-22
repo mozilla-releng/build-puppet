@@ -1,6 +1,6 @@
 class network {
     # always set the hostname to the fqdn
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             file {
                 "/etc/sysconfig/network":
@@ -21,7 +21,7 @@ class network {
 
     # ensure interface configuration is correct
     # (in particular, don't use peer NTP configuration, as that comes from puppet)
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             file {
                 "/etc/sysconfig/network-scripts/ifcfg-eth0":
@@ -34,7 +34,7 @@ class network {
     }
 
     # disable wifi
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             # existing CentOS systems do not have wifi hardware
         }

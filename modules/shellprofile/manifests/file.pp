@@ -2,7 +2,7 @@ define shellprofile::file($content) {
     include shellprofile::base
     include users::root
 
-    case ($operatingsystem) {
+    case ($::operatingsystem) {
         CentOS: {
             file {
                 "/etc/profile.puppet.d/${title}.sh":

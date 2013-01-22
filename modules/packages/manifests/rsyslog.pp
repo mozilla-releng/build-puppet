@@ -1,5 +1,5 @@
 class packages::rsyslog {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "rsyslog":
@@ -8,7 +8,7 @@ class packages::rsyslog {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

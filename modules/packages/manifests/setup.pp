@@ -1,9 +1,9 @@
 class packages::setup {
-    include config 
-    
-    case $operatingsystem {
+    include config
+
+    case $::operatingsystem {
         CentOS : {
-            $majorver = regsubst($operatingsystemrelease, '^(\d+)\.?.*', '\1')
+            $majorver = regsubst($::operatingsystemrelease, '^(\d+)\.?.*', '\1')
             file {
             # this will ensure that any "stray" yum repos will be deleted
                 "/etc/yum.repos.d":
@@ -11,7 +11,7 @@ class packages::setup {
                     recurse => true,
                     purge => true;
             }
-            
+
             # repos that are available everywhere
             packages::yumrepo {
                 "epel":
@@ -63,6 +63,48 @@ class packages::setup {
                 # this will expire all yum metadata caches
                     command => "/usr/bin/yum clean expire-cache",
                     refreshonly => true;
+            }
+        }
+        Ubuntu: {
+            # apt-get doesn't expire the package index. Run "apt-get update" on
+            # daily basis or when /etc/.repo-flag is bumped
+            schedule {
+                "daily":
+                    period => daily;
+            }
+            exec {
+                "apt-get-update-daily":
+                    command     => "/usr/bin/apt-get update",
+                    schedule    => "daily";
+                "apt-get-update":
+                    command     => "/usr/bin/apt-get update",
+                    refreshonly => true;
+            }
+            # to flush the package index, increase this value by one (or
+            # anything, really, just change it).
+            $repoflag = 0
+            file {
+                "/etc/.repo-flag":
+                    content =>
+                    "# see \$repoflag in modules/packages/manifests/setup.pp\n$repoflag\n",
+                    notify => Exec['apt-get-update'];
+                # Make sure that the main file is empty
+                "/etc/apt/sources.list":
+                    owner => 0,
+                    group => 0,
+                    mode => 0644,
+                    content => "# Managed by puppet\n",
+                    notify => Exec['apt-get-update'];
+            }
+            packages::aptrepo {
+                "precise":
+                    url_path     => "repos/apt/ubuntu",
+                    distribution => "precise",
+                    components   => ["main", "restricted"];
+                "precise-security":
+                    url_path     => "repos/apt/ubuntu",
+                    distribution => "precise-security",
+                    components   => ["main", "restricted"];
             }
         }
         Darwin: {

@@ -5,8 +5,8 @@ define rsyslog::config ($file = $title, $contents = '', $need_mysql=false) {
     if ($need_mysql) {
         include packages::rsyslog_mysql
     }
- 
-    case $operatingsystem {
+
+    case $::operatingsystem {
         CentOS : {
             include rsyslog::settings
 

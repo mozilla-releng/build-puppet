@@ -1,0 +1,7 @@
+description "Manually start x11vnc server attached to <%= scope.lookupvar('::config::builder_username') %> X session"
+
+manual
+
+script
+  su - -c "x11vnc -display :0 -rfbauth ~/.vnc/passwd -forever -shared" <%= scope.lookupvar('::config::builder_username') %>
+end script

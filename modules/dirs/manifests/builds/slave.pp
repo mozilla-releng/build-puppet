@@ -2,7 +2,7 @@ class dirs::builds::slave {
     include dirs::builds
     include users::builder
     include config
-   
+
     file {
             "/builds/slave" :
             ensure => directory,

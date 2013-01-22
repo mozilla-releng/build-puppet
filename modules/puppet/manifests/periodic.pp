@@ -30,7 +30,7 @@ class puppet::periodic {
             }
         }
         default: {
-            fail("puppet::periodic support missing for $operatingsystem")
+            fail("puppet::periodic support missing for $::operatingsystem")
         }
     }
 }

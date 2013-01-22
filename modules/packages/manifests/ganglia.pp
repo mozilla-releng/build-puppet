@@ -1,5 +1,5 @@
 class packages::ganglia {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "ganglia-gmond":
@@ -8,7 +8,7 @@ class packages::ganglia {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

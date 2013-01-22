@@ -19,6 +19,9 @@ class users::builder::autologin {
                     value => $::users::builder::username;
             }
         }
+        Ubuntu: {
+            # Managed by xvfb/Xsession
+        }
         default: {
             fail("Don't know how to set up autologin on $::operatingsystem")
         }

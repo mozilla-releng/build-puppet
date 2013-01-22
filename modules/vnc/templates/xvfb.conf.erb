@@ -1,0 +1,10 @@
+description "start Xvfb server"
+
+export USER=<%= scope.lookupvar('::config::builder_username') %>
+setuid <%= scope.lookupvar('::config::builder_username') %>
+
+
+# wait until puppet finishes
+start on stopped puppet
+
+exec Xvfb :0 -screen 0 <%= scope.lookupvar('::screenresolution::talos::width') %>x<%= scope.lookupvar('::screenresolution::talos::height') %>x<%= scope.lookupvar('::screenresolution::talos::xvfb_depth') %>

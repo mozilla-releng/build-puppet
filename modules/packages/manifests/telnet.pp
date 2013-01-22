@@ -1,5 +1,5 @@
 class packages::telnet {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "telnet":
@@ -8,7 +8,7 @@ class packages::telnet {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

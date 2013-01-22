@@ -4,7 +4,7 @@ class packages::puppetserver {
     # puppet-server requires passenger, which is in its own repo
     realize(Packages::Yumrepo['passenger'])
 
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "puppet-server":
@@ -13,7 +13,7 @@ class packages::puppetserver {
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

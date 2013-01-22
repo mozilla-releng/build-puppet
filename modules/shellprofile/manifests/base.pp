@@ -1,7 +1,7 @@
 class shellprofile::base {
     include users::root
 
-    case ($operatingsystem) {
+    case ($::operatingsystem) {
         CentOS: {
             file {
                 "/etc/profile.puppet.d":
@@ -19,7 +19,7 @@ class shellprofile::base {
             }
         }
         default: {
-            fail("shellprofile not supported on $operatingsystem")
+            fail("shellprofile not supported on $::operatingsystem")
             # this is probably possible on OSX, just not implemented yet
         }
     }

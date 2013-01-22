@@ -5,7 +5,7 @@ class packages::mozilla::screenresolution {
     }
 
     Anchor['packages::mozilla::screenresolution::begin'] ->
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS : {
             # doesn't apply
         }
@@ -16,7 +16,7 @@ class packages::mozilla::screenresolution {
              }
         }
         default : {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     } -> Anchor['packages::mozilla::screenresolution::end']
 }

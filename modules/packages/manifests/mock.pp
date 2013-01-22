@@ -7,7 +7,7 @@ class packages::mock {
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

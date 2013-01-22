@@ -1,6 +1,6 @@
 class packages::rsyslog_mysql {
     include packages::rsyslog
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "rsyslog-mysql":
@@ -10,7 +10,7 @@ class packages::rsyslog_mysql {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

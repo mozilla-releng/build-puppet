@@ -1,5 +1,5 @@
 class packages::patch {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "patch":
@@ -10,7 +10,7 @@ class packages::patch {
             #patch is installed with base image
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

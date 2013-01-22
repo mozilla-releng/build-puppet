@@ -1,5 +1,5 @@
 class packages::editors {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "nano":
@@ -8,13 +8,19 @@ class packages::editors {
                     ensure => latest;
             }
         }
- 
+        Ubuntu: {
+            package {
+                ["nano", "vim"]:
+                    ensure => latest;
+            }
+        }
+
         Darwin: {
             # installed by default
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

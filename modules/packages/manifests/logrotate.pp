@@ -1,5 +1,5 @@
 class packages::logrotate {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "logrotate":
@@ -7,7 +7,7 @@ class packages::logrotate {
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

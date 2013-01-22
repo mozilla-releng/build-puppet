@@ -2,7 +2,7 @@ class powermanagement::setup {
     include config
     include users::builder
 
-    case $operatingsystem {
+    case $::operatingsystem {
         Darwin : {
             osxutils::systemsetup {
                 sleep :
@@ -21,11 +21,11 @@ class powermanagement::setup {
                     setting => "off" ;
             }
         }
-        CentOS : {
+        CentOS, Ubuntu : {
         # not yet implemented
         }
         default : {
-            fail(" cannot install on $operatingsystem ")
+            fail(" cannot install on $::operatingsystem ")
         }
     }
 }

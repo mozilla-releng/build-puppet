@@ -1,5 +1,5 @@
 class packages::xinetd {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "xinetd":
@@ -8,7 +8,7 @@ class packages::xinetd {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

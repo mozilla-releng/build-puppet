@@ -1,5 +1,5 @@
 class packages::ccache {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "ccache":
@@ -8,7 +8,7 @@ class packages::ccache {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

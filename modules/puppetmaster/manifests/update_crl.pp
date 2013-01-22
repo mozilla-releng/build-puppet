@@ -2,7 +2,7 @@ class puppetmaster::update_crl {
     include ::config
 
     if $::config::crl_sync_url != "" {
-        case $operatingsystem {
+        case $::operatingsystem {
             CentOS: {
                 file {
                     "/etc/puppet/update_crl.sh":
@@ -15,7 +15,7 @@ class puppetmaster::update_crl {
                 }
             }
             default: {
-                fail("puppetmaster::service support missing for $operatingsystem")
+                fail("puppetmaster::service support missing for $::operatingsystem")
             }
         }
     }

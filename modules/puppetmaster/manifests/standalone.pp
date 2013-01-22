@@ -1,6 +1,6 @@
 class puppetmaster::standalone {
     include packages::mercurial
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             file {
                 # Touch /etc/puppet/standalone to enable "puppet apply" style updates in puppet::periodic

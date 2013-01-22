@@ -1,5 +1,5 @@
 class packages::x_libs {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "libXt":
@@ -10,7 +10,7 @@ class packages::x_libs {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

@@ -1,5 +1,5 @@
 class packages::gtk2 {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "gtk2":
@@ -8,7 +8,7 @@ class packages::gtk2 {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

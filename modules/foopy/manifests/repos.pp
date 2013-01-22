@@ -26,7 +26,7 @@ class foopy::repos {
                 File['/builds/tools'],
             ],
             creates => "/builds/tools/.hg",
-            command => "/tools/python27-mercurial/bin/hg clone http://hg.mozilla.org/build/tools /builds/tools",
+            command => "$::packages::mozilla::py27_mercurial::mercurial clone http://hg.mozilla.org/build/tools /builds/tools",
             user => $users::builder::username;
         "clone-talos":
             require => [
@@ -34,7 +34,7 @@ class foopy::repos {
                 File['/builds/talos-data/talos-repo'],
             ],
             creates => "/builds/talos-data/talos-repo/.hg",
-            command => "/tools/python27-mercurial/bin/hg clone -u $frozen_talos_rev http://hg.mozilla.org/build/talos /builds/talos-data/talos-repo",
+            command => "$::packages::mozilla::py27_mercurial::mercurial clone -u $frozen_talos_rev http://hg.mozilla.org/build/talos /builds/talos-data/talos-repo",
             user => $users::builder::username;
     }
     file {

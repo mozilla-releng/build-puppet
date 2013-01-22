@@ -1,5 +1,5 @@
 class packages::alsa {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "alsa-lib":
@@ -8,7 +8,7 @@ class packages::alsa {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

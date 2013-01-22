@@ -2,7 +2,7 @@ class tftpd {
     include packages::xinetd
     include packages::tftp-server
 
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
 
             service {

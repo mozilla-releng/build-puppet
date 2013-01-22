@@ -1,6 +1,6 @@
 class packages::screen {
-    case $operatingsystem {
-        CentOS: {
+    case $::operatingsystem {
+        CentOS, Ubuntu: {
             package {
                 "screen":
                     ensure => latest;
@@ -10,7 +10,7 @@ class packages::screen {
             # installed by default
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

@@ -1,5 +1,5 @@
 class packages::nslookup {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "bind-utils":  #Provided by bind-utils
@@ -8,7 +8,7 @@ class packages::nslookup {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

@@ -7,7 +7,7 @@ class packages::mozilla::mock_mozilla {
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

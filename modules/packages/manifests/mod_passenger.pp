@@ -1,5 +1,5 @@
 class packages::mod_passenger {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "mod_passenger":
@@ -7,7 +7,7 @@ class packages::mod_passenger {
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

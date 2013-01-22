@@ -1,6 +1,6 @@
 class packages::diffutils {
-    case $operatingsystem {
-        CentOS: {
+    case $::operatingsystem {
+        CentOS, Ubuntu: {
             package {
                 "diffutils":
                     ensure => latest;
@@ -10,7 +10,7 @@ class packages::diffutils {
             # installed by default on Darwin
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

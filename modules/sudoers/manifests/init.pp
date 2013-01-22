@@ -8,7 +8,7 @@ class sudoers {
             mode => "$sudoers::settings::mode",
             owner => "$sudoers::settings::owner",
             group => "$sudoers::settings::group",
-            source => "puppet:///modules/sudoers/sudoers.$operatingsystem" ;
+            source => "puppet:///modules/sudoers/sudoers.$::operatingsystem" ;
 
         "/etc/sudoers.d" :
             require => Class['packages::sudo'],

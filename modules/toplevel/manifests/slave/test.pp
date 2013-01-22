@@ -5,7 +5,9 @@ class toplevel::slave::test inherits toplevel::slave {
     include screenresolution::talos
     include users::builder::autologin
     include talos
-
     include ntp::atboot
+    include packages::fonts
+    include tweaks::fonts
+    include tweaks::cleanup
 }
 

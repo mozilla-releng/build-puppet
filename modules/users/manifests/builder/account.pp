@@ -12,7 +12,7 @@ class users::builder::account($username, $group, $home) {
     # create the user
 
     case $::operatingsystem {
-        CentOS: {
+        CentOS, Ubuntu: {
             if ($config::secrets::builder_pw_hash == '') {
                 fail('No builder password hash set')
             }

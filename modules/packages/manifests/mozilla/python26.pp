@@ -19,7 +19,7 @@ class packages::mozilla::python26 {
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     } -> Anchor['packages::mozilla::python26::end']
 }

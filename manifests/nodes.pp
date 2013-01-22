@@ -52,7 +52,7 @@ node /seamicro-test\d+.try.releng.scl3.mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
-node /.*\.build\.aws-.*\.mozilla\.com/ {
+node /(bld|try|dev)-.*\.build\.aws-.*\.mozilla\.com/ {
     # Make sure we get our /etc/hosts set up
     class {
         "network::aws": stage => network,
@@ -84,4 +84,11 @@ node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
     $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => true, default => false }
     $mozpool_staging = false
     include toplevel::server::mozpool
+}
+node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
+    # Make sure we get our /etc/hosts set up
+    class {
+        "network::aws": stage => network,
+    }
+    include toplevel::slave::test
 }

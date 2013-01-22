@@ -1,0 +1,26 @@
+# Clean up things on start
+class tweaks::cleanup {
+    include users::builder
+
+    # Note that this command will likely fail for runs done when DMGs are
+    # mounted from pkgdmg since they mount under /tmp and have really old files
+    exec {
+        "find /tmp/* -mmin +15 -print | xargs -n1 rm -rf":
+            path => "/usr/bin:/usr/sbin:/bin";
+    }
+
+    case $::operatingsystem {
+        Ubuntu, CentOS: {
+            tidy {
+                "$::users::builder::home/.mozilla/firefox/console.log":
+                    age => 0;
+            }
+        }
+        Darwin: {
+            tidy {
+                "$::users::builder::home/Library/Application Support/Firefox/console.log":
+                    age => 0;
+            }
+        }
+    }
+}

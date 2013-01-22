@@ -1,5 +1,5 @@
 class packages::net-snmp-utils {
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             package {
                 "net-snmp-utils":
@@ -8,7 +8,7 @@ class packages::net-snmp-utils {
         }
 
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("cannot install on $::operatingsystem")
         }
     }
 }
