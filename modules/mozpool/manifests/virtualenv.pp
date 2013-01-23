@@ -22,6 +22,7 @@ class mozpool::virtualenv {
                 'templeton==0.6.2',
                 "flup==1.0.3.dev-20110405",
                 "pymysql==0.5",
+                "mozdevice==0.9",
                 "mozpool==${mozpool::settings::mozpool_version}",
             ],
             notify => Service['supervisord'];
