@@ -98,16 +98,29 @@ class packages::setup {
                     mode => 0644,
                     content => "# Managed by puppet\n",
                     notify => Exec['apt-get-update'];
+                # Purge not managed files under this directory
+                "/etc/apt/sources.list.d":
+                    ensure  => directory,
+                    purge   => true,
+                    recurse => true,
+                    force   => true;
+                # Allow not signed packages until we sign them
+                "/etc/apt/apt.conf.d/99mozilla":
+                    source => "puppet:///modules/packages/apt.conf.mozilla";
             }
             packages::aptrepo {
                 "precise":
                     url_path     => "repos/apt/ubuntu",
                     distribution => "precise",
-                    components   => ["main", "restricted"];
+                    components   => ["main", "restricted", "universe"];
                 "precise-security":
                     url_path     => "repos/apt/ubuntu",
                     distribution => "precise-security",
-                    components   => ["main", "restricted"];
+                    components   => ["main", "restricted", "universe"];
+                "releng":
+                    url_path     => "repos/apt/releng",
+                    distribution => "precise",
+                    components   => ["main"];
             }
         }
         Darwin: {

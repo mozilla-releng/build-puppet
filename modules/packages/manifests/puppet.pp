@@ -22,9 +22,8 @@ class packages::puppet {
         }
         Ubuntu: {
             package {
-                "puppet":
-                    ensure => "latest";
-                    # TODO: use `ensure => $puppet_deb_version;`
+                ["puppet", "puppet-common"]:
+                    ensure => "$puppet_deb_version";
             }
         }
         Darwin: {
