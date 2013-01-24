@@ -24,6 +24,7 @@ class mozpool::virtualenv {
                 "pymysql==0.5",
                 "mozdevice==0.18",
                 "mozprocess==0.8",
+                "mozinfo==0.4",
                 "mozpool==${mozpool::settings::mozpool_version}",
             ],
             notify => Service['supervisord'];
