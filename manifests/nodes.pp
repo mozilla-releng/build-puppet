@@ -67,14 +67,6 @@ node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
     include toplevel::server::puppetmaster::standalone
 }
 
-# this host will die soon - it's for testing/devel
-node "mobile-services.build.scl1.mozilla.com" {
-    $extra_root_keys = [ 'mcote' ]
-    $is_bmm_admin_host = false
-    $mozpool_staging = false
-    include toplevel::server::mozpool
-}
-
 node "mobile-imaging-stage1.build.scl1.mozilla.com" {
     $extra_root_keys = [ 'mcote' ]
     $is_bmm_admin_host = true
