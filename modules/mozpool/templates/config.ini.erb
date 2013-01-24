@@ -11,6 +11,8 @@ url = <%= scope.lookupvar('::config::secrets::mozpool_inventory_url') %>
 username = <%= scope.lookupvar('::config::secrets::mozpool_inventory_username') %>
 password = <%= scope.lookupvar('::config::secrets::mozpool_inventory_password') %>
 filter = hostname__startswith=panda-
+# ignore staging pandas
+ignore_devices_on_servers_re = mobile-imaging-stage.*
 <% end -%>
 
 [server]
