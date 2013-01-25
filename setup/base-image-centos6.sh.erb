@@ -19,8 +19,8 @@ EOF
     echo "Disabled selinux"
 fi
 
-<%= import('common/setup-repos.erb') %>
-<%= import('common/install-puppet.erb') %>
+<%= import('common/centos-setup-repos.erb') %>
+<%= import('common/centos-install-puppet.erb') %>
 <%= import('common/cleanup-system.erb') %>
 
 # clean history
@@ -31,14 +31,7 @@ rm -f /root/.bash_history || exit 1
 # remove persistent udev rules
 rm /etc/udev/rules.d/*persistent* || echo '  (ignored)'
 
-# fix up /etc/issue
-(
-    grep -v '^Base Image' /etc/issue
-    echo "Base Image Date:" `date`
-    echo "Base Image OS:" `facter operatingsystem` `facter operatingsystemrelease`
-    echo "Base Image Host:" `facter fqdn`
-) > /etc/issue~
-mv /etc/issue{~,}
+<%= import('common/baseimage-etc-issue.erb') %>
 
 # set up for first boot
 

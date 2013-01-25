@@ -1,0 +1,74 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#System language
+lang en_US.UTF-8
+#Language modules to install
+langsupport en_US.UTF-8 --default=en_US.UTF-8
+# don't bother autoconfiguring ipv6
+network --noipv6
+#System keyboard
+keyboard us
+#System mouse
+mouse
+#System timezone
+timezone America/Los_Angeles
+######## ADD A ROOT PW HASH HERE:
+rootpw  --iscrypted xxx
+#Initial user
+user --disabled
+#Reboot after installation
+reboot
+#Use text mode install
+text
+#Install OS instead of upgrade
+install
+url --url http://repos/repos/apt/ubuntu
+#Clear the Master Boot Record
+zerombr yes
+#System bootloader configuration
+bootloader --location=mbr
+#Partition clearing information
+clearpart --all --initlabel
+autopart
+#System authorization infomation
+auth  --useshadow  --enablemd5
+#Firewall configuration
+firewall --disabled
+
+# instruct partman not to prompt for confirmation (duh)
+# https://bugs.launchpad.net/ubuntu/+source/kickseed/+bug/537421
+preseed partman/confirm_write_new_label boolean true
+preseed partman/choose_partition select finish
+preseed partman/confirm boolean true
+preseed partman/confirm_nooverwrite boolean true
+
+#Package install information; groups here select packages by "task"
+%%packages
+@ minimal
+openssh-server
+
+%%post
+# This script runs inside the chroot'd new filesystem during install.  It gets
+# a puppet password from the kernel command line, and passes that to puppetize.sh
+# in /root/deploypass.
+
+exec </dev/console >/dev/console 2>/dev/console
+set -x
+
+# parameters
+nameserver="xxx" ########## <- add your nameserver's IP here; KS can't get it from dhcp
+
+echo "== executing kickstart %post =="
+
+# set up name service
+echo "nameserver $nameserver" >> /etc/resolv.conf
+
+<%= import('common/fail.erb') %>
+<%= import('common/get-deploykey.erb') %>
+<%= import('common/apt-setup-repos.erb') %>
+<%= import('common/apt-install-puppet.erb') %>
+<%= import('common/ks-etc-issue.erb') %>
+<%= import('common/install-deploykey.erb') %>
+<%= import('common/install-puppetize.erb') %>

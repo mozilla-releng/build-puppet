@@ -45,45 +45,15 @@ set -x
 # parameters
 nameserver="xxx" ########## <- add your nameserver's IP here; KS can't get it from dhcp
 
-echo "== executing kickstart-post-centos6.sh =="
-
-fail() {
-	echo "INSTALL FAILED"
-	# if we exit, the install will continue.  That's not what we want.  So busyloop.
-	while true; do
-		sleep 60;
-	done
-}
+echo "== executing kickstart %post =="
 
 # set up name service
-
 echo "nameserver $nameserver" >> /etc/resolv.conf
 
-# get the PUPPET_PASS; this will be our key to getting a certificate down
-# the line..
-
-for word in $(</proc/cmdline); do
-        case $word in
-                PUPPET_PASS=*)
-                    PUPPET_PASS="${word//PUPPET_PASS=}" ;;
-        esac
-done
-
-if [ -z "$PUPPET_PASS" ]; then
-    echo "PUPPET_PASS was not set; aborting setup."
-    fail
-fi
-
-<%= import('common/setup-repos.erb') %>
-<%= import('common/install-puppet.erb') %>
-
-# fix up /etc/issue
-(
-    grep -v '^Kickstart' /etc/issue
-    echo "Kickstart Date:" `date`
-    echo "Kickstart OS:" `facter operatingsystem` `facter operatingsystemrelease`
-) > /etc/issue~
-mv /etc/issue{~,}
-
+<%= import('common/fail.erb') %>
+<%= import('common/get-deploykey.erb') %>
+<%= import('common/centos-setup-repos.erb') %>
+<%= import('common/centos-install-puppet.erb') %>
+<%= import('common/issue.erb') %>
 <%= import('common/install-deploykey.erb') %>
 <%= import('common/install-puppetize.erb') %>

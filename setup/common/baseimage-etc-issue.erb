@@ -1,0 +1,11 @@
+<%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/. %>
+# fix up /etc/issue
+(
+    grep -v '^Base Image' /etc/issue
+    echo "Base Image Date:" `date`
+    echo "Base Image OS:" `facter operatingsystem` `facter operatingsystemrelease`
+    echo "Base Image Host:" `facter fqdn`
+) > /etc/issue~
+mv /etc/issue{~,}

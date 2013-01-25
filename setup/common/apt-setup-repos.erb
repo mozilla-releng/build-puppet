@@ -1,0 +1,10 @@
+<%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/. %>
+cat > /etc/apt/sources.list <<EOF
+# blow away any existing repositories and add our own
+deb http://repos/repos/apt/ubuntu/ precise main restricted universe
+deb http://repos/repos/apt/ubuntu/ precise-security main restricted universe
+deb http://repos/repos/apt/releng/ precise main
+EOF
+apt-get update || fail
