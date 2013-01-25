@@ -80,10 +80,15 @@ node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
     $mozpool_staging = false
     include toplevel::server::mozpool
 }
+
 node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
     # Make sure we get our /etc/hosts set up
     class {
         "network::aws": stage => network,
     }
+    include toplevel::slave::test
+}
+
+node "dustin-test.srv.releng.scl3.mozilla.com" {
     include toplevel::slave::test
 }
