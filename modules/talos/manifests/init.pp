@@ -14,6 +14,7 @@ class talos {
         Ubuntu: {
             # Ubuntu specific packages
             include packages::nodejs
+            include packages::llvm
         }
     }
     case $::operatingsystem {
