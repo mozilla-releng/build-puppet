@@ -9,9 +9,6 @@ class packages::nodejs {
                     ensure => latest;
             }
         }
-        CentOS, Darwin: {
-            # N/A
-        }
         default: {
             fail("cannot install on $::operatingsystem")
         }

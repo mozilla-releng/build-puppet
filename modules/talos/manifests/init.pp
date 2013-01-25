@@ -7,10 +7,15 @@ class talos {
     include packages::xcode_cmdline_tools
     include packages::java
     include packages::xvfb
-    include packages::nodejs
     include users::builder
     include dirs::builds::slave
 
+    case $::operatingsystem {
+        Ubuntu: {
+            # Ubuntu specific packages
+            include packages::nodejs
+        }
+    }
     case $::operatingsystem {
         Darwin, CentOS, Ubuntu: {
             file {
