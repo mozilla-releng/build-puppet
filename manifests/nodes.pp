@@ -89,5 +89,5 @@ node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
     include toplevel::slave::test
 }
 
-node "dustin-ubuntu.srv.releng.scl3.mozilla.com" {
+node "ix-mn-linux64-001.test.releng.scl3.mozilla.com" {
 }
