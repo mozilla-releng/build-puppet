@@ -4,7 +4,23 @@
 # Upgrade and configure puppet.  Note that the puppet startup is deferred to
 # puppet::atboot and puppet::periodic; the former is used for slaves, while
 # other systems run the latter.
-class puppet {
+class puppet($startup_type) {
     include packages::puppet
     include puppet::config
+    include puppet::puppetize_sh
+
+    case $startup_type {
+        atboot: {
+            include puppet::atboot
+        }
+        periodic: {
+            include puppet::periodic
+        }
+        none: {
+            include puppet::none
+        }
+        default: {
+            fail("unknown puppet startup_type '$startup_type'")
+        }
+    }
 }

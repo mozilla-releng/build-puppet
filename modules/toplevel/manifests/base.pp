@@ -11,7 +11,6 @@ class toplevel::base {
         'packages::setup': stage => packagesetup,
     }
 
-    include puppet
     include users::root
     include users::global
     include network
@@ -23,4 +22,10 @@ class toplevel::base {
     include hardware
     include ssh
     include timezone
+
+    # the startup_type is overridden in child classes
+    class {
+        puppet:
+            startup_type => 'none';
+    }
 }

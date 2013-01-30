@@ -6,20 +6,24 @@ class puppetmaster::standalone {
     case $::operatingsystem {
         CentOS: {
             file {
-                # Touch /etc/puppet/standalone to enable "puppet apply" style updates in puppet::periodic
+                # NOTE: the toplevel class takes care of setting puppet's startup_type
+                # to 'none', as the puppetmaster update here runs 'puppet apply' instead
                 "/etc/puppet/update.sh":
                     mode => 0755,
                     owner => root,
                     group => root,
                     content => template("puppetmaster/update.sh.erb");
-                "/etc/puppet/standalone":
-                    content => "";
+                "/etc/cron.d/puppetmaster-update.cron":
+                    content => template("puppetmaster/puppetmaster-update.cron.erb");
                 "/root/.hgrc":
                     mode => 0644,
                     owner => root,
                     group => root,
                     source => "puppet:///modules/users/hgrc";
             }
+        }
+        default: {
+            fail("No puppetmaster implementation for $::operatingsystem")
         }
     }
 }

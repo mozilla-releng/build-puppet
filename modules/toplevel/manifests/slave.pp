@@ -6,7 +6,6 @@
 class toplevel::slave inherits toplevel::base {
     include dirs::builds::slave
     include users::builder
-    include puppet::atboot
     include sudoers::reboot
     include buildslave
 
@@ -20,4 +19,8 @@ class toplevel::slave inherits toplevel::base {
     include tweaks::rc_local
     include tweaks::locale
     include disableservices::slave
+
+    Class['puppet'] {
+        type => 'atboot'
+    }
 }

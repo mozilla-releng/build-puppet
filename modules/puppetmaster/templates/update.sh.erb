@@ -4,11 +4,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/. 
 
-if ! test -f /etc/puppet/standalone; then
-    echo "This script is for a standalone puppet master only."
-    exit 1
-fi
-
 errormailto="<%= scope.lookupvar('::config::puppet_notif_email') %>"
 changemailto="<%= scope.lookupvar('::config::puppet_notif_email') %>"
 repo="<%= scope.lookupvar('::config::puppet_again_repo') %>"

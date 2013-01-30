@@ -2,10 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class puppet::atboot {
-    include puppet
     include ::config
-    include puppet::puppetize_sh
-    include packages::puppet
     include dirs::usr::local::bin
 
     $puppet_server = $::config::puppet_server
@@ -44,6 +41,8 @@ class puppet::atboot {
                     # installed first
                     require => Class['packages::puppet'],
                     content => template("puppet/puppet-centos-initd.erb");
+                "/etc/cron.d/puppetcheck.cron":
+                    ensure => absent;
             }
 
             service {

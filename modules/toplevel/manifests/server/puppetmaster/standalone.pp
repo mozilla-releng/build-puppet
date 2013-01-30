@@ -4,4 +4,9 @@
 # toplevel class for running a standalone puppet master
 class toplevel::server::puppetmaster::standalone inherits toplevel::server::puppetmaster {
     include ::puppetmaster::standalone
+
+    # standalone puppetmasters update with 'puppet apply', so don't run puppet agen 
+    Class['puppet'] {
+        type => 'none'
+    }
 }
