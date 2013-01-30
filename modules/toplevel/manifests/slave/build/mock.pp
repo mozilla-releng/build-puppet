@@ -15,15 +15,4 @@ class toplevel::slave::build::mock inherits toplevel::slave::build {
             unless => "/usr/bin/groups $users::builder::username | grep '\\<mock_mozilla\\>'",
             require => [Class['packages::mozilla::mock_mozilla'], Class['users::builder']];
     }
-    
-    # Obsolete
-    file {
-        "$users::builder::home/.android":
-            ensure => absent,
-            recurse => true,
-            force => true;
-        "$users::builder::home/.mozpass.cfg":
-            ensure => absent,
-            force => true;
-    }
 }
