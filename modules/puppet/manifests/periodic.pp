@@ -2,7 +2,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class puppet::periodic {
-    include ::config
+    include puppet
+    include config
+    include puppet::puppetize_sh
     include dirs::usr::local::bin
 
     case $::operatingsystem {
@@ -15,11 +17,6 @@ class puppet::periodic {
                 # (configured in the crontask)
                 "/etc/cron.d/puppetcheck.cron":
                     content => template("puppet/puppetcheck.cron.erb");
-            }
-            service {
-                "puppet":
-                    # disable the service
-                    enable => false;
             }
         }
         Darwin: {

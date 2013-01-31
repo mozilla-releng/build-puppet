@@ -5,13 +5,10 @@
 # are machines that are generally up for a long time and expected to be online.
 
 class toplevel::server inherits toplevel::base {
+    include puppet::periodic
     include ntp::daemon
     include smarthost
     include disableservices::server
     include ganglia
     include nrpe
-
-    Class['puppet'] {
-        type => 'periodic'
-    }
 }
