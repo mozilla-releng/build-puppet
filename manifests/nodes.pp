@@ -9,22 +9,12 @@ node "relabs02.build.mtv1.mozilla.com" {
 }
 
 node "relabs06.build.mtv1.mozilla.com" {
-    include toplevel::server::puppetmaster::standalone
 }
 
 node "relabs07.build.mtv1.mozilla.com" {
 }
 
 node "relabs08.build.mtv1.mozilla.com" {
-    include toplevel::slave::build::mock
-}
-
-node "relabs-buildbot-master.build.mtv1.mozilla.com" {
-    include toplevel::server
-}
-
-node "relabs-slave.build.mtv1.mozilla.com" {
-    include toplevel::slave::test
 }
 
 node /foopy\d+.build.mtv1.mozilla.com/ {
