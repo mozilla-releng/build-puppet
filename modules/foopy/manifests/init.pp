@@ -90,7 +90,8 @@ class foopy {
     # Obsolete
     file {
         "$::users::builder::home/bin":
-            ensure => absent;
+            ensure => absent,
+            force => true;
         "$::users::builder::home/bin/minidump_stackwalk":
             ensure => absent;
     }
