@@ -7,11 +7,11 @@ yum upgrade -y || fail
 
 # install puppet and a few other things for setup, using the local mirrors
 
-# puppet: that's why we're here
+# puppet: that's why we're here (N.B.: with a pinned version)
 # wget: used below
 # openssh-clients: puppetize.sh uses ssh
 # ntp: to synchronize time so certificates work
-yum install -y puppet wget openssh-clients ntp || fail
+yum install -y puppet-2.7.17 wget openssh-clients ntp || fail
 
 # check that puppet is installed properly
 if ! puppet --version >/dev/null; then
