@@ -29,19 +29,11 @@ node /foopy\d+.p\d+.releng.scl1.mozilla.com/ {
     include toplevel::server::foopy
 }
 
-node "linux-foopy-test.build.mtv1.mozilla.com" {
-    include toplevel::server::foopy
-}
-
 node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
     include toplevel::slave::test
 }
 
-node /seamicro-test\d+.build.releng.scl3.mozilla.com/ {
-    include toplevel::slave::build::mock
-}
-
-node /seamicro-test\d+.try.releng.scl3.mozilla.com/ {
+node /linux64-ix-slave\d+.build.scl1.mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
