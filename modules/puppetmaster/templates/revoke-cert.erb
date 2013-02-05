@@ -1,0 +1,16 @@
+#! /bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+set -e
+source "<%= @scripts_dir %>/ssl_common.sh"
+lock_ca_dir
+
+hostname="${1}"
+if [ -z "${hostname}" ]; then
+    echo "usage: $0 <hostname>"
+    exit 1
+fi
+
+revoke_leaf_cert "${hostname}"

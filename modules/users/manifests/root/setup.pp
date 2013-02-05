@@ -35,4 +35,14 @@ class users::root::setup($home, $username, $group) {
                 }];
     } -> Anchor['users::root::setup::end']
 
+    ##
+    # Manage some configuration files
+
+    file {
+        "$home/.hgrc":
+            mode => 0644,
+            owner => $username,
+            group => $group,
+            source => "puppet:///modules/users/hgrc";
+    }
 }

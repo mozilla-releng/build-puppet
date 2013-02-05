@@ -28,13 +28,15 @@ define packages::yumrepo ($repo_name = $title, $url_path, $gpg_key='', $gpg_key_
             owner => 0,
             group => 0,
             mode => 0644,
-            content => template("packages/yumrepo.erb");
+            content => template("packages/yumrepo.erb"),
+            notify => Exec['yum-clean-all'];
 
         $mirror_file:
             owner => 0,
             group => 0,
             mode => 0644,
-            content => template("packages/mirrorlist.erb");
+            content => template("packages/mirrorlist.erb"),
+            notify => Exec['yum-clean-all'];
     }
 
     if ($gpg_key) {

@@ -1,0 +1,6 @@
+MAILTO="<%= scope.lookupvar('::config::puppet_notif_email') %>"
+# note that this rsync runs locally as root, but remotely as puppetsync; the -e
+# instructs SSH to use puppetsync's SSH key and known_hosts, and to use those
+# hosts appropriately
+*/5 * * * * root rsync -e 'ssh -l puppetsync -i <%= @puppetsync_home %>/.ssh/id_rsa -oUserKnownHostsFile=<%= @puppetsync_home %>/.ssh/known_hosts -oBatchMode=yes -oStrictHostKeyChecking=yes -oCheckHostIP=no' --delete -rlpt <%= @distinguished_master %>:/etc/puppet/production/manifests/extlookup/ /etc/puppet/production/manifests/extlookup/
+MAILTO=root

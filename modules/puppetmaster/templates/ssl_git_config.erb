@@ -1,0 +1,18 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    sharedRepository = 0644
+
+[receive]
+    # don't complain when others try to push to 'master' while it's checked out
+    denyCurrentBranch = false
+
+[user]
+    email = puppetsync@<%= scope.lookupvar('::fqdn') %>
+    name = Automation

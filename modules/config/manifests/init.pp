@@ -38,4 +38,7 @@ class config {
     $buildbot_configs_hg_repo = extlookup("buildbot_configs_hg_repo")
     $buildbot_configs_branch = extlookup("buildbot_configs_branch")
     $buildbot_mail_to = extlookup("buildbot_mail_to")
+    $distinguished_puppetmaster = extlookup("distinguished_puppetmaster")
+    $puppetmaster_upstream_rsync_source = extlookup("puppetmaster_upstream_rsync_source")
+    $puppetmaster_upstream_rsync_args = extlookup("puppetmaster_upstream_rsync_args")
 }

@@ -2,6 +2,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+<%# if we're building a new master, then URLs won't work yet, so we need to use
+  # a local file URL %>
+<% if @masterizing -%>
+file:///data/<%= @url_path %>
+<% else -%>
 # local master
 http://<%= @data_server %>/<%= @url_path %>
 <% if @data_servers.respond_to?('shuffle') -%>
@@ -26,5 +31,6 @@ end
 # restore the randomness
 srand(old_seed)
 
+end
 end
 -%>

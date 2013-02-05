@@ -1,20 +1,29 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 # the keys in this file are documented in
 #   https://wiki.mozilla.org/ReleaseEngineering/PuppetAgain#Secrets
 # if you add a new key here, add it to the wiki as well!
 class config::secrets {
+    # Network
+    $network_regexps = extlookup("network_regexps")
+
+    # Root authentication
     $root_pw_hash = extlookup("root_pw_hash")
     $root_pw_pbkdf2 = extlookup("root_pw_pbkdf2")
     $root_pw_pbkdf2_salt = extlookup("root_pw_pbkdf2_salt")
     $root_pw_pbkdf2_iterations = extlookup("root_pw_pbkdf2_iterations")
+
+    # Builder user authentication
     $builder_pw_hash = extlookup("builder_pw_hash")
     $builder_pw_pbkdf2 = extlookup("builder_pw_pbkdf2")
     $builder_pw_pbkdf2_salt = extlookup("builder_pw_pbkdf2_salt")
     $builder_pw_pbkdf2_iterations = extlookup("builder_pw_pbkdf2_iterations")
     $builder_pw_kcpassword_base64 = extlookup("builder_pw_kcpassword_base64")
     $builder_pw_vnc_base64 = extlookup("builder_pw_vnc_base64")
+
+    # Mozpool
     $mozpool_inventory_url = extlookup("mozpool_inventory_url")
     $mozpool_inventory_username = extlookup("mozpool_inventory_username")
     $mozpool_inventory_password = extlookup("mozpool_inventory_password")
@@ -61,4 +70,8 @@ class config::secrets {
     $signing_server_nightly_password = extlookup("signing_server_nightly_password")
     $signing_server_dep_password = extlookup("signing_server_dep_password")
     $signing_server_release_password = extlookup("signing_server_release_password")
+
+    # puppet masters
+    $puppetsync_pubkey = extlookup("puppetsync_pubkey")
+    $puppetmaster_deploy_htpasswd = extlookup("puppetmaster_deploy_htpasswd")
 }

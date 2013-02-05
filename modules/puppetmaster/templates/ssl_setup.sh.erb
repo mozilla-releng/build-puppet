@@ -1,0 +1,179 @@
+#!/bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# runs as puppetsync
+
+set -e
+set -x
+
+source "<%= @scripts_dir %>/git_common.sh"
+lock_git_dir
+
+bail() {
+    set +x
+    echo '********'
+    cat >&2
+    exit 1
+}
+
+add_and_commit() {
+    git add "${1}"
+    if git_index_is_dirty; then
+        git commit -m "${2}"
+    fi
+}
+
+# Puppet has taken care of running 'git init' appropriately in $git_dir and
+# $git_common_dir.  Now we need to get the appropriate content.
+
+<% if scope.lookupvar("::puppetmaster::settings::is_distinguished") -%>
+# since this is the distinguished master, make a simple commit that we can call
+# 'master', and push that to the common repo.
+
+# create all of the top-level dirs
+for d in certdir agent-certs revocation-requests ca-certs master-certs; do
+    mkdir -p "${git_dir}/${d}"
+    touch "${git_dir}/${d}/.keep"
+    git add "${d}/.keep"
+done
+
+# it's possible that this was partially run before, so we have nothing more
+# to commit, so skip the commit in that case
+if git_index_is_dirty; then
+    git commit -am "set up repo"
+fi
+
+# and push that same commit to the common dir
+git push "${git_common_dir}" master:master
+<% else -%>
+# since this is not the distinguished master, set up the repos by simply pulling
+# from the distinguished master
+git pull "${distinguished_common}" master:master
+# and push that to our local git common dir
+git push "${git_common_dir}" master:master
+<% end -%>
+
+# in any case, add dirs for this master
+for d in "agent-certs/${fqdn}" "revocation-requests/${fqdn}"; do
+    mkdir -p "${git_dir}/${d}"
+    touch "${git_dir}/${d}/.keep"
+    git add "${d}/.keep"
+done
+if git_index_is_dirty; then
+    git commit -m "add master dirs for ${fqdn}"
+fi
+
+## now set up the certificates, bailing when things are missing
+
+# check prerequisites
+test -f "${root_ca_cert}" || bail <<EOF
+The root CA certificate 'root.crt' is not in ${ca_certs_dir}.
+
+If this is present on another master, then wait for the sync cron job to copy
+it here.  Otherwise, you will need to generate this root certificate and a
+corresponding key, and keep them in a safe place.
+
+For example:
+
+    openssl req -new -newkey rsa -days 3650 -x509 -subj "/CN=PuppetAgain Root CA" \
+        -keyout "/root/root.key" -out "${master_ca_cert}"
+    # also copy in the CRL at "${master_ca_crl}"
+    chown -R puppetsync:puppetsync ${ca_certs_dir}
+
+Move /root/root.key somewhere safe and private and re-run puppet.
+EOF
+
+test -f "${root_ca_crl}" || bail <<EOF
+The root CA CRL is not at ${root_ca_crl}.
+Please generate it if necessary and copy it from the root CA.
+EOF
+
+test -f "${master_ca_cert}" || bail <<EOF
+The master CA certificate '${fqdn}.crt' is not in '${ca_certs_dir}'.
+You will need to generate this certificate and sign it with the root certificate.
+
+Here's how.
+
+    openssl genrsa -out ${master_ca_key} 2048
+    openssl req -new -subj "/CN=CA on ${fqdn}" -key ${master_ca_key} -out master-ca.csr
+    openssl req -text -in master-ca.csr
+    chown -R puppetsync:puppetsync ${ca_certs_dir}
+
+Check the request's contents in the dump, and then sign it with the root CA.
+Then copy/paste the resulting .crt back to
+  ${master_ca_cert}
+and re-run puppet.
+EOF
+
+test -f "${master_ca_key}" || bail <<EOF
+The master CA key '${master_ca_key}' does not seem to be in place.
+It should have been created while creating the CSR for the master CA.
+Please fix
+EOF
+
+# set up the master's CA directory
+if [ ! -f "${ca_dir}/inventory.txt" ]; then
+    touch "${ca_dir}/inventory.txt"
+fi
+if [ ! -d "${ca_dir}/certs" ]; then
+    mkdir "${ca_dir}/certs"
+fi
+if [ ! -f "${ca_dir}/serial" ]; then
+    echo "0001" > "${ca_dir}/serial"
+fi
+cat <<EOF > "${ca_dir}/openssl.conf"
+[ca]
+default_ca = master_ca_config
+
+[master_ca_config]
+certificate = ${master_ca_cert}
+private_key = ${master_ca_key}
+database = ${ca_dir}/inventory.txt
+new_certs_dir = ${ca_dir}/certs
+serial = ${ca_dir}/serial
+default_crl_days = 7
+default_days = 1825
+default_md = sha1
+policy = master_ca_policy
+x509_extensions = master_ca_exts
+
+[master_ca_policy]
+commonName = supplied
+organizationalUnitName = optional
+
+# default extensions for clients
+[master_ca_exts]
+authorityKeyIdentifier = keyid,issuer:always
+basicConstraints = critical,CA:false
+keyUsage = keyEncipherment, digitalSignature
+extendedKeyUsage = clientAuth
+
+# extensions for the master certificate, specifically adding subjectAltName and serverAuth instead of clientAuth
+[master_self_ca_exts]
+authorityKeyIdentifier = keyid,issuer:always
+basicConstraints = critical,CA:false
+keyUsage = keyEncipherment, digitalSignature
+extendedKeyUsage = serverAuth
+# include the master's fqdn here, as well as in the CN, to work
+# around https://bugs.ruby-lang.org/issues/6493
+subjectAltName = DNS:puppet,DNS:${fqdn}
+EOF
+
+# generate a CRL immediately
+openssl ca -gencrl -config "${ca_dir}/openssl.conf" -out "${master_ca_crl}"
+
+# and link everything into the certdir
+for stem in root "${fqdn}"; do
+    cert="${stem}.crt"
+    crl="${stem}.crl"
+
+    # pass relative paths for the CRL and cert to make_hash_link
+    add_and_commit "ca-certs/${cert}" "add ${stem} CA cert"
+    add_and_commit "ca-certs/${crl}" "add ${stem} CA CRL"
+    make_hash_link "../ca-certs/${cert}"
+    make_hash_link "../ca-certs/${crl}"
+done
+
+touch "${ca_dir}/.setup-complete"

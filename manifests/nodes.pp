@@ -5,9 +5,12 @@
 ## relabs machines - check with dustin to borrow one
 
 node "relabs02.build.mtv1.mozilla.com" {
+    include toplevel::server::puppetmaster
 }
 
 node "relabs03.build.mtv1.mozilla.com" {
+    #$puppetmaster_is_public_mirror = true
+    include toplevel::server::puppetmaster
 }
 
 node "relabs04.build.mtv1.mozilla.com" {
@@ -101,7 +104,7 @@ node /(bld|try|dev)-.*\.(build|try|dev)\.releng\.(use1|usw2)\.mozilla.com/ {
 ## puppetmasters
 
 node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
-    include toplevel::server::puppetmaster::standalone
+    include toplevel::server::puppetmaster
 }
 
 ## mozpool servers

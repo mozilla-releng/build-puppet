@@ -1,0 +1,30 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+class puppetmaster::settings {
+    include ::config
+
+    $data_root = "/data"
+    $puppetmaster_root = "/var/lib/puppetmaster"
+    $puppetsync_home = "/var/lib/puppetsync-home"
+    $deploy_dir = "/var/lib/puppetmaster/deploy"
+
+    # how often to check and update the puppet manifests and files
+    $puppet_check_interval_mins = 5
+    $puppet_check_splay_secs = 200
+
+    $all_masters = $::config::puppet_servers
+    $distinguished_master = $::config::distinguished_puppetmaster
+
+    if ($distinguished_master == "") {
+        fail("distinguished_puppetmaster config is not specified")
+    }
+
+    # true if this is the distinguished master
+    $is_distinguished = $fqdn ? {
+        $distinguished_master => true,
+        default => false
+    }
+    $is_public_mirror = $puppetmaster_is_public_mirror
+}

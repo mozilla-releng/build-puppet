@@ -2,6 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class smarthost::setup {
+    include users::root
     include ::config
 
     file {
@@ -12,7 +13,9 @@ class smarthost::setup {
             require => Class["smarthost::install"],
             notify => Class["smarthost::daemon"];
         "/etc/aliases":
-            source => "puppet:///modules/smarthost/aliases",
+            content => template("smarthost/aliases.erb"),
+            owner => root,
+            group => $users::root::group,
             require => Class['smarthost::install'],
             notify => Exec['newaliases'];
     }

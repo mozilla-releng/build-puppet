@@ -92,4 +92,4 @@ support: postmaster
 decode: root
 
 # Person who should get root's mail
-root: releng-shared@mozilla.com
+root: <%= scope.lookupvar('config::puppet_notif_email') %>

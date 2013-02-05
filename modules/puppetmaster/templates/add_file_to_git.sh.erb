@@ -1,0 +1,16 @@
+#! /bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+set -e
+source "<%= @scripts_dir %>/git_common.sh"
+lock_git_dir
+
+src_filename="${1}"
+git_filename="${2}"
+message="${3}"
+
+cp "${src_filename}" "${git_dir}/${git_filename}"
+git add "${git_filename}"
+git commit -q -m "${message}"

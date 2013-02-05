@@ -4,6 +4,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+# You can set PUPPET_SERVER before running this script to use a server other
+# than 'puppet'
+
 REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
 OS=`facter operatingsystem`
 case "$OS" in
@@ -58,10 +61,10 @@ deploypass="$deploypass"
 if not deploypass:
     deploypass = getpass.getpass('deploypass: ')
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-password_mgr.add_password(None, 'https://puppet', 'deploy', deploypass)
+password_mgr.add_password(None, 'https://${PUPPET_SERVER:-puppet}', 'deploy', deploypass)
 handler = urllib2.HTTPBasicAuthHandler(password_mgr)
 opener = urllib2.build_opener(handler)
-data = opener.open('https://puppet/deploy/getcert.cgi').read()
+data = opener.open('https://${PUPPET_SERVER:-puppet}/deploy/getcert.cgi').read()
 open("$ROOT/certs.sh", "w").write(data)
 EOF
     if [ $? -ne 0 ]; then

@@ -36,7 +36,9 @@
     manifestdir = $confdir/production/manifests
     modulepath = $confdir/production/modules
     templatedir = $confdir/production/templates
+    ssldir = /var/lib/puppetmaster/ssl
     manifest = $manifestdir/site.pp
+    config_version = /etc/puppet/get_rev.sh $confdir/production
     ca = false
     reports = <%= scope.lookupvar('::config::puppet_server_reports') %>
     reporturl = <%= scope.lookupvar('::config::puppet_server_reporturl') %>

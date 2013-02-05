@@ -1,0 +1,18 @@
+<%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/. -%>
+<%
+    dist_master = scope::lookupvar('::puppetmaster::settings::distinguished_master')
+
+    # add host keys here for any hosts that might be the distinguished master
+    known_keys = {
+        'relabs02.build.mtv1.mozilla.com' => 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAwifcUotf9BaJsLoOTuhGNbyfYC7+wtFsFeIZd0/uyt1hVPHVGEMZaq0aklRPZ021sxu79QoMXqZNPHoEPj5dz+29jTC5TrZT1JO+7RPznBRpmGg57cpYRlPzrvMpXM+JnnCApctK8xJKsEfUqhPNZXfK9ATy9Wkgk42vLL7m54SK6cLsrkbgvkhbI7qUadEJYD8WQu06djtjEUHF8zeo4Nvkgw7xQWLdtwwordxczr099CXb8Z6lm07B0bJpTVBZeS1STpuKEEJE70CNDW9zXZ/dRk3gYZGPOuo38hbyxj79gtLwK59wSGupQoPXG1wnJvRHjBOe04QScyK2F6kSWw==',
+        'relabs03.build.mtv1.mozilla.com' => 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA3Y8k6Ksqea8BnTkaL77Jtizln7bBvBcpJtijBuIPIVC8aq9WczJEnLquwl+P5oZWidIlpdTlLc1dIOV6bYzJ7vhD4ZYOpl0CC1YGAwzl6D50EgMwP9qqJf3TS18tpXD6VqGLU9Ep/2Vaj107Y85YhjdH5QR+M5Z4V2yJv/a/3fKKjjKF5L6YwvnO9brxMxMLcM0LTlklJmzT3rMNku2APDLlixUtsHJnYH974tSdGRYKtqlmXm7rAj5dbYBL0sc0RHiHcFgNCbe29UEW4WIQpS0Zh5yIBa2GYOmSJhXu5JuL1GQtN1gA2wvH2oNItCzelJ2CptvO458CdEiKa7nK8w==',
+        'relabs08.build.mtv1.mozilla.com' => 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAzYy+dOop+WYLKPRKP40/4bF7N5HIIpn78Bt72rOWen434aadFwlf0xeaqSW+zxw57ge6B+31mXI+vsEUiGsEgUFcA3a0Rm7pZ15R2DRxcnUXbKDxYJIEosw2ljoy+Tbe+Ryj9WBkP/xutLAgIxi3hVsdyd3ExBRHHhtdA5Ifc6fjr4ofd/vMUkVhChBe5iUVXPEGNvNamnkB6NxUYhLcC+Yfdc2oyfXHOsko3tsFvn1wB+2KwLmhqXZybrykAfRsB4MahmYopf38vku9LUfrt3gN695VLn9241X3n+jQSRgqa1nNXmLTQWeBhQ3882h8hP0mH0rxiwKXfkDNK+cjzQ==',
+    }
+    known_key = known_keys[dist_master]
+    if not known_key
+      throw "add host key for #{dist_master} to modules/puppetmaster/templates/puppetsync_known_hosts.erb"
+    end
+-%>
+<%= dist_master %> <%= known_key %>

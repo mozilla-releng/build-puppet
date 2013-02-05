@@ -22,6 +22,7 @@ class packages::setup {
                     "repos/yum/mirrors/epel/6/latest/$architecture",
                     gpg_key => "puppet:///modules/packages/0608B895.txt",
                     gpg_key_pkg => 'gpg-pubkey-0608b895-4bd22942';
+
                 "base":
                     url_path =>
                     "repos/yum/mirrors/centos/6/latest/os/$architecture",
@@ -63,8 +64,12 @@ class packages::setup {
             }
             exec {
                 yum-clean-expire-cache:
-                # this will expire all yum metadata caches
+                    # this will expire all yum metadata caches
                     command => "/usr/bin/yum clean expire-cache",
+                    refreshonly => true;
+                yum-clean-all:
+                    # this is necessary when mirror lists change
+                    command => "/usr/bin/yum clean all",
                     refreshonly => true;
             }
         }

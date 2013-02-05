@@ -1,0 +1,151 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+scripts_dir="<%= @scripts_dir %>"
+source "${scripts_dir}/vars.sh"
+
+# check we're running as root - ssl operations must be done as root
+[ `id -un` = root ] || exit 1
+
+# lock the CA directory so we don't try to do multiple signings at the same
+# time
+lock_ca_dir() {
+    lockfile -10 -r 3 -l 120 "${ca_dir}/lock"
+    trap "rm -f ${ca_dir}/lock; exit" SIGHUP SIGINT SIGTERM EXIT
+}
+
+# add an SSL file to git with the given message.
+# add_file_to_git $src_filename $git_filename "$message"
+# The $git_filename must be relative to git_dir
+add_file_to_git() {
+    sudo -u puppetsync "${scripts_dir}/add_file_to_git.sh" "${@}"
+}
+
+# remove an SSL file from git with the given message
+# rm_file_from_git $git_filename "$message"
+rm_file_from_git() {
+    sudo -u puppetsync "${scripts_dir}/rm_file_from_git.sh" "${@}"
+}
+
+# move an SSL file from one location to another in git
+# mv_file_in_git $src_filename $dest_filename "$message"
+# The filenames must be relative to git_dir
+mv_file_in_git() {
+    sudo -u puppetsync "${scripts_dir}/mv_file_in_git.sh" "${@}"
+}
+
+# make_hash_link $relative_path
+make_hash_link() {
+    local relative_path="${1}"
+    local r ssl_cmd
+
+    # figure out if this is a cert or crl
+    if [ "${relative_path:${#relative_path}-3:3}" = "crt" ]; then
+        r=""
+        ssl_cmd="x509"
+    else
+        r="r"
+        ssl_cmd="crl"
+    fi
+
+    hash=$(openssl ${ssl_cmd} -hash -noout -in "${certdir}/${relative_path}")
+    i=0
+    while true; do
+        hashfile="${certdir}/${hash}.${r}${i}"
+        if ! test -f "${hashfile}"; then
+            break
+        fi
+
+        dest=$(readlink -f "${hashfile}")
+        if [ "${dest}" = "${relative_path}" ]; then
+            # it already exists; nothing to add
+            return
+        fi
+        i=$((i+1))
+    done
+
+    # not found, so add a link and commit it
+    ln -s "${relative_path}" "${hashfile}"
+    add_and_commit "certdir/${hash}.${r}${i}" "link to ${relative_path} from certdir"
+}
+
+# make_leaf_cert $hostname [master|agent] $keyfile $certfile
+#
+# call this with the ca_dir lock held
+make_leaf_cert() {
+    local leaf_fqdn="${1}"
+    local keyfile="${3}"
+    local certfile="${4}"
+
+    # select which CA extensions to use in the openssl.conf file
+    if [ "$2" = "master" ]; then
+        extns=master_self_ca_exts
+        # make sure masters' master certs have a different DN than their agent certs.
+        subj="/CN=${leaf_fqdn}/OU=PuppetMasters"
+    else
+        extns=master_ca_exts
+        subj="/CN=${leaf_fqdn}"
+    fi
+
+    openssl genrsa -out "${keyfile}" 2048 2>/dev/null
+    openssl req -subj "${subj}" -new -key "${keyfile}" | \
+        openssl ca -batch -config ${ca_dir}/openssl.conf -extensions $extns \
+                -in /dev/stdin -notext -out "${certfile}" 2>/dev/null
+}
+
+# revoke_leaf_cert $hostname
+#
+# this schedules the cert for revocation, and then runs any locally-queued revocations,
+# so if the cert was issued locally then it will be completely revoked before return.
+#
+# call this with the ca_dir lock held
+revoke_leaf_cert() {
+    local hostname="${1}"
+    local i dest master
+
+    ( cd "${agent_certs_dir}" && ls -1 ) | \
+    while read master; do
+        if [ -f "${agent_certs_dir}/${master}/${hostname}.crt" ]; then
+            # invent a destination filename that is unique on this master and won't
+            # conflict with a filename generated elsewhere
+            i=1
+            dest="revocation-requests/${master}/${hostname}-for-${fqdn}.crt"
+            while [ -f "${git_dir}/${dest}" ]; do
+                dest="revocation-requests/${master}/${hostname}-for-${fqdn}-$i.crt"
+                i=$((i+1))
+            done
+            mv_file_in_git "agent-certs/${master}/${hostname}.crt" "${dest}" "request revocation of ${hostname} by ${master}"
+        fi
+    done
+
+    run_revocations
+}
+
+# run all revocations requested for this master
+#
+# call this with the ca_dir lock held
+run_revocations() {
+    local need_crl=false
+    local to_revoke
+
+    ( cd "${my_revocation_requests_dir}" && ls -1 ) | \
+    while read to_revoke; do
+        openssl ca -revoke "${my_revocation_requests_dir}/${to_revoke}" -config "${ca_dir}/openssl.conf" 2>/dev/null
+        rm_file_from_git "revocation-requests/${fqdn}/${to_revoke}" "revoke ${to_revoke}"
+        need_crl=true
+    done
+
+    # check the date on the CRL, regenerting if it's over a day old
+    if [ ! -f "${master_ca_crl}" ]; then
+        need_crl=true
+    elif [ -n "$(find ${master_ca_crl} -mtime +1 2>/dev/null)" ]; then
+        need_crl=true
+    fi
+
+    # if we revoked anything or otherwise need to re-gen the CRL, do it
+    if $need_crl; then
+        openssl ca -gencrl -config "${ca_dir}/openssl.conf" -out "${tmp_dir}/master_ca.crl" 2>/dev/null
+        add_file_to_git  "${tmp_dir}/master_ca.crl" "ca-certs/${fqdn}.crl" "update CA CRL for ${fqdn}"
+    fi
+}

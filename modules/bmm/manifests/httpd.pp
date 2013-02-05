@@ -6,7 +6,7 @@ class bmm::httpd {
 
     httpd::config {
         "bmm_httpd.conf" :
-            contents => template("bmm/bmm_httpd.conf.erb");
+            content => template("bmm/bmm_httpd.conf.erb");
     }
 
     file {

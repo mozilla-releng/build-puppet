@@ -3,7 +3,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class powermanagement::setup {
     include config
-    include users::builder
 
     case $::operatingsystem {
         Darwin : {
