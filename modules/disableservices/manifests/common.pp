@@ -20,11 +20,32 @@ class disableservices::common {
             }
         }
         Ubuntu: {
+            # These packages are required by ubuntu-desktop, so we can't uninstall them.  Instead,
+            # install but disable them.
+            $install_and_disable = [ 'cups', 'anacron', 'whoopsie', 'lightdm',
+                  'modemmanager', 'apport', 'acpid',
+                  'avahi-daemon', 'network-manager' ]
+            package {
+                $install_and_disable:
+                    ensure => latest;
+            }
             service {
-                ['acpid', 'avahi-daemon', 'anacron', 'apport', 'modemmanager',
-                 'whoopsie', 'cups', 'bluetooth', 'lightdm', 'network-manager']:
+                $install_and_disable:
                     enable => false,
-                    ensure => stopped;
+                    ensure => stopped,
+                    require => Package[$install_and_disable];
+            }
+
+            # this package and service have different names
+            package {
+                "bluez":
+                    ensure => latest;
+            }
+            service {
+                "bluetooth":
+                    enable => false,
+                    ensure => stopped,
+                    require => Package['bluez'];
             }
         }
         Darwin : {

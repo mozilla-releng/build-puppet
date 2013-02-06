@@ -6,6 +6,7 @@ class toplevel::slave::test inherits toplevel::slave {
     # so we get the GUI for free and just need to ensure VNC is enabled.
     include vnc
     include screenresolution::talos
+    include packages::linux_desktop
     include users::builder::autologin
     include talos
     include ntp::atboot
