@@ -22,6 +22,16 @@ class puppet::atboot {
         }
     }
 
+    # and allow other systems to request a reboot as well (e.g., for installing
+    # kernel drivers)
+
+    exec {
+        # ask the puppet startup script to reboot
+        "reboot-after-puppet":
+            command => "/usr/bin/touch /REBOOT_AFTER_PUPPET",
+            refreshonly => true;
+    }
+
     # install the list of puppetmaster mirrors
     file {
         "/etc/puppet/puppetmasters.txt":

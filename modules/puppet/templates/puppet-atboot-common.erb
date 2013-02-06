@@ -9,6 +9,8 @@ PUPPETMASTERS=$(< /etc/puppet/puppetmasters.txt)
 # note that --test implies --detailed-exitcodes, which we don't want
 PUPPET_OPTIONS="--onetime --no-daemonize --logdest=console --logdest=syslog --color=false"
 
+REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
+
 run_puppet() {
     puppet_server="$1"
     echo $"Running puppet agent against server '$puppet_server'"
@@ -28,6 +30,8 @@ run_puppet() {
 }
 
 run_until_success() {
+    rm -f "$REBOOT_FLAG_FILE"
+
     count=0
     wait_time=60
     success=false
@@ -53,6 +57,12 @@ run_until_success() {
             do_reboot
         fi
     done
+
+    if [ -f "$REBOOT_FLAG_FILE" ]; then
+        rm -f "$REBOOT_FLAG_FILE"
+        echo "Rebooting as requested"
+        do_reboot
+    fi
 }
 
 do_reboot() {

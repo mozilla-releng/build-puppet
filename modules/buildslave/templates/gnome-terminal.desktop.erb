@@ -3,7 +3,9 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 [Desktop Entry]
 Type=Application
-Exec=gnome-terminal -x <%= scope.lookupvar('::packages::mozilla::python27::python') %> /usr/local/bin/runslave.py
+# use xterm instead of gnome-terminal, since gnome-terminal isn't installed and doesn't
+# play nice with nvidia
+Exec=xterm -e '<%= scope.lookupvar('::packages::mozilla::python27::python') %> /usr/local/bin/runslave.py'
 Hidden=false
 X-GNOME-Autostart-enabled=true
 Name=Talos slave

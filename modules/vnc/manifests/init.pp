@@ -3,10 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class vnc {
     include config
-    include vnc::appearance
     include users::builder
     include packages::vncserver
-    include screenresolution::talos
 
     case $::operatingsystem {
         Darwin: {
@@ -38,16 +36,6 @@ class vnc {
                 fail('No VNC password set')
             }
             file {
-                "/etc/init/xvfb.conf":
-                    content => template("${module_name}/xvfb.conf.erb");
-                "/etc/init.d/xvfb":
-                    ensure  => link,
-                    target  => "/lib/init/upstart-job";
-                "/etc/init/Xsession.conf":
-                    content => template("${module_name}/Xsession.conf.erb");
-                "/etc/init.d/Xsession":
-                    ensure  => link,
-                    target  => "/lib/init/upstart-job";
                 "/etc/init/x11vnc.conf":
                     content => template("${module_name}/x11vnc.conf.erb");
                 "/etc/init.d/x11vnc":
@@ -65,6 +53,7 @@ class vnc {
                     group   => $::users::builder::group,
                     content => base64decode($::config::secrets::builder_pw_vnc_base64);
             }
+            # note that x11vnc isn't started automatically
         }
         default: {
             fail("Cannot set up VNC on this platform")

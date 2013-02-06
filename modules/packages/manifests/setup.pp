@@ -126,9 +126,15 @@ class packages::setup {
                     distribution => "precise-updates",
                     components   => ["all"];
             }
+            @packages::aptrepo {
+                "xorg-edgers":
+                    url_path     => "repos/apt/xorg-edgers",
+                    distribution => "precise",
+                    components   => ["main"];
+            }
         }
         Darwin: {
-        #nothing to setup on Darwin
+            #nothing to setup on Darwin
         }
     }
 }

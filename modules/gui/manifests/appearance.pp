@@ -1,8 +1,8 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-class vnc::appearance {
-
+class gui::appearance {
+    include packages::libglib20_bin
     include dirs::usr::local::bin
     include users::root
 
@@ -20,7 +20,7 @@ class vnc::appearance {
                 }
                 file {
                     "/usr/local/bin/changebackground.sh" :
-                        source => "puppet:///modules/vnc/changebackground.sh",
+                        source => "puppet:///modules/gui/changebackground.sh",
                         owner => "$users::root::username",
                         group => "$users::root::group",
                         mode => 0755,
@@ -32,16 +32,17 @@ class vnc::appearance {
             file {
                 "/usr/share/glib-2.0/schemas/99_gsettings.gschema.override":
                     notify => Exec['update-gsettings'],
-                    source => "puppet:///modules/vnc/gsettings.gschema.override";
+                    source => "puppet:///modules/gui/gsettings.gschema.override";
             }
             exec {
                 "update-gsettings":
                     command => "/usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas",
-                        refreshonly => true;
+                    require => Class['packages::libglib20_bin'],
+                    refreshonly => true;
             }
         }
         default: {
-            fail("Don't know how to set up VNC appearance on $::operatingsystem")
+            fail("Don't know how to set up GUI appearance on $::operatingsystem")
         }
     }
 }
