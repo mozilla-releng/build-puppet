@@ -14,4 +14,12 @@ class mozpool::daemon {
          require => Class['mozpool::virtualenv'],
          extra_config => "stderr_logfile=/var/log/mozpool.log\nstderr_logfile_maxbytes=10MB\nstderr_logfile_backups=10\n";
     }
+
+    # create a place for mozpool to log its heartbeats; see bug 838925
+    file {
+        "/var/run/mozpool":
+            ensure => directory,
+            owner => 'apache',
+            group => 'apache';
+    }
 }

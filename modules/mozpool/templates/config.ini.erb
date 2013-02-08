@@ -17,6 +17,7 @@ ignore_devices_on_servers_re = mobile-imaging-stage.*
 
 [server]
 fqdn = <%= scope.lookupvar('::fqdn') %>
+heartbeat_file = /var/run/mozpool/heartbeat
 
 [paths]
 # Root path where the TFTP server serves files.
