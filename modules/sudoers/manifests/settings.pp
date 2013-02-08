@@ -8,10 +8,10 @@ class sudoers::settings {
     $owner = $users::root::username
     $mode = "440"
     case $::operatingsystem {
-        CentOS, Ubuntu: {
+        CentOS: {
             $rebootpath = "/usr/bin/reboot"
          }
-         Darwin: {
+         Darwin, Ubuntu: {
             $rebootpath = "/sbin/reboot"
          }
     }
