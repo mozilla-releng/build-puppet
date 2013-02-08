@@ -56,6 +56,9 @@ node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
 node "ix-mn-linux64-001.test.releng.scl3.mozilla.com" {
 }
 
+node "ix-mn-linux64-002.test.releng.scl3.mozilla.com" {
+}
+
 ## builders
 
 node /linux64-ix-slave\d+.build.scl1.mozilla.com/ {
