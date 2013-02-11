@@ -9,6 +9,7 @@ class mozpool {
     include mozpool::httpd
     include mozpool::inventorysync
     include mozpool::dbcron
+    include tweaks::tcp_keepalive
 
     file {
         $mozpool::settings::root:
