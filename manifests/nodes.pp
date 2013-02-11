@@ -59,6 +59,14 @@ node "ix-mn-linux64-001.test.releng.scl3.mozilla.com" {
 node "ix-mn-linux64-002.test.releng.scl3.mozilla.com" {
 }
 
+node "talos-linux32-ix-001.test.releng.scl3.mozilla.com" {
+    include toplevel::slave
+}
+
+node "talos-linux32-ix-001.test.releng.scl3.mozilla.com" {
+    include toplevel::slave
+}
+
 ## builders
 
 node /linux64-ix-slave\d+.build.scl1.mozilla.com/ {
