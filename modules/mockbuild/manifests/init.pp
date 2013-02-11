@@ -14,9 +14,23 @@ class mockbuild {
             source => "puppet:///modules/mockbuild/mozilla-f16-i386.cfg";
         "/etc/mock_mozilla/mozilla-centos6-i386.cfg":
             require => Class["packages::mozilla::mock_mozilla"],
-            source => "puppet:///modules/mockbuild/mozilla-centos6-i386.cfg";
+            source => "puppet:///modules/mockbuild/mozilla-centos6-i386.cfg",
+            notify => Exec['mock_clean_mozilla-centos6-i386'];
         "/etc/mock_mozilla/mozilla-centos6-x86_64.cfg":
             require => Class["packages::mozilla::mock_mozilla"],
-            source => "puppet:///modules/mockbuild/mozilla-centos6-x86_64.cfg";
+            source => "puppet:///modules/mockbuild/mozilla-centos6-x86_64.cfg",
+            notify => Exec['mock_clean_mozilla-centos6-x86_64'];
+    }
+    exec {
+        'mock_clean_mozilla-centos6-i386':
+            # this will expire all mock caches
+            command => "/usr/bin/sudo -u cltbld /usr/bin/mock_mozilla -v -r mozilla-centos6-i386 --scrub=all",
+            onlyif => "/usr/bin/test -e /builds/mock_mozilla/mozilla-centos6-i386/result/state.log",
+            refreshonly => true;
+        'mock_clean_mozilla-centos6-x86_64':
+            # this will expire all mock caches
+            command => "/usr/bin/sudo -u cltbld /usr/bin/mock_mozilla -v -r mozilla-centos6-x86_64 --scrub=all",
+            onlyif => "/usr/bin/test -e /builds/mock_mozilla/mozilla-centos6-x86_64/result/state.log",
+            refreshonly => true;
     }
 }
