@@ -19,7 +19,7 @@ class tweaks::tcp_keepalive {
                     value => 120;
                 # when a keepalive probe fails (times out), send another after
                 # 5 seconds
-                'net.ipv4.tcp_keepalive_itvl':
+                'net.ipv4.tcp_keepalive_intvl':
                     value => 5;
                 # kill the TCP connection after 12 probes with no response
                 'net.ipv4.tcp_keepalive_probes':
