@@ -18,6 +18,6 @@ class mozpool::settings {
         $db_username = $::config::secrets::mozpool_db_username
         $db_password = $::config::secrets::mozpool_db_password
         $db_hostname = $::config::secrets::mozpool_db_hostname
-        $mozpool_version = "2.0.0"
+        $mozpool_version = "2.0.2"
     }
 }
