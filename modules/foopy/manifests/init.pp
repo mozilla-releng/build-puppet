@@ -11,6 +11,7 @@ class foopy {
     include packages::alsa
     include packages::pango
     include packages::patch
+    include packages::procmail # for lockfile
     include packages::gtk2
     include packages::telnet
     include packages::x_libs
@@ -29,7 +30,8 @@ class foopy {
         ["/builds/tegra_status.txt",
          "/builds/check.log",
          "/builds/check2.log",
-         "/builds/tegra_stats.log"]:
+         "/builds/tegra_stats.log",
+         "/builds/watcher.log"]:
             owner => $users::builder::username,
             group => $users::builder::group,
             ensure => file,
@@ -61,6 +63,11 @@ class foopy {
             group => $users::builder::group,
             ensure => link,
             target => "/builds/tools/buildfarm/mobile/tegra_stats.sh";
+        "/builds/watch_devices.sh":
+            owner => $users::builder::username,
+            group => $users::builder::group,
+            ensure => link,
+            target => "/builds/tools/buildfarm/mobile/watch_devices.sh";
         
         # Symlink minidump_stackwalk to tools repo, needed only until we drop
         # OSX Foopies
