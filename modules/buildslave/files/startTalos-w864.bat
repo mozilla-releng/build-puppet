@@ -15,4 +15,4 @@ rmdir /S /Q C:\Users\cltbld\AppData\Local\Temp
 mkdir C:\Users\cltbld\AppData\Local\Temp
 rm c:\slave\twistd.log.*
 
-C:\mozilla-build\python\python c:\slave\runslave.py
+C:\mozilla-build\python27\python c:\slave\runslave.py
