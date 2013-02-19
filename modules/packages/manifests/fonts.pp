@@ -9,7 +9,7 @@ class packages::fonts {
                  "ttf-indic-fonts-core", "ttf-kannada-fonts", "ttf-dejavu",
                  "ttf-oriya-fonts", "ttf-punjabi-fonts", "ttf-arphic-uming",
                  "ttf-paktype", "fonts-stix", "fonts-unfonts-core",
-                 "fonts-unfonts-extra"]:
+                 "fonts-unfonts-extra", "fonts-vlgothic"]:
                      ensure => latest;
             }
         }
