@@ -5,7 +5,8 @@ class packages::nodejs {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "nodejs":
+                # Install nodejs-legacy package which contains node -> nodejs symlink
+                ["nodejs", "nodejs-legacy"]:
                     ensure => latest;
             }
         }
