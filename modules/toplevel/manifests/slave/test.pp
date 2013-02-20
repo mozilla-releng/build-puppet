@@ -16,5 +16,6 @@ class toplevel::slave::test inherits toplevel::slave {
     # this will get fixed in a subsequent patch for bug 838351
     if ($::operatingsystem == 'Ubuntu') {
         include packages::linux_desktop
+        include packages::ia32libs
     }
 }
