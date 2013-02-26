@@ -6,4 +6,5 @@ class disableservices::slave inherits disableservices::common {
 
     include disableservices::iptables
     include disableservices::displaymanager
+    include disableservices::notification_daemon
 }
