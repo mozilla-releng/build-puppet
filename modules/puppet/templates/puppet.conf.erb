@@ -15,7 +15,12 @@
 [agent]
     classfile = $vardir/classes.txt
     localconfig = $vardir/localconfig
-    server = <%= scope.lookupvar('::config::puppet_server') %>
+    server = <%= @puppet_server %>
+
+    <%- if @pinned_env -%>
+    # environment is pinned
+    environment = <%= @pinned_env %>
+    <% end -%>
 
     # don't check the master's CRL; see
     #   https://projects.puppetlabs.com/issues/14550

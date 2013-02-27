@@ -14,4 +14,10 @@ class motd::base {
             group => $group,
             mode => 0644;
     }
+    # need at least one fragment, or concat will fail:
+    concat::fragment {
+        empty-motd:
+            target => "/etc/motd",
+            content => ""
+    }
 }

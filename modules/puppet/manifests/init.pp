@@ -7,4 +7,5 @@
 class puppet {
     include packages::puppet
     include puppet::config
+    include puppet::motd
 }

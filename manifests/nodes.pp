@@ -54,15 +54,27 @@ node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
 }
 
 node "ix-mn-linux64-001.test.releng.scl3.mozilla.com" {
+    $pin_puppet_env = "dmitchell"
+    $pin_puppet_server = "releng-puppet1.build.mtv1.mozilla.com"
+    include puppet::atboot
 }
 
 node "ix-mn-linux64-002.test.releng.scl3.mozilla.com" {
+    $pin_puppet_env = "dmitchell"
+    $pin_puppet_server = "releng-puppet1.build.mtv1.mozilla.com"
+    include puppet::atboot
 }
 
 node "talos-linux32-ix-001.test.releng.scl3.mozilla.com" {
+    $pin_puppet_env = "dmitchell"
+    $pin_puppet_server = "releng-puppet1.build.mtv1.mozilla.com"
+    include puppet::atboot
 }
 
 node "talos-linux64-ix-001.test.releng.scl3.mozilla.com" {
+    $pin_puppet_env = "dmitchell"
+    $pin_puppet_server = "releng-puppet1.build.mtv1.mozilla.com"
+    include puppet::atboot
 }
 
 ## builders
