@@ -45,6 +45,30 @@ node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
     include toplevel::slave::test
 }
 
+# temporary for bug 838351
+node "tst-linux32-ec2-001.build.aws-us-east-1.mozilla.com" {
+    $pin_puppet_env = "dmitchell"
+    $pin_puppet_server = "releng-puppet1.srv.releng.scl3.mozilla.com"
+
+    # Make sure we get our /etc/hosts set up
+    class {
+        "network::aws": stage => network,
+    }
+    #include toplevel::slave::test::xvfb
+    include puppet::atboot
+}
+node "tst-linux64-ec2-001.build.aws-us-east-1.mozilla.com" {
+    $pin_puppet_env = "dmitchell"
+    $pin_puppet_server = "releng-puppet1.srv.releng.scl3.mozilla.com"
+
+    # Make sure we get our /etc/hosts set up
+    class {
+        "network::aws": stage => network,
+    }
+    #include toplevel::slave::test::xvfb
+    include puppet::atboot
+}
+
 node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
     # Make sure we get our /etc/hosts set up
     class {
@@ -53,27 +77,17 @@ node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
     include toplevel::slave::test
 }
 
-node "ix-mn-linux64-001.test.releng.scl3.mozilla.com" {
-    $pin_puppet_env = "dmitchell"
-    $pin_puppet_server = "releng-puppet1.build.mtv1.mozilla.com"
-    include puppet::atboot
-}
-
-node "ix-mn-linux64-002.test.releng.scl3.mozilla.com" {
-    $pin_puppet_env = "dmitchell"
-    $pin_puppet_server = "releng-puppet1.build.mtv1.mozilla.com"
-    include puppet::atboot
-}
-
 node "talos-linux32-ix-001.test.releng.scl3.mozilla.com" {
     $pin_puppet_env = "dmitchell"
-    $pin_puppet_server = "releng-puppet1.build.mtv1.mozilla.com"
+    $pin_puppet_server = "releng-puppet1.srv.releng.scl3.mozilla.com"
+    #include toplevel::slave::test::gpu
     include puppet::atboot
 }
 
 node "talos-linux64-ix-001.test.releng.scl3.mozilla.com" {
     $pin_puppet_env = "dmitchell"
-    $pin_puppet_server = "releng-puppet1.build.mtv1.mozilla.com"
+    $pin_puppet_server = "releng-puppet1.srv.releng.scl3.mozilla.com"
+    #include toplevel::slave::test::gpu
     include puppet::atboot
 }
 
