@@ -44,6 +44,13 @@ preseed partman/choose_partition select finish
 preseed partman/confirm boolean true
 preseed partman/confirm_nooverwrite boolean true
 
+# in theory, these instruct the installer not to look to the ubuntu servers
+# for security updates, which generally leads to package conflicts after install
+# https://bugzilla.mozilla.org/show_bug.cgi?id=843847
+preseed apt-setup/services-select multiselect security
+preseed apt-setup/security_host string repos
+preseed apt-setup/security_path string /repos/apt/ubuntu
+
 #Package install information; groups here select packages by "task"
 %%packages
 @ minimal
