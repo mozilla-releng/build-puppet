@@ -63,25 +63,10 @@ class disableservices::common {
                 "disable-indexing" :
                     command => "/usr/bin/mdutil -a -i off",
                     refreshonly => true ;
+
                 "remove-index" :
                     command => "/usr/bin/mdutil -a -E",
                     refreshonly => true ;
-            }
-            osxutils::defaults {
-            # set the global preference to not start bluetooth mouse assistant
-            'disable-bluetooth-mouse':
-                domain => "/Library/Preferences/com.apple.Bluetooth",
-                key => "BluetoothAutoSeekPointingDevice",
-                value => "0",
-                require => Class['users::builder'];
-            }
-            osxutils::defaults {
-            # set the global preference to not start bluetooth keyboard assistant
-            'disable-bluetooth-keyboard':
-                domain => "/Library/Preferences/com.apple.Bluetooth",
-                key => "BluetoothAutoSeekKeyboard",
-                value => "0",
-                require => Class['users::builder'];
             }
             file {
                 "$settings::vardir/.puppet-indexing" :
