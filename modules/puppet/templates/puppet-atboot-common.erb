@@ -2,8 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# number of tries to make between attempts to run puppet
-REBOOT_AFTER=10
+# number of tries to make between attempts to run puppet.  6 waits about 2h
+REBOOT_AFTER=6
 PUPPETMASTERS=$(< /etc/puppet/puppetmasters.txt)
 
 # note that --test implies --detailed-exitcodes, which we don't want
@@ -29,6 +29,7 @@ run_puppet() {
 
 run_until_success() {
     count=0
+    wait_time=60
     success=false
     while ! $success
     do
@@ -38,7 +39,8 @@ run_until_success() {
                 success=true
                 break
             fi
-            sleep 60
+            sleep $wait_time
+            wait_time=$((wait_time*2))
         done
 
         # If DHCP fails to get a (correct) IP address for this system, then we
