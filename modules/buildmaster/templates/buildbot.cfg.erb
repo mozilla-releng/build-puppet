@@ -1,8 +1,5 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-class nrpe::settings {
-    include ::shared
-    $plugins_dir = "/usr/${::shared::lib_arch_dir}/nagios/plugins"
-    $nrpe_etcdir = '/etc/nagios/'
-}
+
+command[check_buildbot]=<%= scope.lookupvar('nrpe::base::plugins_dir') %>/check_procs -c <%= num_masters %>:<%= num_masters %> -C buildbot

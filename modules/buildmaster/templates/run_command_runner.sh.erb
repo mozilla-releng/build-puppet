@@ -1,0 +1,13 @@
+#!/bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+cd <%=scope.lookupvar('buildmaster::settings::queue_dir')%>
+(
+trap "rm -f command_runner.pid" EXIT
+bin/python tools/buildbot-helpers/command_runner.py -q /dev/shm/queue/commands -r 5 -t 60 -m 60 >> command_runner.log 2>&1 &
+echo $! > command_runner.pid
+wait
+) &
+disown %1

@@ -2,6 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::mozilla::py27_virtualenv {
+    $virtualenv = '/tools/python27-virtualenv/bin/virtualenv'
     anchor {
         'packages::mozilla::py27_virtualenv::begin': ;
         'packages::mozilla::py27_virtualenv::end': ;

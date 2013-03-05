@@ -1,0 +1,29 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+
+SlavePasswords = {
+    'linux': '<%=scope.lookupvar('secrets::linux_build_password')%>',
+    'linux64': '<%=scope.lookupvar('secrets::linux64_build_password')%>',
+    'win32': '<%=scope.lookupvar('secrets::win32_build_password')%>',
+    'win64': '<%=scope.lookupvar('secrets::win64_build_password')%>',
+    'win64-metro': '<%=scope.lookupvar('secrets::win64_build_password')%>',
+    'macosx': '<%=scope.lookupvar('secrets::macosx_build_password')%>',
+    'macosx64': '<%=scope.lookupvar('secrets::macosx64_build_password')%>',
+    'macosx64-lion': '<%=scope.lookupvar('secrets::macosx64_build_password')%>',
+    'linux-android': '<%=scope.lookupvar('secrets::linux_build_password')%>',
+    'android': '<%=scope.lookupvar('secrets::linux_build_password')%>',
+    'android-armv6': '<%=scope.lookupvar('secrets::linux_build_password')%>',
+    'android-noion': '<%=scope.lookupvar('secrets::linux_build_password')%>',
+    'android-x86': '<%=scope.lookupvar('secrets::linux_build_password')%>',
+    'linux-maemo5-gtk': '<%=scope.lookupvar('secrets::linux_build_password')%>',
+    'linux-mobile': '<%=scope.lookupvar('secrets::linux_build_password')%>',
+    'macosx-mobile': '<%=scope.lookupvar('secrets::macosx_build_password')%>',
+    'win32-mobile': '<%=scope.lookupvar('secrets::win32_build_password')%>',
+    'mock': '<%=scope.lookupvar('secrets::mock_build_password')%>',
+}
+tuxedoUsername = '<%=scope.lookupvar('secrets::tuxedo_user')%>'
+tuxedoPassword = '<%=scope.lookupvar('secrets::tuxedo_password')%>'
+balrog_username = '<%=scope.lookupvar('secrets::balrog_username')%>'
+balrog_password = '<%=scope.lookupvar('secrets::balrog_password')%>'

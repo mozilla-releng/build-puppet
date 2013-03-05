@@ -11,4 +11,5 @@ class toplevel::server inherits toplevel::base {
     include disableservices::server
     include ganglia
     include nrpe
+    include packages::strace
 }

@@ -17,6 +17,15 @@ define python::virtualenv::package($user) {
     $pip_check_py = $python::pip_check_py::file
     $pip_options = "--no-deps"
 
+    if ($user == 'root') {
+        $home_dir = $::users::root::home
+    } else {
+        $home_dir = $::operatingsystem ? {
+            Darwin => "/Users/$user",
+            default => "/home/$user"
+        }
+    }
+
     exec {
         # point pip at the package directory so that it can select the best option
         "pip $title":
@@ -25,7 +34,7 @@ define python::virtualenv::package($user) {
             onlyif => "$virtualenv/bin/python $pip_check_py $pkg",
             user => $user,
             environment => [
-                "HOME=$::users::root::home", # because sudo will sometimes lead pip to ~administrator/.pip
+                "HOME=$home_dir", # because sudo will sometimes lead pip to ~administrator/.pip
             ],
             require => [
                 Class['python::pip_check_py'],

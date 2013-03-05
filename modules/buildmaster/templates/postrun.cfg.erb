@@ -1,0 +1,70 @@
+{
+  "command_queue": "/dev/shm/queue/commands",
+  "pulse_queue": "/dev/shm/queue/pulse",
+  "statusdb.url": "mysql://<%=scope.lookupvar('buildmaster::settings::buildbot_statusdb_username')%>:<%=scope.lookupvar('buildmaster::settings::buildbot_statusdb_password')%>@<%=scope.lookupvar('buildmaster::settings::buildbot_statusdb_hostname')%>/<%=scope.lookupvar('buildmaster::settings::buildbot_statusdb_database')%>",
+  "statusdb.master_name": "<%=master_name%>",
+  "statusdb.master_url": "http://<%=fqdn%>:<%=http_port%>",
+
+  "schedulerdb.url": "mysql://<%=scope.lookupvar('buildmaster::settings::buildbot_schedulerdb_username')%>:<%=scope.lookupvar('buildmaster::settings::buildbot_schedulerdb_password')%>@<%=scope.lookupvar('buildmaster::settings::buildbot_schedulerdb_hostname')%>/<%=scope.lookupvar('buildmaster::settings::buildbot_schedulerdb_database')%>",
+
+  "mail_notifier_branches": ["try"],
+  "mail_real_author": true,
+
+  "ssh_info": {
+    "*": {
+      "*": {
+        "user": "ffxbld",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_dsa",
+        "host": "stage.mozilla.org"
+        },
+      "try": {
+        "user": "trybld",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/trybld_dsa",
+        "host": "stage.mozilla.org"
+      },
+      "shadow-central": {
+        "user": "ffxbld",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_dsa",
+        "host": "pvtbuilds2.dmz.scl3.mozilla.com"
+      }
+    },
+    "fuzzing": {
+      "*": {
+        "user": "ffxbld",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_dsa",
+        "host": "pvtbuilds2.dmz.scl3.mozilla.com"
+      }
+    },
+    "xulrunner": {
+      "*": {
+        "user": "xrbld",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/xrbld_dsa",
+        "host": "stage.mozilla.org"
+      }
+    },
+    "thunderbird": {
+      "*": {
+        "user": "tbirdbld",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/tbirdbld_dsa",
+        "host": "stage.mozilla.org"
+      },
+      "try-comm-central": {
+        "user": "tbirdtry",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/trybld_dsa",
+        "host": "stage.mozilla.org"
+      }
+    },
+    "thunderbird-test": {
+      "*": {
+        "user": "tbirdbld",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/tbirdbld_dsa",
+        "host": "stage.mozilla.org"
+      },
+      "try-comm-central": {
+        "user": "tbirdtry",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/trybld_dsa",
+        "host": "stage.mozilla.org"
+      }
+    }
+  }
+}

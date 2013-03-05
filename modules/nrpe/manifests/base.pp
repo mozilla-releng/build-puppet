@@ -8,16 +8,17 @@ class nrpe::base {
     include config # for vars for templates
 
     $plugins_dir = $nrpe::settings::plugins_dir
+    $nrpe_etcdir = $nrpe::settings::nrpe_etcdir
 
     # configure
     file {
-        "/etc/nagios/nrpe.cfg":
+        "${nrpe_etcdir}/nrpe.cfg":
             content => template("nrpe/nrpe.cfg.erb"),
             owner   => "root",
             group   => "root",
             require => Package["nrpe"],
             notify => Class['nrpe::service'];
-        "/etc/nagios/nrpe.d":
+        "${nrpe_etcdir}/nrpe.d":
             ensure => directory,
             owner  => "root",
             group  => "root",

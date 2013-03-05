@@ -1,0 +1,37 @@
+
+SlavePasswords = {
+    'linux': '<%=scope.lookupvar('secrets::linux_tests_password')%>',
+    'linux64': '<%=scope.lookupvar('secrets::linux64_tests_password')%>',
+    'fedora': '<%=scope.lookupvar('secrets::fedora_tests_password')%>',
+    'fedora64': '<%=scope.lookupvar('secrets::fedora64_tests_password')%>',
+    'tiger': '<%=scope.lookupvar('secrets::tiger_tests_password')%>',
+    'leopard': '<%=scope.lookupvar('secrets::leopard_tests_password')%>',
+    'snowleopard': '<%=scope.lookupvar('secrets::snowleopard_tests_password')%>',
+    'leopard-o': '<%=scope.lookupvar('secrets::leopard_tests_password')%>',
+    'snowleopard-r4': '<%=scope.lookupvar('secrets::snowleopard_tests_password')%>',
+    'lion': '<%=scope.lookupvar('secrets::lion_tests_password')%>',
+    'mountainlion': '<%=scope.lookupvar('secrets::mountainlion_tests_password')%>',
+    'xp': '<%=scope.lookupvar('secrets::xp_tests_password')%>',
+    'win7': '<%=scope.lookupvar('secrets::win7_tests_password')%>',
+    'w764': '<%=scope.lookupvar('secrets::w764_tests_password')%>',
+    'vista': '<%=scope.lookupvar('secrets::vista_tests_password')%>',
+    'tegra_android': '<%=scope.lookupvar('secrets::tegra_android_tests_password')%>',
+    'tegra_android-armv6': '<%=scope.lookupvar('secrets::tegra_android_tests_password')%>',
+    'tegra_android-noion': '<%=scope.lookupvar('secrets::tegra_android_tests_password')%>',
+    'fedora-b2g': '<%=scope.lookupvar('secrets::linux_tests_password')%>',
+}
+
+datazillaAuth = {
+    'talos': {
+        'oauthKey': '<%=scope.lookupvar('secrets::talos_oauth_key')%>',
+        'oauthSecret': '<%=scope.lookupvar('secrets::talos_oauth_secret')%>',
+    },
+    'jetperf': {
+        'oauthKey': '<%=scope.lookupvar('secrets::jetperf_oauth_key')%>',
+        'oauthSecret': '<%=scope.lookupvar('secrets::jetperf_oauth_secret')%>',
+    },
+    'test': {
+        'oauthKey': '84c76536-5bea-4858-990b-434ad3bbadc1',
+        'oauthSecret': '92e1d99d-fd5a-45a7-b07e-ec5a9f59c844',
+    },
+}
