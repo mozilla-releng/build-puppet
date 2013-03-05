@@ -17,5 +17,6 @@ class toplevel::slave::test inherits toplevel::slave {
     if ($::operatingsystem == 'Ubuntu') {
         include packages::linux_desktop
         include packages::ia32libs
+        include packages::gnome-settings-daemon
     }
 }

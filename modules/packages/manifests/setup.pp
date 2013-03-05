@@ -121,6 +121,10 @@ class packages::setup {
                     url_path     => "repos/apt/releng",
                     distribution => "precise",
                     components   => ["main"];
+                "releng-updates":
+                    url_path     => "repos/apt/releng-updates",
+                    distribution => "precise-updates",
+                    components   => ["all"];
             }
         }
         Darwin: {
