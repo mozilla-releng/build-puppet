@@ -97,6 +97,10 @@ node /linux64-ix-slave\d+.build.scl1.mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
+node /bld-linux64-ix-\d+.build.scl1.mozilla.com/ {
+    include toplevel::slave::build::mock
+}
+
 node /bld-centos6-hp-\d+.build.scl1.mozilla.com/ {
     include toplevel::slave::build::mock
 }
