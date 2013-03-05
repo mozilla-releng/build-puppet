@@ -5,13 +5,11 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
-if [ `facter operatingsystem` = Darwin ]; then
-    OS=Darwin
-    ROOT=/var/root
-else
-    OS=Linux
-    ROOT=/root
-fi
+OS=`facter operatingsystem`
+case "$OS" in
+    Darwin) ROOT=/var/root ;;
+    *) ROOT=/root ;;
+esac
 
 # wait for all networking services to become available.  This prevents a race condition with network availablity
 # use ipconfig waitall for darwin and do nothing for linux
@@ -76,18 +74,27 @@ EOF
 done
 
 # make sure the time is set correctly, or SSL will fail, badly.
-if [ $OS = "Darwin" ]; then
-    if launchctl list org.ntp.ntpd > /dev/null 2>&1 ; then
-        launchctl unload /System/Library/LaunchDaemons/org.ntp.ntpd.plist
-    fi
-    ntpdate pool.ntp.org
-    launchctl load -w /System/Library/LaunchDaemons/org.ntp.ntpd.plist
-else
-    ntprunning=`ps ax | grep ntpd | grep -v grep`
-    [ -n "$ntprunning" ] && /sbin/service ntpd stop
-    /usr/sbin/ntpdate pool.ntp.org
-    [ -n "$ntprunning" ] && /sbin/service ntpd start
-fi
+case "$OS" in
+    Darwin)
+        if launchctl list org.ntp.ntpd > /dev/null 2>&1 ; then
+            launchctl unload /System/Library/LaunchDaemons/org.ntp.ntpd.plist
+        fi
+        ntpdate pool.ntp.org
+        launchctl load -w /System/Library/LaunchDaemons/org.ntp.ntpd.plist
+        ;;
+
+    CentOS)
+        ntprunning=`ps ax | grep ntpd | grep -v grep`
+        [ -n "$ntprunning" ] && /sbin/service ntpd stop
+        /usr/sbin/ntpdate pool.ntp.org
+        [ -n "$ntprunning" ] && /sbin/service ntpd start
+        ;;
+
+    Ubuntu)
+        # no ntp service to worry about
+        /usr/sbin/ntpdate pool.ntp.org
+        ;;
+esac
 
 # source the shell script we got from the deploy run
 cd /var/lib/puppet/ssl || exit 1
@@ -102,11 +109,14 @@ fi
 if ! $interactive; then
     if test -f $ROOT/deploypass; then
         echo "securely removing deploypass"
-        if [ $OS = "Linux" ]; then
-            shred -u -n 7 -z $ROOT/deploypass || hang
-        else
-            srm -zmf $ROOT/deploypass || hang
-        fi
+        case "$OS" in
+            CentOS|Ubuntu)
+                shred -u -n 7 -z $ROOT/deploypass || hang
+                ;;
+            Darwin)
+                srm -zmf $ROOT/deploypass || hang
+                ;;
+        esac
     fi
 fi
 
@@ -128,14 +138,21 @@ while ! FACTER_PUPPETIZING=true /usr/bin/puppet agent --no-daemonize --onetime -
 done
 
 # don't run puppetize at boot anymore
-if [ $OS = Linux ]; then
-    (
-        grep -v puppetize /etc/rc.d/rc.local
-    ) > /etc/rc.d/rc.local~
-    mv /etc/rc.d/rc.local{~,}
-else
-    /usr/bin/defaults write /Library/LaunchDaemons/org.mozilla.puppetize.plist Disabled -bool TRUE
-fi
+case "$OS" in
+    CentOS)
+        grep -v puppetize /etc/rc.d/rc.local > /etc/rc.d/rc.local~
+        mv /etc/rc.d/rc.local{~,}
+        ;;
+
+    Darwin)
+        /usr/bin/defaults write /Library/LaunchDaemons/org.mozilla.puppetize.plist Disabled -bool TRUE
+        ;;
+
+    Ubuntu)
+        grep -v puppetize /etc/rc.local > /etc/rc.local~
+        mv /etc/rc.local{~,}
+        ;;
+esac
 
 # record the installation date (note that this won't appear anywhere on Darwin)
 echo "System Installed:" `date` >> /etc/issue
