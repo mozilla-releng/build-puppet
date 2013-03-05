@@ -6,13 +6,14 @@ class hardware {
     # to query it
     if ($::manufacturer == "HP" and $::productname =~ /ProLiant/) {
         include packages::hp_health
-        include nrpe::check::hpasm
-        include nrpe::check::hplog
 
         service {
+            # these services crash on startup sometimes - thanks HP!
+            # they're left here so they can be started manually for diagnostic purposes
+            # https://bugzilla.mozilla.org/show_bug.cgi?id=799521
             [ 'hp-asrd', 'hp-health' ]:
-                ensure => running,
-                enable => true,
+                ensure => stopped,
+                enable => false,
                 require => Class['packages::hp_health'];
         }
     }
