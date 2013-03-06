@@ -44,7 +44,15 @@ class users::builder::account($username, $group, $home) {
                     password => $::config::secrets::builder_pw_pbkdf2,
                     salt => $::config::secrets::builder_pw_pbkdf2_salt,
                     iterations => $::config::secrets::builder_pw_pbkdf2_iterations,
-                    comment => "Builder";
+                    comment => "Builder",
+                    notify => Exec['kill-builder-keychain'];
+            }
+            exec {
+                # whenever the user password changes, we need to delete the keychain, otherwise
+                # it will prompt on login
+                'kill-builder-keychain':
+                    command => "/bin/rm -rf $home/Library/Keychains/login.keychain",
+                    refreshonly => true;
             }
             file {
                 $home:
