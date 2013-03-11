@@ -9,10 +9,10 @@ define osxutils::defaults ($domain = undef,
     if ($domain != undef) and ($key != undef) and ($value != undef) {
         exec {
             "osx_defaults write ${domain} ${key}=>${value}" :
-                command =>
-                "${defaults_cmd} -currentHost write ${domain} ${key} ${value}",
-                unless =>
-                "/bin/test x`${defaults_cmd} -currentHost read ${domain} ${key}` = x'${value}'",
+                command =>              
+                "${defaults_cmd} write ${domain} ${key} ${value}",
+                unless =>      
+                "/bin/test x`${defaults_cmd} read ${domain} ${key}` = x'${value}'",
                 user => $user,
         }
     }

@@ -63,16 +63,53 @@ class disableservices::common {
                 "disable-indexing" :
                     command => "/usr/bin/mdutil -a -i off",
                     refreshonly => true ;
-
                 "remove-index" :
                     command => "/usr/bin/mdutil -a -E",
                     refreshonly => true ;
+            }
+            osxutils::defaults {
+            # set the global preference to not start bluetooth mouse assistant
+            'disable-bluetooth-mouse':
+                domain => "/Library/Preferences/com.apple.Bluetooth",
+                key => "BluetoothAutoSeekPointingDevice",
+                value => "0",
+                require => Class['users::builder'];
+            }
+            osxutils::defaults {
+            # set the global preference to not start bluetooth keyboard assistant
+                'disable-bluetooth-keyboard':
+                    domain => "/Library/Preferences/com.apple.Bluetooth",
+                    key => "BluetoothAutoSeekKeyboard",
+                    value => "0",
+                    require => Class['users::builder'];
             }
             file {
                 "$settings::vardir/.puppet-indexing" :
                     content => "indexing-disabled",
                     notify => Exec["disable-indexing", "remove-index"] ;
             }
+            osxutils::defaults {
+                'builder-disablescreensaver':
+                    domain => "$::users::builder::home/Library/Preferences/ByHost/com.apple.screensaver.$sp_platform_uuid",
+                    key => "idleTime",
+                    value => "0",
+                    require => Class['users::builder'];
+            }
+            file {
+                "$::users::builder::home/Library/Preferences/ByHost":
+                    ensure => directory,
+                    owner => $::users::builder::username,
+                    group => $::users::builder::group,
+                    mode => 0700,
+                    require => Class['users::builder'];
+                "$::users::builder::home/Library/Preferences/ByHost/com.apple.screensaver.$sp_platform_uuid.plist":
+                    ensure => file,
+                    owner => $::users::builder::username,
+                    group => $::users::builder::group,
+                    mode => 0600,
+                    require => Class['users::builder'];
+            }
+
         }
     }
 }
