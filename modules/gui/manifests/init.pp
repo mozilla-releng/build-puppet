@@ -20,7 +20,7 @@ class gui($on_gpu) {
 
             # set the screen resolution appropriately
             include packages::mozilla::screenresolution
-            $resolution = "${width}x${height}x${depth}@${refresh}"
+            $resolution = "${screen_width}x${screen_height}x${screen_depth}@${refresh}"
 
             # this can't run while puppetizing, since the automatic login isn't in place yet, and
             # the login window does not allow screenresolution to run.
