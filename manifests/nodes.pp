@@ -55,7 +55,7 @@ node /foopy\d+.p\d+.releng.scl1.mozilla.com/ {
 ## testers
 
 node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
-    include toplevel::slave::test
+    include toplevel::slave::test::gpu
 }
 
 # temporary for bug 838351
@@ -87,7 +87,7 @@ node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
     class {
         "network::aws": stage => network,
     }
-    include toplevel::slave::test
+    include toplevel::slave::test::headless
 }
 
 node "talos-linux32-ix-001.test.releng.scl3.mozilla.com" {
