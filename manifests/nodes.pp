@@ -74,11 +74,7 @@ node /tst-.*\.test\.(use1|usw2)\.mozilla\.com/ {
     include toplevel::slave::test::headless
 }
 
-node "talos-linux32-ix-001.test.releng.scl3.mozilla.com" {
-    include toplevel::slave::test::gpu
-}
-
-node "talos-linux64-ix-001.test.releng.scl3.mozilla.com" {
+node /talos-linux\d-ix-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     include toplevel::slave::test::gpu
 }
 
