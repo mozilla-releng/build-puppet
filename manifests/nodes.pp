@@ -66,6 +66,14 @@ node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
     include toplevel::slave::test::headless
 }
 
+node /tst-.*\.test\.(use1|usw2)\.mozilla\.com/ {
+    # Make sure we get our /etc/hosts set up
+    class {
+        "network::aws": stage => network,
+    }
+    include toplevel::slave::test::headless
+}
+
 node "talos-linux32-ix-001.test.releng.scl3.mozilla.com" {
     include toplevel::slave::test::gpu
 }
@@ -96,6 +104,15 @@ node /(bld|try|dev)-.*\.build\.aws-.*\.mozilla\.com/ {
     include toplevel::slave::build::mock
 }
 
+node /(bld|try|dev)-.*\.(build|try|dev)\.(use1|usw2)\.mozilla.com/ {
+    # Make sure we get our /etc/hosts set up
+    class {
+        "network::aws": stage => network,
+    }
+    include toplevel::slave::build::mock
+}
+
+
 ## puppetmasters
 
 node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
@@ -118,3 +135,42 @@ node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
     include toplevel::server::mozpool
 }
 
+node "buildbot-master51.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm51-tests1-linux":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master52.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm52-tests1-linux":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master53.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm53-tests1-linux":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master54.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm54-tests1-linux":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux";
+    }
+    include toplevel::server::buildmaster
+}
