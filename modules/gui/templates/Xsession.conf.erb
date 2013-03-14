@@ -6,10 +6,10 @@ description "Start <%= scope.lookupvar('::config::builder_username') %> X sessio
 
 start on started <%= if on_gpu then 'x11' else 'xvfb' end %>
 
+respawn
+
 script
   # note that doing anything with this display before running Xsession will cause sadness (like,
   # crashes in compiz)
-  # Make sure that X has enough time to start
-  sleep 15
   su - -c "DISPLAY=:0 /etc/X11/Xsession" <%= scope.lookupvar('::config::builder_username') %>
 end script

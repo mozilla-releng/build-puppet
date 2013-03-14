@@ -92,17 +92,16 @@ class gui($on_gpu) {
                     ensure  => link,
                     target  => "/lib/init/upstart-job";
 
-                # for reasons unknown, using .xinitrc as well as Xsession works around a bug
-                # in the nvidia drivers that gets window background colors wrong.
-                "${users::builder::home}/.xinitrc":
-                    content => template("${module_name}/xinitrc.erb"),
+                "${users::builder::home}/.xsessionrc":
+                    content => "DESKTOP_SESSION=ubuntu\n",
                     owner => $::users::builder::username,
                     group => $::users::builder::group,
-                    mode => 0755,
+                    mode => 0644,
                     notify => Service['x11'];
 
                 # make sure the builder user doesn't have any funny business
                 ["${users::builder::home}/.xsession",
+                 "${users::builder::home}/.xinitrc",
                  "${users::builder::home}/.Xsession"]:
                     ensure => absent;
             }
