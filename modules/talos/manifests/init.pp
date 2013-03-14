@@ -17,6 +17,12 @@ class talos {
             include packages::llvm
             # required for the 32-bit reftests per :ahal, bug 837268
             include packages::ia32libs
+            kernelmodule {
+                "snd_aloop":
+                    packages => ["libasound2"];
+                "v4l2loopback":
+                    packages => ["v4l2loopback-dkms"];
+            }
         }
     }
     case $::operatingsystem {
