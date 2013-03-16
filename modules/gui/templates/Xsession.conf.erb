@@ -7,6 +7,7 @@ description "Start <%= scope.lookupvar('::config::builder_username') %> X sessio
 start on started <%= if on_gpu then 'x11' else 'xvfb' end %>
 
 respawn
+respawn limit 3 120
 
 script
   # note that doing anything with this display before running Xsession will cause sadness (like,
