@@ -66,7 +66,7 @@ node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
     include toplevel::slave::test::headless
 }
 
-node /tst-.*\.test\.(use1|usw2)\.mozilla\.com/ {
+node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
     # Make sure we get our /etc/hosts set up
     class {
         "network::aws": stage => network,
@@ -100,7 +100,7 @@ node /(bld|try|dev)-.*\.build\.aws-.*\.mozilla\.com/ {
     include toplevel::slave::build::mock
 }
 
-node /(bld|try|dev)-.*\.(build|try|dev)\.(use1|usw2)\.mozilla.com/ {
+node /(bld|try|dev)-.*\.(build|try|dev)\.releng\.(use1|usw2)\.mozilla.com/ {
     # Make sure we get our /etc/hosts set up
     class {
         "network::aws": stage => network,
