@@ -92,6 +92,10 @@ node /bld-centos6-hp-\d+.build.scl1.mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
+node /bld-centos6-hp-\d+.build.mtv1.mozilla.com/ {
+    include toplevel::slave::build::mock
+}
+
 node /(bld|try|dev)-.*\.build\.aws-.*\.mozilla\.com/ {
     # Make sure we get our /etc/hosts set up
     class {
