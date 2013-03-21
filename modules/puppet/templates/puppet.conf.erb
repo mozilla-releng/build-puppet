@@ -40,3 +40,9 @@
     ca = false
     reports = <%= scope.lookupvar('::config::puppet_server_reports') %>
     reporturl = <%= scope.lookupvar('::config::puppet_server_reporturl') %>
+
+[test]
+    modulepath = /etc/puppet/environments/test/modules
+    templatedir = /etc/puppet/environments/test/templates
+    manifestdir = /etc/puppet/environments/test/manifests
+    manifest = $manifestdir/site.pp
