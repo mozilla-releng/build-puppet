@@ -84,15 +84,11 @@ node /linux64-ix-slave\d+.build.scl1.mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
-node /bld-linux64-ix-\d+.build.scl1.mozilla.com/ {
+node /bld-linux64-ix-\d+.build.(scl1|mtv1).mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
-node /bld-centos6-hp-\d+.build.scl1.mozilla.com/ {
-    include toplevel::slave::build::mock
-}
-
-node /bld-centos6-hp-\d+.build.mtv1.mozilla.com/ {
+node /bld-centos6-hp-\d+.build.(scl1|mtv1).mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
@@ -134,6 +130,8 @@ node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
     $mozpool_staging = false
     include toplevel::server::mozpool
 }
+
+## buildbot masters
 
 node "buildbot-master51.srv.releng.use1.mozilla.com" {
     buildmaster::buildbot_master {
