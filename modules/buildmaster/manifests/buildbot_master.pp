@@ -77,6 +77,7 @@ define buildmaster::buildbot_master($basedir, $master_type, $http_port) {
             require => [
                 Buildmaster::Repos["clone-buildbot-${master_name}"],
                 File["${full_master_dir}"],
+                Class["packages::mozilla::py27_virtualenv"],
             ],
             command   => "/usr/bin/make -f Makefile.setup all BASEDIR=${full_master_dir} \
                             MASTER_NAME=${master_name} \
