@@ -12,7 +12,7 @@ class mozpool::settings {
         $db_username = $::config::secrets::mozpool_staging_db_username
         $db_password = $::config::secrets::mozpool_staging_db_password
         $db_hostname = $::config::secrets::mozpool_staging_db_hostname
-        $mozpool_version = "2.0.3"
+        $mozpool_version = "3.0.0"
     } else {
         $db_database = $::config::secrets::mozpool_db_database
         $db_username = $::config::secrets::mozpool_db_username
