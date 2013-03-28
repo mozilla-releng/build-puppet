@@ -26,6 +26,8 @@ class config::secrets {
     $mozpool_staging_db_username = extlookup("mozpool_staging_db_username")
     $mozpool_staging_db_password = extlookup("mozpool_staging_db_password")
     $mozpool_staging_db_database = extlookup("mozpool_staging_db_database")
+
+    # biuldbot master secrets
     $buildbot_statusdb_username = extlookup("buildbot_statusdb_username")
     $buildbot_statusdb_hostname = extlookup("buildbot_statusdb_hostname")
     $buildbot_statusdb_password = extlookup("buildbot_statusdb_password")
@@ -37,13 +39,26 @@ class config::secrets {
     $pulse_exchange = extlookup("pulse_exchange")
     $pulse_password = extlookup("pulse_password")
     $pulse_username = extlookup("pulse_username")
-    $buildmaster_secrets = extlookup("buildmaster_secrets")
-    $tuxedoUsername = extlookup("tuxedo_user")
-    $tuxedoPassword = extlookup("tuxedo_password")
+
+    # BuildSlaves.py entries
+    $try_build_password = extlookup("try_build_password")
+    $prod_build_password = extlookup("prod_build_password")
+    $tuxedo_username = extlookup("tuxedo_username")
+    $tuxedo_password = extlookup("tuxedo_password")
     $balrog_username = extlookup("balrog_username")
     $balrog_password = extlookup("balrog_password")
-    $master_json = extlookup("master_json")
-    $buildbot_tools_hg_repo = extlookup("buildbot_tools_hg_repo")
-    $buildbot_configs_hg_repo = extlookup("buildbot_configs_hg_repo")
-    $buildbot_mail_to = extlookup("buildbot_mail_to")
+    $linux_tests_password = extlookup("linux_tests_password")
+    $mac_tests_password = extlookup("mac_tests_password")
+    $win_tests_password = extlookup("win_tests_password")
+    $android_tests_password = extlookup("android_tests_password")
+    $talos_oauth_key = extlookup("talos_oauth_key")
+    $talos_oauth_secret = extlookup("talos_oauth_secret")
+    $jetperf_oauth_key = extlookup("jetperf_oauth_key")
+    $jetperf_oauth_secret = extlookup("jetperf_oauth_secret")
+
+    # passwords.py
+    $signing_server_username = extlookup("signing_server_username")
+    $signing_server_nightly_password = extlookup("signing_server_nightly_password")
+    $signing_server_dep_password = extlookup("signing_server_dep_password")
+    $signing_server_release_password = extlookup("signing_server_release_password")
 }

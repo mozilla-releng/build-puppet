@@ -4,7 +4,7 @@
 
 
 [client]
-host=<%= scope.lookupvar('secrets::buildbot_schedulerdb_host') %>
-user=<%= scope.lookupvar('secrets::buildbot_schedulerdb_user') %>
-password=<%= scope.lookupvar('secrets::buildbot_schedulerdb_password') %>
-database=<%= scope.lookupvar('secrets::buildbot_schedulerdb_database') %>
+host=<%= scope.lookupvar('config::secrets::buildbot_schedulerdb_hostname') %>
+user=<%= scope.lookupvar('config::secrets::buildbot_schedulerdb_username') %>
+password=<%= scope.lookupvar('config::secrets::buildbot_schedulerdb_password') %>
+database=<%= scope.lookupvar('config::secrets::buildbot_schedulerdb_database') %>

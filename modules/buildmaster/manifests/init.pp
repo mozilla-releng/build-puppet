@@ -12,8 +12,6 @@ class buildmaster {
     include buildmaster::queue
     include buildmaster::settings
     include tweaks::tcp_keepalive
-    $master_basedir = $buildmaster::settings::master_basedir
-    $clone_config_dir = $buildmaster::settings::master_basedir
     service {
         "buildbot":
             require => File["/etc/init.d/buildbot"],

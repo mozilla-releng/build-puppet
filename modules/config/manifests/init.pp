@@ -33,4 +33,8 @@ class config {
     $global_authorized_keys = extlookup("global_authorized_keys", "")
     $puppet_server_reports = extlookup("puppet_server_reports")
     $puppet_server_reporturl = extlookup("puppet_server_reporturl")
+    $master_json = extlookup("master_json")
+    $buildbot_tools_hg_repo = extlookup("buildbot_tools_hg_repo")
+    $buildbot_configs_hg_repo = extlookup("buildbot_configs_hg_repo")
+    $buildbot_mail_to = extlookup("buildbot_mail_to")
 }

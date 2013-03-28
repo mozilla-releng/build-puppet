@@ -3,12 +3,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 SlavePasswords = {
-    'linux': '<%=scope.lookupvar('secrets::linux_try_build_password')%>',
-    'linux64': '<%=scope.lookupvar('secrets::linux64_try_build_password')%>',
-    'win32': '<%=scope.lookupvar('secrets::win32_try_build_password')%>',
-    'win64': '<%=scope.lookupvar('secrets::win64_try_build_password')%>',
-    'macosx': '<%=scope.lookupvar('secrets::macosx_try_build_password')%>',
-    'macosx64': '<%=scope.lookupvar('secrets::macosx64_try_build_password')%>',
-    'macosx64-lion': '<%=scope.lookupvar('secrets::macosx64_try_build_password')%>',
-    'mock': '<%=scope.lookupvar('secrets::mock_try_build_password')%>',
+    'linux': '<%=scope.lookupvar('config::secrets::try_build_password')%>',
+    'linux64': '<%=scope.lookupvar('config::secrets::try_build_password')%>',
+    'win32': '<%=scope.lookupvar('config::secrets::try_build_password')%>',
+    'win64': '<%=scope.lookupvar('config::secrets::try_build_password')%>',
+    'macosx': '<%=scope.lookupvar('config::secrets::try_build_password')%>',
+    'macosx64': '<%=scope.lookupvar('config::secrets::try_build_password')%>',
+    'macosx64-lion': '<%=scope.lookupvar('config::secrets::try_build_password')%>',
+    'mock': '<%=scope.lookupvar('config::secrets::try_build_password')%>',
 }

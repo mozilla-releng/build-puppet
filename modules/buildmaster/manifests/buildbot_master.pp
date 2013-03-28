@@ -14,6 +14,8 @@
 # $master_type must be one of 'build', 'try', 'tests', or 'scheduler'
 #
 define buildmaster::buildbot_master($basedir, $master_type, $http_port) {
+    include ::config
+    include config::secrets
     include buildmaster
     include buildmaster::settings
     include users::builder
@@ -38,16 +40,10 @@ define buildmaster::buildbot_master($basedir, $master_type, $http_port) {
             group => $master_group,
             mode => 600,
             content => template("buildmaster/${buildslaves_template}");
-    }
-
-    file {
         "${full_master_dir}":
             owner => $master_user,
             group => $master_group,
             ensure => "directory";
-    }
-
-    file {
         "${full_master_dir}/master/passwords.py":
             require => Exec["setup-${basedir}"],
             owner => $master_user,
@@ -62,7 +58,8 @@ define buildmaster::buildbot_master($basedir, $master_type, $http_port) {
             content => template("buildmaster/postrun.cfg.erb");
         "/etc/default/buildbot.d/${master_name}":
             content => "${full_master_dir}",
-            require => Exec["setup-${basedir}"];
+            require => Exec["setup-${basedir}"],
+            before => Nrpe::Custom["buildbot.cfg"];
         "/etc/cron.d/${master_name}":
             require => Exec["setup-${basedir}"],
             mode => 600,
@@ -71,7 +68,7 @@ define buildmaster::buildbot_master($basedir, $master_type, $http_port) {
 
     buildmaster::repos {
         "clone-buildbot-${master_name}":
-            hg_repo => "${buildmaster::settings::buildbot_configs_hg_repo}",
+            hg_repo => "${config::buildbot_configs_hg_repo}",
             dst_dir => "${buildbot_configs_dir}";
     }
 
@@ -81,17 +78,16 @@ define buildmaster::buildbot_master($basedir, $master_type, $http_port) {
                 Buildmaster::Repos["clone-buildbot-${master_name}"],
                 File["${full_master_dir}"],
             ],
-            command => "/usr/bin/make -f Makefile.setup all BASEDIR=${full_master_dir} MASTER_NAME=${master_name}",
-            creates => "${full_master_dir}/bin/buildbot",
-            user => $master_user,
-            group => $master_group,
+            command   => "/usr/bin/make -f Makefile.setup all BASEDIR=${full_master_dir} \
+                            MASTER_NAME=${master_name} \
+                            VIRTUALENV=${::packages::mozilla::py27_virtualenv::virtualenv} \
+                            PYTHON=${::packages::mozilla::python27::python} \
+                            HG=${::packages::mozilla::py27_mercurial::mercurial} \
+                            MASTERS_JSON=${config::master_json}",
+            creates   => "${full_master_dir}/master",
+            user      => $master_user,
+            group     => $master_group,
             logoutput => on_failure,
-            environment => [
-                "VIRTUALENV=${::packages::mozilla::py27_virtualenv::virtualenv}",
-                "PYTHON=${::packages::mozilla::python27::python}",
-                "HG=${::packages::mozilla::py27_mercurial::mercurial}",
-                "MASTERS_JSON=${buildmaster::settings::master_json}",
-            ],
-            cwd => "${buildbot_configs_dir}";
+            cwd       => "${buildbot_configs_dir}";
     }
 }

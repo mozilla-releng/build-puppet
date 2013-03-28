@@ -4,6 +4,7 @@
 class dirs::builds::buildbot {
     include users::builder
     include config
+    include dirs::builds
 
     file {
         "/builds/buildbot" :

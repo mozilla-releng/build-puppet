@@ -6,6 +6,7 @@
 # sets up buildmaster::settings::queue processors for pulse, commands, etc.
 
 class buildmaster::queue {
+    include ::config
     include buildmaster::settings
     include users::builder
     include packages::mozilla::python27
@@ -84,7 +85,7 @@ class buildmaster::queue {
 
     buildmaster::repos {
         "clone-tools":
-            hg_repo => "${buildmaster::settings::buildbot_tools_hg_repo}",
+            hg_repo => "${config::buildbot_tools_hg_repo}",
             dst_dir => "${buildmaster::settings::queue_dir}/tools";
     }
 
