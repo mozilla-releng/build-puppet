@@ -9,7 +9,7 @@ class ssh::config {
     case $::operatingsystem {
         CentOS, Ubuntu: {
             # enable sftp sybsystem on Linux
-            $sftp_line = "Subsystem sftp /usr/lib/openssh/sftp-server";
+            $sftp_line = "Subsystem sftp /usr/lib/openssh/sftp-server"
         }
     }
 
