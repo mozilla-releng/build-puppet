@@ -6,13 +6,6 @@ class ssh::config {
     include ssh::settings
     include ssh::service
 
-    case $::operatingsystem {
-        CentOS, Ubuntu: {
-            # enable sftp sybsystem on Linux
-            $sftp_line = "Subsystem sftp /usr/lib/openssh/sftp-server"
-        }
-    }
-
     file {
         $ssh::settings::ssh_config:
             owner => $users::root::username,
