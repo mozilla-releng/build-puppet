@@ -40,6 +40,8 @@ class gui($on_gpu) {
             # and the latest version of gnome-settings-daemon; older versions crash
             # (Bug 846348)
             include packages::gnome-settings-daemon
+            # Bug 859972: xrestop is needed for talos data collection
+            include packages::xrestop
 
             #nu install the nvidia driver if we're using a GPU
             if ($on_gpu) {
