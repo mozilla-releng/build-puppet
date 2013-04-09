@@ -6,6 +6,13 @@ class ssh::config {
     include ssh::settings
     include ssh::service
 
+    case $::operatingsystem {
+        CentOS: {
+            # enable sftp sybsystem on CentOS
+            $sftp_line = "Subsystem sftp /usr/libexec/openssh/sftp-server"
+        }
+    }
+
     file {
         $ssh::settings::ssh_config:
             owner => $users::root::username,
