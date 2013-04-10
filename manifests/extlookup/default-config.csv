@@ -16,4 +16,5 @@ puppet_server_reporturl,http://localhost:3000/reports/upload
 master_json,https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json
 buildbot_tools_hg_repo,https://hg.mozilla.org/build/tools
 buildbot_configs_hg_repo,https://hg.mozilla.org/build/buildbot-configs
+buildbot_configs_branch,production
 buildbot_mail_to,nobody@mozilla.com

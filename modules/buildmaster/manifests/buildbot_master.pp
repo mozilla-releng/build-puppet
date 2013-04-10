@@ -69,7 +69,8 @@ define buildmaster::buildbot_master($basedir, $master_type, $http_port) {
     buildmaster::repos {
         "clone-buildbot-${master_name}":
             hg_repo => "${config::buildbot_configs_hg_repo}",
-            dst_dir => "${buildbot_configs_dir}";
+            dst_dir => "${buildbot_configs_dir}",
+            branch  => "${config::buildbot_configs_branch}";
     }
 
     exec {

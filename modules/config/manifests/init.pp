@@ -36,5 +36,6 @@ class config {
     $master_json = extlookup("master_json")
     $buildbot_tools_hg_repo = extlookup("buildbot_tools_hg_repo")
     $buildbot_configs_hg_repo = extlookup("buildbot_configs_hg_repo")
+    $buildbot_configs_branch = extlookup("buildbot_configs_branch")
     $buildbot_mail_to = extlookup("buildbot_mail_to")
 }
