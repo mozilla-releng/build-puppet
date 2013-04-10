@@ -212,3 +212,222 @@ node "buildbot-master58.srv.releng.usw2.mozilla.com" {
     }
     include toplevel::server::buildmaster
 }
+node "buildbot-master59.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm59-try1":
+            http_port => 8101,
+            master_type => "try",
+            basedir => "try1";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master60.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm60-try1":
+            http_port => 8101,
+            master_type => "try",
+            basedir => "try1";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master61.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm61-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master62.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm62-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master63.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm63-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master64.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm64-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master65.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm65-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master66.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm66-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master67.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm67-tests1-linux":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master68.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm68-tests1-linux":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master69.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm69-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master70.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm70-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master71.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm71-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master72.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm72-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master73.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm73-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master74.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm74-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master75.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm75-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master76.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm76-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master77.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm77-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master78.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm78-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master79.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm79-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master80.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master {
+        "bm80-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster
+}
