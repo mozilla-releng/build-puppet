@@ -11,7 +11,7 @@ class users::global {
     Anchor['users::global::begin'] ->
     motd {
         "hostid":
-            content => inline_template("This is <%= fqdn %> (<%= ipaddress %>)\n"),
+            content => inline_template("This is <%= @fqdn %> (<%= @ipaddress %>)\n"),
             order => '00';
     } -> Anchor['users::global::end']
 

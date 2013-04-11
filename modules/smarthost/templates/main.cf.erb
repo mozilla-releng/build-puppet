@@ -6,8 +6,8 @@ soft_bounce = no
 command_directory = /usr/sbin
 daemon_directory = /usr/libexec/postfix
 mail_owner = postfix
-myhostname = <%= hostname %>
-mydomain = <%= domain %>
+myhostname = <%= @hostname %>
+mydomain = <%= @domain %>
 myorigin = $mydomain
 mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 unknown_local_recipient_reject_code = 550

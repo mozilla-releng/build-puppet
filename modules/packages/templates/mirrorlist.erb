@@ -3,8 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # local master
-http://<%= data_server %>/<%= url_path %>
-<% if data_servers.respond_to?('shuffle') -%>
+http://<%= @data_server %>/<%= @url_path %>
+<% if @data_servers.respond_to?('shuffle') -%>
 # all available puppetagain masters (if any)
 <%
 
@@ -13,13 +13,13 @@ http://<%= data_server %>/<%= url_path %>
 # ip address, being careful to re-seed it with something random afterward so
 # the rest of puppet doesn't become deterministic
 old_seed = rand()
-srand(ipaddress.sub('.', '').to_i)
+srand(@ipaddress.sub('.', '').to_i)
 
-data_servers.shuffle.each do |mirror_server|
+@data_servers.shuffle.each do |mirror_server|
     # note that this will not catch 'repos' vs. a master fqdn; there's
     # no harm in listing a host twice in this case
-    if mirror_server != data_server -%>
-http://<%= mirror_server %>/<%= url_path %>
+    if mirror_server != @data_server -%>
+http://<%= mirror_server %>/<%= @url_path %>
 <%  end
 end
 
