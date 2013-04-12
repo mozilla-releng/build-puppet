@@ -22,6 +22,11 @@ define buildmaster::buildbot_master($basedir, $master_type, $http_port) {
     include packages::mozilla::python27
     include packages::mozilla::py27_mercurial
     include packages::mozilla::py27_virtualenv
+    include nrpe::check::mysql
+    include nrpe::check::ntp_time
+    include nrpe::check::procs_regex
+    include nrpe::check::child_procs_regex
+    include nrpe::check::swap
 
     $master_group = "${users::builder::group}"
     $master_user = "${users::builder::username}"
