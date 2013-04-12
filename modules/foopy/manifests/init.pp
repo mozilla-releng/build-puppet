@@ -15,6 +15,7 @@ class foopy {
     include packages::gtk2
     include packages::telnet
     include packages::x_libs
+    include packages::ia32libs  # for szip host binary
     include packages::mozilla::python26
     include packages::mozilla::python27
     include packages::mozilla::py27_mercurial

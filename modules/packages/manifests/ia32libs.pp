@@ -15,6 +15,16 @@ class packages::ia32libs {
                 }
             }
         }
+        CentOS: {
+            case $::hardwaremodel {
+                "x86_64": {
+                    package {
+                        "libstdc++.i686":
+                            ensure => latest;
+                        "zlib.i686":
+                            ensure => latest;
+                    }
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }
