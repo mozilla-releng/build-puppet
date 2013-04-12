@@ -28,6 +28,11 @@ class httpd {
                     enable => true,
                     ensure => running;
             }
+            file {
+                # Bug 861200. Remove default vhost config
+                "/etc/apache2/sites-enabled/000-default":
+                    ensure => absent;
+            }
         }
         default: {
             fail("Don't know how to set up httpd on $::operatingsystem")
