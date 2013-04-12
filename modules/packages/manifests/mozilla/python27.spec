@@ -1,13 +1,13 @@
 %define realname python27
 %define pyver 2.7
-%define pyrel 2
+%define pyrel 3
 %define _prefix /tools/%{realname}
 # We set lib explicitly to avoid lib64 issues
 %define _libdir %{_prefix}/lib
 
 Name:       mozilla-%{realname}
 Version:	%{pyver}.%{pyrel}
-Release:	5%{?dist}
+Release:	0%{?dist}
 Summary:	This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
 Group:		mozilla
