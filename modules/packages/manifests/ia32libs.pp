@@ -24,6 +24,8 @@ class packages::ia32libs {
                         "zlib.i686":
                             ensure => latest;
                     }
+                }
+            }
         }
         default: {
             fail("cannot install on $::operatingsystem")
