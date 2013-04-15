@@ -4,7 +4,7 @@
 #
 # buildmaster repo class
 # creates the souce code repoitories
-define buildmaster::repos($hg_repo, $dst_dir, branch="default") {
+define buildmaster::repos($hg_repo, $dst_dir, $branch="default") {
     include packages::mozilla::py27_mercurial
     include users::builder
 
