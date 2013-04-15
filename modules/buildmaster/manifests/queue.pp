@@ -67,7 +67,7 @@ class buildmaster::queue {
             group => "${users::builder::group}",
             packages => [
                 "buildbot==0.8.4-pre-moz2",
-                "mozillapulse==ad95569a089e",
+                "mozillapulse==.4",
                 "carrot==0.10.7",
                 "amqplib==0.6.1",
                 "anyjson==0.3",
