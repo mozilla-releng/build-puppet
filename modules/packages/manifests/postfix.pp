@@ -7,6 +7,14 @@ class packages::postfix {
             package {
                 "postfix":
                     ensure => latest;
+                "ssmtp":
+                    notify => Exec["update-mta-alternatives"],
+                    ensure => absent;
+            }
+            exec {
+                "update-mta-alternatives":
+                    command     => "/usr/sbin/alternatives --auto mta",
+                    refreshonly => true;
             }
         }
 

@@ -6,7 +6,7 @@ class smarthost::install {
         'smarthost::install::begin': ;
         'smarthost::install::end': ;
     }
-    
+
     Anchor['smarthost::install::begin'] ->
     class {
         packages::postfix: ;
