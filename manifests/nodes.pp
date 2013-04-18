@@ -17,22 +17,11 @@ node "relabs05.build.mtv1.mozilla.com" {
 }
 
 node "relabs06.build.mtv1.mozilla.com" {
+    # in use by bhearsum
+    include toplevel::server
 }
 
 node "relabs07.build.mtv1.mozilla.com" {
-    buildmaster::buildbot_master {
-        "bm07-build1":
-        http_port => 8001,
-        master_type => "build",
-        basedir => "build1";
-    }
-    buildmaster::buildbot_master {
-        "bm07-build2":
-        http_port => 8002,
-        master_type => "build",
-        basedir => "build2";
-    }
-    include toplevel::server::buildmaster
 }
 
 node "relabs08.build.mtv1.mozilla.com" {
