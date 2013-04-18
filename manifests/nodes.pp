@@ -14,11 +14,11 @@ node "relabs04.build.mtv1.mozilla.com" {
 }
 
 node "relabs05.build.mtv1.mozilla.com" {
+    # in use by bhearsum
+    include toplevel::server
 }
 
 node "relabs06.build.mtv1.mozilla.com" {
-    # in use by bhearsum
-    include toplevel::server
 }
 
 node "relabs07.build.mtv1.mozilla.com" {
