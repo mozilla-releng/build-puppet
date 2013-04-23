@@ -1,7 +1,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-class users::builder::account($username, $group, $home) {
+class users::builder::account($username, $group, $grouplist, $home) {
     include ::config
 
     ##
@@ -25,6 +25,7 @@ class users::builder::account($username, $group, $home) {
                     password => $config::secrets::builder_pw_hash,
                     shell => "/bin/bash",
                     managehome => true,
+                    groups => $grouplist,
                     comment => "Builder";
             }
         }

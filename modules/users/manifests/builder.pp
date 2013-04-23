@@ -22,6 +22,11 @@ class users::builder {
         default => $username
     }
 
+    $grouplist = $::operatingsystem ? {
+        Ubuntu => ["audio","video"],
+        default => []
+    }
+
     # calculate the proper homedir
     $home = $::operatingsystem ? {
         Darwin => "/Users/$username",
@@ -34,6 +39,7 @@ class users::builder {
             stage => users,
             username => $username,
             group => $group,
+            grouplist => $grouplist,
             home => $home;
     }
 
