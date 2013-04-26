@@ -54,6 +54,12 @@ name=puppet
 baseurl=http://puppetagain.pub.build.mozilla.org/data/repos/yum/mirrors/puppetlabs/el/6/products/$basearch
 enabled=1
 gpgcheck=0
+
+[puppet-deps]
+name=puppet
+baseurl=http://puppetagain.pub.build.mozilla.org/data/repos/yum/mirrors/puppetlabs/el/6/dependencies/$basearch
+enabled=1
+gpgcheck=0
 EOF
     /usr/bin/yum clean all
 }
