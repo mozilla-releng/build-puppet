@@ -37,6 +37,9 @@ class packages::setup {
                 "puppetlabs":
                     url_path => "repos/yum/mirrors/puppetlabs/el/6/products/$architecture";
 
+                "puppetlabs-deps":
+                    url_path => "repos/yum/mirrors/puppetlabs/el/6/dependencies/$architecture";
+
                 "releng-public-${operatingsystem}${majorver}-${architecture}":
                     url_path => "repos/yum/releng/public/$operatingsystem/$majorver/$architecture" ;
 
