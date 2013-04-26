@@ -106,6 +106,15 @@ node /(bld|try|dev)-.*\.(build|try|dev)\.releng\.(use1|usw2)\.mozilla.com/ {
 node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
     include toplevel::server::puppetmaster
 }
+node "releng-pupet2.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::puppetmaster
+}
+node "releng-pupet2.build.scl1.mozilla.com" {
+    include toplevel::server::puppetmaster
+}
+node "releng-pupet2.build.mtv1.mozilla.com" {
+    include toplevel::server::puppetmaster
+}
 
 ## mozpool servers
 
