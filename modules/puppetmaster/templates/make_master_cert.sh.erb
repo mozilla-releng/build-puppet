@@ -12,7 +12,7 @@ source "<%= @scripts_dir %>/ssl_common.sh"
 lock_ca_dir
 
 # now sign a certificate for this master
-temp_master_cert="${pvt_dir}/master.crt"
+temp_master_cert="/tmp/master.crt"
 make_leaf_cert "${fqdn}" master "${master_key}" "${temp_master_cert}"
 add_file_to_git "${temp_master_cert}" "master-certs/${fqdn}.crt" "add master cert for ${fqdn}"
 rm -f "${temp_master_cert}"

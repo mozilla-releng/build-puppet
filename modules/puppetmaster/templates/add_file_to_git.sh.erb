@@ -11,6 +11,6 @@ src_filename="${1}"
 git_filename="${2}"
 message="${3}"
 
-cp "${src_filename}" "${git_dir}/${git_filename}"
+cp -d "${src_filename}" "${git_dir}/${git_filename}"
 git add "${git_filename}"
 git commit -q -m "${message}"

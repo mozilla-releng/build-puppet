@@ -1,0 +1,134 @@
+#!/bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# runs as puppetsync
+
+set -e
+set -x
+
+source "<%= @scripts_dir %>/ssl_common.sh"
+
+bail() {
+    set +x
+    echo '********'
+    cat >&2
+    exit 1
+}
+
+add_and_commit() {
+    local file="${1}"
+    local comment="${2}"
+
+    # move the file aside, because add_file_to_git likes to copy it in itself
+    # to get permissions right
+    mv "${git_dir}/${file}" /tmp/to_copy
+    add_file_to_git /tmp/to_copy "${file}" "${comment}"
+}
+
+# make_hash_link $relative_path
+make_hash_link() {
+    local relative_path="${1}"
+    local r ssl_cmd
+
+    # figure out if this is a cert or crl
+    if [ "${relative_path:${#relative_path}-3:3}" = "crt" ]; then
+        r=""
+        ssl_cmd="x509"
+    else
+        r="r"
+        ssl_cmd="crl"
+    fi
+
+    hash=$(openssl ${ssl_cmd} -hash -noout -in "${certdir}/${relative_path}")
+    i=0
+    while true; do
+        hashfile="${certdir}/${hash}.${r}${i}"
+        if ! test -f "${hashfile}"; then
+            break
+        fi
+
+        dest=$(readlink -f "${hashfile}")
+        if [ "${dest}" = "${relative_path}" ]; then
+            # it already exists; nothing to add
+            return
+        fi
+        i=$((i+1))
+    done
+
+    # not found, so add a link and commit it
+    ln -s "${relative_path}" "${hashfile}"
+    add_and_commit "certdir/${hash}.${r}${i}" "link to ${relative_path} from certdir"
+}
+
+test -f "${master_ca_key}" || bail <<EOF
+The master CA key '${master_ca_key}' does not seem to be in place.
+It should have been created while creating the CSR for the master CA.
+Please fix
+EOF
+
+# set up the master's CA directory
+if [ ! -f "${ca_dir}/inventory.txt" ]; then
+    touch "${ca_dir}/inventory.txt"
+fi
+if [ ! -d "${ca_dir}/certs" ]; then
+    mkdir "${ca_dir}/certs"
+fi
+if [ ! -f "${ca_dir}/serial" ]; then
+    echo "0001" > "${ca_dir}/serial"
+fi
+cat <<EOF > "${ca_dir}/openssl.conf"
+[ca]
+default_ca = master_ca_config
+
+[master_ca_config]
+certificate = ${master_ca_cert}
+private_key = ${master_ca_key}
+database = ${ca_dir}/inventory.txt
+new_certs_dir = ${ca_dir}/certs
+serial = ${ca_dir}/serial
+default_crl_days = 7
+default_days = 1825
+default_md = sha1
+policy = master_ca_policy
+x509_extensions = master_ca_exts
+
+[master_ca_policy]
+commonName = supplied
+organizationalUnitName = optional
+
+# default extensions for clients
+[master_ca_exts]
+authorityKeyIdentifier = keyid,issuer:always
+basicConstraints = critical,CA:false
+keyUsage = keyEncipherment, digitalSignature
+extendedKeyUsage = clientAuth
+
+# extensions for the master certificate, specifically adding subjectAltName and serverAuth instead of clientAuth
+[master_self_ca_exts]
+authorityKeyIdentifier = keyid,issuer:always
+basicConstraints = critical,CA:false
+keyUsage = keyEncipherment, digitalSignature
+extendedKeyUsage = serverAuth
+# include the master's fqdn here, as well as in the CN, to work
+# around https://bugs.ruby-lang.org/issues/6493
+subjectAltName = DNS:puppet,DNS:${fqdn}
+EOF
+
+# generate a CRL immediately
+openssl ca -gencrl -config "${ca_dir}/openssl.conf" -out "${master_ca_crl}"
+
+# and link everything into the certdir
+for stem in root "${fqdn}"; do
+    cert="${stem}.crt"
+    crl="${stem}.crl"
+
+    # pass relative paths for the CRL and cert to make_hash_link
+    add_and_commit "ca-certs/${cert}" "add ${stem} CA cert"
+    add_and_commit "ca-certs/${crl}" "add ${stem} CA CRL"
+    make_hash_link "../ca-certs/${cert}"
+    make_hash_link "../ca-certs/${crl}"
+done
+
+touch "${ca_dir}/.setup-root-complete"

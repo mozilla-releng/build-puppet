@@ -35,41 +35,6 @@ mv_file_in_git() {
     sudo -u puppetsync "${scripts_dir}/mv_file_in_git.sh" "${@}"
 }
 
-# make_hash_link $relative_path
-make_hash_link() {
-    local relative_path="${1}"
-    local r ssl_cmd
-
-    # figure out if this is a cert or crl
-    if [ "${relative_path:${#relative_path}-3:3}" = "crt" ]; then
-        r=""
-        ssl_cmd="x509"
-    else
-        r="r"
-        ssl_cmd="crl"
-    fi
-
-    hash=$(openssl ${ssl_cmd} -hash -noout -in "${certdir}/${relative_path}")
-    i=0
-    while true; do
-        hashfile="${certdir}/${hash}.${r}${i}"
-        if ! test -f "${hashfile}"; then
-            break
-        fi
-
-        dest=$(readlink -f "${hashfile}")
-        if [ "${dest}" = "${relative_path}" ]; then
-            # it already exists; nothing to add
-            return
-        fi
-        i=$((i+1))
-    done
-
-    # not found, so add a link and commit it
-    ln -s "${relative_path}" "${hashfile}"
-    add_and_commit "certdir/${hash}.${r}${i}" "link to ${relative_path} from certdir"
-}
-
 # make_leaf_cert $hostname [master|agent] $keyfile $certfile
 #
 # call this with the ca_dir lock held

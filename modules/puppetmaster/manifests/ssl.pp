@@ -106,6 +106,9 @@ class puppetmaster::ssl {
         "${scripts_dir}/ssl_setup.sh":
             content => template("${module_name}/ssl_setup.sh.erb"),
             mode => 0755;
+        "${scripts_dir}/ssl_setup_root.sh":
+            content => template("${module_name}/ssl_setup_root.sh.erb"),
+            mode => 0755;
         "${scripts_dir}/make_master_cert.sh":
             content => template("${module_name}/make_master_cert.sh.erb"),
             mode => 0755;
@@ -199,11 +202,22 @@ class puppetmaster::ssl {
             logoutput => true,
             creates => "${ca_dir}/.setup-complete";
 
+        'puppetmaster-ssl-setup-root':
+            command => "${scripts_dir}/ssl_setup_root.sh",
+            require => [
+                Exec['puppetmaster-ssl-setup'],
+                File["${scripts_dir}/ssl_setup_root.sh"],
+                File["${scripts_dir}/ssl_common.sh"],
+                File["${scripts_dir}/add_file_to_git.sh"],
+            ],
+            logoutput => true,
+            creates => "${ca_dir}/.setup-root-complete";
+
         # and create the master cert (as root)
         'puppetmaster-ssl-make-master-cert':
             command => "${scripts_dir}/make_master_cert.sh",
             require => [
-                Exec['puppetmaster-ssl-setup'],
+                Exec['puppetmaster-ssl-setup-root'],
                 File["${scripts_dir}/make_master_cert.sh"],
                 File["${scripts_dir}/git_common.sh"],
                 File["${scripts_dir}/ssl_common.sh"],

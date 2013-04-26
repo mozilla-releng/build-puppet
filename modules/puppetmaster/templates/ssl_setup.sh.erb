@@ -18,13 +18,6 @@ bail() {
     exit 1
 }
 
-add_and_commit() {
-    git add "${1}"
-    if git_index_is_dirty; then
-        git commit -m "${2}"
-    fi
-}
-
 # Puppet has taken care of running 'git init' appropriately in $git_dir and
 # $git_common_dir.  Now we need to get the appropriate content.
 
@@ -106,74 +99,5 @@ Then copy/paste the resulting .crt back to
   ${master_ca_cert}
 and re-run puppet.
 EOF
-
-test -f "${master_ca_key}" || bail <<EOF
-The master CA key '${master_ca_key}' does not seem to be in place.
-It should have been created while creating the CSR for the master CA.
-Please fix
-EOF
-
-# set up the master's CA directory
-if [ ! -f "${ca_dir}/inventory.txt" ]; then
-    touch "${ca_dir}/inventory.txt"
-fi
-if [ ! -d "${ca_dir}/certs" ]; then
-    mkdir "${ca_dir}/certs"
-fi
-if [ ! -f "${ca_dir}/serial" ]; then
-    echo "0001" > "${ca_dir}/serial"
-fi
-cat <<EOF > "${ca_dir}/openssl.conf"
-[ca]
-default_ca = master_ca_config
-
-[master_ca_config]
-certificate = ${master_ca_cert}
-private_key = ${master_ca_key}
-database = ${ca_dir}/inventory.txt
-new_certs_dir = ${ca_dir}/certs
-serial = ${ca_dir}/serial
-default_crl_days = 7
-default_days = 1825
-default_md = sha1
-policy = master_ca_policy
-x509_extensions = master_ca_exts
-
-[master_ca_policy]
-commonName = supplied
-organizationalUnitName = optional
-
-# default extensions for clients
-[master_ca_exts]
-authorityKeyIdentifier = keyid,issuer:always
-basicConstraints = critical,CA:false
-keyUsage = keyEncipherment, digitalSignature
-extendedKeyUsage = clientAuth
-
-# extensions for the master certificate, specifically adding subjectAltName and serverAuth instead of clientAuth
-[master_self_ca_exts]
-authorityKeyIdentifier = keyid,issuer:always
-basicConstraints = critical,CA:false
-keyUsage = keyEncipherment, digitalSignature
-extendedKeyUsage = serverAuth
-# include the master's fqdn here, as well as in the CN, to work
-# around https://bugs.ruby-lang.org/issues/6493
-subjectAltName = DNS:puppet,DNS:${fqdn}
-EOF
-
-# generate a CRL immediately
-openssl ca -gencrl -config "${ca_dir}/openssl.conf" -out "${master_ca_crl}"
-
-# and link everything into the certdir
-for stem in root "${fqdn}"; do
-    cert="${stem}.crt"
-    crl="${stem}.crl"
-
-    # pass relative paths for the CRL and cert to make_hash_link
-    add_and_commit "ca-certs/${cert}" "add ${stem} CA cert"
-    add_and_commit "ca-certs/${crl}" "add ${stem} CA CRL"
-    make_hash_link "../ca-certs/${cert}"
-    make_hash_link "../ca-certs/${crl}"
-done
 
 touch "${ca_dir}/.setup-complete"
