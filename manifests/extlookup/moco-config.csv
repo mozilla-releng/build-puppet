@@ -12,3 +12,4 @@ global_authorized_keys,armenzg,asasaki,bhearsum,catlee,callek,coop,joduinn,nthom
 buildbot_mail_to,release@mozilla.com
 puppetmaster_upstream_rsync_source,
 puppetmaster_upstream_rsync_args,
+puppet_again_repo,http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet320/
