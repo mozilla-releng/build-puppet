@@ -78,8 +78,8 @@ corresponding key, and keep them in a safe place.
 For example:
 
     openssl req -new -newkey rsa -days 3650 -x509 -subj "/CN=PuppetAgain Root CA" \
-        -keyout "/root/root.key" -out "${master_ca_cert}"
-    # also copy in the CRL at "${master_ca_crl}"
+        -keyout "/root/root.key" -out "${root_ca_cert}"
+    # also copy in the CRL at "${root_ca_crl}"
     chown -R puppetsync:puppetsync ${ca_certs_dir}
 
 Move /root/root.key somewhere safe and private and re-run puppet.
