@@ -149,7 +149,7 @@ class puppetmaster::ssl {
             content => template("${module_name}/do_requested_revocations.sh.erb"),
             mode => 0755;
         "/etc/cron.d/puppetmaster-do-requested-revocations":
-            content => "10 * * * * root ${scripts_dir}/do_requested_revocations.sh";
+            content => "10 * * * * root ${scripts_dir}/do_requested_revocations.sh\n";
 
         # Apache doesn't reload CRLs unless it's restarted, so we restart once a day.
         # see https://issues.apache.org/bugzilla/show_bug.cgi?id=14104
