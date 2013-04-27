@@ -125,7 +125,7 @@ stems="${fqdn}"
 if ! ( cd "${git_dir}" && git log ca-certs/root.crt 2>&1 >/dev/null ); then
     stems="root ${stems}"
 fi
-for stem in root "${fqdn}"; do
+for stem in ${stems}; do
     cert="${stem}.crt"
     crl="${stem}.crl"
 
