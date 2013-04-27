@@ -19,7 +19,7 @@ trap "rm -f ${LOCKFILE}; exit" SIGHUP SIGINT SIGTERM EXIT
 logfile=$(mktemp)
 
 # -H preserves hardlinks, saving some space
-su - puppetsync -c "rsync -H -rlpt --delete --out-format='%o %f %L' $distinguished_master:$data_root/ $data_root/" > $logfile
+su - puppetsync -c "rsync -H -rlpt --delete --exclude=lost+found/ --out-format='%o %f %L' $distinguished_master:$data_root/ $data_root/" > $logfile
 
 # if anything was logged..
 if [ -s $logfile ]; then
