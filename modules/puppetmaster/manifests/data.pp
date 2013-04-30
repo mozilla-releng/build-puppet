@@ -73,8 +73,7 @@ class puppetmaster::data {
     # handle upstream synchronization on the DM
     $crontab = "/etc/cron.d/puppetmaster-upstream-rsync"
     $script = "/etc/puppet/puppetmaster-upstream-rsync.sh"
-    if ($puppetmaster::settings::is_distinguished
-        and $puppetmaster::settings::puppetmaster_upstream_rsync_source != "") {
+    if ($puppetmaster::settings::is_distinguished and $config::puppetmaster_upstream_rsync_source != "") {
         $upstream_minute = ($minute + 15) # (minute < 30, so this is OK)
         file {
             $crontab:
