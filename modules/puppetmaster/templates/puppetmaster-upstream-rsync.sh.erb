@@ -8,7 +8,7 @@ args="<%= scope.lookupvar('::config::puppetmaster_upstream_rsync_args') %>"
 mailto=<%= scope.lookupvar('::config::puppet_notif_email') %>
 
 logfile=$(mktemp)
-su - puppetsync -c "rsync --recursive --links --perms --group --owner --times --hard-links -out-format='%o %f %L' --exclude=lost+found/ -n ${args} ${source} /data/" > "${logfile}"
+su - puppetsync -c "rsync --recursive --links --perms --group --owner --times --hard-links -out-format='%o %f %L' --exclude=lost+found/ ${args} ${source} /data/" > "${logfile}"
 
 if [ -s "${logfile}" ]; then
     mail -s "[PuppetAgain Changes] Files synchronized to "$(uname -n)" from $source" "${mailto}" < $logfile
