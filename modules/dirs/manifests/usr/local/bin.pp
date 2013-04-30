@@ -4,8 +4,8 @@
 class dirs::usr::local::bin {
     include dirs::usr::local 
     include users::root
-    
-    include shared file {
+
+    file {
         "/usr/local/bin":
             ensure => directory,
             owner => "root",

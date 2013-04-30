@@ -110,6 +110,26 @@ class disableservices::common {
                     require => Class['users::builder'];
             }
 
+            # disable Apple's "unsafe files from the internet" warnings
+            # http://www.davinian.com/os-x-leopard-are-you-sure-you-want-to-open-it/
+            # (as per earlier releng puppet implementations of this).
+            file {
+                "$::users::builder::home/Library/Preferences/com.apple.DownloadAssessment.plist":
+                    source => "puppet:///${module_name}/com.apple.DownloadAssessment.plist",
+                    owner => $::users::builder::username,
+                    group => $::users::builder::group,
+                    mode => 0600,
+                    require => Class['users::builder'];
+            }
+            # and to make double-sure, turn off quarantining:
+            # http://superuser.com/questions/38658/how-to-suppress-repetition-of-warnings-that-an-application-was-downloaded-from-t
+            osxutils::defaults {
+                "builder-disable-quarantine":
+                    domain => "$::users::builder::home/Library/Preferences/com.apple.LaunchServices.plist",
+                    key => "LSQuarantine",
+                    value => "0",
+                    require => Class['users::builder'];
+            }
         }
     }
 }

@@ -37,16 +37,30 @@ class users::builder::account($username, $group, $grouplist, $home) {
             # use our custom type and provider, based on http://projects.puppetlabs.com/issues/12833
             # This should be replaced with 'user' once we are running a version of puppet containing the
             # relevant fixes.
-            darwinuser {
-                # NOTE: this user is *not* an Administrator.  All admin-level access is granted via sudoers.
-                $username:
-                    shell => "/bin/bash",
-                    home => $home,
-                    password => $::config::secrets::builder_pw_pbkdf2,
-                    salt => $::config::secrets::builder_pw_pbkdf2_salt,
-                    iterations => $::config::secrets::builder_pw_pbkdf2_iterations,
-                    comment => "Builder",
-                    notify => Exec['kill-builder-keychain'];
+            # NOTE: this user is *not* an Administrator.  All admin-level access is granted via sudoers.
+            case $::macosx_productversion_major {
+                '10.7': {
+                    darwinuser {
+                        $username:
+                            shell => "/bin/bash",
+                            home => $home,
+                            password => $::config::secrets::builder_pw_saltedsha512,
+                            comment => "Builder",
+                            notify => Exec['kill-builder-keychain'];
+                    }
+                }
+                '10.8': {
+                    darwinuser {
+                        $username:
+                            shell => "/bin/bash",
+                            home => $home,
+                            password => $::config::secrets::builder_pw_pbkdf2,
+                            salt => $::config::secrets::builder_pw_pbkdf2_salt,
+                            iterations => $::config::secrets::builder_pw_pbkdf2_iterations,
+                            comment => "Builder",
+                            notify => Exec['kill-builder-keychain'];
+                    }
+                }
             }
             exec {
                 # whenever the user password changes, we need to delete the keychain, otherwise

@@ -9,8 +9,8 @@ define sudoers::custom($user, $command) {
         "/etc/sudoers.d/$title":
             require => Class['packages::sudo'],
             mode => "440",
-            owner => root,
-            group => root,
+            owner => $::users::root::username,
+            group => $::users::root::group,
             ensure => file,
             content => "$user ALL=NOPASSWD: $command\n";
     }

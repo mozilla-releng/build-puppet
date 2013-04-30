@@ -2,12 +2,27 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class nrpe::service {
-    include nrpe::install
+    include packages::nrpe
 
-    service {
-        "nrpe":
-            enable => "true",
-            ensure => "running",
-            require => Class['nrpe::install'];
+    case $::operatingsystem {
+        CentOS, Ubuntu: {
+            service {
+                "nrpe":
+                    enable => "true",
+                    ensure => "running",
+                    require => Class['packages::nrpe'];
+            }
+        }
+        Darwin: {
+            service {
+                "org.nagios.nrpe":
+                    enable => "true",
+                    ensure => "running",
+                    require => Class['packages::nrpe'];
+            }
+        }
+        default: {
+            fail("Don't know how to enable nrpe on $::operatingsystem")
+        }
     }
 }

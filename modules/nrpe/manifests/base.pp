@@ -3,8 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class nrpe::base {
     include nrpe::settings
-    include nrpe::install
     include nrpe::service
+    include packages::nrpe
     include config # for vars for templates
 
     $plugins_dir = $nrpe::settings::plugins_dir
@@ -14,17 +14,17 @@ class nrpe::base {
     file {
         "${nrpe_etcdir}/nrpe.cfg":
             content => template("nrpe/nrpe.cfg.erb"),
-            owner   => "root",
-            group   => "root",
-            require => Package["nrpe"],
+            owner => $::users::root::username,
+            group => $::users::root::group,
+            require => Class["packages::nrpe"],
             notify => Class['nrpe::service'];
         "${nrpe_etcdir}/nrpe.d":
             ensure => directory,
-            owner  => "root",
-            group  => "root",
+            owner => $::users::root::username,
+            group => $::users::root::group,
             recurse => true,
             purge => true,
-            require => Package["nrpe"],
+            require => Class["packages::nrpe"],
             notify => Class['nrpe::service'];
     }
 }
