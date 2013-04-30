@@ -3,10 +3,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # Setup extlookup which we only use for config magic
 $extlookup_datadir = "$settings::manifestdir/extlookup"
-$extlookup_precedence = ["local-config", "default-config", "secrets", "secrets-template"]
+$extlookup_precedence = ["secrets", "secrets-template"]
 
 # basic top-level classes with basic settings
 import "stages.pp"
+# both of these should be symlnks to the appropriate organization
+import "config.pp"
 import "nodes.pp"
 
 # Default to root:root 0644 ownership
