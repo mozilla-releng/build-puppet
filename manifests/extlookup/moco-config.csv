@@ -10,6 +10,6 @@ ntp_server,ntp.build.mozilla.org
 ganglia_config_class,ganglia::config-moco
 global_authorized_keys,armenzg,asasaki,bhearsum,catlee,callek,coop,joduinn,nthomas,rail,release-runner,dustin,cltbld,arr,zandr,jhopkins,kmoir,jwatkins,mgervasini,pmoore,sbruno
 buildbot_mail_to,release@mozilla.com
-puppetmaster_upstream_rsync_source,
-puppetmaster_upstream_rsync_args,
+puppetmaster_upstream_rsync_source,rsync://puppetagain.pub.build.mozilla.org/data/
+puppetmaster_upstream_rsync_args,-n
 puppet_again_repo,http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet320/
