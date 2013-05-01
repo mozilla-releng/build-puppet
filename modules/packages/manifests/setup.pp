@@ -54,7 +54,7 @@ class packages::setup {
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 4
+            $repoflag = 5
             file {
                 "/etc/.repo-flag":
                     content =>
