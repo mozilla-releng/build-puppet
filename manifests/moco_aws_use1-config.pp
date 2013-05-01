@@ -8,9 +8,9 @@ class config inherits config::base {
 
     # aws-specific stuff
     $crl_sync_url = "https://secure.pub.build.mozilla.org/aws-support/aws_ca_crl.pem"
-    $puppet_server = "puppetmaster-02.srv.releng.use1.mozilla.com"
+    $puppet_server = "puppetmaster-02.srv.releng.aws-us-east-1.mozilla.com"
     $puppet_servers = [
-        "puppetmaster-02.srv.releng.use1.mozilla.com"
+        "puppetmaster-02.srv.releng.aws-us-east-1.mozilla.com"
     ]
 
     $puppet_notif_email = "releng-shared@mozilla.com"
