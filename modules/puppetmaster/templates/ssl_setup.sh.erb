@@ -41,9 +41,11 @@ fi
 # and push that same commit to the common dir
 git push "${git_common_dir}" master:master
 <% else -%>
-# since this is not the distinguished master, set up the repos by simply pulling
-# from the distinguished master
-git pull "${distinguished_common}" master:master
+# since this is not the distinguished master, set up the repos by simply
+# pulling from the distinguished master.  Note that listing 'master' here
+# instead of 'master:master' makes this succeed even if the local repo is ahead
+# of the DM, which will be the case on runs of this script after the first.
+git pull "${distinguished_common}" master
 # and push that to our local git common dir
 git push "${git_common_dir}" master:master
 <% end -%>
