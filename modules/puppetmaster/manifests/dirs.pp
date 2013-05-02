@@ -6,6 +6,8 @@ class puppetmaster::dirs {
     include puppetmaster::install
 
     file {
+        $puppetmaster::settings::data_root:
+            ensure => directory;
         $puppetmaster::settings::puppetmaster_root:
             ensure => directory,
             owner => puppet,
