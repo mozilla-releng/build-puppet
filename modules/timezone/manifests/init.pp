@@ -14,11 +14,19 @@ class timezone {
                     group => $users::root::group,
                     content => file("/usr/share/zoneinfo/US/Pacific"),
                     force => true,
-                    require => Class['packages::tzdata'];
+                    require => Class['packages::tzdata'],
+                    notify => Exec['/usr/sbin/tzdata-update'];
+                "/etc/sysconfig/clock":
+                    mode => 644,
+                    owner => root,
+                    group => $users::root::group,
+                    content => 'ZONE="US/Pacific"',
+                    force => true,
+                    require => Class['packages::tzdata'],
+                    notify => Exec['/usr/sbin/tzdata-update'];
             }
             exec {
                 "/usr/sbin/tzdata-update":
-                    subscribe => File["/etc/localtime"],
                     refreshonly => true;
             }
         }
