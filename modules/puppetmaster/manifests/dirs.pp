@@ -7,7 +7,9 @@ class puppetmaster::dirs {
 
     file {
         $puppetmaster::settings::data_root:
-            ensure => directory;
+            ensure => directory,
+            owner => puppetsync,
+            group => puppetsync;
         $puppetmaster::settings::puppetmaster_root:
             ensure => directory,
             owner => puppet,
