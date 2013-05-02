@@ -9,7 +9,7 @@ changemailto="<%= scope.lookupvar('::config::puppet_notif_email') %>"
 repo="<%= scope.lookupvar('::config::puppet_again_repo') %>"
 repodir="/etc/puppet/production"
 
-hostname=`hostname -s`
+hostname=<%= scope.lookupvar('::fqdn') %>
 cd $repodir
 
 # check for uncommitted changes
