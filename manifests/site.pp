@@ -4,6 +4,8 @@
 
 import "stages.pp"
 import "extlookup.pp"
+# both of these should be symlnks to the appropriate organization
+import "config.pp"
 import "nodes.pp"
 
 # Default to root:root 0644 ownership

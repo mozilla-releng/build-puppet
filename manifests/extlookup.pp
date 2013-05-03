@@ -3,4 +3,4 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 $extlookup_datadir = "$settings::manifestdir/extlookup"
-$extlookup_precedence = ["local-config", "default-config", "secrets", "secrets-template"]
+$extlookup_precedence = ["secrets", "secrets-template"]

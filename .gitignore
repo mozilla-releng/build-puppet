@@ -2,3 +2,5 @@ repos
 *.swp
 secrets.csv
 local-config.csv
+manifests/nodes.pp
+manifests/config.pp
