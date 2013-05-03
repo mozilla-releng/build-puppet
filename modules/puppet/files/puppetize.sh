@@ -58,13 +58,15 @@ while true; do
     python <<EOF
 import urllib2, getpass
 deploypass="$deploypass"
+puppet_server="${PUPPET_SERVER:-puppet}"
+print "Contacting puppet server %s" % (puppet_server,)
 if not deploypass:
     deploypass = getpass.getpass('deploypass: ')
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-password_mgr.add_password(None, 'https://${PUPPET_SERVER:-puppet}', 'deploy', deploypass)
+password_mgr.add_password(None, 'https://'+puppet_server, 'deploy', deploypass)
 handler = urllib2.HTTPBasicAuthHandler(password_mgr)
 opener = urllib2.build_opener(handler)
-data = opener.open('https://${PUPPET_SERVER:-puppet}/deploy/getcert.cgi').read()
+data = opener.open('https://%s/deploy/getcert.cgi' % (puppet_server,)).read()
 open("$ROOT/certs.sh", "w").write(data)
 EOF
     if [ $? -ne 0 ]; then
