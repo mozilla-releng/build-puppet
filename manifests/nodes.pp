@@ -5,11 +5,11 @@
 ## relabs machines - check with dustin to borrow one
 
 node "relabs02.build.mtv1.mozilla.com" {
-    include toplevel::server::puppetmaster
+    include toplevel::slave::build::mock
 }
 
 node "relabs03.build.mtv1.mozilla.com" {
-    #$puppetmaster_is_public_mirror = true
+    # distinguished master for the relabs puppet cluster
     include toplevel::server::puppetmaster
 }
 
