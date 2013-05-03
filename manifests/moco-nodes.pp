@@ -2,34 +2,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-## relabs machines - check with dustin to borrow one
-
-node "relabs02.build.mtv1.mozilla.com" {
-    include toplevel::slave::build::mock
-}
-
-node "relabs03.build.mtv1.mozilla.com" {
-    # distinguished master for the relabs puppet cluster
-    include toplevel::server::puppetmaster
-}
-
-node "relabs04.build.mtv1.mozilla.com" {
-}
-
-node "relabs05.build.mtv1.mozilla.com" {
-    # in use by bhearsum
-    include toplevel::server
-}
-
-node "relabs06.build.mtv1.mozilla.com" {
-}
-
-node "relabs07.build.mtv1.mozilla.com" {
-}
-
-node "relabs08.build.mtv1.mozilla.com" {
-}
-
 ## foopies
 
 node /foopy\d+.build.mtv1.mozilla.com/ {
