@@ -3,7 +3,7 @@
   # file, You can obtain one at http://mozilla.org/MPL/2.0/. -%>
 <%
     by_name = scope.lookupvar('ssh::keys::by_name')
-    @authorized_keys.flatten.each do |name|
+    @authorized_keys.to_a.flatten.each do |name|
         key = by_name[name]
         %><%= key %> <%= name %>
 <%  end %>
