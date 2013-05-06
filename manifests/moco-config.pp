@@ -10,7 +10,7 @@ class config inherits config::base {
     $puppet_server_reporturl = "http://puppetdash.pvt.build.mozilla.org/reports/upload"
     $builder_username = "cltbld"
     $use_random_order = false
-    $puppet_server = "puppet"
+    $puppet_server = "releng-puppet2.build.scl1.mozilla.com" # temporary until CNAME change
     $puppet_servers = [
         "releng-puppet2.build.mtv1.mozilla.com",
         "releng-puppet2.build.scl1.mozilla.com",
