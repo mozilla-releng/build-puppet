@@ -8,7 +8,6 @@ class config inherits config::base {
     $puppet_notif_email = "dustin@mozilla.com"
     $puppet_server_reports = ""
     $builder_username = "relabsbld"
-    $use_random_order = false
     $puppet_server = "relabs03.build.mtv1.mozilla.com"
     $puppet_servers = [ "relabs03.build.mtv1.mozilla.com" ]
     $data_servers = $puppet_servers

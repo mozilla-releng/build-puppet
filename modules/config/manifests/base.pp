@@ -21,7 +21,6 @@ class config::base {
     $data_servers = [$data_server]
     $puppet_servers = "puppet"
     $puppet_server = [$puppet_servers]
-    $use_random_order = false # TODO: remove in 3.2.0 rollout
     $distinguished_puppetmaster = ''
     $puppetmaster_upstream_rsync_source = ''
     $puppetmaster_upstream_rsync_args = ''

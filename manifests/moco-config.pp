@@ -9,14 +9,30 @@ class config inherits config::base {
     $puppet_server_reports = "tagmail,http"
     $puppet_server_reporturl = "http://puppetdash.pvt.build.mozilla.org/reports/upload"
     $builder_username = "cltbld"
-    $use_random_order = false
-    $puppet_server = "releng-puppet2.build.scl1.mozilla.com" # temporary until CNAME change
-    $puppet_servers = [
-        "releng-puppet2.build.mtv1.mozilla.com",
-        "releng-puppet2.build.scl1.mozilla.com",
-        "releng-puppet2.srv.releng.scl3.mozilla.com",
-    ]
+
+    # we use the sort_servers_by_group function to sort the list of servers, and then just use
+    # the first as the primary server
+    $grouped_puppet_servers = {
+        ".*\.mtv1\.mozilla\.com" => [
+           "releng-puppet2.build.mtv1.mozilla.com",
+        ],
+        ".*\.scl1\.mozilla\.com" => [
+           "releng-puppet2.build.scl1.mozilla.com",
+        ],
+        ".*\.releng\.scl3\.mozilla\.com" => [
+           "releng-puppet2.srv.releng.scl3.mozilla.com",
+        ],
+        ".*\.releng\.(use1|aws-us-east-1)\.mozilla\.com" => [
+            "puppetmaster-02.srv.releng.aws-us-east-1.mozilla.com"
+        ],
+        ".*\.releng\.(usw2|aws-us-west-2)\.mozilla\.com" => [
+            "puppetmaster-02.srv.releng.aws-us-west-2.mozilla.com"
+        ],
+    }
+    $puppet_servers = sort_servers_by_group($grouped_puppet_servers)
+    $puppet_server = $puppet_servers[0]
     $data_servers = $puppet_servers
+    $data_server = $puppet_server
 
     $distinguished_puppetmaster = "releng-puppet2.build.scl1.mozilla.com"
     $puppet_again_repo = "http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet320/"

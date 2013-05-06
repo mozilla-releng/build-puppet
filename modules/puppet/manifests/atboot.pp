@@ -11,7 +11,6 @@ class puppet::atboot {
 
     $puppet_server = $::puppet::settings::puppet_server
     $puppet_servers = $::puppet::settings::puppet_servers
-    $use_random_order = $::puppet::settings::use_random_order
 
     # signal puppetize.sh to reboot after this puppet run, if we're running
     # puppetize.sh (identified via the $puppetizing fact)

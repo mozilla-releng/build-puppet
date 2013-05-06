@@ -18,7 +18,6 @@ class config inherits config::base {
 
     $puppet_notif_email = "releng-shared@mozilla.com"
     $builder_username = "cltbld"
-    $use_random_order = false
     $data_servers = $puppet_servers
     $nrpe_allowed_hosts = "10.2.71.20,10.12.75.9,127.0.0.1,10.26.75.30"
     $ntp_server = "ntp.build.mozilla.org"
