@@ -1,0 +1,141 @@
+#!/bin/bash
+# Nagios plugin to monitor Puppet agent state
+#
+# Copyright (c) 2011 Alexander Swen <a@swen.nu>
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+#
+# Example configuration
+#
+# Typical this check is placed on a client and run via nrpe
+# so add this to nrpe.cfg:
+#  command[check_puppet_agent]=/usr/lib/nagios/plugins/check_puppet -w 3600 -c 7200
+# This should warn when the agent hasnt run for an hour and go critical after two hours
+#  if you have dont_blame_nrpe=1 set you can choose to
+#  command[check_puppet_agent]=/usr/lib/nagios/plugins/check_puppet -w $ARG1$ -c $ARG2$
+#
+# define service {
+#  use generic-service
+#  service_description Puppet agent
+#  check_command check_nrpe!check_puppet_agent
+# or
+#  check_command check_nrpe!check_puppet_agent!3600!7200 
+#}
+
+# CHANGELOG:
+# 20120126	A.Swen	    created.
+# 20120214  trey85stang Modified, added getopts, usage, defaults
+# 20120220  A.Swen      Statefile can be overriden
+# 20120509  hwine       tweaks for older puppet versions and extra data,
+#                       and puppets only run on boot
+
+# SETTINGS
+CRIT=7200 # time in seconds
+WARN=3600 # time in seconds
+statefile=/var/lib/puppet/state/last_run_summary.yaml
+daemon_check=true
+
+# FUNCTIONS
+result () {
+  case $1 in
+    0) echo "OK: Puppet agent last run: ${time_since_last} sec ago";rc=0 ;;
+    1) echo "UNKNOWN: ${statefile##*/} not found, unreadable, or incomplete";rc=3 ;;
+    2) echo "WARNING: Last run was ${time_since_last} seconds ago. warn is ${WARN}";rc=1 ;;
+    3) echo "CRITICAL: Last run was ${time_since_last} seconds ago. crit is ${CRIT}";rc=2 ;;
+    4) echo "CRITICAL: Puppet daemon not running";rc=2 ;;
+    5) echo "UNKNOWN: no WARN or CRIT parameters were sent to this check";rc=3 ;;
+    6) echo "CRITICAL: Last run had 1 or more errors. Check the logs";rc=2 ;;
+  esac
+  exit $rc
+}
+
+usage () {
+  echo ""
+  echo "USAGE: "
+  echo "  $0 [-w 3600] [-c 7200] [-s statefile] [-d]"
+  echo "    -w warning threshold (default 3600 seconds)"
+  echo "    -c ciritcal threshold (default 7200 seconds)"
+  echo "    -s statefile (default: /var/lib/puppet/state/last_run_summary.yaml)"
+  echo "    -d do not look for puppet daemon"
+  echo ""
+  exit 1
+}
+
+while getopts "c:ds:w:" opt
+do
+  case $opt in
+    c)
+      if ! echo $OPTARG | grep -q "[A-Za-z]" && [ -n "$OPTARG" ]
+      then
+        CRIT=$OPTARG
+      else
+        usage
+      fi
+    ;;
+    d) daemon_check=false ;;
+    s) statefile=${OPTARG} ;;
+    w)
+      if ! echo $OPTARG | grep -q "[A-Za-z]" && [ -n "$OPTARG" ]
+      then
+        WARN=$OPTARG
+      else
+        usage
+      fi
+    ;;
+    *)
+      usage
+    ;;
+  esac
+done
+
+# check if state file exists
+[ -s ${statefile} ] || result 1
+
+if $daemon_check; then
+    # check puppet daemon:
+    # I only know the cmd lines for Debian and CentOS/RedHat:
+    [ "$(ps axf|egrep "/usr/bin/ruby /usr/sbin/puppetd|/usr/bin/ruby1.8 /usr/bin/puppet agent")" ] || result 4
+fi
+
+# check when last run happened
+line="$(grep last_run: ${statefile})"
+# if no such line, file is unreadable, or corrupted
+[ -z "${line}" ] && result 1
+
+# value of key is unix epoch time in seconds
+last_run=$(echo ${line/last_run:/})
+now=$(date +%s)
+time_since_last=$((now - last_run))
+[ ${time_since_last} -ge ${CRIT} ] && result 3
+[ ${time_since_last} -ge ${WARN} ] && result 2
+
+# get some more info from the yaml file, if it's available
+# the failure counts are only added to the file if non-zero
+line="$(grep config: ${statefile})"
+config=$(echo ${line/config:/})
+line="$(grep puppet: ${statefile})"
+version=$(echo ${line/puppet:/})
+line="$(grep failed: ${statefile})"
+failed=$(echo ${line/failed:/})
+line="$(grep failure: ${statefile})"
+failure=$(echo ${line/failure:/})
+line="$(grep failed_to_restart: ${statefile})"
+failed_to_restart=$(echo ${line/failed_to_restart:/})
+
+[ ${failed:-0} -ne 0 -o  ${failure:-0} -ne 0 -o ${failed_to_restart:-0} -ne 0 ] && result 6
+
+# if we come here it works!
+result 0
+
+# END
