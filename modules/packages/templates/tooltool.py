@@ -1,40 +1,66 @@
 #! <%= python %>
 
+#tooltool is a lookaside cache implemented in Python
+#Copyright (C) 2011 John H. Ford <john@johnford.info>
+#
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation version 2
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 # An manifest file specifies files in that directory that are stored
 # elsewhere.  This file should only contain file in the directory
 # which the manifest file resides in and it should be called 'manifest.manifest'
 
 __version__ = '1'
 
-import sys
 import os
-import os.path as systempath
-import posixpath
 import optparse
 import logging
 import hashlib
 import urllib2
-import time
-import ConfigParser
+
 try:
-    import simplejson as json # I hear simplejson is faster
+    import simplejson as json  # I hear simplejson is faster
 except ImportError:
     import json
 
 log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
 
-class FileRecordJSONEncoderException(Exception): pass
-class InvalidManifest(Exception): pass
+
+class FileRecordJSONEncoderException(Exception):
+    pass
+
+
+class InvalidManifest(Exception):
+    pass
+
+
 class ExceptionWithFilename(Exception):
+
     def __init__(self, filename):
         Exception.__init__(self)
         self.filename = filename
 
-class DigestMismatchException(ExceptionWithFilename): pass
-class MissingFileException(ExceptionWithFilename): pass
+
+class DigestMismatchException(ExceptionWithFilename):
+    pass
+
+
+class MissingFileException(ExceptionWithFilename):
+    pass
+
 
 class FileRecord(object):
+
     def __init__(self, filename, size, digest, algorithm):
         object.__init__(self)
         self.filename = filename
@@ -46,12 +72,13 @@ class FileRecord(object):
     def __eq__(self, other):
         if self is other:
             return True
-        if self.filename == other.filename:
-            if self.size == other.size:
-                if self.digest == other.digest:
-                    if self.algorithm == other.algorithm:
-                        return True
-        return False
+        if self.filename == other.filename and \
+           self.size == other.size and \
+           self.digest == other.digest and \
+           self.algorithm == other.algorithm:
+            return True
+        else:
+            return False
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -61,8 +88,10 @@ class FileRecord(object):
 
     def __repr__(self):
         return "%s.%s(filename='%s', size='%s', digest='%s', algorithm='%s')" % (__name__,
-                self.__class__.__name__,
-                self.filename, self.size, self.digest, self.algorithm)
+                                                                                 self.__class__.__name__,
+                                                                                 self.filename,
+                                                                                 self.size,
+                                                                                 self.digest, self.algorithm)
 
     def present(self):
         # Doesn't check validity
@@ -77,7 +106,7 @@ class FileRecord(object):
 
     def validate_digest(self):
         if self.present():
-            with open(self.filename) as f:
+            with open(self.filename, 'rb') as f:
                 return self.digest == digest_file(f, self.algorithm)
         else:
             log.debug("trying to validate digest on a missing file, %s', self.filename")
@@ -107,9 +136,10 @@ def create_file_record(filename, algorithm):
 
 
 class FileRecordJSONEncoder(json.JSONEncoder):
+
     def encode_file_record(self, obj):
         if not issubclass(type(obj), FileRecord):
-            err="FileRecordJSONEncoder is only for FileRecord and lists of FileRecords, not %s" % obj.__class__.__name__
+            err = "FileRecordJSONEncoder is only for FileRecord and lists of FileRecords, not %s" % obj.__class__.__name__
             log.warn(err)
             raise FileRecordJSONEncoderException(err)
         else:
@@ -131,6 +161,7 @@ class FileRecordJSONDecoder(json.JSONDecoder):
     FileRecords.  I ignore things that I don't expect for now"""
     # TODO: make this more explicit in what it's looking for
     # and error out on unexpected things
+
     def process_file_records(self, obj):
         if isinstance(obj, list):
             record_list = []
@@ -141,10 +172,10 @@ class FileRecordJSONDecoder(json.JSONDecoder):
             return record_list
         if isinstance(obj, dict) and \
            len(obj.keys()) == 4 and \
-           obj.has_key('filename') and \
-           obj.has_key('size') and \
-           obj.has_key('algorithm') and \
-           obj.has_key('digest'):
+           'filename' in obj and \
+           'size' in obj and \
+           'algorithm' in obj and \
+           'digest' in obj:
             rv = FileRecord(obj['filename'], obj['size'], obj['digest'], obj['algorithm'])
             log.debug("materialized %s" % rv)
             return rv
@@ -160,8 +191,8 @@ class Manifest(object):
 
     valid_formats = ('json',)
 
-    def __init__(self, file_records=[]):
-        self.file_records = file_records
+    def __init__(self, file_records=None):
+        self.file_records = file_records or []
 
     def __eq__(self, other):
         if self is other:
@@ -170,7 +201,7 @@ class Manifest(object):
             log.debug('Manifests differ in number of files')
             return False
         #TODO: Lists in a different order should be equal
-        for record in range(0,len(self.file_records)):
+        for record in range(0, len(self.file_records)):
             if self.file_records[record] != other.file_records[record]:
                 log.debug('FileRecords differ, %s vs %s' % (self.file_records[record],
                                                             other.file_records[record]))
@@ -188,28 +219,16 @@ class Manifest(object):
         return Manifest(self.file_records[:])
 
     def present(self):
-        for i in self.file_records:
-            if not i.present():
-                return False
-        return True
+        return all(i.present() for i in self.file_records)
 
     def validate_sizes(self):
-        for i in self.file_records:
-            if not i.validate_size():
-                return False
-        return True
+        return all(i.validate_size() for i in self.file_records)
 
     def validate_digests(self):
-        for i in self.file_records:
-            if not i.validate_digest():
-                return False
-        return True
+        return all(i.validate_digest() for i in self.file_records)
 
     def validate(self):
-        for i in self.file_records:
-            if not i.validate():
-                return False
-        return True
+        return all(i.validate() for i in self.file_records)
 
     def sort(self):
         #TODO: WRITE TESTS
@@ -248,11 +267,11 @@ class Manifest(object):
             return json.dumps(self.file_records, cls=FileRecordJSONEncoder)
 
 
-def digest_file(f,a):
+def digest_file(f, a):
     """I take a file like object 'f' and return a hex-string containing
     of the result of the algorithm 'a' applied to 'f'."""
     h = hashlib.new(a)
-    chunk_size = 1024*10
+    chunk_size = 1024 * 10
     data = f.read(chunk_size)
     while data:
         h.update(data)
@@ -263,18 +282,20 @@ def digest_file(f,a):
         log.debug('hashed a file with %s to be %s', a, h.hexdigest())
     return h.hexdigest()
 
+
 # TODO: write tests for this function
 def open_manifest(manifest_file):
     """I know how to take a filename and load it into a Manifest object"""
-    manifest = Manifest()
     if os.path.exists(manifest_file):
+        manifest = Manifest()
         with open(manifest_file) as f:
             manifest.load(f)
             log.debug("loaded manifest from file '%s'" % manifest_file)
-            return manifest
+        return manifest
     else:
         log.debug("tried to load absent file '%s' as manifest" % manifest_file)
         raise InvalidManifest("manifest file '%s' does not exist" % manifest_file)
+
 
 # TODO: write tests for this function
 def list_manifest(manifest_file):
@@ -289,6 +310,7 @@ def list_manifest(manifest_file):
                               "V" if f.present() and f.validate() else "-",
                               f.filename)
     return True
+
 
 def validate_manifest(manifest_file):
     """I validate that all files in a manifest are present and valid but
@@ -311,6 +333,7 @@ def validate_manifest(manifest_file):
     else:
         return False
 
+
 # TODO: write tests for this function
 def add_files(manifest_file, algorithm, filenames):
     # returns True if all files successfully added, False if not
@@ -324,7 +347,7 @@ def add_files(manifest_file, algorithm, filenames):
     else:
         old_manifest = Manifest()
         log.debug("creating a new manifest file")
-    new_manifest = Manifest() # use a different manifest for the output
+    new_manifest = Manifest()  # use a different manifest for the output
     for filename in filenames:
         log.debug("adding %s" % filename)
         path, name = os.path.split(filename)
@@ -354,10 +377,11 @@ def add_files(manifest_file, algorithm, filenames):
 
 
 # TODO: write tests for this function
-def fetch_file(base_url, file_record, overwrite=False, grabchunk=1024*4):
+
+def fetch_file(base_urls, file_record, overwrite=False, grabchunk=1024 * 4):
     # A file which is requested to be fetched that exists locally will be hashed.
     # If the hash matches the requested file's hash, nothing will be done and the
-    # function will return.  If the function is told to overwrite and there is a 
+    # function will return.  If the function is told to overwrite and there is a
     # digest mismatch, the exiting file will be overwritten
     if file_record.present():
         if file_record.validate():
@@ -369,53 +393,50 @@ def fetch_file(base_url, file_record, overwrite=False, grabchunk=1024*4):
             # All of the following is for a useful error message
             with open(file_record.filename, 'rb') as f:
                 d = digest_file(f, file_record.algorithm)
-            log.error("digest mismatch between manifest(%s...) and local file(%s...)" % \
-                    (file_record.digest[:8], d[:8]))
+            log.error("digest mismatch between manifest(%s...) and local file(%s...)" %
+                      (file_record.digest[:8], d[:8]))
             log.debug("full digests: manifest (%s) local file (%s)" % (file_record.digest, d))
             # Let's bail!
             return False
 
-    # Generate the URL for the file on the server side
-    url = "%s/%s/%s" % (base_url, file_record.algorithm, file_record.digest)
+    for base_url in base_urls:
+        # Generate the URL for the file on the server side
+        url = "%s/%s/%s" % (base_url, file_record.algorithm, file_record.digest)
 
-    log.debug("fetching from '%s'" % url)
+        log.info("Attempting to fetch from '%s'..." % base_url)
 
-    # TODO: This should be abstracted to make generic retreival protocol handling easy
-    # Well, the file doesn't exist locally.  Lets fetch it.
-    try:
-        f = urllib2.urlopen(url)
-        log.debug("opened %s for reading" % url)
-        with open(file_record.filename, 'wb') as out:
-            k = True
-            size = 0
-            t = time.time()
-            while k:
-                # TODO: print statistics as file transfers happen both for info and to stop
-                # buildbot timeouts
-                indata = f.read(grabchunk)
-                out.write(indata)
-                size += len(indata)
-                if indata == '':
-                    k = False
-            if size != file_record.size:
-                log.error("transfer from %s to %s failed due to a difference of %d bytes" % (url,
-                            file_record.filename, file_record.size - size))
-                return False
-            log.info("fetched %s" % file_record.filename)
-    except urllib2.URLError as urlerror:
-        log.error("failed to fetch '%s': %s" % (file_record.filename, urlerror))
-        return False
-    except urllib2.HTTPError as httperror:
-        log.error("failed to fetch '%s': %s" % (file_record.filename, httperror))
-        return False
-    except IOError as ioerror:
-        log.error("failed to write to '%s'" % file_record.filename)
-        return False
-    return True
+        # TODO: This should be abstracted to make generic retrival protocol handling easy
+        # Well, the file doesn't exist locally.  Let's fetch it.
+        try:
+            f = urllib2.urlopen(url)
+            log.debug("opened %s for reading" % url)
+            with open(file_record.filename, 'wb') as out:
+                k = True
+                size = 0
+                while k:
+                    # TODO: print statistics as file transfers happen both for info and to stop
+                    # buildbot timeouts
+                    indata = f.read(grabchunk)
+                    out.write(indata)
+                    size += len(indata)
+                    if indata == '':
+                        k = False
+                if size != file_record.size:
+                    log.error("transfer from %s to %s failed due to a difference of %d bytes" %
+                              (url, file_record.filename, file_record.size - size))
+                else:
+                    log.info("Success! File %s fetched from %s" % (file_record.filename, base_url))
+                    return True
+        except (urllib2.URLError, urllib2.HTTPError, ValueError) as e:
+            log.info("..failed to fetch '%s' from %s" % (file_record.filename, base_url))
+            log.debug("%s" % e)
+        except IOError:
+            log.info("failed to write to '%s'" % file_record.filename, exc_info=True)
+    return False
 
 
 # TODO: write tests for this function
-def fetch_files(manifest_file, base_url, overwrite, filenames=[]):
+def fetch_files(manifest_file, base_urls, overwrite, filenames=[]):
     # Lets load the manifest file
     try:
         manifest = open_manifest(manifest_file)
@@ -431,7 +452,7 @@ def fetch_files(manifest_file, base_url, overwrite, filenames=[]):
     for f in manifest.file_records:
         if f.filename in filenames or len(filenames) == 0:
             log.debug("fetching %s" % f.filename)
-            if fetch_file(base_url, f, overwrite):
+            if fetch_file(base_urls, f, overwrite):
                 fetched_files.append(f)
             else:
                 failed_files.append(f.filename)
@@ -466,13 +487,15 @@ def process_command(options, args):
     elif cmd == 'add':
         return add_files(options['manifest'], options['algorithm'], cmd_args)
     elif cmd == 'fetch':
-        if not options.has_key('base_url') or options.get('base_url') is None:
-            log.critical('fetch command requires url option')
+        if not options.get('base_url'):
+            log.critical('fetch command requires at least one url provided using ' +
+                         'the url option in the command line')
             return False
         return fetch_files(options['manifest'], options['base_url'], options['overwrite'], cmd_args)
     else:
         log.critical('command "%s" is not implemented' % cmd)
         return False
+
 
 # fetching api:
 #   http://hostname/algorithm/hash
@@ -492,7 +515,6 @@ def process_command(options, args):
 #   -?only ever locally to digest as filename, symlink to real name
 #   -?maybe deal with files as a dir of the filename with all files in that dir as the versions of that file
 #      - e.g. ./python-2.6.7.dmg/0123456789abcdef and ./python-2.6.7.dmg/abcdef0123456789
-
 def main():
     # Set up logging, for now just to the console
     ch = logging.StreamHandler()
@@ -505,28 +527,24 @@ def main():
     # sequential and at the end of the argv.
     # OH! i could step through sys.argv and check for things starting without -/-- before things starting with them
     parser.add_option('-q', '--quiet', default=False,
-            dest='quiet', action='store_true')
+                      dest='quiet', action='store_true')
     parser.add_option('-v', '--verbose', default=False,
-            dest='verbose', action='store_true')
+                      dest='verbose', action='store_true')
     parser.add_option('-m', '--manifest', default='manifest.tt',
-            dest='manifest', action='store',
-            help='specify the manifest file to be operated on')
+                      dest='manifest', action='store',
+                      help='specify the manifest file to be operated on')
     parser.add_option('-d', '--algorithm', default='sha512',
-            dest='algorithm', action='store',
-            help='openssl hashing algorithm to use')
+                      dest='algorithm', action='store',
+                      help='openssl hashing algorithm to use')
     parser.add_option('-o', '--overwrite', default=False,
-            dest='overwrite', action='store_true',
-            help='if fetching, remote copy will overwrite a local copy that is different. ' +
-                 'UNIMPLEMENTED: if adding, the local file will overwrite the manifest copy')
-    parser.add_option('--url', dest='base_url', action='store',
-            help='base url for fetching files')
-    parser.add_option('--ignore-config-files', action='store_true', default=False,
-                     dest='ignore_cfg_files')
+                      dest='overwrite', action='store_true',
+                      help='if fetching, remote copy will overwrite a local copy that is different. ')
+    parser.add_option('--url', dest='base_url', action='append',
+                      help='base url for fetching files')
+
     (options_obj, args) = parser.parse_args()
     # Dictionaries are easier to work with
     options = vars(options_obj)
-
-
     # Use some of the option parser to figure out application
     # log level
     if options.get('verbose'):
@@ -537,31 +555,11 @@ def main():
         ch.setLevel(logging.INFO)
     log.addHandler(ch)
 
-    cfg_file = ConfigParser.SafeConfigParser()
-    if not options.get("ignore_cfg_files"):
-        read_files = cfg_file.read(['/etc/tooltool', os.path.expanduser('~/.tooltool'),
-                   os.path.join(os.getcwd(), '.tooltool')])
-        log.debug("read in the config files '%s'" % '", '.join(read_files))
-    else:
-        log.debug("skipping config files")
-
-    for option in ('base_url', 'algorithm'):
-        if not options.get(option):
-            try:
-                options[option] = cfg_file.get('general', option)
-                log.debug("read '%s' as '%s' from cfg_file" % (option, options[option]))
-            except ConfigParser.NoSectionError, s:
-                log.debug("%s in config file" % s)
-            except ConfigParser.NoOptionError, o:
-                log.debug("%s in config file" % o)
-
-    if not options.has_key('manifest'):
-        log.critical("no manifest file specified")
-        exit(1)
+    if not 'manifest' in options:
+        parser.error("no manifest file specified")
 
     if len(args) < 1:
-        log.critical('You must specify a command')
-        exit(1)
+        parser.error('You must specify a command')
     exit(0 if process_command(options, args) else 1)
 
 if __name__ == "__main__":

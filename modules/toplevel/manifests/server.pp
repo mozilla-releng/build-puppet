@@ -11,6 +11,7 @@ class toplevel::server inherits toplevel::base {
     include disableservices::server
     include ganglia
     include nrpe
+    include nrpe::check::puppet_agent
     include packages::strace
     include packages::netcat
 }

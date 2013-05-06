@@ -33,6 +33,7 @@ class config inherits config::base {
         "cltbld",
         "coop",
         "dustin",
+        "hwine",
         "jhopkins",
         "joduinn",
         "jwatkins",
