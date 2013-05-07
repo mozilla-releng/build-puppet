@@ -131,12 +131,6 @@ class puppetmaster::ssl {
             content => template("${module_name}/mv_file_in_git.sh.erb"),
             mode => 0755;
 
-        # A crontask to fix permissions on the git directory once a day.  This
-        # will prevent surprises due to operations on certs done manually as
-        # root.
-        "/etc/cron.d/puppetmaster-ssl-git-perms":
-            content => "0 0 * * * root chown -R puppetsync:puppetsync ${git_dir}";
-
         # the cert-granting script used by the getcert CGI
         "${scripts_dir}/deployment_getcert.sh":
             content => template("puppetmaster/deployment_getcert.sh.erb"),
@@ -158,6 +152,10 @@ class puppetmaster::ssl {
         # see https://issues.apache.org/bugzilla/show_bug.cgi?id=14104
         "/etc/cron.d/puppetmaster-restart-apache":
             content => "10 ${restart_hour} * * * root /usr/sbin/apachectl restart 2>/dev/null >/dev/null\n";
+
+        # old files
+        "/etc/cron.d/puppetmaster-ssl-git-perms":
+            ensure => absent;
     }
 
     exec {

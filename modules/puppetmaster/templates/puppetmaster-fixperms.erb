@@ -8,3 +8,8 @@ data_root=<%= scope.lookupvar('puppetmaster::settings::data_root') %>
 find $data_root \( -type f \! -perm -0644 \) -exec chmod 0644 \{} \;
 find $data_root \( -type d \! -perm -0755 \) -exec chmod 0755 \{} \;
 find $data_root \( \! -user puppetsync -o \! -group puppetsync \) -exec chown puppetsync:puppetsync \{} \;
+
+# sometimes by-hand git operations are accidentally run as root; this wil fix the resulting permissions
+# problems.
+chown puppetsync:puppetsync <%= scope.lookupvar('puppetmaster::settings::puppetmaster_root')/ssl/git
+chown puppetsync:puppetsync <%= scope.lookupvar('puppetmaster::settings::puppetmaster_root')/ssl/git-common
