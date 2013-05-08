@@ -16,13 +16,13 @@ class users::builder::account($username, $group, $grouplist, $home) {
 
     case $::operatingsystem {
         CentOS, Ubuntu: {
-            if ($config::secrets::builder_pw_hash == '') {
+            if (secret("builder_pw_hash") == '') {
                 fail('No builder password hash set')
             }
 
             user {
                 $username:
-                    password => $config::secrets::builder_pw_hash,
+                    password => secret("builder_pw_hash"),
                     shell => "/bin/bash",
                     managehome => true,
                     groups => $grouplist,
@@ -30,7 +30,7 @@ class users::builder::account($username, $group, $grouplist, $home) {
             }
         }
         Darwin: {
-            if ($config::secrets::builder_pw_pbkdf2 == '' or $config::secrets::builder_pw_pbkdf2_salt == '') {
+            if (secret("builder_pw_pbkdf2") == '' or secret("builder_pw_pbkdf2_salt") == '') {
                 fail('No builder password pbkdf2 set')
             }
 
@@ -44,7 +44,7 @@ class users::builder::account($username, $group, $grouplist, $home) {
                         $username:
                             shell => "/bin/bash",
                             home => $home,
-                            password => $::config::secrets::builder_pw_saltedsha512,
+                            password => secret("builder_pw_saltedsha512"),
                             comment => "Builder",
                             notify => Exec['kill-builder-keychain'];
                     }
@@ -54,9 +54,9 @@ class users::builder::account($username, $group, $grouplist, $home) {
                         $username:
                             shell => "/bin/bash",
                             home => $home,
-                            password => $::config::secrets::builder_pw_pbkdf2,
-                            salt => $::config::secrets::builder_pw_pbkdf2_salt,
-                            iterations => $::config::secrets::builder_pw_pbkdf2_iterations,
+                            password => secret("builder_pw_pbkdf2"),
+                            salt => secret("builder_pw_pbkdf2_salt"),
+                            iterations => secret("builder_pw_pbkdf2_iterations"),
                             comment => "Builder",
                             notify => Exec['kill-builder-keychain'];
                     }

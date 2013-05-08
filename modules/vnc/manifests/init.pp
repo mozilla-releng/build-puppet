@@ -32,7 +32,7 @@ class vnc {
             }
         }
         Ubuntu: {
-            if ($config::secrets::builder_pw_vnc_base64 == '') {
+            if (secret("builder_pw_vnc_base64") == '') {
                 fail('No VNC password set')
             }
             file {
@@ -51,7 +51,7 @@ class vnc {
                     mode    => 0600,
                     owner   => $::users::builder::username,
                     group   => $::users::builder::group,
-                    content => base64decode($::config::secrets::builder_pw_vnc_base64);
+                    content => base64decode(secret("builder_pw_vnc_base64"));
             }
             # note that x11vnc isn't started automatically
         }

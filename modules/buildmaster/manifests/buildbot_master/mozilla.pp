@@ -16,7 +16,6 @@
 #
 define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port) {
     include ::config
-    include config::secrets
     include buildmaster::base
     include buildmaster::queue
     include buildmaster::settings

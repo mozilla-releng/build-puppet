@@ -12,8 +12,6 @@
 # This class is overridden by the org-specific config symlinked from manifests/config.pp
 
 class config::base {
-    include config::secrets
-
     $org = undef
 
     $puppet_notif_email = "nobody@mozilla.com"

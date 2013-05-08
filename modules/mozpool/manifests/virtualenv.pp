@@ -4,7 +4,6 @@
 class mozpool::virtualenv {
     include packages::mozilla::python27
     include mozpool::settings
-    include config::secrets
 
     python::virtualenv {
         "$mozpool::settings::root/frontend":
