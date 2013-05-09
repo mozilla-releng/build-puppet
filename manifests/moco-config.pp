@@ -22,12 +22,12 @@ class config inherits config::base {
         ".*\.releng\.scl3\.mozilla\.com" => [
            "releng-puppet2.srv.releng.scl3.mozilla.com",
         ],
-        ".*\.releng\.(use1|aws-us-east-1)\.mozilla\.com" => [
-            "puppetmaster-02.srv.releng.aws-us-east-1.mozilla.com"
-        ],
-        ".*\.releng\.(usw2|aws-us-west-2)\.mozilla\.com" => [
-            "puppetmaster-02.srv.releng.aws-us-west-2.mozilla.com"
-        ],
+#        ".*\.releng\.(use1|aws-us-east-1)\.mozilla\.com" => [
+#            "releng-puppet1.srv.releng.aws-us-east-1.mozilla.com"
+#        ],
+#        ".*\.releng\.(usw2|aws-us-west-2)\.mozilla\.com" => [
+#            "releng-puppet1.srv.releng.aws-us-west-2.mozilla.com"
+#        ],
     }
     $puppet_servers = sort_servers_by_group($grouped_puppet_servers)
     $puppet_server = $puppet_servers[0]
