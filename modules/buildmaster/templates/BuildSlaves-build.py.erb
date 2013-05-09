@@ -4,24 +4,24 @@
 #
 
 SlavePasswords = {
-    'linux': '<%=scope.function_secret("prod_build_password")%>',
-    'linux64': '<%=scope.function_secret("prod_build_password")%>',
-    'win32': '<%=scope.function_secret("prod_build_password")%>',
-    'win64': '<%=scope.function_secret("prod_build_password")%>',
-    'macosx': '<%=scope.function_secret("prod_build_password")%>',
-    'macosx64': '<%=scope.function_secret("prod_build_password")%>',
-    'macosx64-lion': '<%=scope.function_secret("prod_build_password")%>',
-    'linux-android': '<%=scope.function_secret("prod_build_password")%>',
-    'android': '<%=scope.function_secret("prod_build_password")%>',
-    'android-armv6': '<%=scope.function_secret("prod_build_password")%>',
-    'android-noion': '<%=scope.function_secret("prod_build_password")%>',
-    'android-x86': '<%=scope.function_secret("prod_build_password")%>',
-    'linux-mobile': '<%=scope.function_secret("prod_build_password")%>',
-    'macosx-mobile': '<%=scope.function_secret("prod_build_password")%>',
-    'win32-mobile': '<%=scope.function_secret("prod_build_password")%>',
-    'mock': '<%=scope.function_secret("prod_build_password")%>',
+    'linux': '<%=scope.function_secret(["prod_build_password"])%>',
+    'linux64': '<%=scope.function_secret(["prod_build_password"])%>',
+    'win32': '<%=scope.function_secret(["prod_build_password"])%>',
+    'win64': '<%=scope.function_secret(["prod_build_password"])%>',
+    'macosx': '<%=scope.function_secret(["prod_build_password"])%>',
+    'macosx64': '<%=scope.function_secret(["prod_build_password"])%>',
+    'macosx64-lion': '<%=scope.function_secret(["prod_build_password"])%>',
+    'linux-android': '<%=scope.function_secret(["prod_build_password"])%>',
+    'android': '<%=scope.function_secret(["prod_build_password"])%>',
+    'android-armv6': '<%=scope.function_secret(["prod_build_password"])%>',
+    'android-noion': '<%=scope.function_secret(["prod_build_password"])%>',
+    'android-x86': '<%=scope.function_secret(["prod_build_password"])%>',
+    'linux-mobile': '<%=scope.function_secret(["prod_build_password"])%>',
+    'macosx-mobile': '<%=scope.function_secret(["prod_build_password"])%>',
+    'win32-mobile': '<%=scope.function_secret(["prod_build_password"])%>',
+    'mock': '<%=scope.function_secret(["prod_build_password"])%>',
 }
-tuxedoUsername = '<%=scope.function_secret("tuxedo_username")%>'
-tuxedoPassword = '<%=scope.function_secret("tuxedo_password")%>'
-balrog_username = '<%=scope.function_secret("balrog_username")%>'
-balrog_password = '<%=scope.function_secret("balrog_password")%>'
+tuxedoUsername = '<%=scope.function_secret(["tuxedo_username"])%>'
+tuxedoPassword = '<%=scope.function_secret(["tuxedo_password"])%>'
+balrog_username = '<%=scope.function_secret(["balrog_username"])%>'
+balrog_password = '<%=scope.function_secret(["balrog_password"])%>'
