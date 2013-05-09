@@ -4,7 +4,7 @@
 
 
 [client]
-host=<%= function_secret("buildbot_schedulerdb_hostname") %>
-user=<%= function_secret("buildbot_schedulerdb_username") %>
-password=<%= function_secret("buildbot_schedulerdb_password") %>
-database=<%= function_secret("buildbot_schedulerdb_database") %>
+host=<%= scope.function_secret("buildbot_schedulerdb_hostname") %>
+user=<%= scope.function_secret("buildbot_schedulerdb_username") %>
+password=<%= scope.function_secret("buildbot_schedulerdb_password") %>
+database=<%= scope.function_secret("buildbot_schedulerdb_database") %>

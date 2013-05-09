@@ -7,9 +7,9 @@ engine = mysql+pymysql://<%= scope.lookupvar('::mozpool::settings::db_username')
 
 <% if !scope.lookupvar('mozpool_staging') -%>
 [inventory]
-url = <%= function_secret("mozpool_inventory_url") %>
-username = <%= function_secret("mozpool_inventory_username") %>
-password = <%= function_secret("mozpool_inventory_password") %>
+url = <%= scope.function_secret("mozpool_inventory_url") %>
+username = <%= scope.function_secret("mozpool_inventory_username") %>
+password = <%= scope.function_secret("mozpool_inventory_password") %>
 filter = hostname__startswith=panda-
 # ignore staging pandas
 ignore_devices_on_servers_re = mobile-imaging-stage.*
