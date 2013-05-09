@@ -4,7 +4,7 @@
 class puppetmaster::httpd {
     include puppetmaster::ssl # for the variables, used in templates
 
-    $deploy_htpasswd = secret('puppetmaster_deploy_htpasswd');
+    $deploy_htpasswd = secret('puppetmaster_deploy_htpasswd')
     case $::operatingsystem {
         CentOS: {
             file {
