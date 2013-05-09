@@ -5,7 +5,7 @@
 [database]
 engine = mysql+pymysql://<%= scope.lookupvar('::mozpool::settings::db_username') %>:<%= scope.lookupvar('::mozpool::settings::db_password') %>@<%= scope.lookupvar('::mozpool::settings::db_hostname') %>/<%= scope.lookupvar('::mozpool::settings::db_database') %>
 
-<% if !scope.lookupvar('mozpool_staging') -%>
+<% if !scope.function_has_aspect(['staging']) -%>
 [inventory]
 url = <%= scope.function_secret(["mozpool_inventory_url"]) %>
 username = <%= scope.function_secret(["mozpool_inventory_username"]) %>
@@ -30,7 +30,7 @@ image_store = /var/lib/tftpboot/pxelinux.cfg
 b2g_pxe_config = panda-b2g.2
 
 <%# enable fake devices on staging servers %>
-<% if scope.lookupvar('mozpool_staging') -%>
+<% if !scope.function_has_aspect(['staging']) -%>
 [testing]
 run_fakes = true
 <% end -%>
