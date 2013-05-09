@@ -13,19 +13,19 @@ class config inherits config::base {
     # we use the sort_servers_by_group function to sort the list of servers, and then just use
     # the first as the primary server
     $grouped_puppet_servers = {
-        ".*\.mtv1\.mozilla\.com" => [
+        ".*\\.mtv1\\.mozilla\\.com" => [
            "releng-puppet2.build.mtv1.mozilla.com",
         ],
-        ".*\.scl1\.mozilla\.com" => [
+        ".*\\.scl1\\.mozilla\\.com" => [
            "releng-puppet2.build.scl1.mozilla.com",
         ],
-        ".*\.releng\.scl3\.mozilla\.com" => [
+        ".*\\.releng\\.scl3\\.mozilla\\.com" => [
            "releng-puppet2.srv.releng.scl3.mozilla.com",
         ],
-#        ".*\.releng\.(use1|aws-us-east-1)\.mozilla\.com" => [
+#        ".*\\.releng\\.(use1|aws-us-east-1)\\.mozilla\\.com" => [
 #            "releng-puppet1.srv.releng.aws-us-east-1.mozilla.com"
 #        ],
-#        ".*\.releng\.(usw2|aws-us-west-2)\.mozilla\.com" => [
+#        ".*\\.releng\\.(usw2|aws-us-west-2)\\.mozilla\\.com" => [
 #            "releng-puppet1.srv.releng.aws-us-west-2.mozilla.com"
 #        ],
     }
