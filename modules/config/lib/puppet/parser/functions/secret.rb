@@ -5,8 +5,7 @@
 module Puppet::Parser::Functions
   newfunction(:secret, :type => :rvalue, :arity => 1) do |args|
     name = args[0]
-    aspects = lookupvar("aspects")
-    aspects = [] if aspects == :undefined
+    aspects = lookupvar("aspects") || []
     aspects.inject(nil) do |_, aspect|
       begin
         break function_extlookup(["#{name}!#{aspect}"])

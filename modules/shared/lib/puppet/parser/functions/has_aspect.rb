@@ -5,8 +5,7 @@
 module Puppet::Parser::Functions
   newfunction(:has_aspect, :type => :rvalue, :arity => 1) do |args|
     aspect = args[0]
-    aspects = lookupvar("aspects")
-    aspects = [] if aspects == :undefined
+    aspects = lookupvar("aspects") || []
     aspects.include? aspect
   end
 end

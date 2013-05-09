@@ -9,8 +9,7 @@ module Puppet::Parser::Functions
     if not message:
       message = "This host must have aspect #{aspect}"
     end
-    aspects = lookupvar("aspects")
-    (aspects = []) if aspects == :undefined
+    aspects = lookupvar("aspects") || []
     raise Puppet::Error, message unless aspects.include? aspect
   end
 end
