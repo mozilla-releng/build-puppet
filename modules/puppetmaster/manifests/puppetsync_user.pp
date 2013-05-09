@@ -59,7 +59,7 @@ class puppetmaster::puppetsync_user {
     }
 
     if ($::puppetmaster::settings::is_distinguished) {
-        if ($::config::secrets::puppetsync_pubkey == '') {
+        if (secret('puppetsync_pubkey') == '') {
             fail("puppetsync public key is not specified in secrets.csv; if the key doesn't exist, use 'ssh-keygen' to create one and put the public portion in secrets.csv")
         }
         file {

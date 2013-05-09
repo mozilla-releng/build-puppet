@@ -95,16 +95,15 @@ node "releng-puppet2.build.mtv1.mozilla.com" {
 ## mozpool servers
 
 node "mobile-imaging-stage1.p127.releng.scl1.mozilla.com" {
+    $aspects = [ "staging" ]
     $extra_root_keys = [ 'mcote' ]
     $is_bmm_admin_host = true
-    $mozpool_staging = true
     include toplevel::server::mozpool
 }
 
 node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
     $extra_root_keys = [ 'mcote' ]
     $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => true, default => false }
-    $mozpool_staging = false
     include toplevel::server::mozpool
 }
 

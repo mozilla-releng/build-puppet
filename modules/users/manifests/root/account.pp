@@ -9,18 +9,17 @@ class users::root::account($username, $group, $home) {
 
     case $::operatingsystem {
         CentOS: {
-            if ($config::secrets::root_pw_hash == '') {
+            if (secret("root_pw_hash") == '') {
                 fail('No root password hash set')
             }
 
             user {
                 "root":
-                    password => $config::secrets::root_pw_hash;
+                    password => secret("root_pw_hash");
             }
         }
         Darwin: {
-            if ($::config::secrets::root_pw_pbkdf2 == ''
-                    or $::config::secrets::root_pw_pbkdf2_salt == '') {
+            if (secret("root_pw_pbkdf2") == '' or secret("root_pw_pbkdf2_salt") == '') {
                 fail('No root password pbkdf2 set')
             }
 
@@ -30,16 +29,16 @@ class users::root::account($username, $group, $home) {
                     darwinuser {
                         $username:
                             home => $home,
-                            password => $::config::secrets::root_pw_saltedsha512;
+                            password => secret("root_pw_saltedsha512");
                     }
                 }
                 '10.8': {
                     darwinuser {
                         $username:
                             home => $home,
-                            password => $::config::secrets::root_pw_pbkdf2,
-                            salt => $::config::secrets::root_pw_pbkdf2_salt,
-                            iterations => $::config::secrets::root_pw_pbkdf2_iterations;
+                            password => secret("root_pw_pbkdf2"),
+                            salt => secret("root_pw_pbkdf2_salt"),
+                            iterations => secret("root_pw_pbkdf2_iterations");
                     }
                 }
             }

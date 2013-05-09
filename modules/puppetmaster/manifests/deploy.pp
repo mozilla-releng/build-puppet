@@ -3,11 +3,10 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class puppetmaster::deploy {
     include ::config
-    include ::config::secrets
     include puppetmaster::settings
     include packages::httpd
 
-    $network_regexps = $::config::secrets::network_regexps
+    $network_regexps = secret('network_regexps')
     $deployment_getcert_sh = "${puppetmaster::settings::puppetmaster_root}/ssl/scripts/deployment_getcert.sh"
 
     file {

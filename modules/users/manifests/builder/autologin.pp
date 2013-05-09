@@ -2,7 +2,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class users::builder::autologin {
-    include config::secrets
     include users::builder
 
     case $::operatingsystem {
@@ -10,7 +9,7 @@ class users::builder::autologin {
             file {
                 # this file contains a lightly obscured copy of the password
                 "/etc/kcpassword":
-                    content => base64decode($::config::secrets::builder_pw_kcpassword_base64),
+                    content => base64decode(secret("builder_pw_kcpassword_base64")),
                     owner => root,
                     group => wheel,
                     mode => 600;

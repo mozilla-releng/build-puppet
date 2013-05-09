@@ -10,7 +10,6 @@
 #
 define buildmaster::buildbot_master::simple($basedir, $http_port, $master_cfg, $buildbot_version = "0.8.7p1") {
     include ::config
-    include config::secrets
     include dirs::builds::buildbot
     include buildmaster::base
     include buildmaster::settings
