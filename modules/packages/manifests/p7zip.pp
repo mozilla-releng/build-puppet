@@ -1,23 +1,21 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-class packages::ccache {
-    case $::operatingsystem {
-        CentOS: {
-            package {
-                "ccache":
-                    ensure => latest;
-            }
-        }
-        Darwin: {
-            packages::pkgdmg {
-                ccache:
-                    # this package was copied from the old releng puppet; its
-                    # provenance is unknown.
-                    version => "3.1.7";
-            }
-        }
+class packages::p7zip {
+    anchor {
+        'packages::p7zip::begin': ;
+        'packages::p7zip::end': ;
+    }
 
+    case $::operatingsystem {
+        Darwin: {
+            Anchor['packages::p7zip::begin'] ->
+            packages::pkgdmg {
+                'p7zip':
+                    # this DMG came from the old releng puppet.  Its provenance is unknown.
+                    version => "9.20.1";
+            } -> Anchor['packages::p7zip::end']
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }

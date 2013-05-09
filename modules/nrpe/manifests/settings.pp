@@ -3,6 +3,13 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class nrpe::settings {
     include ::shared
-    $plugins_dir = "/usr/${::shared::lib_arch_dir}/nagios/plugins"
-    $nrpe_etcdir = '/etc/nagios/'
+
+    # for the moment, the darwin DMG has all sorts of wacky paths
+    if ($::operatingsystem == "Darwin") {
+        $plugins_dir = "/usr/local/nagios/plugins"
+        $nrpe_etcdir = '/usr/local/nagios/etc/'
+    } else {
+        $plugins_dir = "/usr/${::shared::lib_arch_dir}/nagios/plugins"
+        $nrpe_etcdir = '/etc/nagios/'
+    }
 }

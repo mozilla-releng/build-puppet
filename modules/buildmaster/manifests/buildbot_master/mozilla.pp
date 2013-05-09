@@ -2,8 +2,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
-# Set up a particular buildbot master instance
+# Set up a particular "mozilla" buildbot master instance
 # The master information must already be in production-masters.json and setup-masters.py
+# "mozilla" refers to the set of masters defined in https://hg.mozilla.org/build/buildbot-configs
 #
 # $basedir refers to the name of the directory under $master_basedir
 # (/builds/buildbot) where the master's files will live. It corresponds to the
@@ -13,20 +14,15 @@
 #
 # $master_type must be one of 'build', 'try', 'tests', or 'scheduler'
 #
-define buildmaster::buildbot_master($basedir, $master_type, $http_port) {
+define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port) {
     include ::config
     include config::secrets
-    include buildmaster
+    include buildmaster::base
+    include buildmaster::queue
     include buildmaster::settings
-    include users::builder
     include packages::mozilla::python27
     include packages::mozilla::py27_mercurial
     include packages::mozilla::py27_virtualenv
-    include nrpe::check::mysql
-    include nrpe::check::ntp_time
-    include nrpe::check::procs_regex
-    include nrpe::check::child_procs_regex
-    include nrpe::check::swap
 
     $master_group = "${users::builder::group}"
     $master_user = "${users::builder::username}"

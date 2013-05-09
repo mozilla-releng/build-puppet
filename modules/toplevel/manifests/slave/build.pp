@@ -2,6 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class toplevel::slave::build inherits toplevel::slave {
+    include dirs::tools
     include dirs::builds
     include dirs::builds::slave
     include dirs::builds::hg-shared
@@ -27,6 +28,7 @@ class toplevel::slave::build inherits toplevel::slave {
     ccache::ccache_dir {
         "/builds/ccache":
             maxsize => "10G",
-            owner => $users::builder::username;
+            owner => $users::builder::username,
+            group => $users::builder::group;
     }
 }

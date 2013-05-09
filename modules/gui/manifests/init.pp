@@ -16,21 +16,14 @@ class gui($on_gpu) {
     case $::operatingsystem {
         Darwin: {
             # $on_gpu is irrelevant on Darwin - everything's onscreen, and
-            # GPU-accelerated due to the EDID box plugged into the host.
-
-            # set the screen resolution appropriately
-            include packages::mozilla::screenresolution
-            $resolution = "${screen_width}x${screen_height}x${screen_depth}@${refresh}"
-
-            # this can't run while puppetizing, since the automatic login isn't in place yet, and
-            # the login window does not allow screenresolution to run.
-            if (!$puppetizing) {
-                exec {
-                    "set-resolution":
-                        command => "/usr/local/bin/screenresolution set $resolution",
-                        unless => "/usr/local/bin/screenresolution get 2>&1 | /usr/bin/grep 'Display 0: $resolution'",
-                        require => Class["packages::mozilla::screenresolution"];
-                }
+            # GPU-accelerated due to the EDID box plugged into the host.  So
+            # just set the resolution
+            class {
+                'screenresolution':
+                    width => $screen_width,
+                    height => $screen_height,
+                    depth => $screen_depth,
+                    refresh => $refresh;
             }
         }
         Ubuntu: {

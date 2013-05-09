@@ -14,6 +14,7 @@ class config::secrets {
     $root_pw_pbkdf2 = extlookup("root_pw_pbkdf2")
     $root_pw_pbkdf2_salt = extlookup("root_pw_pbkdf2_salt")
     $root_pw_pbkdf2_iterations = extlookup("root_pw_pbkdf2_iterations")
+    $root_pw_saltedsha512 = extlookup("root_pw_saltedsha512")
 
     # Builder user authentication
     $builder_pw_hash = extlookup("builder_pw_hash")
@@ -22,6 +23,11 @@ class config::secrets {
     $builder_pw_pbkdf2_iterations = extlookup("builder_pw_pbkdf2_iterations")
     $builder_pw_kcpassword_base64 = extlookup("builder_pw_kcpassword_base64")
     $builder_pw_vnc_base64 = extlookup("builder_pw_vnc_base64")
+    $builder_pw_saltedsha512 = extlookup("builder_pw_saltedsha512")
+
+    # Bors
+    $bors_servo_gh_user = extlookup("bors_servo_gh_user")
+    $bors_servo_gh_pass = extlookup("bors_servo_gh_pass")
 
     # Mozpool
     $mozpool_inventory_url = extlookup("mozpool_inventory_url")

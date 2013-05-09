@@ -8,10 +8,10 @@ define nrpe::plugin {
 
     file {
         "$nrpe::settings::plugins_dir/$title":
-            owner => root,
-            group => root,
+            owner => $::users::root::username,
+            group => $::users::root::group,
             mode => 0755,
-            require => Class['nrpe::install'],
+            require => Class['nrpe::base'],
             source => "puppet:///modules/nrpe/$title";
     }
 }

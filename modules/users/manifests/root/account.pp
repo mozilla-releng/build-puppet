@@ -25,12 +25,23 @@ class users::root::account($username, $group, $home) {
             }
 
             # use our custom type and provider, based on http://projects.puppetlabs.com/issues/12833
-            darwinuser {
-                $username:
-                    home => $home,
-                    password => $::config::secrets::root_pw_pbkdf2,
-                    salt => $::config::secrets::root_pw_pbkdf2_salt,
-                    iterations => $::config::secrets::root_pw_pbkdf2_iterations;
+            case $::macosx_productversion_major {
+                '10.7': {
+                    darwinuser {
+                        $username:
+                            home => $home,
+                            password => $::config::secrets::root_pw_saltedsha512;
+                    }
+                }
+                '10.8': {
+                    darwinuser {
+                        $username:
+                            home => $home,
+                            password => $::config::secrets::root_pw_pbkdf2,
+                            salt => $::config::secrets::root_pw_pbkdf2_salt,
+                            iterations => $::config::secrets::root_pw_pbkdf2_iterations;
+                    }
+                }
             }
             file {
                 # this should already exist, but this connects the user
