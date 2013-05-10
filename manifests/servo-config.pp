@@ -9,12 +9,17 @@ class config inherits config::base {
     $puppet_server_reports = "tagmail,http"
     $puppet_server_reporturl = "http://puppetdash.pvt.build.mozilla.org/reports/upload"
     $builder_username = "servobld"
-    $use_random_order = false
-    $puppet_server = "puppet"
+
     $puppet_servers = [
         "servo-puppet1.srv.servo.releng.use1.mozilla.com",
     ]
+    $puppet_server = $puppet_servers[0]
     $data_servers = $puppet_servers
+    $data_server = $puppet_server
+
+    $distinguished_puppetmaster = $puppet_server
+    $puppet_again_repo = "http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet320/"
+
     $nrpe_allowed_hosts = "10.2.71.20,10.12.75.9,127.0.0.1,10.26.75.30"
     $ntp_server = "ntp.build.mozilla.org"
     $global_authorized_keys = [
