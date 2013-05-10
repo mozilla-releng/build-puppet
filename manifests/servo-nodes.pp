@@ -23,7 +23,7 @@ node /servo-.*\.build\.servo\.releng\.(use1|usw2)\.mozilla.com/ {
 
 ## puppetmasters
 
-node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
+node /servo-puppet\d+\.srv\.servo\.releng\.use1\.mozilla\.com/ {
     include toplevel::server::puppetmaster::standalone
 }
 
