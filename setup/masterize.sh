@@ -5,14 +5,6 @@
 
 set -e
 
-## utilities
-
-get_local_config() {
-    local var="${1}"
-    local local_config_link="$PWD/manifests/extlookup/local-config.csv"
-    grep "^${var}," "${local_config_link}" | cut -d, -f 2-
-}
-
 ## phase handling
 
 PHASES=()

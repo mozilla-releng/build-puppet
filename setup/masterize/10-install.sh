@@ -11,18 +11,11 @@ install_data() {
         return 1
     fi
 
-    upstream_rsync_source=`get_local_config puppetmaster_upstream_rsync_source`
-    upstream_rsync_args=`get_local_config puppetmaster_upstream_rsync_args`
-
-    if [ -z "${upstream_rsync_source}" ]; then
-        if ! [ -d "/data/repos/yum/mirrors" ]; then
-            echo "No upstream rsync source for /data is configured (puppetmaster_upstream_rsync_source),"
-            echo "which means that you must put /data on this system yourself -- at least /data/repos/yum/mirrors."
-            return 1
-        fi
-    else
-        echo "synchronizing /data from ${upstream_rsync_source}; this could take a while.."
-        rsync -v --no-p --size-only -a ${upstream_rsync_args} "${upstream_rsync_source}" /data/
+    if ! [ -d "/data/repos/yum/mirrors" ]; then
+        echo "You must put /data on this system yourself -- at least /data/repos/yum/mirrors."
+        echo "In the absence of a better option for your organization, use this:"
+        echo "  rsync -v --no-p --size-only -a rsync://puppetagain.pub.build.mozilla.org/data/ /data/"
+        return 1
     fi
 }
 
