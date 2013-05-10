@@ -6,6 +6,7 @@ puppet_apply() {
     (
         # don't import site.pp here, as the node defitions will
         # mess up the requested manifests
+        echo "import '$PWD/manifests/config.pp'"
         echo "import '$PWD/manifests/extlookup.pp'"
         echo "import '$PWD/manifests/stages.pp'"
         cat
@@ -33,7 +34,6 @@ add_phase check_distinguished_master
 check_distinguished_master() {
     puppet_apply <<'EOF'
     include toplevel::base
-    include ::config
     if ($::config::distinguished_puppetmaster != $::fqdn) {
         fail("this host ($fqdn) is not the configured distinguished master (${::config::distinguished_puppetmaster})")
     }
@@ -48,8 +48,8 @@ apply_puppetmaster_manifests() {
     include puppetmaster::manifests
 EOF
     # copy secrets and local-config in there
-    cp -P "$PWD/manifests/extlookup/local-config.csv" "$PWD/manifests/extlookup/secrets.csv" \
-            /etc/puppet/production/manifests/extlookup/
+    cp -P "$PWD/manifests/config.pp" "$PWD/manifests/extlookup/secrets.csv" \
+          "$PWD/manifests/nodes.pp" /etc/puppet/production/manifests/extlookup/
     chown -R root:root /etc/puppet/production/manifests/extlookup/
     chmod 755 /etc/puppet/production/manifests/extlookup/secrets.csv
 }
