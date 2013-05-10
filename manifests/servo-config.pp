@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class config inherits config::base {
-    $org = "moco"
+    $org = "servo"
 
     $puppet_notif_email = "releng-shared@mozilla.com"
     $puppet_server_reports = "tagmail,http"
