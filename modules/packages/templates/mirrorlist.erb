@@ -3,7 +3,11 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 <%
-servers = [ @data_server ] + @data_servers.to_a
-servers.uniq.each do |mirror_server| -%>
-http://<%= mirror_server %>/<%= @url_path %>
+if scope.lookupvar('::masterizing')
+  servers = [ @data_server ] + @data_servers.to_a
+  servers.uniq.each do |mirror_server| -%>
+  http://<%= mirror_server %>/<%= @url_path %>
+<% end
+else -%>
+  file:///data/<%= @url_path %>
 <% end -%>
