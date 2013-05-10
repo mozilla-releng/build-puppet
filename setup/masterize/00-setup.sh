@@ -85,16 +85,26 @@ setup_secrets() {
     return 1
 }
 
-add_phase setup_local_config
-setup_local_config() {
-    local local_config_link="$PWD/manifests/extlookup/local-config.csv"
-    if [ -f "${local_config_link}" ]; then
-        echo "local config:" `readlink "${local_config_link}"`
-        return
+add_phase setup_config
+setup_config() {
+    local config_link="$PWD/manifests/config.pp"
+    local nodes_link="$PWD/manifests/nodes.pp"
+    ok=true
+    if [ -f "${config_link}" ]; then
+        echo "config:" `readlink "${config_link}"`
+    else
+        ok=false
     fi
-    echo "'${local_config_link}' does not exist or is not a link.  Link it to the appropriate"
-    echo "config for this org, e.g."
-    echo " (cd $PWD/manifests/extlookup; ln -s moco-config.csv local-config.csv)"
-    echo "This can also be a plain file, if you prefer."
-    return 1
+    if [ -f "${nodes_link}" ]; then
+        echo "nodes:" `readlink "${nodes_link}"`
+    else
+        ok=false
+    fi
+    if ! $ok; then
+        echo "One or both of '${config_link}' or '${nodes_link}' do not exist.  Link them to the"
+        echo "appropriate config and nodes for this org, e.g."
+        echo " (cd $PWD/manifests; ln -s myorg-config.pp config.pp)"
+        echo " (cd $PWD/manifests; ln -s myorg-nodes nodes.pp)"
+        return 1
+    fi
 }
