@@ -30,9 +30,9 @@ node /servo-puppet\d+\.srv\.servo\.releng\.use1\.mozilla\.com/ {
 
 ## buildbot masters
 
-node "buildbot-master-servo1.srv.servo.releng.use1.mozilla.com" {
+node "buildbot-master-servo-01.srv.servo.releng.use1.mozilla.com" {
     buildmaster::buildbot_master::servo {
-        "bms1-servo1":
+        "bms01-servo1":
             http_port => 8001,
             basedir => "servo1";
     }
