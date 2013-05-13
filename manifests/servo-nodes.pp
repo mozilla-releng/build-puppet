@@ -37,4 +37,5 @@ node "buildbot-master-servo-01.srv.servo.releng.use1.mozilla.com" {
             basedir => "servo1";
     }
     include toplevel::server::bors::servo
+    include toplevel::server::buildmaster
 }
