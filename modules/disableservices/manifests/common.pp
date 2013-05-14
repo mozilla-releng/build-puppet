@@ -84,7 +84,7 @@ class disableservices::common {
                     require => Class['users::builder'];
             }
             file {
-                "$settings::vardir/.puppet-indexing" :
+                "/var/lib/puppet/.indexing-disabled" :
                     content => "indexing-disabled",
                     notify => Exec["disable-indexing", "remove-index"] ;
             }
@@ -115,7 +115,7 @@ class disableservices::common {
             # (as per earlier releng puppet implementations of this).
             file {
                 "$::users::builder::home/Library/Preferences/com.apple.DownloadAssessment.plist":
-                    source => "puppet:///${module_name}/com.apple.DownloadAssessment.plist",
+                    source => "puppet:///modules/${module_name}/com.apple.DownloadAssessment.plist",
                     owner => $::users::builder::username,
                     group => $::users::builder::group,
                     mode => 0600,

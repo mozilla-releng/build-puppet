@@ -30,16 +30,15 @@ class users::builder::account($username, $group, $grouplist, $home) {
             }
         }
         Darwin: {
-            if (secret("builder_pw_pbkdf2") == '' or secret("builder_pw_pbkdf2_salt") == '') {
-                fail('No builder password pbkdf2 set')
-            }
-
             # use our custom type and provider, based on http://projects.puppetlabs.com/issues/12833
             # This should be replaced with 'user' once we are running a version of puppet containing the
             # relevant fixes.
             # NOTE: this user is *not* an Administrator.  All admin-level access is granted via sudoers.
             case $::macosx_productversion_major {
                 '10.7': {
+                    if (secret("builder_pw_saltedsha512") == '') {
+                        fail('No builder password saltedsha512 set')
+                    }
                     darwinuser {
                         $username:
                             shell => "/bin/bash",
@@ -50,6 +49,9 @@ class users::builder::account($username, $group, $grouplist, $home) {
                     }
                 }
                 '10.8': {
+                    if (secret("builder_pw_pbkdf2") == '' or secret("builder_pw_pbkdf2_salt") == '') {
+                        fail('No builder password pbkdf2 set')
+                    }
                     darwinuser {
                         $username:
                             shell => "/bin/bash",

@@ -7,8 +7,9 @@ class packages::puppet {
         'packages::puppet::end': ;
     }
 
-    $puppet_version = "3.2.0-0.1rc1.el6"
-    $puppet_rpm_version = "${puppet_version}" #-1.el6"
+    $puppet_version = "3.2.0"
+    $puppet_dmg_version = "${puppet_version}-rc1"
+    $puppet_rpm_version = "${puppet_version}-0.1rc1.el6"
     $puppet_deb_version = "${puppet_version}-1mozilla1"
     $facter_version = "1.6.11"
 
@@ -31,7 +32,7 @@ class packages::puppet {
             Anchor['packages::puppet::begin'] ->
             packages::pkgdmg {
                 puppet:
-                    version => $puppet_version;
+                    version => $puppet_dmg_version;
                 facter:
                     version => $facter_version;
             } -> Anchor['packages::puppet::end']

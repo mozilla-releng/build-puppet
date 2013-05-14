@@ -19,13 +19,13 @@ class users::root::account($username, $group, $home) {
             }
         }
         Darwin: {
-            if (secret("root_pw_pbkdf2") == '' or secret("root_pw_pbkdf2_salt") == '') {
-                fail('No root password pbkdf2 set')
-            }
-
             # use our custom type and provider, based on http://projects.puppetlabs.com/issues/12833
             case $::macosx_productversion_major {
                 '10.7': {
+                    if (secret("root_pw_saltedsha512") == '') {
+                        fail('No root password saltedsha512 set')
+                    }
+
                     darwinuser {
                         $username:
                             home => $home,
@@ -33,6 +33,10 @@ class users::root::account($username, $group, $home) {
                     }
                 }
                 '10.8': {
+                    if (secret("root_pw_pbkdf2") == '' or secret("root_pw_pbkdf2_salt") == '') {
+                        fail('No root password pbkdf2 set')
+                    }
+
                     darwinuser {
                         $username:
                             home => $home,
