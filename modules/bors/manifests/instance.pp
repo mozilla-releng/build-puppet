@@ -1,7 +1,7 @@
 define bors::instance($basedir, $owner, $group, $repo_owner, $repo, $reviewers,
                       $builders, $buildbot_url, $bors_user, $bors_pass,
                       $test_ref = "auto", $master_ref = "master",
-                      $n_builds = "5", $bors_version = "1.0") {
+                      $n_builds = "5", $bors_version = "1.1") {
     bors::install {
         $title:
             basedir => $basedir,
