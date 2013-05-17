@@ -4,12 +4,13 @@
 class nrpe::settings {
     include ::shared
 
-    # for the moment, the darwin DMG has all sorts of wacky paths
-    if ($::operatingsystem == "Darwin") {
-        $plugins_dir = "/usr/local/nagios/plugins"
-        $nrpe_etcdir = '/usr/local/nagios/etc/'
-    } else {
-        $plugins_dir = "/usr/${::shared::lib_arch_dir}/nagios/plugins"
-        $nrpe_etcdir = '/etc/nagios/'
+    case $::operatingsystem {
+        Darwin: {
+            $plugins_dir = "/usr/local/libexec"
+        }
+        default: {
+            $plugins_dir = "/usr/${::shared::lib_arch_dir}/nagios/plugins"
+        }
     }
+    $nrpe_etcdir = '/etc/nagios/'
 }

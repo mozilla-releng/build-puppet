@@ -10,6 +10,7 @@ class config inherits config::base {
     $builder_username = "relabsbld"
     $puppet_server = "relabs03.build.mtv1.mozilla.com"
     $puppet_servers = [ "relabs03.build.mtv1.mozilla.com" ]
+    $data_server = $puppet_server
     $data_servers = $puppet_servers
 
     $distinguished_puppetmaster = "relabs03.build.mtv1.mozilla.com"

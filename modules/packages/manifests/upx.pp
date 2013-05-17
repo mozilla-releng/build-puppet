@@ -10,13 +10,9 @@ class packages::upx {
     case $::operatingsystem {
         Darwin: {
             Anchor['packages::upx::begin'] ->
-            file {
-                # this is a bare executable from the old releng-puppet
-                #   -upx version 3.05
-                # TODO: build this into a DMG using normal puppetagain packaging
-                "/usr/local/bin/upx":
-                    source => "puppet:///repos/DMGs/bare-executables/upx",
-                    mode => '0755';
+            packages::pkgdmg {
+                upx:
+                    version => "3.05";
             } -> Anchor['packages::upx::end']
         }
         default: {
