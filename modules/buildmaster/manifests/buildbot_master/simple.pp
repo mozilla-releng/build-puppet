@@ -90,6 +90,7 @@ define buildmaster::buildbot_master::simple($basedir, $http_port, $master_cfg, $
                 "zope.interface==3.6.1",
                 "Tempita==0.5.1",
                 "decorator==3.4.0",
+                "MySQL-python==1.2.3",
             ];
     }
 }
