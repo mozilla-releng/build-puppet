@@ -137,7 +137,8 @@ rm -f "$REBOOT_FLAG_FILE"
 # --pluginsync so that we download plugins on the first run, as they may be required
 # --ssldir=/var/lib/puppet/ssl because it defaults to /etc/puppet/ssl on OS X
 # FACTER_PUPPETIZING so that the manifests know this is a first run of puppet
-while ! FACTER_PUPPETIZING=true /usr/bin/puppet agent --no-daemonize --onetime --server=puppet --pluginsync --ssldir=/var/lib/puppet/ssl; do
+while ! FACTER_PUPPETIZING=true /usr/bin/puppet agent --no-daemonize --onetime --server="${PUPPET_SERVER:-puppet}" --pluginsync --ssldir=/var/lib/puppet/ssl; do
+
     echo "Puppet run failed; re-trying after 10m"
     sleep 600
 done
