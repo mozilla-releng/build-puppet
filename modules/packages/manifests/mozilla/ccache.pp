@@ -6,7 +6,7 @@ class packages::mozilla::ccache {
         CentOS: {
             package {
                 "ccache":
-                    ensure => '3.1.7';
+                    ensure => '3.1.7-moz0';
             }
         }
         Darwin: {
