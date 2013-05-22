@@ -111,7 +111,7 @@ class foopy {
             owner => $users::builder::username,
             group => $users::builder::group,
             ensure => link,
-            target => "/etc/logrotate.d/watch_devices"
+            target => "/etc/logrotate.d/watch_devices",
             require => File['/etc/logrotate.d/watch_devices'];
     }
     
