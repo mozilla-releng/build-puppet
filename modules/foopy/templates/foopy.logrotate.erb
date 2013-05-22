@@ -1,0 +1,17 @@
+# rotate log files from watch_devices.sh
+nocompress
+daily
+rotate 14
+missingok
+dateext
+dateformat -%Y%m%d
+
+/builds/watcher.log {
+    # /builds is owned by root, so don't have permission
+    # to create rolled log files in this dir, therefore
+    # we archive to a subdir owned by cltbld...
+    olddir /builds/watcher_rolled_logs
+}
+
+/builds/*/watcher.log {
+}
