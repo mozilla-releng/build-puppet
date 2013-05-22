@@ -93,6 +93,26 @@ class foopy {
                 File["/builds/check2.log"],
                 File["/builds/tegra_stats.log"],
             ];
+
+        # Directory for rolled log files of watcher.log
+        "/builds/watcher_rolled_logs":
+            ensure => directory,
+            owner => $users::builder::username,
+            group => $users::builder::group,
+            mode   => 775;
+        # Logrotate for watch_devices.sh logs
+        "/etc/logrotate.d/watch_devices":
+            owner => root,
+            group => root,
+            ensure => file,
+            content => template("foopy/foopy.logrotate.erb");
+        # Link to logrotate config, for ease of understanding for users
+        "/builds/logrotate.config":
+            owner => $users::builder::username,
+            group => $users::builder::group,
+            ensure => link,
+            target => "/etc/logrotate.d/watch_devices"
+            require => File['/etc/logrotate.d/watch_devices'];
     }
     
     # Obsolete
