@@ -133,6 +133,10 @@ class packages::setup {
                     url_path     => "repos/apt/releng-updates",
                     distribution => "precise-updates",
                     components   => ["all"];
+                "puppetlabs":
+                    url_path     => "repos/apt/puppetlabs",
+                    distribution => "precise",
+                    components   => ["dependencies", "main"];
             }
             @packages::aptrepo {
                 "xorg-edgers":

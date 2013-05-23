@@ -73,6 +73,9 @@ class puppet::atboot {
                     group => 'root',
                     content => template("puppet/puppet-ubuntu-initd.erb");
                 "/etc/init/puppet.conf":
+                    # this script special-cases the automatic start that the puppet
+                    # package does, so it needs to be in place first
+                    before => Class['packages::puppet'],
                     source => "puppet:///modules/puppet/puppet.upstart.conf";
                 "/etc/init.d/puppet":
                     ensure => link,
