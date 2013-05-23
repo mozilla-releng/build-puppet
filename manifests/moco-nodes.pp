@@ -409,7 +409,7 @@ node "buildbot-master80.srv.releng.usw2.mozilla.com" {
 }
 
 # temporary node defs for these hosts
-node /buildbot-master8[1..9].srv.releng.usw2.mozilla.com/ {
+node /buildbot-master8[1..9].srv.releng.scl3.mozilla.com/ {
     include toplevel::server
 }
 
