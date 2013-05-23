@@ -31,7 +31,9 @@ class ganglia {
                     $addr = "239.2.11.203"
                 }
                 default: {
-                    fail("Unsupported fqdn")
+                    # just issue an info note about this, since we'll soon be using graphite
+                    # instead
+                    info("Unsupported ganglia fqdn")
                 }
             }
 
