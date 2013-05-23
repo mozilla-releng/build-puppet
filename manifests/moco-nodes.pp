@@ -91,7 +91,7 @@ node "releng-puppet2.build.scl1.mozilla.com" {
 node "releng-puppet2.build.mtv1.mozilla.com" {
     include toplevel::server::puppetmaster
 }
-node /releng-puppet\d\.srv\.releng\.(use1|usw2)\.mozilla\.com" {
+node /releng-puppet\d\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
     include toplevel::server::puppetmaster
 }
 
