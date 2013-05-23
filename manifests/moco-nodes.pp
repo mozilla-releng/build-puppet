@@ -408,6 +408,11 @@ node "buildbot-master80.srv.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
+# temporary node defs for these hosts
+node /buildbot-master8[1..9].srv.releng.usw2.mozilla.com/ {
+    include toplevel::server
+}
+
 node "buildbot-master90.srv.releng.use1.mozilla.com" {
     buildmaster::buildbot_master {
         "bm90-tests1-panda":
