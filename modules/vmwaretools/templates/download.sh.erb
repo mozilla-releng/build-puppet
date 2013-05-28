@@ -1,0 +1,31 @@
+#! /bin/bash
+
+# Published under the GNU General Public License v3
+# Copyright (c) Craig Watson 2012
+
+function check_exec {
+  if [ ! -x $1 ]; then
+    echo "$1 not found"
+    exit 1
+  fi
+}
+
+DOWNLOAD_URL="<%= scope.lookupvar('vmwaretools::archive_url') %>/VMwareTools-<%= scope.lookupvar('vmwaretools::version') %>.tar.gz"
+DOWNLOAD_LOCATION="<%= scope.lookupvar('vmwaretools::working_dir') %>/VMwareTools-<%= scope.lookupvar('vmwaretools::version') %>.tar.gz"
+GOOD_CHECKSUM="<%= scope.lookupvar('vmwaretools::archive_md5') %>"
+
+check_exec "/usr/bin/curl"
+check_exec "/usr/bin/md5sum"
+check_exec "<%= scope.lookupvar('vmwaretools::params::awk_path') %>"
+
+/usr/bin/curl -s ${DOWNLOAD_URL} -o ${DOWNLOAD_LOCATION}
+chmod 600 ${DOWNLOAD_LOCATION}
+
+DOWNLOADED_CHECKSUM=$(/usr/bin/md5sum ${DOWNLOAD_LOCATION} | <%= scope.lookupvar('vmwaretools::params::awk_path') %> '{ print $1 }')
+
+if [ "${DOWNLOADED_CHECKSUM}" != "${GOOD_CHECKSUM}" ]; then
+  echo "Checksum mismatch. Got ${DOWNLOADED_CHECKSUM}, should have been ${GOOD_CHECKSUM}"
+  exit 1
+else
+  exit 0
+fi
