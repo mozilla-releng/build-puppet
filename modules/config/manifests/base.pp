@@ -26,7 +26,6 @@ class config::base {
     $nrpe_allowed_hosts = '127.0.0.1'
     $ntp_server = "pool.ntp.org"
     $relay_domains = "smtp.mozilla.org"
-    $crl_sync_url= ""
     $puppet_again_repo = "http://hg.mozilla.org/build/puppet"
     $global_authorized_keys = ""
     $puppet_server_reports = "tagmail"
