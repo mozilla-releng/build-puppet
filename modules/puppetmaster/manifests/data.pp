@@ -8,8 +8,9 @@ class puppetmaster::data {
     include packages::createrepo
     include packages::debmirror
 
-    # invent a random time for this host to synchronize
-    $minute = fqdn_rand(30)
+    # invent a random time for this host to synchronize.  Cron doesn't like
+    # minutes written as "*/0,30", so this runs from 1..29
+    $minute = fqdn_rand(29)+1
     $minuteplus = $minute + 30
     $minutes = "${minute},${minuteplus}"
 
