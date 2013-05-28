@@ -65,5 +65,8 @@ class config inherits config::base {
         "zandr",
     ]
     $buildbot_mail_to = "release@mozilla.com"
+
+    $vmwaretools_version = "9.0.5-1065307"
+    $vmwaretools_md5 = "924b75b0b522eb462266cf3c24c98837"
 }
 
