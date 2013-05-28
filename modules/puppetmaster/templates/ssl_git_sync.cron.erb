@@ -3,4 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 MAILTO="<%= scope.lookupvar('::config::puppet_notif_email') %>"
 */30 * * * * puppetsync (sleep $(($RANDOM\%1800))) && <%= @scripts_dir %>/ssl_git_sync.sh
+
+# sometimes by-hand git operations are accidentally run as root, so fix that up
+28 * * * * root chown -R puppetsync:puppetsync <%= scope.lookupvar('puppetmaster::settings::puppetmaster_root') %>/ssl/git
+29 * * * * root chown -R puppetsync:puppetsync <%= scope.lookupvar('puppetmaster::settings::puppetmaster_root') %>/ssl/git-common
 MAILTO=root
