@@ -5,6 +5,13 @@
 # parameters that apply to all releng hosts.
 
 class toplevel::base {
+    # as good a place as any.. let's make sure this host's certname maches its
+    # fqdn, as otherwise bad things happen.  Note that this is *not* a security
+    # measure!  That's performed by puppet itself, based on nodename = cert
+    if ($::fqdn != $::clientcert) {
+        fail("This host's fqdn fact, '${::fqdn}', does not match its clientcert fact, '${::clientcert}'.  This will lead to sadness!")
+    }
+
     # Manage this in the packagesetup stage so that they are in place by the
     # time any Package resources are managed.
     class {

@@ -11,6 +11,11 @@ source "<%= @scripts_dir %>/ssl_common.sh"
 
 lock_ca_dir
 
+if [ -f "${master_key}" ]; then
+    echo "${master_key} already exists .. not proceeding"
+    exit 1
+fi
+
 # now sign a certificate for this master
 temp_master_cert="/tmp/master.crt"
 make_leaf_cert "${fqdn}" master "${master_key}" "${temp_master_cert}"
