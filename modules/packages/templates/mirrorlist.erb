@@ -4,7 +4,7 @@
 
 <%
 if ! scope.lookupvar('::masterizing')
-  servers = [ @data_server ] + @data_servers.to_a
+  servers = [ @data_server ] + Array(@data_servers)
   servers.uniq.each do |mirror_server| -%>
 http://<%= mirror_server %>/<%= @url_path %>
 <% end

@@ -1,8 +1,8 @@
 {
     "owner": "<%=@repo_owner%>",
     "repo": "<%=@repo%>",
-    "reviewers": ["<%=@reviewers.to_a.flatten.join('","')%>"],
-    "builders": ["<%=@builders.to_a.flatten.join('","')%>"],
+    "reviewers": ["<%=Array(@reviewers).join('","')%>"],
+    "builders": ["<%=Array(@builders).join('","')%>"],
     "test_ref": "<%=@test_ref%>",
     "master_ref": "<%=@master_ref%>",
     "nbuilds": <%=@n_builds%>,

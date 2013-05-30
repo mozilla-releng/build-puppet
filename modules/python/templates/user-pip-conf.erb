@@ -6,7 +6,7 @@ no-index = true
 # look at all known puppetmasters for links, in case one is down
 find-links =
 <%
-servers = [ @data_server ] + @data_servers.to_a
+servers = [ @data_server ] + Array(@data_servers)
 servers.uniq.each do |mirror_server| -%>
     http://<%= mirror_server %>/python/packages
 <%

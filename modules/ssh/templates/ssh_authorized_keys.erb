@@ -3,7 +3,10 @@
   # file, You can obtain one at http://mozilla.org/MPL/2.0/. -%>
 <%
     by_name = scope.lookupvar('ssh::keys::by_name')
-    @authorized_keys.to_a.flatten.each do |name|
+
+    # this array gets flattened in case it's built using [ $some_array,
+    # $some_other ] in puppet DSL
+    Array(@authorized_keys).flatten.each do |name|
         key = by_name[name]
         %><%= key %> <%= name %>
 <%  end %>
