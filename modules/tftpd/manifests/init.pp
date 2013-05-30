@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class tftpd {
     include packages::xinetd
-    include packages::tftp-server
+    include packages::tftp_server
 
     case $::operatingsystem {
         CentOS: {

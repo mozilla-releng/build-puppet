@@ -1,4 +1,4 @@
-class packages::mysql-devel {
+class packages::mysql_devel {
     case $operatingsystem {
         CentOS: {
             package {
