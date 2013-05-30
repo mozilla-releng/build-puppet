@@ -6,7 +6,7 @@ module Puppet::Parser::Functions
   newfunction(:assert_aspect, :type => :statement) do |args|
     aspect = args[0]
     message = args[1]
-    if not message:
+    if not message
       message = "This host must have aspect #{aspect}"
     end
     aspects = lookupvar("aspects")
