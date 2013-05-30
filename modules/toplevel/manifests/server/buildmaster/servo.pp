@@ -19,7 +19,7 @@ class toplevel::server::buildmaster::servo inherits toplevel::server::buildmaste
             buildbot_url => "$config::bors_servo_buildbot_url",
             bors_user => secret('bors_servo_gh_user'),
             bors_pass => secret('bors_servo_gh_pass'),
-            status_location => "${master_basedir}/servo1/master/public_html",
+            status_location => "${buildmaster::settings::master_root}/servo1/master/public_html/bors",
             require => Buildmaster::Buildbot_master::Servo["bms01-servo1"];
     }
 
