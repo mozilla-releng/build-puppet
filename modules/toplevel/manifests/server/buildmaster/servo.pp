@@ -5,7 +5,7 @@
 class toplevel::server::buildmaster::servo inherits toplevel::server::buildmaster {
     include dirs::builds::bors
     include users::builder
-    include buildmaster:settings
+    include buildmaster::settings
 
     bors::instance {
         "servo":
