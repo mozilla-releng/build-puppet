@@ -38,7 +38,7 @@ class puppetmaster::data {
                 mode => "0755",
                 content => template("${module_name}/puppetmaster-sync.erb");
             "/etc/cron.d/puppetmaster-sync":
-                content => "*/${minutes} * * * * root /usr/local/sbin/puppetmaster-sync\n";
+                content => "${minutes} * * * * root /usr/local/sbin/puppetmaster-sync\n";
             # .. and does not fix permissions
             "/etc/cron.d/puppetmaster-fixperms":
                 ensure => absent;
