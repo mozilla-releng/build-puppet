@@ -4,7 +4,7 @@
 class foopy {
     include users::builder
     include dirs::builds
-    include packages::net-snmp-utils
+    include packages::net_snmp_utils
     include packages::nslookup
     include packages::rsync
     include packages::unzip
@@ -22,7 +22,7 @@ class foopy {
     include buildslave::install
     include disableservices::iptables
     include foopy::repos
-    include tweaks::dev-ptmx
+    include tweaks::dev_ptmx
 
     include config
 
@@ -111,7 +111,7 @@ class foopy {
             owner => $users::builder::username,
             group => $users::builder::group,
             ensure => link,
-            target => "/etc/logrotate.d/watch_devices"
+            target => "/etc/logrotate.d/watch_devices",
             require => File['/etc/logrotate.d/watch_devices'];
     }
     

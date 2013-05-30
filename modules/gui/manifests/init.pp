@@ -32,7 +32,7 @@ class gui($on_gpu) {
 
             # and the latest version of gnome-settings-daemon; older versions crash
             # (Bug 846348)
-            include packages::gnome-settings-daemon
+            include packages::gnome_settings_daemon
             # Bug 859972: xrestop is needed for talos data collection
             include packages::xrestop
 
