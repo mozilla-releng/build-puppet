@@ -31,11 +31,5 @@ node /servo-puppet\d+\.srv\.servo\.releng\.use1\.mozilla\.com/ {
 ## buildbot masters
 
 node "buildbot-master-servo-01.srv.servo.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master::servo {
-        "bms01-servo1":
-            http_port => 8001,
-            basedir => "servo1";
-    }
-    include toplevel::server::bors::servo
-    include toplevel::server::buildmaster
+    include toplevel::server::buildmaster::servo
 }
