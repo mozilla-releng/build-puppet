@@ -18,15 +18,19 @@ run_puppet() {
     # check for 'err:' in the output; this catches errors even
     # when the puppet exit status is incorrect.
     tmp=`mktemp /tmp/puppet-outputXXXXXX`
-    /usr/bin/puppet agent $PUPPET_OPTIONS --server ${puppet_server} > $tmp 2>1
+    /usr/bin/puppet agent --detailed-exitcodes $PUPPET_OPTIONS --server ${puppet_server} > $tmp 2>1
     retval=$?
-    if grep -q "^err:" $tmp
+    # just in case, if there were any errors logged, flag it as an error run
+    if grep -q "^Error:" $tmp
     then
         retval=1
     fi
 
     rm $tmp
-    return $retval
+    case $retval in
+        0|2) return 0;;
+        *) return 1;;
+    esac
 }
 
 run_until_success() {
