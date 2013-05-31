@@ -6,27 +6,38 @@
 distinguished_master=<%= scope.lookupvar('puppetmaster::settings::distinguished_master') %>
 data_root=<%= scope.lookupvar('puppetmaster::settings::data_root') %>
 mailto=<%= scope.lookupvar('::config::puppet_notif_email') %>
-
-LOCKFILE="/dev/shm/puppetmaster-sync-log"
-if ! lockfile -r 0 "${LOCKFILE}"; then
-    echo "${LOCKFILE} already exists; not running rsync" \
-        | mail -s "[PuppetAgain Changes] Rsync already running" "$mailto"
-    exit
-fi
-trap "rm -f ${LOCKFILE}; exit" SIGHUP SIGINT SIGTERM EXIT
+hostname=<%= scope.lookupvar('::fqdn') %>
 
 # make logfile that puppetsync can write to
 logfile=$(mktemp)
 
-# -H preserves hardlinks, saving some space
-su - puppetsync -c "rsync -H -rlpt --delete --exclude=lost+found/ --out-format='%o %f %L' $distinguished_master:$data_root/ $data_root/" > $logfile
+# set the default subject line for our output email
+subject="[PuppetAgain Changes] Files synchronized to ${hostname}"
 
-# if anything was logged..
-if [ -s $logfile ]; then
-    # if we're interactive, show the results
-    tty -s && cat $logfile
+if [ -f ${logfile} ]; then
+    LOCKFILE="/dev/shm/puppetmaster-sync-log"
+    if ! lockfile -r 0 "${LOCKFILE}" >> ${logfile} 2>&1; then
+        echo "${LOCKFILE} already exists; not running rsync" >> ${logfile}
+        subject="[PuppetAgain Errors] Rsync already running on ${hostname}"
+    else
+        trap "rm -f ${LOCKFILE}; exit" SIGHUP SIGINT SIGTERM EXIT
 
-    # email it
-    mail -s "[PuppetAgain Changes] Files synchronized to "$(uname -n) "$mailto" < $logfile
+        # -H preserves hardlinks, saving some space
+        su - puppetsync -c "rsync -H -rlpt --delete --exclude=lost+found/ --out-format='%o %f %L' ${distinguished_master}:${data_root}/ ${data_root}/" >> ${logfile}
+    fi 
+
+    # if anything was logged..
+
+    if [ -s ${logfile} ]; then
+        # if we're interactive, show the results
+        tty -s && cat ${logfile}
+
+        # email it
+        mail -s "${subject}" "${mailto}" < "${logfile}"
+    fi
+
+    rm ${logfile}
+else
+    echo "Cannot create log file for puppetsync on ${hostname}." | mail -s "[PuppetAgain Errors] puppetmaster-sync failed on ${hostname}" "${mailto}" 
 fi
-rm $logfile
+ 
