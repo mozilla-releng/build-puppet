@@ -27,7 +27,6 @@ class config::base {
     $ntp_server = "pool.ntp.org"
     $relay_domains = "smtp.mozilla.org"
     $puppet_again_repo = "http://hg.mozilla.org/build/puppet"
-    $global_authorized_keys = ""
     $puppet_server_reports = "tagmail"
     $puppet_server_reporturl = "http://localhost:3000/reports/upload"
     $master_json = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
@@ -37,4 +36,6 @@ class config::base {
     $buildbot_mail_to = "nobody@mozilla.com"
     $vmwaretools_version = ""
     $vmwaretools_md5 = ""
+    $admin_users = []
+    $users = []
 }

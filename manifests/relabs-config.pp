@@ -19,13 +19,15 @@ class config inherits config::base {
     $puppetmaster_upstream_rsync_args = '--exclude=repos/apt'
 
     $ntp_server = "ntp.build.mozilla.org"
-    $global_authorized_keys = [
+    $admin_users = [
         "arr",
         "bhearsum",
-        "callek",
         "catlee",
-        "dustin",
-        "rail",
+        "dmitchell",
+        "jwatkins",
+        "jwood",
+        "raliiev",
+        'shnguyen',
     ]
 }
 

@@ -1,0 +1,14 @@
+#! /bin/bash
+
+SHELL_PATH="bash"
+# use macports bash (4.x) on macs
+[ -x /opt/local/bin/bash ] && SHELL_PATH="/opt/local/bin/bash"
+
+[ -z "$1" ] && exit 1
+
+if [ "$1" != "in-window" ]; then
+    screen -t "$1" bin/proj in-window "$1"
+else
+    cd "$HOME/code/$2"
+    DEV_PROJECT="$HOME/code/$2" exec $SHELL_PATH -l
+fi

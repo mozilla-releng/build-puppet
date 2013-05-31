@@ -25,7 +25,7 @@ class users::builder::setup($home, $username, $group) {
         $username:
             home => $home,
             group => $group,
-            authorized_keys => $::config::global_authorized_keys,
+            authorized_keys => $::config::admin_users,
             config => template("users/builder-ssh-config.erb");
     } -> Anchor['users::builder::setup::end']
 

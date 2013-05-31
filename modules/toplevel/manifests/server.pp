@@ -15,4 +15,5 @@ class toplevel::server inherits toplevel::base {
     include nrpe::check::ganglia
     include packages::strace
     include packages::netcat
+    include users::people
 }

@@ -15,3 +15,9 @@ File {
     mode => "0644",
     backup => false,
 }
+
+# purge unknown users from the system's user database
+resources {
+    'user':
+        purge => true;
+}

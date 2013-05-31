@@ -27,7 +27,7 @@ class users::root::setup($home, $username, $group) {
             home => $home,
             group => $group,
             authorized_keys => [
-                $::config::global_authorized_keys,
+                $::config::admin_users,
                 # get the node-scoped value, if any
                 $extra_root_keys ? {
                     undef => [ ],

@@ -23,7 +23,7 @@ class config inherits config::base {
 
     $nrpe_allowed_hosts = "10.2.71.20,10.12.75.9,127.0.0.1,10.26.75.30"
     $ntp_server = "ntp.build.mozilla.org"
-    $global_authorized_keys = [
+    $admin_users = [
         "armenzg",
         "arr",
         "asasaki",
@@ -32,7 +32,7 @@ class config inherits config::base {
         "callek",
         "catlee",
         "coop",
-        "dustin",
+        "dmitchell",
         "hwine",
         "jhopkins",
         "jmoffitt",

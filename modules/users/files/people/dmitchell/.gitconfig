@@ -1,0 +1,31 @@
+[core]
+	pager = less -F
+
+[user]
+    email = dustin@mozilla.com
+    name = Dustin J. Mitchell
+    signingkey = 7F0D15B1
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+    grep = auto
+
+[alias]
+	co = checkout
+	cached = diff --cached
+    amend = commit --amend -C HEAD
+    cont = rebase --continue
+    message = commit --amend
+    merge-left = !sh -c 'git diff :1:$0 :2:$0'
+    merge-right = !sh -c 'git diff :1:$0 :3:$0'
+
+[apply]
+	whitespace = strip
+
+[rerere]
+	enabled = 1
+
+[rebase]
+    autosquash = true
