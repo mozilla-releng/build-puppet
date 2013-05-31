@@ -20,6 +20,10 @@ node /servo-.*\.build\.servo\.releng\.(use1|usw2)\.mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
+node /servo-lion-r5-\d+\.build\.servo\.releng\.scl3\.mozilla\.com/ {
+    include toplevel::slave::build::standard
+}
+
 
 ## puppetmasters
 
