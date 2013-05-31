@@ -14,8 +14,12 @@ class puppetmaster::settings {
     $puppet_check_interval_mins = 5
     $puppet_check_splay_secs = 200
 
+    # copy some useful values from config to this module
     $all_masters = $::config::puppet_servers
     $distinguished_master = $::config::distinguished_puppetmaster
+    $upstream_rsync_source = $::config::puppetmaster_upstream_rsync_source
+    $upstream_rsync_args = $::config::puppetmaster_upstream_rsync_args
+    $manifests_repo = $::config::puppet_again_repo
 
     if ($distinguished_master == "") {
         fail("distinguished_puppetmaster config is not specified")

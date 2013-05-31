@@ -14,7 +14,7 @@ class puppetmaster::manifests {
     $checkout_dir = "/etc/puppet/production"
     exec {
         'checkout-puppet':
-            command => "/usr/bin/hg clone ${::config::puppet_again_repo} ${checkout_dir}",
+            command => "/usr/bin/hg clone ${puppetmaster::settings::manifests_repo} ${checkout_dir}",
             creates => "${checkout_dir}",
             logoutput => on_failure,
             require => Class['packages::mercurial'];
