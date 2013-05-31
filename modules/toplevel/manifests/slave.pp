@@ -20,4 +20,9 @@ class toplevel::slave inherits toplevel::base {
     include tweaks::rc_local
     include tweaks::locale
     include disableservices::slave
+
+    # *all* Darwin slaves need to autologin, not just testers
+    if ($::operatingsystem == "Darwin") {
+        include users::builder::autologin
+    }
 }
