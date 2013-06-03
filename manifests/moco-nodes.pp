@@ -56,7 +56,7 @@ node /bld-centos6-hp-\d+.build.(scl1|mtv1).mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
-node /bld-lion-r5-\d+.(try|bld).releng.scl3.mozilla.com/ {
+node /bld-lion-r5-\d+.(try|build).releng.scl3.mozilla.com/ {
     include toplevel::slave::build::standard
 }
 
