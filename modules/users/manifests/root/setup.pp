@@ -45,4 +45,15 @@ class users::root::setup($home, $username, $group) {
             group => $group,
             source => "puppet:///modules/users/hgrc";
     }
+
+    if ($::operatingsystem == Ubuntu) {
+        # patch out /root/.bashrc to not reset $PS1; $PS1 is set in users::global
+        file {
+            "$home/.bashrc":
+                mode => 0644,
+                owner => $username,
+                group => $group,
+                source => "puppet:///modules/users/ubuntu-root-bashrc";
+        }
+    }
 }
