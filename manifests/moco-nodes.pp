@@ -99,15 +99,19 @@ node /releng-puppet\d\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
 
 node "mobile-imaging-stage1.p127.releng.scl1.mozilla.com" {
     $aspects = [ "staging" ]
-    $extra_root_keys = [ 'mcote' ]
     $is_bmm_admin_host = true
     include toplevel::server::mozpool
+    users::root::extra_authorized_key {
+        'mcote': ;
+    }
 }
 
 node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
-    $extra_root_keys = [ 'mcote' ]
     $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => true, default => false }
     include toplevel::server::mozpool
+    users::root::extra_authorized_key {
+        'mcote': ;
+    }
 }
 
 ## buildbot masters

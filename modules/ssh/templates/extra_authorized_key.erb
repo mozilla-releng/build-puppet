@@ -1,0 +1,19 @@
+<%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/. -%>
+<%
+    by_name = scope.lookupvar('ssh::keys::by_name')
+
+        key_bodies = by_name[@key]
+        raise "no key for #{@key}" unless key_bodies
+        key_bodies.each do |key|
+            options = []
+            options << "command=\"#{@command}\"" if (@command != '')
+            options << "from=\"#{@from}\"" if (@from != '')
+            if options.length > 0
+                options = options.join(',') +  ' '
+            else
+                options = ''
+            end
+            %><%= options + key + "\n" %><%
+        end -%>

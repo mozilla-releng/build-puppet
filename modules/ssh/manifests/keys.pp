@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class ssh::keys {
     # PLEASE KEEP THIS FILE SORTED
-    #   In vim: :/[b]y.name =/+1,$-2!sort
+    #   In vim: :/[b]y.name =/+1,/[r]ole accounts/-2!sort
     #
     # Note that all of these keys are not necessarily given access to any
     # hosts.  Instead, they are granted through the authorized_keys argument to
@@ -120,5 +120,8 @@ class ssh::keys {
         'wdawson' => ['ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAyNrM4tZNl5a70/eb2ASW4hDrfT0jO1nuCLPpUPNvoZGmuq3C2BO8qwC3v4Cn+nitkDexJaEBfbayco0+NEO2aF0QPmzWemf+a8nqLv+QsdKCLlyLjrZ1ZVBnpfxE6tIx6ahNhUTMblyCr5uAWfdyT+68+YwC755lSlpYt66UIkXGkh1GpLs76DKRufSZ4U5ZEjCoZWFd5NjQOlrs8tNlZ2WKVYK6HmuGDeIaVCPppVs8gJgH47T874f+UMyyiT0MF3Xk9g/Hlx+l3p5b1Eh6tqFPm4OvFQ+4o4gGJdXKJMKenGGP00GCiTBHqmeGgjWDq33iPCJ0a0RVbR1ZTgUeFQ== wes@sirith'],
         'xionox' => ['ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAweEnau/EYh0Hdyon4KoT/WRnEUBwdh8Cw+1Mvs1wOxSzBqPg2M9U5JADm20WG+SfyeCyrMXlIDjG5SyBTfALKwez4ExonQ5FyGvt8v4ipQRx+U+tdewIu9n2aAdmZia+0pS1ZgbyhkJtwNO8D95axlmeOab46HyQqZs0BVxPPdXM4ysPUgPZpSIyQ3rfFVerrVClLBNxqHvi7ZuyKH1zBAxSURhT60oRRNGI74G0+78nAA1c/cTeY/DbEKsJNpo7VK5slh9XQNUS2/6X4mgYg5IUK3AtaXIDnA6H5HCgghba0pZN4AmVR4dwVmILWeb8HpMInlLowQUQ5jNXM+hnYQ== xionox@laptop'],
         'yshun' => ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvjSPbkOCziAbd8E3wooywhrKUysGgmnRb4UJQoXx4TFHnJ0rspjqYn35MRdt3NEt7MZuHeJPO3k8ghbY945zarizWjY+dRUVeCtL0p3ObuVNxF60h+8eY4OKO6oemEvmrw1IjtCeXB+9uI/Ct4xIHNTo5lgUghN7B5euy8EMNThJ7PfLQs+VrfcsJNbb7VFSZpa3/hXp+OaZT9PCz1CqEHIFunqNOOfwUnuPK/5vYgBVUXsyTRIAEfvga6nEHfVLc24QYVQu+kN8I5WKw/M0M/t/H0u1inGt2xNguzRuOJtYTsoGas9xHMlEZwVkJ+W2/dLk2IRUfFnuYNbjA+H3p jshun@jshun.local'],
+
+    # role accounts
+        'release-runner' => ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMCfdvoKtT4IU0cw6ckj748zxlr7wMxJfyRadUfpI+ZE6jOAjBrAxptVImaFYeVD9PFe5DXyAhRlhUPHSbtq+unMhkZrERYmUhxZ82TSqMSLDwMiacM0umXDnVqcs6cji5gjjE69TeLf9RywOzAmpU/JAasMDa7q4aNsccG7kj59vBl4yyZdx63yNNuxzBtvQd3LNjz2Ux3I60JZDM/xUu8eMBP9PDP5FIi4zILS8sKFzVD9l/7xsyLYv+IpFS1jLvX/eo0gKxM+27rlyyWET2mu/Vjw2J8gN6G9zh4nlMgEeeqFnR3ykFBgEl+LqM4PoH8xVzwZ1iZ8tDgP40nA3Z release-runner key'],
     }
 }

@@ -26,13 +26,8 @@ class users::root::setup($home, $username, $group) {
         $username:
             home => $home,
             group => $group,
-            authorized_keys => [
-                $::config::admin_users,
-                # get the node-scoped value, if any
-                $extra_root_keys ? {
-                    undef => [ ],
-                    default => $extra_root_keys
-                }];
+            authorized_keys => $::config::admin_users,
+            authorized_keys_allows_extras => true,
     } -> Anchor['users::root::setup::end']
 
     ##

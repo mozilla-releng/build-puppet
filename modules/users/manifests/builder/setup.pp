@@ -26,6 +26,7 @@ class users::builder::setup($home, $username, $group) {
             home => $home,
             group => $group,
             authorized_keys => $::config::admin_users,
+            authorized_keys_allows_extras => true,
             config => template("users/builder-ssh-config.erb");
     } -> Anchor['users::builder::setup::end']
 
