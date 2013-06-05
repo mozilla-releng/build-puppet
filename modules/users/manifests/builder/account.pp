@@ -41,6 +41,7 @@ class users::builder::account($username, $group, $grouplist, $home) {
                     }
                     darwinuser {
                         $username:
+                            gid => $group,
                             shell => "/bin/bash",
                             home => $home,
                             password => secret("builder_pw_saltedsha512"),
