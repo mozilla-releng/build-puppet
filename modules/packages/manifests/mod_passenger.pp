@@ -9,7 +9,7 @@ class packages::mod_passenger {
             # file{..} resources to suddenly delete everything.
             package {
                 "mod_passenger":
-                    ensure => "3.0.12";
+                    ensure => "3.0.12-1.el6";
             }
         }
         default: {
