@@ -38,10 +38,7 @@ class puppetmaster::puppetsync_user {
             mode => "0700",
             ensure => directory;
         "${homedir}/.ssh/known_hosts":
-            content => template("${module_name}/puppetsync_known_hosts.erb"),
-            owner => puppetsync,
-            group => puppetsync,
-            mode => "0600";
+            ensure => absent;
         "${homedir}/.ssh/config":
             content => "CheckHostIp no\nStrictHostKeyChecking yes\n",
             owner => puppetsync,

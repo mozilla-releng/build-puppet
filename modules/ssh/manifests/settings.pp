@@ -7,10 +7,12 @@ class ssh::settings {
         CentOS, Ubuntu: {
             $ssh_config = "/etc/ssh/ssh_config"
             $sshd_config = "/etc/ssh/sshd_config"
+            $known_hosts = "/etc/ssh/ssh_known_hosts"
         }
         Darwin: {
             $ssh_config = "/etc/ssh_config"
             $sshd_config = "/etc/sshd_config"
+            $known_hosts = "/etc/ssh_known_hosts"
         }
         default: {
             fail("Don't know how to configure SSH on this platform")

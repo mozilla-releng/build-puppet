@@ -25,5 +25,10 @@ class ssh::config {
             mode => 0644,
             notify => Class['ssh::service'], # restart daemon if necessary
             content => template("${module_name}/sshd_config.erb");
+        $ssh::settings::known_hosts:
+            owner => $::users::root::username,
+            group => $::users::root::group,
+            mode => 0644,
+            content => template("${module_name}/known_hosts.erb");
     }
 }
