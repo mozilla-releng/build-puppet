@@ -7,7 +7,7 @@ class mozpool::settings {
 
     # allow different versions in staging and prod
     if (has_aspect("staging")) {
-        $mozpool_version = "4.1.0"
+        $mozpool_version = "4.1.1"
     } else {
         $mozpool_version = "4.1.0"
     }
