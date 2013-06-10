@@ -40,10 +40,10 @@ class hardware {
         include packages::openipmi
     }
 
-    if (($::manufacturer == "iXsystems" and $::productname == "iX700-C") or
+    # some iX hardware shows up as 'ixSystems', some as 'Supermicro'
+    if (($::manufacturer == 'iXsystems' or $::manufacturer == 'Supermicro') and
         # iX700-C's can show up as X8SIL, too
-        ($::manufacturer == "iXsystems" and $::productname == "X8SIL") or
-        ($::manufacturer == "iXsystems" and $::productname == "iX21X4-STIBTRF")) {
+        ($::productname == "iX700-C" or $::productname == "X8SIL" or $::productname == "iX21X4-STIBTRF")) {
         include tweaks::i82574l_aspm
     }
 
