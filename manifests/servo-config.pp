@@ -88,6 +88,7 @@ class config inherits config::base {
         'jvehent',
         'jwatkins',
         'jwood',
+        'jyeo',
         'klibby',
         'kmoir',
         'lhirlimann',
