@@ -33,6 +33,7 @@ class config inherits config::base {
         "jhopkins",
         "joduinn",
         "jwatkins",
+        "jyeo",
         "kmoir",
         "mgervasini",
         "nthomas",
