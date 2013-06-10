@@ -36,6 +36,20 @@ class puppetmaster::manifests {
             content => template("puppetmaster/puppetmaster-update.cron.erb");
     }
 
+    # make sure that nodes.pp and config.pp exist
+    exec {
+        'check-for-nodes.pp':
+            command => "/bin/echo 'Please set up ${checkout_dir}/manifests/nodes.pp appropriately'; false",
+            logoutput => true,
+            creates => "${checkout_dir}/manifests/nodes.pp",
+            require => Exec['checkout-puppet'];
+        'check-for-config.pp':
+            command => "/bin/echo 'Please set up ${checkout_dir}/manifests/config.pp appropriately'; false",
+            logoutput => true,
+            creates => "${checkout_dir}/manifests/config.pp",
+            require => Exec['checkout-puppet'];
+    }
+
     # if we're not the distinguished master, rsync secrets and extlookup stuff from the
     # distingiushed master
     if ($puppetmaster::settings::is_distinguished) {

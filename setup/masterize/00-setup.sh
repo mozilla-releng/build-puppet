@@ -79,8 +79,6 @@ setup_secrets() {
     echo "'${secrets_file}' does not exist.  Please copy it from secrets-template.csv and"
     echo "fill in the required values, at least:"
     echo " root_pw_hash"
-    echo " puppetsync_pubkey"
-    echo "   (from ${SSH_PUBLIC_KEY})"
     echo " puppetmaster_deploy_htpasswd"
     return 1
 }

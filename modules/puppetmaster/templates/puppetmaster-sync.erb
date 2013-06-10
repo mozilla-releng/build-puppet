@@ -7,6 +7,7 @@ distinguished_master=<%= scope.lookupvar('puppetmaster::settings::distinguished_
 data_root=<%= scope.lookupvar('puppetmaster::settings::data_root') %>
 mailto=<%= scope.lookupvar('::config::puppet_notif_email') %>
 hostname=<%= scope.lookupvar('::fqdn') %>
+puppetsync_key="<%= scope.lookupvar('puppetmaster::settings::puppetsync_home') %>/.ssh/puppetsync_rsa"
 
 # make logfile that puppetsync can write to
 logfile=$(mktemp)
@@ -23,7 +24,7 @@ if [ -f ${logfile} ]; then
         trap "rm -f ${LOCKFILE}; exit" SIGHUP SIGINT SIGTERM EXIT
 
         # -H preserves hardlinks, saving some space
-        su - puppetsync -c "rsync -H -rlpt --delete --exclude=lost+found/ --out-format='%o %f %L' ${distinguished_master}:${data_root}/ ${data_root}/" >> ${logfile}
+        su - puppetsync -c "rsync -e 'ssh -i ${puppetsync_key}' -H -rlpt --delete --exclude=lost+found/ --out-format='%o %f %L' ${distinguished_master}:${data_root}/ ${data_root}/" >> ${logfile}
     fi 
 
     # if anything was logged..
