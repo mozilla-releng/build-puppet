@@ -45,6 +45,8 @@ define bors::instance($basedir, $owner, $group, $repo_owner, $repo, $reviewers,
             $title:
                 owner => $owner,
                 group => $group,
+                repo_owner => $repo_owner,
+                repo => $repo,
                 status_location => $status_location;
         }
     }
