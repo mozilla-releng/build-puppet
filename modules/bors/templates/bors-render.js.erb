@@ -19,7 +19,7 @@ function render_queue() {
 
         var num = e["num"].toString();
         var num_cell = elt("td");
-        num_cell.appendChild(a_txt_class_url(num, "pull", "https://github.com/mozilla/rust/pull/" + num));
+        num_cell.appendChild(a_txt_class_url(num, "pull", "https://github.com/<%=@repo_owner%>/<%=@repo%>/pull/" + num));
         row.appendChild(num_cell);
 
 		var state = e["state"];
