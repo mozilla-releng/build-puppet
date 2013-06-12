@@ -64,6 +64,10 @@ class gui($on_gpu) {
                 # this is the EDID data from an Extron EDID adapter configured for 1200x1600
                 "/etc/X11/edid.bin":
                     source => "puppet:///modules/${module_name}/edid.bin";
+                # Bug 859867: prevent nvidia drivers to use sched_yield(), what makes compiz use 100% CPU
+                "/etc/X11/Xsession.d/98nvidia":
+                    content => "export __GL_YIELD=NOTHING\n",
+                    notify => Service['x11'];
             }
             # start x11 *or* xvfb, depending on whether we have a GPU or not
             service {
