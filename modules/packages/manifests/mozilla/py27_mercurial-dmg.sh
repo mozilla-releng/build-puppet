@@ -2,7 +2,7 @@
 
 set -e
 
-if ! test -f python27-mercurial.spec; then
+if ! test -f py27_mercurial.spec; then
     echo "Run this from the root of the unpacked SRPM (it uses the sources)"
     exit 1
 fi
@@ -16,7 +16,7 @@ python_sitelib=$pyhome/lib/python$pyver/site-packages
 _prefix=/tools/$realname
 _libdir=$_prefix/lib
 package_sitelib=$_libdir/python$pyver/site-packages
-version=2.1.1
+version=2.5.4
 release=1
 
 # set up a clean build dir
