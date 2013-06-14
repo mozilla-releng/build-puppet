@@ -163,6 +163,13 @@ esac
 # record the installation date (note that this won't appear anywhere on Darwin)
 echo "System Installed:" `date` >> /etc/issue
 
+# execute post puppet custom code in the same process to allow the script
+# acccessing not exported variables
+if [ -f "$ROOT/post-puppetize-hook.sh" ]; then
+    echo "Sourcing $ROOT/post-puppetize-hook.sh"
+    . "$ROOT/post-puppetize-hook.sh"
+fi
+
 if [ -f "$REBOOT_FLAG_FILE" ]; then
     rm -f "$REBOOT_FLAG_FILE"
     echo "Rebooting as requested"
