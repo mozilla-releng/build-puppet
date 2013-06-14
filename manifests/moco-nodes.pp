@@ -423,7 +423,7 @@ node "buildbot-master80.srv.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master90.srv.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master {
+    buildmaster::buildbot_master::mozilla {
         "bm90-tests1-panda":
             http_port => 8201,
             master_type => "tests",
@@ -433,7 +433,7 @@ node "buildbot-master90.srv.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master91.srv.releng.usw2.mozilla.com" {
-    buildmaster::buildbot_master {
+    buildmaster::buildbot_master::mozilla {
         "bm91-tests1-panda":
             http_port => 8201,
             master_type => "tests",
@@ -443,7 +443,7 @@ node "buildbot-master91.srv.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master92.srv.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master {
+    buildmaster::buildbot_master::mozilla {
         "bm92-tests1-panda":
             http_port => 8201,
             master_type => "tests",
@@ -453,7 +453,7 @@ node "buildbot-master92.srv.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master93.srv.releng.usw2.mozilla.com" {
-    buildmaster::buildbot_master {
+    buildmaster::buildbot_master::mozilla {
         "bm93-tests1-panda":
             http_port => 8201,
             master_type => "tests",
@@ -463,7 +463,7 @@ node "buildbot-master93.srv.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master94.srv.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master {
+    buildmaster::buildbot_master::mozilla {
         "bm94-tests1-panda":
             http_port => 8201,
             master_type => "tests",
@@ -473,7 +473,7 @@ node "buildbot-master94.srv.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master95.srv.releng.usw2.mozilla.com" {
-    buildmaster::buildbot_master {
+    buildmaster::buildbot_master::mozilla {
         "bm95-tests1-tegra":
             http_port => 8201,
             master_type => "tests",
@@ -483,7 +483,7 @@ node "buildbot-master95.srv.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master96.srv.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master {
+    buildmaster::buildbot_master::mozilla {
         "bm96-tests1-tegra":
             http_port => 8201,
             master_type => "tests",
@@ -493,7 +493,7 @@ node "buildbot-master96.srv.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master97.srv.releng.usw2.mozilla.com" {
-    buildmaster::buildbot_master {
+    buildmaster::buildbot_master::mozilla {
         "bm97-tests1-tegra":
             http_port => 8201,
             master_type => "tests",
@@ -503,7 +503,7 @@ node "buildbot-master97.srv.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master98.srv.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master {
+    buildmaster::buildbot_master::mozilla {
         "bm98-tests1-tegra":
             http_port => 8201,
             master_type => "tests",
