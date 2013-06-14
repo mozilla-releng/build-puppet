@@ -15,8 +15,6 @@ fi
 cd $BUILD
 set version of dmg to create
 sed -i .bak 's/1.6dev/1.6/g' Makefile
-#set location of packager maker that's installed from Apple's auxillary tools download
-sed -i .bak 's/\/Developer\/usr\/bin\/packagemaker/\/Volumes\/Auxiliary\\ Tools\/PackageMaker.app\/Contents\/MacOS\/PackageMaker/' Makefile
 
 echo $VERSION
 echo $PACKGAGE_MAKER

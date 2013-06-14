@@ -23,6 +23,7 @@ class packages::mozilla::py27_virtualenv {
             Anchor['packages::mozilla::py27_virtualenv::begin'] ->
             packages::pkgdmg {
                 python27-virtualenv:
+                    os_version_specific => false,
                     version => "1.7.1.2-1";
             } -> Anchor['packages::mozilla::py27_virtualenv::end']
         }

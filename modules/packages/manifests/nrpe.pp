@@ -18,7 +18,7 @@ class packages::nrpe {
                 # this DMG contains both nrpe and the plugins, and creates
                 # the user/group, but does not install the service.
                 nrpe:
-                    version => "2.14";
+                    version => "2.14-moz1";
             }
         }
 

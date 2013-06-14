@@ -40,7 +40,7 @@ mkdir dmg
 fullname=$realname-$version-$release
 pkg=dmg/$fullname.pkg
 dmg=$fullname.dmg
-/Volumes/Auxiliary\ Tools/PackageMaker.app/Contents/MacOS/PackageMaker  -r $ROOT -v -i com.mozilla.$realname -o $pkg -l /
+/Developer/usr/bin/packagemaker  -r $ROOT -v -i com.mozilla.$realname -o $pkg -l /
 hdiutil makehybrid -hfs -hfs-volume-name "mozilla-$realname-$version-$release" -o ./$dmg dmg
 echo "Result:"
 echo $PWD/$dmg

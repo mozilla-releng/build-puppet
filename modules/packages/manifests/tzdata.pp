@@ -9,5 +9,11 @@ class packages::tzdata {
                     ensure => latest;
             }
         }
+        Darwin: {
+            # not needed
+        }
+        default: {
+            fail("cannot install on $::operatingsystem")
+        }
     }
 }

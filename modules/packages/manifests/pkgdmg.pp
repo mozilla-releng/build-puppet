@@ -1,7 +1,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-define packages::pkgdmg($version, $private=false, $dmgname=undef) {
+define packages::pkgdmg($version, $private=false, $dmgname=undef, $os_version_specific=true) {
     include ::config
     case $dmgname {
             undef: {
@@ -12,11 +12,15 @@ define packages::pkgdmg($version, $private=false, $dmgname=undef) {
             }
     }
 
-    if ($private) {
-        $source = "http://${::config::data_server}/repos/private/DMGs/$filename"
-    } else {
-        $source = "http://${::config::data_server}/repos/DMGs/$filename"
+    $p = $private ? {
+        true => "/private",
+        false => ""
     }
+    $v = $os_version_specific ? {
+        true => "/${macosx_productversion_major}",
+        false => ""
+    }
+    $source = "http://${::config::data_server}/repos${p}/DMGs${v}/$filename"
 
     package {
         $filename:

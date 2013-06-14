@@ -20,6 +20,7 @@ class packages::java {
                 "javadeveloper_for_os_x_2012003__11m3646":
                     version => "2012003__11m3646",
                     private => true,
+                    os_version_specific => false, # I don't actually know.. --dustin
                     dmgname => "javadeveloper_for_os_x_2012003__11m3646.dmg";
             } -> Anchor['packages::java::end']
         }

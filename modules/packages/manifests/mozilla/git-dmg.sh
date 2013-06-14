@@ -33,7 +33,7 @@ make -j2
 ROOT=$BUILD/root
 make install DESTDIR=$ROOT
 mkdir -p $ROOT/usr/local/bin
-ln -s $_prefix/bin/git* $ROOT/usr/local/bin/git
+ln -s $_prefix/bin/git $ROOT/usr/local/bin/git
 
 # build the package (no RPM equivalent, sorry)
 cd $BUILD

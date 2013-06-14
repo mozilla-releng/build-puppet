@@ -13,6 +13,7 @@ class packages::xcode {
             packages::pkgdmg {
                 "xcode":
                     version => "4.1",
+                    os_version_specific => false,
                     private => true;
             }
         }

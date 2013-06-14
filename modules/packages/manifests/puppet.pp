@@ -33,8 +33,10 @@ class packages::puppet {
             Anchor['packages::puppet::begin'] ->
             packages::pkgdmg {
                 puppet:
+                    os_version_specific => false,
                     version => $puppet_dmg_version;
                 facter:
+                    os_version_specific => false,
                     version => $facter_version;
             } -> Anchor['packages::puppet::end']
         }
