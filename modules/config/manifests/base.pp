@@ -14,6 +14,7 @@
 class config::base {
     $org = undef
 
+    $manage_ifcfg = true
     $puppet_notif_email = "nobody@mozilla.com"
     $data_server = "repos"
     $data_servers = [$data_server]

@@ -6,6 +6,8 @@
 class config inherits config::base {
     $org = "seamonkey"
 
+    $manage_ifcfg = false # SeaMonkey expects to set IP/gateway manually
+
     $puppet_notif_email = "seamonkey-release@mozilla.org"
     $builder_username = "seabld"
 
