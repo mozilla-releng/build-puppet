@@ -7,3 +7,9 @@
 node "sea-puppet.community.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
 }
+
+## buildbot masters
+
+node "sea-master1.community.scl3.mozilla.com" {
+    include toplevel::server::buildmaster
+}
