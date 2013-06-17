@@ -64,12 +64,16 @@ EOF
     /usr/bin/yum clean all
 }
 
-SSH_PRIVATE_KEY="/root/puppetsync"
-SSH_PUBLIC_KEY="${SSH_PUBLIC_KEY}.pub"
+SSH_PRIVATE_KEY="/var/lib/puppet/.puppetsync_rsa"
+SSH_PUBLIC_KEY="${SSH_PRIVATE_KEY}.pub"
 add_phase setup_ssh_keys
 setup_ssh_keys() {
     [ -f "${SSH_PRIVATE_KEY}" ] && return
+    mkdir -p /var/lib/puppet
     ssh-keygen -f "${SSH_PRIVATE_KEY}" -N ''
+    # puppet will eventually set ownership (puppet:puppet) and permissions on this
+    # but the puppet user doesn't exist yet, so we just set it to a+r temporarily
+    chmod a+r "${SSH_PRIVATE_KEY} "${SSH_PUBLIC_KEY}""
 }
 
 add_phase setup_secrets
