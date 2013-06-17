@@ -20,8 +20,10 @@ class config inherits config::base {
     $puppet_again_repo = "http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet320/"
 
     $admin_users = [
-        "jwood",
         "dmitchell",
+        "ewong",
+        "jwood",
+        "kairo",
     ]
     $buildbot_tools_hg_repo = "https://hg.mozilla.org/users/Callek_gmail.com/tools/"
     $buildbot_configs_hg_repo = "https://hg.mozilla.org/build/buildbot-configs"
