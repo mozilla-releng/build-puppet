@@ -25,8 +25,6 @@ FQDN=`facter fqdn`
 # determine interactivity based on the presence of a deploypass file
 [ -f $ROOT/deploypass ] && interactive=false || interactive=true
 
-set -x
-
 hang() {
     echo "${@}"
     while true; do sleep 60; done
