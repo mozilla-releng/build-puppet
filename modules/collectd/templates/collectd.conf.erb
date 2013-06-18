@@ -1,0 +1,60 @@
+#
+# Config file for collectd(1).
+# Please read collectd.conf(5) for a list of options.
+# http://collectd.org/
+#
+
+##############################################################################
+# Global                                                                     #
+#----------------------------------------------------------------------------#
+# Global settings for the daemon.                                            #
+##############################################################################
+
+Hostname    "<%= scope.lookupvar('::fqdn') %>"
+#FQDNLookup   true
+#BaseDir     "/var/lib/collectd"
+#PIDFile     "/var/run/collectd.pid"
+#PluginDir   "/usr/lib64/collectd"
+#TypesDB     "/usr/share/collectd/types.db"
+
+#----------------------------------------------------------------------------#
+# Interval at which to query values. This may be overwritten on a per-plugin #
+# base by using the 'Interval' option of the LoadPlugin block:               #
+#   <LoadPlugin foo>                                                         #
+#       Interval 60                                                          #
+#   </LoadPlugin>                                                            #
+#----------------------------------------------------------------------------#
+#Interval     10
+
+#Timeout      2
+#ReadThreads  5
+#WriteThreads 5
+
+##############################################################################
+# Logging                                                                    #
+#----------------------------------------------------------------------------#
+# Plugins which provide logging functions should be loaded first, so log     #
+# messages generated when loading or configuring other plugins can be        #
+# accessed.                                                                  #
+##############################################################################
+
+LoadPlugin syslog
+#<Plugin syslog>
+#       LogLevel info
+#</Plugin>
+
+LoadPlugin write_graphite
+<Plugin write_graphite>
+    <Node "<%= scope.lookupvar('collectd::settings::graphite_cluster_fqdn') %>">
+        Host "<%= scope.lookupvar('collectd::settings::graphite_cluster_fqdn') %>"
+        Port "<%= scope.lookupvar('collectd::settings::graphite_port') %>"
+        Prefix "<%= scope.lookupvar('collectd::settings::graphite_prefix') %>"
+#       Postfix ""
+        StoreRates true
+        AlwaysAppendDS false
+        EscapeCharacter "_"
+        SeparateInstances true
+    </Node>
+</Plugin>
+
+Include "<%= scope.lookupvar('collectd::settings::plugindir') %>"

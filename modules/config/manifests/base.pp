@@ -34,4 +34,6 @@ class config::base {
     $buildbot_configs_hg_repo = "https://hg.mozilla.org/build/buildbot-configs"
     $buildbot_configs_branch = "production"
     $buildbot_mail_to = "nobody@mozilla.com"
+    $collectd_graphite_cluster_fqdn = ""
+    $collectd_graphite_prefix = ""
 }

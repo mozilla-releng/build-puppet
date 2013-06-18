@@ -44,5 +44,7 @@ class config inherits config::base {
         "zandr",
     ]
     $buildbot_mail_to = "release@mozilla.com"
+    $collectd_graphite_cluster_fqdn = "graphite1.private.scl3.mozilla.com"
+    $collectd_graphite_prefix = "hosts.releng."
 }
 
