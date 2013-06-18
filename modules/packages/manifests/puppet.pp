@@ -7,11 +7,10 @@ class packages::puppet {
         'packages::puppet::end': ;
     }
 
-    $puppet_version = "3.2.0"
-    $puppet_dmg_version = "${puppet_version}-rc1"
-    $puppet_rpm_version = "${puppet_version}-0.1rc1.el6"
-    # 3.2.0 isn't in the debian puppetlabs repo
-    $puppet_deb_version = "3.2.1-1puppetlabs1"
+    $puppet_version = "3.2.2"
+    $puppet_dmg_version = "${puppet_version}"
+    $puppet_rpm_version = "${puppet_version}-1.el6"
+    $puppet_deb_version = "${puppet_version}-1puppetlabs1"
     $facter_version = "1.7.1"
 
     case $::operatingsystem {
