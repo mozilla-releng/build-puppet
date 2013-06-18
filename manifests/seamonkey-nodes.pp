@@ -11,5 +11,11 @@ node "sea-puppet.community.scl3.mozilla.com" {
 ## buildbot masters
 
 node "sea-master1.community.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm01-universal":
+            http_port => 8010,
+            master_type => "build",
+            basedir => "master01";
+    }
     include toplevel::server::buildmaster
 }

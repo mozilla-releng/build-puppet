@@ -28,8 +28,10 @@ class config inherits config::base {
         "jwood",
         "kairo",
     ]
+    $master_json = "https://hg.mozilla.org/users/Callek_gmail.com/tools/raw-file/default/buildfarm/maintenance/sea-production-masters.json"
     $buildbot_tools_hg_repo = "https://hg.mozilla.org/users/Callek_gmail.com/tools/"
     $buildbot_configs_hg_repo = "https://hg.mozilla.org/build/buildbot-configs"
     $buildbot_configs_branch = "seamonkey-production"
+    $buildbotcustom_branch = "seamonkey-production"
     $buildbot_mail_to = "seamonkey-release@mozilla.org"
 }

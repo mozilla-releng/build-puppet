@@ -34,6 +34,7 @@ class config::base {
     $buildbot_tools_hg_repo = "https://hg.mozilla.org/build/tools"
     $buildbot_configs_hg_repo = "https://hg.mozilla.org/build/buildbot-configs"
     $buildbot_configs_branch = "production"
+    $buildbotcustom_branch = "production-0.8"
     $buildbot_mail_to = "nobody@mozilla.com"
     $vmwaretools_version = ""
     $vmwaretools_md5 = ""
