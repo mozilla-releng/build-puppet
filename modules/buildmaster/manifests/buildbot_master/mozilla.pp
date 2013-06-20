@@ -14,7 +14,7 @@
 #
 # $master_type must be one of 'build', 'try', 'tests', or 'scheduler'
 #
-define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port) {
+define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=undef) {
     include ::config
     include buildmaster::base
     include buildmaster::queue
@@ -50,12 +50,6 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port)
             group => $master_group,
             mode => 600,
             content => template("buildmaster/passwords.py.erb");
-        "${full_master_dir}/master/postrun.cfg":
-            require => Exec["setup-${basedir}"],
-            owner => $master_user,
-            group => $master_group,
-            mode => 600,
-            content => template("buildmaster/postrun.cfg.erb");
         "/etc/default/buildbot.d/${master_name}":
             content => "${full_master_dir}",
             require => Exec["setup-${basedir}"],
@@ -64,6 +58,22 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port)
             require => Exec["setup-${basedir}"],
             mode => 600,
             content => template("buildmaster/buildmaster-cron.erb");
+    }
+
+    # Scheduler masters don't need postrun.cfg
+    if ($master_type != "scheduler") {
+        if ($http_port == undef) {
+            fail("Need to specify http_port for $master_name")
+        }
+
+        file {
+            "${full_master_dir}/master/postrun.cfg":
+                require => Exec["setup-${basedir}"],
+                owner => $master_user,
+                group => $master_group,
+                mode => 600,
+                content => template("buildmaster/postrun.cfg.erb");
+        }
     }
 
     buildmaster::repos {
