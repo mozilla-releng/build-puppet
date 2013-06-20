@@ -280,6 +280,7 @@ node "buildbot-master66.srv.releng.usw2.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster
+    include toplevel::server::gaia_bumper
 }
 
 node "buildbot-master67.srv.releng.use1.mozilla.com" {
