@@ -154,5 +154,7 @@ class config inherits config::base {
 
     $vmwaretools_version = "9.0.5-1065307"
     $vmwaretools_md5 = "924b75b0b522eb462266cf3c24c98837"
+    $collectd_graphite_cluster_fqdn = "graphite1.private.scl3.mozilla.com"
+    $collectd_graphite_prefix = "hosts.releng."
 }
 

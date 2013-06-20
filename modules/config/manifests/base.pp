@@ -36,6 +36,8 @@ class config::base {
     $buildbot_configs_branch = "production"
     $buildbotcustom_branch = "production-0.8"
     $buildbot_mail_to = "nobody@mozilla.com"
+    $collectd_graphite_cluster_fqdn = ""
+    $collectd_graphite_prefix = ""
     $vmwaretools_version = ""
     $vmwaretools_md5 = ""
     $admin_users = []
