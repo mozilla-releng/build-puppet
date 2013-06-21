@@ -12,7 +12,6 @@ class packages::yasm {
             Anchor['packages::yasm::begin'] ->
             packages::pkgdmg {
                 yasm:
-                    # this DMG came from the old releng puppet.  Its provenance is unknown.
                     version => "1.1.0";
             } -> Anchor['packages::yasm::end']
         }

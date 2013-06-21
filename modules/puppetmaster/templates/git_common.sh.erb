@@ -1,0 +1,26 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+scripts_dir="<%= @scripts_dir %>"
+source "${scripts_dir}/vars.sh"
+
+# check we're running as puppetsync
+[ `id -un` = puppetsync ] || exit 1
+
+# run git
+git() {
+    # use the git from packages::mozilla::git, in the right dir
+    (cd "${git_dir}"; /usr/local/bin/git "${@}")
+}
+
+# return 0 if the git index is dirty
+git_index_is_dirty() {
+    ! git diff-index --quiet --cached HEAD
+}
+
+# lock the local git repository until the end of this script, or die trying
+lock_git_dir() {
+    lockfile -10 -r 3 -l 120 "${git_dir}/.git/sync-lock"
+    trap "rm -f ${git_dir}/.git/sync-lock; exit" SIGHUP SIGINT SIGTERM EXIT
+}

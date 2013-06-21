@@ -10,4 +10,10 @@ class puppet::puppetize_sh {
             group => $users::root::group,
             mode => 0755;
     }
+
+    file {
+        # temporary - see bug 883558
+        "${users::root::home}/puppetize.log":
+            ensure => absent;
+    }
 }

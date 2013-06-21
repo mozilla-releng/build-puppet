@@ -15,12 +15,10 @@ class packages::nrpe {
         }
         Darwin: {
             packages::pkgdmg {
+                # this DMG contains both nrpe and the plugins, and creates
+                # the user/group, but does not install the service.
                 nrpe:
-                    # this package was copied from the old releng puppet; its
-                    # provenance is unknown.  Note that this does *not* set up the
-                    # corresponding user, nor set the service to start at boot.
-                    # That will wait for a well-defined DMG.
-                    version => "2.6";
+                    version => "2.14-moz1";
             }
         }
 

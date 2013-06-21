@@ -19,7 +19,7 @@ class ssh::service {
                     command =>
                     "/bin/launchctl load -w /System/Library/LaunchDaemons/ssh.plist",
                     unless =>
-                    "/usr/sbin/netstat -na | /usr/bin/grep -q 'tcp4.*\*.22.*LISTEN'";
+                    "/usr/sbin/netstat -na | /usr/bin/grep -q 'tcp4.*\\*.22.*LISTEN'";
             }
 
             # Delete the com.apple.access_ssh group.  If present, this group limits

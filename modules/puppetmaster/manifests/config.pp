@@ -14,17 +14,6 @@ class puppetmaster::config {
             source => "puppet:///modules/puppetmaster/fileserver.conf";
         "/etc/puppet/tagmail.conf":
             content => template("puppetmaster/tagmail.conf.erb");
-        "/etc/httpd/conf.d/yum_mirrors.conf":
-            require => Class["packages::httpd"],
-            source => "puppet:///modules/puppetmaster/yum_mirrors.conf";
-        "/etc/httpd/conf.d/puppetmaster_passenger.conf":
-            require => Class["packages::httpd"],
-            content => template("puppetmaster/puppetmaster_passenger.conf.erb");
-        ["/etc/puppet/rack", "/etc/puppet/rack/public"]:
-            require => Class["puppet"],
-            ensure => directory,
-            owner  => puppet,
-            group  => puppet;
          "/var/lib/puppet/reports":
             require => Class["puppet"],
             ensure => directory,
@@ -32,9 +21,5 @@ class puppetmaster::config {
             recurse => true,
             owner  => puppet,
             group  => puppet;
-        "/etc/puppet/rack/config.ru":
-            owner  => puppet,
-            group  => puppet,
-            source => "puppet:///modules/puppetmaster/config.ru";
     }
 }

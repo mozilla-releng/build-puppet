@@ -17,7 +17,7 @@ $UDPServerRun 514
 $template bmmdb,"CALL insert_device_log_entry('%hostname%', '%timereported:::date-mysql%', 'syslog', '%msg%')",SQL
 $ActionQueueType LinkedList # use asynchronous processing
 $ActionResumeRetryCount 10  # 10 retries, at 1 minute each; don't exhaust memory on account of log entries!
-local0.* :ommysql:<%= db_hostname %>,<%= db_database %>,<%= db_username %>,<%= db_password %>;bmmdb
+local0.* :ommysql:<%= @db_hostname %>,<%= @db_database %>,<%= @db_username %>,<%= @db_password %>;bmmdb
 
 # and to a local file for debugging
 local0.* /var/log/boards

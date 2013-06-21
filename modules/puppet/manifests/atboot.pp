@@ -11,7 +11,6 @@ class puppet::atboot {
 
     $puppet_server = $::puppet::settings::puppet_server
     $puppet_servers = $::puppet::settings::puppet_servers
-    $use_random_order = $::puppet::settings::use_random_order
 
     # signal puppetize.sh to reboot after this puppet run, if we're running
     # puppetize.sh (identified via the $puppetizing fact)
@@ -74,6 +73,9 @@ class puppet::atboot {
                     group => 'root',
                     content => template("puppet/puppet-ubuntu-initd.erb");
                 "/etc/init/puppet.conf":
+                    # this script special-cases the automatic start that the puppet
+                    # package does, so it needs to be in place first
+                    before => Class['packages::puppet'],
                     source => "puppet:///modules/puppet/puppet.upstart.conf";
                 "/etc/init.d/puppet":
                     ensure => link,

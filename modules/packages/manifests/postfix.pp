@@ -9,7 +9,8 @@ class packages::postfix {
                     ensure => latest;
                 "ssmtp":
                     notify => Exec["update-mta-alternatives"],
-                    ensure => absent;
+                    ensure => absent,
+                    before => Package["postfix"];
             }
             exec {
                 "update-mta-alternatives":

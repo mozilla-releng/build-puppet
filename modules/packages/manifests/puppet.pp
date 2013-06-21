@@ -7,10 +7,11 @@ class packages::puppet {
         'packages::puppet::end': ;
     }
 
-    $puppet_version = "2.7.17"
+    $puppet_version = "3.2.2"
+    $puppet_dmg_version = "${puppet_version}"
     $puppet_rpm_version = "${puppet_version}-1.el6"
-    $puppet_deb_version = "${puppet_version}-1mozilla1"
-    $facter_version = "1.6.11"
+    $puppet_deb_version = "${puppet_version}-1puppetlabs1"
+    $facter_version = "1.7.1"
 
     case $::operatingsystem {
         CentOS: {
@@ -31,8 +32,10 @@ class packages::puppet {
             Anchor['packages::puppet::begin'] ->
             packages::pkgdmg {
                 puppet:
-                    version => $puppet_version;
+                    os_version_specific => false,
+                    version => $puppet_dmg_version;
                 facter:
+                    os_version_specific => false,
                     version => $facter_version;
             } -> Anchor['packages::puppet::end']
         }

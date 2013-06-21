@@ -1,7 +1,6 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-<IfModule mod_passenger.c>
 
 PassengerHighPerformance on
 PassengerMaxPoolSize 12
@@ -18,11 +17,13 @@ Listen 8140
         SSLProtocol -ALL +SSLv3 +TLSv1
         SSLCipherSuite ALL:!ADH:RC4+RSA:+HIGH:+MEDIUM:-LOW:-SSLv2:-EXP
 
-        SSLCertificateFile      /var/lib/puppet/ssl/certs/<%= fqdn %>.pem
-        SSLCertificateKeyFile   /var/lib/puppet/ssl/private_keys/<%= fqdn %>.pem
-        SSLCertificateChainFile /var/lib/puppet/ssl/ca/ca_pub.pem
-        SSLCACertificateFile    /var/lib/puppet/ssl/ca/ca_pub.pem
-        SSLCARevocationFile     /var/lib/puppet/ssl/ca_crl.pem
+        SSLCertificateFile <%= scope.lookupvar('puppetmaster::ssl::master_cert') %>
+        SSLCertificateKeyFile <%= scope.lookupvar('puppetmaster::ssl::master_key') %>
+        # include the intermediate cert (this host's CA); the agent has the root CA
+        SSLCertificateChainFile <%= scope.lookupvar('puppetmaster::ssl::master_ca_cert') %>
+        SSLCACertificatePath <%= scope.lookupvar('puppetmaster::ssl::certdir') %>
+        SSLCARevocationPath <%= scope.lookupvar('puppetmaster::ssl::certdir') %>
+
         SSLVerifyClient optional
         SSLVerifyDepth  2
         SSLOptions +StdEnvVars
@@ -40,4 +41,3 @@ Listen 8140
                 allow from all
         </Directory>
 </VirtualHost>
-</IfModule>

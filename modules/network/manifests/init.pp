@@ -2,6 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class network {
+    include ::config
     # always set the hostname to the fqdn
     case $::operatingsystem {
         CentOS: {
@@ -22,17 +23,19 @@ class network {
         }
     }
 
-    # ensure interface configuration is correct
-    # (in particular, don't use peer NTP configuration, as that comes from puppet)
-    case $::operatingsystem {
-        CentOS: {
-            file {
-                "/etc/sysconfig/network-scripts/ifcfg-eth0":
-                    content => template("network/centos6-ifcfg-eth0.erb");
+    if ($::config::manage_ifcfg) {
+        # ensure interface configuration is correct
+        # (in particular, don't use peer NTP configuration, as that comes from puppet)
+        case $::operatingsystem {
+            CentOS: {
+                file {
+                    "/etc/sysconfig/network-scripts/ifcfg-eth0":
+                        content => template("network/centos6-ifcfg-eth0.erb");
+                }
             }
-        }
-        Darwin: {
-            # nothing to do
+            Darwin: {
+                # nothing to do
+            }
         }
     }
 

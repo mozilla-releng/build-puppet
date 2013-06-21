@@ -1,55 +1,39 @@
 #!/bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 set -e
-set -x
 
-echo "Setting up this host to be a puppet master"
-# TODO: wget this script, clone the repo, run it
+## phase handling
 
-MYHOSTNAME=`hostname -s`
-MYFQDN=`hostname`
-if [ "$MYHOSTNAME" == "$MYFQDN" ]; then
-  echo "This host doesn't have a fqdn set. That will break ssl stuff. Please run \`hostname <fqdn>\` and run this script again."
-  exit 1
-fi
-correctmatch=`grep $MYFQDN /etc/sysconfig/network || exit 0`
-if [ -z "$correctmatch" ]; then
-  echo "=== Fixing incorrect hostname in /etc/sysconfig/network"
-  sed -i "s/^HOSTNAME=.*/HOSTNAME=$MYFQDN/" /etc/sysconfig/network
-fi
+PHASES=()
 
+add_phase() {
+    PHASES=("${PHASES[@]}" "${1}")
+}
 
-/bin/echo "=== Setting up yum repositories..."
-/bin/rm -f /etc/yum.repos.d/*
-/bin/cp /etc/puppet/production/setup/yum-bootstrap.repo /etc/yum.repos.d
-/bin/cp /etc/puppet/production/setup/hosts-bootstrap /etc/hosts
-/bin/echo "127.0.0.1 $MYFQDN" >> /etc/hosts
+run_phases() {
+    local ignore_until="${1}"
 
-/bin/echo "=== Cleaning up yum ==="
-/usr/bin/yum clean all
+    for phase in "${PHASES[@]}"; do
+        if [ -n "${ignore_until}" ] && [ "${phase}" != "${ignore_until}" ]; then
+            continue
+        fi
+        ignore_until=
 
-/bin/echo "=== Installing apache, setting up mirrors ==="
-(/bin/rpm -q httpd  > /dev/null 2>&1 || /usr/bin/yum -y -q install httpd)
-/bin/cp /etc/puppet/production/modules/puppetmaster/files/yum_mirrors.conf /etc/httpd/conf.d/yum_mirrors.conf
-/etc/init.d/httpd restart
+        echo "==== ${phase} ===="
+        if ! ${phase}; then
+            echo "Fix the errors above and then restart at this phase with"
+            echo "./setup/masterize.sh $phase"
+            exit 1
+        fi
+    done
+}
 
-echo "=== Ensuring clock is set correctly..."
-if ( `ps ax | grep -v grep | grep -q ntpd` ); then
-    # Stop ntpd running. Puppet will start it back up
-    /sbin/service ntpd stop
-fi
-/usr/sbin/ntpdate ntp.build.mozilla.org
+## action
 
-/bin/echo "=== Installing puppet-server... ==="
-
-(/bin/rpm -q puppet  > /dev/null 2>&1 || /usr/bin/yum -y -q install puppet)
-if [ ! -d /var/lib/puppet/ssl ]; then
-    # generate initial certs to allow apache start properly
-    (/bin/rpm -q puppet-server > /dev/null 2>&1 || /usr/bin/yum -y -q install puppet-server)
-    /sbin/service puppetmaster restart
-    /sbin/service puppetmaster stop
-fi
-
-/usr/bin/puppet apply --modulepath /etc/puppet/production/modules \
-    --manifestdir /etc/puppet/production/manifests \
-    --detailed-exitcodes \
-    /etc/puppet/production/manifests/site.pp
+for script in setup/masterize/*; do
+    source "$script" || exit 1
+done
+run_phases "${@}"

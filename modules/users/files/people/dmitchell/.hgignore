@@ -1,0 +1,7 @@
+.*\.pyc
+sandbox
+_trial_temp
+.*\.egg.*
+\..*\.swp
+.git
+.task

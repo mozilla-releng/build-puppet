@@ -4,17 +4,12 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/. 
 
-if ! test -f /etc/puppet/standalone; then
-    echo "This script is for a standalone puppet master only."
-    exit 1
-fi
-
 errormailto="<%= scope.lookupvar('::config::puppet_notif_email') %>"
 changemailto="<%= scope.lookupvar('::config::puppet_notif_email') %>"
 repo="<%= scope.lookupvar('::config::puppet_again_repo') %>"
 repodir="/etc/puppet/production"
 
-hostname=`hostname -s`
+hostname=<%= scope.lookupvar('::fqdn') %>
 cd $repodir
 
 # check for uncommitted changes
@@ -73,20 +68,6 @@ else
             echo "Puppet changes applied at $hostname:"
             echo ''
             hg diff -r $rev_before -r $rev_after
-            echo ''
-            echo "puppet apply output:"
-            echo ''
-            /usr/bin/puppet apply \
-                --color false \
-                --modulepath $repodir/modules \
-                --manifestdir $repodir/manifests \
-                --detailed-exitcodes \
-                $repodir/manifests/site.pp
-            RC=$?
-            if ! [ $RC = 0 -o $RC = 2 ]; then
-                echo ''
-                echo 'ERROR running puppet apply'
-            fi
         ) | mail -s "[PuppetAgain Changes] Puppet changes applied at $hostname" $changemailto
     fi
 fi

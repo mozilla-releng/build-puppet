@@ -1,0 +1,49 @@
+#! /bin/bash
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# This script:
+# * creates and signs a certificate for its argument
+# *
+
+set -x
+set -e
+source "<%= @scripts_dir %>/ssl_common.sh"
+
+host="$1"
+ip="$2"
+
+# exercise an abundance of caution:
+host=$(echo "$host" | tr ' /' --)
+
+lock_ca_dir
+
+# revoke the old cert, if any (regardless of whether it's on this master or not)
+revoke_leaf_cert "${host}"
+
+# create and sign a new cert/key
+keyfile=$(mktemp ${tmp_dir}/${host}-XXXXXX.key)
+certfile="${tmp_dir}/${host}.crt"
+make_leaf_cert "${host}" agent "${keyfile}" "${certfile}"
+add_file_to_git "${certfile}" "agent-certs/${fqdn}/${host}.crt" "add agent cert for ${host}"
+
+# Log it in CEF format for opsec
+logger "CEF:0|PuppetAgain|PuppetAgain|0|1|puppet client key signed|5|src=$ip shost=$host"
+
+# send the data back to the client
+echo "cat <<EOF >private_keys/${host}.pem"
+cat "${keyfile}"
+echo "EOF"
+echo "cat <<EOF >certs/${host}.pem"
+cat "${agent_certs_dir}/${fqdn}/${host}.crt"
+echo "EOF"
+echo "cat <<EOF >certs/ca.pem"
+cat "${root_ca_cert}"
+echo "EOF"
+
+# clean up
+rm -f "${certfile}"
+shred -u -n 7 -z "${keyfile}"
+rm -f "${lockfile}"

@@ -4,6 +4,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+# You can set PUPPET_SERVER before running this script to use a server other
+# than 'puppet'
+
 REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
 OS=`facter operatingsystem`
 case "$OS" in
@@ -21,8 +24,6 @@ FQDN=`facter fqdn`
 
 # determine interactivity based on the presence of a deploypass file
 [ -f $ROOT/deploypass ] && interactive=false || interactive=true
-
-set -x
 
 hang() {
     echo "${@}"
@@ -55,13 +56,15 @@ while true; do
     python <<EOF
 import urllib2, getpass
 deploypass="$deploypass"
+puppet_server="${PUPPET_SERVER:-puppet}"
+print "Contacting puppet server %s" % (puppet_server,)
 if not deploypass:
     deploypass = getpass.getpass('deploypass: ')
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-password_mgr.add_password(None, 'https://puppet', 'deploy', deploypass)
+password_mgr.add_password(None, 'https://'+puppet_server, 'deploy', deploypass)
 handler = urllib2.HTTPBasicAuthHandler(password_mgr)
 opener = urllib2.build_opener(handler)
-data = opener.open('https://puppet/deploy/getcert.cgi').read()
+data = opener.open('https://%s/deploy/getcert.cgi' % (puppet_server,)).read()
 open("$ROOT/certs.sh", "w").write(data)
 EOF
     if [ $? -ne 0 ]; then
@@ -132,7 +135,8 @@ rm -f "$REBOOT_FLAG_FILE"
 # --pluginsync so that we download plugins on the first run, as they may be required
 # --ssldir=/var/lib/puppet/ssl because it defaults to /etc/puppet/ssl on OS X
 # FACTER_PUPPETIZING so that the manifests know this is a first run of puppet
-while ! FACTER_PUPPETIZING=true /usr/bin/puppet agent --no-daemonize --onetime --server=puppet --pluginsync --ssldir=/var/lib/puppet/ssl; do
+while ! FACTER_PUPPETIZING=true /usr/bin/puppet agent --no-daemonize --onetime --server="${PUPPET_SERVER:-puppet}" --pluginsync --ssldir=/var/lib/puppet/ssl; do
+
     echo "Puppet run failed; re-trying after 10m"
     sleep 600
 done

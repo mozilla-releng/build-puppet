@@ -1,0 +1,23 @@
+#!/bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+set -e
+
+source "<%= @scripts_dir %>/git_common.sh"
+lock_git_dir
+
+# try pushing, but ignore errors
+git push -q "${distinguished_common}" master 2>/dev/null || true
+
+# then pull and push until the push works
+for i in {1..10}; do
+    git pull -q -p "${distinguished_common}" master
+    if git push -q "${distinguished_common}" master; then
+        break
+    fi
+done
+
+# finally, push that to our local git common dir
+git push -q "${git_common_dir}" master:master

@@ -1,0 +1,54 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+<VirtualHost *:443>
+        SSLEngine on
+        SSLProtocol -ALL +SSLv3 +TLSv1
+        SSLCipherSuite ALL:!ADH:RC4+RSA:+HIGH:+MEDIUM:-LOW:-SSLv2:-EXP
+
+        SSLCertificateFile <%= scope.lookupvar('puppetmaster::ssl::master_cert') %>
+        SSLCertificateKeyFile <%= scope.lookupvar('puppetmaster::ssl::master_key') %>
+        # include the intermediate cert (this host's CA)
+        SSLCertificateChainFile <%= scope.lookupvar('puppetmaster::ssl::master_ca_cert') %>
+        SSLCACertificatePath <%= scope.lookupvar('puppetmaster::ssl::certdir') %>
+        SSLCARevocationPath <%= scope.lookupvar('puppetmaster::ssl::certdir') %>
+
+        SSLVerifyClient optional
+        SSLVerifyDepth  2
+        SSLOptions +StdEnvVars
+
+        DocumentRoot <%= scope.lookupvar('puppetmaster::settings::data_root') %>
+
+        # /repos is handled with directory permission, below
+
+        # path to the deployment CGI
+        ScriptAlias /deploy <%= scope.lookupvar('puppetmaster::settings::deploy_dir') %>/cgi-bin
+        <Location /deploy>
+            AuthType Basic
+            AuthName "System Deployment"
+            AuthUserFile /etc/puppet/deploy.htpasswd
+            Require user deploy
+        </Location>
+</VirtualHost>
+
+# Unencrypted access for packages
+<VirtualHost *:80>
+        DocumentRoot /data
+
+        # /repos is handled with directory permission, below
+
+        # deployment CGI
+        <Location /deploy>
+            Order Allow,Deny
+            Deny from all
+        </Location>
+</VirtualHost>
+
+# directory permissions
+<Directory /data/>
+        Options None FollowSymLinks Indexes
+        AllowOverride None
+        Order allow,deny
+        allow from all
+</Directory>

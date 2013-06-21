@@ -1,0 +1,10 @@
+#! /bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# fix up permissions and ownership
+data_root=<%= scope.lookupvar('puppetmaster::settings::data_root') %>
+find $data_root \( -type f \! -perm -0644 \) -exec chmod 0644 \{} \;
+find $data_root \( -type d \! -perm -0755 \) -exec chmod 0755 \{} \;
+find $data_root \( \! -user puppetsync -o \! -group puppetsync \) -exec chown puppetsync:puppetsync \{} \;

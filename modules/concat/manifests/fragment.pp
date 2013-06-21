@@ -27,7 +27,8 @@ define concat::fragment($target, $content='', $source='', $order=10, $ensure = '
         '': {
           case $ensure {
             '', 'absent', 'present', 'file', 'directory': {
-              crit('No content, source or symlink specified')
+              # assume empty content
+              File{ content => '' }
             }
           }
         }

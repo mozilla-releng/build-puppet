@@ -1,2 +1,5 @@
 MAILTO=<%=scope.lookupvar('config::bors_mail_to')%>
 */3 * * * * <%=@owner%> lockfile -10 -r3 <%=@basedir%>/bors.lock 2>/dev/null && (cd <%=@basedir%> && <%=@basedir%>/bin/python <%=@basedir%>/bin/bors --quiet; rm -f <%=@basedir%>/bors.lock) >> <%=@basedir%>/bors.log 2>&1
+<% if status_location %>
+*/1 * * * * <%=@owner%> cp <%=@basedir%>/bors-status.js <%=@status_location%>
+<% end %>

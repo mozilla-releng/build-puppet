@@ -39,7 +39,7 @@ class talos {
             }
             httpd::config {
                 "talos.conf":
-                contents => template("talos/talos-httpd.conf.erb") ;
+                    content => template("talos/talos-httpd.conf.erb") ;
             }
         }
     }

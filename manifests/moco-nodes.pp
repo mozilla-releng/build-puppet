@@ -2,29 +2,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-## relabs machines - check with dustin to borrow one
-
-node "relabs02.build.mtv1.mozilla.com" {
-}
-
-node "relabs03.build.mtv1.mozilla.com" {
-}
-
-node "relabs04.build.mtv1.mozilla.com" {
-}
-
-node "relabs05.build.mtv1.mozilla.com" {
-}
-
-node "relabs06.build.mtv1.mozilla.com" {
-}
-
-node "relabs07.build.mtv1.mozilla.com" {
-}
-
-node "relabs08.build.mtv1.mozilla.com" {
-}
-
 ## foopies
 
 node /foopy\d+.build.mtv1.mozilla.com/ {
@@ -79,7 +56,7 @@ node /bld-centos6-hp-\d+.build.(scl1|mtv1).mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
-node /bld-lion-r5-\d+.(try|bld).releng.scl3.mozilla.com/ {
+node /bld-lion-r5-\d+.(try|build).releng.scl3.mozilla.com/ {
     include toplevel::slave::build::standard
 }
 
@@ -103,22 +80,38 @@ node /(bld|try|dev)-.*\.(build|try|dev)\.releng\.(use1|usw2)\.mozilla.com/ {
 ## puppetmasters
 
 node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
-    include toplevel::server::puppetmaster::standalone
+    include toplevel::server::puppetmaster
+}
+node "releng-puppet2.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::puppetmaster
+}
+node "releng-puppet2.build.scl1.mozilla.com" {
+    include toplevel::server::puppetmaster
+}
+node "releng-puppet2.build.mtv1.mozilla.com" {
+    include toplevel::server::puppetmaster
+}
+node /releng-puppet\d\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
+    include toplevel::server::puppetmaster
 }
 
 ## mozpool servers
 
 node "mobile-imaging-stage1.p127.releng.scl1.mozilla.com" {
     $aspects = [ "staging" ]
-    $extra_root_keys = [ 'mcote' ]
     $is_bmm_admin_host = true
     include toplevel::server::mozpool
+    users::root::extra_authorized_key {
+        'mcote': ;
+    }
 }
 
 node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
-    $extra_root_keys = [ 'mcote' ]
     $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => true, default => false }
     include toplevel::server::mozpool
+    users::root::extra_authorized_key {
+        'mcote': ;
+    }
 }
 
 ## buildbot masters
@@ -423,6 +416,11 @@ node "buildbot-master80.srv.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
+# temporary node defs for these hosts
+node /buildbot-master8[1-9].srv.releng.scl3.mozilla.com/ {
+    include toplevel::server
+}
+
 node "buildbot-master90.srv.releng.use1.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
         "bm90-tests1-panda":
@@ -511,16 +509,4 @@ node "buildbot-master98.srv.releng.use1.mozilla.com" {
             basedir => "tests1-tegra";
     }
     include toplevel::server::buildmaster
-}
-
-
-## Servo machinery
-
-node "buildbot-master-servo1.srv.servo.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master::servo {
-        "bms1-servo1":
-            http_port => 8001,
-            basedir => "servo1";
-    }
-    include toplevel::server::bors::servo
 }

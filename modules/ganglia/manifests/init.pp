@@ -30,8 +30,14 @@ class ganglia {
                     $cluster = "RelEngMTV1"
                     $addr = "239.2.11.203"
                 }
+                /^.*\.releng\.(use1|usw2)\.mozilla\.com$/: {
+                    # this is a fake address, but we need sometihng to plug in here until
+                    # we convert to using graphite
+                    $cluster = "RelengAws"
+                    $addr = "127.0.0.1"
+                }
                 default: {
-                    fail("Unsupported fqdn")
+                    fail("Unsupported ganglia fqdn")
                 }
             }
 

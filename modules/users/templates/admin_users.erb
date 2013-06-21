@@ -1,0 +1,11 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<%# sudoers config for admin users, giving them access to run anything as root %>
+
+<%
+    admin_users = Array(scope.lookupvar('::config::admin_users')).flatten
+    if (admin_users.length > 0) -%>
+User_Alias ADMIN_USERS = <%= admin_users.join(', ') %>
+ADMIN_USERS ALL=(root) NOPASSWD: ALL
+<% end -%>

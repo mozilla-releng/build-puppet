@@ -1,0 +1,8 @@
+## automatically open irssi on startup
+
+screen -t firc 97 irssi -c freenode
+screen -t mirc 98 irssi -c mozilla
+at 97 monitor on
+at 98 monitor on
+bind i select mirc
+bind u select firc

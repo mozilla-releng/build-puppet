@@ -26,13 +26,29 @@ class users::root::setup($home, $username, $group) {
         $username:
             home => $home,
             group => $group,
-            authorized_keys => [
-                $::config::global_authorized_keys,
-                # get the node-scoped value, if any
-                $extra_root_keys ? {
-                    undef => [ ],
-                    default => $extra_root_keys
-                }];
+            authorized_keys => $::config::admin_users,
+            authorized_keys_allows_extras => true,
     } -> Anchor['users::root::setup::end']
 
+    ##
+    # Manage some configuration files
+
+    file {
+        "$home/.hgrc":
+            mode => 0644,
+            owner => $username,
+            group => $group,
+            source => "puppet:///modules/users/hgrc";
+    }
+
+    if ($::operatingsystem == Ubuntu) {
+        # patch out /root/.bashrc to not reset $PS1; $PS1 is set in users::global
+        file {
+            "$home/.bashrc":
+                mode => 0644,
+                owner => $username,
+                group => $group,
+                source => "puppet:///modules/users/ubuntu-root-bashrc";
+        }
+    }
 }

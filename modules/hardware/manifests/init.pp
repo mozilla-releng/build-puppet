@@ -2,6 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class hardware {
+    include config
+
     # HP Proliant systems get the hp-health utility, and nagios checks
     # to query it
     if ($::manufacturer == "HP" and $::productname =~ /ProLiant/) {
@@ -38,10 +40,22 @@ class hardware {
         include packages::openipmi
     }
 
-    if (($::manufacturer == "iXsystems" and $::productname == "iX700-C") or
+    # some iX hardware shows up as 'ixSystems', some as 'Supermicro'
+    if (($::manufacturer == 'iXsystems' or $::manufacturer == 'Supermicro') and
         # iX700-C's can show up as X8SIL, too
-        ($::manufacturer == "iXsystems" and $::productname == "X8SIL") or
-        ($::manufacturer == "iXsystems" and $::productname == "iX21X4-STIBTRF")) {
+        ($::productname == "iX700-C" or $::productname == "X8SIL" or $::productname == "iX21X4-STIBTRF")) {
         include tweaks::i82574l_aspm
+    }
+
+    # OK, so it's not strictly "hardware", but stlil..
+    if ($::virtual == "vmware") {
+        if ($config::vmwaretools_version) {
+            class {
+                'vmwaretools':
+                    version => $config::vmwaretools_version,
+                    archive_md5 => $config::vmwaretools_md5,
+                    archive_url => "http://${config::data_server}/repos/private/vmware";
+            }
+        }
     }
 }

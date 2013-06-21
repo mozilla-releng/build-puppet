@@ -2,5 +2,5 @@
   # License, v. 2.0. If a copy of the MPL was not distributed with this
   # file, You can obtain one at http://mozilla.org/MPL/2.0/. -%>
 MAILTO="<%= scope.lookupvar('::config::puppet_notif_email') %>"
-<%= minute1 %>,<%= minute2 %> * * * * root if test -f /etc/puppet/standalone; then /etc/puppet/update.sh; else /usr/bin/puppet agent --enable && /usr/bin/puppet agent --onetime --no-daemonize; fi
+<%= @minute1 %>,<%= @minute2 %> * * * * root /usr/bin/puppet agent --enable >/dev/null 2>/dev/null && /usr/bin/puppet agent --onetime --no-daemonize --logdest=syslog >/dev/null 2>&1
 MAILTO=root

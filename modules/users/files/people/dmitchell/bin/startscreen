@@ -1,0 +1,99 @@
+#! /bin/bash
+
+WANT_GPG_AGENT=false
+
+# note that PATH is not set up per .bashrc yet when this is run from the terminal
+# so e.g., /opt/local/bin is not present.  If we add it here, it will get duplicated
+# in .bashrc, so don't do that.
+SCREEN=screen
+[ -x /opt/local/bin/screen ] && SCREEN=/opt/local/bin/screen
+
+GPG_AGENT=gpg-agent
+[ -x /opt/local/bin/gpg-agent ] && GPG_AGENT=/opt/local/bin/gpg-agent
+
+if [ x"$1" != x"-x" ]; then
+    # set up ssh-agent, if no agent is available
+    ssh-add -l
+    RV=$?
+    if [ $RV -eq 1 ]; then
+        ssh-add ~/.ssh/dustin || exit 1
+    elif [ $RV -eq 2 ]; then
+        # avoid infinite recursion..
+        [ x"$1" = "IN-AGENT" ] && exit 1
+
+        # recurse into startscreen inside an agent
+        ssh-agent ~/bin/startscreen IN-AGENT
+        exit $?
+    fi
+
+    make_socket_dir() {
+        local socket_dir="/tmp/$(uname -n)-$(id -u)"
+
+        # set up the directory and permissions (yes, this is racy..)
+        [ -e $socket_dir ] || mkdir -p $socket_dir
+        chmod 700 $socket_dir
+
+        echo $socket_dir
+    }
+
+    # hard-link that SSH socket to one with a fixed name on the local
+    # machine, and set SSH_AUTH_SOCK to point to that fixed name.  Later
+    # invocations of this script will change the link, but the name will
+    # remain valid, allowing existing shells to continue to function.
+    setup_fixed_socket() {
+      local old_socket="$SSH_AUTH_SOCK"
+      local socket_dir="$(make_socket_dir)"
+      local socket_file=$socket_dir/agent
+
+      # remove an existing link
+      [ -e $socket_file ] && rm $socket_file
+
+      # hard-link in the new one
+      ln $old_socket $socket_file
+
+      # return the new socket
+      echo $socket_file
+    }
+
+    # this variable will be exported to every shell opened by this
+    # invocation of screen -- even subsequent connections to it.  This
+    # variable may live for days or weeks.
+    export SSH_AUTH_SOCK=$(setup_fixed_socket)
+
+    # now do a similar thing with gpg-agent; the difference being, we start a
+    # *local* gpg-agent if necessary.
+    setup_gpg_agent() {
+        local socket_dir="$(make_socket_dir)"
+        local socket_file=$socket_dir/gpg-agent
+
+        GPG_AGENT_INFO="$socket_file:1:1" $GPG_AGENT >/dev/null 2>/dev/null
+        local rc=$?
+        if [ $rc -eq 127 ]; then
+            echo "no gpg-agent installed" >&2
+            return
+        elif [ $rc -ne 0 ]; then
+            # killall, just to check
+            killall gpg-agent
+
+            # start a new daemon
+            eval $($GPG_AGENT --daemon)
+
+            # and move its agent file to the well-known location
+            local old_socket_file=${GPG_AGENT_INFO%%:[0-9]*:[0-9]*}
+            rm -f $socket_file
+            mv $old_socket_file $socket_file
+        fi
+
+        echo $socket_file:1:1
+    }
+
+    if $WANT_GPG_AGENT; then
+        export GPG_AGENT_INFO=$(setup_gpg_agent)
+    fi
+
+    # finally, fire up screen.  Try reattaching to a running
+    # session; otherwise start up a new one
+    $SCREEN -U -R -DD || screen -U
+else
+    $SCREEN -x
+fi

@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# This script list backup home directories of disabled users with UID > 500
+# and delete them after a period of time.
+# i.e. it checks for users that are not listed in LDAP auth (=disabled) but have
+# a home directory, tar it up, and remove original. After the defined period of
+# time has elapsed, the script delete the tarball (at this point all data for that
+# home dir is permanently lost, which is the intended behavior)
+
+# vars from puppet
+homebase="<%= @homebase %>"
+operatingsystem="<%= scope.lookupvar('::operatingsystem') %>"
+puppet_notif_email="<%= scope.lookupvar('::config::puppet_notif_email') %>"
+fqdn="<%= scope.lookupvar('::fqdn') %>"
+
+# settings
+NOOP=false
+VERBOSE=false
+BASE="/${homebase}/archive/"
+DELETEAFTER=90 # in days
+EXCEPTIONS="lost+found archive" #users that we never backup or delete even if disabled
+
+_mailbody=$(mktemp)
+
+function sendmail()
+{
+    [[ -s $_mailbody ]] && cat $_mailbody | mail -s "homeclean.sh report for ${fqdn}" $puppet_notif_email
+	rm $_mailbody
+}
+
+function setup() 
+{
+	mkdir -p ${BASE}
+	chmod 0700 ${BASE}
+}
+
+function exist()
+{
+	oldifs=$IFS
+	unset IFS
+	[[ -z "$1" ]] && return 1
+	for i in ${EXCEPTIONS}; do
+		[[ $i == $1 ]] && {
+			IFS=$oldifs
+			return 1
+		}
+	done
+	IFS=$oldifs
+	return 0
+}
+
+#Backup any user that has been disabled
+function backup()
+{
+    # fill in $homelist with a list of in-use homedirs
+	homelist=$(mktemp)
+    case $operatingsystem in
+        Darwin) dscacheutil -q user | grep '^dir:' | cut -c 6- | sort -u > $homelist ;;
+        *) getent passwd|cut -d ':' -f 6 > $homelist ;;
+    esac
+
+    # iterate over the existing homedirs
+	IFS="
+"
+	for user in $(ls $homebase); do
+		exist ${user} || continue
+		grep -q ${user} ${homelist} || {
+			$VERBOSE && echo "+ will backup disabled user $user" | tee -a $_mailbody 
+			[[ $NOOP -eq 0 ]] && tar Pczf ${BASE}${user}.tar.gz /home/${user} && rm -rf /home/${user}
+		}
+	done
+	unset IFS
+	rm $homelist
+}
+
+#Delete any backup older than DELETEAFTER days (as rounded per 24h periods by find)
+function delete()
+{
+	find ${BASE} -mtime +${DELETEAFTER} -print | tee -a $_mailbody
+	[[ $NOOP -eq 0 ]] && find ${BASE} -mtime +${DELETEAFTER} -delete
+}
+
+# main()
+$NOOP && echo "NOOP mode enabled: no action will be taken"
+$NOOP || setup
+backup
+delete
+sendmail

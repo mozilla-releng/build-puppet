@@ -1,0 +1,35 @@
+Here's how you set up a new PuppetAgain cluster:
+
+First, set up a PuppetAgain hg repository to suit your environment:
+
+ * organization config
+ * nodes.pp
+
+This can be in any hg repo, not necessarily one hosted by Mozilla.  The
+organization config should have at least the following set:
+
+    puppet_notif_email
+    builder_username
+    data_servers
+    puppet_servers
+    global_authorized_keys
+    distinguished_puppetmaster
+    puppet_again_repo
+    puppetmaster_upstream_rsync_source
+    puppetmaster_upstream_rsync_args
+
+Now, build the distinguished master.  On a fresh centos system, hg clone the
+repository. Cd into the new clone and run
+
+ sh ./setup/masterize.sh
+
+It will stop every time there's an unrecoverable error or something requiring
+manual intervention, and tell you what to do.
+
+Once the distinguished master is up and running, you can add other puppet
+masters using the same process as to add any other node to the cluster:
+kickstart to a basic system and run ./puppetize.sh.
+
+For puppet masters, the puppetize process will not run to completion without
+some intervention to set up encryption keys.  The error messages will prompt
+you and provide instructions.

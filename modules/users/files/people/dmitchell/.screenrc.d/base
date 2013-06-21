@@ -1,0 +1,58 @@
+#############
+#
+# Basic prefs
+#
+
+defutf8 on
+startup_message off
+nonblock on
+shelltitle loc
+# only used for prompts; red on black
+sorendition 0 91
+
+##############
+#
+# Key (un)bindings
+#
+
+escape ^XX
+bind f
+bind ^g
+bind h
+bind H
+bind q
+bind s
+bind x
+bind z
+bind ^\
+bind .
+bind >
+bind <
+bind =
+bind ^M
+
+################
+#
+# xterm tweaks
+#
+
+# visual bell
+termcapinfo xterm 'vb=\E[?5h$<200/>\E[?5l'
+
+# newline stuff
+# LP = last line is safe
+# am = don't use the last column
+termcapinfo xterm 'am:LP@'
+
+##################
+#
+# Caption
+#
+
+caption splitonly "window %n (%t) at %0C"
+
+##################
+#
+# scrollback
+#
+defscrollback 10000

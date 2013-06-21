@@ -12,6 +12,11 @@ class nrpe::base {
 
     # configure
     file {
+        "${nrpe_etcdir}":
+            ensure => directory,
+            owner => $::users::root::username,
+            group => $::users::root::group,
+            require => Class["packages::nrpe"];
         "${nrpe_etcdir}/nrpe.cfg":
             content => template("nrpe/nrpe.cfg.erb"),
             owner => $::users::root::username,

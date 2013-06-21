@@ -1,0 +1,74 @@
+#! /usr/bin/perl
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# runs as apache
+
+# This script:
+#
+# * sanitizes the remote IP and does a reverse-DNS lookup
+# * sends email to the puppet_notif_email
+# * invokes the setuid script, deployment_getcert.sh
+
+use warnings;
+use strict;
+use IPC::Open3;
+use Symbol qw( gensym );
+use Socket;
+use POSIX;
+
+my $mailto = '<%= scope.lookupvar('::config::puppet_notif_email') %>';
+
+print "Content-Type: text/plain\n\n";
+
+$ENV{'PATH'} = '/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin';
+
+# first, find the hostname of the remote system.  Note that this does not use
+# any input from that system itself -- Apache sets this variable.
+my @ip_octets = ($ENV{'REMOTE_ADDR'} =~ /^(10)\.(\d+)\.(\d+)\.(\d+)/);
+die "invalid IP" unless @ip_octets;
+
+@ip_octets = map { $_+0 } @ip_octets;
+for (@ip_octets) {
+    die "invalid IP" if ($_ < 0 || $_ > 255);
+}
+
+my $ip = join(".", @ip_octets);
+
+# compare against the list of subnets in the network
+my $network_regexps = [
+<% @network_regexps.each do |regexp| -%>
+    qr/<%= regexp %>/m,
+<% end %>
+];
+
+my $ok = 0;
+foreach my $regexp (@$network_regexps) {
+    if ($ip =~ /$regexp/) {
+        $ok = 1;
+        last;
+    }
+}
+die "invalid IP" unless $ok;
+
+# convert to a hostname
+my $host = gethostbyaddr(inet_aton($ip), AF_INET);
+die "cannot resolve $ip" unless $host;
+die "$ip resolves to a non-mozilla.com address" unless ($host =~ /mozilla.com$/);
+
+print "echo 'Resolved client IP $ip to hostname $host'\n";
+
+# start sending mail about this request, so that even if things crash, we still
+# get an email
+open(my $mail, '|-', '/bin/mail', '-s', "[PuppetAgain Changes] certificate generated for $host", $mailto)
+    or die "error sending mail";
+print $mail "Creating certificate for $host from ip $ip.\n";
+
+# generate the certs, sending stderr to $mail.  This script is run via sudo,
+# and also gives us the chance to grab all stderr from the script.
+my $pid = open3(gensym, ">&STDOUT", ">&" . fileno($mail), 'sudo', '<%= @deployment_getcert_sh %>', $host, $ip);
+waitpid($pid, 0);
+
+close $mail or die "while sending mail: $?";

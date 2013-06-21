@@ -22,6 +22,7 @@ class packages::setup {
                     "repos/yum/mirrors/epel/6/latest/$architecture",
                     gpg_key => "puppet:///modules/packages/0608B895.txt",
                     gpg_key_pkg => 'gpg-pubkey-0608b895-4bd22942';
+
                 "base":
                     url_path =>
                     "repos/yum/mirrors/centos/6/latest/os/$architecture",
@@ -35,6 +36,9 @@ class packages::setup {
 
                 "puppetlabs":
                     url_path => "repos/yum/mirrors/puppetlabs/el/6/products/$architecture";
+
+                "puppetlabs-deps":
+                    url_path => "repos/yum/mirrors/puppetlabs/el/6/dependencies/$architecture";
 
                 "releng-public-${operatingsystem}${majorver}-${architecture}":
                     url_path => "repos/yum/releng/public/$operatingsystem/$majorver/$architecture" ;
@@ -54,7 +58,7 @@ class packages::setup {
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 6
+            $repoflag = 8
             file {
                 "/etc/.repo-flag":
                     content =>
@@ -63,8 +67,12 @@ class packages::setup {
             }
             exec {
                 yum-clean-expire-cache:
-                # this will expire all yum metadata caches
+                    # this will expire all yum metadata caches
                     command => "/usr/bin/yum clean expire-cache",
+                    refreshonly => true;
+                yum-clean-all:
+                    # this is necessary when mirror lists change
+                    command => "/usr/bin/yum clean all",
                     refreshonly => true;
             }
         }
@@ -85,7 +93,7 @@ class packages::setup {
             }
             # to flush the package index, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 3
+            $repoflag = 4
             file {
                 "/etc/.repo-flag":
                     content =>
@@ -125,6 +133,10 @@ class packages::setup {
                     url_path     => "repos/apt/releng-updates",
                     distribution => "precise-updates",
                     components   => ["all"];
+                "puppetlabs":
+                    url_path     => "repos/apt/puppetlabs",
+                    distribution => "precise",
+                    components   => ["dependencies", "main"];
             }
             @packages::aptrepo {
                 "xorg-edgers":

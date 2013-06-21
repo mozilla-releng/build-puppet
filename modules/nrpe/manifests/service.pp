@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class nrpe::service {
     include packages::nrpe
+    include nrpe::settings
 
     case $::operatingsystem {
         CentOS, Ubuntu: {
@@ -14,11 +15,19 @@ class nrpe::service {
             }
         }
         Darwin: {
+            $svc_plist = "/Library/LaunchDaemons/org.nagios.nrpe.plist"
+            file {
+                $svc_plist:
+                    content => template("${module_name}/nrpe.plist.erb");
+            }
             service {
                 "org.nagios.nrpe":
                     enable => "true",
                     ensure => "running",
-                    require => Class['packages::nrpe'];
+                    require => [
+                        Class['packages::nrpe'],
+                        File[$svc_plist],
+                    ];
             }
         }
         default: {

@@ -16,6 +16,7 @@
 #
 define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=undef) {
     include ::config
+    include buildmaster::release_runner_access
     include buildmaster::base
     include buildmaster::queue
     include buildmaster::settings
@@ -95,7 +96,11 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
                             VIRTUALENV=${::packages::mozilla::py27_virtualenv::virtualenv} \
                             PYTHON=${::packages::mozilla::python27::python} \
                             HG=${::packages::mozilla::py27_mercurial::mercurial} \
-                            MASTERS_JSON=${config::master_json}",
+                            MASTERS_JSON=${config::master_json} \
+                            USER=$master_user \
+                            BUILDBOTCUSTOM_BRANCH=${config::buildbotcustom_branch} \
+                            BUILDBOTCONFIGS_BRANCH=${config::buildbot_configs_branch} \
+                            TOOLS_REPO=${config::buildbot_tools_hg_repo}",
             creates   => "${full_master_dir}/master",
             user      => $master_user,
             group     => $master_group,

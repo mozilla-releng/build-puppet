@@ -1,0 +1,6 @@
+<%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/. -%>
+MAILTO="<%= scope.lookupvar('::config::puppet_notif_email') %>"
+*/<%= scope.lookupvar('::puppetmaster::settings::puppet_check_interval_mins') %> * * * * root sleep $((($RANDOM/(32768/<%= scope.lookupvar('::puppetmaster::settings::puppet_check_splay_secs') %>)))); /etc/puppet/update.sh
+MAILTO=root

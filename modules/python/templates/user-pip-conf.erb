@@ -5,20 +5,10 @@
 no-index = true
 # look at all known puppetmasters for links, in case one is down
 find-links =
-<% if data_servers.respond_to?('shuffle')
-# see comments in modules/packages/templates/mirrorlist.erb
-old_seed = rand()
-srand(ipaddress.sub('.', '').to_i)
-data_servers.shuffle.each do |mirror_server| -%>
-    http://<%= mirror_server %>/python/packages
 <%
-end
-
-# restore the randomness
-srand(old_seed)
-
-else -%>
-    http://<%= data_server %>/python/packages
+servers = [ @data_server ] + Array(@data_servers)
+servers.uniq.each do |mirror_server| -%>
+    http://<%= mirror_server %>/python/packages
 <%
 end
 -%>

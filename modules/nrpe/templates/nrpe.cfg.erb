@@ -5,11 +5,6 @@
 ####  This file under configuration management control
 ####  DO NOT EDIT MANUALLY
 
-# These options are common to all of our supported platforms:
-#  - CentOS 32-bit Build Machines & Masters
-#  - CentOS 64-bit Build Machines & Masters
-#  - OS X 10.5 Build Machines
-#  - OS X 10.6 Build Machines
 pid_file=/var/run/nrpe.pid
 server_port=5666
 nrpe_user=nagios
@@ -20,8 +15,8 @@ include_dir=/etc/nagios/nrpe.d
 command_timeout=60
 
 # basic, common checks
-command[check_load]=<%=plugins_dir%>/check_load -w $ARG1$ -c $ARG2$
-command[check_users]=<%=plugins_dir%>/check_users -w $ARG1$ -c $ARG2$
-command[check_disk]=<%=plugins_dir%>/check_disk -w $ARG1$ -c $ARG2$ -p $ARG3$
-command[check_procs]=<%=plugins_dir%>/check_procs -w $ARG1$ -c $ARG2$ -s $ARG3$
-command[check_file_age]=<%=plugins_dir%>/check_file_age -w $ARG1$ -c $ARG2$ -f $ARG3$
+command[check_load]=<%=@plugins_dir%>/check_load -w $ARG1$ -c $ARG2$
+command[check_users]=<%=@plugins_dir%>/check_users -w $ARG1$ -c $ARG2$
+command[check_disk]=<%=@plugins_dir%>/check_disk -w $ARG1$ -c $ARG2$ -p $ARG3$
+command[check_procs]=<%=@plugins_dir%>/check_procs -w $ARG1$ -c $ARG2$ -s $ARG3$
+command[check_file_age]=<%=@plugins_dir%>/check_file_age -w $ARG1$ -c $ARG2$ -f $ARG3$

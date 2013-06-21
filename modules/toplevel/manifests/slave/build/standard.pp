@@ -12,6 +12,8 @@ class toplevel::slave::build::standard inherits toplevel::slave::build {
     include packages::p7zip
 
     if ($::operatingsystem == "Darwin") {
+        include packages::xcode
+
         # used for partner repacks, which only run on OS X
         include packages::upx
 

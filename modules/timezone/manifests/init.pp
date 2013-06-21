@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class timezone {
-
+    include users::root
     include packages::tzdata
 
     case $::operatingsystem {
@@ -14,11 +14,19 @@ class timezone {
                     group => $users::root::group,
                     content => file("/usr/share/zoneinfo/US/Pacific"),
                     force => true,
-                    require => Class['packages::tzdata'];
+                    require => Class['packages::tzdata'],
+                    notify => Exec['/usr/sbin/tzdata-update'];
+                "/etc/sysconfig/clock":
+                    mode => 644,
+                    owner => root,
+                    group => $users::root::group,
+                    content => 'ZONE="US/Pacific"',
+                    force => true,
+                    require => Class['packages::tzdata'],
+                    notify => Exec['/usr/sbin/tzdata-update'];
             }
             exec {
                 "/usr/sbin/tzdata-update":
-                    subscribe => File["/etc/localtime"],
                     refreshonly => true;
             }
         }

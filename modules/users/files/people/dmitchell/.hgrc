@@ -1,0 +1,17 @@
+[extensions]
+hgext.mq=
+hgext.graphlog=
+hgext.rebase=
+#prompt = /home/dustin/lib/python/prompt.py
+color=
+pager=
+convert=
+
+[ui]
+username = Dustin J. Mitchell <dustin@mozilla.com>
+ignore = ~/.hgignore
+
+[diff]
+git=True
+showfunc=True
+

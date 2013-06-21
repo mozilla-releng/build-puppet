@@ -21,7 +21,7 @@ class concat::setup {
   }
 
   # modified for Mozilla: do not use a plugin to get this value
-  $concatdir = "$settings::vardir/concat"
+  $concatdir = "/var/lib/puppet/concat"
 
   $majorversion = regsubst($::puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
 

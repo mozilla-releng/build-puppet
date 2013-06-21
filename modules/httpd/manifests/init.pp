@@ -18,6 +18,8 @@ class httpd {
                 'httpd' :
                     require => Class["packages::httpd"],
                     enable => true,
+                    hasrestart => true,
+                    hasstatus =>true,
                     ensure => running;
             }
         }
