@@ -31,7 +31,8 @@ class puppetmaster::manifests {
             mode => 0755,
             owner => root,
             group => root,
-            content => "[paths]\ndefault = ${puppetmaster::settings::manifests_repo}\n";
+            content => "[paths]\ndefault = ${puppetmaster::settings::manifests_repo}\n",
+            require => Exec['checkout-puppet'];
         "/etc/puppet/get_rev.sh":
             mode => 0755,
             owner => root,
