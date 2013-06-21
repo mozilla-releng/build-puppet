@@ -14,7 +14,7 @@ class config inherits config::base {
     $data_servers = $puppet_servers
 
     $distinguished_puppetmaster = "relabs03.build.mtv1.mozilla.com"
-    $puppet_again_repo = "http://hg.mozilla.org/users/dmitchell_mozilla.com/puppet320/"
+    $puppet_again_repo = "http://hg.mozilla.org/build/puppet/"
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
     $puppetmaster_upstream_rsync_args = '--exclude=repos/apt'
 
