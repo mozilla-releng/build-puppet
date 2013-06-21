@@ -27,6 +27,11 @@ class puppetmaster::manifests {
             owner => root,
             group => root,
             content => template("puppetmaster/update.sh.erb");
+        "${checkout_dir}/.hg/hgrc":
+            mode => 0755,
+            owner => root,
+            group => root,
+            content => "[paths]\ndefault = ${puppetmaster::settings::manifests_repo}\n";
         "/etc/puppet/get_rev.sh":
             mode => 0755,
             owner => root,
