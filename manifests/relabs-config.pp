@@ -8,13 +8,20 @@ class config inherits config::base {
     $puppet_notif_email = "dustin@mozilla.com"
     $puppet_server_reports = ""
     $builder_username = "relabsbld"
-    $puppet_server = "relabs03.build.mtv1.mozilla.com"
-    $puppet_servers = [ "relabs03.build.mtv1.mozilla.com" ]
-    $data_server = $puppet_server
+    $grouped_puppet_servers = {
+        ".*" => [
+            "relabs03.build.mtv1.mozilla.com",
+            "relabs04.build.mtv1.mozilla.com",
+        ],
+    }
+    $puppet_servers = sort_servers_by_group($grouped_puppet_servers)
+    $puppet_server = $puppet_servers[0]
     $data_servers = $puppet_servers
+    $data_server = $puppet_server
 
     $distinguished_puppetmaster = "relabs03.build.mtv1.mozilla.com"
     $puppet_again_repo = "http://hg.mozilla.org/build/puppet/"
+
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
     $puppetmaster_upstream_rsync_args = '--exclude=repos/apt'
 
