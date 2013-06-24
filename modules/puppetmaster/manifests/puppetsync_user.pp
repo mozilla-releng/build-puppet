@@ -40,7 +40,7 @@ class puppetmaster::puppetsync_user {
         "${homedir}/.ssh/known_hosts":
             ensure => absent;
         "${homedir}/.ssh/config":
-            content => "CheckHostIp no\nStrictHostKeyChecking yes\n",
+            content => template("${module_name}/puppetsync_ssh_config.erb"),
             owner => puppetsync,
             group => puppetsync,
             mode => "0600";
