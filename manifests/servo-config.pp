@@ -138,6 +138,6 @@ class config inherits config::base {
     $bors_servo_repo = "servo"
     $bors_servo_reviewers = ["brson", "pcwalton", "metajack", "ILyoan", "jdm", "yichoi", "aydinkim", "sfowler"]
     $bors_servo_builders = ["linux", "mac"]
-    $bors_servo_buildbot_url = "http://buildbot-master-servo-01.srv.servo.releng.use1.mozilla.com:8001"
+    $bors_servo_buildbot_url = "http://servo-buildbot.pub.build.mozilla.org"
 }
 
