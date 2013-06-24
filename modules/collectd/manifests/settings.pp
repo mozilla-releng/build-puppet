@@ -4,12 +4,7 @@
 class collectd::settings {
     include ::config
 
-    if !$::config::collectd_graphite_cluster_fqdn or $::config::collectd_graphite_cluster_fqdn == "" {
-        fail("Graphite cluster fqdn must be defined!")
-    }
-    else {
-        $graphite_cluster_fqdn = $::config::collectd_graphite_cluster_fqdn
-    }
+    $graphite_cluster_fqdn = $::config::collectd_graphite_cluster_fqdn
 
     if !$::config::collectd_graphite_port or $::config::collectd_graphite_port == "" {
         # Defualt carbon port
@@ -30,6 +25,10 @@ class collectd::settings {
         'CentOS': {
             $configdir        = '/etc'
             $plugindir        = '/etc/collectd.d'
+        }
+        'Ubuntu': {
+            $configdir        = '/etc/collectd'
+            $plugindir        = '/etc/collectd/collectd.d'
         }
 
         default: {

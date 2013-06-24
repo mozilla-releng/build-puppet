@@ -78,6 +78,25 @@ class packages::collectd {
             }
         }
 
+        Ubuntu: {
+            package {
+                "collectd-core":
+                    ensure => '5.3.0';
+                "collectd":
+                    ensure => '5.3.0';
+                "libcollectdclient1":
+                    ensure => '5.3.0';
+                "libcollectdclient-dev":
+                    ensure => '5.3.0';
+                "collectd-dbg":
+                    ensure => '5.3.0';
+                "collectd-dev":
+                    ensure => '5.3.0';
+                "collectd-utils":
+                    ensure => '5.3.0';
+            }
+        }
+
         default: {
             fail("cannot install on $::operatingsystem")
         }
