@@ -136,7 +136,7 @@ class config inherits config::base {
     $buildbot_mail_to = "release@mozilla.com"
     $bors_servo_repo_owner = "mozilla"
     $bors_servo_repo = "servo"
-    $bors_servo_reviewers = ["brson", "pcwalton", "metajack", "ILyoan", "jdm", "yichoi", "aydinkim", "sfowler"]
+    $bors_servo_reviewers = ["brson", "pcwalton", "metajack", "ILyoan", "jdm", "yichoi", "aydinkim", "sfowler", "burg"]
     $bors_servo_builders = ["linux", "mac"]
     $bors_servo_buildbot_url = "http://servo-buildbot.pub.build.mozilla.org"
 }
