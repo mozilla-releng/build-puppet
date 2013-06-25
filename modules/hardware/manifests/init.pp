@@ -6,18 +6,11 @@ class hardware {
 
     # HP Proliant systems get the hp-health utility, and nagios checks
     # to query it
+    # This IF code block should be removed soon since we don't use the
+    # hp-health package anymore.
+    # https://bugzilla.mozilla.org/show_bug.cgi?id=883318
     if ($::manufacturer == "HP" and $::productname =~ /ProLiant/) {
         include packages::hp_health
-
-        service {
-            # these services crash on startup sometimes - thanks HP!
-            # they're left here so they can be started manually for diagnostic purposes
-            # https://bugzilla.mozilla.org/show_bug.cgi?id=799521
-            [ 'hp-asrd', 'hp-health' ]:
-                ensure => stopped,
-                enable => false,
-                require => Class['packages::hp_health'];
-        }
     }
 
     # SeaMicro nodes can start up with incorrect time - see bug 789064
