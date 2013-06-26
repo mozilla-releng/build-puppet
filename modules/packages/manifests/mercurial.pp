@@ -6,7 +6,7 @@ class packages::mercurial {
         CentOS: {
             package {
                 "mercurial":
-                    ensure => "1.4-3";
+                    ensure => "1.4-3.el6";
             }
         }
         Ubuntu: {
