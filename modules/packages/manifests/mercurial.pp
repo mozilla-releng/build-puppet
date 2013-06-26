@@ -6,13 +6,13 @@ class packages::mercurial {
         CentOS: {
             package {
                 "mercurial":
-                    ensure => latest;
+                    ensure => "1.4-3";
             }
         }
         Ubuntu: {
             package {
                 ["mercurial", "mercurial-common"]:
-                    ensure => "2.0.2-1ubuntu1";
+                    ensure => "2.5.4-0mozilla1";
             }
         }
         default: {
