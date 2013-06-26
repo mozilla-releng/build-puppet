@@ -84,6 +84,7 @@ node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
 }
 node "releng-puppet2.srv.releng.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
+    $puppetmaster_is_public_mirror = true
 }
 node "releng-puppet2.build.scl1.mozilla.com" {
     include toplevel::server::puppetmaster
