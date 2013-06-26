@@ -16,6 +16,7 @@ node "relabs03.build.mtv1.mozilla.com" {
 node "relabs04.build.mtv1.mozilla.com" {
     # temporary non-distinguished master
     include toplevel::server::puppetmaster
+    $puppetmaster_is_public_mirror = true
 }
 
 node "relabs05.build.mtv1.mozilla.com" {
