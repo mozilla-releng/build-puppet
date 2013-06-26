@@ -3,10 +3,16 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::mercurial {
     case $::operatingsystem {
-        CentOS, Ubuntu: {
+        CentOS: {
             package {
                 "mercurial":
                     ensure => latest;
+            }
+        }
+        Ubuntu: {
+            package {
+                ["mercurial", "mercurial-common"]:
+                    ensure => "2.0.2-1ubuntu1";
             }
         }
         default: {
