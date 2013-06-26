@@ -30,5 +30,5 @@ class puppetmaster::settings {
         $distinguished_master => true,
         default => false
     }
-    $is_public_mirror = $::puppetmaster_is_public_mirror
+    $is_public_mirror = member($::config::puppetmaster_public_mirror_hosts, $fqdn)
 }

@@ -24,6 +24,7 @@ class config inherits config::base {
 
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
     $puppetmaster_upstream_rsync_args = '--exclude=repos/apt'
+    $puppetmaster_public_mirror_hosts = [ 'relabs04.build.mtv1.mozilla.com' ]
 
     $ntp_server = "ntp.build.mozilla.org"
     $admin_users = [

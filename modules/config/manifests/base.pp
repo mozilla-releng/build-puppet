@@ -23,6 +23,7 @@ class config::base {
     $distinguished_puppetmaster = ''
     $puppetmaster_upstream_rsync_source = ''
     $puppetmaster_upstream_rsync_args = ''
+    $puppetmaster_public_mirror_hosts = []
     $builder_username = 'cltbld'
     $nrpe_allowed_hosts = '127.0.0.1'
     $ntp_server = "pool.ntp.org"
