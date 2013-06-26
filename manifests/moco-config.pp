@@ -37,6 +37,7 @@ class config inherits config::base {
     $data_server = $puppet_server
 
     $distinguished_puppetmaster = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $puppetmaster_public_mirror_hosts = [ "releng-puppet2.srv.releng.scl3.mozilla.com" ]
     $puppet_again_repo = "http://hg.mozilla.org/build/puppet/"
 
     $nrpe_allowed_hosts = "10.2.71.20,10.12.75.9,127.0.0.1,10.26.75.30"
