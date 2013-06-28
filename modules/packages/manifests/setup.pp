@@ -112,6 +112,9 @@ class packages::setup {
                     purge   => true,
                     recurse => true,
                     force   => true;
+                # Disable periodic apt operations from cron
+                "/etc/apt/apt.conf.d/10periodic":
+                    content => "APT::Periodic::Enable \"0\";\n";
                 # Allow not signed packages until we sign them
                 "/etc/apt/apt.conf.d/99mozilla":
                     source => "puppet:///modules/packages/apt.conf.mozilla";
