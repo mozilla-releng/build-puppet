@@ -4,15 +4,6 @@
 class hardware {
     include config
 
-    # HP Proliant systems get the hp-health utility, and nagios checks
-    # to query it
-    # This IF code block should be removed soon since we don't use the
-    # hp-health package anymore.
-    # https://bugzilla.mozilla.org/show_bug.cgi?id=883318
-    if ($::manufacturer == "HP" and $::productname =~ /ProLiant/) {
-        include packages::hp_health
-    }
-
     # SeaMicro nodes can start up with incorrect time - see bug 789064
     if ($::manufacturer == "SeaMicro" and $::productname == "SM10000-XE") {
         # only known to work on CentOS so far, although it should work on any Linux
