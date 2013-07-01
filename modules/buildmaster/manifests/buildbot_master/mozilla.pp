@@ -20,6 +20,7 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
     include buildmaster::base
     include buildmaster::queue
     include buildmaster::settings
+    include packages::procmail # for lockfile
     include packages::mozilla::python27
     include packages::mozilla::py27_mercurial
     include packages::mozilla::py27_virtualenv

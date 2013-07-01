@@ -13,6 +13,7 @@ define buildmaster::buildbot_master::simple($basedir, $http_port, $master_cfg, $
     include dirs::builds::buildbot
     include buildmaster::base
     include buildmaster::settings
+    include packages::procmail # for lockfile
     include packages::mozilla::python27
     include packages::mozilla::py27_mercurial
 
