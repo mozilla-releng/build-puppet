@@ -25,6 +25,18 @@ class config inherits config::base {
     $puppetmaster_upstream_rsync_args = '--exclude=repos/apt'
     $puppetmaster_public_mirror_hosts = [ ]
 
+    $signer_username = 'relabssign'
+    $signing_tools_repo = 'http://hg.mozilla.org/build/tools'
+    $signing_redis_host = 'localhost'
+    $signing_mac_id = 'Relabs'
+    $signing_allowed_ips = [
+        '10.250.48.0/22',
+        '10.26.78.0/24',
+    ]
+    $signing_new_token_allowed_ips = [
+        '10.250.48.1', # fake
+    ]
+
     $ntp_server = "ntp.build.mozilla.org"
     $admin_users = [
         "arr",

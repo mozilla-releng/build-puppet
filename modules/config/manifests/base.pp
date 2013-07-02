@@ -25,6 +25,7 @@ class config::base {
     $puppetmaster_upstream_rsync_args = ''
     $puppetmaster_public_mirror_hosts = []
     $builder_username = 'cltbld'
+    $signer_username = 'cltsign'
     $nrpe_allowed_hosts = '127.0.0.1'
     $ntp_server = "pool.ntp.org"
     $relay_domains = "smtp.mozilla.org"
@@ -39,6 +40,11 @@ class config::base {
     $buildbot_mail_to = "nobody@mozilla.com"
     $collectd_graphite_cluster_fqdn = ""
     $collectd_graphite_prefix = ""
+    $signing_tools_repo = 'http://hg.mozilla.org/build/tools'
+    $signing_redis_host = ''
+    $signing_mac_id = ''
+    $signing_allowed_ips = []
+    $signing_new_token_allowed_ips = []
     $vmwaretools_version = ""
     $vmwaretools_md5 = ""
     $admin_users = []

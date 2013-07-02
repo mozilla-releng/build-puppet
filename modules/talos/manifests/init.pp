@@ -5,11 +5,14 @@ class talos {
     include talos::settings
     include httpd
     include packages::xcode_cmdline_tools
-    include packages::java
     include packages::xvfb
     include users::builder
     include dirs::builds::slave
 
+    # Due to different tests and flavors of tests run on different platforms,
+    # each has a peculiar set of packages required, with little or no overlap.
+    # This is the place to add such peculiarities, preferably commented with
+    # the relevant bug.
     case $::operatingsystem {
         Ubuntu: {
             # Ubuntu specific packages
@@ -27,7 +30,12 @@ class talos {
                     packages => ["v4l2loopback-dkms"];
             }
         }
+        Darwin: {
+            # Darwin-specific packages
+            include packages::javadeveloper_for_os_x
+        }
     }
+
     case $::operatingsystem {
         Darwin, CentOS, Ubuntu: {
             file {

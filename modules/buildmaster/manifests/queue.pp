@@ -87,7 +87,8 @@ class buildmaster::queue {
         "clone-tools":
             hg_repo => "${config::buildbot_tools_hg_repo}",
             dst_dir => "${buildmaster::settings::queue_dir}/tools",
-            user    => "${users::builder::username}";
+            user    => "${users::builder::username}",
+            branch  => "default";
     }
 
     exec {

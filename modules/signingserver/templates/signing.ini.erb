@@ -1,0 +1,57 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+[logging]
+log_maxfiles = 100
+log_maxsize = 10485760 ; 10 MB
+loglevel = INFO
+logfile = signing.log
+
+[server]
+listen = <%=@listenaddr%>
+port = <%=@port%>
+redis = <%= @redis %>
+max_file_age = 43200 ; 12 hours
+cleanup_interval = 600 ; 10 Minutes
+daemonize = yes
+
+[security]
+private_ssl_cert = <%=@full_private_ssl_cert%>
+public_ssl_cert = <%=@full_public_ssl_cert%>
+# ips that can connect at all
+allowed_ips = <%= @allowed_ips.join(', ') %>
+allowed_filenames = .*\.exe,.*\.mar,.*\.dll,.*\.bz2,.*\.zip,.*\.dmg,.*\.tar,.*\.checksums,.*\.bundle,.*SUMS,.*\.apk
+min_filesize = 10
+<%# if these change frequently or differ per org, consider making them puppetagain config options -%>
+max_filesize_gpg = 524288000
+max_filesize_dmg = 73400320
+max_filesize_mar = 52428800
+max_filesize_signcode = 157286400
+token_secret = <%=@token_secret%>
+<%- if @token_secret0 != '' -%>
+token_secret0 = <%=@token_secret0%>
+<% end -%>
+new_token_auth = <%=@new_token_auth%>
+<%- if @new_token_auth0 != '' -%>
+new_token_auth0 = <%=@new_token_auth0%>
+<% end -%>
+# ips that can generate new signing tokens (buildmasters)
+new_token_allowed_ips = <%= @new_token_allowed_ips.join(', ') %>
+; 6 hours
+max_token_age = 21601
+
+[paths]
+signed_dir = <%=@signed_dir%>
+unsigned_dir = <%=@unsigned_dir%>
+
+[signing]
+signscript = <%=@signscript%>
+concurrency = 4
+testfile_mar = <%=@testfile_mar%>
+testfile_b2gmar = <%=@testfile_mar%>
+testfile_gpg = <%=@testfile_gpg%>
+testfile_signcode = <%=@testfile_signcode%>
+testfile_dmg = <%=@testfile_dmg%>
+testfile_jar = <%=@testfile_jar%>
+formats = <%=@formats.join(",")%>
