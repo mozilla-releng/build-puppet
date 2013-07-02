@@ -90,7 +90,7 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
     exec {
         "setup-${basedir}":
             require => [
-                Mercurial::Repos["clone-buildbot-${master_name}"],
+                Mercurial::Repo["clone-buildbot-${master_name}"],
                 File["${full_master_dir}"],
                 Class["packages::mozilla::py27_virtualenv"],
             ],
