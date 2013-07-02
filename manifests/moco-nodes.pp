@@ -416,8 +416,13 @@ node "buildbot-master80.srv.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
+node "buildbot-master81.srv.releng.scl3.mozilla.com" {
+    include toplevel::server
+    include releaserunner
+}
+
 # temporary node defs for these hosts
-node /buildbot-master8[1-9].srv.releng.scl3.mozilla.com/ {
+node /buildbot-master8[2-9].srv.releng.scl3.mozilla.com/ {
     include toplevel::server
 }
 

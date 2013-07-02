@@ -83,10 +83,11 @@ class buildmaster::queue {
     }
     nrpe_custom {["pulse_publisher.cfg", "command_runner.cfg"]: }
 
-    buildmaster::repos {
+    mercurial::repo {
         "clone-tools":
             hg_repo => "${config::buildbot_tools_hg_repo}",
-            dst_dir => "${buildmaster::settings::queue_dir}/tools";
+            dst_dir => "${buildmaster::settings::queue_dir}/tools",
+            user    => "${users::builder::username}";
     }
 
     exec {
@@ -94,7 +95,7 @@ class buildmaster::queue {
             require => [
                 File["${buildmaster::settings::queue_dir}"],
                 Python::Virtualenv["${buildmaster::settings::queue_dir}"],
-                Buildmaster::Repos["clone-tools"],
+                Mercurial::Repo["clone-tools"],
                 ],
             creates => "${buildmaster::settings::queue_dir}/lib/python2.7/site-packages/buildtools.egg-link",
             command => "${buildmaster::settings::queue_dir}/bin/python setup.py develop",

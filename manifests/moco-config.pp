@@ -157,5 +157,14 @@ class config inherits config::base {
     $vmwaretools_md5 = "924b75b0b522eb462266cf3c24c98837"
     $collectd_graphite_cluster_fqdn = "graphite1.private.scl3.mozilla.com"
     $collectd_graphite_prefix = "hosts.releng."
+    $releaserunner_notify_from = "Release Eng <release@mozilla.com>"
+    $releaserunner_notify_to = "Release Eng <release@mozilla.com>"
+    $releaserunner_smtp_server = "localhost"
+    $releaserunner_hg_username = "ffxbld"
+    $releaserunner_hg_ssh_key = "/home/cltbld/.ssh/ffxbld_dsa"
+    $releaserunner_production_masters = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
+    $releaserunner_sendchange_master = "buildbot-master36.srv.releng.scl3.mozilla.com:9301"
+    $releaserunner_ssh_username = "cltbld"
+    $releaserunner_ssh_key = "/home/cltbld/.ssh/release-runner"
 }
 

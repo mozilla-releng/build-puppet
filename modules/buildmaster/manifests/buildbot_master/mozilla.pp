@@ -24,6 +24,7 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
     include packages::mozilla::python27
     include packages::mozilla::py27_mercurial
     include packages::mozilla::py27_virtualenv
+    include users::builder
 
     $master_group = "${users::builder::group}"
     $master_user = "${users::builder::username}"
@@ -78,17 +79,18 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
         }
     }
 
-    buildmaster::repos {
+    mercurial::repo {
         "clone-buildbot-${master_name}":
             hg_repo => "${config::buildbot_configs_hg_repo}",
             dst_dir => "${buildbot_configs_dir}",
+            user    => "${users::builder::username}",
             branch  => "${config::buildbot_configs_branch}";
     }
 
     exec {
         "setup-${basedir}":
             require => [
-                Buildmaster::Repos["clone-buildbot-${master_name}"],
+                Mercurial::Repos["clone-buildbot-${master_name}"],
                 File["${full_master_dir}"],
                 Class["packages::mozilla::py27_virtualenv"],
             ],

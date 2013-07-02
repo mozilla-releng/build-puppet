@@ -43,4 +43,20 @@ class config::base {
     $vmwaretools_md5 = ""
     $admin_users = []
     $users = []
+    $release_runner_root = "/builds/releaserunner"
+    $releaserunner_buildbot_configs = "http://hg.mozilla.org/build/buildbot-configs"
+    $releaserunner_buildbot_configs_branch = "production"
+    $releaserunner_buildbotcustom = "http://hg.mozilla.org/build/buildbotcustom"
+    $releaserunner_buildbotcustom_branch = "production-0.8"
+    $releaserunner_tools = "http://hg.mozilla.org/build/tools"
+    $releaserunner_tools_branch = "default"
+    $releaserunner_notify_from = ""
+    $releaserunner_notify_to = ""
+    $releaserunner_smtp_server = ""
+    $releaserunner_hg_username = ""
+    $releaserunner_hg_ssh_key = ""
+    $releaserunner_production_masters = ""
+    $releaserunner_sendchange_master = ""
+    $releaserunner_ssh_username = ""
+    $releaserunner_ssh_key = ""
 }
