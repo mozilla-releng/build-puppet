@@ -11,7 +11,6 @@ class config inherits config::base {
     $grouped_puppet_servers = {
         ".*" => [
             "relabs03.build.mtv1.mozilla.com",
-            "relabs04.build.mtv1.mozilla.com",
         ],
     }
     $puppet_servers = sort_servers_by_group($grouped_puppet_servers)
@@ -24,7 +23,7 @@ class config inherits config::base {
 
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
     $puppetmaster_upstream_rsync_args = '--exclude=repos/apt'
-    $puppetmaster_public_mirror_hosts = [ 'relabs04.build.mtv1.mozilla.com' ]
+    $puppetmaster_public_mirror_hosts = [ ]
 
     $ntp_server = "ntp.build.mozilla.org"
     $admin_users = [
