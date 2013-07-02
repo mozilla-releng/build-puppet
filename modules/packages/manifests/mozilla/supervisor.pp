@@ -6,7 +6,7 @@ class packages::mozilla::supervisor {
         CentOS: {
             package {
                 "supervisor":
-                    ensure => "3.0-0.10.a12.el6";
+                    ensure => "3.0-0.10.b2.el6";
             }
         }
 

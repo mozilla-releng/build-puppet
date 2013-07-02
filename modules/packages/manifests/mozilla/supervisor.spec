@@ -2,7 +2,7 @@
 Summary:  A System for Allowing the Control of Process State on UNIX
 Name: supervisor
 Version: 3.0
-%define prever a12
+%define prever b2
 Release: 0.10%{?prever:.%{prever}}%{?dist}
 Vendor: Mozilla Release Engineering
 
