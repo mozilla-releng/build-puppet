@@ -5,13 +5,10 @@ class collectd {
     include collectd::settings
 
     # do not configure unless graphite server is defined
-    if $collectd::settings::graphite_cluster_fqdn and !$collectd::settings::graphite_cluster_fqdn == "" {
+    if $collectd::settings::graphite_cluster_fqdn and $collectd::settings::graphite_cluster_fqdn != "" {
         include packages::collectd
 
         file {
-            $collectd::settings::configdir:
-                ensure  => directory;
-
             "${collectd::settings::configdir}/collectd.conf":
                 ensure  => present,
                 content => template('collectd/collectd.conf.erb'),
