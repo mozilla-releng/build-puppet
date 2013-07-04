@@ -34,7 +34,6 @@ class releaserunner {
                 "sqlalchemy-migrate==0.7.2",
                 "wsgiref==0.1.2",
                 "zope.interface==4.0.2",
-                "mercurial==2.5.4",
             ];
     }
 
