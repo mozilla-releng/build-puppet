@@ -9,4 +9,13 @@ class buildmaster::settings {
     $master_root = "/builds/buildbot"
     $queue_dir = "${master_root}/queue"
     $lock_dir = "/var/lock/${users::builder::username}"
+    
+    case $::config::org {
+        seamonkey: {
+            $postrun_template = "postrun-seamonkey.cfg.erb"
+        }
+        default: {
+            $postrun_template = "postrun-default.cfg.erb"
+        }
+    }
 }

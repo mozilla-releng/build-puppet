@@ -75,7 +75,7 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
                 owner => $master_user,
                 group => $master_group,
                 mode => 600,
-                content => template("buildmaster/postrun.cfg.erb");
+                content => template("buildmaster/${buildmaster::settings::postrun_template}");
         }
     }
 
