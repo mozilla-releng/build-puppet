@@ -19,6 +19,7 @@ class talos {
             include packages::ia32libs
             include packages::gstreamer
             include tweaks::cron
+            include tweaks::resolvconf
             kernelmodule {
                 "snd_aloop":
                     packages => ["libasound2"];
