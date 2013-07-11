@@ -3,6 +3,16 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class fw {
+    # compatibility check..
+    case $operatingsystem {
+        CentOS, Ubuntu: {
+            # ok!
+        }
+        default: {
+            fail("'fw' is not supported on this platform")
+        }
+    }
+
     include fw::pre
     include fw::post
 }
