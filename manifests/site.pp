@@ -22,15 +22,3 @@ resources {
         purge => true;
 }
 
-# similarly, set up the firewall resource, but note that this does not activate
-# the firewall
-resources {
-    'firewall':
-        purge => true;
-}
-
-# put the default rules before/after any custom rules
-Firewall {
-    require => Class['fw::pre'],
-    before => Class['fw::post'],
-}
