@@ -4,6 +4,8 @@
 class puppet::settings {
     include ::config
 
+    $conf  = "/etc/puppet/puppet.conf"
+
     if ($pin_puppet_server != '') {
         $puppet_server = $pin_puppet_server
         $puppet_servers = [ $pin_puppet_server ]

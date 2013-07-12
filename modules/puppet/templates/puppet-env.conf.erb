@@ -1,0 +1,6 @@
+
+[<%= @username %>]
+    modulepath = /etc/puppet/environments/<%= @username %>/env/modules
+    templatedir = /etc/puppet/environments/<%= @username %>/env/templates
+    manifestdir = /etc/puppet/environments/<%= @username %>/env/manifests
+    manifest = $manifestdir/site.pp

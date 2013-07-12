@@ -4,6 +4,9 @@
 class puppetmaster::config {
     include packages::httpd
     include ::config
+    include users::people
+
+    $users = $puppetmaster::settings::users
 
     file {
         "/etc/puppet/fileserver.conf":
@@ -21,5 +24,19 @@ class puppetmaster::config {
             recurse => true,
             owner  => puppet,
             group  => puppet;
+        # purge, recurse, and force are required to remove
+        # user puppet environment dirs when unmangad
+        "/etc/puppet/environments":
+            purge   => true,
+            recurse => true,
+            force   => true,
+            mode    => 0755,
+            ensure  => directory;
+
+        "/etc/puppet/environments/test":
+            ensure  => directory;
     }
+
+    # create puppet user environments for all $admin_users
+    puppet::environment { $users: ; }
 }

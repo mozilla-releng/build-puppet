@@ -21,6 +21,9 @@ class puppetmaster::settings {
     $upstream_rsync_args = $::config::puppetmaster_upstream_rsync_args
     $manifests_repo = $::config::puppet_again_repo
 
+    # puppet environments will be created for these users
+    $users = $::config::admin_users
+
     if ($distinguished_master == "") {
         fail("distinguished_puppetmaster config is not specified")
     }

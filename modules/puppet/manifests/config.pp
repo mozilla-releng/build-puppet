@@ -3,13 +3,18 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class puppet::config {
     include puppet::settings
+    include concat::setup
 
     $puppet_server = $::puppet::settings::puppet_server
     # copy the node-scope variable locally
     $pinned_env = $pin_puppet_env
+    $conf  = $puppet::settings::conf
 
-    file {
-        "/etc/puppet/puppet.conf":
-            content => template("puppet/puppet.conf.erb");
+    concat { $conf: }
+
+    concat::fragment { "top_conf":
+        target  => $conf,
+        content => template("puppet/puppet.conf.erb"),
+        order   => 01,
     }
 }
