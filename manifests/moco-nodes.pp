@@ -21,6 +21,10 @@ node /foopy\d+.p\d+.releng.scl1.mozilla.com/ {
 
 ## testers
 
+node /talos-r4-lion-\d+.build.scl1.mozilla.com/ {
+    include toplevel::slave::test::gpu
+}
+
 node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
     include toplevel::slave::test::gpu
 }
@@ -43,13 +47,6 @@ node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
 
 node /talos-linux\d+-ix-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     include toplevel::slave::test::gpu
-}
-
-node "bld-lion-r5-003.build.releng.scl3.mozilla.com" {
-    # temporary talos for bug 891880
-    $pin_puppet_env = "test"
-    $pin_puppet_server = "releng-puppet2.build.scl1.mozilla.com"
-    include toplevel::slave
 }
 
 ## builders

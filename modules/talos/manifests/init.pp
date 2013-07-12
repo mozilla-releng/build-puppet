@@ -4,7 +4,6 @@
 class talos {
     include talos::settings
     include httpd
-    include packages::xcode_cmdline_tools
     include packages::xvfb
     include users::builder
     include dirs::builds::slave
@@ -33,6 +32,18 @@ class talos {
         Darwin: {
             # Darwin-specific packages
             include packages::javadeveloper_for_os_x
+            case $::macosx_productversion_major {
+                10.7: {
+                    # nothing extra
+                }
+                10.8: {
+                    # not sure why this is required, but it appears to be
+                    include packages::xcode_cmdline_tools
+                }
+                default: {
+                    fail("No talos configuration for OS X $::macosx_productversion_major")
+                }
+            }
         }
     }
 
