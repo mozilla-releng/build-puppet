@@ -1,0 +1,1 @@
+*/5 * * * * root if test -f /tmp/mozpool-suicide; then ls -al /tmp/mozpool-suicide | mail -s "mozpool suicide on $(uname -n)" <%= scope.lookupvar('::config::puppet_notif_email') %>; rm -f /tmp/mozpool-suicide; fi
