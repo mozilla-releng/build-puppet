@@ -432,7 +432,16 @@ node "buildbot-master80.srv.releng.usw2.mozilla.com" {
 
 node "buildbot-master81.srv.releng.scl3.mozilla.com" {
     include toplevel::server
+    include toplevel::server::buildmaster
     include releaserunner
+    buildmaster::buildbot_master::mozilla {
+        "bm81-build_scheduler":
+            master_type => "scheduler",
+            basedir => "build_scheduler";
+        "bm81-tests_scheduler":
+            master_type => "scheduler",
+            basedir => "tests_scheduler";
+    }
 }
 
 # temporary node defs for these hosts
