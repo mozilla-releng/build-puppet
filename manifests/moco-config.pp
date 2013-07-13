@@ -202,7 +202,7 @@ class config inherits config::base {
     $releaserunner_hg_username = "ffxbld"
     $releaserunner_hg_ssh_key = "/home/cltbld/.ssh/ffxbld_dsa"
     $releaserunner_production_masters = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
-    $releaserunner_sendchange_master = "buildbot-master36.srv.releng.scl3.mozilla.com:9301"
+    $releaserunner_sendchange_master = "buildbot-master81.build.mozilla.org:9301"
     $releaserunner_ssh_username = "cltbld"
     $releaserunner_ssh_key = "/home/cltbld/.ssh/release-runner"
 }
