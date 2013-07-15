@@ -6,14 +6,17 @@
 
 node /foopy\d+.build.mtv1.mozilla.com/ {
     include toplevel::server::foopy
+    include collectd
 }
 
 node /foopy\d+.build.scl1.mozilla.com/ {
     include toplevel::server::foopy
+    include collectd
 }
 
 node /foopy\d+.p\d+.releng.scl1.mozilla.com/ {
     include toplevel::server::foopy
+    include collectd
 }
 
 ## testers
