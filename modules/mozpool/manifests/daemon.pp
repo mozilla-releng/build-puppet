@@ -22,6 +22,6 @@ class mozpool::daemon {
 
     file {
         "/etc/cron.d/mozpool-suicide-report":
-            source => "puppet:///${module_name}/mozpool-suicide-report.cron";
+            content => template("${module_name}/mozpool-suicide-report.cron.erb");
     }
 }
