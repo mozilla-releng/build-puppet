@@ -41,5 +41,16 @@ class hardware {
                     archive_url => "http://${config::data_server}/repos/private/vmware";
             }
         }
+
+        # kernels should use clocksource=pit to get proper timing info
+        if ($kernel == "Linux") {
+            augeas {
+                "vmware-clocksource":
+                    context => "/files/etc/grub.conf",
+                    changes => [
+                        "set title[1]/kernel/clocksource pit",
+                    ];
+            }
+        }
     }
 }
