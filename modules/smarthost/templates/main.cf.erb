@@ -8,7 +8,7 @@ daemon_directory = /usr/libexec/postfix
 mail_owner = postfix
 myhostname = <%= @hostname %>
 mydomain = <%= @domain %>
-myorigin = $mydomain
+myorigin = <%= @fqdn %>
 mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 unknown_local_recipient_reject_code = 550
 relay_domains = <%= scope.lookupvar('::config::relay_domains') %> 
