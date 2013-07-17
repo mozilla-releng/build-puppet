@@ -5,17 +5,16 @@ class toplevel::slave::build::standard inherits toplevel::slave::build {
     include ::config
     include users::builder
 
-    # these are used within the mock env on mock builders, but need to be
-    # included explicitly on standard builders
-    include packages::yasm
-    include packages::autoconf
-    include packages::p7zip
-
     if ($::operatingsystem == "Darwin") {
         include packages::xcode
+        include packages::yasm
+        include packages::autoconf
+        include packages::p7zip
+        include packages::libpng
 
         # used for partner repacks, which only run on OS X
         include packages::upx
+
 
         # and since OS X has a GUI enabled all the time, set up VNC and set the
         # screen resolution; sources suggest that the actual build process
