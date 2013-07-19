@@ -6,6 +6,16 @@ class httpd {
 
     case $::operatingsystem {
         Darwin: {
+            case $::macosx_productversion_major {
+                '10.7': {
+                    # 10.7 *server* includes a whole mess of stuff we don't want, so we
+                    # install a plist that doesn't specify -D MACOSXSERVER.
+                    file {
+                        "/System/Library/LaunchDaemons/org.apache.httpd.plist":
+                            source => "puppet:///modules/${module_name}/org.apache.httpd.plist";
+                    }
+                }
+            }
             service {
                 'org.apache.httpd' :
                     require => Class["packages::httpd"],
