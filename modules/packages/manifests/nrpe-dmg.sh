@@ -28,6 +28,16 @@ tar -xvf nagios-plugins-1.4.16.tar.gz
 pushd nagios-plugins-1.4.16
 ./configure --prefix=/usr/local
 make
+
+# need to have the user present locally for the 'make install'
+dscl="/usr/bin/dscl"
+dspath="/var/db/dslocal/nodes/Default/"
+"${dscl}" -f "${dspath}" localonly -create /Local/Target/Groups/nagios
+"${dscl}" -f "${dspath}" localonly -create /Local/Target/Groups/nagios PrimaryGroupID 290
+"${dscl}" -f "${dspath}" localonly -create /Local/Target/Users/nagios
+"${dscl}" -f "${dspath}" localonly -create /Local/Target/Users/nagios UniqueID 290
+"${dscl}" -f "${dspath}" localonly -create /Local/Target/Users/nagios PrimaryGroupID 290
+
 make DESTDIR=$BUILD/installroot install
 popd
 

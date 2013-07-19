@@ -18,7 +18,14 @@ class packages::gnupg {
             packages::pkgdmg {
                 GPGTools:
                     version => "20111224",
-                    os_version_specific => false;
+                    os_version_specific => false,
+                    before => File['/Library/LaunchAgents/org.gpgtools.macgpg2.gpg-agent.plist.plist'];
+            }
+
+            # and, this file is bogus and causes warnings:
+            file {
+                '/Library/LaunchAgents/org.gpgtools.macgpg2.gpg-agent.plist.plist':
+                    ensure => absent;
             }
         }
 

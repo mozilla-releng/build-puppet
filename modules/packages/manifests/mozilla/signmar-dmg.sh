@@ -21,7 +21,8 @@ tarballdir=mozilla-release
 
 url=https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${version}/source/firefox-${version}.source.tar.bz2
 
-curl -v $url | tar -jxf -
+[ -f source.tgz ] || curl -v $url > source.tgz
+tar -jxf source.tgz
 cd $tarballdir
 
 # patch in security (which includes nss) to the tools/update-packaging application
@@ -39,6 +40,9 @@ patch -p0 <<'EOF'
  	other-licenses/bsdiff \
 EOF
 
+# and patch out a bug in the configure script which ignores --disable-webm
+sed -i -e '/You may either install yasm or --disable-webm/s/.*/:/g' configure
+
 cat <<EOF >.mozconfig
 CXX='clang++ -std=c++11'
 ac_add_options --enable-application=tools/update-packaging
@@ -48,6 +52,7 @@ ac_add_options --without-system-libevent
 ac_add_options --without-system-nspr
 ac_add_options --without-system-nss
 ac_add_options --without-system-jpeg
+ac_add_options --disable-libjpeg-turbo
 ac_add_options --without-system-zlib
 ac_add_options --without-system-bz2
 ac_add_options --without-system-png
@@ -58,9 +63,9 @@ ac_add_options --disable-system-sqlite
 ac_add_options --disable-system-cairo
 ac_add_options --disable-system-pixman
 ac_add_options --disable-skia
+ac_add_options --disable-webm
 # any of these cause the build to fail
 #ac_add_options --disable-crashreporter
-#ac_add_options --disable-webm
 #ac_add_options --disable-ogg
 ac_add_options --disable-wave
 ac_add_options --enable-signmar
