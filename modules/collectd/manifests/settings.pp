@@ -6,6 +6,11 @@ class collectd::settings {
 
     $graphite_cluster_fqdn = $::config::collectd_graphite_cluster_fqdn
 
+    # a defined graphite cluster is a requirement for collectd to be enabled
+    if $graphite_cluster_fqdn and $graphite_cluster_fqdn != "" {
+        $collectd_enabled = true
+    }
+
     if !$::config::collectd_graphite_port or $::config::collectd_graphite_port == "" {
         # Defualt carbon port
         $graphite_port = "2003"

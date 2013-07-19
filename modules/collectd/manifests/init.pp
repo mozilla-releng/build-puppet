@@ -5,7 +5,7 @@ class collectd {
     include collectd::settings
 
     # do not configure unless graphite server is defined
-    if $collectd::settings::graphite_cluster_fqdn and $collectd::settings::graphite_cluster_fqdn != "" {
+    if $collectd::settings::collectd_enabled == true {
         include packages::collectd
 
         file {

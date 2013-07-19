@@ -1,0 +1,7 @@
+LoadPlugin unixsock
+<Plugin unixsock>
+    SocketFile "<%= @socketfile %>"
+    SocketGroup "<%= @socketgroup %>"
+    SocketPerms "<%= @socketperms %>"
+    DeleteSocket <%= @deletesocket %>
+</Plugin>
