@@ -30,4 +30,5 @@ class toplevel::base {
     include hardware
     include ssh
     include timezone
+    include tweaks::rc_local
 }

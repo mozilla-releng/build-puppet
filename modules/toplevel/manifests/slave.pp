@@ -17,7 +17,6 @@ class toplevel::slave inherits toplevel::base {
 
     # apply tweaks
     include tweaks::dev_ptmx
-    include tweaks::rc_local
     include tweaks::locale
     include disableservices::slave
 
