@@ -76,8 +76,11 @@ define signingserver::instance(
         fail("config::signing_redis_host is not set")
     }
 
-    fw::port {
-        "tcp/$port": ;
+    # OS X does not yet support firewall manipulation
+    if $::operatingsystem != 'Darwin' {
+        fw::port {
+            "tcp/$port": ;
+        }
     }
 
     python::virtualenv {
@@ -85,7 +88,8 @@ define signingserver::instance(
             python => $packages::mozilla::python27::python,
             require => [
                 Class['packages::mozilla::python27'],
-                Class['packages::gcc'], # for compiled extensions
+                Class['packages::libevent'],
+                $signingserver::base::compiler_req, # for compiled extensions
             ],
             user => $user,
             group => $group,

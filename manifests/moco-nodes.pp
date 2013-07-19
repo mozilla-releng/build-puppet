@@ -2,6 +2,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+### temporary for bug 891561
+node "bld-lion-r5-003.build.releng.scl3.mozilla.com" {
+    include toplevel::server::signing
+}
+
 ## foopies
 
 node /foopy\d+.build.mtv1.mozilla.com/ {

@@ -15,6 +15,14 @@ class packages::mozilla::signing_test_files {
                     ensure => '1.0-1';
             } -> Anchor['packages::mozilla::signing_test_files::end']
         }
+        Darwin: {
+            Anchor['packages::mozilla::signing_test_files::begin'] ->
+            packages::pkgdmg {
+                signing_test_files:
+                    version => "1.0-1",
+                    os_version_specific => false;
+            } -> Anchor['packages::mozilla::signing_test_files::end']
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }

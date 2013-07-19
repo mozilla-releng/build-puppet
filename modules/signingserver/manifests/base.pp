@@ -5,22 +5,39 @@
 class signingserver::base {
     include dirs::builds
     include users::signer
-    include fw
 
-    # lots of packages for signing:
-    include packages::mono
-    include packages::openssl
-    include packages::gnupg
-    include packages::nss_tools
-    include packages::libevent
-    include packages::jdk16
-    include packages::gcc
+    # OS X does not yet support firewall manipulation
+    if $::operatingsystem != 'Darwin' {
+        include fw
+    }
+
+    # lots of packages for signing, with some differing between operating
+    # systems
     include packages::mozilla::python27
     include packages::mozilla::py27_mercurial
+    include packages::libevent
     include packages::mozilla::signmar
     include packages::mozilla::signing_test_files
-    include packages::mozilla::android_sdk16
-    include packages::mozilla::signmar
+    include packages::gnupg
+
+    case $::operatingsystem {
+        CentOS: {
+            include packages::mono
+            include packages::openssl
+            include packages::nss_tools
+            include packages::libevent
+            include packages::jdk16
+            include packages::gcc
+            include packages::mozilla::android_sdk16
+
+            $compiler_req = Class['packages::gcc']
+        }
+        Darwin: {
+            include packages::xcode
+
+            $compiler_req = Class['packages::xcode']
+        }
+    }
 
     $root = "/builds/signing"
 

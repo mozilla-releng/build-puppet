@@ -3,7 +3,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::mozilla::py27_mercurial {
 
-    $mercurial = "/tools/python27-mercurial/bin/hg"
 
     anchor {
         'packages::mozilla::py27_mercurial::begin': ;
@@ -14,6 +13,7 @@ class packages::mozilla::py27_mercurial {
 
     case $::operatingsystem {
         CentOS: {
+            $mercurial = "/tools/python27-mercurial/bin/hg"
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             package {
                 "mozilla-python27-mercurial":
@@ -23,15 +23,18 @@ class packages::mozilla::py27_mercurial {
         }
         Ubuntu: {
             include packages::mercurial
+            $mercurial = "/usr/bin/hg"
+            Anchor['packages::mozilla::py27_mercurial::begin'] ->
             file {
                 ["/tools/python27-mercurial", "/tools/python27-mercurial/bin"]:
                     ensure => directory;
                 $mercurial:
                     ensure => link,
                     target => "/usr/bin/hg";
-            }
+            } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Darwin: {
+            $mercurial = "/tools/mercurial/bin/hg"
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             packages::pkgdmg {
                 python27-mercurial:

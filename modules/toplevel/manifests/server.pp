@@ -9,7 +9,9 @@ class toplevel::server inherits toplevel::base {
     include ntp::daemon
     include smarthost
     include disableservices::server
-    include ganglia
+    if $::operatingsystem != 'Darwin' {
+        include ganglia
+    }
     include nrpe
     include nrpe::check::puppet_agent
     include nrpe::check::ganglia

@@ -11,6 +11,13 @@ class packages::libevent {
             }
         }
 
+        Darwin: {
+            packages::pkgdmg {
+                libevent:
+                    version => "2.0.21-stable";
+            }
+        }
+
         default: {
             fail("cannot install on $::operatingsystem")
         }

@@ -15,6 +15,13 @@ class packages::mozilla::signmar {
                     ensure => '19.0-2.el6';
             } -> Anchor['packages::mozilla::signmar::end']
         }
+        Darwin: {
+            Anchor['packages::mozilla::signmar::begin'] ->
+            packages::pkgdmg {
+                signmar:
+                    version => "19.0";
+            } -> Anchor['packages::mozilla::signmar::end']
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }

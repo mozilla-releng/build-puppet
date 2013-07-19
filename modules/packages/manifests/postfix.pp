@@ -19,6 +19,10 @@ class packages::postfix {
             }
         }
 
+        Darwin: {
+            # Postfix ships with OS X
+        }
+
         default: {
             fail("cannot install on $::operatingsystem")
         }

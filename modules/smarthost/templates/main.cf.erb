@@ -5,7 +5,16 @@
 soft_bounce = no
 command_directory = /usr/sbin
 daemon_directory = /usr/libexec/postfix
+<%- if operatingsystem == 'Darwin' -%>
+mail_owner = _postfix
+setgid_group = _postdrop
+# os x seems to require this, but it's not implemented upstream
+# (nor does Apple document it in postconf(5) .. FAIL)
+mydomain_fallback = localhost
+<%- else -%>
 mail_owner = postfix
+setgid_group = postdrop
+<%- end -%>
 myhostname = <%= @hostname %>
 mydomain = <%= @domain %>
 myorigin = <%= @fqdn %>
@@ -15,4 +24,3 @@ relay_domains = <%= scope.lookupvar('::config::relay_domains') %>
 smtpd_reject_unlisted_recipient = yes
 unverified_recipient_reject_code = 550
 smtpd_banner = $myhostname ESMTP
-setgid_group = postdrop

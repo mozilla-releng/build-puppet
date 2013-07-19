@@ -15,7 +15,7 @@
         <array>
                 <string>/bin/bash</string>
                 <string>-c</string>
-                <string>sleep $(((RANDOM*5*60)/32768)) &amp;&amp; /usr/bin/puppet agent --enable &amp;&amp /usr/bin/puppet agent --onetime --no-daemonize</string>
+                <string>sleep $(((RANDOM*5*60)/32768)) &amp;&amp; /usr/bin/puppet agent --enable &amp;&amp; /usr/bin/puppet agent --onetime --no-daemonize</string>
         </array>
         <key>StartInterval</key>
         <integer>1800</integer>

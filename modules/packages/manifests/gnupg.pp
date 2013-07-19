@@ -11,6 +11,17 @@ class packages::gnupg {
             }
         }
 
+        Darwin: {
+            # This is from old Python, but is just an old version of a download
+            # from https://gpgtools.org/installer/index.html - newer versions should
+            # install similarly
+            packages::pkgdmg {
+                GPGTools:
+                    version => "20111224",
+                    os_version_specific => false;
+            }
+        }
+
         default: {
             fail("cannot install on $::operatingsystem")
         }
