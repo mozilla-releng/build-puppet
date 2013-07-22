@@ -4,6 +4,8 @@
 class disableservices::common {
 # This class disables unnecessary services common to both server and slave
 
+    include disableservices::fingerprint
+
     case $::operatingsystem {
         CentOS : {
             service {
