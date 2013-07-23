@@ -28,8 +28,6 @@ LOCKFILE=/var/lock/subsys/buildbot
 
 test -x ${DAEMON} || exit 0
 
-. /lib/lsb/init-functions
-
 start_buildbot() {
     BASEDIR="$1"
 
@@ -94,7 +92,7 @@ case "$1" in
     exit $?
     ;;
   *)
-    log_warning_msg "Usage: $0 {start|stop}"
+    echo "Usage: $0 {start|stop}"
     exit 1
     ;;
 esac
