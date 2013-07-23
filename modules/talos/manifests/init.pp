@@ -31,12 +31,15 @@ class talos {
         }
         Darwin: {
             # Darwin-specific packages
-            include packages::javadeveloper_for_os_x
             case $::macosx_productversion_major {
-                10.7: {
+                10.6: {
                     # nothing extra
                 }
+                10.7: {
+                    include packages::javadeveloper_for_os_x
+                }
                 10.8: {
+                    include packages::javadeveloper_for_os_x
                     # not sure why this is required, but it appears to be
                     include packages::xcode_cmdline_tools
                 }

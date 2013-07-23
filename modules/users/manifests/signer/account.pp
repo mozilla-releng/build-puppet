@@ -35,6 +35,20 @@ class users::signer::account($username, $group, $grouplist, $home) {
             # relevant fixes.
             # NOTE: this user is *not* an Administrator.  All admin-level access is granted via sudoers.
             case $::macosx_productversion_major {
+                '10.6': {
+                    if (secret("signer_pw_paddedsha1") == '') {
+                        fail('No signer password paddedsha1 set')
+                    }
+                    darwinuser {
+                        $username:
+                            gid => $group,
+                            shell => "/bin/bash",
+                            home => $home,
+                            password => secret("signer_pw_paddedsha1"),
+                            comment => "Builder",
+                            notify => Exec['kill-signer-keychain'];
+                    }
+                }
                 '10.7': {
                     if (secret("signer_pw_saltedsha512") == '') {
                         fail('No signer password saltedsha512 set')
@@ -63,6 +77,9 @@ class users::signer::account($username, $group, $grouplist, $home) {
                             comment => "Builder",
                             notify => Exec['kill-signer-keychain'];
                     }
+                }
+                default: {
+                    fail("No support for creating users on OS X $macosx_productversion_major")
                 }
             }
             exec {

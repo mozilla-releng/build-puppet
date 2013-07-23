@@ -13,14 +13,21 @@ class powermanagement::setup {
                 restartpowerfailure :
                     setting => "on" ;
 
-                restartfreeze :
-                    setting => "on" ;
-
                 wakeonnetworkaccess :
                     setting => "on" ;
 
                 allowpowerbuttontosleepcomputer :
                     setting => "off" ;
+            }
+            case $::macosx_productversion_major {
+                # 10.6 doesn't support this option
+                '10.6': {}
+                default: {
+                    osxutils::systemsetup {
+                        restartfreeze:
+                            setting => "on";
+                    }
+                }
             }
         }
         CentOS, Ubuntu : {

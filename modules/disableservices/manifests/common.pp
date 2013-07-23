@@ -50,14 +50,24 @@ class disableservices::common {
         }
         Darwin : {
             service {
-                [
-                    # bluetooth keyboard prompt
-                    'com.apple.blued',
-                    # periodic software update checks
-                    'com.apple.softwareupdatecheck.initial', 'com.apple.softwareupdatecheck.periodic',
-                ]:
+                # bluetooth keyboard prompt
+                'com.apple.blued':
                     enable => false,
                     ensure => stopped,
+            }
+            case $::macosx_productversion_major {
+                # 10.6 doesn't seem to have a way to disable software update, but later versions do
+                '10.6': {}
+                default: {
+                    service {
+                        [
+                            'com.apple.softwareupdatecheck.initial',
+                            'com.apple.softwareupdatecheck.periodic',
+                        ]:
+                            enable => false,
+                            ensure => stopped,
+                    }
+                }
             }
             exec {
                 "disable-indexing" :
