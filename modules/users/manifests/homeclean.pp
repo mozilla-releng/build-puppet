@@ -13,7 +13,7 @@ class users::homeclean {
     # undesirable access to data.
 
     $homebase = $::operatingsystem ? {
-        Darwin => "/users",
+        Darwin => "/Users",
         default => "/home"
     }
 

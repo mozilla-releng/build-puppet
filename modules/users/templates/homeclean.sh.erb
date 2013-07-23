@@ -20,11 +20,13 @@ fqdn="<%= scope.lookupvar('::fqdn') %>"
 # settings
 NOOP=false
 VERBOSE=false
-BASE="/${homebase}/archive/"
+BASE="${homebase}/archive/"
 DELETEAFTER=90 # in days
-EXCEPTIONS="lost+found archive" #users that we never backup or delete even if disabled
+EXCEPTIONS="lost+found archive Shared .localized" #users that we never backup or delete even if disabled
 
-_mailbody=$(mktemp)
+_mailbody=$(mktemp -t homeclean-XXXXXX)
+
+set -e
 
 function sendmail()
 {
@@ -57,7 +59,7 @@ function exist()
 function backup()
 {
     # fill in $homelist with a list of in-use homedirs
-	homelist=$(mktemp)
+	homelist=$(mktemp -t homeclean-XXXXXX)
     case $operatingsystem in
         Darwin) dscacheutil -q user | grep '^dir:' | cut -c 6- | sort -u > $homelist ;;
         *) getent passwd|cut -d ':' -f 6 > $homelist ;;
@@ -70,7 +72,7 @@ function backup()
 		exist ${user} || continue
 		grep -q ${user} ${homelist} || {
 			$VERBOSE && echo "+ will backup disabled user $user" | tee -a $_mailbody 
-			[[ $NOOP -eq 0 ]] && tar Pczf ${BASE}${user}.tar.gz /home/${user} && rm -rf /home/${user}
+            [[ $NOOP -eq 0 ]] && tar Pczf ${BASE}${user}.tar.gz ${homebase}/${user} && rm -rf ${homebase}/${user}
 		}
 	done
 	unset IFS
