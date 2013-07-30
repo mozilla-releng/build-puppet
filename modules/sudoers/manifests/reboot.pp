@@ -7,12 +7,15 @@ class sudoers::reboot {
     include config
     include users::builder
 
-    file {
-        "/etc/sudoers.d/reboot" :
-            mode => $sudoers::settings::mode,
-            owner => $sudoers::settings::owner,
-            group => $sudoers::settings::group,
-            ensure => file,
-            content => "${users::builder::username} ALL=NOPASSWD: $sudoers::settings::rebootpath\n" ;
+    if $::operatingsystem != 'Windows' {
+        # TODO-WIN: this should be replaced with an equivalent on windows
+        file {
+            "/etc/sudoers.d/reboot" :
+                mode => $sudoers::settings::mode,
+                owner => $sudoers::settings::owner,
+                group => $sudoers::settings::group,
+                ensure => file,
+                content => "${users::builder::username} ALL=NOPASSWD: $sudoers::settings::rebootpath\n" ;
+        }
     }
 }

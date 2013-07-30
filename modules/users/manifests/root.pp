@@ -12,7 +12,10 @@ class users::root {
 
     ##
     # public variables used by other modules
-    $username = 'root' # here for symmetry; no need to use this everywhere
+
+    # Here for symmetry; no need to use this everywhere.  Note that the Windows
+    # install process renames Administrator to root to match this.
+    $username = 'root'
 
     $group = $::operatingsystem ? {
         Darwin => wheel,
@@ -21,6 +24,7 @@ class users::root {
 
     $home = $::operatingsystem ? {
         Darwin => '/var/root',
+        Windows => 'C:/Users/root',
         default => '/root'
     }
 

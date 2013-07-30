@@ -33,8 +33,11 @@ class powermanagement::setup {
         CentOS, Ubuntu : {
         # not yet implemented
         }
+        Windows: {
+            # TODO-WIN: add support
+        }
         default : {
-            fail(" cannot install on $::operatingsystem ")
+            fail(" cannot install on $::operatingsystem")
         }
     }
 }

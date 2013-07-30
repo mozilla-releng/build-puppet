@@ -10,7 +10,10 @@ class puppet::config {
     $pinned_env = $pin_puppet_env
     $conf  = $puppet::settings::conf
 
-    concat { $conf: }
+    concat {
+        $conf:
+            mode => filemode(0644);
+    }
 
     concat::fragment { "top_conf":
         target  => $conf,

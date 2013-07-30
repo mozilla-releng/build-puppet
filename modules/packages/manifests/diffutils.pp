@@ -12,6 +12,9 @@ class packages::diffutils {
         Darwin: {
             # installed by default on Darwin
         }
+        Windows: {
+            # TODO-WIN: no-op
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }

@@ -3,10 +3,10 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class timezone {
     include users::root
-    include packages::tzdata
 
     case $::operatingsystem {
         CentOS: {
+            include packages::tzdata
             file {
                 "/etc/localtime":
                     mode => 644,
@@ -31,6 +31,7 @@ class timezone {
             }
         }
         Ubuntu: {
+            include packages::tzdata
             file {
                 "/etc/timezone":
                     mode => 644,
@@ -52,6 +53,9 @@ class timezone {
                 timezone:
                     setting => "America/Los_Angeles";
             }
+        }
+        Windows: {
+            # TODO-WIN: add support
         }
     }
 }

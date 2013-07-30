@@ -5,12 +5,23 @@
 # Managed by puppet
 
 [main]
+<% if scope.lookupvar('::operatingsystem') == 'windows' -%>
+    # vardir is C:/ProgramData/PuppetLabs/puppet/var on Windows
+    logdir = $vardir/log/puppet
+    rundir = $vardir/run/puppet
+    ssldir = $vardir/lib/puppet/ssl
+
+    diff = c:\windows\system32\cmd.exe
+    diff_args = /c echo "DIFFS DISABLED - https://bugzilla.mozilla.org/show_bug.cgi?id=791102"
+<%- else -%>
+    # vardir is /var/lib/puppet on POSIX systems; logdir and rundir aren't subdirectories
     logdir = /var/log/puppet
     rundir = /var/run/puppet
     ssldir = /var/lib/puppet/ssl
 
     diff = echo
     diff_args = DIFFS DISABLED - https://bugzilla.mozilla.org/show_bug.cgi?id=791102
+<% end -%>
 
 [agent]
     classfile = $vardir/classes.txt
@@ -30,6 +41,11 @@
     # sync plugins from the master - this gets us custom facts, among other
     # things
     pluginsync = true
+
+<% if scope.lookupvar('::operatingsystem') == 'windows' -%>
+    # default for this on Windows is completely bogus ($vardir/lib/puppet)
+    plugindest = $vardir/lib/puppet/lib
+<% end -%>
 
 [master]
     # default to looking in the production/ subdirectory of /etc/puppet

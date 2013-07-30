@@ -4,16 +4,19 @@
 
 define sudoers::customfile($content) {
     include sudoers
-    include packages::sudo
 
-    file {
-        "/etc/sudoers.d/$title":
-            require => Class['packages::sudo'],
-            mode => "440",
-            owner => $::users::root::username,
-            group => $::users::root::group,
-            ensure => file,
-            content => $content;
+    if $::operatingsystem != 'Windows' {
+        # TODO-WIN: this should be replaced with an equivalent on windows
+        include packages::sudo
+
+        file {
+            "/etc/sudoers.d/$title":
+                require => Class['packages::sudo'],
+                mode => "440",
+                owner => $::users::root::username,
+                group => $::users::root::group,
+                ensure => file,
+                content => $content;
+        }
     }
 }
-

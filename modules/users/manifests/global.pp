@@ -2,17 +2,26 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class users::global {
+    include users::root
     anchor {
         'users::global::begin': ;
         'users::global::end': ;
     }
 
     # set the bash prompt
+    $profile_d = $::operatingsystem ? {
+        Windows => 'c:/windows/profile.d',
+        default => '/etc/profile.d',
+    }
     file {
-        "/etc/profile.d":
-            ensure => directory;
-        "/etc/profile.d/ps1.sh":
-            content => template("${module_name}/ps1.sh.erb");
+        "${profile_d}":
+            ensure => directory,
+            owner => $users::root::username,
+            group => $users::root::group;
+        "${profile_d}/ps1.sh":
+            content => template("${module_name}/ps1.sh.erb"),
+            owner => $users::root::username,
+            group => $users::root::group;
     }
     case ($::operatingsystem) {
         CentOS: {
@@ -27,6 +36,9 @@ class users::global {
                 "/etc/profile":
                     source => "puppet:///modules/users/darwin-profile";
             }
+        }
+        Windows: {
+            # TODO-WIN: no-op
         }
         default: {
             fail("don't know how to set PS1 on this operating system")
