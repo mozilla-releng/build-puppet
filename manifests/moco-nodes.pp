@@ -7,6 +7,11 @@ node "bld-lion-r5-003.build.releng.scl3.mozilla.com" {
     include toplevel::server::signing
 }
 
+### temporary for testing 10.6 support
+node "talos-r4-snow-083.build.scl1.mozilla.com" {
+    include toplevel::slave::test::gpu
+}
+
 ## foopies
 
 node /foopy\d+.build.mtv1.mozilla.com/ {
