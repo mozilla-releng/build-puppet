@@ -57,7 +57,7 @@ class packages::mozilla::python27 {
             Anchor['packages::mozilla::python27::begin'] ->
             packages::pkgdmg {
                 python27:
-                    version => "2.7.2-1";
+                    version => "2.7.3-1";
             } -> Anchor['packages::mozilla::python27::end']
         }
         default: {
