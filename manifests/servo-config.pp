@@ -81,6 +81,7 @@ class config inherits config::base {
         'jlabian',
         'jlazaro',
         'jlin',
+        'jlund',
         'jmoffitt',
         'joduinn',
         'jstevensen',
