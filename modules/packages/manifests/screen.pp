@@ -12,6 +12,9 @@ class packages::screen {
         Darwin : {
             # installed by default
         }
+        Windows: {
+            # TODO-WIN: add support
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }

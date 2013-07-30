@@ -39,6 +39,9 @@ class packages::puppet {
                     version => $facter_version;
             } -> Anchor['packages::puppet::end']
         }
+        Windows: {
+            # TODO-WIN: add support
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }
