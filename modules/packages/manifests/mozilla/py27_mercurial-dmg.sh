@@ -1,4 +1,7 @@
 #! /bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 set -e
 
@@ -7,17 +10,19 @@ if ! test -f py27_mercurial.spec; then
     exit 1
 fi
 
+export PATH=`xcode-select -print-path`:/tools/packagemaker/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
 # variables to parallel the spec file
 realname=mercurial
 pyrealname=python27
 pyver=2.7
 pyhome=/tools/$pyrealname
 python_sitelib=$pyhome/lib/python$pyver/site-packages
-_prefix=/tools/$realname
+_prefix=/tools/${pyrealname}_${realname}
 _libdir=$_prefix/lib
 package_sitelib=$_libdir/python$pyver/site-packages
 version=2.5.4
-release=1
+release=2
 
 # set up a clean build dir
 if test -d build; then
@@ -56,7 +61,7 @@ mkdir dmg
 fullname=$pyrealname-$realname-$version-$release
 pkg=dmg/$fullname.pkg
 dmg=$fullname.dmg
-/Developer/usr/bin/packagemaker -r $ROOT -v -i com.mozilla.$pyrealname-$realname -o $pkg -l /
+packagemaker -r $ROOT -v -i com.mozilla.$pyrealname-$realname -o $pkg -l /
 hdiutil makehybrid -hfs -hfs-volume-name "mozilla-$pyrealname-$realname-$version-$release" -o ./$dmg dmg
 echo "Result:"
 echo $PWD/$dmg
