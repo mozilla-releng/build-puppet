@@ -12,6 +12,11 @@ node "talos-r4-snow-083.build.scl1.mozilla.com" {
     include toplevel::slave::test::gpu
 }
 
+node "talos-r4-snow-079.build.scl1.mozilla.com" {
+    include toplevel::slave::test::gpu
+}
+
+
 ## foopies
 
 node /foopy\d+.build.mtv1.mozilla.com/ {
