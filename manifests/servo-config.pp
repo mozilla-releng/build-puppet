@@ -105,6 +105,7 @@ class config inherits config::base {
         'mpurzynski',
         'mrz',
         'mshal',
+        'mtabara',
         'nmaul',
         'nthomas',
         'oremj',
