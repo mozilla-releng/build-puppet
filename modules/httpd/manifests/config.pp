@@ -12,7 +12,7 @@ define httpd::config($content='', $ensure='present') {
         file {
             $file:
                 ensure => absent,
-                notify => $httpd::settings::service_class,
+                notify => Service['httpd'];
         }
     } else {
         case $::operatingsystem {
@@ -20,7 +20,7 @@ define httpd::config($content='', $ensure='present') {
                 file {
                     $file:
                         require => Class['packages::httpd'],
-                        notify => $httpd::settings::service_class,
+                        notify => Service['httpd'],
                         mode => "$httpd::settings::mode",
                         owner => "$httpd::settings::owner",
                         group => "$httpd::settings::group",

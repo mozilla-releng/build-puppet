@@ -55,18 +55,4 @@ class puppetmaster::manifests {
             creates => "${checkout_dir}/manifests/config.pp",
             require => Exec['checkout-puppet'];
     }
-
-    # if we're not the distinguished master, rsync secrets and extlookup stuff from the
-    # distingiushed master
-    if ($puppetmaster::settings::is_distinguished) {
-        file {
-            '/etc/cron.d/rsync-extlookup':
-                ensure => absent
-        }
-    } else {
-        file {
-            '/etc/cron.d/rsync-extlookup':
-                content => template("${module_name}/rsync-extlookup.erb");
-        }
-    }
 }

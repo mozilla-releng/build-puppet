@@ -68,6 +68,10 @@
     node_name = cert
     strict_hostname_checking = true
 
+    # set up hiera with a config file (just the default) and disable automatic
+    # lookup of parameterized class variables
+    hiera_config = $confdir/hiera.yaml
+    data_binding_terminus = none
 
 [test]
     modulepath = /etc/puppet/environments/test/modules

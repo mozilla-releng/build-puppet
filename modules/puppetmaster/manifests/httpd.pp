@@ -14,11 +14,13 @@ class puppetmaster::httpd {
                     require => Class["puppet"],
                     ensure => directory,
                     owner  => puppet,
-                    group  => puppet;
+                    group  => puppet,
+                    notify => Service['httpd'];
                 "/etc/puppet/rack/config.ru":
                     owner  => puppet,
                     group  => puppet,
-                    source => "puppet:///modules/puppetmaster/config.ru";
+                    source => "puppet:///modules/puppetmaster/config.ru",
+                    notify => Service['httpd'];
             }
 
             # make sure the puppetmaster service isn't running, since we're

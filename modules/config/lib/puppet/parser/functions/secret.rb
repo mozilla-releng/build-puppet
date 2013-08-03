@@ -8,10 +8,10 @@ module Puppet::Parser::Functions
     aspects = lookupvar("aspects") || []
     aspects.inject(nil) do |_, aspect|
       begin
-        break function_extlookup(["#{name}!#{aspect}"])
+        break function_hiera(["#{name}!#{aspect}"])
       rescue Puppet::Error
         nil # ignore error
       end
-    end || function_extlookup([name])
+    end || function_hiera([name])
   end
 end

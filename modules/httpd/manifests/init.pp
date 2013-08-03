@@ -4,6 +4,9 @@
 class httpd {
     include packages::httpd
 
+    # note that all of these create a service named 'httpd' - this is part of
+    # the external interface of this module
+
     case $::operatingsystem {
         Darwin: {
             case $::macosx_productversion_major {
@@ -17,7 +20,8 @@ class httpd {
                 }
             }
             service {
-                'org.apache.httpd' :
+                'httpd':
+                    name => 'org.apache.httpd',
                     require => Class["packages::httpd"],
                     enable => true,
                     ensure => running ;
@@ -26,6 +30,7 @@ class httpd {
         CentOS: {
             service {
                 'httpd' :
+                    name => 'httpd',
                     require => Class["packages::httpd"],
                     enable => true,
                     hasrestart => true,
@@ -35,7 +40,8 @@ class httpd {
         }
         Ubuntu: {
             service {
-                'apache2' :
+                'httpd':
+                    name => 'apache2',
                     require => Class["packages::httpd"],
                     enable => true,
                     ensure => running;

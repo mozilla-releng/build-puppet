@@ -76,15 +76,30 @@ setup_ssh_keys() {
     chmod a+r "${SSH_PRIVATE_KEY} "${SSH_PUBLIC_KEY}""
 }
 
+add_phase install_eyaml
+install_eyaml() {
+    /bin/rpm -q rubygem-hiera-eyaml >/dev/null 2>&1 || /usr/bin/yum -y -q install rubygem-hiera-eyaml
+}
+
+add_phase setup_eyaml_keys
+setup_eyaml_keys() {
+    local keys_dir="/etc/hiera/keys"
+    [ -f "${keys_dir}/private_key.pem" ] && [ -f "${keys_dir}/public_key.pem" ] && return
+    mkdir -p "${keys_dir}"
+    eyaml -c
+}
+
 add_phase setup_secrets
 setup_secrets() {
-    local secrets_file="$PWD/manifests/extlookup/secrets.csv"
+    local secrets_file="/etc/hiera/secrets.eyaml"
     [ -f "${secrets_file}" ] && return
-    echo "'${secrets_file}' does not exist.  Please copy it from secrets-template.csv and"
-    echo "fill in the required values, at least:"
-    echo " root_pw_hash"
-    echo " puppetmaster_deploy_htpasswd"
-    return 1
+    echo "'${secrets_file}' does not exist.  Create it now with at least 'root_pw_hash' and 'puppetmaster_deploy_password' set"
+    cat <<'EOF'
+---
+# note: these do not need to be eyaml-encrypted yet.  You should do that soon, though.
+root_pw_hash: <put yours here, passwd-encrypted>
+puppetmaster_deploy_htpasswd: <put yours here, htpasswd-encrypted>
+EOF
 }
 
 add_phase setup_config
