@@ -149,7 +149,7 @@ case "$OS" in
         ;;
 
     Darwin)
-        /usr/bin/defaults write /Library/LaunchDaemons/org.mozilla.puppetize.plist Disabled -bool TRUE
+        rm /Library/LaunchDaemons/org.mozilla.puppetize.plist*
         ;;
 
     Ubuntu)
