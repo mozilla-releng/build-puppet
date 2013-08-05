@@ -23,14 +23,10 @@ define ssh::userconfig($home='', $config='', $group='',
         $group_ = $username
     }
 
-    File {
-        mode => filemode(0600)
-    }
-
     file {
         "$home_/.ssh":
             ensure => directory,
-            mode => filemode(0700),
+            mode => 0700,
             owner => $username,
             group => $group_;
     }
@@ -38,9 +34,9 @@ define ssh::userconfig($home='', $config='', $group='',
         # to allow extras, set this up with concat
         concat {
             "${home_}/.ssh/authorized_keys":
+                mode => 0600,
                 owner => $username,
                 group => $group_,
-                mode => filemode(0600);
         }
         concat::fragment {
             "${home_}::${base}":
@@ -52,6 +48,7 @@ define ssh::userconfig($home='', $config='', $group='',
         # if no extras are allowed (the common case), just use a file
         file {
             "${home_}/.ssh/authorized_keys":
+                mode => 0600,
                 owner => $username,
                 group => $group_,
                 content => template("ssh/ssh_authorized_keys.erb");
@@ -60,6 +57,7 @@ define ssh::userconfig($home='', $config='', $group='',
     if ($config != '') {
         file {
             "$home_/.ssh/config":
+                mode => 0600,
                 owner => $username,
                 group => $group_,
                 content => $config;
@@ -70,6 +68,7 @@ define ssh::userconfig($home='', $config='', $group='',
         # note that this must be in the user homedir for mock builders - see bug 784177
         file {
             "$home_/.ssh/known_hosts":
+                mode => 0600,
                 owner => $username,
                 group => $group_,
                 content => template("${module_name}/known_hosts.erb");

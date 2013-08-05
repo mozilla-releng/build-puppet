@@ -29,8 +29,5 @@ class ssh::service {
                     ensure => absent;
             }
         }
-        Windows: {
-            # TODO-WIN: add support
-        }
     }
 }

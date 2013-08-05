@@ -2,7 +2,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class motd::base {
-    include motd::settings
     include concat::setup
 
     $group = $::operatingsystem ? {
@@ -10,17 +9,15 @@ class motd::base {
         default => root
     }
     concat {
-        $motd::settings::motd_file:
+        "/etc/motd":
             owner => root,
             group => $group,
-            mode => filemode(0644);
+            mode => 0644;
     }
     # need at least one fragment, or concat will fail:
     concat::fragment {
         empty-motd:
-            target => $motd::settings::motd_file,
+            target => "/etc/motd",
             content => ""
     }
-
-    # TODO-WIN: add support for showing motd if KTS supports it
 }

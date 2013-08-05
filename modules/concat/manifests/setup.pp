@@ -31,39 +31,26 @@ class concat::setup {
     fail ("\$concat_basedir not defined. Try running again with pluginsync=true on the [master] section of your node's '/etc/puppet/puppet.conf'.")
   }
 
-  # OS-specific path chars, used to generate "safe" filenames
-  $pathchars   = $::operatingsystem ? {
-    Windows => '[/\\:\n]',
-    default => '[/\n]',
-  }
-
   $majorversion = regsubst($::puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
   $fragments_source = $majorversion ? {
-    24      => 'puppet:///concat/concatfragments.rb',
-    default => 'puppet:///modules/concat/concatfragments.rb'
+    24      => 'puppet:///concat/concatfragments.sh',
+    default => 'puppet:///modules/concat/concatfragments.sh'
   }
 
-  file{"${concatdir}/bin/concatfragments.rb":
+  file{"${concatdir}/bin/concatfragments.sh":
     owner  => $id,
     group  => $root_group,
-    mode   => '0775',
+    mode   => '0755',
     source => $fragments_source;
 
   [ $concatdir, "${concatdir}/bin" ]:
     ensure => directory,
     owner  => $id,
     group  => $root_group,
-    mode   => '0770';
-
-  # pre-windows-compatible versions used a shell script
-  "${concatdir}/bin/concatfragments.sh":
-    ensure => absent;
-  }
+    mode   => '0750';
 
   ## Old versions of this module used a different path.
-  if $::operatingsystem != "Windows" {
-    file{'/usr/local/bin/concatfragments.sh':
-      ensure => absent;
-    }
+  '/usr/local/bin/concatfragments.sh':
+    ensure => absent;
   }
 }

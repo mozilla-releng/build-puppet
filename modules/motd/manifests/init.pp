@@ -3,11 +3,10 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 define motd($content, $order=10) {
     include motd::base
-    include motd::settings
 
     concat::fragment {
         $name:
-            target => $motd::settings::motd_file,
+            target => "/etc/motd",
             content => $content,
             order => $order;
     }

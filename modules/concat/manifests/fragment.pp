@@ -16,11 +16,11 @@
 # [*ensure*]
 #   Present/Absent or destination to a file to include another file
 # [*mode*]
-#   Mode for the fragment file
+#   Mode for the file
 # [*owner*]
-#   Owner of the fragment file
+#   Owner of the file
 # [*group*]
-#   Owner of the fragment file
+#   Owner of the file
 # [*backup*]
 #   Controls the filebucketing behavior of the final file and see File type
 #   reference for its use.  Defaults to 'puppet'
@@ -31,14 +31,12 @@ define concat::fragment(
     $source=undef,
     $order=10,
     $ensure = 'present',
-    $mode = $::operatingsystem ? { Windows => '0664', default => '0644' },
+    $mode = '0644',
     $owner = $::id,
     $group = $concat::setup::root_group,
     $backup = 'puppet') {
-  include concat::setup
-
-  $safe_name   = regsubst($name, $concat::setup::pathchars, '_', 'G')
-  $safe_target_name = regsubst($target, $concat::setup::pathchars, '_', 'GM')
+  $safe_name = regsubst($name, '[/\n]', '_', 'GM')
+  $safe_target_name = regsubst($target, '[/\n]', '_', 'GM')
   $concatdir = $concat::setup::concatdir
   $fragdir = "${concatdir}/${safe_target_name}"
 

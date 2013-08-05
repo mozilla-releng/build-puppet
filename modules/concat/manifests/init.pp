@@ -27,7 +27,7 @@
 #
 # === Actions:
 # * Creates fragment directories if it didn't exist already
-# * Executes the concatfragments.rb script to build the final file, this
+# * Executes the concatfragments.sh script to build the final file, this
 #   script will create directory/fragments.concat.   Execution happens only
 #   when:
 #   * The directory changes
@@ -59,7 +59,7 @@ define concat(
 ) {
   include concat::setup
 
-  $safe_name   = regsubst($name, $concat::setup::pathchars, '_', 'G')
+  $safe_name   = regsubst($name, '/', '_', 'G')
   $concatdir   = $concat::setup::concatdir
   $version     = $concat::setup::majorversion
   $fragdir     = "${concatdir}/${safe_name}"
@@ -118,7 +118,6 @@ define concat(
 
   file { $fragdir:
     ensure => directory,
-    mode   => "0775",
   }
 
   $source_real = $version ? {
@@ -128,7 +127,6 @@ define concat(
 
   file { "${fragdir}/fragments":
     ensure   => directory,
-    mode     => "0775",
     force    => true,
     ignore   => ['.svn', '.git', '.gitignore'],
     notify   => Exec["concat_${name}"],
@@ -139,12 +137,10 @@ define concat(
 
   file { "${fragdir}/fragments.concat":
     ensure   => present,
-    mode     => "0664",
   }
 
   file { "${fragdir}/${concat_name}":
     ensure   => present,
-    mode     => "0664",
   }
 
   file { $name:
@@ -159,16 +155,15 @@ define concat(
 
   exec { "concat_${name}":
     alias       => "concat_${fragdir}",
-    command     => "\"${::concat_ruby_interpreter}\" ${concat::setup::concatdir}/bin/concatfragments.rb -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag}",
+    command     => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag}",
     notify      => File[$name],
-    logoutput   => on_failure,
     require     => [
       File[$fragdir],
       File["${fragdir}/fragments"],
       File["${fragdir}/fragments.concat"],
     ],
     subscribe   => File[$fragdir],
-    unless      => "\"${::concat_ruby_interpreter}\" ${concat::setup::concatdir}/bin/concatfragments.rb -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag}",
+    unless      => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag}",
   }
 
   if $::id == 'root' {

@@ -8,33 +8,18 @@ import "extlookup.pp"
 import "config.pp"
 import "nodes.pp"
 
-# Default to 0:0, 0644 on POSIX, and root, 0644 on Windows
-case $::operatingsystem {
-    Windows: {
-        File {
-            owner => root,
-            backup => false,
-            mode => filemode(0644),
-        }
-    }
-    default: {
-        File {
-            owner => 0,
-            group => 0,
-            mode => filemode(0644),
-            backup => false,
-        }
-    }
+# Default to root:root 0644 ownership
+File {
+    owner => 0,
+    group => 0,
+    mode => "0644",
+    backup => false,
 }
 
-# purge unknown users from the system's user database.  This doesn't work on Windows
-# due to https://projects.puppetlabs.com/issues/22048
-# TODO-WIN: figre out how to not purge system users on windows (solve the puppetlabs bug)
-if ($::operatingsystem != "windows") {
-    resources {
-        'user':
-            purge => true;
-    }
+# purge unknown users from the system's user database
+resources {
+    'user':
+        purge => true;
 }
 
 # The PuppetLabs firewall module is only supported on Linux

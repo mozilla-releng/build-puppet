@@ -22,10 +22,12 @@ define python::user_pip_conf($homedir='', $group='') {
         "$homedir_/.pip":
             ensure => directory,
             owner => $user,
-            group => $group_;
+            group => $group_,
+            mode => 0755;
         "$homedir_/.pip/pip.conf":
             content => template("python/user-pip-conf.erb"),
             owner => $user,
-            group => $group_;
+            group => $group_,
+            mode => 0644;
     }
 }

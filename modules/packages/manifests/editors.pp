@@ -22,10 +22,6 @@ class packages::editors {
             # installed by default
         }
 
-        Windows: {
-            # TODO-WIN: add support
-        }
-
         default: {
             fail("cannot install on $::operatingsystem")
         }

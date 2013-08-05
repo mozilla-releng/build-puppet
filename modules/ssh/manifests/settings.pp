@@ -14,9 +14,6 @@ class ssh::settings {
             $sshd_config = "/etc/sshd_config"
             $known_hosts = "/etc/ssh_known_hosts"
         }
-        Windows: {
-            # TODO-WIN: add support
-        }
         default: {
             fail("Don't know how to configure SSH on this platform")
         }
