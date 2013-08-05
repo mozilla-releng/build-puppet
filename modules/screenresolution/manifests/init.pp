@@ -8,11 +8,14 @@ class screenresolution($width, $height, $depth, $refresh) {
             # set the screen resolution appropriately
             include packages::mozilla::screenresolution
 
-            # the version of screenresolution that works on 10.7 doesn't support refresh rates
-            if ($::macosx_productversion_major == "10.7") {
-                $resolution = "${width}x${height}x${depth}"
-            } else {
-                $resolution = "${width}x${height}x${depth}@${refresh}"
+            # the version of screenresolution that works on 10.7 and below doesn't support refresh rates
+            case $::macosx_productversion_major {
+                10.6,10.7: {
+                    $resolution = "${width}x${height}x${depth}"
+                }
+                10.8,10.9: {
+                    $resolution = "${width}x${height}x${depth}@${refresh}"
+                }
             }
 
             # this can't run while puppetizing, since the automatic login isn't in place yet, and
