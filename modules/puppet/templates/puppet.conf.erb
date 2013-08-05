@@ -5,9 +5,9 @@
 # Managed by puppet
 
 [main]
-    logdir = $vardir/log/puppet
-    rundir = $vardir/run/puppet
-    ssldir = $vardir/lib/puppet/ssl
+    logdir = /var/log/puppet
+    rundir = /var/run/puppet
+    ssldir = /var/lib/puppet/ssl
 
 <% if scope.lookupvar('::operatingsystem') == 'windows' -%>
     diff = c:\windows\system32\cmd.exe
@@ -36,15 +36,12 @@
     # things
     pluginsync = true
 
-    # default for this on Windows is completely bogus ($vardir/lib/puppet)
-    plugindest = $vardir/lib/puppet/lib
-
 [master]
     # default to looking in the production/ subdirectory of /etc/puppet
     manifestdir = $confdir/production/manifests
     modulepath = $confdir/production/modules
     templatedir = $confdir/production/templates
-    ssldir = $vardir/lib/puppetmaster/ssl
+    ssldir = /var/lib/puppetmaster/ssl
     manifest = $manifestdir/site.pp
     config_version = /etc/puppet/get_rev.sh $confdir/production
     ca = false
