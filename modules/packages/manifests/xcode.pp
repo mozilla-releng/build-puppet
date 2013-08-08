@@ -28,7 +28,7 @@ class packages::xcode {
                     }
                 }
 
-                '10.7': { # Xcode-4.1
+                '10.7','10.9': { # Xcode-4.1
 
                     # This is a re-packaged version of Xcode 4.1.  Here's how to build it:
                     # install the Xcode DMG, which just installs "Install Xcode" into /Applications
@@ -36,7 +36,7 @@ class packages::xcode {
                     #   ditto /Applications/Install\ Xcode.app/Contents/Resources/Xcode.mpkg /tmp/dmg/Xcode.mpkg
                     #   ditto /Applications/Install\ Xcode.app/Contents/Resources/Packages /tmp/dmg/Packages
                     #   makehybrid -hfs -hfs-volume-name "mozilla-repack-xcode-4.1" -o ./xcode-4.1.dmg /tmp/dmg/
-                    # note that this DMG might work on 10.8, too
+                    # note that this DMG might work on 10.8, too.  It does *not* work on 10.9, at all.
                     packages::pkgdmg {
                         "xcode":
                             version => "4.1",

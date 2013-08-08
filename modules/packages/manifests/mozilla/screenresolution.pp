@@ -21,7 +21,7 @@ class packages::mozilla::screenresolution {
                             version => "1.5";
                     }
                 }
-                '10.8': {
+                '10.8','10.9': {
                     packages::pkgdmg {
                         screenresolution:
                             version => "1.6";

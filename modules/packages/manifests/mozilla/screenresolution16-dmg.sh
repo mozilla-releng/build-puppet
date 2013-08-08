@@ -2,22 +2,40 @@
 
 set -e
 
+rm -rf build
+mkdir -p build
+cd build
+
 git clone git://github.com/jhford/screenresolution.git
 
-BUILD=screenresolution
-if ! [ -d $BUILD ]; then
-    echo "Run this from the root of the cloned git repo git://github.com/jhford/screenresolution.git"
-    echo "You'll need the latest versions of Xcode, command line tools, and auxiliary tools installed"
-    exit 1
-fi
-
 # prep
-cd $BUILD
-set version of dmg to create
-sed -i .bak 's/1.6dev/1.6/g' Makefile
+cd screenresolution
+# check out a version after 1.5 that will hopefully one day be 1.6
+VERSION=1.6
+git checkout f2c404db62629f504ee56913e59a91470f1d7326
 
-echo $VERSION
-echo $PACKGAGE_MAKER
+make screenresolution
 
-# build the package
-make dmg
+# The makefile's packaging stuff isn't quite right, so we just replicate it here
+
+PACKAGE_MAKER=/tools/packagemaker/bin/PackageMaker
+PREFIX=/usr/local
+mkdir -p pkgroot/${PREFIX}/bin
+install -s -m 0755 screenresolution \
+	pkgroot/${PREFIX}/bin
+# compared to the makefile, this omits "--target", so we target the current OS
+${PACKAGE_MAKER} --root pkgroot/  --id com.johnhford.screenresolution \
+	--out "screenresolution-${VERSION}.pkg" \
+	--title "screenresolution ${VERSION}" \
+	--version ${VERSION}
+rm -f screenresolution.pkg
+ln -s screenresolution-${VERSION}.pkg screenresolution.pkg
+
+
+mkdir -p dmgroot
+cp -r screenresolution-${VERSION}.pkg dmgroot/
+rm -f screenresolution-${VERSION}.dmg
+hdiutil makehybrid -hfs -hfs-volume-name "screenresolution ${VERSION}" \
+	-o "screenresolution-${VERSION}.dmg" dmgroot/
+echo Result: $PWD/screenresolution-${VERSION}.dmg
+
