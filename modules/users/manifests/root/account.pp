@@ -31,6 +31,7 @@ class users::root::account($username, $group, $home) {
                             home => $home,
                             password => secret("root_pw_paddedsha1");
                     }
+                    $user_req = Darwinuser[$username]
                 }
                 '10.7': {
                     if (secret("root_pw_saltedsha512") == '') {
@@ -42,6 +43,7 @@ class users::root::account($username, $group, $home) {
                             home => $home,
                             password => secret("root_pw_saltedsha512");
                     }
+                    $user_req = Darwinuser[$username]
                 }
                 '10.8': {
                     if (secret("root_pw_pbkdf2") == '' or secret("root_pw_pbkdf2_salt") == '') {
@@ -55,6 +57,21 @@ class users::root::account($username, $group, $home) {
                             salt => secret("root_pw_pbkdf2_salt"),
                             iterations => secret("root_pw_pbkdf2_iterations");
                     }
+                    $user_req = Darwinuser[$username]
+                }
+                '10.9': {
+                    if (secret("root_pw_pbkdf2") == '' or secret("root_pw_pbkdf2_salt") == '') {
+                        fail('No root password pbkdf2 set')
+                    }
+
+                    user {
+                        $username:
+                            home => $home,
+                            password => secret("root_pw_pbkdf2"),
+                            salt => secret("root_pw_pbkdf2_salt"),
+                            iterations => secret("root_pw_pbkdf2_iterations");
+                    }
+                    $user_req = User[$username]
                 }
                 default: {
                     fail("No support for creating users on OS X $macosx_productversion_major")
@@ -66,7 +83,7 @@ class users::root::account($username, $group, $home) {
                 # that directory
                 $home:
                     ensure => directory,
-                    require => Darwinuser[$username];
+                    require => $user_req;
             }
         }
     }

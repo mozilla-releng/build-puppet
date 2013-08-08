@@ -22,6 +22,16 @@ class packages::xcode_cmdline_tools {
                             dmgname => "command_line_tools_for_xcode_4.5_os_x_mountain_lion.dmg";
                     } -> Anchor['packages::xcode_cmdline_tools::end']
                 }
+                10.9: {
+                    Anchor['packages::xcode_cmdline_tools::begin'] ->
+                    # N.B. This is the dev preview and should be upgraded after release
+                    packages::pkgdmg {
+                        "command_line_tools_for_os_x_mavericks_developer_preview_4":
+                            version => "5.0", # I think??
+                            private => true,
+                            dmgname => "command_line_tools_for_os_x_mavericks_developer_preview_4.dmg";
+                    } -> Anchor['packages::xcode_cmdline_tools::end']
+                }
                 default: {
                     fail("cannot install on OS X $::macosx_productversion_major")
                 }
