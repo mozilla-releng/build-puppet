@@ -14,7 +14,7 @@ $UDPServerRun 514
 
 # Save incoming mobile messages to the DB, using an rsyslog queue to
 # handle any DB failures
-$template bmmdb,"CALL insert_device_log_entry('%hostname%', '%timereported:::date-mysql%', 'syslog', '%msg%')",SQL
+$template bmmdb,"CALL insert_device_log_entry('%hostname%', '%timereported:::date-mysql%', 'syslog', '%syslogtag%%msg%')",SQL
 $ActionQueueType LinkedList # use asynchronous processing
 $ActionResumeRetryCount 10  # 10 retries, at 1 minute each; don't exhaust memory on account of log entries!
 local0.* :ommysql:<%= @db_hostname %>,<%= @db_database %>,<%= @db_username %>,<%= @db_password %>;bmmdb
