@@ -108,18 +108,23 @@ node /signing[456].srv.releng.scl3.mozilla.com/ {
 
 node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
     include toplevel::server::puppetmaster
+    include collectd
 }
 node "releng-puppet2.srv.releng.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
+    include collectd
 }
 node "releng-puppet2.build.scl1.mozilla.com" {
     include toplevel::server::puppetmaster
+    include collectd
 }
 node "releng-puppet2.build.mtv1.mozilla.com" {
     include toplevel::server::puppetmaster
+    include collectd
 }
 node /releng-puppet\d\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
     include toplevel::server::puppetmaster
+    include collectd
 }
 
 ## mozpool servers
