@@ -573,3 +573,16 @@ node /foopy53.p3.releng.scl1.mozilla.com/ {
     }
     realize(Users::Person['jmaher'])
 }
+
+node /foopy109.build.mtv1.mozilla.com/ {
+    # Loaned in Bug 902622
+    include toplevel::server::foopy
+    include collectd
+    users::root::extra_authorized_key {
+        'stully': ;
+    }
+    users::builder::extra_authorized_key {
+        'stully': ;
+    }
+    realize(Users::Person['stully'])
+}
