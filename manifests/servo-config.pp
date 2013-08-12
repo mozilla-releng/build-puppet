@@ -142,12 +142,14 @@ class config inherits config::base {
         'aydinkim',
         'brson',
         'burg',
+        'eric93',
         'ILyoan',
         'jdm',
         'kmcallister',
         'metajack',
         'pcwalton',
         'sfowler',
+        'tkuehn',
         'yichoi',
     ]
     $bors_servo_builders = ["linux", "mac"]
