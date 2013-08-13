@@ -40,11 +40,20 @@ wait_for_dns() {
     done
 }
 
-echo "Starting run-puppet.sh at" `date`
+# The buildbot plist, if it's running on this host, will only try to start when
+# SEMAPHORE exists.  This file must be in a directory where the builder user can
+# delete it, but it shouldn't exist yet
+SEMAPHORE_DIR="/var/tmp/semaphore"
+SEMAPHORE="${SEMAPHORE_DIR}/run-buildbot"
+mkdir -p "${SEMAPHORE_DIR}"
+chmod 0777 "${SEMAPHORE_DIR}"
+rm -rf "${SEMAPHORE}"
+
+logger -ist run-puppet "Starting run-puppet.sh at "`date`
 wait_for_dns
 run_until_success
 
-# touch a semaphore file that causes the user-level launchd to start buildbot.
-# This arrangemnet assumes that autologin has occurred and user-level launchd
-# is already started, which is in no way guaranteed.
-touch /var/tmp/puppet.finished
+# Now touch SEMAPHORE to signal the builder user's launchd to start
+# buildbot.  This is level-triggered, not edge-triggered, so it's OK if the
+# touch below happens before the builder user is logged in.
+touch "${SEMAPHORE}"

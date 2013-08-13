@@ -13,17 +13,16 @@ class buildslave::startup::launchd {
     # puppet has run.
     #
     # The approach taken here is to add a launch agent (runs as any logged-in
-    # user) which is only started when /var/tmp/puppet.finished is touched.
+    # user) which is only started when a semaphore file exists (using
+    # KeepAlive:PathState).  This file is level-triggered (meaning that buildbot
+    # will start if the file exists, not just when it is touched), so there is
+    # no race condition.
+    #
     # The run-puppet.sh script used to run puppet on macs touches this file
     # when it has successfully invoked puppet.
-    #
-    # There is a race condition here: if the buildslave launchd script has not
-    # been loaded when the puppet run finishes and the file is touched, then
-    # buildslave will never be triggered.  This system has worked well in
-    # practice, though, so perhaps this race condition is never triggered.
-    
+
     $buildslave_path = "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin"
-                        
+
     file {
         "/Library/LaunchAgents/com.mozilla.buildslave.plist":
             owner => root,
@@ -31,5 +30,8 @@ class buildslave::startup::launchd {
             mode => 0644,
             content => template("buildslave/buildslave.plist.erb");
 
+        "/usr/local/bin/run-buildslave.sh":
+            source => "puppet:///modules/${module_name}/darwin-run-buildslave.sh",
+            mode => 0755;
     }
 }

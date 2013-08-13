@@ -14,24 +14,31 @@
         <dict>
             <key>PATH</key>
             <string><%= buildslave_path %></string>
-        </dict> 
+        </dict>
         <key>Label</key>
         <string>com.mozilla.buildslave</string>
         <key>ProgramArguments</key>
         <array>
-            <string>/usr/bin/python</string>
-            <string>/usr/local/bin/runslave.py</string>
+            <string>/usr/local/bin/run-buildslave.sh</string>
         </array>
 
         <!-- do not run immediately when loaded -->
         <key>RunAtLoad</key>
         <false/>
 
-        <!-- but run when puppet (which is running as root) touches this file -->
-        <key>WatchPaths</key>
-        <array>
-            <string>/var/tmp/puppet.finished</string>
-        </array>
+        <!-- but run when this file exists -->
+        <key>KeepAlive</key>
+        <dict>
+            <key>PathState</key>
+            <dict>
+                <!-- start if this file exists -->
+                <key>/var/tmp/semaphore/run-buildbot</key>
+                <true/>
+            </dict>
+        </dict>
+
+        <key>OnDemand</key>
+        <true/>
 
         <!-- the working directory doesn't get used, so point it somewhere inoccuous -->
         <key>WorkingDirectory</key>
