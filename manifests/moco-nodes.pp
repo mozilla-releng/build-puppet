@@ -102,6 +102,7 @@ node /(bld|try|dev)-.*\.(build|try|dev)\.releng\.(use1|usw2)\.mozilla.com/ {
 
 node /signing[456].srv.releng.scl3.mozilla.com/ {
     include toplevel::server::signing
+    include collectd
 }
 
 ## puppetmasters
