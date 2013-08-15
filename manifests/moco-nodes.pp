@@ -553,18 +553,3 @@ node "buildbot-master98.srv.releng.use1.mozilla.com" {
     }
     include toplevel::server::buildmaster
 }
-
-# Loaners
-
-node /foopy53.p3.releng.scl1.mozilla.com/ {
-    # Loaned in Bug 901764
-    include toplevel::server::foopy
-    include collectd
-    users::root::extra_authorized_key {
-        'jmaher': ;
-    }
-    users::builder::extra_authorized_key {
-        'jmaher': ;
-    }
-    realize(Users::Person['jmaher'])
-}
