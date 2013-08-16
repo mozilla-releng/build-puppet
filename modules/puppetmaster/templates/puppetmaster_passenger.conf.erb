@@ -13,6 +13,11 @@ RailsAutoDetect Off
 Listen 8140
 
 <VirtualHost *:8140>
+        # the server name and alias need to be set correctly here, corresponding do those
+        # in the cert
+        ServerName <%= scope.lookupvar('::fqdn') %>
+        ServerAlias puppet
+
         SSLEngine on
         SSLProtocol -ALL +SSLv3 +TLSv1
         SSLCipherSuite ALL:!ADH:RC4+RSA:+HIGH:+MEDIUM:-LOW:-SSLv2:-EXP

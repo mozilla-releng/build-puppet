@@ -3,6 +3,11 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 <VirtualHost *:443>
+        # the server name and alias need to be set correctly here, corresponding do those
+        # in the cert
+        ServerName <%= scope.lookupvar('::fqdn') %>
+        ServerAlias puppet
+
         SSLEngine on
         SSLProtocol -ALL +SSLv3 +TLSv1
         SSLCipherSuite ALL:!ADH:RC4+RSA:+HIGH:+MEDIUM:-LOW:-SSLv2:-EXP
