@@ -57,20 +57,13 @@ class disableservices::common {
             }
             case $::macosx_productversion_major {
                 # 10.6 doesn't seem to have a way to disable software update, but later versions do
-                10.6: {}
-                10.7, 10.8: {
+                '10.6': {}
+                default: {
                     service {
                         [
                             'com.apple.softwareupdatecheck.initial',
                             'com.apple.softwareupdatecheck.periodic',
                         ]:
-                            enable => false,
-                            ensure => stopped,
-                    }
-                }
-                10.9: {
-                    service {
-                        'com.apple.softwareupdated':
                             enable => false,
                             ensure => stopped,
                     }

@@ -43,9 +43,6 @@ class talos {
                     # not sure why this is required, but it appears to be
                     include packages::xcode_cmdline_tools
                 }
-                10.9: {
-                    # nothing yet!
-                }
                 default: {
                     fail("No talos configuration for OS X $::macosx_productversion_major")
                 }

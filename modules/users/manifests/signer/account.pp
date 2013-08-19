@@ -48,7 +48,6 @@ class users::signer::account($username, $group, $grouplist, $home) {
                             comment => "Builder",
                             notify => Exec['kill-signer-keychain'];
                     }
-                    $user_req = Darwinuser[$username]
                 }
                 '10.7': {
                     if (secret("signer_pw_saltedsha512") == '') {
@@ -63,7 +62,6 @@ class users::signer::account($username, $group, $grouplist, $home) {
                             comment => "Builder",
                             notify => Exec['kill-signer-keychain'];
                     }
-                    $user_req = Darwinuser[$username]
                 }
                 '10.8': {
                     if (secret("signer_pw_pbkdf2") == '' or secret("signer_pw_pbkdf2_salt") == '') {
@@ -79,23 +77,6 @@ class users::signer::account($username, $group, $grouplist, $home) {
                             comment => "Builder",
                             notify => Exec['kill-signer-keychain'];
                     }
-                    $user_req = Darwinuser[$username]
-                }
-                '10.9': {
-                    if (secret("signer_pw_pbkdf2") == '' or secret("signer_pw_pbkdf2_salt") == '') {
-                        fail('No signer password pbkdf2 set')
-                    }
-                    user {
-                        $username:
-                            shell => "/bin/bash",
-                            home => $home,
-                            password => secret("signer_pw_pbkdf2"),
-                            salt => secret("signer_pw_pbkdf2_salt"),
-                            iterations => secret("signer_pw_pbkdf2_iterations"),
-                            comment => "Builder",
-                            notify => Exec['kill-signer-keychain'];
-                    }
-                    $user_req = User[$username]
                 }
                 default: {
                     fail("No support for creating users on OS X $macosx_productversion_major")
@@ -114,7 +95,7 @@ class users::signer::account($username, $group, $grouplist, $home) {
                     owner => $username,
                     group => $group,
                     mode => 0755,
-                    require => $user_req;
+                    require => Darwinuser[$username];
             }
         }
     }

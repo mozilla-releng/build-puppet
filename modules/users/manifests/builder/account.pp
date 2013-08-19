@@ -48,7 +48,6 @@ class users::builder::account($username, $group, $grouplist, $home) {
                             comment => "Builder",
                             notify => Exec['kill-builder-keychain'];
                     }
-                    $user_req = Darwinuser[$username]
                 }
                 '10.7': {
                     if (secret("builder_pw_saltedsha512") == '') {
@@ -63,7 +62,6 @@ class users::builder::account($username, $group, $grouplist, $home) {
                             comment => "Builder",
                             notify => Exec['kill-builder-keychain'];
                     }
-                    $user_req = Darwinuser[$username]
                 }
                 '10.8': {
                     if (secret("builder_pw_pbkdf2") == '' or secret("builder_pw_pbkdf2_salt") == '') {
@@ -79,23 +77,6 @@ class users::builder::account($username, $group, $grouplist, $home) {
                             comment => "Builder",
                             notify => Exec['kill-builder-keychain'];
                     }
-                    $user_req = Darwinuser[$username]
-                }
-                '10.9': {
-                    if (secret("builder_pw_pbkdf2") == '' or secret("builder_pw_pbkdf2_salt") == '') {
-                        fail('No builder password pbkdf2 set')
-                    }
-                    user {
-                        $username:
-                            shell => "/bin/bash",
-                            home => $home,
-                            password => secret("builder_pw_pbkdf2"),
-                            salt => secret("builder_pw_pbkdf2_salt"),
-                            iterations => secret("builder_pw_pbkdf2_iterations"),
-                            comment => "Builder",
-                            notify => Exec['kill-builder-keychain'];
-                    }
-                    $user_req = User[$username]
                 }
             }
             exec {
@@ -111,7 +92,7 @@ class users::builder::account($username, $group, $grouplist, $home) {
                     owner => $username,
                     group => $group,
                     mode => 0755,
-                    require => $user_req;
+                    require => Darwinuser[$username];
             }
         }
     }
