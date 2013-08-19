@@ -1,19 +1,21 @@
 #! /bin/bash
 
+VERSION="${1}"
+if [ -z "$VERSION" ]; then
+	echo "USAGE: $0 version"
+	exit 1
+fi
+
 set -e
 
 rm -rf build
 mkdir -p build
 cd build
 
-git clone git://github.com/jhford/screenresolution.git
+curl http://puppetagain.pub.build.mozilla.org/data/repos/DMGs/screenresolution-$VERSION.tar.gz | tar -zxf -
+cd screenresolution-$VERSION
 
-# prep
-cd screenresolution
-# check out a version after 1.5 that will hopefully one day be 1.6
-VERSION=1.6
-git checkout f2c404db62629f504ee56913e59a91470f1d7326
-
+# build
 make screenresolution
 
 # The makefile's packaging stuff isn't quite right, so we just replicate it here
