@@ -165,6 +165,7 @@ define concat(
     require     => [
       File[$fragdir],
       File["${fragdir}/fragments"],
+      File["${fragdir}/${concat_name}"],
       File["${fragdir}/fragments.concat"],
     ],
     subscribe   => File[$fragdir],
