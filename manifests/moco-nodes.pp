@@ -111,6 +111,10 @@ node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
     include toplevel::server::puppetmaster
     include collectd
 }
+node "releng-puppet1.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::puppetmaster
+    include collectd
+}
 node "releng-puppet2.srv.releng.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
     include collectd
