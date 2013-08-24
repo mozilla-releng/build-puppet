@@ -422,7 +422,7 @@ def guess_twistd_cmd():
         # All POSIX slaves are consistent about the location.  Woo!
         return [ '/tools/buildbot/bin/twistd' ]
 
-default_allocator_url = "http://slavealloc.build.mozilla.org/gettac/SLAVE"
+default_allocator_url = "http://slavealloc.pvt.build.mozilla.org/gettac/SLAVE"
 def main():
     from optparse import OptionParser
 
