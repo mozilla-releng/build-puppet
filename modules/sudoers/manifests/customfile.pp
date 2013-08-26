@@ -6,16 +6,9 @@ define sudoers::customfile($content) {
     include sudoers
 
     if $::operatingsystem != 'Windows' {
-        # TODO-WIN: this should be replaced with an equivalent on windows
-        include packages::sudo
-
-        file {
-            "/etc/sudoers.d/$title":
-                require => Class['packages::sudo'],
-                mode => "440",
-                owner => $::users::root::username,
-                group => $::users::root::group,
-                ensure => file,
+        concat::fragment {
+            "10-$title":
+                target => "/etc/sudoers",
                 content => $content;
         }
     }

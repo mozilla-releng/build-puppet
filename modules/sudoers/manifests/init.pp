@@ -7,22 +7,23 @@ class sudoers {
     if $::operatingsystem != 'Windows' {
         # TODO-WIN: this should be replaced with an equivalent on windows
         include packages::sudo
-        file {
-            "sudoers" :
+        concat {
+            "/etc/sudoers" :
                 require => Class['packages::sudo'],
-                path => "/etc/sudoers",
                 mode => "$sudoers::settings::mode",
                 owner => "$sudoers::settings::owner",
                 group => "$sudoers::settings::group",
+        }
+        concat::fragment {
+            '00-base':
+                target => "/etc/sudoers",
                 source => "puppet:///modules/sudoers/sudoers.$::operatingsystem" ;
+        }
 
+        file {
             "/etc/sudoers.d" :
-                require => Class['packages::sudo'],
-                recurse => true,
-                purge => true,
-                owner => "$sudoers::settings::owner",
-                group => "$sudoers::settings::group",
-                ensure => directory ;
+                force => true,
+                ensure => absent ;
         }
     }
 }
