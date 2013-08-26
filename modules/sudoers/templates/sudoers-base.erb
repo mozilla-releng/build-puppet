@@ -1,0 +1,26 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+Defaults env_keep += "SSH_AUTH_SOCK"
+<%# 10.6 doesn't support umask_override %>
+<%- if @macosx_productversion_major != '10.6' %>
+Defaults umask_override
+<%- end %>
+Defaults umask=0022
+
+<%# not sure why this is only present on Ubuntu, but it is.. %>
+<%- if @operatingsystem == 'Ubuntu' %>
+Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin
+<%- end %>
+
+root    ALL=(ALL)   ALL
+
+<%- if @operatingsystem == 'Darwin' %>
+%admin  ALL=(ALL) ALL
+<%- else %>
+%wheel    ALL=(ALL)   NOPASSWD: ALL
+<%- end %>
+
+## concatenated files:
+

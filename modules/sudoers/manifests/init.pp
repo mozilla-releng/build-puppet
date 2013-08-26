@@ -17,7 +17,7 @@ class sudoers {
         concat::fragment {
             '00-base':
                 target => "/etc/sudoers",
-                source => "puppet:///modules/sudoers/sudoers.$::operatingsystem" ;
+                content => template("${module_name}/sudoers-base.erb");
         }
 
         file {
