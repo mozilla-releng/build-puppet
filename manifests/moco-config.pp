@@ -20,6 +20,7 @@ class config inherits config::base {
            "releng-puppet2.build.scl1.mozilla.com",
         ],
         ".*\\.releng\\.scl3\\.mozilla\\.com" => [
+           "releng-puppet1.srv.releng.scl3.mozilla.com",
            "releng-puppet2.srv.releng.scl3.mozilla.com",
         ],
         ".*\\.releng\\.(use1|aws-us-east-1)\\.mozilla\\.com" => [
