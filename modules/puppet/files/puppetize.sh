@@ -55,7 +55,7 @@ rm -f /var/lib/puppet/ssl/certs/ca.pem || exit 1
 while true; do
     python <<EOF
 import urllib2, getpass
-deploypass="$deploypass"
+deploypass="""$deploypass"""
 puppet_server="${PUPPET_SERVER:-puppet}"
 print "Contacting puppet server %s" % (puppet_server,)
 if not deploypass:
