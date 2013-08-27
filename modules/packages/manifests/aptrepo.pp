@@ -8,8 +8,7 @@ define packages::aptrepo ($repo_name = $title, $url_path, $distribution, $compon
 
     # for the template
     $ipaddress = $::ipaddress
-    $data_server = $config::data_server
-    $data_servers = $config::data_servers
+    $apt_repo_server = $config::apt_repo_server
 
     # This class uses numeric user/group IDs since this resource is in the
     # 'packagesetup' state, which comes before the 'main' stage where

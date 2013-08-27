@@ -37,6 +37,11 @@ class config inherits config::base {
     $data_servers = $puppet_servers
     $data_server = $puppet_server
 
+    # this is a round-robin DNS containing all of the moco puppet masters.  This is the
+    # only way to communicate to apt that the masters are all mirrors of one another.
+    # See https://bugzilla.mozilla.org/show_bug.cgi?id=906785
+    $apt_repo_server = "puppetagain-apt.pvt.build.mozilla.org"
+
     $distinguished_puppetmaster = "releng-puppet2.srv.releng.scl3.mozilla.com"
     $puppetmaster_public_mirror_hosts = [ "releng-puppet2.srv.releng.scl3.mozilla.com" ]
     $puppet_again_repo = "http://hg.mozilla.org/build/puppet/"

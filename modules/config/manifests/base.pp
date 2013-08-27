@@ -18,6 +18,7 @@ class config::base {
     $puppet_notif_email = "nobody@mozilla.com"
     $data_server = "repos"
     $data_servers = [$data_server]
+    $apt_repo_server = $data_server
     $puppet_servers = "puppet"
     $puppet_server = [$puppet_servers]
     $distinguished_puppetmaster = ''
