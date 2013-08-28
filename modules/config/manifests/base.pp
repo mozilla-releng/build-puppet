@@ -65,4 +65,5 @@ class config::base {
     $releaserunner_sendchange_master = ""
     $releaserunner_ssh_username = ""
     $releaserunner_ssh_key = ""
+    $install_avds = "no"
 }
