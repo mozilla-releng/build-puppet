@@ -558,6 +558,7 @@ node "buildbot-master98.srv.releng.use1.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
+# Loaners
 
 node /foopy109.build.mtv1.mozilla.com/ {
     # Loaned in Bug 902622
@@ -570,4 +571,14 @@ node /foopy109.build.mtv1.mozilla.com/ {
         'stully': ;
     }
     realize(Users::Person['stully'])
+}
+
+node "talos-linux64-ix-001.test.releng.scl3.mozilla.com/ {
+    include toplevel::slave::test::gpu
+    users::root::extra_authorized_key {
+        'gbrown': ;
+    }
+    users::builder::extra_authorized_key {
+        'gbrown': ;
+    }    
 }
