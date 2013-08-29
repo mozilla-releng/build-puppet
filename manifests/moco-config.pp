@@ -230,5 +230,7 @@ class config inherits config::base {
     $releaserunner_sendchange_master = "buildbot-master81.build.mozilla.org:9301"
     $releaserunner_ssh_username = "cltbld"
     $releaserunner_ssh_key = "/home/cltbld/.ssh/release-runner"
+    
+    $install_avds = "yes"
 }
 

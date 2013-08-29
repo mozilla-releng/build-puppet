@@ -6,6 +6,10 @@ class androidemulator {
         Ubuntu: {
 	    # We want it on Ubuntu
 	    include packages::mozilla::android_sdk18
+
+	    if ($::config::install_avds == "yes") {
+	        include androidemulator::x86
+	    }
 	}
     }
 }
