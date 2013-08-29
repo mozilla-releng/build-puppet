@@ -573,7 +573,7 @@ node /foopy109.build.mtv1.mozilla.com/ {
     realize(Users::Person['stully'])
 }
 
-node "talos-linux64-ix-001.test.releng.scl3.mozilla.com/ {
+node "talos-linux64-ix-001.test.releng.scl3.mozilla.com" {
     include toplevel::slave::test::gpu
     users::root::extra_authorized_key {
         'gbrown': ;
