@@ -28,13 +28,13 @@ class packages::mozilla::py27_mercurial {
             file {
                 ["/tools/python27-mercurial", "/tools/python27-mercurial/bin"]:
                     ensure => directory;
-                $mercurial:
+                "/tools/python27-mercurial/bin/hg":
                     ensure => link,
                     target => "/usr/bin/hg";
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Darwin: {
-            $mercurial = "/tools/mercurial/bin/hg"
+            $mercurial = "/tools/python27-mercurial/bin/hg"
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             packages::pkgdmg {
                 python27-mercurial:
