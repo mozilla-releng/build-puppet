@@ -72,12 +72,12 @@ class gui($on_gpu) {
             # start x11 *or* xvfb, depending on whether we have a GPU or not
             service {
                 'x11':
-                    ensure => $on_gpu ? { true => running, default => stopped },
+                    ensure => $on_gpu ? { true => undef, default => stopped },
                     enable => $on_gpu ? { true => true, default => false },
                     require => File['/etc/init.d/x11'],
                     notify => Service['Xsession'];
                 'xvfb':
-                    ensure => $on_gpu ? { true => stopped, default => running },
+                    ensure => $on_gpu ? { true => stopped, default => undef },
                     enable => $on_gpu ? { true => false, default => true },
                     require => File['/etc/init.d/xvfb'],
                     notify => Service['Xsession'];
@@ -106,7 +106,8 @@ class gui($on_gpu) {
             }
             service {
                 'Xsession':
-                    ensure => running,
+                    # we do not ensure this is running; the system will start
+                    # it after puppet is done
                     enable => true,
                     require => File['/etc/init.d/Xsession'];
             }

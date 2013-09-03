@@ -42,6 +42,9 @@
     # things
     pluginsync = true
 
+    # do not fall back to cached catalogs
+    usecacheonfailure = false
+
 <% if scope.lookupvar('::operatingsystem') == 'windows' -%>
     # default for this on Windows is completely bogus ($vardir/lib/puppet)
     plugindest = $vardir/lib/puppet/lib
