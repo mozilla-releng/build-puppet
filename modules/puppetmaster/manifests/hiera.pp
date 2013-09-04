@@ -33,6 +33,9 @@ class puppetmaster::hiera {
                 ensure => absent
         }
     } else {
+        # template vars
+        $distinguished_master = $puppetmaster::settings::distinguished_master
+        $puppetsync_home = $puppetmaster::settings::puppetsync_home
         file {
             '/etc/cron.d/rsync-secrets':
                 content => template("${module_name}/rsync-secrets.erb");
