@@ -24,12 +24,6 @@ class tweaks::cleanup {
             tidy {
                 "$::users::builder::home/Library/Application Support/Firefox/console.log":
                     age => 0;
-                # some tests fail to clean up after themselves here, so we do it for them; see bug 906706.
-                "$::users::builder::home/Library/Caches/TemporaryItems":
-                    recurse => true,
-                    rmdirs => true,
-                    backup => false,
-                    age => 0;
             }
         }
     }
