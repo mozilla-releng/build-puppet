@@ -45,10 +45,15 @@ class network {
             # existing CentOS systems do not have wifi hardware
         }
         Darwin: {
-            exec {
-                "disable-wifi":
-                    command => "/usr/sbin/networksetup -setairportpower en1 off",
-                    unless => "/usr/sbin/networksetup -getairportpower en1 | egrep 'Off'";
+            # Some of our systems seem to lack en1, either due to hardware or software issues.
+            # Usually a hard power cycle will fix this, but since the goal is to disable wireless,
+            # we can count "no en1" as a success condition.
+            if ($::macaddress_en1 != "") {
+                exec {
+                    "disable-wifi":
+                        command => "/usr/sbin/networksetup -setairportpower en1 off",
+                        unless => "/usr/sbin/networksetup -getairportpower en1 | egrep 'Off'";
+                }
             }
         }
     }
