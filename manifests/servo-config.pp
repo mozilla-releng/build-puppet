@@ -124,7 +124,6 @@ class config inherits config::base {
         'sbruno',
         'scabral',
         'sespinoza',
-        'shnguyen',
         'shyam',
         'tfairfield',
         'tfranco',

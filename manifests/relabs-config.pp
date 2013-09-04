@@ -46,7 +46,6 @@ class config inherits config::base {
         "jwatkins",
         "jwood",
         "raliiev",
-        'shnguyen',
     ]
 }
 
