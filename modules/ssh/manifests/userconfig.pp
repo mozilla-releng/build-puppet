@@ -13,21 +13,32 @@ define ssh::userconfig($home='', $config='', $group='',
     } else {
         $home_ = $::operatingsystem ? {
             Darwin => "/Users/$username",
+            Windows => "C:/users/$username",
             default => "/home/$username"
         }
     }
 
-    if ($group != '') {
-        $group_ = $group
-    } else {
-        $group_ = $username
+    case $::operatingsystem {
+        windows: {
+            # setting owner or group causes ACLs to be blown away, so don't
+            $owner_ = undef
+            $group_ = undef
+        }
+        default: {
+            $owner_ = $username
+            if ($group != '') {
+                $group_ = $group
+            } else {
+                 $group_ = $username
+            }
+        }
     }
 
     file {
         "$home_/.ssh":
             ensure => directory,
             mode => filemode(0700),
-            owner => $username,
+            owner => $owner,
             group => $group_,
             purge => true,
             recurse => true,
@@ -38,7 +49,7 @@ define ssh::userconfig($home='', $config='', $group='',
         # to allow extras, set this up with concat
         concat {
             "${home_}/.ssh/authorized_keys":
-                owner => $username,
+                owner => $owner,
                 group => $group_,
                 mode => filemode(0600);
         }
@@ -47,12 +58,12 @@ define ssh::userconfig($home='', $config='', $group='',
                 target => "$home_/.ssh/authorized_keys",
                 content => template("ssh/ssh_authorized_keys.erb");
         }
-            
+
     } else {
         # if no extras are allowed (the common case), just use a file
         file {
             "${home_}/.ssh/authorized_keys":
-                owner => $username,
+                owner => $owner,
                 group => $group_,
                 mode => filemode(0600),
                 content => template("ssh/ssh_authorized_keys.erb");
@@ -61,7 +72,7 @@ define ssh::userconfig($home='', $config='', $group='',
     if ($config != '') {
         file {
             "$home_/.ssh/config":
-                owner => $username,
+                owner => $owner,
                 group => $group_,
                 mode => filemode(0600),
                 content => $config;
@@ -72,7 +83,7 @@ define ssh::userconfig($home='', $config='', $group='',
         # note that this must be in the user homedir for mock builders - see bug 784177
         file {
             "$home_/.ssh/known_hosts":
-                owner => $username,
+                owner => $owner,
                 group => $group_,
                 mode => filemode(0600),
                 content => template("${module_name}/known_hosts.erb");

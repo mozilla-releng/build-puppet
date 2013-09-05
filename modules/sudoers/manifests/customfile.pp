@@ -5,6 +5,7 @@
 define sudoers::customfile($content) {
     include sudoers
 
+    #In Windows this is handled by GPO
     if $::operatingsystem != 'Windows' {
         concat::fragment {
             "10-$title":

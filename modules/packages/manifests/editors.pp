@@ -23,7 +23,7 @@ class packages::editors {
         }
 
         Windows: {
-            # TODO-WIN: add support
+            # This is currently handled by MDT. This item will be reviewed after the installation method, an autoit script, is replaced.
         }
 
         default: {

@@ -40,7 +40,7 @@ class packages::puppet {
             } -> Anchor['packages::puppet::end']
         }
         Windows: {
-            # TODO-WIN: add support
+            #Puppet installation is currently handled through GPO.
         }
         default: {
             fail("cannot install on $::operatingsystem")

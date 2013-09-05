@@ -34,7 +34,7 @@ class powermanagement::setup {
         # not yet implemented
         }
         Windows: {
-            # TODO-WIN: add support
+            # TODO-WIN: this is currently managed through GPO.
         }
         default : {
             fail(" cannot install on $::operatingsystem")

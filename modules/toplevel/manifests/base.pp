@@ -20,12 +20,8 @@ class toplevel::base {
 
     include puppet
     include users::root
-    include users::global
     include network
     include sudoers
-    include packages::editors
-    include packages::screen
-    include powermanagement
     include clean
     include hardware
     include ssh
@@ -34,4 +30,10 @@ class toplevel::base {
     include needs_reboot::motd
     include web_proxy
     include collectd
+    if ($::operatingsystem != Windows) {
+        include packages::editors
+        include packages::screen
+        include users::global
+        include powermanagement
+    }
 }

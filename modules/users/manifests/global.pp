@@ -38,7 +38,7 @@ class users::global {
             }
         }
         Windows: {
-            # TODO-WIN: no-op
+            # TODO: add support to set PS1 on Windows
         }
         default: {
             fail("don't know how to set PS1 on this operating system")

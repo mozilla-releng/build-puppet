@@ -781,3 +781,8 @@ node "talos-linux64-ix-001.test.releng.scl3.mozilla.com" {
         'gbrown': ;
     }
 }
+
+# Windows Testers
+node /t-w732-ix-\d+.wintest.releng.scl3.mozilla.com/ {
+    include toplevel::base
+}

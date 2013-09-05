@@ -24,7 +24,8 @@ class users::root {
 
     $home = $::operatingsystem ? {
         Darwin => '/var/root',
-        Windows => 'C:/Users/root',
+        Windows => $rlocalpath,
+        #$rlocalpath is set by the winrootlp.rb in the shared module
         default => '/root'
     }
 

@@ -10,6 +10,14 @@ class ssh::service {
                     ensure => "running";
             }
         }
+        Windows : {
+            service {
+                "KpyM Telnet SSH Server v1.19c":
+                    enable => "true",
+                    ensure => "running";
+            }
+        }
+
         Darwin : {
             exec {
                 # Using -w will enable the service for future boots, this
@@ -28,9 +36,6 @@ class ssh::service {
                 'com.apple.access_ssh':
                     ensure => absent;
             }
-        }
-        Windows: {
-            # TODO-WIN: add support
         }
     }
 }
