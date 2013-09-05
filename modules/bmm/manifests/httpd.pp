@@ -34,6 +34,8 @@ class bmm::httpd {
         "b2g-second-stage.sh": ;
         "maintenance-second-stage.sh": ;
         "selftest-second-stage.sh": ;
+        "selftest-second-stage.py": ;
+        "panda_selftest.1.json": ;
         "fix-boot-scr.sh": ;
     }
 }
