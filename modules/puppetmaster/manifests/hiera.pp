@@ -15,8 +15,8 @@ class puppetmaster::hiera {
         [ "/etc/hiera", "/etc/hiera/keys", "/etc/hiera/environments" ]:
             ensure => directory,
             owner => puppet,
-            group => puppet,
-            mode => 0700;
+            group => puppetsync,
+            mode => 0750;
     }
 
     file {
