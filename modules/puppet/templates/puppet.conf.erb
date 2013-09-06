@@ -9,7 +9,7 @@
     # vardir is C:/ProgramData/PuppetLabs/puppet/var on Windows
     logdir = $vardir/log/puppet
     rundir = $vardir/run/puppet
-    ssldir = $vardir/lib/puppet/ssl
+    ssldir = $vardir/ssl
 
     diff = c:\windows\system32\cmd.exe
     diff_args = /c echo "DIFFS DISABLED - https://bugzilla.mozilla.org/show_bug.cgi?id=791102"
@@ -47,7 +47,6 @@
 
 <% if scope.lookupvar('::operatingsystem') == 'windows' -%>
     # default for this on Windows is completely bogus ($vardir/lib/puppet)
-    plugindest = $vardir/lib/puppet/lib
 <% end -%>
 
 [master]
