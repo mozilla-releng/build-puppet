@@ -16,9 +16,12 @@ class signingserver::base {
     include packages::mozilla::python27
     include packages::mozilla::py27_mercurial
     include packages::libevent
-    include packages::mozilla::signmar
     include packages::mozilla::signing_test_files
     include packages::gnupg
+
+    # note that signmar installs different versions on different operating
+    # systems; see signmar.pp for details.
+    include packages::mozilla::signmar
 
     case $::operatingsystem {
         CentOS: {

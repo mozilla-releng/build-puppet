@@ -4,6 +4,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+##### NOTE: do not run this on the target version of OS X.  Instead, run it
+##### on an updated builder system, of whatever variety was used to build this
+##### version of Firefox
+
 set -e -x
 
 # set up a clean build dir
@@ -15,7 +19,13 @@ BUILD=$PWD/build
 cd $BUILD
 export PATH=`xcode-select -print-path`:/tools/packagemaker/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-version=19.0
+# note that each version of Firefox pretty much requires a very specific version of clang.  Look in the build logs for that release
+# and find the tooltool sha512 for that version of clang.  Unfortunately, tooltool is still not externally accessible, so you'll
+# need to ask someone with access to get the file for you, if you're building this outside of moco.
+version=23.0
+# r170890
+clang_sha512=e156e2a39abd5bf272ee30748a6825f22ddd27565b097c66662a2a6f2e9892bc5b4bf30a3552dffbe867dbfc39e7ee086e0b2cd7935f6ea216c0cf936178a88f
+
 # this may differ if you build from a nightly or dep build
 tarballdir=mozilla-release
 
@@ -25,49 +35,22 @@ url=https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${version}/source/f
 tar -jxf source.tgz
 cd $tarballdir
 
-# patch in security (which includes nss) to the tools/update-packaging application
-patch -p0 <<'EOF'
---- tools/update-packaging/build.mk~	2013-07-22 10:53:44.000000000 -0700
-+++ tools/update-packaging/build.mk	2013-07-22 10:54:03.000000000 -0700
-@@ -7,6 +7,8 @@
- TIERS += app
- 
- tier_app_dirs += \
-+	db/sqlite3/src \
-+	security/build \
- 	modules/libbz2 \
- 	modules/libmar \
- 	other-licenses/bsdiff \
-EOF
+# get the version of clang that works with this build
+curl -v -o clang.tar.bz2 http://tooltool.pvt.build.mozilla.org/build/sha512/$clang_sha512
+tar -jxf clang.tar.bz2
 
 # and patch out a bug in the configure script which ignores --disable-webm
 sed -i -e '/You may either install yasm or --disable-webm/s/.*/:/g' configure
 
 cat <<EOF >.mozconfig
-CXX='clang++ -std=c++11'
-ac_add_options --enable-application=tools/update-packaging
-ac_add_options --without-system-ply
-ac_add_options --without-system-libxul
-ac_add_options --without-system-libevent
-ac_add_options --without-system-nspr
-ac_add_options --without-system-nss
-ac_add_options --without-system-jpeg
-ac_add_options --disable-libjpeg-turbo
-ac_add_options --without-system-zlib
-ac_add_options --without-system-bz2
-ac_add_options --without-system-png
-ac_add_options --disable-system-hunspell
-ac_add_options --disable-system-ffi
-ac_add_options --without-system-libvpx
-ac_add_options --disable-system-sqlite
-ac_add_options --disable-system-cairo
-ac_add_options --disable-system-pixman
-ac_add_options --disable-skia
-ac_add_options --disable-webm
-# any of these cause the build to fail
-#ac_add_options --disable-crashreporter
-#ac_add_options --disable-ogg
-ac_add_options --disable-wave
+CC="$PWD/clang/bin/clang"
+CXX="$PWD/clang/bin/clang++"
+mk_add_options MOZ_MAKE_FLAGS=-j4
+ac_add_options --enable-debug
+ac_add_options --disable-optimize
+ac_add_options --enable-tests
+ac_add_options --enable-metro
+ac_add_options --enable-profiling
 ac_add_options --enable-signmar
 EOF
 
@@ -77,10 +60,27 @@ make -f client.mk
 cd $BUILD/$tarballdir/obj-*
 ROOT=$BUILD/root
 install -dm 755 $ROOT/tools/signmar/bin
+
+# install signmar
 install -m 755 dist/bin/signmar $ROOT/tools/signmar/bin
-for lib in $(otool -L dist/bin/signmar | grep @executable_path | sed 's!@executable_path/\([^ ]*\) .*!\1!'); do
-	install dist/bin/$lib $ROOT/tools/signmar/bin
+
+# and drop in some libs it loads at runtime; these need to be in the same dir as the executable
+install -m 755 dist/bin/libfreebl3.dylib $ROOT/tools/signmar/bin
+install -m 755 dist/bin/libnssdbm3.dylib $ROOT/tools/signmar/bin
+install -m 755 dist/bin/libsoftokn3.dylib $ROOT/tools/signmar/bin
+
+# repeatedly iterate through dependencies
+did_install=true
+while $did_install; do
+        did_install=false
+        for lib in $(otool -L $ROOT/tools/signmar/bin/* | grep @executable_path | sed 's!@executable_path/\([^ ]*\) .*!\1!'); do
+                if [ ! -f $ROOT/tools/signmar/bin/$lib ]; then
+                        did_install=true
+                        install dist/bin/$lib $ROOT/tools/signmar/bin
+                fi
+        done
 done
+
 install -dm 755 $ROOT/usr/local/bin
 ln -s /tools/signmar/bin/signmar $ROOT/usr/local/bin
 
@@ -94,4 +94,3 @@ packagemaker -r $ROOT -v -i org.libevent.$shortname -o $pkg -l /
 hdiutil makehybrid -hfs -hfs-volume-name "$fullname" -o ./$dmg dmg
 echo "Result:"
 echo $PWD/$dmg
-

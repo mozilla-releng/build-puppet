@@ -12,6 +12,7 @@ class packages::mozilla::signmar {
             Anchor['packages::mozilla::signmar::begin'] ->
             package {
                 "signmar":
+                    # 19.0 is what was installed on the old systems
                     ensure => '19.0-2.el6';
             } -> Anchor['packages::mozilla::signmar::end']
         }
@@ -19,7 +20,10 @@ class packages::mozilla::signmar {
             Anchor['packages::mozilla::signmar::begin'] ->
             packages::pkgdmg {
                 signmar:
-                    version => "19.0";
+                    # the old systems had 14.0 or something like that,
+                    # which we couldn't build.  19.0 didn't work, but
+                    # 23.0 did.
+                    version => "23.0";
             } -> Anchor['packages::mozilla::signmar::end']
         }
         default: {
