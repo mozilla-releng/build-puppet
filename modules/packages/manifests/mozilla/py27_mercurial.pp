@@ -34,7 +34,7 @@ class packages::mozilla::py27_mercurial {
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Darwin: {
-            $mercurial = "/tools/python27-mercurial/bin/hg"
+            $mercurial = "/tools/python27_mercurial/bin/hg"
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             packages::pkgdmg {
                 python27-mercurial:
