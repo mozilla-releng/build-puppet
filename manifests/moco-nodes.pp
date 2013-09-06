@@ -563,19 +563,6 @@ node "buildbot-master98.srv.releng.use1.mozilla.com" {
 
 # Loaners
 
-node /foopy109.build.mtv1.mozilla.com/ {
-    # Loaned in Bug 902622
-    include toplevel::server::foopy
-    include collectd
-    users::root::extra_authorized_key {
-        'stully': ;
-    }
-    users::builder::extra_authorized_key {
-        'stully': ;
-    }
-    realize(Users::Person['stully'])
-}
-
 node "talos-linux64-ix-001.test.releng.scl3.mozilla.com" {
     include toplevel::slave::test::gpu
     users::root::extra_authorized_key {
