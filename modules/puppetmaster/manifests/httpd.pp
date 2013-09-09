@@ -9,7 +9,8 @@ class puppetmaster::httpd {
         CentOS: {
             file {
                 "/etc/puppet/deploy.htpasswd":
-                    content => "deploy:${deploy_htpasswd}";
+                    content => "deploy:${deploy_htpasswd}",
+                    show_diff => false;
                 ["/etc/puppet/rack", "/etc/puppet/rack/public"]:
                     require => Class["puppet"],
                     ensure => directory,

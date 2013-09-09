@@ -6,6 +6,7 @@ define bors::config($basedir, $owner, $group, $repo_owner, $repo, $reviewers,
             mode => 600,
             owner => $owner,
             group => $group,
-            content => template("bors/bors.cfg.erb")
+            content => template("bors/bors.cfg.erb"),
+            show_diff => false;
     }
 }

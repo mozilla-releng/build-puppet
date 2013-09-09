@@ -12,7 +12,8 @@ class users::builder::autologin {
                     content => base64decode(secret("builder_pw_kcpassword_base64")),
                     owner => root,
                     group => wheel,
-                    mode => 600;
+                    mode => 600,
+                    show_diff => false;
             }
             osxutils::defaults {
                 autoLoginUser:

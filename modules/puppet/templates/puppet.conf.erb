@@ -10,17 +10,11 @@
     logdir = $vardir/log/puppet
     rundir = $vardir/run/puppet
     ssldir = $vardir/ssl
-
-    diff = c:\windows\system32\cmd.exe
-    diff_args = /c echo "DIFFS DISABLED - https://bugzilla.mozilla.org/show_bug.cgi?id=791102"
 <%- else -%>
     # vardir is /var/lib/puppet on POSIX systems; logdir and rundir aren't subdirectories
     logdir = /var/log/puppet
     rundir = /var/run/puppet
     ssldir = /var/lib/puppet/ssl
-
-    diff = echo
-    diff_args = DIFFS DISABLED - https://bugzilla.mozilla.org/show_bug.cgi?id=791102
 <% end -%>
 
 [agent]

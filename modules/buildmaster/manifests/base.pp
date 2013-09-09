@@ -31,7 +31,8 @@ class buildmaster::base {
             group => $users::builder::username;
         "/root/.my.cnf":
             content => template("buildmaster/my.cnf.erb"),
-            mode => 600;
+            mode => 600,
+            show_diff => false;
         "/etc/init.d/buildbot":
             content => template("buildmaster/buildbot.initd.erb"),
             mode => 755;

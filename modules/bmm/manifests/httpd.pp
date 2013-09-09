@@ -19,13 +19,15 @@ class bmm::httpd {
             purge => true,
             source => [ "puppet:///bmm/squashfs", "puppet:///bmm/private/squashfs" ],
             sourceselect => all,
-            ensure => directory;
+            ensure => directory,
+            show_diff => false;
        "/opt/bmm/www/artifacts":
             recurse => true,
             purge => true,
             source => [ "puppet:///bmm/artifacts", "puppet:///bmm/private/artifacts" ],
             sourceselect => all,
-            ensure => directory;
+            ensure => directory,
+            show_diff => false;
     }
 
     bmm::script {

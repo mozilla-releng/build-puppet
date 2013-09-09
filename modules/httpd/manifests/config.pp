@@ -24,7 +24,9 @@ define httpd::config($content='', $ensure='present') {
                         mode => "$httpd::settings::mode",
                         owner => "$httpd::settings::owner",
                         group => "$httpd::settings::group",
-                        content => $content;
+                        content => $content,
+                        # don't show the diff, since sometimes httpd configs contain passwords
+                        show_diff => false;
                 }
             }
             default: {

@@ -46,7 +46,8 @@ define packages::yumrepo ($repo_name = $title, $url_path, $gpg_key='', $gpg_key_
                 owner => 0,
                 group => 0,
                 mode => 0644,
-                notify => Exec["install-${repo_name}-repo-pubkey"];
+                notify => Exec["install-${repo_name}-repo-pubkey"],
+                show_diff => false;
         }
         exec {
             "install-${repo_name}-repo-pubkey":

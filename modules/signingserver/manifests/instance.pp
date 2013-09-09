@@ -132,13 +132,15 @@ define signingserver::instance(
             owner => $user,
             group => $group,
             notify => Exec["$title-reload-signing-server"],
-            require => Python::Virtualenv[$basedir];
+            require => Python::Virtualenv[$basedir],
+            show_diff => false;
         "${basedir}/signscript.ini":
             content => template("signingserver/signscript.ini.erb"),
             owner => $user,
             group => $group,
             notify => Exec["$title-reload-signing-server"],
-            require => Python::Virtualenv[$basedir];
+            require => Python::Virtualenv[$basedir],
+            show_diff => false;
 # TODO
 #        $full_private_ssl_cert:
 #            content => file("/etc/puppet/secrets/signing.server.key"),

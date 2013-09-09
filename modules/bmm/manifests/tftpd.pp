@@ -14,9 +14,11 @@ class bmm::tftpd {
             ensure => directory;
         "/var/lib/tftpboot/panda-live/uImage":
             ensure => file,
-            source => "puppet:///bmm/pxe/uImage";
+            source => "puppet:///bmm/pxe/uImage",
+            show_diff => false;
         "/var/lib/tftpboot/panda-live/uInitrd":
             ensure => file,
-            source => "puppet:///bmm/pxe/uInitrd";
+            source => "puppet:///bmm/pxe/uInitrd",
+            show_diff => false;
     }
 }

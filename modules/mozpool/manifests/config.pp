@@ -7,7 +7,8 @@ class mozpool::config {
     file {
         $mozpool::settings::config_ini:
             content => template("mozpool/config.ini.erb"),
-            mode => 0755;
+            mode => 0755,
+            show_diff => false;
     }
 
     # put that in an env var in the global profile

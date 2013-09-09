@@ -6,6 +6,7 @@ class packages::mozilla::google_api {
     file {
         "/builds/gapi.data":
             content => secret("google_api_key"),
-            mode    => 0644;
+            mode    => 0644,
+            show_diff => false;
     }
 }

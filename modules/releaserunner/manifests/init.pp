@@ -43,7 +43,8 @@ class releaserunner {
             mode    => 0600,
             owner   => "${users::builder::username}",
             group   => "${users::builder::group}",
-            content => template("releaserunner/release-runner.ini.erb");
+            content => template("releaserunner/release-runner.ini.erb"),
+            show_diff => false;
     }
 
     mercurial::repo {

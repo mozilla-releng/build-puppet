@@ -76,7 +76,8 @@ class puppetmaster::puppetsync_user {
                 owner => puppetsync,
                 group => puppetsync,
                 mode => "0600",
-                content => file($privkey);
+                content => file($privkey),
+                show_diff => false;
         }
     }
 
@@ -86,7 +87,8 @@ class puppetmaster::puppetsync_user {
             owner => puppet,
             group => puppet,
             mode => "0600",
-            content => file($privkey);
+            content => file($privkey),
+            show_diff => false;
         $pubkey:
             owner => puppet,
             group => puppet,

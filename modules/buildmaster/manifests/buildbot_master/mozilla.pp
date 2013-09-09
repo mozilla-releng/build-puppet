@@ -42,7 +42,8 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
             owner => $master_user,
             group => $master_group,
             mode => 600,
-            content => template("buildmaster/${buildslaves_template}");
+            content => template("buildmaster/${buildslaves_template}"),
+            show_diff => false;
         "${full_master_dir}":
             owner => $master_user,
             group => $master_group,
@@ -52,7 +53,8 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
             owner => $master_user,
             group => $master_group,
             mode => 600,
-            content => template("buildmaster/passwords.py.erb");
+            content => template("buildmaster/passwords.py.erb"),
+            show_diff => false;
         "/etc/default/buildbot.d/${master_name}":
             content => "${full_master_dir}",
             require => Exec["setup-${basedir}"],
@@ -75,7 +77,8 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
                 owner => $master_user,
                 group => $master_group,
                 mode => 600,
-                content => template("buildmaster/${buildmaster::settings::postrun_template}");
+                content => template("buildmaster/${buildmaster::settings::postrun_template}"),
+                show_diff => false;
         }
     }
 

@@ -21,7 +21,9 @@ define rsyslog::config ($file = $title, $contents = '', $need_mysql=false) {
                         mode => "$rsyslog::settings::mode",
                         owner => "$rsyslog::settings::owner",
                         group => "$rsyslog::settings::group",
-                        content => $contents ;
+                        content => $contents,
+                        # rsyslog configs can contain passwords..
+                        show_diff => false;
                 }
             }
         }

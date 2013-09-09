@@ -8,7 +8,8 @@ class mozpool::dbcron {
     file {
         $dbcron_sh:
             content => template("mozpool/dbcron.sh.erb"),
-            mode => 0755;
+            mode => 0755,
+            show_diff => false;
     }
     if ($is_bmm_admin_host) {
         file {

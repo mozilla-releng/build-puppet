@@ -35,7 +35,8 @@ class buildmaster::queue {
             content => template("buildmaster/passwords.py.erb"),
             mode => 600,
             owner => "${users::builder::username}",
-            group => "${users::builder::username}";
+            group => "${users::builder::username}",
+            show_diff => false;
     }
     service {
         "command_runner":

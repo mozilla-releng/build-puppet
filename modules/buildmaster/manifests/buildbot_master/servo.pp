@@ -26,6 +26,7 @@ define buildmaster::buildbot_master::servo($basedir, $http_port) {
             owner => $master_user,
             group => $master_group,
             mode => 600,
-            content => template("buildmaster/servo-passwords.py.erb");
+            content => template("buildmaster/servo-passwords.py.erb"),
+            show_diff => false;
     }
 }
