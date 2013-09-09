@@ -23,6 +23,8 @@ class signingserver::base {
     # systems; see signmar.pp for details.
     include packages::mozilla::signmar
 
+    $root = "/builds/signing"
+
     case $::operatingsystem {
         CentOS: {
             include packages::mono
@@ -39,10 +41,24 @@ class signingserver::base {
             include packages::xcode
 
             $compiler_req = Class['packages::xcode']
+
+            file {
+                "${root}/DeveloperIDCA.cer":
+                    source => "puppet:///modules/signingserver/DeveloperIDCA.cer";
+            }
+
+            exec {
+                "install-developer-id-root":
+                    command => "/usr/bin/security add-trusted-cert -r trustAsRoot -k /Library/Keychains/System.keychain ${root}/DeveloperIDCA.cer",
+                    require => File["${root}/DeveloperIDCA.cer"],
+                    unless => "/usr/bin/security dump-keychain /Library/Keychains/System.keychain | /usr/bin/grep 'Developer ID Certification'",
+                    # This command returns an error despite actually importing
+                    # the certificate correctly.
+                    # For posterity, the error returned is "SecTrustSettingsSetTrustSettings: The authorization was denied since no user interaction was possible.".
+                    returns => [1];
+            }
         }
     }
-
-    $root = "/builds/signing"
 
     file {
         # instances are stored with locked-down perms
