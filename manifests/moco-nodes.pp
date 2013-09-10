@@ -33,6 +33,10 @@ node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
     include toplevel::slave::test::gpu
 }
 
+node /t-mavericks-r5-\d+.test.releng.scl3.mozilla.com/ {
+    include toplevel::slave::test::gpu
+}
+
 node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
     # Make sure we get our /etc/hosts set up
     class {
