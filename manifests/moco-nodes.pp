@@ -61,10 +61,12 @@ node /talos-linux\d+-ix-\d+\.test\.releng\.scl3\.mozilla\.com/ {
 
 node /bld-linux64-ix-\d+.build.(scl1|mtv1).mozilla.com/ {
     include toplevel::slave::build::mock
+    include collectd
 }
 
 node /bld-centos6-hp-\d+.build.(scl1|mtv1).mozilla.com/ {
     include toplevel::slave::build::mock
+    include collectd
 }
 
 node /bld-lion-r5-\d+.(try|build).releng.scl3.mozilla.com/ {
@@ -77,6 +79,7 @@ node /(bld|try|dev)-.*\.build\.aws-.*\.mozilla\.com/ {
         "network::aws": stage => network,
     }
     include toplevel::slave::build::mock
+    include collectd
 }
 
 node /(bld|try|dev)-.*\.(build|try|dev)\.releng\.(use1|usw2)\.mozilla.com/ {
@@ -85,6 +88,7 @@ node /(bld|try|dev)-.*\.(build|try|dev)\.releng\.(use1|usw2)\.mozilla.com/ {
         "network::aws": stage => network,
     }
     include toplevel::slave::build::mock
+    include collectd
 }
 
 ## signing
