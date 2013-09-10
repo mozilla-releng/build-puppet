@@ -59,10 +59,6 @@ node /talos-linux\d+-ix-\d+\.test\.releng\.scl3\.mozilla\.com/ {
 
 ## builders
 
-node /linux64-ix-slave\d+.build.scl1.mozilla.com/ {
-    include toplevel::slave::build::mock
-}
-
 node /bld-linux64-ix-\d+.build.(scl1|mtv1).mozilla.com/ {
     include toplevel::slave::build::mock
 }
