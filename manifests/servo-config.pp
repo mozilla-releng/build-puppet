@@ -145,6 +145,7 @@ class config inherits config::base {
         'ILyoan',
         'jdm',
         'kmcallister',
+        'larsbergstrom',
         'metajack',
         'pcwalton',
         'sfowler',
