@@ -7,7 +7,7 @@
 
 Name:       mozilla-%{realname}
 Version:	%{pyver}.%{pyrel}
-Release:	0%{?dist}
+Release:	1%{?dist}
 Summary:	This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
 Group:		mozilla
@@ -58,7 +58,9 @@ make altinstall DESTDIR=$RPM_BUILD_ROOT
 
 # add /usr/local/bin links
 mkdir -p $RPM_BUILD_ROOT/usr/local/bin
+set -x
 ln -s %{_prefix}/bin/python%{pyver} $RPM_BUILD_ROOT/usr/local/bin/python%{pyver}
+ln -s %{_prefix}/bin/python%{pyver} $RPM_BUILD_ROOT%{_prefix}/bin/python
 
 %clean
 rm -rf $RPM_BUILD_ROOT
