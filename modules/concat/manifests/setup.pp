@@ -33,8 +33,8 @@ class concat::setup {
 
   # OS-specific path chars, used to generate "safe" filenames
   $pathchars   = $::operatingsystem ? {
-    Windows => '[/\\:\n]',
-    default => '[/\n]',
+    Windows => '[/\\:\n ]',
+    default => '[/\n ]',
   }
 
   $majorversion = regsubst($::puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
