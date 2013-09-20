@@ -136,12 +136,12 @@ node /releng-puppet\d\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
 ## slaveapi
 
 node "slaveapi1.srv.releng.scl3.mozilla.com" {
-    include toplevel::server
+    include toplevel::server::slaveapi
 }
 
 node "slaveapi-dev1.srv.releng.scl3.mozilla.com" {
     $aspects = [ "dev" ]
-    include toplevel::server
+    include toplevel::server::slaveapi
 }
 
 ## mozpool servers
