@@ -73,13 +73,13 @@ define slaveapi::instance($listenaddr, $port, $version="1.0.1") {
         "$title-reload-slaveapi-server":
             command => "${basedir}/bin/slaveapi-server.py reload ${config_file}",
             cwd => $basedir,
-            user => $user;
+            user => $user,
             onlyif => "/bin/sh -c 'test -e ${basedir}/slaveapi.pid'",
             refreshonly => true;
         "$title-start-slaveapi-server":
             command => "${basedir}/bin/slaveapi-server.py start ${config_file}",
             cwd => $basedir,
-            user => $user;
+            user => $user,
             require => [
                 Python::Virtualenv["$basedir"],
                 File["${config_file}"],
