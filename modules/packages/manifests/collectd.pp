@@ -2,6 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::collectd {
+
     case $::operatingsystem {
         CentOS: {
             package {
@@ -94,6 +95,23 @@ class packages::collectd {
                     ensure => '5.3.0';
                 "collectd-utils":
                     ensure => '5.3.0';
+            }
+        }
+
+        Darwin: {
+            case $macosx_productversion_major {
+                '10.6', '10.7', '10.8', '10.9' : {
+                    packages::pkgdmg {
+                        'collectd':
+                            version => '5.3.0',
+                            os_version_specific => true,
+                            private => false;
+                    }
+                }
+
+                default: {
+                    fail("cannot install on OS X ${macosx_productversion_major}")
+                }
             }
         }
 

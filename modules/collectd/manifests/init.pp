@@ -7,12 +7,13 @@ class collectd {
     # do not configure unless graphite server is defined
     if $collectd::settings::collectd_enabled == true {
         include packages::collectd
+        include collectd::profiles
 
         file {
             "${collectd::settings::configdir}/collectd.conf":
                 ensure  => present,
                 content => template('collectd/collectd.conf.erb'),
-                notify  => Service['collectd'],
+                notify  => Service[$collectd::settings::servicename],
                 require => Class['packages::collectd'];
 
             $collectd::settings::plugindir:
@@ -21,19 +22,12 @@ class collectd {
                 purge   => true,
                 force   => true,
                 mode    => 0644,
-                notify  => Service['collectd'],
-                require => Class['packages::collectd'];
-
-            "${collectd::settings::plugindir}/common.conf":
-                ensure  => present,
-                mode    => '0755',
-                notify  => Service['collectd'],
-                content => template('collectd/collectd.d/common.conf.erb'),
+                notify  => Service[$collectd::settings::servicename],
                 require => Class['packages::collectd'];
         }
 
         service {
-            'collectd':
+            $collectd::settings::servicename:
                 ensure     => running,
                 enable     => true,
                 hasstatus  => true,

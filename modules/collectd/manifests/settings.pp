@@ -26,16 +26,24 @@ class collectd::settings {
         $graphite_prefix = $::config::collectd_graphite_prefix
     }
 
+    $syslog_level = "info"
+
     case $::operatingsystem {
         'CentOS': {
+            $servicename      = 'collectd'
             $configdir        = '/etc'
             $plugindir        = '/etc/collectd.d'
         }
         'Ubuntu': {
+            $servicename      = 'collectd'
             $configdir        = '/etc/collectd'
             $plugindir        = '/etc/collectd/collectd.d'
         }
-
+        'Darwin': {
+            $servicename      = 'org.collectd.collectd'
+            $configdir        = '/usr/local/etc'
+            $plugindir        = '/usr/local/etc/collectd.d'
+        }
         default: {
             fail("This OS is not supported for collectd")
         }

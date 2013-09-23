@@ -1,0 +1,8 @@
+LoadPlugin <%= @name %>
+<% if @arg_array -%>
+<Plugin "<%= @name %>">
+<% @arg_array.each do |arg| -%>
+    <%= arg %>
+<% end -%>
+</Plugin>
+<% end -%>

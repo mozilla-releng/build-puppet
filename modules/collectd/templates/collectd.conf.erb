@@ -39,9 +39,9 @@ Hostname    "<%= scope.lookupvar('::fqdn') %>"
 ##############################################################################
 
 LoadPlugin syslog
-#<Plugin syslog>
-#       LogLevel info
-#</Plugin>
+<Plugin syslog>
+       LogLevel <%= scope.lookupvar('collectd::settings::syslog_level') %>
+</Plugin>
 
 LoadPlugin write_graphite
 <Plugin write_graphite>
