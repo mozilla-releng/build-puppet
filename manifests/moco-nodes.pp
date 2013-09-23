@@ -100,10 +100,12 @@ node /signing[456].srv.releng.scl3.mozilla.com/ {
 
 node /mac-signing[12].srv.releng.scl3.mozilla.com/ {
     include toplevel::server::signing
+    include collectd
 }
 
 node /mac-signing[34].build.scl1.mozilla.com/ {
     include toplevel::server::signing
+    include collectd
 }
 
 ## puppetmasters
