@@ -69,6 +69,11 @@ node /bld-centos6-hp-\d+.build.(scl1|mtv1).mozilla.com/ {
     include collectd
 }
 
+node /b-linux64-hp-\d+.build.(scl1|mtv1).mozilla.com/ {
+    include toplevel::slave::build::mock
+    include collectd
+}
+
 node /bld-lion-r5-\d+.(try|build).releng.scl3.mozilla.com/ {
     include toplevel::slave::build::standard
 }
