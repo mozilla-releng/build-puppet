@@ -76,6 +76,7 @@ node /b-linux64-hp-\d+.build.(scl1|mtv1).mozilla.com/ {
 
 node /bld-lion-r5-\d+.(try|build).releng.scl3.mozilla.com/ {
     include toplevel::slave::build::standard
+    include collectd
 }
 
 node /(bld|try|dev)-.*\.build\.aws-.*\.mozilla\.com/ {
@@ -144,11 +145,13 @@ node /releng-puppet\d\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
 
 node "slaveapi1.srv.releng.scl3.mozilla.com" {
     include toplevel::server::slaveapi
+    include collectd
 }
 
 node "slaveapi-dev1.srv.releng.scl3.mozilla.com" {
     $aspects = [ "dev" ]
     include toplevel::server::slaveapi
+    include collectd
 }
 
 ## mozpool servers
