@@ -18,4 +18,5 @@ class toplevel::server inherits toplevel::base {
     include packages::strace
     include packages::netcat
     include users::people
+    include collectd
 }

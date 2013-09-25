@@ -6,17 +6,14 @@
 
 node /foopy\d+.build.mtv1.mozilla.com/ {
     include toplevel::server::foopy
-    include collectd
 }
 
 node /foopy\d+.build.scl1.mozilla.com/ {
     include toplevel::server::foopy
-    include collectd
 }
 
 node /foopy\d+.p\d+.releng.scl1.mozilla.com/ {
     include toplevel::server::foopy
-    include collectd
 }
 
 ## testers
@@ -61,22 +58,18 @@ node /talos-linux\d+-ix-\d+\.test\.releng\.scl3\.mozilla\.com/ {
 
 node /bld-linux64-ix-\d+.build.(scl1|mtv1).mozilla.com/ {
     include toplevel::slave::build::mock
-    include collectd
 }
 
 node /bld-centos6-hp-\d+.build.(scl1|mtv1).mozilla.com/ {
     include toplevel::slave::build::mock
-    include collectd
 }
 
 node /b-linux64-hp-\d+.build.(scl1|mtv1).mozilla.com/ {
     include toplevel::slave::build::mock
-    include collectd
 }
 
 node /bld-lion-r5-\d+.(try|build).releng.scl3.mozilla.com/ {
     include toplevel::slave::build::standard
-    include collectd
 }
 
 node /(bld|try|dev)-.*\.build\.aws-.*\.mozilla\.com/ {
@@ -85,7 +78,6 @@ node /(bld|try|dev)-.*\.build\.aws-.*\.mozilla\.com/ {
         "network::aws": stage => network,
     }
     include toplevel::slave::build::mock
-    include collectd
 }
 
 node /(bld|try|dev)-.*\.(build|try|dev)\.releng\.(use1|usw2)\.mozilla.com/ {
@@ -94,64 +86,52 @@ node /(bld|try|dev)-.*\.(build|try|dev)\.releng\.(use1|usw2)\.mozilla.com/ {
         "network::aws": stage => network,
     }
     include toplevel::slave::build::mock
-    include collectd
 }
 
 ## signing
 
 node /signing[456].srv.releng.scl3.mozilla.com/ {
     include toplevel::server::signing
-    include collectd
 }
 
 node /mac-signing[12].srv.releng.scl3.mozilla.com/ {
     include toplevel::server::signing
-    include collectd
 }
 
 node /mac-signing[34].build.scl1.mozilla.com/ {
     include toplevel::server::signing
-    include collectd
 }
 
 ## puppetmasters
 
 node /puppetmaster-\d+\..*\.aws-.*\.mozilla\.com/ {
     include toplevel::server::puppetmaster
-    include collectd
 }
 node "releng-puppet1.srv.releng.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
-    include collectd
 }
 node "releng-puppet2.srv.releng.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
-    include collectd
 }
 node "releng-puppet2.build.scl1.mozilla.com" {
     include toplevel::server::puppetmaster
-    include collectd
 }
 node "releng-puppet2.build.mtv1.mozilla.com" {
     include toplevel::server::puppetmaster
-    include collectd
 }
 node /releng-puppet\d\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
     include toplevel::server::puppetmaster
-    include collectd
 }
 
 ## slaveapi
 
 node "slaveapi1.srv.releng.scl3.mozilla.com" {
     include toplevel::server::slaveapi
-    include collectd
 }
 
 node "slaveapi-dev1.srv.releng.scl3.mozilla.com" {
     $aspects = [ "dev" ]
     include toplevel::server::slaveapi
-    include collectd
 }
 
 ## mozpool servers
@@ -160,7 +140,6 @@ node "mobile-imaging-stage1.p127.releng.scl1.mozilla.com" {
     $aspects = [ "staging" ]
     $is_bmm_admin_host = true
     include toplevel::server::mozpool
-    include collectd
     users::root::extra_authorized_key {
         'mcote': ;
     }
@@ -169,7 +148,6 @@ node "mobile-imaging-stage1.p127.releng.scl1.mozilla.com" {
 node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
     $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => true, default => false }
     include toplevel::server::mozpool
-    include collectd
     users::root::extra_authorized_key {
         'mcote': ;
     }

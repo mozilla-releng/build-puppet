@@ -6,7 +6,6 @@
 
 class toplevel::server::buildmaster inherits toplevel::server {
 
-    include collectd
     include nrpe::base
     include users::builder
     include dirs::builds::buildbot
