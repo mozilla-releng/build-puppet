@@ -27,7 +27,7 @@ class collectd::settings {
     }
 
     $syslog_level = "info"
-    $global_poll_interval = 60
+    $global_poll_interval = 25
 
     case $::operatingsystem {
         'CentOS': {
