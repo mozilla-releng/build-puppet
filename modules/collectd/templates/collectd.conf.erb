@@ -24,7 +24,7 @@ Hostname    "<%= scope.lookupvar('::fqdn') %>"
 #       Interval 60                                                          #
 #   </LoadPlugin>                                                            #
 #----------------------------------------------------------------------------#
-#Interval     10
+Interval     <%= scope.lookupvar('collectd::settings::global_poll_interval') %>
 
 #Timeout      2
 #ReadThreads  5
