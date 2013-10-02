@@ -13,3 +13,6 @@ SlavePasswords = {
     'macosx64-lion': '<%=scope.function_secret(["try_build_password"])%>',
     'mock': '<%=scope.function_secret(["try_build_password"])%>',
 }
+
+blobber_username = '<%=scope.function_secret(["blobber_username"])%>'
+blobber_password = '<%=scope.function_secret(["blobber_password"])%>'
