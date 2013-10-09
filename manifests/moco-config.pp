@@ -243,11 +243,7 @@ class config inherits config::base {
     $slaveapi_bugzilla_username = "slaveapi@mozilla.releng.tld"
     $slaveapi_default_domain = "build.mozilla.org"
     $slaveapi_ipmi_username = "releng"
-    if (has_aspect("dev")) {
-        $slaveapi_bugzilla_url = "https://bugzilla-dev.allizom.org/rest/"
-    }
-    else {
-        $slaveapi_bugzilla_url = "https://bugzilla.mozilla.org/rest/"
-    }
+    $slaveapi_bugzilla_dev_url = "https://bugzilla-dev.allizom.org/rest/"
+    $slaveapi_bugzilla_prod_url = "https://bugzilla.mozilla.org/rest/"
 }
 

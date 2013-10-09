@@ -10,6 +10,12 @@ define slaveapi::instance($listenaddr, $port, $version="1.0.1") {
     $basedir = "${slaveapi::base::root}/${title}"
     $credentials_file = "${basedir}/credentials.json"
     $config_file = "${basedir}/slaveapi.ini"
+    if (has_aspect("dev")) {
+        $bugzilla_url = $::config::slaveapi_bugzilla_dev_url
+    }
+    else {
+        $bugzilla_url = $::config::slaveapi_bugzilla_prod_url
+    }
 
     motd {
         "slaveapi-$title":
