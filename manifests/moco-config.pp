@@ -46,6 +46,8 @@ class config inherits config::base {
     $puppetmaster_public_mirror_hosts = [ "releng-puppet2.srv.releng.scl3.mozilla.com" ]
     $puppet_again_repo = "http://hg.mozilla.org/build/puppet/"
 
+    $user_python_repositories = [ "http://pypi.pvt.build.mozilla.org/pub", "http://pypi.pub.build.mozilla.org/pub" ]
+
     $nrpe_allowed_hosts = "10.2.71.20,10.12.75.9,127.0.0.1,10.26.75.30"
     $ntp_server = "ntp.build.mozilla.org"
 

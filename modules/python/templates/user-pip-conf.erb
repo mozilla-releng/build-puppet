@@ -3,12 +3,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 [install]
 no-index = true
-# look at all known puppetmasters for links, in case one is down
-find-links =
-<%
-servers = [ @data_server ] + Array(@data_servers)
-servers.uniq.each do |mirror_server| -%>
-    http://<%= mirror_server %>/python/packages
-<%
-end
--%>
+find-links = <%- @user_python_repositories.each do |rep| %>
+    <%= rep -%>
+<%- end %>

@@ -15,7 +15,17 @@ define python::virtualenv::package($user) {
     $pkg = regsubst($title, "^.*\\|\\|", "")
 
     $pip_check_py = $python::pip_check_py::file
-    $pip_options = "--no-deps"
+    # give a --find-links option for each data server, so pip will search them
+    # all; note that pip will fall back to the find-links options in .pip.conf
+    # if all of these fail; that can't hurt.
+    $data_server = $config::data_server
+    $data_servers = $config::data_servers
+
+    $pip_options = inline_template("--no-deps --no-index <%
+servers = [ @data_server ] + Array(@data_servers)
+servers.uniq.each do |mirror_server| -%> --find-links=http://<%= mirror_server %>/python/packages <%
+end
+-%>")
 
     if ($user == 'root') {
         $home_dir = $::users::root::home

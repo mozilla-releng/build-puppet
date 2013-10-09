@@ -15,8 +15,7 @@ define python::user_pip_conf($homedir='', $group='') {
     }
 
     # for the template
-    $data_servers = $config::data_servers
-    $data_server = $config::data_server
+    $user_python_repositories = $config::user_python_repositories
 
     file {
         "$homedir_/.pip":
