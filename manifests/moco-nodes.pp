@@ -474,6 +474,12 @@ node /buildbot-master8[2-9].srv.releng.scl3.mozilla.com/ {
     include toplevel::server
 }
 
+# temporary node defs for vcssync hosts
+node /vcssync[1-2].srv.releng.usw2.mozilla.com/ {
+    include toplevel::server
+}
+
+
 node "buildbot-master90.srv.releng.use1.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
         "bm90-tests1-panda":
@@ -573,5 +579,5 @@ node "talos-linux64-ix-001.test.releng.scl3.mozilla.com" {
     }
     users::builder::extra_authorized_key {
         'gbrown': ;
-    }    
+    }
 }
