@@ -32,4 +32,5 @@ class toplevel::base {
     include timezone
     include tweaks::rc_local
     include needs_reboot::motd
+    include web_proxy
 }
