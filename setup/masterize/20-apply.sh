@@ -7,7 +7,6 @@ puppet_apply() {
         # don't import site.pp here, as the node defitions will
         # mess up the requested manifests
         echo "import '$PWD/manifests/config.pp'"
-        echo "import '$PWD/manifests/extlookup.pp'"
         echo "import '$PWD/manifests/stages.pp'"
         cat
     ) > /tmp/apply.pp
@@ -43,15 +42,21 @@ EOF
 add_phase apply_puppetmaster_manifests
 apply_puppetmaster_manifests() {
     rm -rf "/etc/puppet/production"
+
+    # apply once to get the repo cloned
+    puppet_apply <<'EOF' || echo "(errors expected)"
+    include toplevel::base
+    include puppetmaster::manifests
+EOF
+
+    # copy secrets and local-config in there
+    cp -P "$PWD/manifests/config.pp" "$PWD/manifests/nodes.pp" /etc/puppet/production/manifests/
+
+    # and apply again
     puppet_apply <<'EOF'
     include toplevel::base
     include puppetmaster::manifests
 EOF
-    # copy secrets and local-config in there
-    cp -P "$PWD/manifests/config.pp" "$PWD/manifests/extlookup/secrets.csv" \
-          "$PWD/manifests/nodes.pp" /etc/puppet/production/manifests/extlookup/
-    chown -R root:root /etc/puppet/production/manifests/extlookup/
-    chmod 755 /etc/puppet/production/manifests/extlookup/secrets.csv
 }
 
 add_phase apply_puppetmaster_ssl

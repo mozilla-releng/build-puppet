@@ -27,8 +27,14 @@ setup_hostname() {
 
 add_phase setup_clock
 setup_clock() {
+    : ${ntp_server:="pool.ntp.org"}
     /sbin/service ntpd stop || true
-    /usr/sbin/ntpdate pool.ntp.org
+    if ! /usr/sbin/ntpdate ${ntp_server}; then
+        echo "Could not synchronize time; run masterize with"
+        echo "  ntp_server=<your ntp server> ./setup/masterize.sh"
+        echo "to override the NTP server"
+        return 1
+    fi
 }
 
 add_phase setup_yum_repos
@@ -46,6 +52,18 @@ gpgcheck=0
 [centos-updates]
 name=centos - updates - $basearch
 baseurl=http://puppetagain.pub.build.mozilla.org/data/repos/yum/mirrors/centos/6/latest/updates/$basearch
+enabled=1
+gpgcheck=0
+
+[releng]
+name=releng
+baseurl=http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/$basearch
+enabled=1
+gpgcheck=0
+
+[releng-noarch]
+name=releng-noarch
+baseurl=http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/noarch
 enabled=1
 gpgcheck=0
 
@@ -73,13 +91,34 @@ setup_ssh_keys() {
     ssh-keygen -f "${SSH_PRIVATE_KEY}" -N ''
     # puppet will eventually set ownership (puppet:puppet) and permissions on this
     # but the puppet user doesn't exist yet, so we just set it to a+r temporarily
-    chmod a+r "${SSH_PRIVATE_KEY} "${SSH_PUBLIC_KEY}""
+    chmod a+r "${SSH_PRIVATE_KEY}" "${SSH_PUBLIC_KEY}"
 }
 
 add_phase install_eyaml
 install_eyaml() {
-    /bin/rpm -q rubygem-hiera-eyaml >/dev/null 2>&1 || /usr/bin/yum -y -q install rubygem-hiera-eyaml
+    if ! /bin/rpm -q rubygem-hiera-eyaml >/dev/null 2>&1; then
+        /usr/bin/yum -y -q install rubygem-hiera-eyaml
+    fi
 }
+
+add_phase setup_hiera_yaml
+setup_hiera_yaml() {
+    # put in enough of a hiera.yaml to bootstrap things - puppet will manage this
+    # later.
+    cat <<'EOF' > /etc/hiera.yaml
+---
+:backends:
+    - eyaml
+
+:hierarchy:
+    - secrets
+
+:eyaml:
+    :datadir: '/etc/hiera'
+EOF
+    cp /etc/hiera.yaml /etc/puppet/hiera.yaml
+}
+
 
 add_phase setup_eyaml_keys
 setup_eyaml_keys() {
@@ -99,7 +138,10 @@ setup_secrets() {
 # note: these do not need to be eyaml-encrypted yet.  You should do that soon, though.
 root_pw_hash: <put yours here, passwd-encrypted>
 puppetmaster_deploy_htpasswd: <put yours here, htpasswd-encrypted>
+# you can be more limited here if you'd like, but this will do for now:
+network_regexps: 0.0.0.0/0
 EOF
+    return 1
 }
 
 add_phase setup_config
