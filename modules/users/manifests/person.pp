@@ -41,9 +41,11 @@ define users::person($shell="/bin/bash") {
                 "puppet:///modules/users/people/$username",
                 "puppet:///modules/users/people/skel"
             ],
-            recurse => true,
-            mode => undef, # don't change the mode
             # note: purge is not enabled!
+            recurse => true,
+            # remove things ssh won't like, but otherwise take the perms from
+            # the files as they are.
+            mode => 'g-w,o-rwx',
             owner => $username,
             group => $group,
             require => $::operatingsystem ? {
