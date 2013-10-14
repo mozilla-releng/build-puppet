@@ -28,6 +28,10 @@ class config inherits config::base {
     $ntp_server = "ns1.private.scl3.mozilla.com"
     $admin_users = [
         "dmitchell",
+        "hskupin",
+        "dhunt",
+        "rwood",
+        "ctalbert",
     ]
 }
 
