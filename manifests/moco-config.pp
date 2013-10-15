@@ -109,6 +109,7 @@ class config inherits config::base {
             'nthomas',
             'raliiev',
         ],
+        # NOTE: please copy this list to servo-config.pp as well
         default => [
             'achavez',
             'adam',
