@@ -14,7 +14,7 @@ node "relabs03.build.mtv1.mozilla.com" {
 }
 
 node "relabs04.build.mtv1.mozilla.com" {
-    include toplevel::server
+    include toplevel::slave
 }
 
 node "relabs05.build.mtv1.mozilla.com" {
