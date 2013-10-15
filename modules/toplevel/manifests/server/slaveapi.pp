@@ -13,6 +13,6 @@ class toplevel::server::slaveapi inherits toplevel::server {
     slaveapi::instance {
         "${slaveapi_title}":
             listenaddr  => "0.0.0.0",
-            port        => "8000";
+            port        => "8080";
     }
 }
