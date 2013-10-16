@@ -44,12 +44,27 @@ class hardware {
 
         # kernels should use clocksource=pit to get proper timing info
         if ($kernel == "Linux") {
-            augeas {
-                "vmware-clocksource":
-                    context => "/files/etc/grub.conf",
-                    changes => [
-                        "set title[1]/kernel/clocksource pit",
-                    ];
+            # and, of course, this is different between RHEL-based and Ubuntu
+            # systems!
+            case $operatingsystem {
+                CentOS: {
+                    augeas {
+                        "vmware-clocksource":
+                            context => "/files/etc/grub.conf",
+                            changes => [
+                                "set title[1]/kernel/clocksource pit",
+                            ];
+                    }
+                }
+                Ubuntu: {
+                    augeas {
+                        "vmware-clocksource":
+                            context => "/files/etc/default/grub",
+                            changes => [
+                                "set GRUB_CMDLINE_EXTRA clocksource=pit"
+                            ];
+                    }
+                }
             }
         }
     }
