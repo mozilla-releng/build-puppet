@@ -469,16 +469,30 @@ node "buildbot-master81.srv.releng.scl3.mozilla.com" {
     }
 }
 
+node "buildbot-master82.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm82-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master83.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm83-try1":
+            http_port => 8101,
+            master_type => "try",
+            basedir => "try1";
+    }
+    include toplevel::server::buildmaster
+}
+
 # temporary node defs for these hosts
-node /buildbot-master8[2-9].srv.releng.scl3.mozilla.com/ {
+node /buildbot-master8[4-9].srv.releng.scl3.mozilla.com/ {
     include toplevel::server
 }
-
-# temporary node defs for vcssync hosts
-node /vcssync[1-2].srv.releng.usw2.mozilla.com/ {
-    include toplevel::server
-}
-
 
 node "buildbot-master90.srv.releng.use1.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
@@ -568,6 +582,11 @@ node "buildbot-master98.srv.releng.use1.mozilla.com" {
             basedir => "tests1-tegra";
     }
     include toplevel::server::buildmaster
+}
+
+# temporary node defs for vcssync hosts
+node /vcssync[1-2].srv.releng.usw2.mozilla.com/ {
+    include toplevel::server
 }
 
 # Loaners
