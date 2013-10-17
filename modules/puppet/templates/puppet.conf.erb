@@ -39,10 +39,6 @@
     # do not fall back to cached catalogs
     usecacheonfailure = false
 
-<% if scope.lookupvar('::operatingsystem') == 'windows' -%>
-    # default for this on Windows is completely bogus ($vardir/lib/puppet)
-<% end -%>
-
 [master]
     # default to looking in the production/ subdirectory of /etc/puppet
     manifestdir = $confdir/production/manifests
