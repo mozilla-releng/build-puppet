@@ -490,8 +490,18 @@ node "buildbot-master83.srv.releng.scl3.mozilla.com" {
 }
 
 # temporary node defs for these hosts
-node /buildbot-master8[4-9].srv.releng.scl3.mozilla.com/ {
+node /buildbot-master8[4-8].srv.releng.scl3.mozilla.com/ {
     include toplevel::server
+}
+
+node "buildbot-master89.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm89-tests1-panda":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-panda";
+    }
+    include toplevel::server::buildmaster
 }
 
 node "buildbot-master90.srv.releng.use1.mozilla.com" {
