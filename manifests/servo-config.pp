@@ -92,6 +92,7 @@ class config inherits config::base {
         'larsbergstrom',
         'metajack',
         'pcwalton',
+        'SimonSapin',
         'sfowler',
         'tkuehn',
         'yichoi',
