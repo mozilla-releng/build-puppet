@@ -17,8 +17,9 @@ class ntp::daemon {
                     owner => root,
                     group => $users::root::group;
             }
+            $service = $operatingsystem ? { CentOS => 'ntpd', Ubuntu => 'ntp' }
             service {
-                "ntpd" :
+                $service:
                     subscribe => File["/etc/ntp.conf"],
                     enable => true,
                     hasstatus => true,

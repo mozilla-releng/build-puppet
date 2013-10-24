@@ -8,7 +8,7 @@ class puppet::periodic {
     include dirs::usr::local::bin
 
     case $::operatingsystem {
-        CentOS: {
+        CentOS,Ubuntu: {
             $minute1 = fqdn_rand(30)
             $minute2 = $minute1+30
             file {

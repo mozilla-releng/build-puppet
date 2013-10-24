@@ -3,6 +3,14 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::nrpe {
     case $::operatingsystem {
+        Ubuntu: {
+            package {
+                "nagios-nrpe-server":
+                    ensure => latest;
+                "nagios-nrpe-plugin":
+                    ensure => latest;
+            }
+        }
         CentOS: {
             package {
                 "nrpe":

@@ -6,7 +6,15 @@ class nrpe::service {
     include nrpe::settings
 
     case $::operatingsystem {
-        CentOS, Ubuntu: {
+        Ubuntu: {
+            service {
+                "nagios-nrpe-server":
+                    enable => "true",
+                    ensure => "running",
+                    require => Class['packages::nrpe'];
+            }
+        }
+        CentOS: {
             service {
                 "nrpe":
                     enable => "true",

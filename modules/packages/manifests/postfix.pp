@@ -3,6 +3,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::postfix {
     case $::operatingsystem {
+        Ubuntu: {
+            package {
+                "postfix":
+                    ensure => latest;
+            }
+        }
         CentOS: {
             package {
                 "postfix":

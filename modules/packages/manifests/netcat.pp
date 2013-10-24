@@ -3,7 +3,13 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::netcat {
     case $::operatingsystem {
-        CentOS, Ubuntu: {
+        Ubuntu: {
+            package {
+                "netcat":
+                    ensure => latest;
+            }
+        }
+        CentOS: {
             package {
                 "nc":
                     ensure => latest;

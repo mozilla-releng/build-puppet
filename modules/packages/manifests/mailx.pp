@@ -3,6 +3,13 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::mailx {
     case $::operatingsystem {
+        Ubuntu: {
+            package {
+                "heirloom-mailx":
+                    ensure => latest;
+            }
+        }
+
         CentOS: {
             package {
                 "mailx":
@@ -11,7 +18,7 @@ class packages::mailx {
         }
 
         Darwin: {
-            # Postfix ships with OS X
+            # mail(1) ships with OS X 'cuz it's BSD
         }
 
         default: {
