@@ -34,16 +34,22 @@ class collectd::settings {
             $servicename      = 'collectd'
             $configdir        = '/etc'
             $plugindir        = '/etc/collectd.d'
+            $servicepath      = undef
+            $servicescript    = undef
         }
         'Ubuntu': {
             $servicename      = 'collectd'
             $configdir        = '/etc/collectd'
             $plugindir        = '/etc/collectd/collectd.d'
+            $servicepath      = undef
+            $servicescript    = undef
         }
         'Darwin': {
             $servicename      = 'org.collectd.collectd'
             $configdir        = '/usr/local/etc'
             $plugindir        = '/usr/local/etc/collectd.d'
+            $servicepath      = '/Library/LaunchDaemons'
+            $servicescript    = 'org.collectd.collectd.plist'
         }
         default: {
             fail("This OS is not supported for collectd")
