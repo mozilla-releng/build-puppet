@@ -1,0 +1,43 @@
+#! /bin/sh
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+if [ -z "${1}" ] || [ ! -d "${1}" ]; then
+	echo "USAGE: puppetagain-build-deb /path/to/puppet/modules/packages/manifests/foo-debian"
+	exit 1
+fi
+
+set -e
+
+debian_dir=$(readlink -f $1)
+mozilla_dir=$(dirname ${debian_dir})
+pkg=$(basename ${debian_dir} -debian)
+
+# gather some data..
+version=$(parsechangelog ${debian_dir}/changelog | sed -n '/^Version/{s/^[^:]*: //;p}')
+# strip the dist version stuff
+version=$(echo "${version}" | sed -e 's/-[^-]*$//')
+orig_tarball="${mozilla_dir}/${pkg}_${version}.orig.tar.gz"
+if [ ! -f $orig_tarball ]; then
+	echo "Please download "$(basename ${orig_tarball})" to ${orig_tarball}"
+	exit 1
+fi
+
+build_dir=$(mktemp -d)
+trap "rm -rf ${build_dir}" EXIT
+cd "${build_dir}"
+
+# set up a source directory arranged the way debuild likes it:
+# a tarball, the unpacked version of that tarball, and our debian
+# directory inside that unpacked version.
+
+cp "${orig_tarball}" .
+tar -zxf "${orig_tarball}"
+root_name=$(tar -ztf "${orig_tarball}" | sed -n 's!/.*$!!;p;q')
+cd "${root_name}"
+rm -rf debian
+cp -r "${debian_dir}" debian
+pdebuild --pbuilder cowbuilder --buildresult /tmp --use-pdebuild-internal
+echo "Results are in /tmp"
