@@ -6,6 +6,10 @@ class puppetmaster::hiera {
     # we use hiera-eyaml to store encrypted secrets inside an otherwise-normal
     # YAML file
     include packages::mozilla::hiera_eyaml
+    include config
+
+    # for the template
+    $puppetmaster_extsyncs = $::config::puppetmaster_extsyncs
 
     file {
         "/etc/puppet/hiera.yaml":

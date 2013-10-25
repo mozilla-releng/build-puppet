@@ -25,6 +25,9 @@ class config inherits config::base {
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
     $puppetmaster_upstream_rsync_args = '--exclude=repos/apt'
     $puppetmaster_public_mirror_hosts = [ ]
+    $puppetmaster_extsyncs = {
+        fake => { 'param1' => 1, 'param2' => 3 },
+    }
 
     $signer_username = 'relabssign'
     $signing_tools_repo = 'http://hg.mozilla.org/build/tools'
