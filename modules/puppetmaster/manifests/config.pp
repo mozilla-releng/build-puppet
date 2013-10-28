@@ -28,7 +28,7 @@ class puppetmaster::config {
         # user puppet environment dirs when unmangad
         "/etc/puppet/environments":
             purge   => true,
-            recurse => true,
+            recurse => false,
             force   => true,
             mode    => 0755,
             ensure  => directory;

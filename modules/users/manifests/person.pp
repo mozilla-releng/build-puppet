@@ -41,8 +41,10 @@ define users::person($shell="/bin/bash") {
                 "puppet:///modules/users/people/$username",
                 "puppet:///modules/users/people/skel"
             ],
-            # note: purge is not enabled!
-            recurse => true,
+            # note: purge is not enabled, and recurse => remote only
+            # recurses on the master, so this doesn't make puppet look
+            # at any large or numerous files on-disk.
+            recurse => remote,
             # remove things ssh won't like, but otherwise take the perms from
             # the files as they are.
             mode => 'g-w,o-rwx',
