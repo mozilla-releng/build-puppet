@@ -38,6 +38,7 @@ class talos {
                         "libvirt-bin":
                             ensure => "absent"
                     }
+                }
             }
         }
         Darwin: {
