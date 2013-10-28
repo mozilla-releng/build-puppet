@@ -1,0 +1,13 @@
+Description: node-waf LINKFLAGS support 
+ Fix taken from waf 1.5.19
+Author: Jérémy Lal <kapouer@melix.org>
+Forwarded: https://github.com/joyent/node/issues/3524
+Last-Update: 2012-06-24
+--- a/tools/wafadmin/Tools/gxx.py
++++ b/tools/wafadmin/Tools/gxx.py
+@@ -131,4 +131,5 @@
+ 	conf.gxx_modifier_platform()
+ 	conf.cxx_load_tools()
+ 	conf.cxx_add_flags()
++	conf.link_add_flags()
+ 

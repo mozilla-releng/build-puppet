@@ -1,0 +1,8 @@
+2001_FHS_and_rename_to_nodejs.patch
+2004_relax_failing_test.patch
+2005_expected_failing_tests.patch
+2008_fix_use_shared_cares.patch
+2009_fix_shared_ev.patch
+2010_fix_makefile_missing_zlib.patch
+2013_waf_linkflags.patch
+2015_uv_backported_to_system_ev.patch

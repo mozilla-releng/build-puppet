@@ -1,0 +1,46 @@
+Description: Use system libeio
+ Allows building against libeio package, ITP#629384
+ THIS PATCH IS NOT APPLIED YET. It will be when libeio is uploaded.
+Forwarded: no, unsure why would upstream need that kind of patch.
+Author: Jérémy Lal <kapouer@melix.org>
+Last-Update: 2011-06-26
+--- a/wscript
++++ b/wscript
+@@ -363,7 +363,9 @@
+     if not conf.check(lib='kstat', uselib_store="KSTAT"):
+       conf.fatal("Cannot find kstat library")
+ 
+-  conf.sub_config('deps/libeio')
++  if not conf.check_cxx(lib='eio', header_name='eio.h',
++                      uselib_store='EIO'):
++    conf.fatal("Cannot find libeio")
+ 
+   if conf.env['USE_SHARED_V8']:
+     v8_includes = [];
+@@ -635,7 +637,6 @@
+   print "Parallel Jobs: " + str(Options.options.jobs)
+   print "Product type: " + product_type
+ 
+-  bld.add_subdirs('deps/libeio')
+ 
+   if not bld.env['USE_SHARED_V8']: build_v8(bld)
+   if not bld.env['USE_SHARED_LIBEV']: bld.add_subdirs('deps/libev')
+@@ -797,8 +798,8 @@
+   node = bld.new_task_gen("cxx", product_type)
+   node.name         = "node"
+   node.target       = "node"
+-  node.uselib = 'RT EV OPENSSL CARES EXECINFO DL KVM SOCKET NSL KSTAT UTIL OPROFILE'
+-  node.add_objects = 'eio http_parser'
++  node.uselib = 'RT EIO EV OPENSSL CARES EXECINFO DL KVM SOCKET NSL KSTAT UTIL OPROFILE'
++  node.add_objects = 'http_parser'
+   if product_type_is_lib:
+     node.install_path = '${LIBDIR}'
+   else:
+@@ -840,7 +841,6 @@
+ 
+   node.includes = """
+     src/
+-    deps/libeio
+     deps/http_parser
+   """
+ 
