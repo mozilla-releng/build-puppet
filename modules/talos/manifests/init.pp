@@ -31,15 +31,6 @@ class talos {
                 "v4l2loopback":
                     packages => ["v4l2loopback-dkms"];
             }
-
-            case $::hardwaremodel {
-                "x86_64": {
-                    package {
-                        "libvirt-bin":
-                            ensure => "absent"
-                    }
-                }
-            }
         }
         Darwin: {
             # Darwin-specific packages
