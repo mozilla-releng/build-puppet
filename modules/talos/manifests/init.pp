@@ -31,6 +31,17 @@ class talos {
                 "v4l2loopback":
                     packages => ["v4l2loopback-dkms"];
             }
+
+            case $::hardwaremodel {
+                # We only run Android x86 emulator kvm jobs on
+                # 64-bit host machines
+                "x86_64": {
+                    include packages::cpu-checker
+                    include packages::qemu-kvm
+                    include packages::ubuntu-vm-builder
+                    include packages::bridge-utils
+                }
+            }
         }
         Darwin: {
             # Darwin-specific packages
