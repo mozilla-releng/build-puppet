@@ -7,7 +7,7 @@ class packages::nodejs {
             package {
                 # Install nodejs-legacy package which contains node -> nodejs symlink
                 ["nodejs", "nodejs-legacy"]:
-                    ensure => latest;
+                    ensure => '0.8.18~dfsg1-1mozilla1';
             }
         }
         default: {
