@@ -1,8 +1,0 @@
-git-buildpackage
-================
-
-debian/control.in
------------------
-
-debian/control is generated from debian/control.in, to update it, run :
-DEB_MAINTAINER_MODE=1 fakeroot debian/rules clean

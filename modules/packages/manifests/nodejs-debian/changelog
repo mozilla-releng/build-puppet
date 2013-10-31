@@ -1,0 +1,646 @@
+nodejs (0.10.21-1chl1~precise1) precise; urgency=low
+
+  * 0.10.21 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 18 Oct 2013 22:54:45 -0700
+
+nodejs (0.10.20-1chl1~precise1) precise; urgency=low
+
+  * 0.10.20 (stable) release.
+  * Fixes https://github.com/isaacs/npm/issues/2907
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 30 Sep 2013 15:09:59 -0700
+
+nodejs (0.10.19-1chl1~precise1) precise; urgency=low
+
+  * 0.10.19 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Tue, 24 Sep 2013 21:44:30 -0700
+
+nodejs (0.10.18-1chl1~precise1) precise; urgency=low
+
+  * 0.10.18 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 05 Sep 2013 10:00:43 -0700
+
+nodejs (0.10.17-1chl1~precise1) precise; urgency=low
+
+  * 0.10.17 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 21 Aug 2013 19:52:19 -0700
+
+nodejs (0.10.16-2chl1~precise1) precise; urgency=low
+
+  * Bump version to force armhf builds.
+
+ -- Chris Lea <chl@chrislea.com>  Sun, 18 Aug 2013 20:08:18 -0700
+
+nodejs (0.10.16-1chl1~precise1) precise; urgency=low
+
+  * 0.10.16 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 16 Aug 2013 09:39:30 -0700
+
+nodejs (0.10.15-1chl1~precise1) precise; urgency=low
+
+  * 0.10.15 (stable) release. Fixes bug that broke npm in 0.10.14.
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 25 Jul 2013 16:45:49 -0700
+
+nodejs (0.10.14-1chl1~precise1) precise; urgency=low
+
+  * 0.10.14 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 25 Jul 2013 13:58:07 -0700
+
+nodejs (0.10.13-1chl1~precise1) precise; urgency=low
+
+  * 0.10.13 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Tue, 09 Jul 2013 16:29:11 -0700
+
+nodejs (0.10.12-1chl1~precise1) precise; urgency=low
+
+  * 0.10.12 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 19 Jun 2013 08:11:37 -0700
+
+nodejs (0.10.11-1chl1~precise1) precise; urgency=low
+
+  * 0.10.11 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 13 Jun 2013 11:48:22 -0700
+
+nodejs (0.10.10-1chl1~precise1) precise; urgency=low
+
+  * 0.10.0 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Tue, 04 Jun 2013 17:35:28 -0700
+
+nodejs (0.10.9-1chl1~precise1) precise; urgency=low
+
+  * 0.10.9 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 30 May 2013 14:39:32 -0700
+
+nodejs (0.10.8-1chl1~precise1) precise; urgency=low
+
+  * 0.10.8 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 24 May 2013 16:02:31 -0700
+
+nodejs (0.10.7-1chl1~precise1) precise; urgency=low
+
+  * 0.10.7 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 17 May 2013 15:40:40 -0700
+
+nodejs (0.10.6-1chl1~precise1) precise; urgency=low
+
+  * 0.10.6 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 15 May 2013 10:58:28 -0700
+
+nodejs (0.10.5-1chl1~precise1) precise; urgency=low
+
+  * 0.10.5 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Tue, 23 Apr 2013 21:42:15 -0700
+
+nodejs (0.10.4-1chl1~precise1) precise; urgency=low
+
+  * 0.10.4 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 11 Apr 2013 21:21:00 -0700
+
+nodejs (0.10.3-1chl1~precise1) precise; urgency=low
+
+  * 0.10.3 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 03 Apr 2013 11:58:20 -0700
+
+nodejs (0.10.2-1chl1~precise1) precise; urgency=low
+
+  * 0.10.2 (stable) release.
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 29 Mar 2013 09:10:39 -0700
+
+nodejs (0.10.1-2chl1~precise1) precise; urgency=low
+
+  * Headers aren't here.
+
+ -- Chris Lea <chl@chrislea.com>  Tue, 26 Mar 2013 13:23:02 -0700
+
+nodejs (0.10.1-1chl1~precise1) precise; urgency=low
+
+  * 0.10.1 (stable release).
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 25 Mar 2013 17:52:17 -0700
+
+nodejs (0.10.0-2chl1~precise1) precise; urgency=low
+
+  * Fix how nodejs package replaces old dev and npm packages.
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 14 Mar 2013 17:17:07 -0700
+
+nodejs (0.10.0-1chl1~precise1) precise; urgency=low
+
+  * 0.10.0 (stable) release.
+  * This is now the stable branch, npm is included in the main package.
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 14 Mar 2013 11:00:04 -0700
+
+nodejs (0.9.12-1chl1~precise1) precise; urgency=low
+
+  * 0.9.12 (devel) release
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 06 Mar 2013 14:29:29 -0800
+
+nodejs (0.9.9-1chl1~precise1) precise; urgency=low
+
+  * 0.9.9 (devel) release
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 07 Feb 2013 12:11:44 -0800
+
+nodejs (0.9.8-1chl1~precise1) precise; urgency=low
+
+  * 0.9.8 (devel) release
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 24 Jan 2013 11:25:11 -0800
+
+nodejs (0.9.7-1chl1~precise1) precise; urgency=low
+
+  * 0.9.7 (devel) release
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 18 Jan 2013 10:54:04 -0800
+
+nodejs (0.9.6-1chl1~precise1) precise; urgency=low
+
+  * 0.9.6 (devel) release
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 11 Jan 2013 12:20:48 -0800
+
+nodejs (0.9.5-1chl1~precise1) precise; urgency=low
+
+  * 0.9.5 (devel) release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 29 Dec 2012 19:38:46 -0800
+
+nodejs (0.9.4-1chl1~precise1) precise; urgency=low
+
+  * 0.9.4 (devel) release
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 27 Dec 2012 14:55:58 -0800
+
+nodejs (0.9.3-1chl1~precise1) precise; urgency=low
+
+  * 0.9.3 (devel) release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 27 Oct 2012 21:41:25 +0000
+
+nodejs (0.9.2-1chl1~precise1) precise; urgency=low
+
+  * 0.9.2 (devel) release
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 19 Sep 2012 22:40:51 +0000
+
+nodejs (0.9.1-1chl1~precise1) precise; urgency=low
+
+  * 0.9.1 (devel) release
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 30 Aug 2012 19:30:56 +0000
+
+nodejs (0.9.0-1chl1~precise1) precise; urgency=low
+
+  * 0.9.0 (devel) release
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 20 Jul 2012 19:23:28 +0000
+
+nodejs (0.8.3-1chl1~precise1) precise; urgency=low
+
+  * 0.8.3 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 19 Jul 2012 23:32:13 +0000
+
+nodejs (0.8.2-1chl1~precise1) precise; urgency=low
+
+  * 0.8.2 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 09 Jul 2012 18:37:19 +0000
+
+nodejs (0.8.1-2chl1~precise1) precise; urgency=low
+
+  * Don't use --debug in configure
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 06 Jul 2012 17:59:39 +0000
+
+nodejs (0.8.1-1chl1~precise1) precise; urgency=low
+
+  * 0.8.1 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 29 Jun 2012 19:16:47 +0000
+
+nodejs (0.8.0-1chl1~precise1) precise; urgency=low
+
+  * 0.8.0 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 27 Jun 2012 20:27:18 +0000
+
+nodejs (0.6.19-1chl1~precise1) precise; urgency=low
+
+  * 0.6.19 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 11 Jun 2012 06:31:35 +0000
+
+nodejs (0.6.18-1chl1~precise1) precise; urgency=low
+
+  * 0.6.18 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 21 May 2012 18:44:07 +0000
+
+nodejs (0.6.17-1chl1~precise1) precise; urgency=low
+
+  * 0.6.17 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 04 May 2012 20:26:22 +0000
+
+nodejs (0.6.16-1chl1~precise1) precise; urgency=low
+
+  * 0.6.16 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 30 Apr 2012 18:29:38 +0000
+
+nodejs (0.6.15-1chl1~precise1) precise; urgency=low
+
+  * 0.6.15 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 09 Apr 2012 20:20:32 +0000
+
+nodejs (0.6.14-1chl1~precise1) precise; urgency=low
+
+  * 0.6.14 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 24 Mar 2012 17:58:10 +0000
+
+nodejs (0.6.13-1chl1~precise1) precise; urgency=low
+
+  * 0.6.13 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 16 Mar 2012 19:05:08 +0000
+
+nodejs (0.6.12-1chl~precise1) precise; urgency=low
+
+  * 0.6.12 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Sun, 04 Mar 2012 02:16:58 +0000
+
+nodejs (0.6.11-1chl1~precise1) precise; urgency=low
+
+  * 0.6.11 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 22 Feb 2012 05:07:37 +0000
+
+nodejs (0.6.10-1chl1~precise1) precise; urgency=low
+
+  * 0.6.10 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 03 Feb 2012 20:44:50 +0000
+
+nodejs (0.6.9-2chl1~precise1) precise; urgency=low
+
+  * Include the stuff in lib/
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 28 Jan 2012 22:20:07 +0000
+
+nodejs (0.6.9-1chl1~precise1) precise; urgency=low
+
+  * 0.6.9 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 28 Jan 2012 20:39:26 +0000
+
+nodejs (0.6.8-1chl1~precise1) precise; urgency=low
+
+  * 0.6.8 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 20 Jan 2012 23:46:35 +0000
+
+nodejs (0.6.2-1chl1~precise1) precise; urgency=low
+
+  * 0.6.2 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 21 Nov 2011 00:36:21 +0000
+
+nodejs (0.6.1-5chl1~precise1) precise; urgency=low
+
+  * Add /usr/share/javascript to NODE_PATH
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 17 Nov 2011 08:58:13 +0000
+
+nodejs (0.6.1-4chl1~precise1) precise; urgency=low
+
+  * Add headers that were commented out back in.
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 14 Nov 2011 20:14:04 +0000
+
+nodejs (0.6.1-3chl1~precise1) precise; urgency=low
+
+  * Actually add the script correctly...
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 14 Nov 2011 02:51:30 +0000
+
+nodejs (0.6.1-2chl1~precise1) precise; urgency=low
+
+  * Add a script that sets NODE_PATH in /etc/profile.d
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 14 Nov 2011 02:35:18 +0000
+
+nodejs (0.6.1-1chl1~precise1) precise; urgency=low
+
+  * 0.6.1 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 11 Nov 2011 23:54:20 +0000
+
+nodejs (0.6.0-1chl1~precise1) precise; urgency=low
+
+  * 0.6.0 (stable) release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 05 Nov 2011 22:03:31 +0000
+
+nodejs (0.5.10-2chl1~precise1) precise; urgency=low
+
+  * Remove TODO from docs
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 24 Oct 2011 04:02:39 +0000
+
+nodejs (0.5.10-1chl1~precise1) precise; urgency=low
+
+  * 0.5.10 (dev) release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 24 Oct 2011 02:09:02 +0000
+
+nodejs (0.5.9-1chl1~precise1) precise; urgency=low
+
+  * 0.5.9 (dev) release
+
+ -- Chris Lea <chl@chrislea.com>  Tue, 11 Oct 2011 06:20:35 +0000
+
+nodejs (0.5.8-1chl1~precise1) precise; urgency=low
+
+  * 0.5.8 (dev) release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 01 Oct 2011 05:09:16 +0000
+
+nodejs (0.5.7-1chl1~precise1) precise; urgency=low
+
+  * 0.5.7 (dev) release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 17 Sep 2011 04:54:49 +0000
+
+nodejs (0.5.6-1chl1~precise1) precise; urgency=low
+
+  * 0.5.6 (dev) release
+
+ -- Chris Lea <chl@chrislea.com>  Sun, 11 Sep 2011 17:50:17 +0000
+
+nodejs (0.5.5-2chl1~precise1) precise; urgency=low
+
+  * Fix dbg package so this will build
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 29 Aug 2011 21:51:42 +0000
+
+nodejs (0.5.5-1chl1~precise1) precise; urgency=low
+
+  * 0.5.5 (dev) release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 29 Aug 2011 09:26:21 +0000
+
+nodejs (0.5.4-1chl1~precise1) precise; urgency=low
+
+  * 0.5.4 (dev) release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 13 Aug 2011 21:48:22 +0000
+
+nodejs (0.5.3-3chl1~precise1) precise; urgency=low
+
+  * Push original source so LP will build.
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 04 Aug 2011 00:06:12 +0000
+
+nodejs (0.5.3-2chl1~precise1) precise; urgency=low
+
+  * Fix wafadmin install path in patch.
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 03 Aug 2011 23:53:03 +0000
+
+nodejs (0.5.3-1chl1~precise1) precise; urgency=low
+
+  * 0.5.3 (dev) release
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 03 Aug 2011 23:32:23 +0000
+
+nodejs (0.5.2-1chl1~precise1) precise; urgency=low
+
+  * 0.5.2 (dev) release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 25 Jul 2011 06:50:37 +0000
+
+nodejs (0.5.1-1chl1~precise1) precise; urgency=low
+
+  * 0.5.1 (dev) release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 16 Jul 2011 18:45:00 +0000
+
+nodejs (0.5.0-1chl1~precise1) precise; urgency=low
+
+  * 0.5.0 (dev) release
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 06 Jul 2011 19:16:53 +0000
+
+nodejs (0.4.9-1chl1~precise1) precise; urgency=low
+
+  * 0.4.9 release
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 29 Jun 2011 18:16:39 +0000
+
+nodejs (0.4.8-3chl1~precise1) precise; urgency=low
+
+  * Get node-waf correct.
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 06 Jun 2011 19:37:23 +0000
+
+nodejs (0.4.8-2chl1~precise1) precise; urgency=low
+
+  * Add alternatives link for node binary
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 06 Jun 2011 19:17:03 +0000
+
+nodejs (0.4.8-1chl1~precise1) precise; urgency=low
+
+  * 0.4.8 release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 23 May 2011 05:35:03 +0000
+
+nodejs (0.4.7-1chl1~precise1) precise; urgency=low
+
+  * 0.4.7 release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 23 Apr 2011 18:52:04 +0000
+
+nodejs (0.4.6-1chl1~precise1) precise; urgency=low
+
+  * 0.4.6 release
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 15 Apr 2011 01:17:55 +0000
+
+nodejs (0.4.5-1chl1~precise1) precise; urgency=low
+
+  * 0.4.5 release
+
+ -- Chris Lea <chl@chrislea.com>  Tue, 05 Apr 2011 04:04:23 +0000
+
+nodejs (0.4.4-1chl1~precise1) precise; urgency=low
+
+  * 0.4.4 release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 28 Mar 2011 20:42:01 +0000
+
+nodejs (0.4.3-1chl1~precise1) precise; urgency=low
+
+  * 0.4.3 release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 19 Mar 2011 18:00:57 +0000
+
+nodejs (0.4.2-1chl1~precise1) precise; urgency=low
+
+  * 0.4.2 release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 07 Mar 2011 20:09:20 +0000
+
+nodejs (0.4.1-2chl1~precise1) precise; urgency=low
+
+  * Fix waf-admin path issue
+
+ -- Chris Lea <chl@chrislea.com>  Sun, 20 Feb 2011 11:10:54 +0000
+
+nodejs (0.4.1-1chl1~precise1) precise; urgency=low
+
+  * 0.4.1 release
+
+ -- Chris Lea <chl@chrislea.com>  Sat, 19 Feb 2011 23:45:32 -0800
+
+nodejs (0.2.6-1chl1~precise1) precise; urgency=low
+
+  * 0.2.6 release
+
+ -- Chris Lea <chl@chrislea.com>  Sun, 09 Jan 2011 18:37:57 +0000
+
+nodejs (0.2.5-1chl1~precise1) precise; urgency=low
+
+  * 0.2.5 release
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 17 Dec 2010 15:04:00 -0400
+
+nodejs (0.2.4-1chl1~precise1) precise; urgency=low
+
+  * 0.2.4 release
+
+ -- Chris Lea <chl@chrislea.com>  Wed, 27 Oct 2010 15:36:00 -0700
+
+nodejs (0.2.3-2chl1~precise1) precise; urgency=low
+
+  * Fixed to compile on precise
+
+ -- Chris Lea <chl@chrislea.com>  Fri, 08 Oct 2010 23:13:24 -0700
+
+nodejs (0.2.3-1chl1~precise1) precise; urgency=low
+
+  * 0.2.3 release
+
+ -- Chris Lea <chl@chrislea.com>  Mon, 04 Oct 2010 12:01:24 +0100
+
+nodejs (0.2.2-3chl1~precise1) precise; urgency=low
+
+  * Remove unneeded quilt include from debian/rules
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 23 Sep 2010 12:45:24 -0700
+
+nodejs (0.2.2-2chl1~precise1) precise; urgency=low
+
+  * Add build dependency on quilt
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 23 Sep 2010 12:45:24 -0700
+
+nodejs (0.2.2-1chl1~precise1) precise; urgency=low
+
+  * New upstream release
+
+ -- Chris Lea <chl@chrislea.com>  Thu, 23 Sep 2010 11:31:24 -0700
+
+nodejs (0.1.97-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Jérémy Lal <kapouer@melix.org>  Sun, 30 May 2010 23:14:24 +0200
+
+nodejs (0.1.95-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Jérémy Lal <kapouer@melix.org>  Fri, 14 May 2010 02:05:25 +0200
+
+nodejs (0.1.94-2) unstable; urgency=low
+
+  * Drop dependencies on libgnutls-dev, libgpg-error-dev.
+  * Modules path moved to /usr/lib/nodejs (without /modules), to
+    follow more closely upstream practice.
+  * node-repl is now in /usr/share/nodejs because it is
+    simply a js script file ; nodejs-repl still in /usr/bin
+
+ -- Jérémy Lal <kapouer@melix.org>  Tue, 11 May 2010 19:52:12 +0200
+
+nodejs (0.1.94-1) unstable; urgency=low
+
+  * New upstream release
+  * API has changed and will be more stable with 0.2 release
+  * Fix dependency on libv8. (Closes: #579044)
+  * Switched from gnutls to libssl.
+
+ -- Jérémy Lal <kapouer@melix.org>  Thu, 06 May 2010 23:19:12 +0200
+
+nodejs (0.1.92-1) unstable; urgency=low
+
+  * New upstream release
+  * Switch from udns to c-ares.
+
+ -- Jérémy Lal <kapouer@melix.org>  Sat, 24 Apr 2010 09:12:06 +0200
+
+nodejs (0.1.33-3) unstable; urgency=low
+
+  * Fix wrong use of binary-indep target in debian/rules.
+    (Closes: #575383)
+
+ -- Jérémy Lal <kapouer@melix.org>  Mon, 05 Apr 2010 15:26:40 +0200
+
+nodejs (0.1.33-2) unstable; urgency=low
+
+  * Previous package was broken in some way. (Closes: #575383)
+
+ -- Jérémy Lal <kapouer@melix.org>  Thu, 25 Mar 2010 12:24:06 +0100
+
+nodejs (0.1.33-1) unstable; urgency=low
+
+  * New upstream release. (Closes: #572023)
+  * Debian package has the same license as upstream (MIT).
+  * Include waf in source package and nodejs-dev package. (Closes: #571710)
+  * Switch to dpkg-source 3.0 (quilt) format.
+  * Place modules directory in usr/lib/nodejs/modules,
+    and add it to nodejs module path. Documentation in README.Debian.
+  * Architecture: any since the supported archs depends only on libv8.
+
+ -- Jérémy Lal <kapouer@melix.org>  Mon, 22 Mar 2010 01:53:48 +0100
+
+nodejs (0.1.27+dfsg-1) unstable; urgency=low
+
+  * Initial release (Closes: #553514)
+
+ -- Jérémy Lal <kapouer@melix.org>  Sun, 07 Feb 2010 01:16:07 +0100
