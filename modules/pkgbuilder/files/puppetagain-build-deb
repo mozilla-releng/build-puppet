@@ -4,14 +4,16 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-if [ -z "${1}" ] || [ ! -d "${1}" ]; then
-	echo "USAGE: puppetagain-build-deb /path/to/puppet/modules/packages/manifests/foo-debian"
-	exit 1
+if [ "${#}" -ne 3 ] || [ ! -d "${3}" ]; then
+    echo "USAGE: puppetagain-build-deb distribution arch /path/to/puppet/modules/packages/manifests/foo-debian"
+    exit 1
 fi
 
 set -e
 
-debian_dir=$(readlink -f $1)
+distribution="${1}"
+arch="${2}"
+debian_dir=$(readlink -f $3)
 mozilla_dir=$(dirname ${debian_dir})
 pkg=$(basename ${debian_dir} -debian)
 
@@ -23,6 +25,13 @@ orig_tarball="${mozilla_dir}/${pkg}_${version}.orig.tar.gz"
 if [ ! -f $orig_tarball ]; then
 	echo "Please download "$(basename ${orig_tarball})" to ${orig_tarball}"
 	exit 1
+fi
+
+# check that the base cow exists
+basepath="/var/cache/pbuilder/${distribution}-${arch}/"
+if [ ! -d "${basepath}" ]; then
+    echo "${basepath} does not exist"
+    exit 1
 fi
 
 build_dir=$(mktemp -d)
@@ -39,5 +48,10 @@ root_name=$(tar -ztf "${orig_tarball}" | sed -n 's!/.*$!!;p;q')
 cd "${root_name}"
 rm -rf debian
 cp -r "${debian_dir}" debian
-pdebuild --pbuilder cowbuilder --buildresult /tmp --use-pdebuild-internal
-echo "Results are in /tmp"
+
+DEST="/tmp/${pkg}-${distribution}-${arch}"
+rm -rf "${DEST}"
+mkdir -p "${DEST}"
+
+ARCHITECTURE=${arch} bash -x /usr/bin/pdebuild --pbuilder cowbuilder --buildresult ${DEST} --use-pdebuild-internal -- --basepath "${basepath}" --distribution "${distribution}" --architecture "${arch}" 
+find "${DEST}"

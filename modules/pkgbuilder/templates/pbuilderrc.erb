@@ -1,0 +1,15 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# get regular Ubuntu packages from the puppetagain mirror
+MIRRORSITE="http://<%= scope.lookupvar('::config::apt_repo_server') %>/repos/apt/ubuntu"
+
+# and also reference the releng repositories for dependencies
+OTHERMIRROR="deb http://<%= scope.lookupvar('::config::apt_repo_server') %>/repos/apt/releng precise main|deb http://<%= scope.lookupvar('::config::apt_repo_server') %>/repos/apt/releng-updates precise-updates all"
+
+# and include both main and universe
+COMPONENTS="main universe"
+
+# releng repos are untrusted..
+ALLOWUNTRUSTED=yes

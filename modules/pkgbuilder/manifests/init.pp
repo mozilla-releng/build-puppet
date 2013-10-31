@@ -3,13 +3,15 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class pkgbuilder {
+    include config
+
     case $operatingsystem {
         Ubuntu: {
             # On Ubuntu, we use cowbuilder along with a custom script to build packages
             include packages::cowbuilder
             file {
                 "/etc/pbuilderrc":
-                    source => "puppet:///modules/${module_name}/pbuilderrc";
+                    content => template("${module_name}/pbuilderrc.erb");
                 "/root/pbuilderrc":
                     ensure => absent;
                 "/usr/local/bin/puppetagain-build-deb":
@@ -17,18 +19,9 @@ class pkgbuilder {
                     mode => 0755;
             }
 
-            exec {
-                'setup-cowbuilder':
-                    command => "/usr/sbin/cowbuilder --create",
-                    creates => "/var/cache/pbuilder/base.cow",
-                    logoutput => true,
-                    require => Class['packages::cowbuilder'];
-                'update-cowbuilder':
-                    command => "/usr/sbin/cowbuilder --update",
-                    refreshonly => true,
-                    logoutput => true,
-                    subscribe => File['/etc/pbuilderrc'],
-                    require => Class['packages::cowbuilder'];
+            pkgbuilder::base_cow {
+                'precise-i386': ;
+                'precise-amd64': ;
             }
         }
         default: {
