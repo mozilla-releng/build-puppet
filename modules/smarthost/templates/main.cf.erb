@@ -4,7 +4,11 @@
 
 soft_bounce = no
 command_directory = /usr/sbin
+<%- if operatingsystem == 'Ubuntu' -%>
+daemon_directory = /usr/lib/postfix
+<%- else -%>
 daemon_directory = /usr/libexec/postfix
+<%- end -%>
 <%- if operatingsystem == 'Darwin' -%>
 mail_owner = _postfix
 setgid_group = _postdrop

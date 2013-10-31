@@ -12,6 +12,11 @@ class nrpe::service {
                     enable => "true",
                     ensure => "running",
                     require => Class['packages::nrpe'];
+                # ubuntu helpfully starts a nagios server for us..
+                "nagios3":
+                    ensure => stopped,
+                    enable => false,
+                    require => Class['packages::nrpe'];
             }
         }
         CentOS: {

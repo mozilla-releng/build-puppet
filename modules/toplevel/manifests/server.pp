@@ -10,12 +10,12 @@ class toplevel::server inherits toplevel::base {
     include smarthost
     include cron
     include disableservices::server
-    if $::operatingsystem != 'Darwin' {
+    if $::operatingsystem == 'CentOS' {
         include ganglia
+        include nrpe::check::ganglia
     }
     include nrpe
     include nrpe::check::puppet_agent
-    include nrpe::check::ganglia
     include packages::strace
     include packages::netcat
     include users::people

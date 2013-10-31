@@ -9,7 +9,6 @@ class packages::ganglia {
                     ensure => latest;
             }
         }
-
         default: {
             fail("cannot install on $::operatingsystem")
         }

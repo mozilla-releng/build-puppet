@@ -5,7 +5,11 @@
 ####  This file under configuration management control
 ####  DO NOT EDIT MANUALLY
 
+<%- if operatingsystem == 'Ubuntu' -%>
+pid_file=/var/run/nagios/nrpe.pid
+<%- else -%>
 pid_file=/var/run/nrpe.pid
+<%- end -%>
 server_port=5666
 nrpe_user=nagios
 nrpe_group=nagios

@@ -8,6 +8,9 @@ class nrpe::settings {
         Darwin: {
             $plugins_dir = "/usr/local/libexec"
         }
+        Ubuntu: {
+            $plugins_dir = "/usr/lib/nagios/plugins"
+        }
         default: {
             $plugins_dir = "/usr/${::shared::lib_arch_dir}/nagios/plugins"
         }
