@@ -490,8 +490,49 @@ node "buildbot-master83.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
-# temporary node defs for these hosts
-node /buildbot-master8[4-8].srv.releng.scl3.mozilla.com/ {
+node "buildbot-master84.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm84-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master85.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm85-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master86.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm86-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
+    include toplevel::server::buildmaster
+}
+
+
+node "buildbot-master87.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm87-try1":
+            http_port => 8101,
+            master_type => "try",
+            basedir => "try1";
+    }
+    include toplevel::server::buildmaster
+}
+
+# temporary node def for this host
+node "buildbot-master88.srv.releng.scl3.mozilla.com" {
     include toplevel::server
 }
 
