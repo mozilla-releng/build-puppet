@@ -3,7 +3,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import "stages.pp"
-import "extlookup.pp"
 # both of these should be symlnks to the appropriate organization
 import "config.pp"
 import "nodes.pp"
