@@ -28,6 +28,7 @@ class config::base {
     $ntp_server = "pool.ntp.org"
     $relay_domains = "smtp.mozilla.org"
     $puppet_again_repo = "http://hg.mozilla.org/build/puppet"
+    $puppet_again_branch = "production"
     $puppet_server_reports = "tagmail"
     $puppet_server_reporturl = "http://localhost:3000/reports/upload"
     $user_python_repositories = [ "http://pypi.pub.build.mozilla.org/pub" ]

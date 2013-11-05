@@ -7,6 +7,7 @@
 errormailto="<%= scope.lookupvar('::config::puppet_notif_email') %>"
 changemailto="<%= scope.lookupvar('::config::puppet_notif_email') %>"
 repo="<%= scope.lookupvar('::config::puppet_again_repo') %>"
+branch="<%= scope.lookupvar('::config::puppet_again_branch') %>"
 repodir="/etc/puppet/production"
 
 hostname=<%= scope.lookupvar('::fqdn') %>
@@ -25,7 +26,7 @@ fi
 
 try_update() {
     rev_before=`/usr/bin/hg ident -i`
-    rev_current=`/usr/bin/hg ident -i $repo`
+    rev_current=`/usr/bin/hg ident -i $repo -r $branch`
     if [ $? -ne 0 ] || [ -z "$rev_current" ]; then
         return 1
     fi
@@ -36,7 +37,8 @@ try_update() {
     fi
 
     # update (and pass on the exit status)
-    /usr/bin/hg pull -u $repo
+    # (hg pull can't do -u and -r at the same time)
+    /usr/bin/hg pull $repo && /usr/bin/hg up -r $branch
 }
 
 
