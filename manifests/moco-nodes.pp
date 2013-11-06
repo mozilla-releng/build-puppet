@@ -20,6 +20,7 @@ node /foopy\d+.p\d+.releng.scl1.mozilla.com/ {
 
 node /talos-r4-snow-\d+.build.scl1.mozilla.com/ {
     include toplevel::slave::test::gpu
+    include collectd
 }
 
 node /talos-r4-lion-\d+.build.scl1.mozilla.com/ {
