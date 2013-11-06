@@ -25,6 +25,7 @@ node /talos-r4-snow-\d+.build.scl1.mozilla.com/ {
 
 node /talos-r4-lion-\d+.build.scl1.mozilla.com/ {
     include toplevel::slave::test::gpu
+    include collectd
 }
 
 node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
