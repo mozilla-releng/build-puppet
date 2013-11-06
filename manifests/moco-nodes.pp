@@ -52,6 +52,7 @@ node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
 
 node /talos-linux\d+-ix-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     include toplevel::slave::test::gpu
+    include collectd
 }
 
 ## builders
