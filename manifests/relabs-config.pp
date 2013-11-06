@@ -6,7 +6,6 @@ class config inherits config::base {
     $org = "relabs"
 
     $puppet_notif_email = "dustin@mozilla.com"
-    $puppet_server_reports = ""
     $builder_username = "relabsbld"
     $grouped_puppet_servers = {
         ".*" => [
