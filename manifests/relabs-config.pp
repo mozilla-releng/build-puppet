@@ -21,6 +21,8 @@ class config inherits config::base {
     $distinguished_puppetmaster = "relabs03.build.mtv1.mozilla.com"
     $puppet_again_repo = "http://hg.mozilla.org/build/puppet/"
 
+    $puppet_server_reports = "tagmail,http"
+    $puppet_server_reporturl = "http://foreman.pvt.build.mozilla.org:3001/"
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
     $puppetmaster_upstream_rsync_args = '--exclude=repos/apt'
     $puppetmaster_public_mirror_hosts = [ ]
