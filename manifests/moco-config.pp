@@ -198,5 +198,13 @@ class config inherits config::base {
     $slaveapi_ipmi_username = "releng"
     $slaveapi_bugzilla_dev_url = "https://bugzilla-dev.allizom.org/rest/"
     $slaveapi_bugzilla_prod_url = "https://bugzilla.mozilla.org/rest/"
+    $selfserve_agent_sendchange_master = "bm81-build_scheduler"
+    $selfserve_agent_branches_json = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-branches.json"
+    $selfserve_agent_masters_json = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
+    $selfserve_agent_clobberer_url = "http://clobberer.pvt.build.mozilla.org/index.php"
+    $selfserve_agent_carrot_hostname = "rabbit2.build.scl1.mozilla.com"
+    $selfserve_agent_carrot_vhost = "/buildapi"
+    $selfserve_agent_carrot_userid = "buildapi"
+    $selfserve_agent_carrot_exchange = "buildapi.control"
+    $selfserve_agent_carrot_queue = "buildapi-agent-rabbit2"
 }
-

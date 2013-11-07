@@ -30,6 +30,7 @@ node /talos-r4-lion-\d+.build.scl1.mozilla.com/ {
 
 node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
     include toplevel::slave::test::gpu
+    include collectd
 }
 
 node /t-mavericks-r5-\d+.test.releng.scl3.mozilla.com/ {
@@ -462,6 +463,7 @@ node "buildbot-master81.srv.releng.scl3.mozilla.com" {
     include toplevel::server
     include toplevel::server::buildmaster
     include releaserunner
+    include selfserve_agent
     include buildmaster::db_maintenance
     buildmaster::buildbot_master::mozilla {
         "bm81-build_scheduler":
