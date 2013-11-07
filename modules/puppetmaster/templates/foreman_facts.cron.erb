@@ -1,0 +1,3 @@
+MAILTO="<%= scope.lookupvar('::config::puppet_notif_email') %>"
+*/30 * * * *     root    (sleep $(($RANDOM/(32768/30)))); <%= @script %> > /dev/null
+MAILTO=root

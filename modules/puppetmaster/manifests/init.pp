@@ -14,4 +14,5 @@ class puppetmaster {
     include puppetmaster::public_mirror
     include puppetmaster::hiera
     include puppetmaster::extsyncs
+    include puppetmaster::foreman_facts
 }

@@ -54,6 +54,9 @@ class config::base {
     # the puppet 'reporturl' configuration parameter
     $puppet_server_reporturl = ""
 
+    # the URL at which puppet facts are sent to Foreman
+    $puppet_server_facturl = ""
+
     ##
     ## packages and data
     ##
