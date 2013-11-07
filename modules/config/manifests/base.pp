@@ -22,6 +22,7 @@ class config::base {
     $puppetmaster_upstream_rsync_source = ''
     $puppetmaster_upstream_rsync_args = ''
     $puppetmaster_public_mirror_hosts = []
+    $puppetmaster_extsyncs = {}
     $builder_username = 'cltbld'
     $signer_username = 'cltsign'
     $nrpe_allowed_hosts = '127.0.0.1'

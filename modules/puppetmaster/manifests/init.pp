@@ -13,4 +13,5 @@ class puppetmaster {
     include puppetmaster::deploy
     include puppetmaster::public_mirror
     include puppetmaster::hiera
+    include puppetmaster::extsyncs
 }
