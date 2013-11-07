@@ -1,0 +1,11 @@
+Source: android-sdk18
+Section: non-free
+Priority: extra
+Maintainer: Rail Aliiev <rail@mozilla.com>
+Build-Depends: debhelper (>= 8.0.0), libparse-debianchangelog-perl
+Standards-Version: 3.9.4
+
+Package: android-sdk18
+Architecture: any
+Description: Android SDK
+ Android SDK

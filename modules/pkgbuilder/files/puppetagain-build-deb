@@ -21,10 +21,15 @@ pkg=$(basename ${debian_dir} -debian)
 version=$(parsechangelog ${debian_dir}/changelog | sed -n '/^Version/{s/^[^:]*: //;p}')
 # strip the dist version stuff
 version=$(echo "${version}" | sed -e 's/-[^-]*$//')
-orig_tarball="${mozilla_dir}/${pkg}_${version}.orig.tar.gz"
+for ext in 'tar.gz' 'tar.bz2'; do
+    orig_tarball="${mozilla_dir}/${pkg}_${version}.orig.${ext}"
+if [ -f "${orig_tarbal}" ]; then
+    break
+fi
+done
 if [ ! -f $orig_tarball ]; then
-	echo "Please download "$(basename ${orig_tarball})" to ${orig_tarball}"
-	exit 1
+    echo "Please download an orig tarball, e.g., "$(basename ${orig_tarball})" to ${orig_tarball} (extension may vary)"
+    exit 1
 fi
 
 # check that the base cow exists
@@ -43,8 +48,8 @@ cd "${build_dir}"
 # directory inside that unpacked version.
 
 cp "${orig_tarball}" .
-tar -zxf "${orig_tarball}"
-root_name=$(tar -ztf "${orig_tarball}" | sed -n 's!/.*$!!;p;q')
+tar -axf "${orig_tarball}"
+root_name=$(tar -atf "${orig_tarball}" | sed -n 's!/.*$!!;p;q')
 cd "${root_name}"
 rm -rf debian
 cp -r "${debian_dir}" debian
