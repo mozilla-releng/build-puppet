@@ -462,6 +462,7 @@ node "buildbot-master81.srv.releng.scl3.mozilla.com" {
     include toplevel::server
     include toplevel::server::buildmaster
     include releaserunner
+    include selfserve_agent
     include buildmaster::db_maintenance
     buildmaster::buildbot_master::mozilla {
         "bm81-build_scheduler":

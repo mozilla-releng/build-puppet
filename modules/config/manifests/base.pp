@@ -67,4 +67,5 @@ class config::base {
     $releaserunner_ssh_username = ""
     $releaserunner_ssh_key = ""
     $install_avds = "no"
+    $selfserve_agent_root = "/builds/selfserve-agent"
 }
