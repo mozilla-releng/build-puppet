@@ -1,3 +1,10 @@
+android-sdk18 (0.r18moz1-0moz1) precise; urgency=low
+
+  * 0.r18 (stable) release
+  * Fixes https://bugzilla.mozilla.org/show_bug.cgi?id=933918
+
+ -- Armen Zambrano Gasparnian <armenzg@mozilla.com>  Thu, 7 Nov 2013 14:30:00 -0500
+
 android-sdk18 (0.r18-0moz1) precise; urgency=low
 
   * Initial release
