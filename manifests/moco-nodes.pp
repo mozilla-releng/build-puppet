@@ -466,6 +466,7 @@ node "buildbot-master81.srv.releng.scl3.mozilla.com" {
     include releaserunner
     include selfserve_agent
     include buildmaster::db_maintenance
+    include bouncer_check
     buildmaster::buildbot_master::mozilla {
         "bm81-build_scheduler":
             master_type => "scheduler",
