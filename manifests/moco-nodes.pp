@@ -51,6 +51,7 @@ node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
         "network::aws": stage => network,
     }
     include toplevel::slave::test::headless
+    include collectd
 }
 
 node /talos-linux\d+-ix-\d+\.test\.releng\.scl3\.mozilla\.com/ {
