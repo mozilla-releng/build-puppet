@@ -5,6 +5,7 @@ class selfserve_agent::services {
     include ::config
     include packages::mozilla::supervisor
     include selfserve_agent::settings
+    include nrpe::settings
 
     file {
         "${selfserve_agent::settings::root}/selfserve-agent.ini":
@@ -34,7 +35,7 @@ class selfserve_agent::services {
 
     nrpe::check {
         'check_selfserve-agent':
-            cfg => "$plugins_dir/check_procs -c 1:1 -a selfserve-agent";
+            cfg => "${nrpe::settings::plugins_dir}/check_procs -c 1:1 -a selfserve-agent";
     }
 
 }
