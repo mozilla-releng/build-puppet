@@ -4,8 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-OUTPUT=$(mktemp /etc/hiera/<%= title %>-XXXXXXX).eyaml
-trap "rm -rf $OUTPUT" EXIT
+OUTPUT=$(mktemp /etc/hiera/<%= title %>-XXXXXXX.tmp)
+trap "rm -rf $OUTPUT" EXIT SIGINT SIGHUP SIGTERM
 
 # run the content-generation script, failing on any errors
 set -e
