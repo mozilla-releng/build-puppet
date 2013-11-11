@@ -15,6 +15,9 @@ api_url = <%= scope.lookupvar("::config::slaveapi_slavealloc_url") %>
 api_url = <%= scope.lookupvar("::config::slaveapi_inventory_url") %>
 username = <%= scope.lookupvar("::config::slaveapi_inventory_username") %>
 
+[buildapi]
+api_url = <%= scope.lookupvar("::config::slaveapi_buildapi_url") %>
+
 [bugzilla]
 api_url = <%=@bugzilla_url%>
 username = <%= scope.lookupvar("::config::slaveapi_bugzilla_username") %>

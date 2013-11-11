@@ -17,6 +17,8 @@ EXCLUDES = eclipse \
 ARCHIVE_PREFIX = adt-bundle-linux-x86-$(BUNDLE_VER)
 ARCHIVE = $(ARCHIVE_PREFIX).zip
 URL_PREFIX = http://dl.google.com/android/adt
+PATCHED_TOOLS = tools-tools_r22-patched.tar.gz
+PATCHED_TOOLS_URL_PREFIX = http://people.mozilla.org/~gbrown/
 TARGET_DIR = orig-source
 
 %:
@@ -36,12 +38,15 @@ adt-bundle-linux-%-$(BUNDLE_VER).zip:
 	@echo "# Downloading..."
 	wget -c -O $@ $(URL_PREFIX)/$@
 
-get-orig-source: adt-bundle-linux-x86-$(BUNDLE_VER).zip adt-bundle-linux-x86_64-$(BUNDLE_VER).zip
+$(PATCHED_TOOLS):
+	@echo "# Downloading..."
+	wget -c -O $@ $(PATCHED_TOOLS_URL_PREFIX)/$@
+
+get-orig-source: adt-bundle-linux-x86-$(BUNDLE_VER).zip adt-bundle-linux-x86_64-$(BUNDLE_VER).zip $(PATCHED_TOOLS)
 	rm -rf $(TARGET_DIR)
-	unzip -q adt-bundle-linux-x86-$(BUNDLE_VER).zip -d $(TARGET_DIR)
-	mv $(TARGET_DIR)/adt-bundle-linux-x86-$(BUNDLE_VER) $(TARGET_DIR)/i386
 	unzip -q adt-bundle-linux-x86_64-$(BUNDLE_VER).zip -d $(TARGET_DIR)
 	mv $(TARGET_DIR)/adt-bundle-linux-x86_64-$(BUNDLE_VER) $(TARGET_DIR)/amd64
+	tar zxf $(PATCHED_TOOLS) -C $(TARGET_DIR)/amd64/sdk/tools
 	rm -rf $(foreach dir,$(EXCLUDES),$(TARGET_DIR)/*/$(dir))
 	chmod -R a+rX $(TARGET_DIR)
 	tar cjf $(PKG_NAME)_$(VERSION).orig.tar.bz2 $(TARGET_DIR)
