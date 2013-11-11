@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-define slaveapi::instance($listenaddr, $port, $version="1.0.1") {
+define slaveapi::instance($listenaddr, $port, $version="1.0.2") {
     include config
     include slaveapi::base
     include users::builder
@@ -55,6 +55,9 @@ define slaveapi::instance($listenaddr, $port, $version="1.0.1") {
                 "docopt==0.6.1",
                 "python-daemon==1.5.5",
                 "gevent_subprocess==0.1.1",
+                "furl==0.3.5"",
+                "orderedmultidict==0.7.1",
+                "pytz==2013.7",
                 "slaveapi==${version}",
             ];
     }
