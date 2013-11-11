@@ -27,7 +27,9 @@ class config inherits config::base {
     $puppetmaster_upstream_rsync_args = '--exclude=repos/apt'
     $puppetmaster_public_mirror_hosts = [ ]
     $puppetmaster_extsyncs = {
-        fake => { 'param1' => 1, 'param2' => 3 },
+        'slavealloc' => {
+            'slavealloc_api_url' => 'http://slavealloc.pvt.build.mozilla.org/api/',
+        },
     }
 
     $signer_username = 'relabssign'
