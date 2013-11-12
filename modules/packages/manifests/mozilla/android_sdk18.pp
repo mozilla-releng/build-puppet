@@ -6,9 +6,9 @@ class packages::mozilla::android_sdk18 {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                # Built from modules/packages/manifests/android-sdk18-debian
+                # Built from https://github.com/rail/android-sdk
                 'android-sdk18':
-                    ensure => '0.r18moz1-0moz1';
+                    ensure => '0.r18-0moz1';
             }
         }
 
