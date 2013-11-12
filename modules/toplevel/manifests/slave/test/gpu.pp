@@ -7,6 +7,14 @@ class toplevel::slave::test::gpu inherits toplevel::slave::test {
             on_gpu => true;
     }
 
-    # Android Emulators only work on gpu slaves
-    include androidemulator
+    case $::hardwaremodel {
+        # We only run Android x86 test jobs on
+        # the 64-bit gpu host machines
+        "x86_64": {
+            include packages::cpu-checker
+            include packages::qemu-kvm
+            include packages::bridge-utils
+            include androidemulator
+        }
+    }
 }
