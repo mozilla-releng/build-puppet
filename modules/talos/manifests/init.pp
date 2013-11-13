@@ -39,6 +39,7 @@ class talos {
                     include packages::cpu-checker
                     include packages::qemu-kvm
                     include packages::bridge-utils
+                    include androidemulator
                 }
             }
         }
