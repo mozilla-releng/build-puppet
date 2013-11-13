@@ -6,7 +6,4 @@ class toplevel::slave::test::gpu inherits toplevel::slave::test {
         gui:
             on_gpu => true;
     }
-
-    # Android Emulators only work on gpu slaves
-    include androidemulator
 }
