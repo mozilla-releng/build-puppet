@@ -1,0 +1,13 @@
+# JSON goes in, YAML comes out
+JSON2YAML='
+import json, yaml, sys
+def getfields(d):
+    # NOTE: do not include trustlevel here - slavealloc is unauthenticated and untrustworthy!
+    return dict(((f, d[f]) for f in ["environment"]))
+def to_dict(l):
+    return dict(((d["name"], getfields(d)) for d in l))
+yaml.safe_dump({"slavealloc_slaves":to_dict(json.load(sys.stdin))}, sys.stdout, explicit_start=True, default_flow_style=False)'
+SLAVEALLOC_API_URL="<%= @slavealloc_api_url %>"
+
+# fetch the JSON from slavealloc, convert to YAML, and send it to the output file
+curl "${SLAVEALLOC_API_URL}/slaves" | python -c "${JSON2YAML}" > "${OUTPUT}"

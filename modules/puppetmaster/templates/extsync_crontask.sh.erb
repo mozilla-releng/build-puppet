@@ -12,4 +12,5 @@ set -e
 <%= generation_script %>
 
 # success -- swap the file in atomically
+chmod a+r "${OUTPUT}"
 mv $OUTPUT /etc/hiera/<%= title %>.eyaml
