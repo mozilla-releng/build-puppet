@@ -33,4 +33,5 @@ class toplevel::base {
     include tweaks::rc_local
     include needs_reboot::motd
     include web_proxy
+    include collectd
 }

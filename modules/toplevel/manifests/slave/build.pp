@@ -33,5 +33,4 @@ class toplevel::slave::build inherits toplevel::slave {
             group => $users::builder::group;
     }
 
-    include collectd
 }
