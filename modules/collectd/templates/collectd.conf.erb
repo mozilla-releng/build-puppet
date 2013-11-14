@@ -26,6 +26,10 @@ Hostname    "<%= scope.lookupvar('::fqdn') %>"
 #----------------------------------------------------------------------------#
 Interval     <%= scope.lookupvar('collectd::settings::global_poll_interval') %>
 
+# Enables a queue size limit which drops metrics if unable to offload them
+WriteQueueLimitHigh <%= scope.lookupvar('collectd::settings::global_write_queue_limit_high') %>
+WriteQueueLimitLow <%= scope.lookupvar('collectd::settings::global_write_queue_limit_low') %>
+
 #Timeout      2
 #ReadThreads  5
 #WriteThreads 5
