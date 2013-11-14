@@ -29,6 +29,11 @@ class collectd::settings {
     $syslog_level = "info"
     $global_poll_interval = 60
 
+    # WriteQueueLimitHigh and WriteQueueLimitLow are set equal so metrics are not
+    # randomly dropped between the thresholds.
+    $global_write_queue_limit_high = 6000
+    $global_write_queue_limit_low = 6000
+
     case $::operatingsystem {
         'CentOS': {
             $servicename      = 'collectd'
