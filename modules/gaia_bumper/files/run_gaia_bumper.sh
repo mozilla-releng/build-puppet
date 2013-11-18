@@ -17,7 +17,7 @@ trap "rm -f $PWD/gaia_bumper.lock" EXIT
 
 # Get mozharness updated / checked out and working
 log "Updating mozharness"
-/usr/local/bin/hgtool.py -b production https://hg.mozilla.org/build/mozharness mozharness
+timeout 300 /usr/local/bin/hgtool.py -b production https://hg.mozilla.org/build/mozharness mozharness
 log "Running gaia bumper"
 python mozharness/scripts/bump_gaia_json.py -c gaia_bumper/gaia_json.py
 # Touch our timestamp file so nagios can check if we're fresh
