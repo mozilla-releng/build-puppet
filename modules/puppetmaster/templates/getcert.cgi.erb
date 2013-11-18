@@ -19,6 +19,9 @@ use Symbol qw( gensym );
 use Socket;
 use POSIX;
 
+# prevent buffering which sometimes causes broken email headers
+$| = 1;
+
 my $mailto = '<%= scope.lookupvar('::config::puppet_notif_email') %>';
 
 print "Content-Type: text/plain\n\n";
