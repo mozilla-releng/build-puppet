@@ -640,19 +640,19 @@ node "buildbot-master98.srv.releng.use1.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
-node "buildbot-master99.srv.releng.use1.mozilla.com" {
+node "buildbot-master99.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
-node "buildbot-master100.srv.releng.use1.mozilla.com" {
+node "buildbot-master100.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
-node "buildbot-master101.srv.releng.use1.mozilla.com" {
+node "buildbot-master101.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
-node "buildbot-master102.srv.releng.use1.mozilla.com" {
+node "buildbot-master102.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
