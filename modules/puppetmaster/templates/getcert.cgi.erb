@@ -18,7 +18,9 @@ use IPC::Open3;
 use Symbol qw( gensym );
 use Socket;
 use POSIX;
-use FileHandle;
+
+# prevent buffering which sometimes causes broken email headers
+$| = 1;
 
 my $mailto = '<%= scope.lookupvar('::config::puppet_notif_email') %>';
 
@@ -26,52 +28,45 @@ print "Content-Type: text/plain\n\n";
 
 $ENV{'PATH'} = '/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin';
 
-# IP addresses of machines allowed to generate arbitrary certificates
-my $manager_ips = [
-<% @manager_ips.each do |ip| -%>
-    qw/<%= ip %>/,
-<% end %>
-];
-# Allowed networks
+# first, find the hostname of the remote system.  Note that this does not use
+# any input from that system itself -- Apache sets this variable.
+my @ip_octets = ($ENV{'REMOTE_ADDR'} =~ /^(10)\.(\d+)\.(\d+)\.(\d+)/);
+die "invalid IP" unless @ip_octets;
+
+@ip_octets = map { $_+0 } @ip_octets;
+for (@ip_octets) {
+    die "invalid IP" if ($_ < 0 || $_ > 255);
+}
+
+my $ip = join(".", @ip_octets);
+
+# compare against the list of subnets in the network
 my $network_regexps = [
 <% @network_regexps.each do |regexp| -%>
     qr/<%= regexp %>/m,
 <% end %>
 ];
-# Allowed hostnames
-my $fqdn_regexps = [
-<% @fqdn_regexps.each do |regexp| -%>
-    qr/<%= regexp %>/m,
-<% end %>
-];
 
-my $ip;
-
-if ($ENV{'QUERY_STRING'}){
-    # Explicit certificate request
-    my $manager_ip = $ENV{'REMOTE_ADDR'};
-    die "$manager_ip is not allowed to generate certificates for other hosts" unless grep $_ eq $manager_ip, @$manager_ips;
-    $ip = $ENV{'QUERY_STRING'};
-    die "Other host must be specified by IP, $ip given" unless $ip =~ /^\d+\.\d+\.\d+\.\d+$/i;
-} else {
-    # first, find the IP of the remote system.  Note that this does not use any
-    # input from that system itself -- Apache sets this variable.
-    $ip = $ENV{'REMOTE_ADDR'};
+my $ok = 0;
+foreach my $regexp (@$network_regexps) {
+    if ($ip =~ /$regexp/) {
+        $ok = 1;
+        last;
+    }
 }
-inet_aton($ip) or die "Invalid IP: $ip";
+die "invalid IP" unless $ok;
+
 # convert to a hostname
-my $host = gethostbyaddr(inet_aton($ip), AF_INET) or die "cannot resolve $ip: $!";
+my $host = gethostbyaddr(inet_aton($ip), AF_INET);
+die "cannot resolve $ip" unless $host;
+die "$ip resolves to a non-mozilla.com address" unless ($host =~ /mozilla.com$/);
 
-die "refused IP: $ip" unless grep $ip =~ /$_/, @$network_regexps;
-die "refused FQDN: $host" unless grep $host =~ /$_/, @$fqdn_regexps;
-
-print "echo 'Certificate request for $host'\n";
+print "echo 'Resolved client IP $ip to hostname $host'\n";
 
 # start sending mail about this request, so that even if things crash, we still
 # get an email
 open(my $mail, '|-', '/bin/mail', '-s', "[PuppetAgain Changes] certificate generated for $host", $mailto)
     or die "error sending mail";
-$mail->autoflush(1);
 print $mail "Creating certificate for $host from ip $ip.\n";
 
 # generate the certs, sending stderr to $mail.  This script is run via sudo,

@@ -6,9 +6,7 @@ class puppetmaster::deploy {
     include puppetmaster::settings
     include packages::httpd
 
-    $manager_ips = secret('manager_ips')
     $network_regexps = secret('network_regexps')
-    $fqdn_regexps = secret('fqdn_regexps')
     $deployment_getcert_sh = "${puppetmaster::settings::puppetmaster_root}/ssl/scripts/deployment_getcert.sh"
 
     file {
