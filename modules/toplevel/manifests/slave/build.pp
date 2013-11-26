@@ -24,7 +24,6 @@ class toplevel::slave::build inherits toplevel::slave {
     include packages::mozilla::hgtool
     include packages::mozilla::gittool
     include packages::mozilla::retry
-    include packages::mozilla::google_api
 
     ccache::ccache_dir {
         "/builds/ccache":
@@ -33,4 +32,8 @@ class toplevel::slave::build inherits toplevel::slave {
             group => $users::builder::group;
     }
 
+    class {
+        'slave_secrets':
+            slave_type => 'build';
+    }
 }

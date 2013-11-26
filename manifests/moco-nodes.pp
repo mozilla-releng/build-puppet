@@ -19,22 +19,27 @@ node /foopy\d+.p\d+.releng.scl1.mozilla.com/ {
 ## testers
 
 node /talos-r4-snow-\d+.build.scl1.mozilla.com/ {
+    $slave_trustlevel = 'try'
     include toplevel::slave::test::gpu
 }
 
 node /talos-r4-lion-\d+.build.scl1.mozilla.com/ {
+    $slave_trustlevel = 'try'
     include toplevel::slave::test::gpu
 }
 
 node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
+    $slave_trustlevel = 'try'
     include toplevel::slave::test::gpu
 }
 
 node /t-mavericks-r5-\d+.test.releng.scl3.mozilla.com/ {
+    $slave_trustlevel = 'try'
     include toplevel::slave::test::gpu
 }
 
 node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
+    $slave_trustlevel = 'try'
     # Make sure we get our /etc/hosts set up
     class {
         "network::aws": stage => network,
@@ -43,6 +48,7 @@ node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
 }
 
 node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
+    $slave_trustlevel = 'try'
     # Make sure we get our /etc/hosts set up
     class {
         "network::aws": stage => network,
@@ -51,28 +57,54 @@ node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
 }
 
 node /talos-linux\d+-ix-\d+\.test\.releng\.scl3\.mozilla\.com/ {
+    $slave_trustlevel = 'try'
     include toplevel::slave::test::gpu
 }
 
 ## builders
 
-node /bld-linux64-ix-\d+.build.(scl1|mtv1).mozilla.com/ {
+node /bld-linux64-ix-0(\d+).build.(scl1|mtv1).mozilla.com/ {
+    # determine the slave's trustlevel from slavealloc; this case is only
+    # required in the "old" datacenters; in new datacenters, trustlevel is
+    # based on VLAN atom.
+    if $clientcert =~ /bld-linux64-ix-0(\d+).build.(scl1|mtv1).mozilla.com/ {
+        if $1 <= 26 {
+            # decommed
+        } elsif $1 <= 37 {
+            $slave_trustlevel = 'core'
+        } elsif $1 <= 53 {
+            $slave_trustlevel = 'try'
+        }
+    }
     include toplevel::slave::build::mock
 }
 
-node /bld-centos6-hp-\d+.build.(scl1|mtv1).mozilla.com/ {
+node /bld-centos6-hp-0*(\d+).build.scl1.mozilla.com/ {
+    # determine the slave's trustlevel from slavealloc; this case is only
+    # required in the "old" datacenters; in new datacenters, trustlevel is
+    # based on VLAN atom.
+    if $clientcert =~ /bld-centos6-hp-0*(\d+).build.scl1.mozilla.com/ {
+        if $1 <= 19 {
+            $slave_trustlevel = 'core'
+        } elsif $1 <= 42 {
+            $slave_trustlevel = 'try'
+        }
+    }
     include toplevel::slave::build::mock
 }
 
-node /b-linux64-hp-\d+.build.(scl1|mtv1).mozilla.com/ {
-    include toplevel::slave::build::mock
-}
-
-node /bld-lion-r5-\d+.(try|build).releng.scl3.mozilla.com/ {
+node /bld-lion-r5-\d+.try.releng.scl3.mozilla.com/ {
+    $slave_trustlevel = 'try'
     include toplevel::slave::build::standard
 }
 
-node /(bld|try|dev)-.*\.build\.aws-.*\.mozilla\.com/ {
+node /bld-lion-r5-\d+.build.releng.scl3.mozilla.com/ {
+    $slave_trustlevel = 'core'
+    include toplevel::slave::build::standard
+}
+
+node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
+    $slave_trustlevel = 'core'
     # Make sure we get our /etc/hosts set up
     class {
         "network::aws": stage => network,
@@ -80,7 +112,18 @@ node /(bld|try|dev)-.*\.build\.aws-.*\.mozilla\.com/ {
     include toplevel::slave::build::mock
 }
 
-node /(bld|try|dev)-.*\.(build|try|dev)\.releng\.(use1|usw2)\.mozilla.com/ {
+node /try-.*\.try\.releng\.(use1|usw2)\.mozilla.com/ {
+    $slave_trustlevel = 'try'
+    # Make sure we get our /etc/hosts set up
+    class {
+        "network::aws": stage => network,
+    }
+    include toplevel::slave::build::mock
+}
+
+node /dev-.*\.dev\.releng\.(use1|usw2)\.mozilla.com/ {
+    # dev-* hosts are *always* staging
+    $slave_trustlevel = 'try'
     # Make sure we get our /etc/hosts set up
     class {
         "network::aws": stage => network,

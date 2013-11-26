@@ -10,6 +10,7 @@
 #
 
 class buildmaster::base {
+    include config
     include users::builder
     include nrpe::check::mysql
     include nrpe::check::ntp_time
@@ -45,5 +46,9 @@ class buildmaster::base {
     nrpe::custom {
         "buildbot.cfg":
             content => template("buildmaster/buildbot.cfg.erb"),
+    }
+
+    buildmaster::ssh_key {
+        $::config::buildmaster_ssh_keys: ;
     }
 }

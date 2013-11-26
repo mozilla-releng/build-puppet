@@ -34,4 +34,6 @@ class config inherits config::base {
     $buildbot_configs_branch = "seamonkey-production"
     $buildbotcustom_branch = "seamonkey-production"
     $buildbot_mail_to = "seamonkey-release@mozilla.org"
+
+    $buildmaster_ssh_keys = ['seabld_dsa', 'id_dsa']
 }
