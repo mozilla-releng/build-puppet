@@ -9,15 +9,8 @@ class androidemulator::x86 {
         Ubuntu: {
 	    # We want it on Ubuntu
 	    file {
-	        "${::users::builder::home}/avds":
-                    ensure => directory,
-                    owner => "$users::builder::username",
-                    group => "$users::builder::group",
-                    mode => 0755;
 	        "${::users::builder::home}/avds/test-x86.tar.gz":
-		    source => "puppet:///repos/private/avds/test-x86-aug6.tar.gz",
-		    owner  => $users::builder::username,
-		    group  => $users::builder::group;
+                    ensure => absent;
 	    }
 	}
     }
