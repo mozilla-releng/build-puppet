@@ -273,6 +273,7 @@ node "buildbot-master62.srv.releng.use1.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster
+    include selfserve_agent
 }
 
 node "buildbot-master63.srv.releng.use1.mozilla.com" {
@@ -303,6 +304,7 @@ node "buildbot-master65.srv.releng.usw2.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster
+    include selfserve_agent
 }
 
 node "buildbot-master66.srv.releng.usw2.mozilla.com" {
