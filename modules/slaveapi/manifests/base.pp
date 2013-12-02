@@ -14,6 +14,8 @@ class slaveapi::base {
     include packages::openipmi
     include packages::snmp
 
+    include nrpe::check::procs_regex
+
     $compiler_req = Class['packages::gcc']
 
     $root = "/builds/slaveapi"
