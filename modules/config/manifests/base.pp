@@ -237,9 +237,4 @@ class config::base {
     # username to access IMPI interfaces on suitable hosts
     $slaveapi_ipmi_username = "releng"
 
-    # AVDs
-
-    # "yes" to install 'em, "no" to not do so.  See bug 913011
-    $install_avds = "no"
-
 }
