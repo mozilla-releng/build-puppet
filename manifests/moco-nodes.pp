@@ -123,6 +123,12 @@ node /releng-puppet\d\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
     include toplevel::server::puppetmaster
 }
 
+## Misc servers
+
+node "aws-manager1.srv.releng.scl3.mozilla.com" {
+    include toplevel::server
+}
+
 ## slaveapi
 
 node "slaveapi1.srv.releng.scl3.mozilla.com" {
