@@ -664,11 +664,6 @@ node "buildbot-master102.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
-# temporary node defs for vcssync hosts
-node /vcssync[1-2].srv.releng.usw2.mozilla.com/ {
-    include toplevel::server
-}
-
 # Package Builders
 
 node "ubuntu64packager1.srv.releng.use1.mozilla.com" {
