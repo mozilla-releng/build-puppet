@@ -6,8 +6,10 @@ class config inherits config::base {
     $org = "moco"
 
     $puppet_notif_email = "releng-shared@mozilla.com"
-    $puppet_server_reports = "tagmail,http"
-    $puppet_server_reporturl = "http://puppetdash.pvt.build.mozilla.org/reports/upload"
+    $puppet_server_reports = "tagmail"
+    ## disabled temporarily - bug 856017
+    #$puppet_server_reports = "tagmail,http"
+    #$puppet_server_reporturl = "http://puppetdash.pvt.build.mozilla.org/reports/upload"
     $builder_username = "cltbld"
 
     # we use the sort_servers_by_group function to sort the list of servers, and then just use
