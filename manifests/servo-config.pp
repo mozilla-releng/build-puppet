@@ -7,7 +7,9 @@ class config inherits config::base {
 
     $puppet_notif_email = "releng-shared@mozilla.com"
     $puppet_server_reports = "tagmail,http"
-    $puppet_server_reporturl = "http://puppetdash.pvt.build.mozilla.org/reports/upload"
+    $puppet_server_reporturl = "http://foreman.pvt.build.mozilla.org:3001/"
+    $puppet_server_facturl = "http://foreman.pvt.build.mozilla.org:3000/"
+
     $builder_username = "servobld"
 
     $puppet_servers = [
