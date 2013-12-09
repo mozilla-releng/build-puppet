@@ -24,6 +24,28 @@ class pkgbuilder {
                 'precise-amd64': ;
             }
         }
+        CentOS: {
+            include packages::mock
+
+            # add all admin_users to the mock group.  Puppet's group provider can't handle
+            # this, and building an augeas script from an array of usernames would require
+            # custom functions.  But sed can do it!
+            $users = join($config::admin_users, ",")
+            exec {
+                'mock-group':
+                    require => Class['packages::mock'],
+                    command => "/bin/sed -i -e '/^mock:/s/^\(mock:[^:]*:[^:]*:\).*/\1$users/' /etc/group";
+            }
+
+            file {
+                "/etc/mock":
+                    ensure => directory,
+                    recurse => true,
+                    force => true,
+                    purge => true,
+                    source => "puppet:///modules/${module_name}/mock-config";
+            }
+        }
         default: {
             fail("pkgbuilder is not spuported on $operatingsystem")
         }
