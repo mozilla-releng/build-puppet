@@ -670,6 +670,10 @@ node "ubuntu64packager1.srv.releng.use1.mozilla.com" {
     include toplevel::server::pkgbuilder
 }
 
+node "centospackager1.srv.releng.use1.mozilla.com" {
+    include toplevel::server::pkgbuilder
+}
+
 # Loaners
 
 node "talos-linux64-ix-001.test.releng.scl3.mozilla.com" {
