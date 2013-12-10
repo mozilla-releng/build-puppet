@@ -670,7 +670,7 @@ node "ubuntu64packager1.srv.releng.use1.mozilla.com" {
     include toplevel::server::pkgbuilder
 }
 
-node "centospackager1.srv.releng.use1.mozilla.com" {
+node "rpmpackager1.srv.releng.use1.mozilla.com" {
     include toplevel::server::pkgbuilder
 }
 
