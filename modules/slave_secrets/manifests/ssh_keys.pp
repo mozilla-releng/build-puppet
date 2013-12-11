@@ -53,6 +53,9 @@ class slave_secrets::ssh_keys($slave_type) {
                                 }
                             }
                         }
+                        none: {
+                            $keyset = {}
+                        }
                         default: {
                             fail("unknown slavealloc environment ${environment}")
                         }

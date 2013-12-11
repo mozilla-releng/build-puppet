@@ -19,10 +19,11 @@ module Puppet::Parser::Functions
 
     slavealloc_slaves = function_hiera(['slavealloc_slaves', {}])
     if ! slavealloc_slaves.has_key? hostname
-      raise Puppet::Error, "#{hostname.inspect} not found in slavealloc data"
+      Puppet.warning("#{hostname.inspect} not found in slavealloc data; defaulting environment to 'none'")
+      'none'
+    else
+      slave_info = slavealloc_slaves[hostname]
+      slave_info['environment']
     end
-    slave_info = slavealloc_slaves[hostname]
-
-    slave_info['environment']
   end
 end
