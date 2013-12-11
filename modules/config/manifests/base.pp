@@ -143,6 +143,8 @@ class config::base {
 
     # the username under which all building and testing operations take place
     $builder_username = 'cltbld'
+    # true if secret("google_api_key") should be installed at /builds/gapi.key
+    $install_google_api_key = false
 
     # signingserver
 
@@ -173,6 +175,11 @@ class config::base {
     # URL for masters.json (note the confusion about plurality!), listing all masters
     # used by buildmaster
     $master_json = ""
+    # a list of ssh key names that should exist on every buildmaster.  This
+    # list contains bare key names (e.g., caminobld_dsa), while the
+    # corresponding secrets have a "buildmaster_ssh_key_" prefix, e.g.,
+    # buildmaster_ssh_key_caminobld_dsa.
+    $buildmaster_ssh_keys = []
 
     # releaserunner
 

@@ -28,7 +28,11 @@ define ssh::userconfig($home='', $config='', $group='',
             ensure => directory,
             mode => filemode(0700),
             owner => $username,
-            group => $group_;
+            group => $group_,
+            purge => true,
+            recurse => true,
+            force => true,
+            backup => false;
     }
     if ($authorized_keys_allows_extras) {
         # to allow extras, set this up with concat

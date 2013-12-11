@@ -9,4 +9,8 @@ class toplevel::slave::test inherits toplevel::slave {
     include packages::fonts
     include tweaks::fonts
     include tweaks::cleanup
+    class {
+        'slave_secrets':
+            slave_type => 'test';
+    }
 }

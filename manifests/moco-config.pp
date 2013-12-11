@@ -11,6 +11,7 @@ class config inherits config::base {
     $puppet_server_facturl = "http://foreman.pvt.build.mozilla.org:3000/"
 
     $builder_username = "cltbld"
+    $install_google_api_key = true
 
     # we use the sort_servers_by_group function to sort the list of servers, and then just use
     # the first as the primary server
@@ -205,6 +206,7 @@ class config inherits config::base {
     $slaveapi_ipmi_username = "releng"
     $slaveapi_bugzilla_dev_url = "https://bugzilla-dev.allizom.org/rest/"
     $slaveapi_bugzilla_prod_url = "https://bugzilla.mozilla.org/rest/"
+
     $selfserve_agent_sendchange_master = "bm81-build_scheduler"
     $selfserve_agent_branches_json = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-branches.json"
     $selfserve_agent_masters_json = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
@@ -214,4 +216,6 @@ class config inherits config::base {
     $selfserve_agent_carrot_userid = "buildapi"
     $selfserve_agent_carrot_exchange = "buildapi.control"
     $selfserve_agent_carrot_queue = "buildapi-agent-rabbit2"
+
+    $buildmaster_ssh_keys = [ 'b2gbld_dsa', 'b2gtry_dsa', 'ffxbld_dsa', 'tbirdbld_dsa', 'trybld_dsa', 'xrbld_dsa' ]
 }
