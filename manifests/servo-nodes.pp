@@ -6,6 +6,7 @@
 
 node /servo-.*\.build\.servo\.aws-.*\.mozilla\.com/ {
     # Make sure we get our /etc/hosts set up
+    $slave_trustlevel = "prod"
     class {
         "network::aws": stage => network,
     }
@@ -14,6 +15,7 @@ node /servo-.*\.build\.servo\.aws-.*\.mozilla\.com/ {
 
 node /servo-.*\.build\.servo\.releng\.(use1|usw2)\.mozilla.com/ {
     # Make sure we get our /etc/hosts set up
+    $slave_trustlevel = "prod"
     class {
         "network::aws": stage => network,
     }
@@ -21,6 +23,7 @@ node /servo-.*\.build\.servo\.releng\.(use1|usw2)\.mozilla.com/ {
 }
 
 node /servo-lion-r5-\d+\.build\.servo\.releng\.scl3\.mozilla\.com/ {
+    $slave_trustlevel = "prod"
     include toplevel::slave::build::standard
 }
 
