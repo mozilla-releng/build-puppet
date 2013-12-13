@@ -605,9 +605,14 @@ node "buildbot-master87.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster
 }
 
-# temporary node def for this host
 node "buildbot-master88.srv.releng.scl3.mozilla.com" {
-    include toplevel::server
+    buildmaster::buildbot_master::mozilla {
+        "bm88-tests1-tegra":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-tegra";
+    }
+    include toplevel::server::buildmaster
 }
 
 node "buildbot-master89.srv.releng.scl3.mozilla.com" {
@@ -711,18 +716,42 @@ node "buildbot-master98.srv.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master99.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm99-tests1-tegra":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-tegra";
+    }
     include toplevel::server::buildmaster
 }
 
 node "buildbot-master100.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm100-tests1-panda":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-panda";
+    }
     include toplevel::server::buildmaster
 }
 
 node "buildbot-master101.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm101-tests1-panda":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-panda";
+    }
     include toplevel::server::buildmaster
 }
 
 node "buildbot-master102.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm102-tests1-panda":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-panda";
+    }
     include toplevel::server::buildmaster
 }
 
