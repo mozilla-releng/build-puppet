@@ -57,6 +57,9 @@ class config::base {
     # the URL at which puppet facts are sent to Foreman
     $puppet_server_facturl = ""
 
+    # the hostname of a centralized syslog server puppetmasters should forward to
+    $puppetmaster_syslog_server = ""
+
     ##
     ## packages and data
     ##

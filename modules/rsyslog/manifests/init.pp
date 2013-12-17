@@ -18,7 +18,10 @@ class rsyslog {
                     notify => Service["rsyslog"];
                 "/etc/rsyslog.d/":
                     ensure => directory,
-                    notify => Service["rsyslog"];
+                    notify => Service["rsyslog"],
+                    recurse => true,
+                    purge => true,
+                    force => true;
             }
         }
     }

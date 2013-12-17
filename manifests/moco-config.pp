@@ -53,6 +53,7 @@ class config inherits config::base {
             'slavealloc_api_url' => 'http://slavealloc.pvt.build.mozilla.org/api/',
         },
     }
+    $puppetmaster_syslog_server = "syslog1.private.scl3.mozilla.com"
 
     $user_python_repositories = [ "http://pypi.pvt.build.mozilla.org/pub", "http://pypi.pub.build.mozilla.org/pub" ]
 
