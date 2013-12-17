@@ -1,6 +1,5 @@
-# Generated from hiera-eyaml-1.1.4.gem by gem2rpm -*- rpm-spec -*-
 %define rbname hiera-eyaml
-%define version 1.1.4
+%define version 2.0.0
 %define release 1
 
 Summary: OpenSSL Encryption backend for Hiera
@@ -48,23 +47,14 @@ rmdir %{gembuilddir}/bin
 %files
 %defattr(-, root, root)
 %{_bindir}/eyaml
-%{_bindir}/regem.sh
-%{gemdir}/gems/hiera-eyaml-1.1.4/.gitignore
-%{gemdir}/gems/hiera-eyaml-1.1.4/Gemfile
-%{gemdir}/gems/hiera-eyaml-1.1.4/Gemfile.lock
-%{gemdir}/gems/hiera-eyaml-1.1.4/LICENSE.txt
-%{gemdir}/gems/hiera-eyaml-1.1.4/README.md
-%{gemdir}/gems/hiera-eyaml-1.1.4/Rakefile
-%{gemdir}/gems/hiera-eyaml-1.1.4/bin/eyaml
-%{gemdir}/gems/hiera-eyaml-1.1.4/bin/regem.sh
-%{gemdir}/gems/hiera-eyaml-1.1.4/hiera-eyaml.gemspec
-%{gemdir}/gems/hiera-eyaml-1.1.4/keys/.keepme
-%{gemdir}/gems/hiera-eyaml-1.1.4/lib/hiera/backend/eyaml_backend.rb
-%{gemdir}/gems/hiera-eyaml-1.1.4/lib/hiera/backend/version.rb
+%{gemdir}/gems/hiera-eyaml-%{version}
 
 
-%doc %{gemdir}/doc/hiera-eyaml-1.1.4
-%{gemdir}/cache/hiera-eyaml-1.1.4.gem
-%{gemdir}/specifications/hiera-eyaml-1.1.4.gemspec
+%doc %{gemdir}/doc/hiera-eyaml-%{version}
+%{gemdir}/cache/hiera-eyaml-%{version}.gem
+%{gemdir}/specifications/hiera-eyaml-%{version}.gemspec
 
 %changelog
+
+* Tue Dec 17 2013 Dustin J. Mitchell <dustin@mozilla.com> 2.0.0
+- Update to 2.0.0

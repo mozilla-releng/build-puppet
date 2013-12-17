@@ -7,7 +7,7 @@ class packages::mozilla::hiera_eyaml {
             package {
                 # this gem requires rubygem-trollop and rubygem-highline
                 "rubygem-hiera-eyaml":
-                    ensure => latest;
+                    ensure => '2.0.0-1';
             }
         }
         default: {
