@@ -16,6 +16,11 @@ class puppetmaster::hiera {
             content => template("puppetmaster/hiera.yaml.erb"),
             require => Class['packages::mozilla::hiera_eyaml'], # otherwise httpd won't see it
             notify => Service['httpd'];
+        # include a symlink so the 'hiera' command line tool finds the same config
+        "/etc/hiera.yaml":
+            ensure => symlink,
+            target => "/etc/puppet/hiera.yaml";
+
         [ "/etc/hiera", "/etc/hiera/keys", "/etc/hiera/environments" ]:
             ensure => directory,
             owner => puppet,
