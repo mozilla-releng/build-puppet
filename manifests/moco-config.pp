@@ -211,7 +211,7 @@ class config inherits config::base {
     $selfserve_agent_branches_json = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-branches.json"
     $selfserve_agent_masters_json = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
     $selfserve_agent_clobberer_url = "http://clobberer.pvt.build.mozilla.org/index.php"
-    $selfserve_agent_carrot_hostname = "rabbit2.build.scl1.mozilla.com"
+    $selfserve_agent_carrot_hostname = "releng-rabbitmq-zlb.webapp.scl3.mozilla.com"
     $selfserve_agent_carrot_vhost = "/buildapi"
     $selfserve_agent_carrot_userid = "buildapi"
     $selfserve_agent_carrot_exchange = "buildapi.control"
