@@ -195,8 +195,7 @@ class config inherits config::base {
     $releaserunner_production_masters = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
     $releaserunner_sendchange_master = "buildbot-master81.build.mozilla.org:9301"
     $releaserunner_ssh_username = "cltbld"
-    $releaserunner_ssh_key = "/home/cltbld/.ssh/release-runner"
-    
+
     $slaveapi_slavealloc_url = "http://slavealloc.build.mozilla.org/api/"
     $slaveapi_inventory_url = "http://inventory.mozilla.org/en-US/tasty/v3/"
     $slaveapi_inventory_username = "releng-inventory-automation"

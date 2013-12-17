@@ -21,7 +21,7 @@ staging: false
 verbose: true
 sleeptime: 30
 ssh_username: <%= scope.lookupvar('config::releaserunner_ssh_username') %>
-ssh_key: <%= scope.lookupvar('config::releaserunner_ssh_key') %>
+ssh_key: <%= scope.lookupvar('users::builder::home') %>/.ssh/release-runner
 
 [symlinks]
 production_config.py: {buildbot_configs}/mozilla/localconfig.py
