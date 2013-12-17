@@ -45,6 +45,12 @@ class releaserunner {
             group   => "${users::builder::group}",
             content => template("releaserunner/release-runner.ini.erb"),
             show_diff => false;
+        "${users::builder::home}/.ssh/release-runner":
+            mode      => 0600,
+            owner     => "${users::builder::username}",
+            group     => "${users::builder::group}",
+            content   => secret('releaserunner_ssh_key'),
+            show_diff => false;
     }
 
     mercurial::repo {
@@ -55,5 +61,4 @@ class releaserunner {
             user    => "${users::builder::username}",
             branch  => "${config::releaserunner_tools_branch}",
     }
-
 }

@@ -195,7 +195,6 @@ class config::base {
     # ssh username and (hand-installed) key to use to login to all buildmasters
     # and perform updates and reconfigs
     $releaserunner_ssh_username = ""
-    $releaserunner_ssh_key = ""
     # URL for masters.json, defaulting to $master_json from above
     $releaserunner_production_masters = $master_json
     # mercurial repository and branch for buildbot-configs
