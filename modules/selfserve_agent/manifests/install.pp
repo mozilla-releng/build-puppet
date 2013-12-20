@@ -37,7 +37,7 @@ class selfserve_agent::install {
                 "WebTest==1.2.3",
                 "amqplib==0.6.1",
                 "anyjson==0.3",
-                "buildapi==0.1.1",
+                "buildapi==0.1.2",
                 "buildbot==0.8.4-pre-moz1",
                 "carrot==0.10.7",
                 "decorator==3.3.1",
