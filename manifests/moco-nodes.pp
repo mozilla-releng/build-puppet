@@ -173,15 +173,15 @@ node /releng-puppet\d\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
 
 ## casper imaging servers
 
-node /casper-fs-\d+\.srv\.releng\.mozilla\.com/ {
+node /casper-fs-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server
 }
 
-node /casper-jss-\d+\.srv\.releng\.mozilla\.com/ {
+node /casper-jss-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server
 }
 
-node /casper-netboot-\d+\.srv\.releng\.mozilla\.com/ {
+node /casper-netboot-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server
 }
 
