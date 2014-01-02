@@ -18,7 +18,6 @@
 # It also copies out the concatfragments.sh file to ${concatdir}/bin
 #
 class concat::setup {
-  include packages::diffutils # for cmp, used by concatfragments.sh
   $id = $::id
   $root_group = $id ? {
     root    => 0,
