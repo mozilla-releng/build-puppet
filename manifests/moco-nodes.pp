@@ -4,6 +4,10 @@
 
 ## foopies
 
+node /foopy\d+.tegra.releng.scl3.mozilla.com/ {
+    include toplevel::server::foopy
+}
+
 node /foopy\d+.build.mtv1.mozilla.com/ {
     include toplevel::server::foopy
 }
