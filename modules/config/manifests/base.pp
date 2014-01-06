@@ -246,4 +246,14 @@ class config::base {
     # username to access IMPI interfaces on suitable hosts
     $slaveapi_ipmi_username = "releng"
 
+    # slaverebooter
+    $slaverebooter_mail_to = "nobody@mozilla.com"
+    $slaverebooter_root = "/builds/slaverebooter"
+
+    # mercurial repo and branch for tools
+    $slaverebooter_tools = "http://hg.mozilla.org/build/tools"
+    $slaverebooter_tools_branch = "default"
+
+    # slaveapi instance that slaverebooter should talk to.
+    $slaverebooter_slaveapi = ""
 }
