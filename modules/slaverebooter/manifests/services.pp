@@ -1,8 +1,10 @@
 class slaverebooter::services {
     include ::config
+    include users::builder
     include slaverebooter::settings
     include packages::procmail # for lockfile
 
+    $owner = $users::builder::username
     $basedir = $slaverebooter::settings::root
     $config = $slaverebooter::settings::config
     file {
