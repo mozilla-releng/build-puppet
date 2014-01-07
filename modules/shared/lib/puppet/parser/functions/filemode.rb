@@ -6,11 +6,11 @@ module Puppet::Parser::Functions
   newfunction(:filemode, :type => :rvalue, :arity => 1) do |args|
     mode = Integer(args[0])
 
-    # on windows, the group bits always turn out the same as the user bits,
-    # so set them that way on input.  See https://projects.puppetlabs.com/issues/22051
+    # on windows, we just don't manage file permissions with mode bits.  It doesn't work.
     if lookupvar("::operatingsystem") == "windows" then
-      mode = (mode & ~0070) | ((mode & 0700) >> 3)
+        :undef
+    else
+        args[0]
+        end
+      end
     end
-    mode
-  end
-end

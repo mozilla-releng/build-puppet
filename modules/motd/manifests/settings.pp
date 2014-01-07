@@ -4,7 +4,7 @@
 
 class motd::settings {
     $motd_file = $::operatingsystem ? {
-        Windows => 'c:/windows/motd.txt',
+        Windows => "C:/Program Files/kts/scripts/MOTD.txt",
         default => '/etc/motd',
     }
 }

@@ -10,8 +10,6 @@ class users::builder {
         'users::builder::begin': ;
         'users::builder::end': ;
     }
-
-    ##
     # public variables used by other modules
 
     $username = $::config::builder_username
@@ -30,6 +28,7 @@ class users::builder {
     # calculate the proper homedir
     $home = $::operatingsystem ? {
         Darwin => "/Users/$username",
+        Windows => "C:/Users/$username",
         default => "/home/$username"
     }
 

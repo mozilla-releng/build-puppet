@@ -16,15 +16,26 @@ define python::user_pip_conf($homedir='', $group='') {
 
     # for the template
     $user_python_repositories = $config::user_python_repositories
-
-    file {
-        "$homedir_/.pip":
-            ensure => directory,
-            owner => $user,
-            group => $group_;
-        "$homedir_/.pip/pip.conf":
-            content => template("python/user-pip-conf.erb"),
-            owner => $user,
-            group => $group_;
+    case $operatingsystem {
+            windows: {
+                file {
+                    "$homedir_/.pip":
+                        ensure => directory;
+                    "$homedir_/.pip/pip.conf":
+                        content => template("python/user-pip-conf.erb");
+                }
+            }
+            default: {
+                file {
+                    "$homedir_/.pip":
+                        ensure => directory,
+                        owner => $user,
+                        group => $group_;
+                    "$homedir_/.pip/pip.conf":
+                        content => template("python/user-pip-conf.erb"),
+                        owner => $user,
+                        group => $group_;
+                    }
+            }
     }
 }

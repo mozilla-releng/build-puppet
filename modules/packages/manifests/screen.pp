@@ -13,7 +13,7 @@ class packages::screen {
             # installed by default
         }
         Windows: {
-            # TODO-WIN: add support
+            fail("Screen is not supportable on Windows")
         }
         default: {
             fail("cannot install on $::operatingsystem")
