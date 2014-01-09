@@ -105,6 +105,14 @@ class disableservices::common {
                     value => "0",
                     require => Class['users::builder'];
             }
+	    osxutils::defaults {
+	    # set the global preference to not restart apps open before reboot
+	        'disable-relaunch-apps':
+		    domain => "/Library/Preferences/com.apple.loginwindow",
+                    key => "LoginwindowLaunchesRelaunchApps",
+                    value => "0",
+                    require => Class['users::builder'];
+	    }
             file {
                 "/var/lib/puppet/.indexing-disabled" :
                     content => "indexing-disabled",
