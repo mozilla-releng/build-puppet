@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # /etc/profile.puppet.d is puppet-managed, so run any # scripts in there
-for i in /etc/profile.puppet.d/*.sh ; do
+for i in <%= scope.lookupvar('::shellprofile::settings::profile_puppet_d') %>/*.sh ; do
     if [ -r "$i" ]; then
         if [ "${-#*i}" != "$-" ]; then
             . "$i"

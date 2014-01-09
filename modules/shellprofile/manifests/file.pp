@@ -3,16 +3,13 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 define shellprofile::file($content) {
     include shellprofile::base
+    include shellprofile::settings
     include users::root
 
-    case ($::operatingsystem) {
-        CentOS: {
-            file {
-                "/etc/profile.puppet.d/${title}.sh":
-                    owner => $users::root::username,
-                    group => $users::root::group,
-                    content => "${content}\n";
-            }
-        }
+    file {
+	"${::shellprofile::settings::profile_puppet_d}/${title}.sh":
+	    owner => $users::root::username,
+	    group => $users::root::group,
+	    content => "${content}\n";
     }
 }
