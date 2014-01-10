@@ -21,7 +21,7 @@ class shellprofile::base {
 	    owner => $users::root::username,
 	    group => $users::root::group,
 	    mode => 0755,
-	    content => template("shellprofile/puppetdir.sh");
+	    content => template("shellprofile/puppetdir.sh.erb");
     }
 
     case ($::operatingsystem) {
