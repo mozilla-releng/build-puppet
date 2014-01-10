@@ -12,7 +12,6 @@ class slave_secrets::ssh_keys($slave_type) {
             $staging_keyset = {
                 'trybld_dsa' => 'builder_ssh_key_staging_trybld_dsa',
                 'b2gtry_dsa' => 'builder_ssh_key_staging_b2gbld_dsa',
-                'auspush' => 'builder_ssh_key_staging_auspush',
                 'ffxbld_dsa' => 'builder_ssh_key_staging_ffxbld_dsa',
                 'xrbld_dsa' => 'builder_ssh_key_staging_xrbld_dsa',
                 'tbirdbld_dsa' => 'builder_ssh_key_staging_tbirdbld_dsa',
@@ -23,7 +22,6 @@ class slave_secrets::ssh_keys($slave_type) {
                 'b2gtry_dsa' => 'builder_ssh_key_try_b2gtry_dsa',
             }
             $prod_core_keyset = {
-                'auspush' => 'builder_ssh_key_prod_auspush',
                 'ffxbld_dsa' => 'builder_ssh_key_prod_ffxbld_dsa',
                 'xrbld_dsa' => 'builder_ssh_key_prod_xrbld_dsa',
                 'tbirdbld_dsa' => 'builder_ssh_key_prod_tbirdbld_dsa',
