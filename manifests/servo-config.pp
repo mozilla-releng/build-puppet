@@ -51,7 +51,6 @@ class config inherits config::base {
         'jhopkins',
         'jlund',
         'jmoffitt',
-        'joduinn',
         'jpech',
         'jratford',
         'jstevensen',
