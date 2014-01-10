@@ -8,41 +8,11 @@ class users::global {
         'users::global::end': ;
     }
 
-    # set the bash prompt
-    $profile_d = $::operatingsystem ? {
-        Windows => 'c:/windows/profile.d',
-        default => '/etc/profile.d',
-    }
-    file {
-        "${profile_d}":
-            ensure => directory,
-            owner => $users::root::username,
-            group => $users::root::group;
-        "${profile_d}/ps1.sh":
-            content => template("${module_name}/ps1.sh.erb"),
-            owner => $users::root::username,
-            group => $users::root::group;
-    }
-    case ($::operatingsystem) {
-        CentOS: {
-            # profile.d actually works out of the box
-        }
-        Ubuntu: {
-            # ~root/.bashrc is patched in users::root::setup
-        }
-        Darwin: {
-            file {
-                # patch /etc/profile to run /etc/profile.d/*.sh
-                "/etc/profile":
-                    source => "puppet:///modules/users/darwin-profile";
-            }
-        }
-        Windows: {
-            # TODO: add support to set PS1 on Windows
-        }
-        default: {
-            fail("don't know how to set PS1 on this operating system")
-        }
+    shellprofile::file {
+        "ps1":
+	    content => template("${module_name}/ps1.sh.erb");
+	"timeout":
+	    content => "export TMOUT=86400";  # Shells timeout after 1 day
     }
 
     # put some basic information in /etc/motd
@@ -60,5 +30,12 @@ class users::global {
             "administrator":
                 ensure => absent;
         }
+    }
+    
+    # XXX Obsolete - No longer installed in profile.d/*
+    include shellprofile::settings
+    file {
+        "${::shellprofile::settings::profile_d}/ps1.sh":
+	    ensure => absent;
     }
 }
