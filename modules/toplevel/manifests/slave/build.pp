@@ -24,6 +24,7 @@ class toplevel::slave::build inherits toplevel::slave {
     include packages::mozilla::hgtool
     include packages::mozilla::gittool
     include packages::mozilla::retry
+    include packages::patch
 
     ccache::ccache_dir {
         "/builds/ccache":
