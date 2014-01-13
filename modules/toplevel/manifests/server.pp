@@ -10,6 +10,12 @@ class toplevel::server inherits toplevel::base {
     include smarthost
     include cron
     include disableservices::server
+    
+    # this include is temporary and removes ganglia from moco systems - see bug 956901
+    if $::operatingsystem == 'CentOS' {
+        include ganglia
+    }
+
     include nrpe
     include nrpe::check::puppet_agent
     include packages::strace
