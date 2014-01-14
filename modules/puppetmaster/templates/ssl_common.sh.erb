@@ -93,13 +93,20 @@ revoke_leaf_cert() {
 run_revocations() {
     local need_crl=false
     local to_revoke
+    local tempfile=$(mktemp)
 
     ( cd "${my_revocation_requests_dir}" && ls -1 ) | \
     while read to_revoke; do
-        openssl ca -revoke "${my_revocation_requests_dir}/${to_revoke}" -config "${ca_dir}/openssl.conf" 2>/dev/null
-        rm_file_from_git "revocation-requests/${fqdn}/${to_revoke}" "revoke ${to_revoke}"
-        need_crl=true
+        if openssl ca -revoke "${my_revocation_requests_dir}/${to_revoke}" -config "${ca_dir}/openssl.conf" 2>${tempfile}; then
+            rm_file_from_git "revocation-requests/${fqdn}/${to_revoke}" "revoke ${to_revoke}"
+            need_crl=true
+        else
+            echo "==== revocation of ${to_revoke} failed:"
+            cat "${tempfile}"
+            # continue looping, so we don't fail to generate the CRL if it's time
+        fi
     done
+    rm -f "${tempfile}"
 
     # check the date on the CRL, regenerting if it's over a day old
     if [ ! -f "${master_ca_crl}" ]; then
