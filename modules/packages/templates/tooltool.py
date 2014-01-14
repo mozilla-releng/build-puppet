@@ -27,6 +27,13 @@ import optparse
 import logging
 import hashlib
 import urllib2
+import shutil
+import sys
+import tempfile
+import re
+
+DEFAULT_MANIFEST_NAME = 'manifest.tt'
+TOOLTOOL_PACKAGE_SUFFIX = '.TOOLTOOL-PACKAGE'
 
 try:
     import simplejson as json  # I hear simplejson is faster
@@ -63,6 +70,9 @@ class FileRecord(object):
 
     def __init__(self, filename, size, digest, algorithm):
         object.__init__(self)
+        if filename != os.path.split(filename)[1]:
+            log.error("The filename provided contains path information and is, therefore, invalid.")
+            raise ExceptionWithFilename(filename=filename)
         self.filename = filename
         self.size = size
         self.digest = digest
@@ -335,7 +345,7 @@ def validate_manifest(manifest_file):
 
 
 # TODO: write tests for this function
-def add_files(manifest_file, algorithm, filenames):
+def add_files(manifest_file, algorithm, filenames, create_package=False):
     # returns True if all files successfully added, False if not
     # and doesn't catch library Exceptions.  If any files are already
     # tracked in the manifest, return will be False because they weren't
@@ -352,6 +362,10 @@ def add_files(manifest_file, algorithm, filenames):
         log.debug("adding %s" % filename)
         path, name = os.path.split(filename)
         new_fr = create_file_record(filename, algorithm)
+        if create_package:
+            shutil.copy(filename,
+                        os.path.join(os.path.split(manifest_file)[0], new_fr.digest))
+            log.debug("Added file %s to tooltool package %s with hash %s" % (filename, os.path.split(manifest_file)[0], new_fr.digest))
         log.debug("appending a new file record to manifest file")
         add = True
         for fr in old_manifest.file_records:
@@ -376,29 +390,21 @@ def add_files(manifest_file, algorithm, filenames):
     return all_files_added
 
 
+def touch(f):
+    """Used to modify mtime in cached files;
+    mtime is used by the purge command"""
+    try:
+        os.utime(f, None)
+    except OSError:
+        log.warn('impossible to update utime of file %s' % f)
+
+
 # TODO: write tests for this function
-
-def fetch_file(base_urls, file_record, overwrite=False, grabchunk=1024 * 4):
-    # A file which is requested to be fetched that exists locally will be hashed.
-    # If the hash matches the requested file's hash, nothing will be done and the
-    # function will return.  If the function is told to overwrite and there is a
-    # digest mismatch, the exiting file will be overwritten
-    if file_record.present():
-        if file_record.validate():
-            log.info("existing '%s' is valid, not fetching" % file_record.filename)
-            return True
-        if overwrite:
-            log.info("overwriting '%s' as requested" % file_record.filename)
-        else:
-            # All of the following is for a useful error message
-            with open(file_record.filename, 'rb') as f:
-                d = digest_file(f, file_record.algorithm)
-            log.error("digest mismatch between manifest(%s...) and local file(%s...)" %
-                      (file_record.digest[:8], d[:8]))
-            log.debug("full digests: manifest (%s) local file (%s)" % (file_record.digest, d))
-            # Let's bail!
-            return False
-
+def fetch_file(base_urls, file_record, grabchunk=1024 * 4):
+    # A file which is requested to be fetched that exists locally will be overwritten by this function
+    fd, temp_path = tempfile.mkstemp(dir=os.getcwd())
+    os.close(fd)
+    fetched_path = None
     for base_url in base_urls:
         # Generate the URL for the file on the server side
         url = "%s/%s/%s" % (base_url, file_record.algorithm, file_record.digest)
@@ -410,7 +416,7 @@ def fetch_file(base_urls, file_record, overwrite=False, grabchunk=1024 * 4):
         try:
             f = urllib2.urlopen(url)
             log.debug("opened %s for reading" % url)
-            with open(file_record.filename, 'wb') as out:
+            with open(temp_path, 'wb') as out:
                 k = True
                 size = 0
                 while k:
@@ -421,55 +427,274 @@ def fetch_file(base_urls, file_record, overwrite=False, grabchunk=1024 * 4):
                     size += len(indata)
                     if indata == '':
                         k = False
-                if size != file_record.size:
-                    log.error("transfer from %s to %s failed due to a difference of %d bytes" %
-                              (url, file_record.filename, file_record.size - size))
-                else:
-                    log.info("Success! File %s fetched from %s" % (file_record.filename, base_url))
-                    return True
+                log.info("File %s fetched from %s as %s" % (file_record.filename, base_url, temp_path))
+                fetched_path = temp_path
+                break
         except (urllib2.URLError, urllib2.HTTPError, ValueError) as e:
-            log.info("..failed to fetch '%s' from %s" % (file_record.filename, base_url))
+            log.info("...failed to fetch '%s' from %s" % (file_record.filename, base_url))
             log.debug("%s" % e)
         except IOError:
             log.info("failed to write to '%s'" % file_record.filename, exc_info=True)
-    return False
+
+    # cleanup temp file in case of issues
+    if fetched_path:
+        return os.path.split(fetched_path)[1]
+    else:
+        try:
+            os.remove(temp_path)
+        except OSError:
+            pass
+        return None
 
 
 # TODO: write tests for this function
-def fetch_files(manifest_file, base_urls, overwrite, filenames=[]):
+def fetch_files(manifest_file, base_urls, filenames=[], cache_folder=None):
     # Lets load the manifest file
     try:
         manifest = open_manifest(manifest_file)
     except InvalidManifest:
         log.error("failed to load manifest file at '%s'" % manifest_file)
         return False
+
+    # we want to track files already in current working directory AND valid
+    # we will not need to fetch these
+    present_files = []
+
     # We want to track files that fail to be fetched as well as
     # files that are fetched
     failed_files = []
+    fetched_files = []
 
     # Lets go through the manifest and fetch the files that we want
-    fetched_files = []
     for f in manifest.file_records:
-        if f.filename in filenames or len(filenames) == 0:
+        # case 1: files are already present
+        if f.present():
+            if f.validate():
+                present_files.append(f.filename)
+            else:
+                # we have an invalid file here, better to cleanup!
+                # this invalid file needs to be replaced with a good one
+                # from the local cash or fetched from a tooltool server
+                log.info("File %s is present locally but it is invalid, so I will remove it and try to fetch it" % f.filename)
+                os.remove(os.path.join(os.getcwd(), f.filename))
+
+        # check if file is already in cache
+        if cache_folder and f.filename not in present_files:
+            try:
+                shutil.copy(os.path.join(cache_folder, f.digest),
+                            os.path.join(os.getcwd(), f.filename))
+                log.info("File %s retrieved from local cache %s" %
+                         (f.filename, cache_folder))
+                touch(os.path.join(cache_folder, f.digest))
+
+                filerecord_for_validation = FileRecord(f.filename, f.size, f.digest, f.algorithm)
+                if filerecord_for_validation.validate():
+                    present_files.append(f.filename)
+                else:
+                    #the file copied from the cache is invalid, better to clean up the cache version itself as well
+                    log.warn("File %s retrieved from cache is invalid! I am deleting it from the cache as well" % f.filename)
+                    os.remove(os.path.join(os.getcwd(), f.filename))
+                    os.remove(os.path.join(cache_folder, f.digest))
+            except IOError:
+                log.info("File %s not present in local cache folder %s" %
+                         (f.filename, cache_folder))
+
+        # now I will try to fetch all files which are not already present and valid, appending a suffix to avoid race conditions
+        temp_file_name = None
+        # 'filenames' is the list of filenames to be managed, if this variable is a non empty list it can be used to filter
+        # if filename is in present_files, it means that I have it already because it was already either in the working dir or in the cache
+        if (f.filename in filenames or len(filenames) == 0) and f.filename not in present_files:
             log.debug("fetching %s" % f.filename)
-            if fetch_file(base_urls, f, overwrite):
-                fetched_files.append(f)
+            temp_file_name = fetch_file(base_urls, f)
+            if temp_file_name:
+                fetched_files.append((f, temp_file_name))
             else:
                 failed_files.append(f.filename)
         else:
             log.debug("skipping %s" % f.filename)
 
-    # Even if we get the file, lets ensure that it matches what the
-    # manifest specified
-    for localfile in fetched_files:
-        if not localfile.validate():
-            log.error("'%s'" % localfile.describe())
+    # lets ensure that fetched files match what the manifest specified
+    for localfile, temp_file_name in fetched_files:
+        # since I downloaded to a temp file, I need to perform all validations on the temp file
+        # this is why filerecord_for_validation is created
+
+        filerecord_for_validation = FileRecord(temp_file_name, localfile.size, localfile.digest, localfile.algorithm)
+
+        if filerecord_for_validation.validate():
+            # great!
+            # I can rename the temp file
+            log.info("File integrity verified, renaming %s to %s" % (temp_file_name, localfile.filename))
+            os.rename(os.path.join(os.getcwd(), temp_file_name), os.path.join(os.getcwd(), localfile.filename))
+            # if I am using a cache and a new file has just been retrieved from a
+            # remote location, I need to update the cache as well
+            if cache_folder:
+                log.info("Updating local cache %s..." % cache_folder)
+                try:
+                    if not os.path.exists(cache_folder):
+                        log.info("Creating cache in %s..." % cache_folder)
+                        os.makedirs(cache_folder, 0700)
+                    shutil.copy(os.path.join(os.getcwd(), localfile.filename),
+                                os.path.join(cache_folder, localfile.digest))
+                    log.info("Local cache %s updated with %s" % (cache_folder,
+                                                                 localfile.filename))
+                    touch(os.path.join(cache_folder, localfile.digest))
+                except (OSError, IOError):
+                    log.warning('Impossible to add file %s to cache folder %s' %
+                                (localfile.filename, cache_folder), exc_info=True)
+        else:
+            failed_files.append(localfile.filename)
+            log.error("'%s'" % filerecord_for_validation.describe())
 
     # If we failed to fetch or validate a file, we need to fail
     if len(failed_files) > 0:
         log.error("The following files failed: '%s'" % "', ".join(failed_files))
         return False
     return True
+
+
+def freespace(p):
+    "Returns the number of bytes free under directory `p`"
+    if sys.platform == 'win32':
+        # os.statvfs doesn't work on Windows
+        import win32file
+
+        secsPerClus, bytesPerSec, nFreeClus, totClus = win32file.GetDiskFreeSpace(p)
+        return secsPerClus * bytesPerSec * nFreeClus
+    else:
+        r = os.statvfs(p)
+        return r.f_frsize * r.f_bavail
+
+
+def remove(absolute_file_path):
+    try:
+        os.remove(absolute_file_path)
+    except OSError:
+        log.info("Impossible to remove %s" % absolute_file_path, exc_info=True)
+
+
+def purge(folder, gigs):
+    """If gigs is non 0, it deletes files in `folder` until `gigs` GB are free, starting from older files.
+    If gigs is 0, a full purge will be performed.
+    No recursive deletion of files in subfolder is performed."""
+
+    full_purge = bool(gigs == 0)
+    gigs *= 1024 * 1024 * 1024
+
+    if not full_purge and freespace(folder) >= gigs:
+        log.info("No need to cleanup")
+        return
+
+    files = []
+    try:
+        for f in os.listdir(folder):
+            p = os.path.join(folder, f)
+            # it deletes files in folder without going into subfolders,
+            # assuming the cache has a flat structure
+            if not os.path.isfile(p):
+                continue
+            mtime = os.path.getmtime(p)
+            files.append((mtime, p))
+    except OSError:
+        log.info('Impossible to list content of folder %s' % folder,
+                 exc_info=True)
+        return
+
+    # iterate files sorted by mtime
+    for _, f in sorted(files):
+        log.info("removing %s to free up space" % f)
+        remove(f)
+        if not full_purge and freespace(folder) >= gigs:
+            break
+
+
+def remove_trailing_slashes(folder):
+    return re.sub("/*$", "", folder)
+
+
+def package(folder, algorithm, message):
+    if not os.path.exists(folder) or not os.path.isdir(folder):
+        msg = 'Folder %s does not exist!' % folder
+        log.error(msg)
+        raise Exception(msg)
+
+    from os import walk
+
+    dirname, basename = os.path.split(folder)
+
+    filenames = []
+    for (_dirpath, _dirnames, files) in walk(folder):
+        filenames.extend(files)
+        break  # not to navigate subfolders
+
+    package_name = basename + TOOLTOOL_PACKAGE_SUFFIX
+    manifest_name = basename + '.tt'
+    notes_name = basename + '.txt'
+
+    suffix = 1
+    while os.path.exists(os.path.join(dirname, package_name)):
+        package_name = basename + str(suffix) + TOOLTOOL_PACKAGE_SUFFIX
+        manifest_name = basename + str(suffix) + '.tt'
+        notes_name = basename + str(suffix) + '.txt'
+        suffix = suffix + 1
+
+    os.makedirs(os.path.join(dirname, package_name))
+
+    log.info("Creating package %s from folder %s..." % (os.path.join(os.path.join(dirname, package_name)), folder))
+
+    add_files(os.path.join(os.path.join(dirname, package_name), manifest_name), algorithm, [os.path.join(folder, x) for x in filenames], create_package=True)
+
+    try:
+        f = open(os.path.join(os.path.join(dirname, package_name), notes_name), 'wb')
+        try:
+            f.write(message)  # Write a string to a file
+        finally:
+            f.close()
+    except IOError:
+        pass
+
+    log.info("Package %s has been created from folder %s" % (os.path.join(os.path.join(dirname, package_name)), folder))
+
+    return os.path.join(os.path.join(dirname, package_name))
+
+from subprocess import Popen, PIPE
+
+
+def execute(cmd):
+    process = Popen(cmd, shell=True, stdout=PIPE)
+    while True:
+        line = process.stdout.readline()
+        if not line:
+            break
+        log.info(line.replace('\n', ''))
+
+
+def upload(package, user, host, path):
+    #TODO s: validate package
+    package = remove_trailing_slashes(package)
+
+    cmd1 = "rsync  -a %s %s@%s:%s --progress -f '- *.tt' -f '- *.txt'" % (package, user, host, path)
+    cmd2 = "rsync  %s/*.txt %s@%s:%s --progress" % (package, user, host, path)
+    cmd3 = "rsync  %s/*.tt %s@%s:%s --progress" % (package, user, host, path)
+
+    log.info("The following three rsync commands will be executed to transfer the tooltool package:")
+    log.info("1) %s" % cmd1)
+    log.info("2) %s" % cmd2)
+    log.info("3) %s" % cmd3)
+    log.info("Please note that the order of execution IS relevant!")
+    log.info("Uploading hashed files with command: %s" % cmd1)
+    execute(cmd1)
+    log.info("Uploading metadata files (notes)    with command: %s" % cmd2)
+    execute(cmd2)
+    log.info("Uploading metadata files (manifest) with command: %s" % cmd3)
+    execute(cmd3)
+
+    log.info("Package %s has been correctly uploaded to %s:%s" % (package, host, path))
+
+    return True
+
+
+def distribute(folder, message, user, host, path, algorithm):
+    return upload(package(folder, algorithm, message), user, host, path)
 
 
 # TODO: write tests for this function
@@ -480,18 +705,41 @@ def process_command(options, args):
     cmd_args = args[1:]
     log.debug("processing '%s' command with args '%s'" % (cmd, '", "'.join(cmd_args)))
     log.debug("using options: %s" % options)
+
     if cmd == 'list':
         return list_manifest(options['manifest'])
     if cmd == 'validate':
         return validate_manifest(options['manifest'])
     elif cmd == 'add':
         return add_files(options['manifest'], options['algorithm'], cmd_args)
+    elif cmd == 'purge':
+        if options['cache_folder']:
+            purge(folder=options['cache_folder'], gigs=options['size'])
+        else:
+            log.critical('please specify the cache folder to be purged')
+            return False
     elif cmd == 'fetch':
         if not options.get('base_url'):
             log.critical('fetch command requires at least one url provided using ' +
                          'the url option in the command line')
             return False
-        return fetch_files(options['manifest'], options['base_url'], options['overwrite'], cmd_args)
+        return fetch_files(options['manifest'], options['base_url'], cmd_args,
+                           cache_folder=options['cache_folder'])
+    elif cmd == 'package':
+        if not options.get('folder') or not options.get('message'):
+            log.critical('package command requires a folder to be specified, containing the files to be added to the tooltool package, and a message providing info about the package')
+            return False
+        return package(options['folder'], options['algorithm'], options['message'])
+    elif cmd == 'upload':
+        if not options.get('package') or not options.get('user') or not options.get('host') or not options.get('path'):
+            log.critical('upload command requires the package folder to be uploaded, and the user, host and path to be used to upload the tooltool upload server ')
+            return False
+        return upload(options.get('package'), options.get('user'), options.get('host'), options.get('path'))
+    elif cmd == 'distribute':
+        if not options.get('folder') or not options.get('message') or not options.get('user') or not options.get('host') or not options.get('path'):
+            log.critical('distribute command requires the following parameters: --folder, --message, --user, --host, --path')
+            return False
+        return distribute(options.get('folder'), options.get('message'), options.get('user'), options.get('host'), options.get('path'), options.get('algorithm'))
     else:
         log.critical('command "%s" is not implemented' % cmd)
         return False
@@ -515,6 +763,8 @@ def process_command(options, args):
 #   -?only ever locally to digest as filename, symlink to real name
 #   -?maybe deal with files as a dir of the filename with all files in that dir as the versions of that file
 #      - e.g. ./python-2.6.7.dmg/0123456789abcdef and ./python-2.6.7.dmg/abcdef0123456789
+
+
 def main():
     # Set up logging, for now just to the console
     ch = logging.StreamHandler()
@@ -530,7 +780,7 @@ def main():
                       dest='quiet', action='store_true')
     parser.add_option('-v', '--verbose', default=False,
                       dest='verbose', action='store_true')
-    parser.add_option('-m', '--manifest', default='manifest.tt',
+    parser.add_option('-m', '--manifest', default=DEFAULT_MANIFEST_NAME,
                       dest='manifest', action='store',
                       help='specify the manifest file to be operated on')
     parser.add_option('-d', '--algorithm', default='sha512',
@@ -541,6 +791,25 @@ def main():
                       help='if fetching, remote copy will overwrite a local copy that is different. ')
     parser.add_option('--url', dest='base_url', action='append',
                       help='base url for fetching files')
+    parser.add_option('-c', '--cache-folder', dest='cache_folder',
+                      help='Local cache folder')
+    parser.add_option('-s', '--size',
+                      help='free space required (in GB)', dest='size',
+                      type='float', default=0.)
+
+    parser.add_option('--folder',
+                      help='the folder containing files to be added to a tooltool package ready to be uploaded to tooltool servers', dest='folder')
+    parser.add_option('--message',
+                      help='Any additional information about the tooltool package being generated and the files it includes', dest='message')
+
+    parser.add_option('--package',
+                      help='the folder containing files to be added to a tooltool package ready to be uploaded to tooltool servers', dest='package')
+    parser.add_option('--user',
+                      help='user to be used when uploading a tooltool package to a tooltool upload folder', dest='user')
+    parser.add_option('--host',
+                      help='host where to upload a tooltool package', dest='host')
+    parser.add_option('--path',
+                      help='Path on the tooltool upload server where to upload', dest='path')
 
     (options_obj, args) = parser.parse_args()
     # Dictionaries are easier to work with
