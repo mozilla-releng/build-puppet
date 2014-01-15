@@ -14,6 +14,15 @@ cd $BUILD
 
 set -e
 
+# need to have the user present locally for the 'make install'
+dscl="/usr/bin/dscl"
+dspath="/var/db/dslocal/nodes/Default/"
+"${dscl}" -f "${dspath}" localonly -create /Local/Target/Groups/nagios
+"${dscl}" -f "${dspath}" localonly -create /Local/Target/Groups/nagios PrimaryGroupID 290
+"${dscl}" -f "${dspath}" localonly -create /Local/Target/Users/nagios
+"${dscl}" -f "${dspath}" localonly -create /Local/Target/Users/nagios UniqueID 290
+"${dscl}" -f "${dspath}" localonly -create /Local/Target/Users/nagios PrimaryGroupID 290
+
 # install both nrpe and the plugins in the same package
 curl -LO http://downloads.sourceforge.net/project/nagios/nrpe-2.x/nrpe-2.14/nrpe-2.14.tar.gz
 tar -xvf nrpe-2.14.tar.gz
@@ -23,20 +32,12 @@ make
 make DESTDIR=$BUILD/installroot install
 popd
 
-curl -LO http://downloads.sourceforge.net/project/nagiosplug/nagiosplug/1.4.16/nagios-plugins-1.4.16.tar.gz
+curl -LO http://www.nagios-plugins.org/download/nagios-plugins-1.4.16.tar.gz
 tar -xvf nagios-plugins-1.4.16.tar.gz
 pushd nagios-plugins-1.4.16
 ./configure --prefix=/usr/local
 make
 
-# need to have the user present locally for the 'make install'
-dscl="/usr/bin/dscl"
-dspath="/var/db/dslocal/nodes/Default/"
-"${dscl}" -f "${dspath}" localonly -create /Local/Target/Groups/nagios
-"${dscl}" -f "${dspath}" localonly -create /Local/Target/Groups/nagios PrimaryGroupID 290
-"${dscl}" -f "${dspath}" localonly -create /Local/Target/Users/nagios
-"${dscl}" -f "${dspath}" localonly -create /Local/Target/Users/nagios UniqueID 290
-"${dscl}" -f "${dspath}" localonly -create /Local/Target/Users/nagios PrimaryGroupID 290
 
 make DESTDIR=$BUILD/installroot install
 popd
@@ -58,7 +59,7 @@ chmod +x $BUILD/scripts/postinstall
 
 # -- create-dmg.sh, with --scripts added to the packagemaker invocation
 
-PACKAGE_MAKER="/Developer/usr/bin/packagemaker"
+PACKAGE_MAKER="/usr/bin/pkgbuild"
 
 DIR_TO_PACKAGE=installroot/usr/local/
 PACKAGE_BASENAME=nrpe-2.14
@@ -70,7 +71,7 @@ if [[ -z $DIR_TO_PACKAGE || -z $PACKAGE_BASENAME || -z $PACKAGE_SHORTNAME || -z 
     exit 1
 fi
 if [[ ! -x $PACKAGE_MAKER ]]; then
-    echo "Couldn't find packagemaker"
+    echo "Couldn't find pkgbuild"
     exit 1
 fi
 if [[ ! -d $DIR_TO_PACKAGE ]]; then
@@ -89,7 +90,7 @@ trap "rm -rf $tmp" EXIT
 
 set -x
 rsync -av $DIR_TO_PACKAGE $tmp
-$PACKAGE_MAKER -r $tmp -v -i com.mozilla.$PACKAGE_SHORTNAME -o $tmp/$PACKAGE_BASENAME.pkg --scripts $BUILD/scripts -l $INSTALLDIR
+$PACKAGE_MAKER -r $tmp -i com.mozilla.$PACKAGE_SHORTNAME --scripts $BUILD/scripts --install-location $INSTALLDIR $tmp/$PACKAGE_BASENAME.pkg
 rm -rf $tmp/`basename $DIR_TO_PACKAGE`
 hdiutil makehybrid -hfs -hfs-volume-name "Mozilla $PACKAGE_BASENAME" -o ./$PACKAGE_BASENAME.dmg $tmp
 echo DMG is at $PWD/$PACKAGE_BASENAME.dmg
