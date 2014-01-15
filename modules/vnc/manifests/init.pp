@@ -63,11 +63,13 @@ class vnc {
                     owner  => $::users::builder::username,
                     group  => $::users::builder::group;
                 "$::users::builder::home/.vnc/passwd":
+                    ensure => absent;
+                "/etc/vnc_passwdfile":
                     ensure  => file,
                     mode    => 0600,
-                    owner   => $::users::builder::username,
-                    group   => $::users::builder::group,
-                    content => base64decode(secret("builder_pw_vnc_base64")),
+                    owner   => root,
+                    group   => root,
+                    content => secret("builder_pw_vnc_cleartext"),
                     show_diff => false;
             }
             # note that x11vnc isn't started automatically

@@ -7,5 +7,11 @@ description "Manually start x11vnc server attached to <%= scope.lookupvar('::con
 manual
 
 script
-  su - -c "x11vnc -display :0 -rfbauth ~/.vnc/passwd -forever -shared" <%= scope.lookupvar('::config::builder_username') %>
+  builder_user=<%= scope.lookupvar('::config::builder_username') %>
+  passwdfile=/home/$builder_user/.vnc/passwdfile
+  # this file is stored in /etc, readable only by root.  When starting VNC, it gets copied into
+  # the builder user's home dir, then removed immediately (via the 'rm:' prefix below)
+  cp -f /etc/vnc_passwdfile $passwdfile
+  chown $builder_user $passwdfile
+  su - -c "x11vnc -display :0 -passwdfile rm:$passwdfile -forever -shared" $builder_user
 end script
