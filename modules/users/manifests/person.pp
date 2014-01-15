@@ -29,7 +29,7 @@ define users::person($shell="/bin/bash") {
                     gid => $group,
                     shell => $shell,
                     home => $home,
-                    comment => "Created by Puppet";
+                    comment => $username;
             }
         }
     }
