@@ -63,6 +63,22 @@ node /talos-linux\d+-ix-\d+\.test\.releng\.scl3\.mozilla\.com/ {
 
 ## builders
 
+node /bld-linux64-ix-0(\d+).build.scl1.mozilla.com/ {
+    # determine the slave's trustlevel from slavealloc; this case is only
+    # required in the "old" datacenters; in new datacenters, trustlevel is
+    # based on VLAN atom.
+    if $clientcert =~ /bld-linux64-ix-0(\d+).build.scl1.mozilla.com/ {
+        if $1 <= 26 {
+            # decommed
+        } elsif $1 <= 37 {
+            $slave_trustlevel = 'core'
+        } elsif $1 <= 53 {
+            $slave_trustlevel = 'try'
+        }
+    }
+    include toplevel::slave::build::mock
+}
+
 node /b-linux64-hp-0*(\d+).build.scl1.mozilla.com/ {
     $slave_trustlevel = 'try'
     include toplevel::slave::build::mock
