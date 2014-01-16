@@ -17,6 +17,7 @@ class talos {
             # Ubuntu specific packages
             include packages::nodejs
             include packages::llvm
+            include packages::sox
             # required for the 32-bit reftests per :ahal, bug 837268
             include packages::ia32libs
             include packages::gstreamer
