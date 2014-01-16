@@ -382,6 +382,7 @@ node "buildbot-master66.srv.releng.usw2.mozilla.com" {
     }
     include toplevel::server::buildmaster
     include toplevel::server::gaia_bumper
+    include toplevel::server::b2g_bumper
     include selfserve_agent
 }
 
