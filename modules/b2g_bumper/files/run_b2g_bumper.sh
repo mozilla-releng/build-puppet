@@ -15,6 +15,8 @@ log "Acquiring lock"
 lockfile -s60 -r5 b2g_bumper.lock
 trap "rm -f $PWD/b2g_bumper.lock" EXIT
 
+export PATH=/usr/local/bin:$PATH
+
 # Get mozharness updated / checked out and working
 log "Updating mozharness"
 timeout 300 /usr/local/bin/hgtool.py -b production https://hg.mozilla.org/build/mozharness mozharness
