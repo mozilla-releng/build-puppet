@@ -24,6 +24,4 @@ class toplevel::slave inherits toplevel::base {
     if ($::operatingsystem == "Darwin") {
         include users::builder::autologin
     }
-
-    include ntp::atboot
 }
