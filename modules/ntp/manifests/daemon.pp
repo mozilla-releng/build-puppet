@@ -6,6 +6,7 @@ class ntp::daemon {
     include packages::ntp
     include config
     include users::root
+    include ntp::atboot
 
     $ntpserver = $config::ntp_server
     case $::operatingsystem {
@@ -27,11 +28,6 @@ class ntp::daemon {
             }
         }
         Darwin: {
-            service {
-                "ntpdate" :
-                    enable => true,
-                    hasstatus => true;
-            }
             exec {
                 "set-time-server" :
                 command => "/usr/sbin/systemsetup -setnetworktimeserver ${ntpserver}",
