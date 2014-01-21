@@ -5,7 +5,6 @@ class toplevel::slave::test inherits toplevel::slave {
     include talos
     include vnc
     include users::builder::autologin
-    include ntp::atboot
     include packages::fonts
     include tweaks::fonts
     include tweaks::cleanup
