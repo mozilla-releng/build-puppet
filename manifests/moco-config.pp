@@ -212,7 +212,7 @@ class config inherits config::base {
     $selfserve_agent_carrot_exchange = "buildapi.control"
     $selfserve_agent_carrot_queue = "buildapi-agent-rabbit2"
     # this is the dev instance at least until bug 929584 is fixed
-    $slaverebooter_slaveapi = "http://slaveapi-dev1.srv.releng.scl3.mozilla.com:8080"
+    $slaverebooter_slaveapi = "http://slaveapi1.srv.releng.scl3.mozilla.com:8080"
     $slaverebooter_mail_to = "release@mozilla.com"
 
     $buildmaster_ssh_keys = [ 'b2gbld_dsa', 'b2gtry_dsa', 'ffxbld_dsa', 'tbirdbld_dsa', 'trybld_dsa', 'xrbld_dsa' ]
