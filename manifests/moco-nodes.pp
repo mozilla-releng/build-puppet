@@ -172,6 +172,7 @@ node /releng-puppet\d\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
 
 node /casper-fs-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server
+    include casper::fileserver
 }
 
 node /casper-jss-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
