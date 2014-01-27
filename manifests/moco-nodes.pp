@@ -371,7 +371,7 @@ node "buildbot-master65.srv.releng.usw2.mozilla.com" {
     }
     include toplevel::server::buildmaster
     include selfserve_agent
-    include slaverebooter
+    #include slaverebooter
 }
 
 node "buildbot-master66.srv.releng.usw2.mozilla.com" {
