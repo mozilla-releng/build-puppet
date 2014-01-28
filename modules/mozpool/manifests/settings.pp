@@ -9,7 +9,7 @@ class mozpool::settings {
     if (has_aspect("staging")) {
         $mozpool_version = "4.1.4"
     } else {
-        $mozpool_version = "4.1.3"
+        $mozpool_version = "4.1.4"
     }
 
     $db_database = secret("mozpool_db_database")
