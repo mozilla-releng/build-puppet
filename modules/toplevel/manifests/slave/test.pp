@@ -9,6 +9,8 @@ class toplevel::slave::test inherits toplevel::slave {
     include packages::fonts
     include tweaks::fonts
     include tweaks::cleanup
+    include dirs::builds::hg_shared
+    include dirs::builds::git_shared
     class {
         'slave_secrets':
             slave_type => 'test';
