@@ -765,6 +765,10 @@ node "rpmpackager1.srv.releng.use1.mozilla.com" {
     include toplevel::server::pkgbuilder
 }
 
+node "cloudstack1.relabs.releng.scl3.mozilla.com" {
+    include toplevel::server
+}
+
 # Loaners
 
 node "talos-linux64-ix-001.test.releng.scl3.mozilla.com" {
