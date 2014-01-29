@@ -50,19 +50,11 @@ node /t-mavericks-r5-\d+.test.releng.scl3.mozilla.com/ {
 
 node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
     $slave_trustlevel = 'try'
-    # Make sure we get our /etc/hosts set up
-    class {
-        "network::aws": stage => network,
-    }
     include toplevel::slave::test::headless
 }
 
 node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
     $slave_trustlevel = 'try'
-    # Make sure we get our /etc/hosts set up
-    class {
-        "network::aws": stage => network,
-    }
     include toplevel::slave::test::headless
 }
 
@@ -144,10 +136,6 @@ node /bld-lion-r5-\d+.build.releng.scl3.mozilla.com/ {
 
 node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
     $slave_trustlevel = 'core'
-    # Make sure we get our /etc/hosts set up
-    class {
-        "network::aws": stage => network,
-    }
     include toplevel::slave::build::mock
     include diamond
     include instance_metadata::diamond
@@ -155,10 +143,6 @@ node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
 
 node /try-.*\.try\.releng\.(use1|usw2)\.mozilla.com/ {
     $slave_trustlevel = 'try'
-    # Make sure we get our /etc/hosts set up
-    class {
-        "network::aws": stage => network,
-    }
     include toplevel::slave::build::mock
     include diamond
     include instance_metadata::diamond
@@ -167,10 +151,6 @@ node /try-.*\.try\.releng\.(use1|usw2)\.mozilla.com/ {
 node /dev-.*\.dev\.releng\.(use1|usw2)\.mozilla.com/ {
     # dev-* hosts are *always* staging
     $slave_trustlevel = 'try'
-    # Make sure we get our /etc/hosts set up
-    class {
-        "network::aws": stage => network,
-    }
     include toplevel::slave::build::mock
     include diamond
     include instance_metadata::diamond

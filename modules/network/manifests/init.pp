@@ -57,4 +57,11 @@ class network {
             }
         }
     }
+
+    # enable network:aws on moco AWS nodes
+    if $::config::org == 'moco' and $virtual == 'xenhvm' {
+        class {
+            "network::aws": stage => network,
+        }
+    }
 }
