@@ -7,18 +7,12 @@
 node /servo-.*\.build\.servo\.aws-.*\.mozilla\.com/ {
     # Make sure we get our /etc/hosts set up
     $slave_trustlevel = "prod"
-    class {
-        "network::aws": stage => network,
-    }
     include toplevel::slave::build::mock
 }
 
 node /servo-.*\.build\.servo\.releng\.(use1|usw2)\.mozilla.com/ {
     # Make sure we get our /etc/hosts set up
     $slave_trustlevel = "prod"
-    class {
-        "network::aws": stage => network,
-    }
     include toplevel::slave::build::mock
 }
 
