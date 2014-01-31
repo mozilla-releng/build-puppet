@@ -1,0 +1,83 @@
+#!/bin/sh
+
+### Add swap file
+# chkconfig: 12345 99 01
+# description: add swap file
+
+### BEGIN INIT INFO
+# Provides:          add_swap
+# Required-Start:    $local_fs
+# Required-Stop:     $local_fs
+# Default-Start:     1 2 3 4 5
+# Default-Stop:      0 6
+# Short-Description: add_swap
+# Description:       add_swap
+### END INIT INFO
+
+PATH="/sbin:/bin:/usr/sbin:/usr/bin"
+
+DEFAULT_SWAP_FILE="/swap_file"
+SWAP_SIZE="4G"
+
+set -e
+
+log(){
+    logger -s -t swap_setup -- $*
+}
+
+add_swap(){
+    SWAP_FILE="$(get_swap_file)"
+    log "Creating a swap file $SWAP_FILE"
+    fallocate -l $SWAP_SIZE "$SWAP_FILE" || true
+    log "Fixing permissions"
+    chmod 600 "$SWAP_FILE"
+    chown root: "$SWAP_FILE"
+
+    log "Formatting"
+    mkswap "$SWAP_FILE" || true
+    log "Enabling swap"
+    swapon "$SWAP_FILE"
+}
+
+get_swap_file(){
+    mounts=$(grep ^/ /etc/mtab | grep ext4 | awk '{print $2}')
+    for m in $mounts; do
+        case "$m" in
+            # Known SSD mount points
+            /builds*|/mnt/*)
+                echo -n "$m/swap_file"
+                return
+                ;;
+        esac
+    done
+    # Fallback to something that always exists
+    echo -n $DEFAULT_SWAP_FILE
+}
+
+main(){
+    INSTANCE_TYPE=$(curl --retry 10 --retry-delay 10 --fail --silent http://169.254.169.254/latest/meta-data/instance-type)
+
+    case "$INSTANCE_TYPE" in
+        c3.*)
+            log "c3 instance type found, adding swap"
+            add_swap
+            ;;
+        *)
+            log "No need to add swap, exiting"
+            exit 0
+            ;;
+    esac
+}
+
+case "$1" in
+    start)
+        main
+        ;;
+    status)
+        swapon -s | grep -q ^$(get_swap_file)
+        ;;
+    *)
+        log "Action not suported"
+        ;;
+esac
+exit 0
