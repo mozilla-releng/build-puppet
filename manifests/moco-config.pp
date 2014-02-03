@@ -44,7 +44,7 @@ class config inherits config::base {
 
     $distinguished_puppetmaster = "releng-puppet2.srv.releng.scl3.mozilla.com"
     $puppetmaster_public_mirror_hosts = [ "releng-puppet2.srv.releng.scl3.mozilla.com" ]
-    $puppet_again_repo = "http://hg.mozilla.org/build/puppet/"
+    $puppet_again_repo = "https://hg.mozilla.org/build/puppet/"
     $puppetmaster_extsyncs = {
         'slavealloc' => {
             'slavealloc_api_url' => 'http://slavealloc.pvt.build.mozilla.org/api/',
@@ -58,7 +58,7 @@ class config inherits config::base {
     $ntp_server = "ntp.build.mozilla.org"
 
     $signer_username = 'cltsign'
-    $signing_tools_repo = 'http://hg.mozilla.org/build/tools'
+    $signing_tools_repo = 'https://hg.mozilla.org/build/tools'
     $signing_redis_host = 'redis01.build.scl1.mozilla.com'
     $signing_mac_id = 'Mozilla'
     $signing_allowed_ips = [
@@ -188,7 +188,7 @@ class config inherits config::base {
     $releaserunner_smtp_server = "localhost"
     $releaserunner_hg_username = "ffxbld"
     $releaserunner_hg_ssh_key = "/home/cltbld/.ssh/ffxbld_dsa"
-    $releaserunner_production_masters = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
+    $releaserunner_production_masters = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
     $releaserunner_sendchange_master = "buildbot-master81.build.mozilla.org:9301"
     $releaserunner_ssh_username = "cltbld"
 
@@ -203,8 +203,8 @@ class config inherits config::base {
     $slaveapi_bugzilla_prod_url = "https://bugzilla.mozilla.org/rest/"
 
     $selfserve_agent_sendchange_master = "bm81-build_scheduler"
-    $selfserve_agent_branches_json = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-branches.json"
-    $selfserve_agent_masters_json = "http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
+    $selfserve_agent_branches_json = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-branches.json"
+    $selfserve_agent_masters_json = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
     $selfserve_agent_clobberer_url = "http://clobberer.pvt.build.mozilla.org/index.php"
     $selfserve_agent_carrot_hostname = "releng-rabbitmq-zlb.webapp.scl3.mozilla.com"
     $selfserve_agent_carrot_vhost = "/buildapi"

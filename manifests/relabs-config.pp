@@ -18,7 +18,7 @@ class config inherits config::base {
     $data_server = $puppet_server
 
     $distinguished_puppetmaster = "relabs03.build.mtv1.mozilla.com"
-    $puppet_again_repo = "http://hg.mozilla.org/build/puppet/"
+    $puppet_again_repo = "https://hg.mozilla.org/build/puppet/"
 
     $puppet_server_reports = "http"
     $puppet_server_reporturl = "http://foreman.pvt.build.mozilla.org:3001/"
@@ -33,7 +33,7 @@ class config inherits config::base {
     }
 
     $signer_username = 'relabssign'
-    $signing_tools_repo = 'http://hg.mozilla.org/build/tools'
+    $signing_tools_repo = 'https://hg.mozilla.org/build/tools'
     $signing_redis_host = 'localhost'
     $signing_mac_id = 'Relabs'
     $signing_allowed_ips = [

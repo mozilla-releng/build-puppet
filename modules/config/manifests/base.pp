@@ -25,7 +25,7 @@ class config::base {
 
     # The repository and branch that puppetmasters should follow to get the latest
     # manifests
-    $puppet_again_repo = "http://hg.mozilla.org/build/puppet"
+    $puppet_again_repo = "https://hg.mozilla.org/build/puppet"
     $puppet_again_branch = "production"
 
     # The fqdn of the "distinguished" puppetmaster.  This master serves as the
@@ -162,7 +162,7 @@ class config::base {
     # The redis host used as backend storage for signing
     $signing_redis_host = ''
     # The mercurial repository from which to pull the signing tools code
-    $signing_tools_repo = 'http://hg.mozilla.org/build/tools'
+    $signing_tools_repo = 'https://hg.mozilla.org/build/tools'
 
     # buildmaster
 
@@ -202,12 +202,12 @@ class config::base {
     $releaserunner_production_masters = $master_json
     # mercurial repository and branch for buildbot-configs
     $releaserunner_buildbot_configs_branch = "production"
-    $releaserunner_buildbot_configs = "http://hg.mozilla.org/build/buildbot-configs"
+    $releaserunner_buildbot_configs = "https://hg.mozilla.org/build/buildbot-configs"
     # mercurial repository and branch for buildbotcustom
     $releaserunner_buildbotcustom_branch = "production-0.8"
-    $releaserunner_buildbotcustom = "http://hg.mozilla.org/build/buildbotcustom"
+    $releaserunner_buildbotcustom = "https://hg.mozilla.org/build/buildbotcustom"
     # mercurial repository and branch for tools
-    $releaserunner_tools = "http://hg.mozilla.org/build/tools"
+    $releaserunner_tools = "https://hg.mozilla.org/build/tools"
     $releaserunner_tools_branch = "default"
     # root directory for releaserunner; this must be under /builds
     $releaserunner_root = "/builds/releaserunner"
@@ -251,7 +251,7 @@ class config::base {
     $slaverebooter_root = "/builds/slaverebooter"
 
     # mercurial repo and branch for tools
-    $slaverebooter_tools = "http://hg.mozilla.org/build/tools"
+    $slaverebooter_tools = "https://hg.mozilla.org/build/tools"
     $slaverebooter_tools_branch = "default"
 
     # slaveapi instance that slaverebooter should talk to.

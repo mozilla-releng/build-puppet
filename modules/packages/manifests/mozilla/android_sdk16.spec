@@ -1,5 +1,5 @@
 #### NOTE: canonical copy is at
-####       http://hg.mozilla.org/build/rpm-sources/raw-file/tip/android-sdk/centos5-i686/android-sdk16.spec
+####       https://hg.mozilla.org/build/rpm-sources/raw-file/tip/android-sdk/centos5-i686/android-sdk16.spec
 
 %define debug_package %{nil}
 %define upstream_name android-sdk
