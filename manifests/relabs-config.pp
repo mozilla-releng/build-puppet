@@ -9,7 +9,7 @@ class config inherits config::base {
     $builder_username = "relabsbld"
     $grouped_puppet_servers = {
         ".*" => [
-            "relabs03.build.mtv1.mozilla.com",
+            "relabs-puppet1.relabs.releng.scl3.mozilla.com",
         ],
     }
     $puppet_servers = sort_servers_by_group($grouped_puppet_servers)
@@ -17,7 +17,7 @@ class config inherits config::base {
     $data_servers = $puppet_servers
     $data_server = $puppet_server
 
-    $distinguished_puppetmaster = "relabs03.build.mtv1.mozilla.com"
+    $distinguished_puppetmaster = "relabs-puppet1.relabs.releng.scl3.mozilla.com"
     $puppet_again_repo = "https://hg.mozilla.org/build/puppet/"
 
     $puppet_server_reports = "http"

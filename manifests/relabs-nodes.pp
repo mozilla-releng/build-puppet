@@ -4,28 +4,54 @@
 
 ## relabs machines - check with dustin to borrow one
 
-node "relabs02.build.mtv1.mozilla.com" {
-    include toplevel::server::pkgbuilder
-}
-
-node "relabs03.build.mtv1.mozilla.com" {
-    # distinguished master for the relabs puppet cluster
+node "relabs-puppet1.relabs.releng.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
 }
 
-node "relabs04.build.mtv1.mozilla.com" {
-    include toplevel::slave
+node "hp1.relabs.releng.scl3.mozilla.com" {
 }
 
-node "relabs05.build.mtv1.mozilla.com" {
-    include toplevel::server
+node "hp2.relabs.releng.scl3.mozilla.com" {
 }
 
-node "relabs06.build.mtv1.mozilla.com" {
+node "hp3.relabs.releng.scl3.mozilla.com" {
 }
 
-node "relabs07.build.mtv1.mozilla.com" {
+node "hp4.relabs.releng.scl3.mozilla.com" {
 }
 
-node "relabs08.build.mtv1.mozilla.com" {
+node "hp5.relabs.releng.scl3.mozilla.com" {
+}
+
+node "hp6.relabs.releng.scl3.mozilla.com" {
+}
+
+node "ix-mn-1.relabs.releng.scl3.mozilla.com" {
+}
+
+node "ix-mn-2.relabs.releng.scl3.mozilla.com" {
+}
+
+node "ix-mn-3.relabs.releng.scl3.mozilla.com" {
+}
+
+node "ix-mn-4.relabs.releng.scl3.mozilla.com" {
+}
+
+node "ix-mn-5.relabs.releng.scl3.mozilla.com" {
+}
+
+node "ix-mn-6.relabs.releng.scl3.mozilla.com" {
+}
+
+node "ix1204-1.relabs.releng.scl3.mozilla.com" {
+}
+
+node "ix1204-2.relabs.releng.scl3.mozilla.com" {
+}
+
+node "ix1204-3.relabs.releng.scl3.mozilla.com" {
+}
+
+node "ix1204-4.relabs.releng.scl3.mozilla.com" {
 }
