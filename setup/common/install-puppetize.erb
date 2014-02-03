@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # set up the puppetize script to run at boot
-hgrepo="http://hg.mozilla.org/build/puppet"
+hgrepo="https://hg.mozilla.org/build/puppet"
 wget -O/root/puppetize.sh "$hgrepo/raw-file/default/modules/puppet/files/puppetize.sh" || fail
 chmod +x /root/puppetize.sh
 (

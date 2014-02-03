@@ -20,7 +20,7 @@ class config inherits config::base {
 
     $distinguished_puppetmaster = "sea-puppet.community.scl3.mozilla.com"
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
-    $puppet_again_repo = "http://hg.mozilla.org/build/puppet/"
+    $puppet_again_repo = "https://hg.mozilla.org/build/puppet/"
 
     $admin_users = [
         "dmitchell",
