@@ -9,6 +9,8 @@ node "relabs-puppet1.relabs.releng.scl3.mozilla.com" {
 }
 
 node "hp1.relabs.releng.scl3.mozilla.com" {
+    # dustin is using this to run HVM for cloudstack
+    include toplevel::server
 }
 
 node "hp2.relabs.releng.scl3.mozilla.com" {
