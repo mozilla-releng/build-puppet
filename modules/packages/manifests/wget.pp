@@ -8,11 +8,18 @@ class packages::wget {
     }
 
     case $::operatingsystem {
-        CentOS, Ubuntu: {
+        CentOS: {
             Anchor['packages::wget::begin'] ->
             package {
                 "wget":
-                    ensure => latest;
+                    ensure => '1.15-1';  # hand-compiled; see .spec
+            } -> Anchor['packages::wget::end']
+        }
+        Ubuntu: {
+            Anchor['packages::wget::begin'] ->
+            package {
+                "wget":
+                    ensure => '1.13.4-2ubuntu1';
             } -> Anchor['packages::wget::end']
         }
         Darwin: {
