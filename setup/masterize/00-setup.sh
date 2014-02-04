@@ -115,8 +115,10 @@ setup_hiera_yaml() {
 
 :eyaml:
     :datadir: '/etc/hiera'
+    :pkcs7_private_key:  /etc/hiera/keys/private_key.pem
+    :pkcs7_public_key:  /etc/hiera/keys/public_key.pem
 EOF
-    cp /etc/hiera.yaml /etc/puppet/hiera.yaml
+    ln -s /etc/puppet/hiera.yaml /etc/hiera.yaml
 }
 
 

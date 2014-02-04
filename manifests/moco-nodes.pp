@@ -765,10 +765,6 @@ node "rpmpackager1.srv.releng.use1.mozilla.com" {
     include toplevel::server::pkgbuilder
 }
 
-node "cloudstack1.relabs.releng.scl3.mozilla.com" {
-    include toplevel::server
-}
-
 node "openstack1.relabs.releng.scl3.mozilla.com" {
     include toplevel::server
 }
