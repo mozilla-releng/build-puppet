@@ -13,6 +13,7 @@ class collectd::plugins::disk {
     case $::operatingsystem {
         'CentOS', 'Ubuntu': {
             $args = [ 'Disk "/sd/"',
+                      'Disk "/xvd/"',
                       'IgnoreSelected false', ]
         }
         'Darwin': {
