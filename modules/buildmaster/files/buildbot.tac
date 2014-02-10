@@ -4,6 +4,9 @@ import os
 from twisted.application import service
 from buildbot.master import BuildMaster
 
+import twisted.spread.pb
+twisted.spread.pb.MAX_BROKER_REFS = 2048
+
 basedir = r'.'
 rotateLength = 50000000
 maxRotatedFiles = 200

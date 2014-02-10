@@ -371,7 +371,8 @@ node "buildbot-master65.srv.releng.usw2.mozilla.com" {
     }
     include toplevel::server::buildmaster
     include selfserve_agent
-    include slaverebooter
+    # Disabled until bug 970590 is fixed
+    #include slaverebooter
 }
 
 node "buildbot-master66.srv.releng.usw2.mozilla.com" {
