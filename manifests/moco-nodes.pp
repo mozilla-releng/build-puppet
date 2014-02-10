@@ -221,6 +221,10 @@ node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
 
 ## buildbot masters
 
+node "dev-master1.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::buildmaster
+}
+
 node "buildbot-master51.srv.releng.use1.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
         "bm51-tests1-linux":
