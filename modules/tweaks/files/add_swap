@@ -17,6 +17,9 @@
 PATH="/sbin:/bin:/usr/sbin:/usr/bin"
 
 DEFAULT_SWAP_FILE="/swap_file"
+MIN_MEMORY_SIZE_GB=12
+MIN_MEMORY_SIZE_KB=$(($MIN_MEMORY_SIZE_GB * 1024 * 1024))
+MEMORY_SIZE_KB="$(grep ^MemTotal: /proc/meminfo | awk '{print $2}')"
 SWAP_SIZE="4G"
 
 set -e
@@ -25,10 +28,19 @@ log(){
     logger -s -t swap_setup -- $*
 }
 
-add_swap(){
+
+if [ -z $MEMORY_SIZE_KB ]; then
+    log "Unable to detect RAM available, adding swap..."
+elif [ $MEMORY_SIZE_KB -gt $MIN_MEMORY_SIZE_KB ]; then
+    # check if we need a swap file; if not, exit without error
+    log "No swap required, $MEMORY_SIZE_KB KB mem available"
+    exit 0
+fi
+
+main(){
     SWAP_FILE="$(get_swap_file)"
     log "Creating a swap file $SWAP_FILE"
-    fallocate -l $SWAP_SIZE "$SWAP_FILE" || true
+    fallocate -l "$SWAP_SIZE" "$SWAP_FILE" || true
     log "Fixing permissions"
     chmod 600 "$SWAP_FILE"
     chown root: "$SWAP_FILE"
@@ -54,21 +66,6 @@ get_swap_file(){
     echo -n $DEFAULT_SWAP_FILE
 }
 
-main(){
-    INSTANCE_TYPE=$(curl --retry 10 --retry-delay 10 --fail --silent http://169.254.169.254/latest/meta-data/instance-type)
-
-    case "$INSTANCE_TYPE" in
-        c3.*)
-            log "c3 instance type found, adding swap"
-            add_swap
-            ;;
-        *)
-            log "No need to add swap, exiting"
-            exit 0
-            ;;
-    esac
-}
-
 case "$1" in
     start)
         main
@@ -77,7 +74,8 @@ case "$1" in
         swapon -s | grep -q ^$(get_swap_file)
         ;;
     *)
-        log "Action not suported"
+        log "Action not supported"
         ;;
 esac
 exit 0
+
