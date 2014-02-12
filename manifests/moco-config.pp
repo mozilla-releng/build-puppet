@@ -135,7 +135,7 @@ class config inherits config::base {
             'bhourigan',
             'bpannabecker',
             'catlee',
-            #'cknowles',
+            'cknowles',
             'coop',
             'cshields',
             'dcurado',
