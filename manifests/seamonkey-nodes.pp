@@ -17,5 +17,5 @@ node "sea-master1.community.scl3.mozilla.com" {
             master_type => "build",
             basedir => "master01";
     }
-    include toplevel::server::buildmaster
+    include toplevel::server::buildmaster::mozilla
 }
