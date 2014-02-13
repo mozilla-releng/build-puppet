@@ -759,6 +759,46 @@ node "buildbot-master102.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
+node "buildbot-master103.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master104.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master105.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master106.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master107.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master108.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master109.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master110.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master111.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master112.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::buildmaster::mozilla
+}
+
 # Package Builders
 
 node "ubuntu64packager1.srv.releng.use1.mozilla.com" {
