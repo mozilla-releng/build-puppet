@@ -44,16 +44,6 @@ class foopy {
             group => $users::builder::group,
             ensure => link,
             target => "/builds/tools/buildfarm/mobile/check.sh";
-        "/builds/start_cp.sh":
-            owner => $users::builder::username,
-            group => $users::builder::group,
-            ensure => link,
-            target => "/builds/tools/buildfarm/mobile/start_cp.sh";
-        "/builds/stop_cp.sh":
-            owner => $users::builder::username,
-            group => $users::builder::group,
-            ensure => link,
-            target => "/builds/tools/buildfarm/mobile/stop_cp.sh";
         "/builds/kill_stalled.sh":
             owner => $users::builder::username,
             group => $users::builder::group,
@@ -117,10 +107,9 @@ class foopy {
     
     # Obsolete
     file {
-        "$::users::builder::home/bin":
-            ensure => absent,
-            force => true;
-        "$::users::builder::home/bin/minidump_stackwalk":
+        # Bug 875599: these files should no longer exist
+        ["/builds/start_cp.sh",
+         "/builds/stop_cp.sh"]:
             ensure => absent;
     }
 }
