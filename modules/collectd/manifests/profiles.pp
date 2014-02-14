@@ -29,6 +29,7 @@ class collectd::profiles {
                 include collectd::plugins::disk
                 include collectd::plugins::df
                 include collectd::plugins::interface
+                include collectd::plugins::ethstat
             }
             'Darwin': {
                 $os_generic_plugins = []
