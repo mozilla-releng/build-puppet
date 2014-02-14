@@ -5,13 +5,11 @@
 [db]
 url = mysql://<%= scope.function_secret(["buildbot_schedulerdb_username"])%>:<%= scope.function_secret(["buildbot_schedulerdb_password"])%>@<%= scope.function_secret(["buildbot_schedulerdb_hostname"])%>/<%= scope.function_secret(["buildbot_schedulerdb_database"])%>
 
-[carrot]
-hostname = <%= scope.lookupvar('::config::selfserve_agent_carrot_hostname') %>
-vhost = <%= scope.lookupvar('::config::selfserve_agent_carrot_vhost') %>
-userid = <%= scope.lookupvar('::config::selfserve_agent_carrot_userid') %>
-password = <%= scope.function_secret(["buildapi_rmq_password"]) %>
+[mq]
+kombu_url = amqp://<%= scope.lookupvar('::config::selfserve_agent_carrot_userid') %>:<%= scope.function_secret(["buildapi_rmq_password"]) %>@<%= scope.lookupvar('::config::selfserve_agent_carrot_hostname') %>/<%= scope.lookupvar('::config::selfserve_agent_carrot_vhost') %>
+heartbeat_interval = 280
 exchange = <%= scope.lookupvar('::config::selfserve_agent_carrot_exchange') %>
-queue = <%= scope.lookupvar('::config::selfserve_agent_carrot_queue') %>
+queue.agent = <%= scope.lookupvar('::config::selfserve_agent_carrot_queue') %>
 
 [masters]
 masters-url = <%= scope.lookupvar('::config::selfserve_agent_masters_json') %>
