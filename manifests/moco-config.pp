@@ -99,6 +99,7 @@ class config inherits config::base {
         '10.134.49.62',
         '10.134.49.93',
         '10.134.49.223',
+        '10.26.48.25',
     ]
 
     $admin_users = $fqdn ? {
