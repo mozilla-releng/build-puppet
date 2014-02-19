@@ -61,6 +61,10 @@ node /talos-linux\d+-ix-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     include toplevel::slave::test::gpu
 }
 
+node /t-w732-ix-\d+.wintest.releng.scl3.mozilla.com/ {
+    include toplevel::base
+}
+
 ## builders
 
 node /bld-linux64-ix-0(\d+).build.scl1.mozilla.com/ {
@@ -760,42 +764,102 @@ node "buildbot-master102.srv.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master103.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm103-tests1-linux":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master104.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm104-tests1-linux":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master105.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm105-tests1-linux":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master106.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm106-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master107.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm107-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master108.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm108-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master109.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm109-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master110.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm110-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master111.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm111-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master112.srv.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm112-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
@@ -823,9 +887,4 @@ node "talos-linux64-ix-001.test.releng.scl3.mozilla.com" {
     users::builder::extra_authorized_key {
         'gbrown': ;
     }
-}
-
-# Windows Testers
-node /t-w732-ix-\d+.wintest.releng.scl3.mozilla.com/ {
-    include toplevel::base
 }
