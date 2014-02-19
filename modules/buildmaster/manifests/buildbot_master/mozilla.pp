@@ -47,6 +47,7 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
             content => template("buildmaster/passwords.py.erb"),
             show_diff => false;
         "${full_master_dir}/master/buildbot.tac":
+            require => Exec["setup-${basedir}"],
             mode => 0644,
             owner => $master_user,
             group => $master_group,
