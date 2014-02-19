@@ -25,7 +25,7 @@ class collectd::profiles {
         case $operatingsystem {
             'CentOS', 'Ubuntu': {
                 $os_generic_plugins = []
-                include collectd::plugins::vmem
+                include collectd::plugins::aggregation
                 include collectd::plugins::disk
                 include collectd::plugins::df
                 include collectd::plugins::interface
