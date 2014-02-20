@@ -227,6 +227,14 @@ node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
 
 node "dev-master1.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
+    # Bug 975004 - Grant pkewisch access to dev-master1
+    realize(Users::Person["pkewisch"])
+    users::root::extra_authorized_key {
+        'pkewisch': ;
+    }
+    users::builder::extra_authorized_key {
+        'pkewisch': ;
+    }
 }
 
 node "buildbot-master51.srv.releng.use1.mozilla.com" {
