@@ -20,8 +20,29 @@ export PATH=/usr/local/bin:$PATH
 # Get mozharness updated / checked out and working
 log "Updating mozharness"
 timeout 300 /usr/local/bin/hgtool.py -b production https://hg.mozilla.org/build/mozharness mozharness
-log "Running b2g bumper"
-python mozharness/scripts/b2g_bumper.py -c b2g_bumper/master.py
-# Touch our timestamp file so nagios can check if we're fresh
-touch b2g_bumper.stamp
-log "Done"
+
+# Start the bumpers in parallel
+pids=""
+for config in master v1.3; do
+    log "Running b2g bumper ${config}, log in ${PWD}/${config}.log"
+    if [ ! -d $config ]; then
+        mkdir $config
+    fi
+    (cd $config; python ../mozharness/scripts/b2g_bumper.py -c b2g_bumper/${config}.py > ../$config.log 2>&1) &
+    pids="$pids $!"
+done
+
+# Now wait for them to finish
+retval=0
+for pid in $pids; do
+    wait $pid
+    if [ $? != 0 ]; then
+        retval=$?
+    fi
+done
+
+if [ $retval = 0 ]; then
+    # Touch our timestamp file so nagios can check if we're fresh
+    touch b2g_bumper.stamp
+    log "Done"
+fi
