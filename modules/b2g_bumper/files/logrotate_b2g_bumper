@@ -4,7 +4,7 @@
 #
 # This file is managed by puppet
 
-/builds/b2g_bumper/b2g_bumper.log
+/builds/b2g_bumper/*.log
 {
     daily
     rotate 10
