@@ -47,6 +47,12 @@ class collectd::profiles {
         class {'collectd::plugins::generic':
             plugins => $plugins, }
 
+        # write plugins 
+        class { 'collectd::plugins::write_graphite':
+            nodes => $collectd::settings::write['graphite_nodes'], }
+        # TODO: this should pass an array of all write chains, not just graphite nodes
+        class { 'collectd::plugins::filters':
+            write_chains => $collectd::settings::write['graphite_nodes'], }
     }
 }
 

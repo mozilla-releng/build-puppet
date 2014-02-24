@@ -1,0 +1,26 @@
+<%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/. %>
+
+LoadPlugin "match_regex"
+
+# Filters individual cpu metrics to the aggregation plugin and pass along all others to write plugins
+PostCacheChain "PostCache"
+<Chain "PostCache">
+  <Rule>
+    <Match regex>
+      Plugin "^cpu$"
+      PluginInstance "^[0-9]+$"
+    </Match>
+    <Target write>
+      Plugin "aggregation"
+    </Target>
+    Target stop
+  </Rule>
+  <Target write>
+<% @write_chains.each do |iname,ihash| -%>
+    Plugin "write_graphite/<%= iname %>"
+<% end -%>
+  </Target>
+</Chain>
+

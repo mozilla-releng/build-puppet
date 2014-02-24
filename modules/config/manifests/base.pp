@@ -110,11 +110,10 @@ class config::base {
     # a comma-separated list of hosts which can connect to the NRPE daemon
     $nrpe_allowed_hosts = '127.0.0.1'
 
-    # The fqdn to which collectd should send its results, and the prefix to
-    # apply to each metric.
-    $collectd_graphite_cluster_fqdn = ""
-    $collectd_graphite_prefix = ""
-
+    # a hash of collectd write modules and there configurations.
+    # If undef, module is disabled
+    $collectd_write = undef
+    
     # if set, this is the URL of the HTTP/HTTPS/FTP proxy through which all
     # outgoing access will be routed.  The exceptions are a list of hostnames
     # or .-prefixed hostname suffixes which will not be routed through the proxy.
