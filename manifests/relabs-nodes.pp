@@ -8,14 +8,8 @@ node "relabs-puppet1.relabs.releng.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
 }
 
-node "cloudstack1.relabs.releng.scl3.mozilla.com" {
-    # dustin is using this to run cloudstack
-    include toplevel::server
-}
-
 node "hp1.relabs.releng.scl3.mozilla.com" {
-    # dustin is using this to run HVM for cloudstack
-    include toplevel::server
+    include toplevel::slave
 }
 
 node "hp2.relabs.releng.scl3.mozilla.com" {
