@@ -183,8 +183,6 @@ class config inherits config::base {
 
     $vmwaretools_version = "9.0.5-1065307"
     $vmwaretools_md5 = "924b75b0b522eb462266cf3c24c98837"
-    $collectd_graphite_cluster_fqdn = "graphite-relay.private.scl3.mozilla.com"
-    $collectd_graphite_prefix = "hosts."
     $releaserunner_notify_from = "Release Eng <release@mozilla.com>"
     $releaserunner_notify_to = "Release Eng <release@mozilla.com>"
     $releaserunner_smtp_server = "localhost"
@@ -218,4 +216,21 @@ class config inherits config::base {
     $slaverebooter_mail_to = "release@mozilla.com"
 
     $buildmaster_ssh_keys = [ 'b2gbld_dsa', 'b2gtry_dsa', 'ffxbld_dsa', 'tbirdbld_dsa', 'trybld_dsa', 'xrbld_dsa' ]
+
+    if (secret('graphite_apikey_hostedgraphite') == ""){
+        fail("missing graphite_apikey_hostedgraphite")
+    }
+    $graphite_apikey_hostedgraphite = secret('graphite_apikey_hostedgraphite')
+
+    $collectd_write = {
+        graphite_nodes => {
+            'graphite-relay.private.scl3.mozilla.com' => {
+                'port' => '2003', 'prefix' => 'hosts.',
+            },
+            'carbon.hostedgraphite.com' => {
+                'port' => '2003', 'prefix' => "${graphite_apikey_hostedgraphite}.hosts."
+            }
+       },
+    }
+
 }

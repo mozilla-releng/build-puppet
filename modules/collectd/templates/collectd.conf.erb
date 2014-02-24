@@ -51,38 +51,4 @@ LoadPlugin syslog
        LogLevel <%= scope.lookupvar('collectd::settings::syslog_level') %>
 </Plugin>
 
-LoadPlugin write_graphite
-<Plugin write_graphite>
-    <Node "<%= scope.lookupvar('collectd::settings::graphite_cluster_fqdn') %>">
-        Host "<%= scope.lookupvar('collectd::settings::graphite_cluster_fqdn') %>"
-        Port "<%= scope.lookupvar('collectd::settings::graphite_port') %>"
-        Prefix "<%= scope.lookupvar('collectd::settings::graphite_prefix') %>"
-#       Postfix ""
-        StoreRates true
-        AlwaysAppendDS false
-        EscapeCharacter "_"
-        SeparateInstances true
-    </Node>
-</Plugin>
-
-LoadPlugin "match_regex"
-
-# Filters individual cpu metrics to the aggregation plugin and pass along all others to grphite
-PostCacheChain "PostCache"
-<Chain "PostCache">
-  <Rule>
-    <Match regex>
-      Plugin "^cpu$"
-      PluginInstance "^[0-9]+$"
-    </Match>
-    <Target write>
-      Plugin "aggregation"
-    </Target>
-    Target stop
-  </Rule>
-  <Target write>
-    Plugin "write_graphite/<%= scope.lookupvar('collectd::settings::graphite_cluster_fqdn') %>"
-  </Target>
-</Chain>
-
 Include "<%= scope.lookupvar('collectd::settings::plugindir') %>"
