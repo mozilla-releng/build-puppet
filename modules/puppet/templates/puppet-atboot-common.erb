@@ -3,8 +3,10 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # number of tries to make between attempts to run puppet.  6 waits about 2h
-REBOOT_AFTER=6
 PUPPETMASTERS=$(< /etc/puppet/puppetmasters.txt)
+LAST_GOOD_RUN_FILE=/var/lib/puppet/last-good-run
+GIVE_UP_AFTER_TRYING=3
+MAX_SECS_SINCE_GOOD_RUN=$((4*3600))
 
 # note that --test implies --detailed-exitcodes, which we don't want
 PUPPET_OPTIONS="--onetime --no-daemonize --logdest=console --logdest=syslog --color=false"
@@ -44,6 +46,7 @@ run_until_success() {
         for puppetmaster in $PUPPETMASTERS; do
             # try running puppet, and sleep 60s if it fails
             if run_puppet $puppetmaster; then
+                touch "${LAST_GOOD_RUN_FILE}"
                 success=true
                 break
             fi
@@ -51,14 +54,22 @@ run_until_success() {
             wait_time=$((wait_time*2))
         done
 
-        # If DHCP fails to get a (correct) IP address for this system, then we
-        # would sit in this loop until help arrives, which can be a long time.
-        # In theory, DHCP should block until it gets an address, but this is
-        # not the case - see bug 636390.  So we bail out after REBOOT_AFTER
-        # tries, in hopes we'll get better info from DHCP.
         count=$((count+1))
-        if [ $count -gt $REBOOT_AFTER ]; then
-            do_reboot
+        if [ $count -ge $GIVE_UP_AFTER_TRYING ]; then
+            # after GIVE_UP_AFTER_TRYING iterations, we'll either just call it
+            # success if we've had a successful run reasonably recently, or
+            # reboot in hopes there's some network issue preventing puppet from
+            # running; note that this perl invocation returns a large number
+            # when the file doesn't exist, giving the expected outcome.
+            local since_last_good_run=$(perl -e '@st = stat("'${LAST_GOOD_RUN_FILE}'"); print time - $st[9]')
+            if [ $since_last_good_run -gt ${MAX_SECS_SINCE_GOOD_RUN} ]; then
+                echo "Giving up and rebooting"
+                echo "IP: $(facter ipaddress)" | mail -s "Repeated Puppet Failures on $(facter fqdn)" "<%= scope.lookupvar('::config::puppet_notif_email') %>"
+                do_reboot
+            else
+                echo "Giving up and proceeding"
+                success=true
+            fi
         fi
     done
 
@@ -70,7 +81,6 @@ run_until_success() {
 }
 
 do_reboot() {
-    echo "maybe a reboot will help.."
     if [ -x /sbin/reboot ]; then
         /sbin/reboot
     else
