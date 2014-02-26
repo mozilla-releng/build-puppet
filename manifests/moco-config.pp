@@ -217,20 +217,12 @@ class config inherits config::base {
 
     $buildmaster_ssh_keys = [ 'b2gbld_dsa', 'b2gtry_dsa', 'ffxbld_dsa', 'tbirdbld_dsa', 'trybld_dsa', 'xrbld_dsa' ]
 
-    if (secret('graphite_apikey_hostedgraphite') == ""){
-        fail("missing graphite_apikey_hostedgraphite")
-    }
-    $graphite_apikey_hostedgraphite = secret('graphite_apikey_hostedgraphite')
-
     $collectd_write = {
         graphite_nodes => {
             'graphite-relay.private.scl3.mozilla.com' => {
                 'port' => '2003', 'prefix' => 'hosts.',
             },
-            'carbon.hostedgraphite.com' => {
-                'port' => '2003', 'prefix' => "${graphite_apikey_hostedgraphite}.hosts."
-            }
-       },
+        },
     }
 
 }
