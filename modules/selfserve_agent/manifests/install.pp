@@ -29,7 +29,6 @@ class selfserve_agent::install {
                 "Pygments==1.4",
                 "Pylons==1.0",
                 "amqp==1.4.3",
-                "anyjson==0.3",
                 "buildapi==0.2.0",
                 "buildbot==0.8.4-pre-moz1",
                 "decorator==3.3.1",
