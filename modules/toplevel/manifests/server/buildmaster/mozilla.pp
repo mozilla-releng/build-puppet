@@ -10,4 +10,9 @@ class toplevel::server::buildmaster::mozilla inherits toplevel::server::buildmas
     include buildmaster::queue
     include buildmaster::settings
     include packages::procmail # for lockfile
+
+    if $::virtual == "xenhvm" {
+        # Bug 964880: make sure to enable swap on some instance types
+        include tweaks::swap_on_instance_storage
+    }
 }
