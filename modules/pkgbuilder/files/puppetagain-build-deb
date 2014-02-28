@@ -23,7 +23,7 @@ version=$(parsechangelog ${debian_dir}/changelog | sed -n '/^Version/{s/^[^:]*: 
 version=$(echo "${version}" | sed -e 's/-[^-]*$//')
 for ext in 'tar.gz' 'tar.bz2'; do
     orig_tarball="${mozilla_dir}/${pkg}_${version}.orig.${ext}"
-if [ -f "${orig_tarbal}" ]; then
+if [ -f "${orig_tarball}" ]; then
     break
 fi
 done
