@@ -119,6 +119,7 @@ node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
         "network::aws": stage => network,
     }
     include toplevel::slave::build::mock
+    include diamond
 }
 
 node /try-.*\.try\.releng\.(use1|usw2)\.mozilla.com/ {
@@ -128,6 +129,7 @@ node /try-.*\.try\.releng\.(use1|usw2)\.mozilla.com/ {
         "network::aws": stage => network,
     }
     include toplevel::slave::build::mock
+    include diamond
 }
 
 node /dev-.*\.dev\.releng\.(use1|usw2)\.mozilla.com/ {
