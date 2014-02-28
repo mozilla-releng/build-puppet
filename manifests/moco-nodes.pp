@@ -434,7 +434,12 @@ node "buildbot-master69.srv.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master70.srv.releng.use1.mozilla.com" {
-    # Free Master
+    buildmaster::buildbot_master::mozilla {
+        "bm70-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
