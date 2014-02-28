@@ -138,6 +138,7 @@ node /dev-.*\.dev\.releng\.(use1|usw2)\.mozilla.com/ {
         "network::aws": stage => network,
     }
     include toplevel::slave::build::mock
+    include diamond
 }
 
 ## signing
