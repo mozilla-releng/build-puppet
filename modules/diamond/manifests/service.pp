@@ -6,9 +6,6 @@ class diamond::service {
 
     case $::operatingsystem {
         CentOS : {
-            package { 'diamond':
-                ensure => present,
-            }
             service {
                 $diamond::settings::servicename:
                     enable => "true",
