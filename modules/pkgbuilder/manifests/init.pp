@@ -9,6 +9,7 @@ class pkgbuilder {
         Ubuntu: {
             # On Ubuntu, we use cowbuilder along with a custom script to build packages
             include packages::cowbuilder
+            include packages::debian_keyring
             file {
                 "/etc/pbuilderrc":
                     content => template("${module_name}/pbuilderrc.erb");
