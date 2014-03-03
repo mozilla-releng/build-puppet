@@ -5,11 +5,13 @@ class diamond::config {
     include users::root
     include diamond::settings
     include diamond::service
+    include packages::diamond
 
     case $::operatingsystem {
         CentOS: {
             file {
                 $diamond::settings::diamond_config:
+                    require => Class['packages::diamond'],
                     owner => $::users::root::username,
                     group => $::users::root::group,
                     mode => 0644,
