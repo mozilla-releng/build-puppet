@@ -120,6 +120,7 @@ node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
     }
     include toplevel::slave::build::mock
     include diamond
+    include instance_metadata::diamond
 }
 
 node /try-.*\.try\.releng\.(use1|usw2)\.mozilla.com/ {
@@ -130,6 +131,7 @@ node /try-.*\.try\.releng\.(use1|usw2)\.mozilla.com/ {
     }
     include toplevel::slave::build::mock
     include diamond
+    include instance_metadata::diamond
 }
 
 node /dev-.*\.dev\.releng\.(use1|usw2)\.mozilla.com/ {
@@ -141,6 +143,7 @@ node /dev-.*\.dev\.releng\.(use1|usw2)\.mozilla.com/ {
     }
     include toplevel::slave::build::mock
     include diamond
+    include instance_metadata::diamond
 }
 
 ## signing
