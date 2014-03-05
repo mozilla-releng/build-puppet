@@ -30,6 +30,8 @@ class toplevel::base {
     include needs_reboot::motd
     include web_proxy
     include collectd
+    include instance_metadata
+
     if ($::operatingsystem != Windows) {
         include packages::editors
         include packages::screen
