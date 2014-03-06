@@ -12,7 +12,7 @@ class packages::puppetserver {
             package {
                 "puppet-server":
                     require => Class["packages::puppet"],
-                    ensure => $packages::puppet::puppet_rpm_version;
+                    ensure => $packages::puppet::new_puppet_rpm_version;
             }
         }
         default: {
