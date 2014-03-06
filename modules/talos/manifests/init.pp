@@ -18,6 +18,7 @@ class talos {
             include packages::nodejs
             include packages::llvm
             include packages::sox
+            include packages::libxcb1
             # required for the 32-bit reftests per :ahal, bug 837268
             include packages::ia32libs
             include packages::gstreamer
