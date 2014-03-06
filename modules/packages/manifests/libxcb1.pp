@@ -6,7 +6,7 @@ class packages::libxcb1 {
         Ubuntu: {
             package {
                 "libxcb1":
-                    ensure => "1.8.1-1";
+                    ensure => "1.8.1-2ubuntu2.1mozilla1";
             }
         }
         default: {
