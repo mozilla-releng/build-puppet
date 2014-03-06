@@ -10,13 +10,13 @@ class packages::puppet {
     $new_puppet_version = "3.4.2"
     $old_puppet_version = "3.2.2"
     $puppet_dmg_version = "${old_puppet_version}"
-    $puppet_rpm_version = "${new_puppet_version}-1.el6"
-    $puppet_deb_version = "${old_puppet_version}-1puppetlabs1"
+    $puppet_rpm_version = "${new_puppet_version}-1.el6"  # don't forget to change puppetserver.pp too
+    $puppet_deb_version = "${new_puppet_version}-1puppetlabs1"
     $old_facter_version = "1.7.1"
     $new_facter_version = "1.7.5"
     $facter_dmg_version = "${old_facter_version}"
     $facter_rpm_version = "${new_facter_version}-1.el6"
-    $facter_deb_version = "${old_facter_version}-1puppetlabs1"
+    $facter_deb_version = "${new_facter_version}-1puppetlabs1"
 
     case $::operatingsystem {
         CentOS: {
