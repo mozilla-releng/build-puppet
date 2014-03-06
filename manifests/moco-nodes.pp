@@ -490,27 +490,52 @@ node "buildbot-master74.srv.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master75.srv.releng.use1.mozilla.com" {
-    # Free Master
+    buildmaster::buildbot_master::mozilla {
+        "bm75-try1":
+            http_port => 8101,
+            master_type => "try",
+            basedir => "try1";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master76.srv.releng.use1.mozilla.com" {
-    # Free Master
+    buildmaster::buildbot_master::mozilla {
+        "bm76-try1":
+            http_port => 8101,
+            master_type => "try",
+            basedir => "try1";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master77.srv.releng.use1.mozilla.com" {
-    # Free Master
+    buildmaster::buildbot_master::mozilla {
+        "bm77-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master78.srv.releng.usw2.mozilla.com" {
-    # Free Master
+    buildmaster::buildbot_master::mozilla {
+        "bm78-try1":
+            http_port => 8101,
+            master_type => "try",
+            basedir => "try1";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master79.srv.releng.usw2.mozilla.com" {
-    # Free Master
+    buildmaster::buildbot_master::mozilla {
+        "bm79-try1":
+            http_port => 8101,
+            master_type => "try",
+            basedir => "try1";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
