@@ -79,7 +79,6 @@ class config inherits config::base {
         '10.250.48.0/22',
     ]
     $signing_new_token_allowed_ips = [
-        '10.12.48.14',
         '10.26.48.41',
         '10.26.48.52',
         '10.26.48.53',
