@@ -21,6 +21,14 @@ class packages::nodejs {
                     target => "/usr/bin/nodejs";
             }
         }
+        Darwin: {
+            packages::pkgdmg {
+                'nodejs':
+                    version => '0.10.21',
+                    os_version_specific => false,
+                    private => false;
+            }
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }
