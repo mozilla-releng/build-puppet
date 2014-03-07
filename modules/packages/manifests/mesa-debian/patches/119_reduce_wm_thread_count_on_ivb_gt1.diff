@@ -1,0 +1,25 @@
+From 539a02b9a73276a6d012436e296cfab55d5257a3 Mon Sep 17 00:00:00 2001
+From: Eric Anholt <eric@anholt.net>
+Date: Fri, 27 Jul 2012 18:34:07 +0000
+Subject: i965/gen7: Reduce GT1 WM thread count according to updated BSpec.
+
+Acked-by: Kenneth Graunke <kenneth@whitecape.org>
+
+https://bugs.freedesktop.org/show_bug.cgi?id=52382
+(cherry picked from commit fbf86c7f0f1f12e52b927e3870535073879d0a4d)
+---
+diff --git a/src/mesa/drivers/dri/i965/brw_context.c b/src/mesa/drivers/dri/i965/brw_context.c
+index a66ccc7..78bc6f9 100644
+--- a/src/mesa/drivers/dri/i965/brw_context.c
++++ b/src/mesa/drivers/dri/i965/brw_context.c
+@@ -240,7 +240,7 @@ brwCreateContext(int api,
+    /* WM maximum threads is number of EUs times number of threads per EU. */
+    if (intel->gen >= 7) {
+       if (intel->gt == 1) {
+-	 brw->max_wm_threads = 86;
++	 brw->max_wm_threads = 48;
+ 	 brw->max_vs_threads = 36;
+ 	 brw->max_gs_threads = 36;
+ 	 brw->urb.size = 128;
+--
+cgit v0.9.0.2-2-gbebe

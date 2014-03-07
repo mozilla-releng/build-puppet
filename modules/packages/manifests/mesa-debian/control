@@ -9,7 +9,7 @@ Build-Depends:
  debhelper (>= 8.1.3),
  quilt (>= 0.40),
  pkg-config,
- libdrm-dev (>= 2.4.30) [!hurd-any],
+ libdrm-dev (>= 2.4.34) [!hurd-any],
  libx11-dev,
  xutils-dev,
  x11proto-gl-dev (>= 1.4.14),
@@ -253,9 +253,9 @@ Package: libegl1-mesa-dev
 Section: libdevel
 Architecture: linux-any kfreebsd-any
 Depends:
- libegl1-mesa (= ${binary:Version}),
- libegl1-mesa-drivers (= ${binary:Version}),
- libdrm-dev (>= 2.4.19) [!hurd-any],
+ libegl1-mesa (= ${binary:Version}) | libegl1-mesa-lts-quantal  | libegl1-mesa-lts-raring,
+ libegl1-mesa-drivers (= ${binary:Version}) | libegl1-mesa-drivers-lts-quantal | libegl1-mesa-drivers-lts-raring,
+ libdrm-dev (>= 2.4.19) [!hurd-any] | libdrm-dev-lts-quantal | libdrm-dev-lts-raring | libdrm-dev-renamed,
  x11proto-dri2-dev (>= 2.1),
  x11proto-gl-dev (>= 1.4.11),
  libx11-dev,
@@ -686,8 +686,8 @@ Package: libgl1-mesa-dev
 Section: libdevel
 Architecture: any
 Depends:
- mesa-common-dev (= ${binary:Version}),
- libgl1-mesa-glx (= ${binary:Version}),
+ mesa-common-dev (= ${binary:Version}) | mesa-common-dev-lts-quantal | mesa-common-dev-lts-raring,
+ libgl1-mesa-glx (= ${binary:Version}) | libgl1-mesa-glx-lts-quantal | libgl1-mesa-glx-lts-raring,
  libxext-dev,
  ${misc:Depends},
 Conflicts: libgl-dev, libgl1-mesa-dri-dev
@@ -710,7 +710,7 @@ Architecture: any
 Replaces: xlibmesa-gl-dev (<< 1:7), xlibosmesa-dev, libgl1-mesa-swx11-dev (<< 6.5.2), libgl1-mesa-dev (<< 7.5~rc4-2)
 Depends:
  libx11-dev,
- libdrm-dev,
+ libdrm-dev (>= 2.4.19) | libdrm-dev-lts-quantal | libdrm-dev-lts-raring | libdrm-dev-renamed,
  ${misc:Depends},
 Description: Developer documentation for Mesa
  This package includes the specifications for the Mesa-specific OpenGL
@@ -739,7 +739,7 @@ Section: libdevel
 Architecture: any
 Depends:
  libosmesa6 (= ${binary:Version}),
- mesa-common-dev (= ${binary:Version}) | libgl-dev,
+ mesa-common-dev (= ${binary:Version}) | mesa-common-dev-lts-quantal | mesa-common-dev-lts-raring | libgl-dev,
  ${misc:Depends},
 Conflicts: xlibosmesa-dev, libosmesa4-dev, libosmesa-dev
 Replaces: xlibosmesa-dev, libosmesa-dev, libgl1-mesa-swx11-dev (<< 6.5.2), mesa-common-dev (<< 6.5.2)
@@ -780,7 +780,7 @@ Section: libdevel
 Architecture: any
 Depends:
  libglu1-mesa (= ${binary:Version}),
- libgl1-mesa-dev | libgl-dev,
+ libgl1-mesa-dev | libgl1-mesa-dev-lts-quantal | libgl1-mesa-dev-lts-raring | libgl-dev,
  ${misc:Depends},
 Provides: libglu-dev, xlibmesa-glu-dev
 Conflicts: mesag-dev (<< 5.0.0-1), mesa-glide2-dev (<< 5.0.0-1), mesag3+ggi-dev (<< 5.0.0-1), xlibmesa-dev
