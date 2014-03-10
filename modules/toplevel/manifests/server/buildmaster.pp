@@ -17,5 +17,6 @@ class toplevel::server::buildmaster inherits toplevel::server {
     include packages::mozilla::python27
     include packages::mozilla::py27_virtualenv
     include packages::mozilla::py27_mercurial
+    include packages::patch
 }
 
