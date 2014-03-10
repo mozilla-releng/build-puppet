@@ -11,7 +11,7 @@ class packages::mesa {
                         # https://launchpad.net/ubuntu/+source/mesa
                         ["libgl1-mesa-dri", "libgl1-mesa-glx", "libglapi-mesa",
                          "libglu1-mesa","libxatracker1"]:
-                            ensure => '8.0.2-0ubuntu3';
+                            ensure => '8.0.4-0ubuntu0.6mozilla1';
                     }
                 }
                 "x86_64": {
@@ -20,7 +20,7 @@ class packages::mesa {
                         # https://launchpad.net/ubuntu/+source/mesa
                         ["libgl1-mesa-dri", "libgl1-mesa-glx", "libglapi-mesa",
                          "libglu1-mesa","libxatracker1"]:
-                            ensure => '8.0.4-0ubuntu0.2';
+                            ensure => '8.0.4-0ubuntu0.6mozilla1';
                     }
                 }
             }
