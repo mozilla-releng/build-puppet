@@ -45,7 +45,7 @@ class config inherits config::base {
         '10.250.48.1', # fake
     ]
 
-    $ntp_server = "ntp.build.mozilla.org"
+    $ntp_server = "time.mozilla.org"
     $admin_users = [
         "arr",
         "bhearsum",
