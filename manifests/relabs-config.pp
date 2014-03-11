@@ -10,6 +10,7 @@ class config inherits config::base {
     $grouped_puppet_servers = {
         ".*" => [
             "relabs-puppet1.relabs.releng.scl3.mozilla.com",
+            "relabs-puppet2.relabs.releng.scl3.mozilla.com",
         ],
     }
     $puppet_servers = sort_servers_by_group($grouped_puppet_servers)
