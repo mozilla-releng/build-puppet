@@ -18,7 +18,7 @@ class config inherits config::base {
     $data_servers = $puppet_servers
     $data_server = $puppet_server
 
-    $distinguished_puppetmaster = "relabs-puppet1.relabs.releng.scl3.mozilla.com"
+    $distinguished_puppetmaster = "relabs-puppet2.relabs.releng.scl3.mozilla.com"
     $puppet_again_repo = "https://hg.mozilla.org/build/puppet/"
 
     $puppet_server_reports = "http"
