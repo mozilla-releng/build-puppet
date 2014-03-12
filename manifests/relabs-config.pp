@@ -9,7 +9,6 @@ class config inherits config::base {
     $builder_username = "relabsbld"
     $grouped_puppet_servers = {
         ".*" => [
-            "relabs-puppet1.relabs.releng.scl3.mozilla.com",
             "relabs-puppet2.relabs.releng.scl3.mozilla.com",
         ],
     }
