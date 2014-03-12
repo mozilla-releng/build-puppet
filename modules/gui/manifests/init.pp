@@ -44,12 +44,6 @@ class gui($on_gpu) {
             if ($on_gpu == false) {
                 # We only run b2g reftests on EC2 machines
                 include packages::mesa
-                file {
-                   # Bug 968199: indicate that OPENGL is broken on EC2 machines
-                   "/etc/X11/Xsession.d/98-broken-opengl":
-                       content => "export OPENGL_IS_BROKEN_HERE=1\n",
-                       notify => Service['xvfb'];
-                }
             }
 
             file {
