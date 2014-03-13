@@ -4,10 +4,6 @@
 
 ## relabs machines - check with dustin to borrow one
 
-node "relabs-puppet1.relabs.releng.scl3.mozilla.com" {
-    include toplevel::server::puppetmaster
-}
-
 node "relabs-puppet2.relabs.releng.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
 }
@@ -21,6 +17,7 @@ node "neutron1.relabs.releng.scl3.mozilla.com" {
 }
 
 node "hp1.relabs.releng.scl3.mozilla.com" {
+    include toplevel::base
 }
 
 node "hp2.relabs.releng.scl3.mozilla.com" {
