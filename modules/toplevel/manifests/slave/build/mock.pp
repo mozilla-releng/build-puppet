@@ -5,6 +5,7 @@ class toplevel::slave::build::mock inherits toplevel::slave::build {
     include ::config
     include mockbuild
     include users::builder
+    include packages::gdb
 
     if $::virtual == "xenhvm" {
         # Bug 964880: make sure to enable swap on some instance types
