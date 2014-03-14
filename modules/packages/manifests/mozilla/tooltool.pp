@@ -14,4 +14,9 @@ class packages::mozilla::tooltool {
             mode => 0755,
             content => template("packages/tooltool.py");
     }
+    file {
+        "/builds/tooltool.py":
+            ensure => "link",
+            target => "/tools/tooltool.py";
+    }
 }
