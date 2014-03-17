@@ -23,7 +23,7 @@ timeout 300 /usr/local/bin/hgtool.py -b production https://hg.mozilla.org/build/
 
 # Start the bumpers in parallel
 pids=""
-for config in master v1.3 v1.3t; do
+for config in master v1.4 v1.3 v1.3t; do
     log "Running b2g bumper ${config}, log in ${PWD}/${config}.log"
     if [ ! -d $config ]; then
         mkdir $config
