@@ -21,6 +21,7 @@ username = <%= scope.lookupvar("::config::slaveapi_inventory_username") %>
 
 [buildapi]
 api_url = <%= scope.lookupvar("::config::slaveapi_buildapi_url") %>
+max_concurrent = 15
 
 [bugzilla]
 api_url = <%=@bugzilla_url%>
