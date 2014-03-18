@@ -18,6 +18,11 @@ node /foopy\d+.p\d+.releng.scl1.mozilla.com/ {
 
 ## testers
 
+node "r4-mini-001.test.releng.scl3.mozilla.com" {
+    $slave_trustlevel = 'try'
+    include toplevel::slave::test::gpu
+}
+
 node /talos-r4-snow-\d+.build.scl1.mozilla.com/ {
     $slave_trustlevel = 'try'
     include toplevel::slave::test::gpu
