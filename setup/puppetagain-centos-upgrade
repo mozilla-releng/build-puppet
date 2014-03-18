@@ -1,0 +1,43 @@
+#! /bin/bash
+
+set -e
+set -x
+
+VERSION="$1"
+if test -z "$VERSION"; then
+	echo 'please provide new version number'
+ 	exit 1
+fi
+
+# edit the mirror files
+for mirror in /etc/yum.repos.d/{base,updates}.mirrors; do
+	sed -i -e "s|mirrors/centos/6/latest/|mirrors/centos/$VERSION/|g" -e "s|mirrors/centos/[0-9.]*/|mirrors/centos/$VERSION/|g" $mirror
+	cat $mirror
+done
+
+# purge
+yum clean all
+
+# upgrade
+yum upgrade -y -x 'puppet*'
+
+# edit /etc/issue
+(
+    if [ -f /etc/issue.rpmnew ]; then
+        sed -n -e '1p; q' /etc/issue.rpmnew
+        sed -n -e '2,$p' /etc/issue
+    else
+        cat /etc/issue
+    fi
+    echo "Upgraded to CentOS $VERSION: $(date)"
+) > /etc/issue~
+mv /etc/issue~ /etc/issue
+rm -f /etc/issue.rpmnew
+
+puppet agent --test ||
+	cat <<'EOF'
+Fix any errors above.  Hints:
+ * You may need to kill the running postfix daeomn, as the new startup script cannot find it.
+EOF
+
+echo "Finally, please reboot the system."

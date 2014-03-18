@@ -12,16 +12,18 @@
 %global relccache %(%abs2rel %{_bindir}/ccache %{_libdir}/ccache)
 
 Name:           ccache
-Version:        3.1.7
-Release:        moz0
+Version:        3.1.9
+Release:        3moz0
 Summary:        C/C++ compiler cache
 
 Group:          Development/Tools
 License:        GPLv3+
 URL:            http://ccache.samba.org/
-Source0:        http://samba.org/ftp/ccache/%{name}-%{version}.tar.gz
+Source0:        http://samba.org/ftp/ccache/%{name}-%{version}.tar.xz
 Source1:        %{name}.sh.in
 Source2:        %{name}.csh.in
+# From upstream post 3.1.9
+Patch0:         ccache-3.1.9-gcc48-tests.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl(File::Spec)
@@ -38,6 +40,7 @@ being done again.  The main focus is to handle the GNU C/C++ compiler
 
 %prep
 %setup -q
+%patch0 -p1
 sed -e 's|@LIBDIR@|%{_libdir}|g' -e 's|@CACHEDIR@|%{_var}/cache/ccache|g' \
     %{SOURCE1} > %{name}.sh
 sed -e 's|@LIBDIR@|%{_libdir}|g' -e 's|@CACHEDIR@|%{_var}/cache/ccache|g' \
@@ -65,8 +68,10 @@ install -dm 770 $RPM_BUILD_ROOT%{_var}/cache/ccache
 install -dm 755 $RPM_BUILD_ROOT%{_libdir}/ccache
 for n in cc gcc g++ c++ ; do
     ln -s %{relccache} $RPM_BUILD_ROOT%{_libdir}/ccache/$n
-    for p in avr- arm-gp2x-linux- msp430- ; do
-        ln -s %{relccache} $RPM_BUILD_ROOT%{_libdir}/ccache/$p$n
+    for p in avr arm-gp2x-linux arm-none-eabi msp430 aarch64 alpha arm avr32 \
+        blackfin c6x cris frv h8300 hppa64 ia64 m32r m68k mips64 mn10300 \
+        powerpc64 s390x sh sh64 sparc64 tile x86_64 xtensa ; do
+        ln -s %{relccache} $RPM_BUILD_ROOT%{_libdir}/ccache/$p-$n
     done
     for s in 32 34 4 44 ; do
         ln -s %{relccache} $RPM_BUILD_ROOT%{_libdir}/ccache/$n$s
@@ -111,6 +116,7 @@ done\
 
 %ccache_trigger -p arm-gp2x-linux-gcc arm-gp2x-linux-cc arm-gp2x-linux-gcc
 %ccache_trigger -p arm-gp2x-linux-gcc-c++ arm-gp2x-linux-c++ arm-gp2x-linux-g++
+%ccache_trigger -p arm-none-eabi-gcc-cs arm-none-eabi-gcc
 %ccache_trigger -p avr-gcc avr-cc avr-gcc
 %ccache_trigger -p avr-gcc-c++ avr-c++ avr-g++
 %ccache_trigger -p compat-gcc-32 cc32 gcc32
@@ -123,9 +129,35 @@ done\
 %ccache_trigger -p gcc4-c++ c++4 g++4
 %ccache_trigger -p gcc44 cc4 gcc44
 %ccache_trigger -p gcc44-c++ c++44 g++44
-%ccache_trigger -p mingw32-gcc i686-pc-mingw32-cc i686-pc-mingw32-gcc
-%ccache_trigger -p mingw32-gcc-c++ i686-pc-mingw32-c++ i686-pc-mingw32-g++
+%ccache_trigger -p mingw32-gcc i686-pc-mingw32-cc i686-pc-mingw32-gcc i686-w64-mingw32-gcc
+%ccache_trigger -p mingw32-gcc-c++ i686-pc-mingw32-c++ i686-pc-mingw32-g++ i686-w64-mingw32-c++ i686-w64-mingw32-g++
+%ccache_trigger -p mingw64-gcc i686-w64-mingw32-gcc x86_64-w64-mingw32-gcc
+%ccache_trigger -p mingw64-gcc-c++ i686-w64-mingw32-c++ i686-w64-mingw32-g++ x86_64-w64-mingw32-c++ x86_64-w64-mingw32-g++
 %ccache_trigger -p msp430-gcc msp430-cc msp430-gcc
+# cross-gcc
+%ccache_trigger -p gcc-aarch64-linux-gnu aarch64-linux-gnu-gcc
+%ccache_trigger -p gcc-alpha-linux-gnu alpha-linux-gnu-gcc
+%ccache_trigger -p gcc-arm-linux-gnu arm-linux-gnu-gcc
+%ccache_trigger -p gcc-avr32-linux-gnu avr32-linux-gnu-gcc
+%ccache_trigger -p gcc-blackfin-linux-gnu blackfin-linux-gnu-gcc
+%ccache_trigger -p gcc-c6x-linux-gnu c6x-linux-gnu-gcc
+%ccache_trigger -p gcc-cris-linux-gnu cris-linux-gnu-gcc
+%ccache_trigger -p gcc-frv-linux-gnu frv-linux-gnu-gcc
+%ccache_trigger -p gcc-h8300-linux-gnu h8300-linux-gnu-gcc
+%ccache_trigger -p gcc-hppa64-linux-gnu hppa64-linux-gnu-gcc
+%ccache_trigger -p gcc-ia64-linux-gnu ia64-linux-gnu-gcc
+%ccache_trigger -p gcc-m32r-linux-gnu m32r-linux-gnu-gcc
+%ccache_trigger -p gcc-m68k-linux-gnu m68k-linux-gnu-gcc
+%ccache_trigger -p gcc-mips64-linux-gnu mips64-linux-gnu-gcc
+%ccache_trigger -p gcc-mn10300-linux-gnu mn10300-linux-gnu-gcc
+%ccache_trigger -p gcc-powerpc64-linux-gnu powerpc64-linux-gnu-gcc
+%ccache_trigger -p gcc-s390x-linux-gnu s390x-linux-gnu-gcc
+%ccache_trigger -p gcc-sh-linux-gnu sh-linux-gnu-gcc
+%ccache_trigger -p gcc-sh64-linux-gnu sh64-linux-gnu-gcc
+%ccache_trigger -p gcc-sparc64-linux-gnu sparc64-linux-gnu-gcc
+%ccache_trigger -p gcc-tile-linux-gnu tile-linux-gnu-gcc
+%ccache_trigger -p gcc-x86_64-linux-gnu x86_64-linux-gnu-gcc
+%ccache_trigger -p gcc-xtensa-linux-gnu xtensa-linux-gnu-gcc
 
 %pre
 getent group ccache >/dev/null || groupadd -r ccache || :
@@ -142,6 +174,27 @@ getent group ccache >/dev/null || groupadd -r ccache || :
 
 
 %changelog
+* Sun Mar 31 2013 Ville Skyttä <ville.skytta@iki.fi> - 3.1.9-3
+- Apply upstream fix for gcc 4.8 test suite failure (#913915).
+- Add arm-none-eabi and cross-gcc symlink triggers.
+- Fix bogus dates in %%changelog.
+
+* Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
+* Wed Jan  9 2013 Ville Skyttä <ville.skytta@iki.fi> - 3.1.9-1
+- Update to 3.1.9.
+
+* Sat Aug 18 2012 Ville Skyttä <ville.skytta@iki.fi> - 3.1.8-1
+- Update to 3.1.8, fixes #783971.
+- Update mingw* symlink triggers.
+
+* Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
+* Sun Jan  8 2012 Ville Skyttä <ville.skytta@iki.fi> - 3.1.7-1
+- Update to 3.1.7.
+
 * Sun Dec  4 2011 Ville Skyttä <ville.skytta@iki.fi> - 3.1.6-2
 - Turn on CCACHE_HASHDIR by default (#759592, Jan Kratochvil).
 
@@ -260,7 +313,7 @@ getent group ccache >/dev/null || groupadd -r ccache || :
 - Auto-symlink update: add compat-gcc-32 and compat-gcc-32-c++, drop
   bunch of no longer relevant compilers.
 
-* Fri Apr  7 2005 Michael Schwendt <mschwendt[AT]users.sf.net> - 2.4-2
+* Wed Apr  6 2005 Michael Schwendt <mschwendt[AT]users.sf.net> - 2.4-2
 - rebuilt
 
 * Sun Sep 26 2004 Ville Skyttä <ville.skytta@iki.fi> - 0:2.4-0.fdr.1
@@ -295,7 +348,7 @@ getent group ccache >/dev/null || groupadd -r ccache || :
 - Use %%{?_smp_mflags}.
 - Other cosmetic specfile tweaks.
 
-* Fri Mar 29 2003 Warren Togami <warren@togami.com> 2.2-0.fdr.5
+* Sat Mar 29 2003 Warren Togami <warren@togami.com> 2.2-0.fdr.5
 - Epoch: 0
 - Remove /usr/lib/ccache/sbin from PATH
 
@@ -346,5 +399,5 @@ getent group ccache >/dev/null || groupadd -r ccache || :
 - Using ccache 2.2.1 sources
 - Changed release to redconcepts for consistency
 
-* Wed Oct 22 2002 Samir M. Nassar <rpm.redconcepts.net> 1.9-1.rcn
+* Tue Oct 22 2002 Samir M. Nassar <rpm.redconcepts.net> 1.9-1.rcn
 - Initial RedConcepts.NET (rcn) build for Red Hat Linux 8.0

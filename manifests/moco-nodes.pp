@@ -18,6 +18,11 @@ node /foopy\d+.p\d+.releng.scl1.mozilla.com/ {
 
 ## testers
 
+node "r4-mini-001.test.releng.scl3.mozilla.com" {
+    $slave_trustlevel = 'try'
+    include toplevel::slave::test::gpu
+}
+
 node /talos-r4-snow-\d+.build.scl1.mozilla.com/ {
     $slave_trustlevel = 'try'
     include toplevel::slave::test::gpu
@@ -507,6 +512,7 @@ node "buildbot-master70.srv.releng.use1.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
+    include selfserve_agent
 }
 
 node "buildbot-master71.srv.releng.use1.mozilla.com" {
@@ -517,6 +523,7 @@ node "buildbot-master71.srv.releng.use1.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
+    include selfserve_agent
 }
 
 node "buildbot-master72.srv.releng.usw2.mozilla.com" {
@@ -527,6 +534,7 @@ node "buildbot-master72.srv.releng.usw2.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
+    include selfserve_agent
 }
 
 node "buildbot-master73.srv.releng.usw2.mozilla.com" {
@@ -537,6 +545,7 @@ node "buildbot-master73.srv.releng.usw2.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
+    include selfserve_agent
 }
 
 node "buildbot-master74.srv.releng.usw2.mozilla.com" {
@@ -708,7 +717,12 @@ node "buildbot-master90.srv.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master91.srv.releng.usw2.mozilla.com" {
-    # Free Master
+    buildmaster::buildbot_master::mozilla {
+        "bm91-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
@@ -723,7 +737,12 @@ node "buildbot-master93.srv.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master94.srv.releng.use1.mozilla.com" {
-    # Free Master
+    buildmaster::buildbot_master::mozilla {
+        "bm94-build1":
+            http_port => 8001,
+            master_type => "build",
+            basedir => "build1";
+    }
     include toplevel::server::buildmaster::mozilla
 }
 
