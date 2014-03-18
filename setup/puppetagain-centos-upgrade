@@ -23,18 +23,21 @@ yum upgrade -y -x 'puppet*'
 
 # edit /etc/issue
 (
-	sed -n -e '1p; q' /etc/issue.rpmnew
-	sed -n -e '2,$p' /etc/issue
-	echo "Upgraded to CentOS $VERSION: $(date)"
+    if [ -f /etc/issue.rpmnew ]; then
+        sed -n -e '1p; q' /etc/issue.rpmnew
+        sed -n -e '2,$p' /etc/issue
+    else
+        cat /etc/issue
+    fi
+    echo "Upgraded to CentOS $VERSION: $(date)"
 ) > /etc/issue~
 mv /etc/issue~ /etc/issue
-rm /etc/issue.rpmnew
+rm -f /etc/issue.rpmnew
 
 puppet agent --test ||
 	cat <<'EOF'
 Fix any errors above.  Hints:
  * You may need to kill the running postfix daeomn, as the new startup script cannot find it.
- * /root may be owned by some random userid; verify, and `chown -R root:root /root` to fix
 EOF
 
 echo "Finally, please reboot the system."
