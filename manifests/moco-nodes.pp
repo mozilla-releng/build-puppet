@@ -243,6 +243,66 @@ node "dev-master1.srv.releng.scl3.mozilla.com" {
     }
 }
 
+node "buildbot-master01.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm01-tests1-linux32":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux32";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master02.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm02-tests1-linux32":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux32";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master03.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm03-tests1-linux32":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux32";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master04.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm04-tests1-linux32":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux32";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master05.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm05-tests1-linux32":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux32";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master06.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm06-tests1-linux32":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux32";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
 node "buildbot-master51.srv.releng.use1.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
         "bm51-tests1-linux":
