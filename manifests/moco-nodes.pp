@@ -359,103 +359,54 @@ node "buildbot-master55.srv.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master56.srv.releng.usw2.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm56-try1":
-            http_port => 8101,
-            master_type => "try",
-            basedir => "try1";
-    }
+    # Free Master
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master57.srv.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm57-build1":
-            http_port => 8001,
-            master_type => "build",
-            basedir => "build1";
-    }
+    # Free Master
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master58.srv.releng.usw2.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm58-build1":
-            http_port => 8001,
-            master_type => "build",
-            basedir => "build1";
-    }
+    # Free Master
     include toplevel::server::buildmaster::mozilla
 }
+
 node "buildbot-master59.srv.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm59-try1":
-            http_port => 8101,
-            master_type => "try",
-            basedir => "try1";
-    }
+    # Free Master
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master60.srv.releng.usw2.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm60-try1":
-            http_port => 8101,
-            master_type => "try",
-            basedir => "try1";
-    }
+    # Free Master
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master61.srv.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm61-build1":
-            http_port => 8001,
-            master_type => "build",
-            basedir => "build1";
-    }
+    # Free Master
     include toplevel::server::buildmaster::mozilla
     include selfserve_agent
 }
 
 node "buildbot-master62.srv.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm62-build1":
-            http_port => 8001,
-            master_type => "build",
-            basedir => "build1";
-    }
+    # Free Master
     include toplevel::server::buildmaster::mozilla
     include selfserve_agent
 }
 
 node "buildbot-master63.srv.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm63-build1":
-            http_port => 8001,
-            master_type => "build",
-            basedir => "build1";
-    }
+    # Free Master
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master64.srv.releng.usw2.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm64-build1":
-            http_port => 8001,
-            master_type => "build",
-            basedir => "build1";
-    }
+    # Free Master
     include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master65.srv.releng.usw2.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm65-build1":
-            http_port => 8001,
-            master_type => "build",
-            basedir => "build1";
-    }
+    # Free Master
     include toplevel::server::buildmaster::mozilla
     include selfserve_agent
     include slaverebooter
