@@ -28,6 +28,11 @@ node /talos-r4-snow-\d+.build.scl1.mozilla.com/ {
     include toplevel::slave::test::gpu
 }
 
+node /t-snow-r4-\d+.test.releng.scl3.mozilla.com/ {
+    $slave_trustlevel = 'try'
+    include toplevel::slave::test::gpu
+}
+
 node /talos-r4-lion-\d+.build.scl1.mozilla.com/ {
     $slave_trustlevel = 'try'
     include toplevel::slave::test::gpu
@@ -88,7 +93,27 @@ node /bld-linux64-ix-0(\d+).build.scl1.mozilla.com/ {
     include toplevel::slave::build::mock
 }
 
+node /b-linux64-ix-\d+.build.releng.scl3.mozilla.com/ {
+    $slave_trustlevel = 'core'
+    include toplevel::slave::build::mock
+}
+
+node /b-linux64-ix-\d+.try.releng.scl3.mozilla.com/ {
+    $slave_trustlevel = 'try'
+    include toplevel::slave::build::mock
+}
+
 node /b-linux64-hp-0*(\d+).build.scl1.mozilla.com/ {
+    $slave_trustlevel = 'try'
+    include toplevel::slave::build::mock
+}
+
+node /b-linux64-hp-\d+.build.releng.scl3.mozilla.com/ {
+    $slave_trustlevel = 'core'
+    include toplevel::slave::build::mock
+}
+
+node /b-linux64-hp-\d+.try.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'try'
     include toplevel::slave::build::mock
 }
