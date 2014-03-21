@@ -3,6 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class network {
     include ::config
+    include network::resolv
+
     # always set the hostname to the fqdn
     case $::operatingsystem {
         CentOS: {
