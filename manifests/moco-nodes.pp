@@ -391,13 +391,11 @@ node "buildbot-master60.srv.releng.usw2.mozilla.com" {
 node "buildbot-master61.srv.releng.use1.mozilla.com" {
     # Free Master
     include toplevel::server::buildmaster::mozilla
-    include selfserve_agent
 }
 
 node "buildbot-master62.srv.releng.use1.mozilla.com" {
     # Free Master
     include toplevel::server::buildmaster::mozilla
-    include selfserve_agent
 }
 
 node "buildbot-master63.srv.releng.use1.mozilla.com" {
@@ -413,7 +411,6 @@ node "buildbot-master64.srv.releng.usw2.mozilla.com" {
 node "buildbot-master65.srv.releng.usw2.mozilla.com" {
     # Free Master
     include toplevel::server::buildmaster::mozilla
-    include selfserve_agent
     include slaverebooter
 }
 
@@ -427,7 +424,6 @@ node "buildbot-master66.srv.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
     include toplevel::server::gaia_bumper
     include toplevel::server::b2g_bumper
-    include selfserve_agent
 }
 
 node "buildbot-master67.srv.releng.use1.mozilla.com" {
