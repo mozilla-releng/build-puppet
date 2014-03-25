@@ -212,6 +212,8 @@ class config inherits config::base {
     $selfserve_agent_carrot_userid = "buildapi"
     $selfserve_agent_carrot_exchange = "buildapi.control"
     $selfserve_agent_carrot_queue = "buildapi-agent-rabbit2"
+
+    $aws_manager_mail_to = "release+aws-manager@mozilla.com"
     # this is the dev instance at least until bug 929584 is fixed
     $slaverebooter_slaveapi = "http://slaveapi1.srv.releng.scl3.mozilla.com:8080"
     $slaverebooter_mail_to = "release@mozilla.com"
