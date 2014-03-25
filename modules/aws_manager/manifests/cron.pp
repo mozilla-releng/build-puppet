@@ -13,7 +13,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-west-2 -r us-east-1 --cached-cert-dir ${aws_manager::settings::secrets_dir}/cached_certs";
+            params         => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-west-2 -r us-east-1 --cached-cert-dir ${aws_manager::settings::secrets_dir}/cached_certs -v | tee -a ${aws_manager::settings::root}/aws_watch_pending.log | grep -v -e '- DEBUG -'";
         "aws_stop_idle.py":
             ensure         => present,
             minute         => '*/10',
@@ -54,8 +54,8 @@ class aws_manager::cron {
 
     file {
         "/etc/cron.d/aws-manager-update-hg-clone":
-            content => "*/5 * * * * ${users::buildduty::username} cd ${aws_manager::settings::cloud_tools_dst} && ${packages::mozilla::py27_mercurial::mercurial} pull -u";
+            content => "*/5 * * * * ${users::buildduty::username} cd ${aws_manager::settings::cloud_tools_dst} && ${packages::mozilla::py27_mercurial::mercurial} pull -u\n";
         "/etc/cron.d/aws-manager-delete-old-certs":
-            content => "@daily find ${aws_manager::settings::secrets_dir}/cached_certs -type f -mtime +30 -delete";
+            content => "@daily find ${aws_manager::settings::secrets_dir}/cached_certs -type f -mtime +30 -delete\n";
     }
 }
