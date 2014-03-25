@@ -1,0 +1,18 @@
+[Desktop Entry]
+Version=1.0
+X-Ubuntu-Gettext-Domain=deja-dup
+
+Name=Backup Monitor
+Comment=Schedules backups at regular intervals
+
+Icon=deja-dup
+TryExec=/usr/lib/deja-dup/deja-dup/deja-dup-monitor
+Exec=/usr/lib/deja-dup/deja-dup/deja-dup-monitor
+
+X-GNOME-Autostart-Delay=120
+
+StartupNotify=false
+NoDisplay=true
+
+Type=Application
+Categories=System;Utility;Archiving;
