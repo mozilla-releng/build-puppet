@@ -206,7 +206,7 @@ node /casper-netboot-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
 ## Misc servers
 
 node "aws-manager1.srv.releng.scl3.mozilla.com" {
-    include toplevel::server
+    include toplevel::server::aws_manager
 }
 
 ## slaveapi

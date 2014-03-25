@@ -245,6 +245,16 @@ class config::base {
     # username to access IMPI interfaces on suitable hosts
     $slaveapi_ipmi_username = "releng"
 
+    # AWS management
+
+    # the username under which all operations take place
+    $buildduty_username = 'buildduty'
+    # root directory for aws_manager; this must be under /builds
+    $aws_manager_root = "/builds/aws_manager"
+    # mercurial repository and branch for cloud-tools
+    $cloud_tools_hg_repo = "http://hg.mozilla.org/build/cloud-tools"
+    $cloud_tools_hg_branch = "default"
+    $aws_manager_mail_to = "nobody@mozilla.com"
     # slaverebooter
     $slaverebooter_mail_to = "nobody@mozilla.com"
     $slaverebooter_root = "/builds/slaverebooter"
