@@ -13,14 +13,14 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-west-2 -r us-east-1 -r us-west-1";
+            params         => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-west-2 -r us-east-1 --cached-cert-dir ${aws_manager::settings::secrets_dir}/cached_certs";
         "aws_stop_idle.py":
             ensure         => present,
             minute         => '*/10',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-c ${aws_manager::settings::secrets_dir}/passwords.json -r us-west-2 -r us-east-1 -r us-west-1 -j32 -l ${aws_manager::settings::root}/aws_stop_idle.log -t bld-linux64 -t tst-linux64 -t tst-linux32";
+            params         => "-c ${aws_manager::settings::secrets_dir}/passwords.json -r us-west-2 -r us-east-1 -j32 -l ${aws_manager::settings::root}/aws_stop_idle.log -t bld-linux64 -t tst-linux64 -t tst-linux32";
         "aws_sanity_checker.py":
             ensure         => present,
             minute        => '0,30',
@@ -34,14 +34,14 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-r us-west-2 -r us-east-1 -r us-west-1 -q";
+            params         => "-r us-west-2 -r us-east-1 -q";
         "spot_sanity_check.py":
             ensure         => present,
             minute         => '*/10',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-r us-west-2 -r us-east-1 -r us-west-1 -q --db ${aws_manager::settings::secrets_dir}/spots.sqlite";
+            params         => "-r us-west-2 -r us-east-1 -q --db ${aws_manager::settings::secrets_dir}/spots.sqlite";
         "instance2ami.py":
             ensure         => present,
             minute         => '10',
