@@ -73,6 +73,10 @@ class gui($on_gpu) {
                 "/etc/X11/Xsession.d/98nvidia":
                     content => "export __GL_YIELD=NOTHING\n",
                     notify => Service['x11'];
+                "/etc/xdg/autostart/jockey-gtk.desktop":
+                    content => template("${module_name}/jockey-gtk.desktop");
+                "/etc/xdg/autostart/deja-dup-monitor.desktop":
+                    content => template("${module_name}/deja-dup-monitor.desktop");
             }
             # start x11 *or* xvfb, depending on whether we have a GPU or not
             service {
