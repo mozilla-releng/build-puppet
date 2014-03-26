@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-define slaveapi::instance($listenaddr, $port, $version="1.0.16") {
+define slaveapi::instance($listenaddr, $port, $version="1.0.17") {
     include config
     include slaveapi::base
     include users::builder
@@ -59,6 +59,7 @@ define slaveapi::instance($listenaddr, $port, $version="1.0.16") {
                 "orderedmultidict==0.7.1",
                 "pytz==2013.7",
                 "slaveapi==${version}",
+                "mozpoolclient==0.1.5",
             ];
     }
 
