@@ -11,7 +11,7 @@ yum upgrade -y || fail
 # wget: used below
 # openssh-clients: puppetize.sh uses ssh
 # ntp: to synchronize time so certificates work
-yum install -y puppet-2.7.17 wget openssh-clients ntp || fail
+yum install -y puppet-3.4.2 wget openssh-clients ntp || fail
 
 # check that puppet is installed properly
 if ! puppet --version >/dev/null; then
