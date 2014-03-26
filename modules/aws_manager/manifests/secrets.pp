@@ -7,6 +7,7 @@ class aws_manager::secrets {
     include users::buildduty
 
     $builder_passwords = secret("builder_passwords")
+    $servo_passwords = secret("servo_passwords")
 
     file {
         "${aws_manager::settings::secrets_dir}":
@@ -39,11 +40,23 @@ class aws_manager::secrets {
             group     => "${users::buildduty::group}",
             show_diff => false,
             content   => template("$module_name/aws-secrets.json.erb");
+        "${aws_manager::settings::secrets_dir}/aws-secrets-servo.json":
+            mode      => 0600,
+            owner     => "${users::buildduty::username}",
+            group     => "${users::buildduty::group}",
+            show_diff => false,
+            content   => template("$module_name/aws-secrets-servo.json.erb");
         "${aws_manager::settings::secrets_dir}/passwords.json":
             mode      => 0600,
             owner     => "${users::buildduty::username}",
             group     => "${users::buildduty::group}",
             show_diff => false,
             content   => template("$module_name/passwords.json.erb");
+        "${aws_manager::settings::secrets_dir}/passwords-servo.json":
+            mode      => 0600,
+            owner     => "${users::buildduty::username}",
+            group     => "${users::buildduty::group}",
+            show_diff => false,
+            content   => template("$module_name/passwords-servo.json.erb");
     }
 }

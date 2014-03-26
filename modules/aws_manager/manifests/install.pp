@@ -54,5 +54,7 @@ class aws_manager::install {
             owner   => "${users::buildduty::username}",
             group   => "${users::buildduty::group}",
             require => Python::Virtualenv["${aws_manager::settings::root}"];
+        "/etc/invtool.conf":
+            source => "puppet:///modules/${module_name}/invtool.conf";
     }
 }

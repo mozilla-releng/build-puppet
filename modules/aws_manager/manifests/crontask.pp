@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 define aws_manager::crontask($ensure, $virtualenv_dir, $user, $cwd, $params='',
                              $hour='*', $minute='*', $month='*', $monthday='*',
-                             $weekday='*', $subject=$title) {
+                             $weekday='*', $script=$title, $subject=$title) {
     include cron
     include ::config
 

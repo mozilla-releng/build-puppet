@@ -9,4 +9,4 @@ LOCKFILE="<%= lockdir %>/<%= title %>.lock"
 lockfile -60 -r 3 "$LOCKFILE"
 trap "rm -f $LOCKFILE" EXIT
 cd <%= cwd %>
-<%= virtualenv_dir %>/bin/python "<%= title %>" <%= params %>
+<%= virtualenv_dir %>/bin/python "<%= script %>" <%= params %>
