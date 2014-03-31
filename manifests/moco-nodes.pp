@@ -354,12 +354,7 @@ node "buildbot-master54.srv.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master55.srv.releng.use1.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm55-try1":
-            http_port => 8101,
-            master_type => "try",
-            basedir => "try1";
-    }
+    # Free Master
     include toplevel::server::buildmaster::mozilla
 }
 
