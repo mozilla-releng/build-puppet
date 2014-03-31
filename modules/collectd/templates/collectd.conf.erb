@@ -14,7 +14,7 @@
 # Global settings for the daemon.                                            #
 ##############################################################################
 
-Hostname    "<%= scope.lookupvar('::fqdn') %>"
+#Hostname is unset and will be determined using the gethostname(2) system call
 #FQDNLookup   true
 #BaseDir     "/var/lib/collectd"
 #PIDFile     "/var/run/collectd.pid"
