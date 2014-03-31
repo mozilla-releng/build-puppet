@@ -3,25 +3,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class users::global {
     include users::root
-    anchor {
-        'users::global::begin': ;
-        'users::global::end': ;
-    }
-
     shellprofile::file {
         "ps1":
 	    content => template("${module_name}/ps1.sh.erb");
 	"timeout":
 	    content => "export TMOUT=86400";  # Shells timeout after 1 day
     }
-
-    # put some basic information in /etc/motd
-    Anchor['users::global::begin'] ->
-    motd {
-        "hostid":
-            content => inline_template("This is <%= @fqdn %> (<%= @ipaddress %>)\n"),
-            order => '00';
-    } -> Anchor['users::global::end']
 
     # On OS X, the Administrator user is created at system install time.  We
     # don't want to keep it around.
@@ -31,7 +18,7 @@ class users::global {
                 ensure => absent;
         }
     }
-    
+
     # XXX Obsolete - No longer installed in profile.d/*
     include shellprofile::settings
     file {
