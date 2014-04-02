@@ -7,8 +7,6 @@ class packages::libxcb1 {
             package {
                 "libxcb1":
                     ensure => "1.8.1-2ubuntu2.1mozilla1";
-                ["libxcb-glx0", "libxcb-render0", "libxcb-shm0"]:
-                    ensure => "1.8.1-1";
             }
         }
         default: {
