@@ -59,7 +59,7 @@ class aws_manager::cron {
             user           => "${users::buildduty::username}",
             params         => "-r us-west-2 -r us-east-1 -q --db ${aws_manager::settings::secrets_dir}/spots.sqlite";
         "instance2ami.py":
-            ensure         => present,
+            ensure         => absent,  # disabled due to bug 991274
             minute         => '10',
             hour           => '2',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
