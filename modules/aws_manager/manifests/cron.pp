@@ -28,7 +28,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-c ${aws_manager::settings::secrets_dir}/passwords.json -r us-west-2 -r us-east-1 -j32 -l ${aws_manager::settings::root}/aws_stop_idle.log -t bld-linux64 -t tst-linux64 -t tst-linux32";
+            params         => "-c ${aws_manager::settings::secrets_dir}/passwords.json -r us-west-2 -r us-east-1 -j32 -l ${aws_manager::settings::root}/aws_stop_idle.log -t bld-linux64 -t tst-linux64 -t tst-linux32 -t try-linux64";
         "aws_stop_idle_servo":
             script         => "aws_stop_idle.py",
             ensure         => present,
