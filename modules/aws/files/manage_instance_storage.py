@@ -231,7 +231,20 @@ def mount_point():
     _mount_point = DEFAULT_MOUNT_POINT
     if len(get_builders_from(JACUZZI_METADATA_FILE)) in range(1, 4):
         # if there are 1, 2 or 3 builders: I am a Jacuzzi!
+        log.debug('I am a jacuzzi machine')
         _mount_point = JACUZZI_MOUNT_POINT
+    # parse slave-trustlevel file
+    try:
+        with open('/etc/slave-trustlevel', 'r') as trustlevel_in:
+            trustlevel = trustlevel_in.read().strip()
+        log.debug('trustlevel: %s', trustlevel)
+        if trustlevel == 'try':
+            log.debug('I am a try machine')
+            _mount_point = JACUZZI_MOUNT_POINT
+    except IOError:
+        # IOError   => file does not exist
+        log.debug('/etc/slave-trustlevel does not exist')
+    log.debug('mount point: %s', _mount_point)
     return _mount_point
 
 
