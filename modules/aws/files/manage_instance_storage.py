@@ -18,6 +18,7 @@ AWS_METADATA_URL = "http://169.254.169.254/latest/meta-data/"
 DEFAULT_MOUNT_POINT = '/mnt/instance_storage'
 JACUZZI_MOUNT_POINT = '/builds/slave'
 JACUZZI_METADATA_FILE = '/etc/jacuzzi_metadata.json'
+ETC_FSTAB = '/etc/fstab'
 
 
 def get_aws_metadata(key):
@@ -67,7 +68,6 @@ def get_output_from_cmd(cmd, cwd=None, raise_on_error=True):
     log.debug("Running %s cwd: %s", cmd, cwd)
     # check_output is not avalilable in prod (python 2.6)
     # return check_output(cmd, cwd=cwd, stderr=None).splitlines()
-    log.debug("cmd: %s; cwd=%s", cmd, cwd)
     proc = Popen(cmd, cwd=cwd, stdout=PIPE)
     output, err = proc.communicate()
     retcode = proc.poll()
@@ -135,6 +135,47 @@ def needs_pvcreate(device):
     return True
 
 
+def _query_vgs(token, device=None):
+    """gets token value from vgs -o token device"""
+    cmd = ['vgs', '-o', token]
+    if device:
+        cmd.append(device)
+    try:
+        value = get_output_from_cmd(cmd)
+        value = value.split('\n')[1].strip()
+        log.debug('vgs: %s = %s', token, value)
+        return value
+    except (CalledProcessError, IndexError):
+        # vgs command failed, no volume groups
+        log.debug('No %s for device %s', token, device)
+        return None
+
+
+def query_lv_path(device=None):
+    """returns the ouptut of vgs -o lv_path <device>"""
+    return _query_vgs(token='lv_path', device=device)
+
+
+def query_vg_name(device=None):
+    """checks if vg already exists and returns its name.
+       returns None if there are no vg"""
+    return _query_vgs(token='vg_name', device=device)
+
+
+def create_vg(vg_name, devices):
+    """creates a volume group"""
+    log.info('creating a new volume group, %s with %s', vg_name, devices)
+    run_cmd(['vgcreate', vg_name] + devices)
+
+
+def remove_vg(vg_name):
+    """removes a volume group"""
+    if vg_name is None:
+        log.debug('remove_vg: vg_name is None, nothing to do here')
+    log.info('removing volume group: %s', vg_name)
+    run_cmd(['vgremove', '-f', vg_name])
+
+
 def lvmjoin(devices):
     "Creates a single lvm volume from a list of block devices"
     for device in devices:
@@ -144,11 +185,28 @@ def lvmjoin(devices):
                      'bs=512', 'count=1'])
             log.info('creating a new physical volume for: %s', device)
             run_cmd(['pvcreate', '-ff', '-y', device])
+    # Volume Group
     vg_name = 'vg'
     lv_name = 'local'
-    if not run_cmd(['vgdisplay', vg_name], raise_on_error=False):
-        log.info('creating a new volume group, %s with %s', vg_name, devices)
-        run_cmd(['vgcreate', vg_name] + devices)
+    old_vg = query_vg_name()
+    if not old_vg:
+        create_vg(vg_name, devices)
+    elif old_vg != vg_name:
+        # vg already exists with a different name;
+        old_lv = query_lv_path()
+        # maps output from vgs -> fstab_entry
+        fstab_entry = is_dev_in_fstab(old_lv)
+        if is_mounted(fstab_entry):
+            disable_swap()
+            umount(fstab_entry)
+        remove_from_fstab(old_vg)
+        remove_vg(old_vg)
+        create_vg(vg_name, devices)
+    else:
+        # a volume group with the same name already exists
+        # ... there is nothing to do
+        pass
+    # Logical Volume
     lv_path = "/dev/mapper/%s-%s" % (vg_name, lv_name)
     if not run_cmd(['lvdisplay', lv_path], raise_on_error=False):
         log.info('creating a new logical volume')
@@ -163,8 +221,7 @@ def fstab_line(device):
     for line in read_fstab():
         if not line.startswith('#') \
            and device in line:
-            log.debug("%s already in /etc/fstab:", device)
-            log.debug(line)
+            log.debug("%s already in %s:", device.strip(), ETC_FSTAB)
             is_fstab_line = line
             break
     return is_fstab_line
@@ -172,40 +229,65 @@ def fstab_line(device):
 
 def read_fstab():
     """"returns a list of lines in fstab"""
-    with open('/etc/fstab', 'r') as f_in:
+    with open(ETC_FSTAB, 'r') as f_in:
         return f_in.readlines()
+
+
+def remove_from_fstab(device):
+    """removes device from fstab"""
+    old_fstab_line = fstab_line(device)
+    if not old_fstab_line:
+        log.debug('remove_from_fstab: %s is not in fstab', device)
+        return
+    import tempfile
+    try:
+        temp_fstab = tempfile.NamedTemporaryFile(delete=False)
+        with open(temp_fstab.name, 'w') as out_fstab:
+            for line in read_fstab():
+                if old_fstab_line not in line:
+                    out_fstab.write(line)
+        log.debug('removed %s from %s', old_fstab_line.strip(), ETC_FSTAB)
+        os.rename(temp_fstab.name, ETC_FSTAB)
+    except (OSError, IOError):
+        # IOError => error opening temp_fstab
+        # OSError => error renaming files
+        log.debug('Unable to read/rename temporary fstab file')
+        os.remove(temp_fstab.name)
+        log.debug('deleted temporary file: %s', temp_fstab.name)
+
+
+def append_to_fstab(device, mount_location):
+    """append device to fstab"""
+    new_fstab_line = get_fstab_line(device, mount_location)
+    with open(ETC_FSTAB, 'a') as out_f:
+        out_f.write(new_fstab_line)
+    log.debug('added %s in %s', new_fstab_line, ETC_FSTAB)
+
+
+def get_fstab_line(device, mount_location):
+    """returns an entry for fstab"""
+    return '%s %s ext4 defaults,noatime 0 0\n' % (device, mount_location)
 
 
 def update_fstab(device, mount_location):
     """Updates /etc/fstab if needed"""
     # example:
     # /dev/sda / ext4 defaults,noatime  1 1
-    new_fstab_line = '%s %s ext4 defaults,noatime 0 0\n' % (device,
-                                                            mount_location)
+    new_fstab_line = get_fstab_line(device, mount_location)
     old_fstab_line = fstab_line(device)
     if old_fstab_line == new_fstab_line:
         # nothing to do..
-        log.debug('%s already in /etc/fstab', new_fstab_line)
+        log.debug('%s already in %s', new_fstab_line.strip(), ETC_FSTAB)
         return
     # needs to be added
     if not old_fstab_line:
-        with open('/etc/fstab', 'a') as out_f:
-            out_f.write(new_fstab_line)
-        log.debug('added %s in /etc/fstab', new_fstab_line)
+        append_to_fstab(device, mount_location)
         return
     # just in case...
     # log fstab content before updating it
     log.debug(read_fstab())
-    old_fstab = read_fstab()
-    import tempfile
-
-    temp_fstab = tempfile.NamedTemporaryFile(delete=False)
-    with open(temp_fstab.name, 'w') as out_fstab:
-        for line in old_fstab:
-            out_fstab.write(line.replace(old_fstab_line, new_fstab_line))
-        log.debug('replaced %s with: %s in /etc/fstab', old_fstab_line,
-                  new_fstab_line)
-    os.rename(temp_fstab.name, '/etc/fstab')
+    remove_from_fstab(device)
+    append_to_fstab(device, mount_location)
 
 
 def get_builders_from(jacuzzi_metadata_file):
@@ -231,15 +313,16 @@ def mount_point():
     _mount_point = DEFAULT_MOUNT_POINT
     if len(get_builders_from(JACUZZI_METADATA_FILE)) in range(1, 4):
         # if there are 1, 2 or 3 builders: I am a Jacuzzi!
-        log.debug('I am a jacuzzi machine')
+        log.debug('jacuzzi:    yes')
         _mount_point = JACUZZI_MOUNT_POINT
     # parse slave-trustlevel file
+    else:
+        log.debug('jacuzzi:    no')
     try:
         with open('/etc/slave-trustlevel', 'r') as trustlevel_in:
             trustlevel = trustlevel_in.read().strip()
         log.debug('trustlevel: %s', trustlevel)
         if trustlevel == 'try':
-            log.debug('I am a try machine')
             _mount_point = JACUZZI_MOUNT_POINT
     except IOError:
         # IOError   => file does not exist
@@ -250,6 +333,9 @@ def mount_point():
 
 def is_mounted(device):
     """checks if a device is mounted"""
+    if not device:
+        log.debug('refusing to check if None device is mounted')
+        return False
     mount_out = get_output_from_cmd('mount')
     log.debug("mount: %s", mount_out)
     for line in mount_out.splitlines():
@@ -259,6 +345,69 @@ def is_mounted(device):
             return True
     log.debug('device: %s is not mounted', device)
     return False
+
+
+def umount(device):
+    """umounts device"""
+    if not device:
+        log.debug('umount: device in None, returning')
+        return
+    try:
+        get_output_from_cmd(['umount', device])
+        log.debug('%s umounted', device)
+    except CalledProcessError:
+        # unable to umount, pass?
+        pass
+
+
+def disable_swap():
+    """disable swap file"""
+    log.debug('disabling swap files')
+    run_cmd(['swapoff', '-a'])
+
+
+def get_swap_file():
+    """gets the swapfile"""
+    try:
+        swapfile = get_output_from_cmd(['swapon', '-s'])
+        swapfile = swapfile.split('\n')[1].strip()
+    except (KeyError, CalledProcessError):
+        # KeyError => just a single line
+        # CalledProcessError => error executing swapon
+        swapfile = None
+    log.debug('swapfile => %s', swapfile)
+    return swapfile
+
+
+def real_path(path):
+    """path -> real path following symlinks (if any)"""
+    try:
+        realpath = get_output_from_cmd(['readlink', '-f', path]).strip()
+        log.debug('%s => %s', path, realpath)
+        return realpath
+    except CalledProcessError:
+        # file does not exist
+        return path
+
+
+def is_dev_in_fstab(path):
+    """checks if a path is mounted
+        e.g. /dev/mapper/vg-local and /dev/vg/local are both links to /dev/dm-0
+        but only /dev/mapper is in fstab
+    """
+    # discard /
+    fstab = [item.strip() for item in read_fstab()
+             if not item.startswith('LABEL=root_dev')]
+    # remove special mount points
+    fstab = [item for item in fstab if 'none' not in item]
+    for item in fstab:
+        fstab_entry = item.partition(' ')[0]
+        if fstab_entry:
+            if real_path(fstab_entry) == real_path(path):
+                log.debug('%s and %s point to the same device',
+                          fstab_entry, path)
+                return fstab_entry
+    return None
 
 
 def mount(device):
@@ -292,6 +441,7 @@ def main():
     update_fstab(device, mount_point())
     if not is_mounted(device):
         mount(device)
+
 
 if __name__ == '__main__':
     main()

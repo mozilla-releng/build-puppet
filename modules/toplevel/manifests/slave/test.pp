@@ -11,6 +11,8 @@ class toplevel::slave::test inherits toplevel::slave {
     include tweaks::cleanup
     include dirs::builds::hg_shared
     include dirs::builds::git_shared
+    include dirs::builds::tooltool_cache
+
     class {
         'slave_secrets':
             slave_type => 'test';
