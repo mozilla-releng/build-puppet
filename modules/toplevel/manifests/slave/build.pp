@@ -7,6 +7,7 @@ class toplevel::slave::build inherits toplevel::slave {
     include dirs::builds::slave
     include dirs::builds::hg_shared
     include dirs::builds::git_shared
+    include dirs::builds::tooltool_cache
 
     include users::builder
 
