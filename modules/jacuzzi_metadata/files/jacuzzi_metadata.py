@@ -27,7 +27,7 @@ def get_jacuzzi_metadata(machine):
         log.debug("Fetching %s", url)
         try:
             return json.load(urllib2.urlopen(url, timeout=1))
-        except urllib2.URLError, e:
+        except urllib2.HTTPError, e:
             if e.code == 404:
                 log.debug("couldn't find data for %s, returning None", url)
                 return None
