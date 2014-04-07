@@ -13,7 +13,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-west-2 -r us-east-1 --cached-cert-dir ${aws_manager::settings::secrets_dir}/cached_certs -v 2>&1 | tee -a ${aws_manager::settings::root}/aws_watch_pending.log | grep -v -e '- DEBUG -'";
+            params         => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-west-2 -r us-east-1 --cached-cert-dir ${aws_manager::settings::secrets_dir}/cached_certs -l ${aws_manager::settings::root}/aws_watch_pending.log";
         "aws_watch_pending_servo":
             script         => "aws_watch_pending.py",
             ensure         => present,
@@ -21,7 +21,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-k ${aws_manager::settings::secrets_dir}/aws-secrets-servo.json -c ../configs/watch_pending_servo.cfg -r us-east-1";
+            params         => "-k ${aws_manager::settings::secrets_dir}/aws-secrets-servo.json -c ../configs/watch_pending_servo.cfg -r us-east-1 -l ${aws_manager::settings::root}/aws_watch_pending_servo.log";
         "aws_stop_idle.py":
             ensure         => present,
             minute         => '*/10',
