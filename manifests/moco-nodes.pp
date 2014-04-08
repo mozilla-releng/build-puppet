@@ -8,11 +8,7 @@ node /foopy\d+.tegra.releng.scl3.mozilla.com/ {
     include toplevel::server::foopy
 }
 
-node /foopy\d+.build.scl1.mozilla.com/ {
-    include toplevel::server::foopy
-}
-
-node /foopy\d+.p\d+.releng.scl1.mozilla.com/ {
+node /foopy\d+\.p\d+\.releng\.(scl1|scl3)\.mozilla\.com/ {
     include toplevel::server::foopy
 }
 
@@ -222,7 +218,7 @@ node "slaveapi-dev1.srv.releng.scl3.mozilla.com" {
 
 ## mozpool servers
 
-node "mobile-imaging-stage1.p127.releng.scl1.mozilla.com" {
+node /mobile-imaging-stage1\.p127\.releng\.(scl1|scl3)\.mozilla\.com/ {
     $aspects = [ "staging" ]
     $is_bmm_admin_host = true
     include toplevel::server::mozpool
@@ -231,7 +227,7 @@ node "mobile-imaging-stage1.p127.releng.scl1.mozilla.com" {
     }
 }
 
-node /mobile-imaging-\d+\.p\d+\.releng\.scl1\.mozilla\.com/ {
+node /mobile-imaging-\d+\.p\d+\.releng\.(scl1|scl3)\.mozilla\.com/ {
     $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => true, default => false }
     include toplevel::server::mozpool
     users::root::extra_authorized_key {
