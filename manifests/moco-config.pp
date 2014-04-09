@@ -193,7 +193,7 @@ class config inherits config::base {
     $releaserunner_ssh_username = "cltbld"
 
     $slaveapi_slavealloc_url = "http://slavealloc.build.mozilla.org/api/"
-    $slaveapi_inventory_url = "http://inventory.mozilla.org/en-US/tasty/v3/"
+    $slaveapi_inventory_url = "https://inventory.mozilla.org/en-US/tasty/v3/"
     $slaveapi_inventory_username = "releng-inventory-automation"
     $slaveapi_buildapi_url = "http://buildapi.pvt.build.mozilla.org/buildapi/"
     $slaveapi_bugzilla_username = "slaveapi@mozilla.releng.tld"
