@@ -47,4 +47,17 @@ class slave_secrets($ensure=present, $slave_type) {
                 ensure => absent;
         }
     }
+
+    # install ceph credentials on build slaves
+    if ($slave_type == 'build') {
+        class {
+            'slave_secrets::ceph_config':
+                ensure => $ensure;
+        }
+    } else {
+        class {
+            'slave_secrets::ceph_config':
+                ensure => absent;
+        }
+    }
 }

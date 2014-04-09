@@ -1,0 +1,6 @@
+[Credentials]
+aws_access_key_id = <%=scope.function_secret(["ceph_access_key_id"])%>
+aws_secret_access_key = <%=scope.function_secret(["ceph_secret_access_key"])%>
+[s3]
+calling_format = boto.s3.connection.OrdinaryCallingFormat
+host = ix-mn-6.relabs.releng.scl3.mozilla.com
