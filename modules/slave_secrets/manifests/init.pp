@@ -50,13 +50,14 @@ class slave_secrets($ensure=present, $slave_type) {
 
     # install ceph credentials on build slaves
     if ($slave_type == 'build') {
-        file {
-        "${users::builder::home}/.boto":
-            mode      => 0600,
-            owner     => "${users::builder::username}",
-            group     => "${users::builder::group}",
-            show_diff => false,
-            content   => template("$module_name/dot_boto.erb");
+        class {
+            'slave_secrets::ceph_config':
+                ensure => $ensure;
+        }
+    } else {
+        class {
+            'slave_secrets::ceph_config':
+                ensure => absent;
         }
     }
 }
