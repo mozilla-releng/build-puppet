@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class httpd {
     include packages::httpd
+    include packages::openssl
 
     # note that all of these create a service named 'httpd' - this is part of
     # the external interface of this module
@@ -35,7 +36,9 @@ class httpd {
                     enable => true,
                     hasrestart => true,
                     hasstatus =>true,
-                    ensure => running;
+                    ensure => running,
+                    # automatically restart when openssl is upgraded
+                    subscribe => Package['openssl'];
             }
         }
         Ubuntu: {
