@@ -147,6 +147,8 @@ class config::base {
     $builder_username = 'cltbld'
     # true if secret("google_api_key") should be installed at /builds/gapi.key
     $install_google_api_key = false
+    # true if ceph access keys should be installed on build slaves
+    $install_ceph_cfg = false
 
     # signingserver
 

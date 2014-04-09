@@ -3,9 +3,10 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class slave_secrets::ceph_config($ensure=present) {
+    include config
     include users::builder
 
-    if ($ensure == 'present') {
+    if ($ensure == 'present' and $config::install_ceph_cfg) {
         file {
             "${users::builder::home}/.boto":
                 mode      => 0600,
