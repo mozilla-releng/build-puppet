@@ -1,13 +1,14 @@
 %define name diamond
 %define version 3.4.266
-%define unmangled_version 3.4.266
 %define release 0
 
 Summary: Smart data producer for graphite graphing package
 Name: %{name}
 Version: %{version}
 Release: %{release}
-Source0: %{name}-%{unmangled_version}.tar.gz
+# note that pypi does not have every version of diamond; build this from an sdist tarball if necessary
+Source0: http://pypi.python.org/packages/source/d/diamond/%{name}-%{version}.tar.gz
+Patch0: limit-network-collector-stats.diff
 License: MIT License
 Group: Development/Libraries
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -21,7 +22,8 @@ Url: https://github.com/BrightcoveOS/Diamond
 UNKNOWN
 
 %prep
-%setup -n %{name}-%{unmangled_version}
+%setup -n %{name}-%{version}
+%patch0 -p1
 
 %build
 python setup.py build
