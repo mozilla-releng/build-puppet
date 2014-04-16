@@ -103,6 +103,7 @@ class config inherits config::base {
         'kmcallister',
         'larsbergstrom',
         'metajack',
+        'mbrubeck',
         'Ms2ger',
         'pcwalton',
         'SimonSapin',
