@@ -35,7 +35,9 @@ class packages::openssl {
         Ubuntu: {
             package {
                 "openssl":
-                    ensure => '1.0.1-4ubuntu5.6';
+                    ensure => '1.0.1-4ubuntu5.12';
+                "libssl1.0.0":
+                    ensure => '1.0.1-4ubuntu5.12';
             }
         }
 
