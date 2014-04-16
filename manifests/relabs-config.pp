@@ -44,6 +44,9 @@ class config inherits config::base {
         '10.250.48.1', # fake
     ]
 
+    $vmwaretools_version = "9.4.0-1280544"
+    $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
+
     $ntp_server = "time.mozilla.org"
     $admin_users = [
         "arr",

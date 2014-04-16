@@ -189,8 +189,8 @@ class config inherits config::base {
     $buildbot_mail_to = "release@mozilla.com"
     $master_json = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
 
-    $vmwaretools_version = "9.0.5-1065307"
-    $vmwaretools_md5 = "924b75b0b522eb462266cf3c24c98837"
+    $vmwaretools_version = "9.4.0-1280544"
+    $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
     $releaserunner_notify_from = "Release Eng <release@mozilla.com>"
     $releaserunner_notify_to = "Release Eng <release@mozilla.com>"
     $releaserunner_smtp_server = "localhost"
