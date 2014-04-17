@@ -30,6 +30,9 @@ class config inherits config::base {
     $web_proxy_exceptions = ['localhost', '127.0.0.1', 'localaddress', '.localdomain.com',
                              '10.0.0.0/8', '.scl3.mozilla.com', '.phx1.mozilla.com']
 
+    $vmwaretools_version = "9.4.0-1280544"
+    $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
+
     $admin_users = [
         "dmitchell",
         "hskupin",
