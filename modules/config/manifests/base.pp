@@ -120,6 +120,10 @@ class config::base {
     $web_proxy_url = ''
     $web_proxy_exceptions = ['localhost', '127.0.0.1', 'localaddress', '.localdomain.com']
 
+    # Physical location of the node, for organizations that need to distinguish
+    # between them.
+    $node_location = 'unknown'
+
     ##
     ## users
     ##
