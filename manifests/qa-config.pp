@@ -27,7 +27,8 @@ class config inherits config::base {
     $ntp_server = "ns1.private.scl3.mozilla.com"
     $web_proxy_url = "http://proxy.dmz.scl3.mozilla.com:3128/"
     $web_proxy_exceptions = ['localhost', '127.0.0.1', 'localaddress', '.localdomain.com',
-                             '10.0.0.0/8', '.scl3.mozilla.com', '.phx1.mozilla.com']
+                             '10.0.0.0/8', '.scl3.mozilla.com', '.phx1.mozilla.com',
+                             'puppet', 'repos']
 
     $vmwaretools_version = "9.4.0-1280544"
     $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
