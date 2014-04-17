@@ -38,6 +38,14 @@ class config inherits config::base {
     $data_servers = $puppet_servers
     $data_server = $puppet_server
 
+    $node_location = $fqdn? {
+        /.*\.scl1\.mozilla\.com/ => 'in-house',
+        /.*\.scl3\.mozilla\.com/ => 'in-house',
+        /.*\.use1\.mozilla\.com/ => 'aws',
+        /.*\.usw2\.mozilla\.com/ => 'aws',
+        default => 'unknown',
+    }
+
     # this is a round-robin DNS containing all of the moco puppet masters.  This is the
     # only way to communicate to apt that the masters are all mirrors of one another.
     # See https://bugzilla.mozilla.org/show_bug.cgi?id=906785
