@@ -36,6 +36,9 @@ node "hp5.relabs.releng.scl3.mozilla.com" {
 node "hp6.relabs.releng.scl3.mozilla.com" {
 }
 
+node "hp7.relabs.releng.scl3.mozilla.com" {
+}
+
 node "ix-mn-1.relabs.releng.scl3.mozilla.com" {
 }
 
