@@ -95,7 +95,7 @@ class packages::setup {
             }
             # to flush the package index, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 9
+            $repoflag = 10
             file {
                 "/etc/.repo-flag":
                     content =>
