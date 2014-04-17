@@ -83,7 +83,7 @@ function backup()
 function delete()
 {
 	find ${BASE} -mtime +${DELETEAFTER} -print | tee -a $_mailbody
-	[[ $NOOP -eq 0 ]] && find ${BASE} -mtime +${DELETEAFTER} -delete
+	[[ $NOOP -eq 0 ]] && find ${BASE} -mindepth 1 -mtime +${DELETEAFTER} -delete
 }
 
 # main()
