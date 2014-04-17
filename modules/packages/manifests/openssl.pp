@@ -35,7 +35,7 @@ class packages::openssl {
         Ubuntu: {
             package {
                 "openssl":
-                    ensure => latest;  # TODO: pin version (bug 994061)
+                    ensure => '1.0.1-4ubuntu5.6';
             }
         }
 
