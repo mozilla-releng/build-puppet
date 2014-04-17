@@ -12,6 +12,7 @@ class config inherits config::base {
 
     $builder_username = "cltbld"
     $install_google_api_key = true
+    $install_ceph_cfg = true
 
     # we use the sort_servers_by_group function to sort the list of servers, and then just use
     # the first as the primary server
@@ -36,6 +37,14 @@ class config inherits config::base {
     $puppet_server = $puppet_servers[0]
     $data_servers = $puppet_servers
     $data_server = $puppet_server
+
+    $node_location = $fqdn? {
+        /.*\.scl1\.mozilla\.com/ => 'in-house',
+        /.*\.scl3\.mozilla\.com/ => 'in-house',
+        /.*\.use1\.mozilla\.com/ => 'aws',
+        /.*\.usw2\.mozilla\.com/ => 'aws',
+        default => 'unknown',
+    }
 
     # this is a round-robin DNS containing all of the moco puppet masters.  This is the
     # only way to communicate to apt that the masters are all mirrors of one another.
@@ -192,7 +201,7 @@ class config inherits config::base {
     $releaserunner_ssh_username = "cltbld"
 
     $slaveapi_slavealloc_url = "http://slavealloc.build.mozilla.org/api/"
-    $slaveapi_inventory_url = "http://inventory.mozilla.org/en-US/tasty/v3/"
+    $slaveapi_inventory_url = "https://inventory.mozilla.org/en-US/tasty/v3/"
     $slaveapi_inventory_username = "releng-inventory-automation"
     $slaveapi_buildapi_url = "http://buildapi.pvt.build.mozilla.org/buildapi/"
     $slaveapi_bugzilla_username = "slaveapi@mozilla.releng.tld"

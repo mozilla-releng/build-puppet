@@ -11,13 +11,10 @@ class puppetmaster::foreman_facts {
     $crontask = "/etc/cron.d/foreman_facts"
     $script = "/usr/local/sbin/foreman_facts.rb"
 
-    # only install on the DM and only if the facturl is nonempty.
-    $ensure = $puppetmaster::settings::is_distinguished? {
-        true => $facturl? {
-            '' => absent,
-            default => present
-        },
-        false => absent
+    # only install if the facturl is nonempty, but run on every puppetmaster
+    $ensure = $facturl? {
+        '' => absent,
+        default => present
     }
 
     case $ensure {

@@ -402,7 +402,6 @@ node "buildbot-master64.srv.releng.usw2.mozilla.com" {
 node "buildbot-master65.srv.releng.usw2.mozilla.com" {
     # Free Master
     include toplevel::server::buildmaster::mozilla
-    include slaverebooter
 }
 
 node "buildbot-master66.srv.releng.usw2.mozilla.com" {
@@ -499,6 +498,7 @@ node "buildbot-master74.srv.releng.usw2.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
+    include slaverebooter
 }
 
 node "buildbot-master75.srv.releng.use1.mozilla.com" {
