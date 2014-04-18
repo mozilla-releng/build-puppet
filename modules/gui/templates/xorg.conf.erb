@@ -43,7 +43,7 @@ Section "Device"
     BoardName      "GeForce GT 610"
 
     # point the driver to the correct chipset
-    BusId          "<%= gpu_bus_id %>"
+    BusId          "<%= @gpu_bus_id %>"
 
     # since no screen is actually attached, tell the driver to
     # pretend there's a flat-panel attached, with the given EDID

@@ -12,4 +12,4 @@ setuid <%= scope.lookupvar('::config::builder_username') %>
 start on stopped puppet
 
 <%# note that xvfb's maximum depth is 24 -%>
-exec Xvfb :0 -nolisten tcp -screen 0 <%= screen_width %>x<%= screen_height %>x<%= if screen_depth.to_i <= 24 then screen_depth else 24 end %>
+exec Xvfb :0 -nolisten tcp -screen 0 <%= @screen_width %>x<%= @screen_height %>x<%= if @screen_depth.to_i <= 24 then @screen_depth else 24 end %>

@@ -5,7 +5,7 @@
 ####  This file under configuration management control
 ####  DO NOT EDIT MANUALLY
 
-<%- if operatingsystem == 'Ubuntu' -%>
+<%- if @operatingsystem == 'Ubuntu' -%>
 pid_file=/var/run/nagios/nrpe.pid
 <%- else -%>
 pid_file=/var/run/nrpe.pid

@@ -2,7 +2,7 @@
    # License, v. 2.0. If a copy of the MPL was not distributed with this
    # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-suffix = distribution + " " + components.join(" ")
+suffix = @distribution + " " + components.join(" ")
 -%>
 # Managed by puppet
-deb http://<%= apt_repo_server %>/<%= url_path -%> <%= suffix %>
+deb http://<%= @apt_repo_server %>/<%= @url_path -%> <%= @suffix %>
