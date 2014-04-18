@@ -4,7 +4,7 @@
 
 soft_bounce = no
 command_directory = /usr/sbin
-<%- if @operatingsystem == 'Ubuntu' -%>
+<%- if operatingsystem == 'Ubuntu' -%>
 daemon_directory = /usr/lib/postfix
 <%- else -%>
 daemon_directory = /usr/libexec/postfix

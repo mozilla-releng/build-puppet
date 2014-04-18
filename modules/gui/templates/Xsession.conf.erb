@@ -4,7 +4,7 @@
 
 description "Start <%= scope.lookupvar('::config::builder_username') %> X session in Xvfb"
 
-start on started <%= if @on_gpu then 'x11' else 'xvfb' end %>
+start on started <%= if on_gpu then 'x11' else 'xvfb' end %>
 
 script
   # note that doing anything with this display before running Xsession will cause sadness (like,
