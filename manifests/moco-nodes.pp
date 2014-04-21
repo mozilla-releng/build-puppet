@@ -859,7 +859,7 @@ node "rpmpackager1.srv.releng.use1.mozilla.com" {
     include toplevel::server::pkgbuilder
 }
 
-node "openstack1.relabs.releng.scl3.mozilla.com" {
+node /celery\d+.srv.releng.scl3.mozilla.com/ {
     include toplevel::server
 }
 
