@@ -9,7 +9,7 @@ daemon_directory = /usr/lib/postfix
 <%- else -%>
 daemon_directory = /usr/libexec/postfix
 <%- end -%>
-<%- if operatingsystem == 'Darwin' -%>
+<%- if @operatingsystem == 'Darwin' -%>
 mail_owner = _postfix
 setgid_group = _postdrop
 # os x seems to require this, but it's not implemented upstream

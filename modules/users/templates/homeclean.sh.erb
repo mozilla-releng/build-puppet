@@ -38,6 +38,8 @@ function setup()
 {
 	mkdir -p ${BASE}
 	chmod 0700 ${BASE}
+ 	# OS X doesn't update mtime on a chmod
+	touch ${BASE}
 }
 
 function exist()
