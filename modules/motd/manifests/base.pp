@@ -17,9 +17,9 @@ class motd::base {
     }
     # need at least one fragment, or concat will fail:
     concat::fragment {
-        empty-motd:
+        base-motd:
             target => $motd::settings::motd_file,
-            content => ""
+            content => "Unauthorized access prohibited\n"
     }
 
     # TODO-WIN: add support for showing motd if KTS supports it

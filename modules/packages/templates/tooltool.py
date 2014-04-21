@@ -1,4 +1,4 @@
-#! <%= python %>
+#! <%= @python %>
 
 #tooltool is a lookaside cache implemented in Python
 #Copyright (C) 2011 John H. Ford <john@johnford.info>
