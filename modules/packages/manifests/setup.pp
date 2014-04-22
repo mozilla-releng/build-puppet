@@ -122,31 +122,31 @@ class packages::setup {
                     source => "puppet:///modules/packages/apt.conf.mozilla";
             }
             packages::aptrepo {
-                "precise":
-                    url_path     => "repos/apt/ubuntu",
-                    distribution => "precise",
+                "${lsbdistcodename}":
+                    url_path     => "repos/apt/ubuntu/${lsbdistcodename}",
+                    distribution => "${lsbdistcodename}",
                     components   => ["main", "restricted", "universe"];
-                "precise-security":
-                    url_path     => "repos/apt/ubuntu",
-                    distribution => "precise-security",
+                "${lsbdistcodename}-security":
+                    url_path     => "repos/apt/ubuntu/${lsbdistcodename}",
+                    distribution => "${lsbdistcodename}-security",
                     components   => ["main", "restricted", "universe"];
                 "releng":
-                    url_path     => "repos/apt/releng",
-                    distribution => "precise",
+                    url_path     => "repos/apt/releng/${lsbdistcodename}",
+                    distribution => "${lsbdistcodename}",
                     components   => ["main"];
                 "releng-updates":
-                    url_path     => "repos/apt/releng-updates",
-                    distribution => "precise-updates",
+                    url_path     => "repos/apt/releng-updates/${lsbdistcodename}",
+                    distribution => "${lsbdistcodename}-updates",
                     components   => ["all"];
                 "puppetlabs":
                     url_path     => "repos/apt/puppetlabs",
-                    distribution => "precise",
+                    distribution => "${lsbdistcodename}",
                     components   => ["dependencies", "main"];
             }
             @packages::aptrepo {
                 "xorg-edgers":
                     url_path     => "repos/apt/xorg-edgers",
-                    distribution => "precise",
+                    distribution => "${lsbdistcodename}",
                     components   => ["main"];
             }
         }
