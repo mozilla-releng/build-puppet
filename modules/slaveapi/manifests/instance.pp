@@ -60,6 +60,7 @@ define slaveapi::instance($listenaddr, $port, $version="1.0.19") {
                 "pytz==2013.7",
                 "slaveapi==${version}",
                 "mozpoolclient==0.1.5",
+                "python-dateutil==1.5",
             ];
     }
 
