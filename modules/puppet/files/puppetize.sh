@@ -53,7 +53,7 @@ rm -f /var/lib/puppet/ssl/certs/ca.pem || exit 1
 # encipher the password, so this isn't a big problem.  We do this in Python since
 # curl and wget are not installed everywhere by default.
 while true; do
-    python <<EOF
+    https_proxy= python <<EOF
 import urllib2, getpass
 deploypass="""$deploypass"""
 puppet_server="${PUPPET_SERVER:-puppet}"
