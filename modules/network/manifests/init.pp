@@ -5,6 +5,11 @@ class network {
     include ::config
     include network::resolv
 
+    # remove some old entries from /etc/hosts (#938629)
+    host {
+        ['puppet', 'repos']: ensure => absent;
+    }
+
     # always set the hostname to the fqdn
     case $::operatingsystem {
         CentOS: {
