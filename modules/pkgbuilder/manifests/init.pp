@@ -23,6 +23,8 @@ class pkgbuilder {
             pkgbuilder::base_cow {
                 'precise-i386': ;
                 'precise-amd64': ;
+                'trusty-i386': ;
+                'trusty-amd64': ;
             }
         }
         CentOS: {

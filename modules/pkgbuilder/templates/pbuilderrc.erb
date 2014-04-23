@@ -6,7 +6,7 @@
 MIRRORSITE="http://<%= scope.lookupvar('::config::apt_repo_server') %>/repos/apt/ubuntu"
 
 # and also reference the releng repositories for dependencies
-OTHERMIRROR="deb http://<%= scope.lookupvar('::config::apt_repo_server') %>/repos/apt/releng precise main|deb http://<%= scope.lookupvar('::config::apt_repo_server') %>/repos/apt/releng-updates precise-updates all"
+OTHERMIRROR="deb http://<%= scope.lookupvar('::config::apt_repo_server') %>/repos/apt/releng precise main|deb http://<%= scope.lookupvar('::config::apt_repo_server') %>/repos/apt/releng-updates precise-updates all|deb http://<%= scope.lookupvar('::config::apt_repo_server') %>/repos/apt/releng trusty main|deb http://<%= scope.lookupvar('::config::apt_repo_server') %>/repos/apt/releng-updates trusty-updates all"
 
 # and include both main and universe
 COMPONENTS="main universe"
