@@ -13,7 +13,7 @@ class packages::mozilla::python26 {
         CentOS: {
             package {
                 "mozilla-python26":
-                    ensure => latest;
+                    ensure => '2.6.7-5.el6';
             }
         }
         Darwin: {

@@ -6,7 +6,7 @@ class packages::mozilla::mock_mozilla {
         CentOS: {
             package {
                 "mock_mozilla":
-                    ensure => latest;
+                    ensure => '1.0.3-1.el6';
             }
         }
         default: {

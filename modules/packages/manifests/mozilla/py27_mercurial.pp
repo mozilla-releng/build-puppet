@@ -17,7 +17,7 @@ class packages::mozilla::py27_mercurial {
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             package {
                 "mozilla-python27-mercurial":
-                    ensure => latest,
+                    ensure => '2.5.4-1.el6',
                     require => Class['packages::mozilla::python27'];
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
