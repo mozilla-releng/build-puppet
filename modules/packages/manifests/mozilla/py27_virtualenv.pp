@@ -15,7 +15,7 @@ class packages::mozilla::py27_virtualenv {
             Anchor['packages::mozilla::py27_virtualenv::begin'] ->
             package {
                 "mozilla-python27-virtualenv":
-                    ensure => latest,
+                    ensure => '1.7.1.2-2.el6',
                     require => Class['packages::mozilla::python27'];
             } -> Anchor['packages::mozilla::py27_virtualenv::end']
         }

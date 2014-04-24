@@ -12,7 +12,7 @@ class packages::mozilla::git {
             Anchor['packages::mozilla::git::begin'] ->
             package {
                 "mozilla-git":
-                    ensure => latest;
+                    ensure => '1.7.9.4-3.el6';
             } -> Anchor['packages::mozilla::git::end']
         }
         Darwin: {
