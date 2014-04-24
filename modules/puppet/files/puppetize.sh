@@ -130,13 +130,35 @@ fi
 
 rm -f "$REBOOT_FLAG_FILE"
 
-# this includes:
-# --server=puppet just because (it's the default anyway)
-# --pluginsync so that we download plugins on the first run, as they may be required
-# --ssldir=/var/lib/puppet/ssl because it defaults to /etc/puppet/ssl on OS X
-# FACTER_PUPPETIZING so that the manifests know this is a first run of puppet
-while ! FACTER_PUPPETIZING=true /usr/bin/puppet agent --no-daemonize --onetime --server="${PUPPET_SERVER:-puppet}" --pluginsync --ssldir=/var/lib/puppet/ssl; do
+run_puppet() {
+    puppet_server="${PUPPET_SERVER:-puppet}"
+    echo $"Running puppet agent against server '$puppet_server'"
+    # this includes:
+    # --pluginsync so that we download plugins on the first run, as they may be required
+    # --ssldir=/var/lib/puppet/ssl because it defaults to /etc/puppet/ssl on OS X
+    # FACTER_PUPPETIZING so that the manifests know this is a first run of puppet
+    PUPPET_OPTIONS="--onetime --no-daemonize --logdest=console --logdest=syslog --color=false --ssldir=/var/lib/puppet/ssl --pluginsync --detailed-exitcodes --server $puppet_server"
+    export FACTER_PUPPETIZING=true
 
+    # check for 'err:' in the output; this catches errors even
+    # when the puppet exit status is incorrect.
+    tmp=`mktemp /tmp/puppet-outputXXXXXX`
+    [ -f "$tmp" ] || hang "mktemp failed"
+    /usr/bin/puppet agent $PUPPET_OPTIONS > $tmp 2>1
+    retval=$?
+    # just in case, if there were any errors logged, flag it as an error run
+    if grep -q "^Error:" $tmp
+    then
+        retval=1
+    fi
+
+    rm $tmp
+    case $retval in
+        0|2) return 0;;
+        *) return 1;;
+    esac
+}
+while ! run_puppet; do
     echo "Puppet run failed; re-trying after 10m"
     sleep 600
 done
