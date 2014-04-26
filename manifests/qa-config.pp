@@ -39,6 +39,8 @@ class config inherits config::base {
         "dhunt",
         "rwood",
         "ctalbert",
+        "cknowles",
+        "gcox",
     ]
 }
 
