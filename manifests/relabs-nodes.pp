@@ -27,6 +27,7 @@ node "hp3.relabs.releng.scl3.mozilla.com" {
 }
 
 node "hp4.relabs.releng.scl3.mozilla.com" {
+    include toplevel::server
 }
 
 node "hp5.relabs.releng.scl3.mozilla.com" {
