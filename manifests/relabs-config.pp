@@ -60,6 +60,7 @@ class config inherits config::base {
         "cknowles",
         "dmaher",
         "hskupin",
+        "pchiasson",
     ]
 }
 
