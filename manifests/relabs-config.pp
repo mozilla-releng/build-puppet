@@ -61,6 +61,7 @@ class config inherits config::base {
         "dmaher",
         "hskupin",
         "pchiasson",
+        "tglek",
     ]
 }
 
