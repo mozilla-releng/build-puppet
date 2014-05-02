@@ -69,3 +69,7 @@ node "ix1204-3.relabs.releng.scl3.mozilla.com" {
 
 node "ix1204-4.relabs.releng.scl3.mozilla.com" {
 }
+
+node "taras-ubuntu1.relabs.releng.scl3.mozilla.com" {
+    include toplevel::server
+}
