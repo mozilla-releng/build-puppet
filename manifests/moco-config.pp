@@ -181,6 +181,7 @@ class config inherits config::base {
             'sbruno',
             'sespinoza',
             'shyam',
+            'tglek',
             'vhua',
             'vle',
             'xionox',
