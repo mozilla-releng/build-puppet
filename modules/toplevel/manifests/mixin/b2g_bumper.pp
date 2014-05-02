@@ -4,6 +4,6 @@
 
 # b2g bumper
 
-class toplevel::server::b2g_bumper inherits toplevel::server {
+class toplevel::mixin::b2g_bumper {
     include ::b2g_bumper
 }
