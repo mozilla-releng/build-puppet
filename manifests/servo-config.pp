@@ -98,6 +98,7 @@ class config inherits config::base {
         'brson',
         'burg',
         'eric93',
+        'glennw',
         'ILyoan',
         'jdm',
         'kmcallister',
@@ -110,6 +111,7 @@ class config inherits config::base {
         'sfowler',
         'tkuehn',
         'yichoi',
+        'zwarich',
     ]
     $bors_servo_builders = ["linux", "mac"]
     $bors_servo_buildbot_url = "http://servo-buildbot.pub.build.mozilla.org"
