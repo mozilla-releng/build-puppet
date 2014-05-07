@@ -66,6 +66,12 @@ class aws_manager::cron {
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
             params         => "-c ../configs/instance2ami.json --keep-last 10 --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key";
+        "aws_publish_amis.py":
+            ensure         => present,
+            minute         => '*/30',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}";
     }
 
     file {
