@@ -1,0 +1,8 @@
+[Credentials]
+aws_access_key_id = <%=scope.function_secret(["sccache_s3_storage_access_key_id_try"])%>
+aws_secret_access_key = <%=scope.function_secret(["sccache_s3_storage_secret_access_key_try"])%>
+[s3]
+calling_format = boto.s3.connection.OrdinaryCallingFormat
+host = hp4.relabs.releng.scl3.mozilla.com
+[Boto]
+is_secure = False

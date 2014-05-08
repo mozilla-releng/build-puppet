@@ -7,8 +7,8 @@ class slave_secrets::ceph_config($ensure=present) {
     include users::builder
 
     if ($ensure == 'present' and $config::install_ceph_cfg) {
-        if ($config::node_location == 'in-house') {
-            $boto_content = template("$module_name/dot_boto.erb")
+        if ($config::node_location == 'in-house' and $slave_trustlevel == 'try') {
+            $boto_content = template("$module_name/try_dot_boto.erb")
         } else {
             # We need an empty .boto in this case because buildbot will copy it
             # into the mock environment regardless, and fails if the file is
