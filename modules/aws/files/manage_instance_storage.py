@@ -1,26 +1,29 @@
 #!/usr/bin/env python
 """Manages the instance storage space for aws instances
-   For try, jacuzzi and instances with more then REQ_BUILDS_SIZE,
-   the instance storage space is mounted under JACUZZI_MOUNT_POINT,
+   For try, jacuzzi and instances with more than REQ_BUILDS_SIZE,
+   the instance storage space is mounted under BUILDS_SLAVE_MNT,
    In any other case, the instance storage space is mounted under
-   DEFAULT_MOUNT_POINT.
+   INSTANCE_STORAGE_MNT.
+   CCACHE_DIR is always mounted on the instance storage
 """
 
+import errno
+import logging
+import json
+import os
 import urllib2
 import urlparse
 import time
-import logging
-import os
-import json
 from subprocess import check_call, CalledProcessError, Popen, PIPE
 
 
 log = logging.getLogger(__name__)
 
 AWS_METADATA_URL = "http://169.254.169.254/latest/meta-data/"
-DEFAULT_MOUNT_POINT = '/mnt/instance_storage'
-JACUZZI_MOUNT_POINT = '/builds/slave'
-JACUZZI_METADATA_FILE = '/etc/jacuzzi_metadata.json'
+INSTANCE_STORAGE_MNT = '/mnt/instance_storage'
+BUILDS_SLAVE_MNT = '/builds/slave'
+SSD_METADATA_FILE = '/etc/jacuzzi_metadata.json'
+CCACHE_DIR = '/builds/ccache'
 ETC_FSTAB = '/etc/fstab'
 REQ_BUILDS_SIZE = 120  # size in GB
 
@@ -197,6 +200,8 @@ def pvcreate(device):
         if is_mounted(device):
             # switching from a single disk instance to multiple disks
             # returns an error in pvcreate, let's umount the disk
+            umount(CCACHE_DIR)
+            remove_from_fstab(CCACHE_DIR)
             umount(device)
             remove_from_fstab(device)
         log.info('running pvcreate on: %s', device)
@@ -233,6 +238,7 @@ def lvmjoin(devices):
         fstab_entry = is_dev_in_fstab(old_lv)
         if is_mounted(fstab_entry):
             disable_swap()
+            umount(CCACHE_DIR)
             umount(fstab_entry)
         remove_from_fstab(old_vg)
         remove_vg(old_vg)
@@ -241,6 +247,7 @@ def lvmjoin(devices):
         # a volume group with the same name already exists
         # output of vgs -
         disable_swap()
+        umount(CCACHE_DIR)
         umount(query_lv_path())
 
     # Logical Volume
@@ -290,26 +297,34 @@ def remove_from_fstab(device):
         log.debug('deleted temporary file: %s', temp_fstab.name)
 
 
-def append_to_fstab(device, mount_location):
+def append_to_fstab(device, mount_location, file_system, options, dump_freq,
+                    pass_num):
     """Append device to fstab"""
-    new_fstab_line = get_fstab_line(device, mount_location)
+    new_fstab_line = get_fstab_line(device, mount_location, file_system,
+                                    options, dump_freq, pass_num)
     with open(ETC_FSTAB, 'a') as out_f:
         out_f.write(new_fstab_line)
     log.info('added %s in %s', new_fstab_line.strip(), ETC_FSTAB)
 
 
-def get_fstab_line(device, mount_location):
+def get_fstab_line(device, mount_location, file_system, options, dump_freq,
+                   pass_num):
     """Returns an entry for fstab"""
     # no matter if the disk is ext3 or ext4, just mount it as ext4
     # ext4 manages ext3 disks too
-    return '%s %s ext4 defaults,noatime 0 0\n' % (device, mount_location)
+    # /dev/sda / ext4 defaults,noatime  1 1
+    return '%s %s %s %s %d %d\n' % (device, mount_location, file_system,
+                                    options, dump_freq, pass_num)
 
 
-def update_fstab(device, mount_location):
+def update_fstab(device, mount_location, file_system, options, dump_freq,
+                 pass_num):
     """Updates /etc/fstab if needed"""
     # example:
-    # /dev/sda / ext4 defaults,noatime  1 1
-    new_fstab_line = get_fstab_line(device, mount_location)
+    # /dev/sda / ext4 defaults,noatime  0 0
+    # /builds/slave/ccache /builds/ccache/ none bind,noatime 0 0
+    new_fstab_line = get_fstab_line(device, mount_location, file_system,
+                                    options, dump_freq, pass_num)
     old_fstab_line = fstab_line(device)
     if old_fstab_line == new_fstab_line:
         # nothing to do..
@@ -317,13 +332,15 @@ def update_fstab(device, mount_location):
         return
     # needs to be added
     if not old_fstab_line:
-        append_to_fstab(device, mount_location)
+        append_to_fstab(device, mount_location, file_system, options,
+                        dump_freq, pass_num)
         return
     # just in case...
     # log fstab content before updating it
     log.debug(read_fstab())
     remove_from_fstab(device)
-    append_to_fstab(device, mount_location)
+    append_to_fstab(device, mount_location, file_system, options, dump_freq,
+                    pass_num)
 
 
 def get_builders_from(jacuzzi_metadata_file):
@@ -349,15 +366,15 @@ def mount_point():
        is part of a jacuzzi pool
        is a try slave,
        has enough disk space,
-       the instance storage space is mounted under JACUZZI_MOUNT_POINT.
-       For any other machine the mount point is DEFAULT_MOUNT_POINT
+       the instance storage space is mounted under BUILDS_SLAVE_MNT.
+       For any other machine the mount point is INSTANCE_STORAGE_MNT
     """
     # default mount point
-    _mount_point = DEFAULT_MOUNT_POINT
-    if len(get_builders_from(JACUZZI_METADATA_FILE)) in range(1, 4):
+    _mount_point = INSTANCE_STORAGE_MNT
+    if len(get_builders_from(SSD_METADATA_FILE)) in range(1, 4):
         # if there are 1, 2 or 3 builders: I am a Jacuzzi!
         log.info('jacuzzi:    yes')
-        _mount_point = JACUZZI_MOUNT_POINT
+        _mount_point = BUILDS_SLAVE_MNT
     else:
         log.info('jacuzzi:    no')
     try:
@@ -365,18 +382,18 @@ def mount_point():
             trustlevel = trustlevel_in.read().strip()
         log.info('trustlevel: %s', trustlevel)
         if trustlevel == 'try':
-            _mount_point = JACUZZI_MOUNT_POINT
+            _mount_point = BUILDS_SLAVE_MNT
     except IOError:
         # IOError   => file does not exist
         log.info('/etc/slave-trustlevel does not exist')
     # test if device has enough space, if so mount the disk
-    # in JACUZZI_MOUNT_POINT regardless the type of machine
+    # in BUILDS_SLAVE_MNT regardless the type of machine
     # assumption here: there's only one volume group
     device_size = vg_size()
     if device_size >= REQ_BUILDS_SIZE:
         log.info('disk size: %s GB >= REQ_BUILDS_SIZE (%d GB)',
                  device_size, REQ_BUILDS_SIZE)
-        _mount_point = JACUZZI_MOUNT_POINT
+        _mount_point = BUILDS_SLAVE_MNT
     else:
         log.info('disk size: %s GB < REQ_BUILDS_SIZE (%d GB)',
                  device_size, REQ_BUILDS_SIZE)
@@ -457,6 +474,19 @@ def mount(device, _mount_point):
     run_cmd(['mount', device])
 
 
+def mkdir_p(dst_dir, exist_ok=True):
+    """same as os.makedirs(path, exist_ok=True) in python > 3.2"""
+    try:
+        os.makedirs(dst_dir)
+        log.debug('created %s', dst_dir)
+    except OSError, error:
+        if error.errno == errno.EEXIST and os.path.isdir(dst_dir) and exist_ok:
+            pass
+        else:
+            log.error('cannot create %s, %s', dst_dir, error)
+            raise
+
+
 def main():
     """Prepares the ephemeral devices"""
     logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
@@ -476,10 +506,21 @@ def main():
         format_device(device)
     log.debug("Got %s", device)
     _mount_point = mount_point()
-    update_fstab(device, _mount_point)
+    ccache_dst = os.path.join(_mount_point, 'ccache')
+    update_fstab(device, _mount_point, file_system='ext4',
+                 options='defaults,noatime', dump_freq=0, pass_num=0)
+    update_fstab(ccache_dst, CCACHE_DIR, file_system='none',
+                 options='bind,noatime', dump_freq=0, pass_num=0)
     # fstab might have been updated, umount the device and re-mount it
     if not is_mounted(device):
         mount(device, _mount_point)
+
+    try:
+        mkdir_p(ccache_dst)
+        mount(ccache_dst, CCACHE_DIR)
+    except OSError:
+        # mkdir failed, CCACHE_DIR not mounted
+        log.error('%s is not mounted', ccache_dst)
 
 
 if __name__ == '__main__':
