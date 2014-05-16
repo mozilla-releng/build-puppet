@@ -19,7 +19,7 @@ class config inherits config::base {
     $data_server = $puppet_server
 
     $distinguished_puppetmaster = "puppetmaster1.qa.scl3.mozilla.com"
-    $puppet_again_repo = "https://hg.mozilla.org/build/puppet/"
+    $puppet_again_repo = "https://hg.mozilla.org/qa/puppet/"
 
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
     $puppetmaster_public_mirror_hosts = [ ]
