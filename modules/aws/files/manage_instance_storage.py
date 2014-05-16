@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 AWS_METADATA_URL = "http://169.254.169.254/latest/meta-data/"
 INSTANCE_STORAGE_MNT = '/mnt/instance_storage'
 BUILDS_SLAVE_MNT = '/builds/slave'
-SSD_METADATA_FILE = '/etc/jacuzzi_metadata.json'
+JACUZZI_METADATA_JSON = '/etc/jacuzzi_metadata.json'
 CCACHE_DIR = '/builds/ccache'
 ETC_FSTAB = '/etc/fstab'
 REQ_BUILDS_SIZE = 120  # size in GB
@@ -371,7 +371,7 @@ def mount_point():
     """
     # default mount point
     _mount_point = INSTANCE_STORAGE_MNT
-    if len(get_builders_from(SSD_METADATA_FILE)) in range(1, 4):
+    if len(get_builders_from(JACUZZI_METADATA_JSON)) in range(1, 4):
         # if there are 1, 2 or 3 builders: I am a Jacuzzi!
         log.info('jacuzzi:    yes')
         _mount_point = BUILDS_SLAVE_MNT
@@ -487,6 +487,11 @@ def mkdir_p(dst_dir, exist_ok=True):
             raise
 
 
+def chown(path, user, group):
+    user_group_str = '%s:%s' % (user, group)
+    run_cmd(['chown', user_group_str, path])
+
+
 def main():
     """Prepares the ephemeral devices"""
     logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
@@ -509,15 +514,24 @@ def main():
     ccache_dst = os.path.join(_mount_point, 'ccache')
     update_fstab(device, _mount_point, file_system='ext4',
                  options='defaults,noatime', dump_freq=0, pass_num=0)
+
+    # prepare bind shares
+    remove_from_fstab(CCACHE_DIR)
     update_fstab(ccache_dst, CCACHE_DIR, file_system='none',
                  options='bind,noatime', dump_freq=0, pass_num=0)
     # fstab might have been updated, umount the device and re-mount it
     if not is_mounted(device):
+        # mount the main share so we can create the ccache dir
         mount(device, _mount_point)
 
     try:
         mkdir_p(ccache_dst)
-        mount(ccache_dst, CCACHE_DIR)
+        if not is_mounted(ccache_dst):
+            # avoid multiple mounts of the same share/directory/...
+            mount(ccache_dst, CCACHE_DIR)
+        # Make sure that the mount point are writable by cltbld
+        for directory in (_mount_point, CCACHE_DIR):
+            chown(directory, user='cltbld', group='cltbld')
     except OSError:
         # mkdir failed, CCACHE_DIR not mounted
         log.error('%s is not mounted', ccache_dst)
