@@ -849,6 +849,46 @@ node "buildbot-master112.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
+node "buildbot-master113.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm51-tests1-linux64":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux64";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master114.srv.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm51-tests1-linux64":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux64";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master115.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm51-tests1-linux64":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux64";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master116.srv.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm51-tests1-linux64":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux64";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
 # Package Builders
 
 node "ubuntu64packager1.srv.releng.use1.mozilla.com" {
