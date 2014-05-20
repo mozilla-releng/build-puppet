@@ -6,6 +6,10 @@ node "puppetmaster1.qa.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
 }
 
+node "db1.qa.scl3.mozilla.com" {
+    include toplevel::base
+}
+
 node "mm-ub-1204-32-temp.qa.scl3.mozilla.com" {
     include toplevel::base
 }
