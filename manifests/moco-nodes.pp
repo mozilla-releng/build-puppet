@@ -851,7 +851,7 @@ node "buildbot-master112.srv.releng.scl3.mozilla.com" {
 
 node "buildbot-master113.srv.releng.use1.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
-        "bm51-tests1-linux64":
+        "bm113-tests1-linux64":
             http_port => 8201,
             master_type => "tests",
             basedir => "tests1-linux64";
@@ -861,7 +861,7 @@ node "buildbot-master113.srv.releng.use1.mozilla.com" {
 
 node "buildbot-master114.srv.releng.use1.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
-        "bm51-tests1-linux64":
+        "bm114-tests1-linux64":
             http_port => 8201,
             master_type => "tests",
             basedir => "tests1-linux64";
@@ -871,7 +871,7 @@ node "buildbot-master114.srv.releng.use1.mozilla.com" {
 
 node "buildbot-master115.srv.releng.usw2.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
-        "bm51-tests1-linux64":
+        "bm115-tests1-linux64":
             http_port => 8201,
             master_type => "tests",
             basedir => "tests1-linux64";
@@ -881,7 +881,7 @@ node "buildbot-master115.srv.releng.usw2.mozilla.com" {
 
 node "buildbot-master116.srv.releng.usw2.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
-        "bm51-tests1-linux64":
+        "bm116-tests1-linux64":
             http_port => 8201,
             master_type => "tests",
             basedir => "tests1-linux64";
