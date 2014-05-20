@@ -167,6 +167,7 @@ class config inherits config::base {
             'mcornmesser',
             'mgervasini',
             'mhenry',
+            'mhommey',
             'mpurzynski',
             'mshal',
             'nthomas',
