@@ -546,6 +546,7 @@ def main():
             chown(directory, user='cltbld', group='cltbld')
         # mock_mozilla needs different permissions
         chown(MOCK_DIR, user='root', group='mock_mozilla')
+        run_cmd(["chmod", "2775", MOCK_DIR])
     except OSError, error:
         # mkdir failed, CCACHE_DIR not mounted
         log.error(error)
