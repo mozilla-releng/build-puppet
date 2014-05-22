@@ -20,8 +20,6 @@ if [ ${OS} = "Darwin" ]; then
 	ipconfig waitall
 fi
 
-FQDN=`facter fqdn`
-
 # determine interactivity based on the presence of a deploypass file
 [ -f $ROOT/deploypass ] && interactive=false || interactive=true
 
@@ -40,6 +38,17 @@ if [ -f $ROOT/deploypass ]; then
 else
     $interactive || hang "No $ROOT/deploypass and not connected to a tty"
 fi
+
+while true; do
+    FQDN=`facter fqdn`
+    if [ -z $FQDN ]; then
+        $interactive && exit 1
+        echo "Failed to determine FQDN; re-trying after delay"
+        sleep 60
+    else
+        break
+    fi
+done
 
 # set up and clean up
 mkdir -p /var/lib/puppet/ssl/private_keys || exit 1
