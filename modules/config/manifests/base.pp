@@ -271,4 +271,10 @@ class config::base {
 
     # slaveapi instance that slaverebooter should talk to.
     $slaverebooter_slaveapi = ""
+
+    # The version of xcode to install with packages::xcode. See that package
+    # for the availible options.  If different hosts need different versions,
+    # it's fine to use a ternary operator here; see moco-config.pp for an
+    # example.
+    $xcode_version = undef
 }

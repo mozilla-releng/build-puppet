@@ -115,5 +115,10 @@ class config inherits config::base {
     ]
     $bors_servo_builders = ["linux"]
     $bors_servo_buildbot_url = "http://servo-buildbot.pub.build.mozilla.org"
+
+    $xcode_version = $::macosx_productversion_major ? {
+        10.7 => "4.6.2-cmdline",
+        default => undef
+    }
 }
 
