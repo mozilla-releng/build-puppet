@@ -244,4 +244,11 @@ class config inherits config::base {
     $diamond_batch_size = 1
     $diamond_poll_interval = 30
 
+    $xcode_version = $::macosx_productversion_major ? {
+        10.6 => "4.2",
+        10.7 => "4.1",
+        10.8 => "4.5-cmdline",
+        10.9 => "5.0-cmdline",
+        default => undef
+    }
 }

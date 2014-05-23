@@ -57,7 +57,7 @@ class talos {
                 10.8: {
                     include packages::javadeveloper_for_os_x
                     # not sure why this is required, but it appears to be
-                    include packages::xcode_cmdline_tools
+                    include packages::xcode
                 }
                 10.9: {
                     # nothing yet!
