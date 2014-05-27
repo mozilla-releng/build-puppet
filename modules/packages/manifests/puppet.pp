@@ -8,7 +8,7 @@ class packages::puppet {
     }
 
     $puppet_version = "3.4.2"
-    $new_puppet_version = "3.6.0"
+    $new_puppet_version = "3.6.1"
     $puppet_dmg_version = "${puppet_version}"
     $puppet_rpm_version = "${new_puppet_version}-1.el6"
     $puppet_deb_version = "${puppet_version}-1puppetlabs1"
