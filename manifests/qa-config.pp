@@ -5,7 +5,7 @@
 class config inherits config::base {
     $org = "qa"
 
-    $puppet_notif_email = "qa-auto@mozilla.com"
+    $puppet_notif_email = "hskupin@mozilla.com"
     $puppet_server_reports = "tagmail"
     $builder_username = "qabld"
     $grouped_puppet_servers = {
