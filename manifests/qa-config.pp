@@ -34,9 +34,17 @@ class config inherits config::base {
     $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
 
     $admin_users = [
-        "cknowles",
-        "dmitchell",
-        "gcox",
+        'cknowles',
+        'dmitchell',
+        'gcox',
+        'afernandez',
+        'bpannabecker',
+        'eziegenhorn',
+        'lhirlimann',
+        'pradcliffe',
+        'rbryce',
+        'rwatson',
+        'shyam',
 
         # Admins of the QA org
         "aeftimie",
