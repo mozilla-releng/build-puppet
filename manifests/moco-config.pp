@@ -13,6 +13,7 @@ class config inherits config::base {
     $builder_username = "cltbld"
     $install_google_api_key = true
     $install_ceph_cfg = true
+    $install_mozilla_api_key = true
 
     # we use the sort_servers_by_group function to sort the list of servers, and then just use
     # the first as the primary server
