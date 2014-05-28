@@ -60,4 +60,17 @@ class slave_secrets($ensure=present, $slave_type) {
                 ensure => absent;
         }
     }
+
+    # only install the mozilla API key on build slaves
+    if ($slave_type == 'build') {
+        class {
+            'slave_secrets::mozilla_api_key':
+                ensure => $ensure;
+        }
+    } else {
+        class {
+            'slave_secrets::mozilla_api_key':
+                ensure => absent;
+        }
+    }
 }
