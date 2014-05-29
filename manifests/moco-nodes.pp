@@ -903,13 +903,3 @@ node /celery\d+.srv.releng.scl3.mozilla.com/ {
 }
 
 # Loaners
-
-node "talos-linux64-ix-001.test.releng.scl3.mozilla.com" {
-    include toplevel::slave::test::gpu
-    users::root::extra_authorized_key {
-        'gbrown': ;
-    }
-    users::builder::extra_authorized_key {
-        'gbrown': ;
-    }
-}
