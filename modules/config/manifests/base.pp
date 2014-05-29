@@ -195,6 +195,8 @@ class config::base {
 
     # fqdn:port of the buildmaster with which to invoke 'buildbot sendchange'
     $releaserunner_sendchange_master = ""
+    # hg host name used in release-runner
+    $releaserunner_hg_host = ""
     # ssh username and key to use to make commits to hg
     $releaserunner_hg_username = ""
     $releaserunner_hg_ssh_key = ""

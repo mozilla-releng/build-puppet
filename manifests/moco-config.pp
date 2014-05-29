@@ -197,6 +197,7 @@ class config inherits config::base {
     $releaserunner_notify_from = "Release Eng <release@mozilla.com>"
     $releaserunner_notify_to = "Release Eng <release@mozilla.com>"
     $releaserunner_smtp_server = "localhost"
+    $releaserunner_hg_host = "hg.mozilla.org"
     $releaserunner_hg_username = "ffxbld"
     $releaserunner_hg_ssh_key = "/home/cltbld/.ssh/ffxbld_dsa"
     $releaserunner_production_masters = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
