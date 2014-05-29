@@ -151,6 +151,7 @@ class config inherits config::base {
             'gcox',
             'gdestuynder',
             'hwine',
+            'iconnolly',
             'jbryner',
             'jcrowe',
             'jdow',
