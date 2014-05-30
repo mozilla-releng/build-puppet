@@ -11,7 +11,7 @@ class packages::puppet {
     $new_puppet_version = "3.6.1"
     $puppet_dmg_version = "${puppet_version}"
     $puppet_rpm_version = "${new_puppet_version}-1.el6"
-    $puppet_deb_version = "${puppet_version}-1puppetlabs1"
+    $puppet_deb_version = "${new_puppet_version}-1puppetlabs1"
     $facter_version = "1.7.5"
     $facter_dmg_version = "${facter_version}"
     $facter_rpm_version = "${facter_version}-1.el6"
