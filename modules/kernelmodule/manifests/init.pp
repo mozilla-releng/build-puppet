@@ -15,7 +15,8 @@ define kernelmodule($module=$title, $module_args='', $packages=null) {
                 "add-$module-to-etc-modules":
                     command => "echo ${module} >> /etc/modules",
                     unless  => "grep -qw ^${module} /etc/modules",
-                    path    => "/sbin:/bin:/usr/bin";
+                    path    => "/sbin:/bin:/usr/bin",
+                    notify  => Exec["modprobe-$module"];
             }
             if ($packages != null) {
                 package {
