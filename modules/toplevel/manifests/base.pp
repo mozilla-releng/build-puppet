@@ -28,9 +28,13 @@ class toplevel::base {
     include timezone
     include tweaks::rc_local
     include needs_reboot::motd
-    include web_proxy
     include collectd
     include instance_metadata
+
+    class { 'web_proxy':
+        url => $::config::web_proxy_url,
+        exceptions => $::config::web_proxy_exceptions
+    }
 
     if ($::operatingsystem != Windows) {
         include packages::editors

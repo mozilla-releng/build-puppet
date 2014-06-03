@@ -6,11 +6,11 @@
 <% [ 'http_proxy', 'HTTP_PROXY',
      'https_proxy', 'HTTPS_PROXY',
      'ftp_proxy', 'FTP_PROXY' ].each do |var| -%>
-<%= var %>="<%= @web_proxy_url %>"
+export <%= var %>="<%= @url %>"
 <% end
-if @web_proxy_exceptions
-  exc_str = @web_proxy_exceptions.join(',')
+if @exceptions
+  exc_str = @exceptions.join(',')
 %>
-no_proxy="<%= exc_str %>"
-NO_PROXY="<%= exc_str %>"
+export no_proxy="<%= exc_str %>"
+export NO_PROXY="<%= exc_str %>"
 <%- end -%>
