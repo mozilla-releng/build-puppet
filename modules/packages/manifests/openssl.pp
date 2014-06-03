@@ -33,9 +33,26 @@ class packages::openssl {
         }
 
         Ubuntu: {
-            package {
-                ["openssl", "libssl1.0.0", "libssl-dev"]:
-                    ensure => '1.0.1-4ubuntu5.12';
+            case $::operatingsystemrelease {
+                12.04: {
+                    package {
+                        ["openssl", "libssl1.0.0", "libssl-dev"]:
+                            ensure => '1.0.1-4ubuntu5.12';
+                    }
+                }
+                14.04: {
+                    package {
+                        ["openssl", "libssl1.0.0", "libssl-dev"]:
+                            ensure => '1.0.1f-1ubuntu2.1';
+                    }
+                }
+                default: {
+                    warning("Unrecognized Ubuntu version $::operatingsystemrelease")
+                    package {
+                        ["openssl", "libssl1.0.0", "libssl-dev"]:
+                            ensure => present;
+                    }
+                }
             }
         }
 
