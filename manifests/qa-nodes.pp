@@ -2,15 +2,21 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+# For testing Ubuntu 12.04
+node "mm-ub-1204-32-temp.qa.scl3.mozilla.com" {
+    include toplevel::base
+}
+
+# For testing Deploystudio on OS X
+node "qa-deploystudio1.qa.scl3.mozilla.com" {
+    include toplevel::base
+}
+
 node "puppetmaster1.qa.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
 }
 
 node "db1.qa.scl3.mozilla.com" {
-    include toplevel::base
-}
-
-node "mm-ub-1204-32-temp.qa.scl3.mozilla.com" {
     include toplevel::base
 }
 
