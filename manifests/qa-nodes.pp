@@ -17,7 +17,11 @@ node "qa-deploystudio1.qa.scl3.mozilla.com" {
 }
 
 
-### administrative hosts ###
+### Servers ###
+
+node "db1.qa.scl3.mozilla.com" {
+    include toplevel::server
+}
 
 node "puppetmaster1.qa.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
