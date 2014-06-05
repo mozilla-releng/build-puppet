@@ -2,72 +2,60 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# For testing Ubuntu 12.04
-node "mm-ub-1204-32-temp.qa.scl3.mozilla.com" {
-    include toplevel::base
+node "vagrant-ubuntu-trusty-64.fritz.box" {
+    include toplevel::slave::qa::mozmill_ci
 }
 
-# For testing Deploystudio on OS X
-node "qa-deploystudio1.qa.scl3.mozilla.com" {
-    include toplevel::base
+# Temporary nodes for testing puppetagain on QA infrastructure
+
+node "mm-ub-1204-32-temp.qa.scl3.mozilla.com" {
+    include toplevel::slave::qa::mozmill_ci
 }
+
+node "qa-deploystudio1.qa.scl3.mozilla.com" {
+    include toplevel::slave::qa::mozmill_ci
+}
+
+
+### administrative hosts ###
 
 node "puppetmaster1.qa.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
 }
 
-node "db1.qa.scl3.mozilla.com" {
-    include toplevel::base
+
+### Mozmill-CI staging
+
+node "mm-ci-staging.qa.scl3.mozilla.com" {
+    include toplevel::server::mozmill_ci
 }
 
-node "mm-osx-106.qa.scl3.mozilla.com" {
-    include toplevel::base
+node /^mm-osx-\d+\.qa\.scl3\.mozilla\.com$/ {
+    include toplevel::slave::qa::mozmill_ci
 }
 
-node "mm-osx-107.qa.scl3.mozilla.com" {
-    include toplevel::base
+node /^mm-ub-\d+-\d+\.qa\.scl3\.mozilla\.com$/ {
+    include toplevel::slave::qa::mozmill_ci
 }
 
-node "mm-osx-108.qa.scl3.mozilla.com" {
-    include toplevel::base
+node /^mm-win-\w+-\d+\.qa\.scl3\.mozilla\.com$/ {
+    include toplevel::slave::qa::mozmill_ci
 }
 
-node "mm-osx-109.qa.scl3.mozilla.com" {
-    include toplevel::base
+### Mozmill-CI production
+
+node "mm-ci-master.qa.scl3.mozilla.com" {
+    include toplevel::server::mozmill_ci
 }
 
-node "mm-ub-1204-32.qa.scl3.mozilla.com" {
-    include toplevel::base
+node /^mm-osx-\d+-\d\.qa\.scl3\.mozilla\.com$/ {
+    include toplevel::slave::qa::mozmill_ci
 }
 
-node "mm-ub-1204-64.qa.scl3.mozilla.com" {
-    include toplevel::base
+node /^mm-ub-\d+-\d+-\d+\.qa\.scl3\.mozilla\.com$/ {
+    include toplevel::slave::qa::mozmill_ci
 }
 
-node "mm-ub-1310-32.qa.scl3.mozilla.com" {
-    include toplevel::base
-}
-
-node "mm-ub-1310-64.qa.scl3.mozilla.com" {
-    include toplevel::base
-}
-
-node "mm-win-xp-32.qa.scl3.mozilla.com" {
-    include toplevel::base
-}
-
-node "mm-win-7-32.qa.scl3.mozilla.com" {
-    include toplevel::base
-}
-
-node "mm-win-7-64.qa.scl3.mozilla.com" {
-    include toplevel::base
-}
-
-node "mm-win-81-32.qa.scl3.mozilla.com" {
-    include toplevel::base
-}
-
-node "mm-win-81-64.qa.scl3.mozilla.com" {
-    include toplevel::base
+node /^mm-win-\w+-\d+-\d+\.qa\.scl3\.mozilla\.com$/ {
+    include toplevel::slave::qa::mozmill_ci
 }
