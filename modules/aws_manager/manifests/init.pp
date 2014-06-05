@@ -5,4 +5,5 @@ class aws_manager {
     include aws_manager::install
     include aws_manager::secrets
     include aws_manager::cron
+    include nrpe::check::check_stop_idle
 }
