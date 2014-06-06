@@ -31,18 +31,22 @@ node "puppetmaster1.qa.scl3.mozilla.com" {
 ### Mozmill-CI staging
 
 node "mm-ci-staging.qa.scl3.mozilla.com" {
+    $aspects = [ "staging" ]
     include toplevel::server::mozmill_ci
 }
 
 node /^mm-osx-\d+\.qa\.scl3\.mozilla\.com$/ {
+    $aspects = [ "staging" ]
     include toplevel::slave::qa::mozmill_ci
 }
 
 node /^mm-ub-\d+-\d+\.qa\.scl3\.mozilla\.com$/ {
+    $aspects = [ "staging" ]
     include toplevel::slave::qa::mozmill_ci
 }
 
 node /^mm-win-\w+-\d+\.qa\.scl3\.mozilla\.com$/ {
+    $aspects = [ "staging" ]
     include toplevel::slave::qa::mozmill_ci
 }
 
