@@ -2,6 +2,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+node "localhost.fritz.box" {
+    include toplevel::server::puppetmaster
+}
+
+
 node "vagrant-ubuntu-trusty-64.fritz.box" {
     include toplevel::slave::qa::mozmill_ci
 }
