@@ -199,6 +199,28 @@ node /casper-netboot-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server
 }
 
+## openstack admin servers
+
+node /ironic\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
+    include toplevel::server
+}
+
+node /glance\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
+    include toplevel::server
+}
+
+node /keystone\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
+    include toplevel::server
+}
+
+node /horizon\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
+    include toplevel::server
+}
+
+node /neutron\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
+    include toplevel::server
+}
+
 ## Misc servers
 
 node "aws-manager1.srv.releng.scl3.mozilla.com" {
