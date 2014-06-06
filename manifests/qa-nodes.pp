@@ -63,3 +63,21 @@ node /^mm-ub-\d+-\d+-\d+\.qa\.scl3\.mozilla\.com$/ {
 node /^mm-win-\w+-\d+-\d+\.qa\.scl3\.mozilla\.com$/ {
     include toplevel::slave::qa::mozmill_ci
 }
+
+### TPS-CI production
+
+node "tps-ci-production.qa.scl3.mozilla.com" {
+    include toplevel::server::tps_ci
+}
+
+node /^tps-osx-\d+-\d\.qa\.scl3\.mozilla\.com$/ {
+    include toplevel::slave::qa::tps_ci
+}
+
+node /^tps-ub-\d+-\d+-\d+\.qa\.scl3\.mozilla\.com$/ {
+    include toplevel::slave::qa::tps_ci
+}
+
+node /^tps-win-\w+-\d+-\d+\.qa\.scl3\.mozilla\.com$/ {
+    include toplevel::slave::qa::tps_ci
+}
