@@ -434,7 +434,6 @@ node "buildbot-master66.srv.releng.usw2.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::gaia_bumper
     include toplevel::mixin::b2g_bumper
 }
 

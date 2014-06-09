@@ -80,21 +80,22 @@ class packages::collectd {
         }
 
         Ubuntu: {
-            package {
-                "collectd-core":
-                    ensure => '5.3.0';
-                "collectd":
-                    ensure => '5.3.0';
-                "libcollectdclient1":
-                    ensure => '5.3.0';
-                "libcollectdclient-dev":
-                    ensure => '5.3.0';
-                "collectd-dbg":
-                    ensure => '5.3.0';
-                "collectd-dev":
-                    ensure => '5.3.0';
-                "collectd-utils":
-                    ensure => '5.3.0';
+            case $::operatingsystemrelease {
+                12.04: {
+                    package {
+                        ["collectd-core", "collectd", "libcollectdclient1", "libcollectdclient-dev", "collectd-dbg", "collectd-dev", "collectd-utils"]:
+                            ensure => '5.3.0';
+                    }
+                }
+                14.04: {
+                    package {
+                        ["collectd-core", "collectd", "libcollectdclient1", "libcollectdclient-dev", "collectd-dbg", "collectd-dev", "collectd-utils"]:
+                            ensure => '5.4.0-3ubuntu2';
+                    }
+                }
+                default: {
+                    fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                }
             }
         }
 
