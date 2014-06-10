@@ -48,7 +48,7 @@ class vnc {
             }
         }
         Ubuntu: {
-            if (secret("builder_pw_vnc_base64") == '') {
+            if (secret("builder_pw_vnc_cleartext") == '') {
                 fail('No VNC password set')
             }
             file {
