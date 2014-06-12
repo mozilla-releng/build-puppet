@@ -4,7 +4,7 @@
 
 class tweaks::filesystem {
     # Optimize EXT4 writeback performance on virtual machines only
-    if ($::is_virtual == true) {
+    if ($::virtual ~= /xen/) {
         case $::operatingsystem {
             CentOS, Ubuntu: {
                 sysctl::value {
