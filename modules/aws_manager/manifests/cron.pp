@@ -13,7 +13,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-west-2 -r us-east-1 --cached-cert-dir ${aws_manager::settings::secrets_dir}/cached_certs -l ${aws_manager::settings::root}/aws_watch_pending.log";
+            params         => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-west-2 -r us-east-1 -l ${aws_manager::settings::root}/aws_watch_pending.log";
         "aws_watch_pending_servo":
             script         => "aws_watch_pending.py",
             ensure         => present,
@@ -58,14 +58,6 @@ class aws_manager::cron {
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
             params         => "-r us-west-2 -r us-east-1 -q --db ${aws_manager::settings::secrets_dir}/spots.sqlite";
-        "instance2ami.py":
-            ensure         => present,
-            minute         => '10',
-            hour           => '2',
-            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
-            virtualenv_dir => "${aws_manager::settings::root}",
-            user           => "${users::buildduty::username}",
-            params         => "-c ../configs/instance2ami.json --keep-last 10 --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key";
         "aws_publish_amis.py":
             ensure         => present,
             minute         => '*/30',

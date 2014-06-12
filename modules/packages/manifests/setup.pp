@@ -60,7 +60,7 @@ class packages::setup {
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 15
+            $repoflag = 16
             file {
                 "/etc/.repo-flag":
                     content =>
@@ -95,7 +95,7 @@ class packages::setup {
             }
             # to flush the package index, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 13
+            $repoflag = 14
             file {
                 "/etc/.repo-flag":
                     content =>
@@ -123,19 +123,19 @@ class packages::setup {
             }
             packages::aptrepo {
                 "${lsbdistcodename}":
-                    url_path     => "repos/apt/ubuntu/${lsbdistcodename}",
+                    url_path     => "repos/apt/ubuntu",
                     distribution => "${lsbdistcodename}",
                     components   => ["main", "restricted", "universe"];
                 "${lsbdistcodename}-security":
-                    url_path     => "repos/apt/ubuntu/${lsbdistcodename}",
+                    url_path     => "repos/apt/ubuntu",
                     distribution => "${lsbdistcodename}-security",
                     components   => ["main", "restricted", "universe"];
                 "releng":
-                    url_path     => "repos/apt/releng/${lsbdistcodename}",
+                    url_path     => "repos/apt/releng",
                     distribution => "${lsbdistcodename}",
                     components   => ["main"];
                 "releng-updates":
-                    url_path     => "repos/apt/releng-updates/${lsbdistcodename}",
+                    url_path     => "repos/apt/releng-updates",
                     distribution => "${lsbdistcodename}-updates",
                     components   => ["all"];
                 "puppetlabs":

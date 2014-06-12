@@ -13,7 +13,7 @@ class collectd::settings {
     }
 
     $syslog_level = "info"
-    $global_poll_interval = 60
+    $global_poll_interval = 300
 
     # WriteQueueLimitHigh and WriteQueueLimitLow are set equal so metrics are not
     # randomly dropped between the thresholds.

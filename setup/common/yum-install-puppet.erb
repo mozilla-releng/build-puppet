@@ -5,6 +5,10 @@
 # install upgrades from the os base that anaconda put in place
 yum upgrade -y || fail
 
+# and, in case that reinstalled centos-release, blow away the centos repos again
+find /etc/yum.repos.d/ -name init.repo -o -type f -exec rm \{} \;
+yum clean all || fail
+
 # install puppet and a few other things for setup, using the local mirrors
 
 # puppet: that's why we're here (N.B.: with a pinned version)

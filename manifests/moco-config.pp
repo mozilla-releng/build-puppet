@@ -13,6 +13,7 @@ class config inherits config::base {
     $builder_username = "cltbld"
     $install_google_api_key = true
     $install_ceph_cfg = true
+    $install_mozilla_api_key = true
 
     # we use the sort_servers_by_group function to sort the list of servers, and then just use
     # the first as the primary server
@@ -150,6 +151,7 @@ class config inherits config::base {
             'gcox',
             'gdestuynder',
             'hwine',
+            'iconnolly',
             'jbryner',
             'jcrowe',
             'jdow',
@@ -167,6 +169,7 @@ class config inherits config::base {
             'mcornmesser',
             'mgervasini',
             'mhenry',
+            'mhommey',
             'mpurzynski',
             'mshal',
             'nthomas',
@@ -195,6 +198,7 @@ class config inherits config::base {
     $releaserunner_notify_from = "Release Eng <release@mozilla.com>"
     $releaserunner_notify_to = "Release Eng <release@mozilla.com>"
     $releaserunner_smtp_server = "localhost"
+    $releaserunner_hg_host = "hg.mozilla.org"
     $releaserunner_hg_username = "ffxbld"
     $releaserunner_hg_ssh_key = "/home/cltbld/.ssh/ffxbld_dsa"
     $releaserunner_production_masters = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
@@ -243,4 +247,11 @@ class config inherits config::base {
     $diamond_batch_size = 1
     $diamond_poll_interval = 30
 
+    $xcode_version = $::macosx_productversion_major ? {
+        10.6 => "4.2",
+        10.7 => "4.1",
+        10.8 => "4.5-cmdline",
+        10.9 => "5.0-cmdline",
+        default => undef
+    }
 }

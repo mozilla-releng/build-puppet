@@ -8,20 +8,20 @@ class packages::openssl {
             case $::operatingsystemrelease {
                 6.2: {
                     package {
-                        "openssl":
+                        ["openssl", "openssl-devel"]:
                             ensure => "1.0.0-20.el6";
                     }
                 }
                 6.5: {
                     package {
-                        "openssl":
+                        ["openssl", "openssl-devel"]:
                             ensure => "1.0.1e-16.el6_5.7";
                     }
                 }
                 default: {
                     warning("Unrecognized CentOS version $::operatingsystemrelease")
                     package {
-                        "openssl":
+                        ["openssl", "openssl-devel"]:
                             ensure => present;
                     }
                 }
@@ -33,11 +33,26 @@ class packages::openssl {
         }
 
         Ubuntu: {
-            package {
-                "openssl":
-                    ensure => '1.0.1-4ubuntu5.12';
-                "libssl1.0.0":
-                    ensure => '1.0.1-4ubuntu5.12';
+            case $::operatingsystemrelease {
+                12.04: {
+                    package {
+                        ["openssl", "libssl1.0.0", "libssl-dev"]:
+                            ensure => '1.0.1-4ubuntu5.12';
+                    }
+                }
+                14.04: {
+                    package {
+                        ["openssl", "libssl1.0.0", "libssl-dev"]:
+                            ensure => '1.0.1f-1ubuntu2.1';
+                    }
+                }
+                default: {
+                    warning("Unrecognized Ubuntu version $::operatingsystemrelease")
+                    package {
+                        ["openssl", "libssl1.0.0", "libssl-dev"]:
+                            ensure => present;
+                    }
+                }
             }
         }
 

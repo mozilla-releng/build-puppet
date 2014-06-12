@@ -153,6 +153,8 @@ class config::base {
     $install_google_api_key = false
     # true if ceph access keys should be installed on build slaves
     $install_ceph_cfg = false
+    # true if secret("mozilla_api_key") should be installed at /builds/mozilla-api.key
+    $install_mozilla_api_key = false
 
     # signingserver
 
@@ -193,6 +195,8 @@ class config::base {
 
     # fqdn:port of the buildmaster with which to invoke 'buildbot sendchange'
     $releaserunner_sendchange_master = ""
+    # hg host name used in release-runner
+    $releaserunner_hg_host = ""
     # ssh username and key to use to make commits to hg
     $releaserunner_hg_username = ""
     $releaserunner_hg_ssh_key = ""
@@ -271,4 +275,10 @@ class config::base {
 
     # slaveapi instance that slaverebooter should talk to.
     $slaverebooter_slaveapi = ""
+
+    # The version of xcode to install with packages::xcode. See that package
+    # for the availible options.  If different hosts need different versions,
+    # it's fine to use a ternary operator here; see moco-config.pp for an
+    # example.
+    $xcode_version = undef
 }

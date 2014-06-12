@@ -16,7 +16,6 @@ class toplevel::slave::releng::build::standard inherits toplevel::slave::releng:
         # used for partner repacks, which only run on OS X
         include packages::upx
 
-
         # and since OS X has a GUI enabled all the time, set up VNC and set the
         # screen resolution; sources suggest that the actual build process
         # doesn't care about the resolution, and that this is merely for user
