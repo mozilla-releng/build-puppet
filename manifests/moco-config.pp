@@ -27,9 +27,11 @@ class config inherits config::base {
         ],
         ".*\\.releng\\.(use1|aws-us-east-1)\\.mozilla\\.com" => [
             "releng-puppet1.srv.releng.use1.mozilla.com",
+            "releng-puppet2.srv.releng.use1.mozilla.com",
         ],
         ".*\\.releng\\.(usw2|aws-us-west-2)\\.mozilla\\.com" => [
             "releng-puppet1.srv.releng.usw2.mozilla.com",
+            "releng-puppet2.srv.releng.usw2.mozilla.com",
         ],
     }
     $puppet_servers = sort_servers_by_group($grouped_puppet_servers)
