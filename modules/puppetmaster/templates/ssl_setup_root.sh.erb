@@ -122,7 +122,7 @@ openssl ca -gencrl -config "${ca_dir}/openssl.conf" -out "${master_ca_crl}"
 # and link the ca cert into the certdir
 stems="${fqdn}"
 # along with the root cert, if it's not in git already
-if ! ( cd "${git_dir}" && git log ca-certs/root.crt 2>&1 >/tmp/git-output ) || test -s /tmp/git-output; then
+if ! ( cd "${git_dir}" && git log ca-certs/root.crt 2>&1 >/tmp/git-output ) || ! test -s /tmp/git-output; then
     stems="root ${stems}"
 fi
 for stem in ${stems}; do
