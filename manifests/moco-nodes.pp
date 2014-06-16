@@ -158,11 +158,7 @@ node /signing[456].srv.releng.scl3.mozilla.com/ {
     include toplevel::server::signing
 }
 
-node /mac-signing[12].srv.releng.scl3.mozilla.com/ {
-    include toplevel::server::signing
-}
-
-node /mac-signing[34].build.scl1.mozilla.com/ {
+node /mac-signing[1234].srv.releng.scl3.mozilla.com/ {
     include toplevel::server::signing
 }
 
