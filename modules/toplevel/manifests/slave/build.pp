@@ -13,7 +13,6 @@ class toplevel::slave::build inherits toplevel::slave {
 
     include ntp::daemon
     include tweaks::nofile
-    include tweaks::filesystem
 
     include nrpe
     include nrpe::check::buildbot
