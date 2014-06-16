@@ -64,6 +64,14 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}";
+        "delete_old_spot_amis.py":
+            params         => "-c tst-linux64 -c tst-linux32 -c try-linux64 -c bld-linux64",
+            ensure         => present,
+            minute         => '30',
+            hour           => '1',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}";
     }
 
     file {
