@@ -7,7 +7,7 @@ class toplevel::slave::build::mock inherits toplevel::slave::build {
     include users::builder
     include packages::gdb
 
-    if $::virtual == "xenhvm" {
+    if $::virtual == 'xenhvm' {
         # Bug 964880: make sure to enable swap on some instance types
         include tweaks::swap_on_instance_storage
     }
@@ -17,8 +17,13 @@ class toplevel::slave::build::mock inherits toplevel::slave::build {
     # good way to communicate the need to that class.
     exec {
         'add-builder-to-mock_mozilla':
-            command => "/usr/bin/gpasswd -a $users::builder::username mock_mozilla",
-            unless => "/usr/bin/groups $users::builder::username | grep '\\<mock_mozilla\\>'",
+            command => "/usr/bin/gpasswd -a ${users::builder::username} mock_mozilla",
+            unless  => "/usr/bin/groups ${users::builder::username} | grep '\\<mock_mozilla\\>'",
             require => [Class['packages::mozilla::mock_mozilla'], Class['users::builder']];
     }
+
+
+    include runner::tasks::checkout_tools
+    include runner::tasks::purge_builds
+    include runner::tasks::update_shared_repos
 }

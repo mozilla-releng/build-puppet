@@ -225,6 +225,7 @@ class config inherits config::base {
     $selfserve_agent_carrot_exchange = "buildapi.control"
     $selfserve_agent_carrot_queue = "buildapi-agent-rabbit2"
 
+
     $aws_manager_mail_to = "release+aws-manager@mozilla.com"
     $cloudtrail_s3_bucket = "mozilla-releng-aws-logs"
     $cloudtrail_s3_base_prefix = "AWSLogs/314336048151/CloudTrail"
@@ -248,6 +249,22 @@ class config inherits config::base {
     $diamond_graphite_path_prefix = secret('diamond_api_key')
     $diamond_batch_size = 1
     $diamond_poll_interval = 30
+
+
+    # runner task settings
+    $runner_hg_tools_path = '/tools/checkouts/build-tools'
+    $runner_hg_tools_repo = 'https://hg.mozilla.org/build/tools'
+    $runner_hg_tools_branch = 'default'
+    $runner_hg_mozharness_path = '/tools/checkouts/mozharness'
+    $runner_hg_mozharness_repo = 'https://hg.mozilla.org/build/mozharness'
+    $runner_hg_mozharness_branch = 'production'
+
+    $runner_env_hg_share_base_dir = '/builds/hg-shared'
+    $runner_env_git_share_base_dir = '/builds/git-shared'
+
+    $runner_buildbot_slave_dir = '/builds/slave'
+
+
 
     $xcode_version = $::macosx_productversion_major ? {
         10.6 => "4.2",
