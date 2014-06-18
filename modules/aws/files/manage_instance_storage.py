@@ -365,6 +365,21 @@ def get_builders_from(jacuzzi_metadata_file):
         return []
 
 
+def get_root_volume_size():
+    """Returns root volume size in GB"""
+    cmd = ['df', '-B', '1G', '/']
+    try:
+        output = get_output_from_cmd(cmd)
+        # ignore the first line
+        root_line = output.split("\n")[1].strip()
+        log.debug("root df: %s", root_line)
+        # return second value
+        return int(root_line.split()[1])
+    except (CalledProcessError, IndexError, ValueError):
+        log.debug("Failed to get root volume size", exc_info=True)
+        return None
+
+
 def mount_point():
     """Defines the mount point of the instance storage devices
        if a machine meets any of the following conditions:
@@ -402,6 +417,14 @@ def mount_point():
     else:
         log.info('disk size: %s GB < REQ_BUILDS_SIZE (%d GB)',
                  device_size, REQ_BUILDS_SIZE)
+    root_volume_size = get_root_volume_size()
+    # assume that 10G of the root device cannot be used by builds
+    if root_volume_size and root_volume_size - 10 <= device_size:
+        log.info("root volume size (%sGB) is less than ephemeral storage "
+                 "(%sGB) minus 10GB, using ephemeral storage for builds",
+                 root_volume_size, device_size)
+        _mount_point = BUILDS_SLAVE_MNT
+
     log.info('mount point: %s', _mount_point)
     return _mount_point
 
