@@ -8,5 +8,5 @@ class python::virtualenv::settings {
     # the puppet URL for the python/packages downloads
     $packages_dir_source = "puppet:///python/packages"
 
-    $pip_version = "0.8.2"
+    $pip_version = "1.5.5"
 }
