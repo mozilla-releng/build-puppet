@@ -8,4 +8,6 @@ class aws_manager::settings {
     $root = $::config::aws_manager_root
     $cloud_tools_dst = "${root}/cloud-tools"
     $secrets_dir = "${root}/secrets"
+    $cloudtrail_logs_dir = "${root}/cloudtrail_logs"
+    $events_dir= "${cloudtrail_logs_dir}/events"
 }

@@ -43,7 +43,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-r us-west-2 -r us-east-1 -r us-west-1";
+            params         => "-r us-west-2 -r us-east-1 -r us-west-1 --events-dir ${aws_manager::settings::events_dir}";
         "tag_spot_instances.py":
             ensure         => present,
             minute         => '*/2',
@@ -108,6 +108,20 @@ class aws_manager::cron {
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
             params         => "-c ../configs/tst-linux32 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux32-ec2-golden";
+        "aws_get_cloudtrail_logs.py":
+            ensure         => present,
+            minute         => '35,15',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}",
+            params         => "--cache-dir ${aws_manager::settings::cloudtrail_logs_dir} --s3-base-prefix ${::config::cloudtrail_s3_base_prefix} --s3-bucket ${::config::cloudtrail_s3_bucket}";
+        "aws_process_cloudtrail_logs.py":
+            ensure         => present,
+            minute         => '40,20',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}",
+            params         => "--cloudtrail-dir ${aws_manager::settings::cloudtrail_logs_dir} --events-dir ${aws_manager::settings::events_dir}";
     }
 
     file {
