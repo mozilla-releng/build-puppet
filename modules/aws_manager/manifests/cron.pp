@@ -80,7 +80,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-c configs/try-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i instance_data/us-east-1.instance_data_try.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 try-linux64-ec2-golden";
+            params         => "-c ../configs/try-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_try.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 try-linux64-ec2-golden";
         "bld-linux64-ec2-golden":
             script         => "aws_create_instance.py",
             ensure         => present,
@@ -89,7 +89,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-c configs/bld-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i instance_data/us-east-1.instance_data_prod.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 bld-linux64-ec2-golden";
+            params         => "-c ../configs/bld-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_prod.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 bld-linux64-ec2-golden";
         "tst-linux64-ec2-golden":
             script         => "aws_create_instance.py",
             ensure         => present,
@@ -98,7 +98,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-c configs/tst-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux64-ec2-golden";
+            params         => "-c ../configs/tst-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux64-ec2-golden";
         "tst-linux32-ec2-golden":
             script         => "aws_create_instance.py",
             ensure         => present,
@@ -107,7 +107,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-c configs/tst-linux32 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux32-ec2-golden";
+            params         => "-c ../configs/tst-linux32 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux32-ec2-golden";
     }
 
     file {
