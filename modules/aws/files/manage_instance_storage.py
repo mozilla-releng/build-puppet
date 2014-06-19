@@ -365,22 +365,22 @@ def get_builders_from(jacuzzi_metadata_file):
         return []
 
 
-def get_root_volume_size():
-    """Returns root volume size in GB"""
-    cmd = ['df', '-B', '1G', '/']
+def get_disk_size(device):
+    """Returns disk size in GB"""
+    cmd = ['df', '-B', '1G', device]
     try:
         output = get_output_from_cmd(cmd)
         # ignore the first line
-        root_line = output.split("\n")[1].strip()
-        log.debug("root df: %s", root_line)
+        df_line = output.split("\n")[1].strip()
+        log.debug("%s df: %s", device, df_line)
         # return second value
-        return int(root_line.split()[1])
+        return int(df_line.split()[1])
     except (CalledProcessError, IndexError, ValueError):
-        log.debug("Failed to get root volume size", exc_info=True)
+        log.debug("Failed to get %s size", device, exc_info=True)
         return None
 
 
-def mount_point():
+def mount_point(device):
     """Defines the mount point of the instance storage devices
        if a machine meets any of the following conditions:
        is part of a jacuzzi pool
@@ -409,7 +409,8 @@ def mount_point():
     # test if device has enough space, if so mount the disk
     # in BUILDS_SLAVE_MNT regardless the type of machine
     # assumption here: there's only one volume group
-    device_size = vg_size()
+    # vgs doesn't work on non LVM layouts, fall back to df
+    device_size = vg_size() or get_disk_size(device)
     if device_size >= REQ_BUILDS_SIZE:
         log.info('disk size: %s GB >= REQ_BUILDS_SIZE (%d GB)',
                  device_size, REQ_BUILDS_SIZE)
@@ -417,7 +418,7 @@ def mount_point():
     else:
         log.info('disk size: %s GB < REQ_BUILDS_SIZE (%d GB)',
                  device_size, REQ_BUILDS_SIZE)
-    root_volume_size = get_root_volume_size()
+    root_volume_size = get_disk_size("/")
     # assume that 10G of the root device cannot be used by builds
     if root_volume_size and root_volume_size - 10 <= device_size:
         log.info("root volume size (%sGB) is less than ephemeral storage "
@@ -538,7 +539,7 @@ def main():
         log.info('found device: %s', device)
         format_device(device)
     log.debug("Got %s", device)
-    _mount_point = mount_point()
+    _mount_point = mount_point(device)
     ccache_dst = os.path.join(_mount_point, 'ccache')
     mock_dst = os.path.join(_mount_point, 'mock_mozilla')
     update_fstab(device, _mount_point, file_system='ext4',
