@@ -41,14 +41,15 @@
 
 [master]
     # default to looking in the production/ subdirectory of /etc/puppet
+    manifestdir = $confdir/production/manifests
+    modulepath = $confdir/production/modules
+    templatedir = $confdir/production/templates
     ssldir = /var/lib/puppetmaster/ssl
+    manifest = $manifestdir/site.pp
+    config_version = /etc/puppet/get_rev.sh $confdir/production
     ca = false
     reports = <%= scope.lookupvar('::config::puppet_server_reports') %>
     reporturl = <%= scope.lookupvar('::config::puppet_server_reporturl') %>
-
-    # use directory environments, but find the production environment at
-    # /etc/puppet/production
-    environmentpath = $confdir:$confidir/environments
 
     # use the fqdn from the client's certificate (CN), and don't try
     # to match partial hostnames; this prevents clients from grabbing
@@ -60,3 +61,9 @@
     # lookup of parameterized class variables
     hiera_config = $confdir/hiera.yaml
     data_binding_terminus = none
+
+[test]
+    modulepath = /etc/puppet/environments/test/modules
+    templatedir = /etc/puppet/environments/test/templates
+    manifestdir = /etc/puppet/environments/test/manifests
+    manifest = $manifestdir/site.pp

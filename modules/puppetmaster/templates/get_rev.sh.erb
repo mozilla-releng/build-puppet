@@ -4,17 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-if [ "$1" = "production" ]; then
-    REPO="/etc/puppet/$1"
-else
-    REPO="/etc/puppet/environments/$1"
-fi
+REPO="$1"
 
-if [ -d "$REPO/.hg" ]; then
-    # filter out the "Not trusting" warning
-    /usr/bin/hg ident -i $REPO 2>/dev/null
-elif [ -d "$REPO/.git" ]; then
-    (cd $REPO; /usr/local/bin/git describe --all --always --dirty)
-else
-    echo "unknown"
-fi
+# filter out the "Not trusting" warning
+/usr/bin/hg ident -i $REPO 2>/dev/null
