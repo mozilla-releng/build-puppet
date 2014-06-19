@@ -3,6 +3,5 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # All buildbot slaves (both build and test) are subclasses of this class.
 
-class toplevel::slave inherits toplevel::base {
-    include puppet::atboot
+class toplevel::slave::qa inherits toplevel::slave {
 }
