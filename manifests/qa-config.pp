@@ -5,7 +5,7 @@
 class config inherits config::base {
     $org = "qa"
 
-    $puppet_notif_email = "qa-auto@mozilla.com"
+    $puppet_notif_email = "hskupin@mozilla.com"
     $puppet_server_reports = "tagmail"
     $builder_username = "qabld"
     $grouped_puppet_servers = {
@@ -25,24 +25,36 @@ class config inherits config::base {
     $puppetmaster_public_mirror_hosts = [ ]
 
     $ntp_server = "ns1.private.scl3.mozilla.com"
+
     $web_proxy_url = "http://proxy.dmz.scl3.mozilla.com:3128/"
-    $web_proxy_exceptions = ['localhost', '127.0.0.1', 'localaddress', '.localdomain.com',
-                             '10.0.0.0/8', '.scl3.mozilla.com', '.phx1.mozilla.com',
+    $web_proxy_exceptions = ['localhost', '127.0.0.1', 'localaddress',
+                             '.localdomain.com', '10.0.0.0/8',
+                             '.scl3.mozilla.com', '.phx1.mozilla.com', '.mozqa.com',
+                             'mm-ci-master', 'mm-ci-staging', 'db1',
                              'puppet', 'repos']
 
     $vmwaretools_version = "9.4.0-1280544"
     $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
 
     $admin_users = [
-        "cknowles",
-        "dmitchell",
-        "gcox",
+        'afernandez',
+        'bpannabecker',
+        'cknowles',
+        'dmitchell',
+        'gcox',
+        'eziegenhorn',
+        'lhirlimann',
+        'pradcliffe',
+        'rbryce',
+        'rwatson',
+        'shyam',
 
         # Admins of the QA org
-        "aeftimie",
-        "amatei",
-        "ctalbert",
-        "hskupin"
+        'aeftimie',
+        'amatei',
+        'cmalutan',
+        'ctalbert',
+        'dgherasim',
+        'hskupin'
     ]
 }
-

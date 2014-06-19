@@ -17,11 +17,11 @@ class shellprofile::base {
             purge => true,
             recurse => true,
             force => true;
-	"${::shellprofile::settings::profile_d}/puppetdir.sh":
-	    owner => $users::root::username,
-	    group => $users::root::group,
-	    mode => 0755,
-	    content => template("shellprofile/puppetdir.sh.erb");
+        "${::shellprofile::settings::profile_d}/puppetdir.sh":
+            owner => $users::root::username,
+            group => $users::root::group,
+            mode => 0755,
+            content => template("shellprofile/puppetdir.sh.erb");
     }
 
     case ($::operatingsystem) {
