@@ -32,6 +32,9 @@ class puppetmaster::config {
             force   => true,
             mode    => 0755,
             ensure  => directory;
+
+        "/etc/puppet/environments/test":
+            ensure  => directory;
     }
 
     # create puppet user environments for all $admin_users
