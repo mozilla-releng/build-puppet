@@ -9,7 +9,13 @@ class tweaks::filesystem {
             CentOS: {
                 sysctl::value {
                     'vm.dirty_writeback_centisecs':
-                        value => 3000;
+                        value => 6000;
+                    'vm.dirty_expire_centisecs':
+                        value => 6000;
+                    'vm.dirty_ratio':
+                        value => 40;
+                    'vm.dirty_background_ratio':
+                        value => 1;
                 }
             }
         }
