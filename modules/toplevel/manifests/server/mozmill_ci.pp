@@ -3,4 +3,5 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class toplevel::server::mozmill_ci inherits toplevel::server {
+    include users::builder
 }
