@@ -9,7 +9,6 @@ define bors::cron($basedir, $owner, $status_location) {
 
     file {
         "/etc/cron.d/bors-${title}":
-            mode => 600,
-            content => template("bors/bors-cron.erb");
+            ensure => absent;
     }
 }
