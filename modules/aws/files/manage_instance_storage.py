@@ -14,6 +14,7 @@ import os
 import urllib2
 import urlparse
 import time
+import tempfile
 from subprocess import check_call, CalledProcessError, Popen, PIPE
 
 
@@ -285,7 +286,6 @@ def remove_from_fstab(device):
     if not old_fstab_line:
         log.debug('remove_from_fstab: %s is not in fstab', device)
         return
-    import tempfile
     try:
         temp_fstab = tempfile.NamedTemporaryFile(delete=False)
         with open(temp_fstab.name, 'w') as out_fstab:
@@ -368,8 +368,21 @@ def get_builders_from(jacuzzi_metadata_file):
 def get_disk_size(device):
     """Returns disk size in GB"""
     cmd = ['df', '-B', '1G', device]
+
+    need_mount = False
+    if device.startswith("/dev/") and not is_mounted(device):
+        # make sure to mount the device before running df because ephemeral
+        # devices lie about their size without mounting
+        need_mount = True
+        mount_point = tempfile.mkdtemp()
+
     try:
+        if need_mount:
+            mount(device, mount_point)
         output = get_output_from_cmd(cmd)
+        if need_mount:
+            umount(device)
+            os.rmdir(mount_point)
         # ignore the first line
         df_line = output.split("\n")[1].strip()
         log.debug("%s df: %s", device, df_line)
