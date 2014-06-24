@@ -12,17 +12,7 @@ define puppet::environment {
         "/etc/puppet/environments/${username}":
             ensure => directory,
             mode   => 0755,
-            owner  => $username;
-
-        "/etc/puppet/environments/${username}/env":
-            ensure => directory,
             owner  => $username,
             group  => $username;
-    }
-
-    concat::fragment { "${username}_env" :
-        target  => $puppet::settings::conf,
-        content => template("puppet/puppet-env.conf.erb"),
-        order   => 09,
     }
 }
