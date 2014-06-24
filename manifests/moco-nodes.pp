@@ -16,47 +16,47 @@ node /foopy\d+\.p\d+\.releng\.(scl1|scl3)\.mozilla\.com/ {
 
 node "r4-mini-001.test.releng.scl3.mozilla.com" {
     $slave_trustlevel = 'try'
-    include toplevel::slave::test::gpu
+    include toplevel::slave::releng::test::gpu
 }
 
 node /talos-r4-snow-\d+.build.scl1.mozilla.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::test::gpu
+    include toplevel::slave::releng::test::gpu
 }
 
 node /t-snow-r4-\d+.test.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::test::gpu
+    include toplevel::slave::releng::test::gpu
 }
 
 node /talos-r4-lion-\d+.build.scl1.mozilla.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::test::gpu
+    include toplevel::slave::releng::test::gpu
 }
 
 node /talos-mtnlion-r5-\d+.test.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::test::gpu
+    include toplevel::slave::releng::test::gpu
 }
 
 node /t-mavericks-r5-\d+.test.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::test::gpu
+    include toplevel::slave::releng::test::gpu
 }
 
 node /tst-.*\.build\.aws-.*\.mozilla\.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::test::headless
+    include toplevel::slave::releng::test::headless
 }
 
 node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::test::headless
+    include toplevel::slave::releng::test::headless
 }
 
 node /talos-linux\d+-ix-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::test::gpu
+    include toplevel::slave::releng::test::gpu
 }
 
 node /t-w732-ix-\d+.wintest.releng.scl3.mozilla.com/ {
@@ -78,32 +78,32 @@ node /bld-linux64-ix-0(\d+).build.scl1.mozilla.com/ {
             $slave_trustlevel = 'try'
         }
     }
-    include toplevel::slave::build::mock
+    include toplevel::slave::releng::build::mock
 }
 
 node /b-linux64-ix-\d+.build.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'core'
-    include toplevel::slave::build::mock
+    include toplevel::slave::releng::build::mock
 }
 
 node /b-linux64-ix-\d+.try.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::build::mock
+    include toplevel::slave::releng::build::mock
 }
 
 node /b-linux64-hp-0*(\d+).build.scl1.mozilla.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::build::mock
+    include toplevel::slave::releng::build::mock
 }
 
 node /b-linux64-hp-\d+.build.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'core'
-    include toplevel::slave::build::mock
+    include toplevel::slave::releng::build::mock
 }
 
 node /b-linux64-hp-\d+.try.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::build::mock
+    include toplevel::slave::releng::build::mock
 }
 
 node /bld-centos6-hp-0*(\d+).build.scl1.mozilla.com/ {
@@ -117,29 +117,29 @@ node /bld-centos6-hp-0*(\d+).build.scl1.mozilla.com/ {
             $slave_trustlevel = 'try'
         }
     }
-    include toplevel::slave::build::mock
+    include toplevel::slave::releng::build::mock
 }
 
 node /bld-lion-r5-\d+.try.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::build::standard
+    include toplevel::slave::releng::build::standard
 }
 
 node /bld-lion-r5-\d+.build.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'core'
-    include toplevel::slave::build::standard
+    include toplevel::slave::releng::build::standard
 }
 
 node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
     $slave_trustlevel = 'core'
-    include toplevel::slave::build::mock
+    include toplevel::slave::releng::build::mock
     include diamond
     include instance_metadata::diamond
 }
 
 node /try-.*\.try\.releng\.(use1|usw2)\.mozilla.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::build::mock
+    include toplevel::slave::releng::build::mock
     include diamond
     include instance_metadata::diamond
 }
@@ -147,7 +147,7 @@ node /try-.*\.try\.releng\.(use1|usw2)\.mozilla.com/ {
 node /dev-.*\.dev\.releng\.(use1|usw2)\.mozilla.com/ {
     # dev-* hosts are *always* staging
     $slave_trustlevel = 'try'
-    include toplevel::slave::build::mock
+    include toplevel::slave::releng::build::mock
     include diamond
     include instance_metadata::diamond
 }
@@ -158,11 +158,7 @@ node /signing[456].srv.releng.scl3.mozilla.com/ {
     include toplevel::server::signing
 }
 
-node /mac-signing[12].srv.releng.scl3.mozilla.com/ {
-    include toplevel::server::signing
-}
-
-node /mac-signing[34].build.scl1.mozilla.com/ {
+node /mac-signing[1234].srv.releng.scl3.mozilla.com/ {
     include toplevel::server::signing
 }
 

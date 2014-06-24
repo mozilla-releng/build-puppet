@@ -43,7 +43,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-r us-west-2 -r us-east-1 -r us-west-1";
+            params         => "-r us-west-2 -r us-east-1 -r us-west-1 --events-dir ${aws_manager::settings::events_dir}";
         "tag_spot_instances.py":
             ensure         => present,
             minute         => '*/2',
@@ -64,6 +64,64 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}";
+        "delete_old_spot_amis.py":
+            params         => "-c tst-linux64 -c tst-linux32 -c try-linux64 -c bld-linux64",
+            ensure         => present,
+            minute         => '30',
+            hour           => '1',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}";
+        "try-linux64-ec2-golden":
+            script         => "aws_create_instance.py",
+            ensure         => present,
+            minute         => '10',
+            hour           => '1',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}",
+            params         => "-c ../configs/try-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_try.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 try-linux64-ec2-golden";
+        "bld-linux64-ec2-golden":
+            script         => "aws_create_instance.py",
+            ensure         => present,
+            minute         => '15',
+            hour           => '1',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}",
+            params         => "-c ../configs/bld-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_prod.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 bld-linux64-ec2-golden";
+        "tst-linux64-ec2-golden":
+            script         => "aws_create_instance.py",
+            ensure         => present,
+            minute         => '20',
+            hour           => '1',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}",
+            params         => "-c ../configs/tst-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux64-ec2-golden";
+        "tst-linux32-ec2-golden":
+            script         => "aws_create_instance.py",
+            ensure         => present,
+            minute         => '25',
+            hour           => '1',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}",
+            params         => "-c ../configs/tst-linux32 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux32-ec2-golden";
+        "aws_get_cloudtrail_logs.py":
+            ensure         => present,
+            minute         => '35,15',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}",
+            params         => "--cache-dir ${aws_manager::settings::cloudtrail_logs_dir} --s3-base-prefix ${::config::cloudtrail_s3_base_prefix} --s3-bucket ${::config::cloudtrail_s3_bucket}";
+        "aws_process_cloudtrail_logs.py":
+            ensure         => present,
+            minute         => '40,20',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}",
+            params         => "--cloudtrail-dir ${aws_manager::settings::cloudtrail_logs_dir} --events-dir ${aws_manager::settings::events_dir}";
     }
 
     file {

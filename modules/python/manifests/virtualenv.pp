@@ -45,7 +45,10 @@ define python::virtualenv($python, $ensure="present", $packages=null, $user=null
                     group => $ve_group,
                     ensure => directory;
             }
-
+            python::virtualenv::package {
+                "$virtualenv||pip==${python::virtualenv::settings::pip_version}":
+                    user => $ve_user;
+            }
             exec {
                 "virtualenv $virtualenv":
                     name => "$python -BE ${python::virtualenv::settings::misc_python_dir}/virtualenv.py \

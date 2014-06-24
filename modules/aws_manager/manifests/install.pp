@@ -56,5 +56,13 @@ class aws_manager::install {
             require => Python::Virtualenv["${aws_manager::settings::root}"];
         "/etc/invtool.conf":
             source => "puppet:///modules/${module_name}/invtool.conf";
+        "${aws_manager::settings::cloudtrail_logs_dir}":
+            ensure  => directory,
+            owner   => "${users::buildduty::username}",
+            group   => "${users::buildduty::group}";
+        "${aws_manager::settings::events_dir}":
+            ensure  => directory,
+            owner   => "${users::buildduty::username}",
+            group   => "${users::buildduty::group}";
     }
 }

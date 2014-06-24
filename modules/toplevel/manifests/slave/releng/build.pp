@@ -14,6 +14,7 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
 
     include ntp::daemon
     include tweaks::nofile
+    include tweaks::filesystem
 
     include nrpe
     include nrpe::check::buildbot
