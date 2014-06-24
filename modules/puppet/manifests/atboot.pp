@@ -27,7 +27,8 @@ class puppet::atboot {
     exec {
         # ask the puppet startup script to reboot
         "reboot-after-puppet":
-            command => "/usr/bin/touch /REBOOT_AFTER_PUPPET",
+            command => "touch /REBOOT_AFTER_PUPPET",
+            path => ['/bin/', '/usr/bin/'],
             refreshonly => true;
     }
 
@@ -53,7 +54,22 @@ class puppet::atboot {
                     # packages::puppet will overwrite this file, so make sure it gets
                     # installed first
                     require => Class['packages::puppet'],
-                    content => template("puppet/puppet-centos-initd.erb");
+                    content => template("puppet/puppet-centos-initd.erb"),
+                    # if we're editing init.d/puppet priority values
+                    # on an existing machine
+                    # then we need to explicitly force an update of the
+                    # rc3.d symlink and we want to reboot because we've changed
+                    # what we want to come after puppet in the boot order
+                    notify => [ Exec['initd-refresh'], Exec['reboot-after-puppet'] ];
+            }
+
+            exec {
+                'initd-refresh':
+                    # resetpriorities tells chkconfig to update the
+                    # symlinks in rcX.d with the values from the service's
+                    # init.d script
+                    command => '/sbin/chkconfig puppet resetpriorities',
+                    refreshonly => true;
             }
 
             service {

@@ -5,10 +5,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# chkconfig: 2345 50 08
+# chkconfig: 2345 99 08
 ### BEGIN INIT INFO
 # Provides:          buildbot
-# Required-Start:    $local_fs $network puppet
+# Required-Start:    $local_fs $network puppet runner supervisord
 # Should-Start:      $remote_fs 
 # Should-Stop:       $remote_fs
 # Default-Start:     2 3 4 5
