@@ -5,6 +5,10 @@
 class toplevel::slave::releng::test::headless inherits toplevel::slave::releng::test {
     class {
         gui:
-            on_gpu => false;
+            on_gpu => false,
+            screen_width => 1600,
+            screen_height => 1200,
+            screen_depth => 32,
+            refresh => 60;
     }
 }
