@@ -7,16 +7,7 @@ class buildslave::startup::initd {
             content => template("buildslave/linux-initd-buildbot.sh.erb"),
             owner  => "root",
             group  => "root",
-            mode => 755,
-            notify => Exec['initd-bb-refresh'];
-    }
-    exec {
-        'initd-bb-refresh':
-            # resetpriorities tells chkconfig to update the
-            # symlinks in rcX.d with the values from the service's
-            # init.d script
-            command => '/sbin/chkconfig buildbot resetpriorities',
-            refreshonly => true;
+            mode => 755;
     }
 
     service {
