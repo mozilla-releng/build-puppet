@@ -3,16 +3,16 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class gui(
-    $on_gpu
+    $on_gpu,
+    $screen_width,
+    $screen_height,
+    $screen_depth,
+    $refresh
 ) {
     include config
     include users::builder
     include gui::appearance
 
-    $screen_width = 1600
-    $screen_height = 1200
-    $screen_depth = 32
-    $refresh = 60
     $nvidia_version = '310.32'
     $gpu_bus_id = "PCI:01:00:0"
 
