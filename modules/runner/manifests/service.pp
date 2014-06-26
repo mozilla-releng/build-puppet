@@ -9,16 +9,7 @@ class runner::service {
             file {
                 '/etc/init.d/runner':
                     content => template('runner/runner.initd.erb'),
-                    mode    => '0755',
-                    notify  => Exec['initd-r-refresh'];
-            }
-            exec {
-                'initd-r-refresh':
-                    # resetpriorities tells chkconfig to update the
-                    # symlinks in rcX.d with the values from the service's
-                    # init.d script
-                    command => '/sbin/chkconfig runner resetpriorities',
-                    refreshonly => true;
+                    mode    => '0755';
             }
             service {
                 'runner':
