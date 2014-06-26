@@ -7,6 +7,12 @@ define slaveapi::instance($listenaddr, $port, $version="1.1.2") {
     include slaveapi::base
     include users::builder
 
+    # give slaveapi aws powers
+    class {
+        "slaveapi::aws":
+            environment => $title,
+    }
+
     $basedir = "${slaveapi::base::root}/${title}"
     $credentials_file = "${basedir}/credentials.json"
     $config_file = "${basedir}/slaveapi.ini"
@@ -22,7 +28,6 @@ define slaveapi::instance($listenaddr, $port, $version="1.1.2") {
             content => "* port ${port} in ${basedir}\n",
             order => 91;
     }
-
 
     $user = $users::builder::username
     $group = $users::builder::group
@@ -61,6 +66,15 @@ define slaveapi::instance($listenaddr, $port, $version="1.1.2") {
                 "slaveapi==${version}",
                 "mozpoolclient==0.1.5",
                 "python-dateutil==1.5",
+                # for creating aws instances
+                "Fabric==1.8.0",
+                "IPy==0.81",
+                "argparse==1.2.1",
+                "boto==2.27.0",
+                "iso8601==0.1.10",
+                "repoze.lru==0.6",
+                "ssh==1.8.0",
+                "wsgiref==0.1.2",
             ];
     }
 
