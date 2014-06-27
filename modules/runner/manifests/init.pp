@@ -26,4 +26,10 @@ class runner {
             before  => Service['runner'],
             content => template('runner/runner.cfg.erb');
     }
+
+    file {
+        '/etc/logrotate.d/runner':
+            mode => '0644',
+            content => template('runner/runner.logrotate.erb');
+    }
 }

@@ -33,8 +33,9 @@ test -x ${CMD} || exit 0
 
 do_start () {
     echo "Starting runner"
+    logrotate -f /etc/logrotate.d/runner
     ### XXX -n 1 for testing
-    if ${CMD} -c ${CONFIG} -n 1 ${TASKDIR}; then
+    if ${CMD} -c ${CONFIG} -n 1 ${TASKDIR} >> /var/log/runner.log 2>&1; then
         echo "done"
         return 0
     else
