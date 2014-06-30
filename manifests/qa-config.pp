@@ -26,7 +26,8 @@ class config inherits config::base {
 
     $ntp_server = "ns1.private.scl3.mozilla.com"
 
-    $web_proxy_url = "http://proxy.dmz.scl3.mozilla.com:3128/"
+    $web_proxy_host = "proxy.dmz.scl3.mozilla.com"
+    $web_proxy_port = "3128"
     $web_proxy_exceptions = ['localhost', '127.0.0.1', 'localaddress',
                              '.localdomain.com', '10.0.0.0/8',
                              '.scl3.mozilla.com', '.phx1.mozilla.com', '.mozqa.com',

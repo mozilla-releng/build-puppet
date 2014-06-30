@@ -3,8 +3,10 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class web_proxy (
-    $url,
+    $host,
+    $port,
     $exceptions
 ){
     include web_proxy::environment
+    include web_proxy::gui
 }
