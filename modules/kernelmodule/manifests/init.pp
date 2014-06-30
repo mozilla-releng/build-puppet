@@ -5,19 +5,35 @@
 # This module installs and enables Linux kernel modules
 define kernelmodule($module=$title, $module_args='', $packages=null) {
     case $::operatingsystem {
-        Ubuntu: {
+        Ubuntu,CentOS: {
             exec {
                 "modprobe-$module":
                     command     => "modprobe $module $module_args",
                     unless      => "lsmod | grep -qw ^${module}",
                     refreshonly => true,
                     path        => "/sbin:/bin:/usr/bin";
-                "add-$module-to-etc-modules":
-                    command => "echo ${module} >> /etc/modules",
-                    unless  => "grep -qw ^${module} /etc/modules",
-                    path    => "/sbin:/bin:/usr/bin",
-                    notify  => Exec["modprobe-$module"];
             }
+            case $::operatingsystem {
+                Ubuntu: {
+                    exec {
+                        "add-$module-to-etc-modules":
+                            command => "echo ${module} >> /etc/modules",
+                            unless  => "grep -qw ^${module} /etc/modules",
+                            path    => "/sbin:/bin:/usr/bin",
+                            notify  => Exec["modprobe-$module"];
+                    }
+                }
+                CentOS: {
+                    exec {
+                        "add-$module-to-etc-rc-modules":
+                            command => "echo modprobe ${module} >> /etc/rc.modules",
+                            unless  => "grep -qw '^modprobe ${module}' /etc/rc.modules",
+                            path    => "/sbin:/bin:/usr/bin",
+                            notify  => Exec["modprobe-$module"];
+                    }
+                }
+            }
+
             if ($packages != null) {
                 package {
                     $packages:

@@ -22,6 +22,12 @@ class hardware {
         ($::manufacturer == "iXsystems" and $::productname == "X8SIL") or
         ($::manufacturer == "iXsystems" and $::productname == "iX21X4-STIBTRF")) {
         include packages::openipmi
+
+        # and the kernel modules to support it..
+        kernelmodule {
+            "ipmi_si": ;
+            "ipmi_devintf": ;
+        }
     }
 
     # some iX hardware shows up as 'ixSystems', some as 'Supermicro'
