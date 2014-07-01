@@ -10,3 +10,4 @@ syntax: regexp
 # ignore generated files
 ^setup/base-image-centos6.sh
 ^setup/centos6-kickstart.cfg
+^environment.conf

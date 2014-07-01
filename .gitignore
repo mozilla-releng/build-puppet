@@ -4,3 +4,4 @@ secrets.csv
 local-config.csv
 manifests/nodes.pp
 manifests/config.pp
+/environment.conf
