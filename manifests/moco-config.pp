@@ -197,6 +197,7 @@ class config inherits config::base {
     $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
     $releaserunner_notify_from = "Release Eng <release@mozilla.com>"
     $releaserunner_notify_to = "Release Eng <release@mozilla.com>"
+    $releaserunner_notify_to_release = "Release Drivers <release-drivers@mozilla.org>"
     $releaserunner_smtp_server = "localhost"
     $releaserunner_hg_host = "hg.mozilla.org"
     $releaserunner_hg_username = "ffxbld"
