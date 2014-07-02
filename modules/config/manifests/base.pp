@@ -203,7 +203,6 @@ class config::base {
     # email to/from addresses and smtp server to use to send notifications
     $releaserunner_notify_from = ""
     $releaserunner_notify_to = ""
-    $releaserunner_notify_to = ""
     $releaserunner_notify_to_release = ""
     $releaserunner_smtp_server = ""
     # ssh username and (hand-installed) key to use to login to all buildmasters
