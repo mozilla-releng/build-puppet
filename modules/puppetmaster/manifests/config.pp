@@ -35,5 +35,5 @@ class puppetmaster::config {
     }
 
     # create puppet user environments for all $admin_users
-    puppet::environment { $users: ; }
+    puppetmaster::environment { $users: ; }
 }

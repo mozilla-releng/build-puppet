@@ -20,6 +20,13 @@ class puppetmaster::manifests {
             require => Class['packages::mercurial'];
     }
 
+    # and create environment.conf, containing a long(ish) environment timeout
+    file {
+        "${checkout_dir}/environment.conf":
+            source => 'puppet:///modules/puppetmaster/environment.conf',
+            require => Exec['checkout-puppet'];
+    }
+
     # update the manifests regularly
     file {
         "/etc/puppet/update.sh":
