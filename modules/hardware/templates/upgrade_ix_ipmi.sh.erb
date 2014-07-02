@@ -1,0 +1,21 @@
+#! /bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+set -e
+
+wget --output-document /root/firmware.zip "<%= @bios_url %>"
+rm -rf /root/firmware
+mkdir /root/firmware
+unzip -d /root/firmware /root/firmware.zip
+
+cd /root/firmware/Linux*
+chmod +x lUpdate
+
+# This fails all the freakin' time, so if it fails, try resetting the BMC and
+# return success status to puppet.  On the next run, puppet will try again,
+# because the firmware version hasn't changed.
+if !  ./lUpdate -f ../*.bin -i kcs -r y; then
+        ipmitool mc reset cold
+fi
