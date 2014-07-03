@@ -9,7 +9,7 @@ twisted.spread.pb.MAX_BROKER_REFS = 4096
 
 basedir = r'.'
 rotateLength = 50000000
-maxRotatedFiles = 100
+maxRotatedFiles = 50
 
 # if this is a relocatable tac file, get the directory containing the TAC
 if basedir == '.':
