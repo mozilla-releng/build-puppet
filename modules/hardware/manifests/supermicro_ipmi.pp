@@ -2,11 +2,12 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-class hardware::ix_ipmi {
+class hardware::supermicro_ipmi {
     include config
     include packages::wget
+    include hardware::ipmitool
 
-    $script_file = "/root/upgrade_ix_ipmi.sh"
+    $script_file = "/root/upgrade_supermicro_ipmi.sh"
 
     # set up parameters.  These files are private because Supermicro doesn't allow us
     # to redistribute, but they are easily downloaded from
@@ -54,16 +55,14 @@ class hardware::ix_ipmi {
         file {
             $script_file:
                 mode => 0755,
-                content => template("${module_name}/upgrade_ix_ipmi.sh.erb");
+                content => template("${module_name}/upgrade_supermicro_ipmi.sh.erb");
         }
         exec {
             $script_file:
                 logoutput => true,
                 require => [
-                    # all of these are provided by the 'hardware' class or this class
-                    Class['packages::openipmi'],
-                    Kernelmodule['ipmi_si'],
-                    Kernelmodule['ipmi_devintf']
+                    Class['packages::wget'],
+                    Class['hardware::ipmitool'],
                 ];
         }
     } else {
