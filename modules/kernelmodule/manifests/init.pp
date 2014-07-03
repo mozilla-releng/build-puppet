@@ -24,11 +24,13 @@ define kernelmodule($module=$title, $module_args='', $packages=null) {
                     }
                 }
                 CentOS: {
+                    include kernelmodule::rc_modules
                     exec {
                         "add-$module-to-etc-rc-modules":
                             command => "echo modprobe ${module} >> /etc/rc.modules",
                             unless  => "grep -qw '^modprobe ${module}' /etc/rc.modules",
                             path    => "/sbin:/bin:/usr/bin",
+                            require => Class['kernelmodule::rc_modules'],
                             notify  => Exec["modprobe-$module"];
                     }
                 }
