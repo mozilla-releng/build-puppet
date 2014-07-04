@@ -131,6 +131,13 @@ class aws_manager::cron {
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
             params         => "--cloudtrail-dir ${aws_manager::settings::cloudtrail_logs_dir} --events-dir ${aws_manager::settings::events_dir}";
+        "aws_clean_log_dir.py":
+            ensure         => present,
+            minute         => '15,40',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}",
+            params         => "--cache-dir ${aws_manager::settings::cloudtrail_logs_dir} --events-dir ${aws_manager::settings::events_dir} --s3-base-prefix ${::config::cloudtrail_s3_base_prefix}";
     }
 
     file {
