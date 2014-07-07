@@ -17,13 +17,13 @@ class hardware {
 
     # Nodes running IPMI-compliant hardware should install OpenIPMI
     if (($::manufacturer == "HP" and $::productname =~ /ProLiant/) or
-        ($::boardmanufacturer == "Supermicro" and $::productname == "X8SIL") or # ix700C
-        ($::boardmanufacturer == "Supermicro" and $::productname == "X8SIT")) { # ix21x4
+        ($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIL") or # ix700C
+        ($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIT")) { # ix21x4
         include hardware::ipmitool
     }
 
-    if (($::boardmanufacturer == "Supermicro" and $::productname == "X8SIL") or # ix700C
-        ($::boardmanufacturer == "Supermicro" and $::productname == "X8SIT")) { # ix21x4
+    if (($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIL") or # ix700C
+        ($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIT")) { # ix21x4
         # disable some broken NIC features
         include tweaks::i82574l_aspm
         # and keep the IPMI firmware up to date
