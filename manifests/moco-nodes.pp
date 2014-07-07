@@ -238,7 +238,7 @@ node "slaveapi-dev1.srv.releng.scl3.mozilla.com" {
 
 node /mobile-imaging-stage1\.p127\.releng\.(scl1|scl3)\.mozilla\.com/ {
     $aspects = [ "staging" ]
-    $is_bmm_admin_host = $fqdn ? { /.*scl1\.mozilla\.com$/ => true, default => false }
+    $is_bmm_admin_host = $fqdn ? { /.*scl3\.mozilla\.com$/ => true, default => false }
     include toplevel::server::mozpool
     users::root::extra_authorized_key {
         'mcote': ;
