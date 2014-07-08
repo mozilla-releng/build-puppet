@@ -34,11 +34,6 @@ Concat::Fragment {
     backup => false
 }
 
-# the default value for allow_virtual will change to true in Puppet-4.0.0, so be explicit
-Package {
-    allow_virtual => false
-}
-
 # purge unknown users from the system's user database.  This doesn't work on Windows
 # due to https://projects.puppetlabs.com/issues/22048
 # TODO-WIN: figre out how to not purge system users on windows (solve the puppetlabs bug)
