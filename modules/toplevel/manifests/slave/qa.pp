@@ -7,6 +7,8 @@
 class toplevel::slave::qa inherits toplevel::slave {
     include vnc
 
+    include packages::java
+
     class {
         gui:
             on_gpu => true,
