@@ -20,6 +20,7 @@ run_puppet() {
     # check for 'err:' in the output; this catches errors even
     # when the puppet exit status is incorrect.
     tmp=`mktemp /tmp/puppet-outputXXXXXX`
+    . /usr/local/bin/proxy_reset_env.sh
     /usr/bin/puppet agent --detailed-exitcodes $PUPPET_OPTIONS --server ${puppet_server} > $tmp 2>1
     retval=$?
     # just in case, if there were any errors logged, flag it as an error run
