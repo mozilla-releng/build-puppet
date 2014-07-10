@@ -204,10 +204,7 @@ def pvcreate(device):
             # returns an error in pvcreate, let's umount the disk
             umount(CCACHE_DIR)
             umount(MOCK_DIR)
-            remove_from_fstab(CCACHE_DIR)
-            remove_from_fstab(MOCK_DIR)
             umount(device)
-            remove_from_fstab(device)
         log.info('running pvcreate on: %s', device)
         log.debug('clearing the partition table for %s', device)
         run_cmd(['dd', 'if=/dev/zero', 'of=%s' % device, 'bs=512', 'count=1'])
@@ -239,13 +236,12 @@ def lvmjoin(devices):
         # vg already exists with a different name;
         old_lv = query_lv_path()
         # maps output from vgs -> fstab_entry
-        fstab_entry = is_dev_in_fstab(old_lv)
+        fstab_entry = dev_in_fstab(old_lv)
         if is_mounted(fstab_entry):
             disable_swap()
             umount(CCACHE_DIR)
             umount(MOCK_DIR)
             umount(fstab_entry)
-        remove_from_fstab(old_vg)
         remove_vg(old_vg)
         create_vg(vg_name, devices)
     else:
@@ -262,90 +258,10 @@ def lvmjoin(devices):
     return lv_path
 
 
-def fstab_line(device):
-    """Check if device is in fstab"""
-    is_fstab_line = False
-    for line in read_fstab():
-        if not line.startswith('#') \
-           and device in line:
-            log.debug("%s already in %s:", device.strip(), ETC_FSTAB)
-            is_fstab_line = line
-            break
-    return is_fstab_line
-
-
 def read_fstab():
     """"Returns a list of lines in fstab"""
     with open(ETC_FSTAB, 'r') as f_in:
         return f_in.readlines()
-
-
-def remove_from_fstab(device):
-    """Removes device from fstab"""
-    old_fstab_line = fstab_line(device)
-    if not old_fstab_line:
-        log.debug('remove_from_fstab: %s is not in fstab', device)
-        return
-    try:
-        temp_fstab = tempfile.NamedTemporaryFile(delete=False)
-        with open(temp_fstab.name, 'w') as out_fstab:
-            for line in read_fstab():
-                if old_fstab_line not in line:
-                    out_fstab.write(line)
-        log.info('removed %s from %s', old_fstab_line.strip(), ETC_FSTAB)
-        os.rename(temp_fstab.name, ETC_FSTAB)
-    except (OSError, IOError):
-        # IOError => error opening temp_fstab
-        # OSError => error renaming files
-        log.debug('Unable to read/rename temporary fstab file')
-        os.remove(temp_fstab.name)
-        log.debug('deleted temporary file: %s', temp_fstab.name)
-
-
-def append_to_fstab(device, mount_location, file_system, options, dump_freq,
-                    pass_num):
-    """Append device to fstab"""
-    new_fstab_line = get_fstab_line(device, mount_location, file_system,
-                                    options, dump_freq, pass_num)
-    with open(ETC_FSTAB, 'a') as out_f:
-        out_f.write(new_fstab_line)
-    log.info('added %s in %s', new_fstab_line.strip(), ETC_FSTAB)
-
-
-def get_fstab_line(device, mount_location, file_system, options, dump_freq,
-                   pass_num):
-    """Returns an entry for fstab"""
-    # no matter if the disk is ext3 or ext4, just mount it as ext4
-    # ext4 manages ext3 disks too
-    # /dev/sda / ext4 defaults,noatime  1 1
-    return '%s %s %s %s %d %d\n' % (device, mount_location, file_system,
-                                    options, dump_freq, pass_num)
-
-
-def update_fstab(device, mount_location, file_system, options, dump_freq,
-                 pass_num):
-    """Updates /etc/fstab if needed"""
-    # example:
-    # /dev/sda / ext4 defaults,noatime  0 0
-    # /builds/slave/ccache /builds/ccache/ none bind,noatime 0 0
-    new_fstab_line = get_fstab_line(device, mount_location, file_system,
-                                    options, dump_freq, pass_num)
-    old_fstab_line = fstab_line(device)
-    if old_fstab_line == new_fstab_line:
-        # nothing to do..
-        log.debug('%s already in %s', new_fstab_line.strip(), ETC_FSTAB)
-        return
-    # needs to be added
-    if not old_fstab_line:
-        append_to_fstab(device, mount_location, file_system, options,
-                        dump_freq, pass_num)
-        return
-    # just in case...
-    # log fstab content before updating it
-    log.debug(read_fstab())
-    remove_from_fstab(device)
-    append_to_fstab(device, mount_location, file_system, options, dump_freq,
-                    pass_num)
 
 
 def get_builders_from(jacuzzi_metadata_file):
@@ -486,7 +402,7 @@ def real_path(path):
         return path
 
 
-def is_dev_in_fstab(path):
+def dev_in_fstab(path):
     """Checks if a path is in fstab and returns the first element of the line
        (fs_spec). It returns None if path is not present in fstab
         e.g. /dev/mapper/vg-local and /dev/vg/local are both links to /dev/dm-0
@@ -507,13 +423,19 @@ def is_dev_in_fstab(path):
     return None
 
 
-def mount(device, _mount_point):
-    """Mounts device according to fstab"""
-    if not os.path.exists(_mount_point):
-        log.debug('Creating directory %s', _mount_point)
-        os.makedirs(_mount_point)
+def mount(device, mount_point, fstype=None, options=None):
+    """Mounts device"""
+    if not os.path.exists(mount_point):
+        log.debug('Creating directory %s', mount_point)
+        os.makedirs(mount_point)
     log.info('mounting %s', device)
-    run_cmd(['mount', device])
+    cmd = ["mount"]
+    if fstype:
+        cmd.extend(["-t", fstype])
+    if options:
+        cmd.extend(["-o", options])
+    cmd.extend([device, mount_point])
+    run_cmd(cmd)
 
 
 def mkdir_p(dst_dir, exist_ok=True):
@@ -555,29 +477,19 @@ def main():
     _mount_point = mount_point(device)
     ccache_dst = os.path.join(_mount_point, 'ccache')
     mock_dst = os.path.join(_mount_point, 'mock_mozilla')
-    update_fstab(device, _mount_point, file_system='ext4',
-                 options='defaults,noatime', dump_freq=0, pass_num=0)
 
-    # prepare bind shares
-    remove_from_fstab(CCACHE_DIR)
-    update_fstab(ccache_dst, CCACHE_DIR, file_system='none',
-                 options='bind,noatime', dump_freq=0, pass_num=0)
-    remove_from_fstab(MOCK_DIR)
-    update_fstab(mock_dst, MOCK_DIR, file_system='none',
-                 options='bind,noatime', dump_freq=0, pass_num=0)
-    # fstab might have been updated, umount the device and re-mount it
     if not is_mounted(device):
         # mount the main share so we can create the ccache dir
-        mount(device, _mount_point)
+        mount(device, _mount_point, fstype="ext4", options="defaults,noatime")
 
     try:
         mkdir_p(ccache_dst)
         mkdir_p(mock_dst)
         # avoid multiple mounts of the same share/directory/...
         if not is_mounted(ccache_dst):
-            mount(ccache_dst, CCACHE_DIR)
+            mount(ccache_dst, CCACHE_DIR, options="bind,noatime")
         if not is_mounted(mock_dst):
-            mount(mock_dst, MOCK_DIR)
+            mount(mock_dst, MOCK_DIR, options="bind,noatime")
         # Make sure that the mount point are writable by cltbld
         for directory in (_mount_point, CCACHE_DIR):
             chown(directory, user='cltbld', group='cltbld')
