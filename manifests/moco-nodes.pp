@@ -905,7 +905,7 @@ node "buildbot-master116.srv.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master117.srv.releng.use1.mozilla.com" {
+node "buildbot-master117.bb.releng.use1.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
         "bm117-tests1-linux64":
             http_port => 8201,
@@ -915,7 +915,7 @@ node "buildbot-master117.srv.releng.use1.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master118.srv.releng.usw2.mozilla.com" {
+node "buildbot-master118.bb.releng.usw2.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
         "bm118-tests1-linux64":
             http_port => 8201,
