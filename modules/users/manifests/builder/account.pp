@@ -29,22 +29,15 @@ class users::builder::account($username, $group, $grouplist, $home) {
                     comment => "Builder";
             }
         }
-#Place holder for Windows builder account creation
-#        Windows: {
-#            if (secret("builder_pw_hash") == '') {
-#                fail('No builder password hash set')
-#            }
-#
-#            user {
-#               $username:
-#		            ensure => present,
-#                    password => secret("builder_pw_hash"),
-#                    shell => "/bin/bash",
-#                    managehome => true,
-#                    groups => $grouplist,
-#                    comment => "Builder";
-#            }
-#        }
+        Windows: {
+            user {
+               $username:
+                    password => secret("builder_pw_cleartext"),
+                    groups  => ["administrators","Remote Desktop Users"],
+                    managehome => true,
+                    comment => "Builder";
+            }
+        }
         Darwin: {
             # use our custom type and provider, based on http://projects.puppetlabs.com/issues/12833
             # This should be replaced with 'user' once we are running a version of puppet containing the

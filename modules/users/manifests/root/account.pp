@@ -19,11 +19,12 @@ class users::root::account($username, $group, $home) {
             }
         }
 	    Windows: {
-            # Windows Puppet only verifies that root user is present
+            # Windows Puppet only verifies that root user is present and sets password
 	        user {
                 root:
                     ensure => present,
                     forcelocal => true,
+                    password => secret("root_pw_cleartext");
 		    }
 	    }
         Darwin: {
