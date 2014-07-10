@@ -51,7 +51,7 @@ class users::builder::autologin {
             #Enables Clean Desktop Exp. managaer. See  http://technet.microsoft.com/en-us/library/ee344834.aspx for refrence.
             exec { "cleanmgr":
                 creates => 'C:\programdata\PuppetLabs\puppet\var\lib\cleandesktopresults.xml',
-                command => 'C:\Windows\System32\servermanagercmd.exe -install Desktop-Experience -resultPath C:\programdata\PuppetLabs\puppet\var\lib\cleandesktopresults
+                command => 'C:\Windows\System32\servermanagercmd.exe -install Desktop-Experience -resultPath C:\programdata\PuppetLabs\puppet\var\lib\cleandesktopresults',
             }
         }
         default: {
