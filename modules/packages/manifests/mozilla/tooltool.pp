@@ -4,10 +4,11 @@
 class packages::mozilla::tooltool {
     # this package is simple enough that its source code is embedded in the
     # puppet repo.  It gets the Python intepreter added to its shebang line
-    $python = $::packages::mozilla::python27::python
     case $::operatingsystem {
         Windows: {
             include packages::mozilla::mozilla_build
+            $python = 'c:\mozilla-build\python\python.exe'
+
             file{
                 "C:/mozilla-build/tooltool.py":
                     require => Class["packages::mozilla::mozilla_build"],
@@ -17,6 +18,8 @@ class packages::mozilla::tooltool {
         default: {
             include packages::mozilla::python27
             include users::root
+            $python = $::packages::mozilla::python27::python
+
             file {
                 "/tools/tooltool.py":
                     owner => $users::root::username,
