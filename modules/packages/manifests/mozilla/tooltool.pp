@@ -7,7 +7,7 @@ class packages::mozilla::tooltool {
     $python = $::packages::mozilla::python27::python
     case $::operatingsystem {
         Windows: {
-        include packages::mozilla::mozilla_build
+            include packages::mozilla::mozilla_build
             file{
                 "C:/mozilla-build/tooltool.py":
                     require => Class["packages::mozilla::mozilla_build"],
@@ -15,8 +15,8 @@ class packages::mozilla::tooltool {
             }
         }
         default: {
-        include packages::mozilla::python27
-        include users::root
+            include packages::mozilla::python27
+            include users::root
             file {
                 "/tools/tooltool.py":
                     owner => $users::root::username,
