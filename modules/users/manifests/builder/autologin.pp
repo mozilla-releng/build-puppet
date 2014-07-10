@@ -7,7 +7,7 @@ class users::builder::autologin {
     case $::operatingsystem {
         Darwin: {
             file {
-                # this file contains a lightly obscured copy of the password
+                #this file contains a lightly obscured copy of the password
                 "/etc/kcpassword":
                     content => base64decode(secret("builder_pw_kcpassword_base64")),
                     owner => root,
@@ -23,7 +23,36 @@ class users::builder::autologin {
             }
         }
         Ubuntu: {
-            # Managed by xvfb/Xsession
+            #Managed by xvfb/Xsession
+        }
+        Windows: {
+            #In Windows autologin is setup through registry settings
+            registry::value { 'AutoAdminLogon':
+                key    => "HKLM\\SOFTWARE\\Microsoft",
+                data   => '1',
+            }
+            registry::value { 'DefaultDomainName':
+                key    => "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
+                data   => '.',
+            }
+            registry::value { 'DefaultPassword':
+                key    => "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
+                data   => secret("builder_pw_cleartext"),
+            }
+            registry::value { 'DefaultUserName':
+                key    => "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
+                data   => 'cltbld',
+            }
+            registry::value { 'AutoLogonCount':
+                key    => "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
+                type   => dword,
+                data   => '100000',
+            }
+            #Enables Clean Desktop Exp. managaer. See  http://technet.microsoft.com/en-us/library/ee344834.aspx for refrence.
+            exec { "cleanmgr":
+                creates => 'C:\programdata\PuppetLabs\puppet\var\lib\cleandesktopresults.xml',
+                command => 'C:\Windows\System32\servermanagercmd.exe -install Desktop-Experience -resultPath C:\programdata\PuppetLabs\puppet\var\lib\cleandesktopresults
+            }
         }
         default: {
             fail("Don't know how to set up autologin on $::operatingsystem")
