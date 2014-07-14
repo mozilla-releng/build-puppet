@@ -122,7 +122,17 @@ if ! $interactive; then
     if test -f $ROOT/deploypass; then
         echo "securely removing deploypass"
         case "$OS" in
-            CentOS|Ubuntu)
+            CentOS)
+                shred -u -n 7 -z $ROOT/deploypass || hang
+                # kernel command line is helpfully logged here!
+                for ANACONDA_LOG in /var/log/anaconda.{log,syslog}; do
+                    if [ -f $ANACONDA_LOG ]; then
+                        shred -u -n 7 -z $ANACONDA_LOG || hang
+                    fi
+                done
+                ;;
+
+            Ubuntu)
                 shred -u -n 7 -z $ROOT/deploypass || hang
                 ;;
             Darwin)
