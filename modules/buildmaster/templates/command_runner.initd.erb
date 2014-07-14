@@ -33,7 +33,6 @@ test -x ${DAEMON} || exit 0
 start_agent() {
     USER="$1"
     ${PREFIXCMD} su -s /bin/bash -c "${DAEMON}" - ${USER}
-    ret=$?
     return $?
 }
 
@@ -42,7 +41,6 @@ stop_agent() {
     if [ -f $PIDFILE ]; then
         PID=$(cat $PIDFILE)
         ${PREFIXCMD} su -s /bin/bash -c "kill $PID" - ${USER}
-        ret=$?
         return $?
     fi
     return 0
@@ -80,7 +78,6 @@ do_status () {
     if [ -f $PIDFILE ]; then
         PID=$(cat $PIDFILE)
         kill -0 $PID
-        ret=$?
         return $?
     fi
     return 1
