@@ -19,9 +19,6 @@ class buildslave::install {
         #    active => false;
 
         "0.8.4-pre-moz2":
-            active => false;
-
-        "0.8.4-pre-moz3":
             active => true;
     } -> Anchor['buildslave::install::end']
 }
