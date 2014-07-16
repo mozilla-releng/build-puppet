@@ -13,18 +13,23 @@ class web_proxy::environment {
                     content => template("${module_name}/environment.erb")
                 }
 
-                # Puppet agent will not be able to install packages from repo if a proxy is set.
-                # Source this script for all commands, which require no proxy being set.
-                file { "proxy_reset_environment":
-                    ensure => present,
-                    path => "/usr/local/bin/proxy_reset_env.sh",
-                    mode => "0755",
-                    source => "puppet:///modules/web_proxy/unix_proxy_reset_env.sh"
-                }
             }
             default: {
                 fail("${module_name} does not support ${operatingsystem}")
             }
+        }
+    }
+
+    # Puppet agent will not be able to install packages from repo if a proxy is
+    # set.  Source this script for all commands, which require no proxy being
+    # set.  Note that this file must exist unconditionally, as the puppet scripts
+    # use it and will fail if it is missing.
+    if ($operatingsystem != "windows") {
+        file { "proxy_reset_environment":
+            ensure => present,
+            path => "/usr/local/bin/proxy_reset_env.sh",
+            mode => "0755",
+            source => "puppet:///modules/web_proxy/unix_proxy_reset_env.sh"
         }
     }
 }
