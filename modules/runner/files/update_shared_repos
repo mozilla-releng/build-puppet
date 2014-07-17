@@ -16,4 +16,4 @@ if [ "$USER" != "cltbld" ]; then
 fi
 
 echo "Updating hg repos in $HG_SHARE_BASE_DIR"
-find "$HG_SHARE_BASE_DIR" -type d -name .hg -prune -printf '%h\0' | xargs -0 -P4 -t -n 1 hg pull -R
+find "$HG_SHARE_BASE_DIR" -type d -name .hg -not -wholename '*l10n*' -not -wholename '*try*' -prune -printf '%h\0' | xargs -0 -P4 -t -n 1 hg pull -R
