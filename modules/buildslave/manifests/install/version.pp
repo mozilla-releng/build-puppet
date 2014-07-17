@@ -17,7 +17,7 @@ define buildslave::install::version($active=false, $ensure="present") {
     # set the parameters for the virtualenv below.  Each version should set
     # $packages explicitly.
     case $version {
-        "0.8.4-pre-moz2": {
+        "0.8.4-pre-moz2", "0.8.4-pre-moz3": {
             include packages::mozilla::python27
             $py_require = Class['packages::mozilla::python27']
             $packages = [
