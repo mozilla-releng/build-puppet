@@ -24,5 +24,5 @@ node "sea-master1.community.scl3.mozilla.com" {
 
 node /sea-hp-linux64-(\d+).community.scl3.mozilla.com/ {
     $slave_trustlevel = 'core'
-    include toplevel::slave
+    include toplevel::slave::releng
 }
