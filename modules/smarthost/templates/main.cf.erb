@@ -19,12 +19,13 @@ mydomain_fallback = localhost
 mail_owner = postfix
 setgid_group = postdrop
 <%- end -%>
-myhostname = <%= @hostname %>
-mydomain = <%= @domain %>
-myorigin = <%= @fqdn %>
 mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 unknown_local_recipient_reject_code = 550
-relay_domains = <%= scope.lookupvar('::config::relay_domains') %> 
+<%-
+relayhost = scope.lookupvar('::config::relayhost')
+if relayhost -%>
+relayhost = <%= relayhost %> 
+<% end -%>
 smtpd_reject_unlisted_recipient = yes
 unverified_recipient_reject_code = 550
 smtpd_banner = $myhostname ESMTP

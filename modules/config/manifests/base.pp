@@ -92,8 +92,9 @@ class config::base {
     # NTP server to use for time sync
     $ntp_server = "pool.ntp.org"
 
-    # The fqdn where your smarthost will send  mail
-    $relay_domains = "smtp.mozilla.org"
+    # The host through which to relay mail; this goes to postfix's relayhost
+    # parameter, so put [..] around it to avoid doing an MX lookup
+    $relayhost = undef
 
     # Whether puppet should manage /etc/sysconfig/network-scripts/ifcfg-eth0,
     # forcing use of DHCP.  Set this to false to set up static IPs on each host
