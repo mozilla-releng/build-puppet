@@ -7,6 +7,6 @@ class runner::tasks::update_shared_repos($runlevel=3) {
 
     runner::task {
         "${runlevel}-update_shared_repos":
-            content  => template("${module_name}/tasks/update_shared_repos");
+            content  => template("${module_name}/tasks/update_shared_repos.erb");
     }
 }
