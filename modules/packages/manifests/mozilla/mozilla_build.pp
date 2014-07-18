@@ -8,7 +8,7 @@
 
 class packages::mozilla::mozilla_build {
     include packages::7z920
-        exec { "mozilla_build":
+    exec { "mozilla_build":
             creates => 'C:\mozilla-build\VERSION',
             require => Class["packages::7z920"],
             command => '"C:\Program Files (x86)\7-Zip\7z.exe" x C:\InstallerSource\puppetagain.pub.build.mozilla.org\ZIPs\MozillaBuildSetup-Latest.zip -oC:\mozilla-build -y'
