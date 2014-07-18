@@ -61,7 +61,6 @@ define signingserver::instance(
 
     # copy vars from config
     $tools_repo = $config::signing_tools_repo
-    $redis = $config::signing_redis_host
     $mac_id = $config::signing_mac_id
     $allowed_ips = $config::signing_allowed_ips
     $new_token_allowed_ips = $config::signing_new_token_allowed_ips
@@ -71,9 +70,6 @@ define signingserver::instance(
 
     if ($mac_id == '') {
         fail("config::signing_mac_id is not set")
-    }
-    if ($redis == '') {
-        fail("config::signing_redis_host is not set")
     }
 
     # OS X does not yet support firewall manipulation

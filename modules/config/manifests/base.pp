@@ -167,8 +167,6 @@ class config::base {
     $signing_mac_id = ''
     # The list of IPs allowed to generate new signing tokens (buildmasters)
     $signing_new_token_allowed_ips = []
-    # The redis host used as backend storage for signing
-    $signing_redis_host = ''
     # The mercurial repository from which to pull the signing tools code
     $signing_tools_repo = 'https://hg.mozilla.org/build/tools'
 
