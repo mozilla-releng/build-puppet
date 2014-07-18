@@ -166,6 +166,10 @@ node /mobile-imaging-stage1\.p127\.releng\.scl3\.mozilla\.com/ {
     users::root::extra_authorized_key {
         'mcote': ;
     }
+    shared::execonce {
+        'test-exec':
+            command => "/bin/touch /tmp/foo";
+    }
 }
 
 node /mobile-imaging-\d+\.p\d+\.releng\.scl3\.mozilla\.com/ {
