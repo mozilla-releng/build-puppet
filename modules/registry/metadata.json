@@ -1,0 +1,132 @@
+{
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Windows",
+      "operatingsystemrelease": [
+        "Server 2003",
+        "Server 2003 R2",
+        "Server 2008",
+        "Server 2008 R2",
+        "Server 2012",
+        "Server 2012 R2",
+        "7",
+        "8"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": "3.2.x"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": "3.x"
+    }
+  ],
+  "name": "puppetlabs-registry",
+  "version": "1.0.0",
+  "source": "git://github.com/puppetlabs/puppetlabs-registry.git",
+  "author": "puppetlabs",
+  "license": "Apache License, Version 2.0",
+  "summary": "This module provides a native type and provider to manage keys and values in the Windows Registry",
+  "description": "This module provides a native type and provider to manage keys and values in the Windows Registry",
+  "project_page": "http://links.puppetlabs.com/registry-module",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 2.3.0"
+    }
+  ],
+  "types": [
+    {
+      "name": "registry_key",
+      "doc": "Manages registry keys on Windows systems.\n\nKeys within HKEY_LOCAL_MACHINE (hklm) or HKEY_CLASSES_ROOT (hkcr) are\nsupported.  Other predefined root keys, e.g. HKEY_USERS, are not\ncurrently supported.\n\nIf Puppet creates a registry key, Windows will automatically create any\nnecessary parent registry keys that do not exist.\n\nPuppet will not recursively delete registry keys.\n\n**Autorequires:** Any parent registry key managed by Puppet will be\nautorequired.",
+      "properties": [
+        {
+          "name": "ensure",
+          "doc": "The basic property that the resource should be in.\n\nValid values are `present`, `absent`. "
+        }
+      ],
+      "parameters": [
+        {
+          "name": "path",
+          "doc": "The path to the registry key to manage.  For example; 'HKLMSoftware',\n'HKEY_LOCAL_MACHINESoftwareVendor'.  If Puppet is running on a 64-bit\nsystem, the 32-bit registry key can be explicitly managed using a\nprefix.  For example: '32:HKLMSoftware'\n\n"
+        },
+        {
+          "name": "purge_values",
+          "doc": "Whether to delete any registry value associated with this key that is\nnot being managed by puppet.\n\nValid values are `true`, `false`. "
+        }
+      ],
+      "providers": [
+        {
+          "name": "registry",
+          "doc": "* Default for `operatingsystem` == `windows`."
+        }
+      ]
+    },
+    {
+      "name": "registry_value",
+      "doc": "Manages registry values on Windows systems.\n\nThe `registry_value` type can manage registry values.  See the\n`type` and `data` attributes for information about supported\nregistry types, e.g. REG_SZ, and how the data should be specified.\n\n**Autorequires:** Any parent registry key managed by Puppet will be\nautorequired.",
+      "properties": [
+        {
+          "name": "ensure",
+          "doc": "The basic property that the resource should be in.\n\nValid values are `present`, `absent`. "
+        },
+        {
+          "name": "type",
+          "doc": "The Windows data type of the registry value.  Puppet provides\nhelpful names for these types as follows:\n\n* string => REG_SZ\n* array  => REG_MULTI_SZ\n* expand => REG_EXPAND_SZ\n* dword  => REG_DWORD\n* qword  => REG_QWORD\n* binary => REG_BINARY\n\nValid values are `string`, `array`, `dword`, `qword`, `binary`, `expand`. "
+        },
+        {
+          "name": "data",
+          "doc": "The data stored in the registry value.  Data should be specified\nas a string value but may be specified as a Puppet array when the\ntype is set to `array`.\n\n"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "path",
+          "doc": "The path to the registry value to manage.  For example:\n'HKLMSoftwareValue1', 'HKEY_LOCAL_MACHINESoftwareVendorValue2'.\nIf Puppet is running on a 64-bit system, the 32-bit registry key can\nbe explicitly manage using a prefix.  For example:\n'32:HKLMSoftwareValue3'\n\n"
+        }
+      ],
+      "providers": [
+        {
+          "name": "registry",
+          "doc": "* Default for `operatingsystem` == `windows`."
+        }
+      ]
+    }
+  ],
+  "checksums": {
+    "CHANGELOG.md": "81888c272df7e7a1d05fc67268297bd1",
+    "LICENSE": "6089b6bd1f0d807edb8bdfd76da0b038",
+    "Modulefile": "e5494eec6d430e6617427891037f616c",
+    "README.markdown": "c6e4ffa6c1c6504de4405d12a2c5ffb1",
+    "Rakefile": "5f442b52d07e2ad72d97063cf31fbea9",
+    "acceptance/lib/systest/util/registry.rb": "626fcdfc0ce13bda7ed85dab168c5758",
+    "acceptance/lib/systest/util.rb": "5fe316915896e133129bec03cfeb6f3c",
+    "acceptance/lib/systest.rb": "08cde457e07db7b82a1ce9ff502dd495",
+    "acceptance/tests/resource/registry/should_create_key.rb": "4d1f03c38fc10a460a532adb1a392fdd",
+    "acceptance/tests/resource/registry/should_have_defined_type.rb": "27a20c4caba9176bf3ce15de694f7d9f",
+    "acceptance/tests/resource/registry/should_manage_values.rb": "5b835dc8a0f3751576801c2ded73bd88",
+    "acceptance/tests/resource/registry/should_pluginsync.rb": "5cdea452584fa6202344773a0db788f6",
+    "acceptance/tests/resource/registry/should_tolerate_mixed_case.rb": "e1f39949a797f3a730e512d19b12c37f",
+    "lib/puppet/provider/registry_key/registry.rb": "b78cb2f414340e48db3c392ac5cb38f8",
+    "lib/puppet/provider/registry_value/registry.rb": "6a3553f10987d7645d4820228f042c20",
+    "lib/puppet/type/registry_key.rb": "bcf74b3a991cafdae54514b3c3c4a38c",
+    "lib/puppet/type/registry_value.rb": "bc7875db85091ce1c2e2ec598dd14845",
+    "lib/puppet_x/puppetlabs/registry/provider_base.rb": "6867ade1b72b03c249815ec135718d15",
+    "lib/puppet_x/puppetlabs/registry.rb": "30edeef6778a3a69d2cbb46b12b0dc0c",
+    "manifests/compliance_example.pp": "25a15c60d0e4a28e7d34ada1c62ef43d",
+    "manifests/init.pp": "5a40c3619c4e6acb21e548c34b2e8ce3",
+    "manifests/purge_example.pp": "0d5fc9fad07a324d9a215c90276bad18",
+    "manifests/service.pp": "02c5d225d6171b08d8d71d04db053039",
+    "manifests/service_example.pp": "6321731674cc7538019440adbd720b09",
+    "manifests/value.pp": "7090190903bb2038215ce7a96278f971",
+    "spec/spec_helper.rb": "fd0e2c72fac8f6e2df53a48662d150f8",
+    "spec/unit/puppet/type/registry_key_spec.rb": "3aa55d9d90f3f097787d062e2bc0f32a",
+    "spec/unit/puppet/type/registry_value_spec.rb": "fa08cbe28d3b9b66d28ff8ed6b41b73b",
+    "spec/watchr.rb": "0d23eac3b37babe4229307850cfc4240",
+    "tests/init.pp": "adc764ff5b1baac5d8f373323704f6bc",
+    "tests/registry_examples.pp": "28fe1b04385d91f301880920c7f343c0"
+  }
+}
