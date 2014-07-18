@@ -9,6 +9,6 @@ class runner::tasks::purge_builds($runlevel=1) {
 
     runner::task {
         "${runlevel}-purge_builds":
-            content  => template("${module_name}/tasks/purge_builds");
+            content  => template("${module_name}/tasks/purge_builds.erb");
     }
 }
