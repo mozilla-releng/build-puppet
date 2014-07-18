@@ -61,6 +61,44 @@ class slave_secrets::ssh_keys($slave_type) {
                 }
             }
         }
+        seamonkey: {
+            # a table of keysets by environment (from slavealloc) and $slave_trustlevel
+            $staging_keyset = {}
+            $prod_core_keyset = {
+                'id_dsa' => 'builder_ssh_key_prod_id_dsa',
+                'seabld_dsa' => 'builder_ssh_key_prod_seabld_dsa',
+            }
+            $environment = slavealloc_environment($clientcert)
+            case $slave_type {
+                test: {
+                    # no keys for test slaves
+                    $keyset = {}
+                }
+                build: {
+                    case $environment {
+                        'dev/pp': {
+                            $keyset = $staging_keyset
+                        }
+                        'prod': {
+                            case $slave_trustlevel {
+                                core: {
+                                    $keyset = $prod_core_keyset
+                                }
+                                default: {
+                                    fail("unknown slave_trustlevel ${slave_trustlevel}")
+                                }
+                            }
+                        }
+                        none: {
+                            $keyset = {}
+                        }
+                        default: {
+                            fail("unknown slavealloc environment ${environment}")
+                        }
+                    }
+                }
+            }
+        }
         relabs: {
             $keyset = {
                 'testy' => 'builder_ssh_key_prod_testy',

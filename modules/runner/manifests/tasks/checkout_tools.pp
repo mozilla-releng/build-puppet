@@ -18,6 +18,6 @@ class runner::tasks::checkout_tools($runlevel=0) {
                 Class['packages::mozilla::hgtool'],
                 File['/tools/checkouts'],
             ],
-            source  => 'puppet:///modules/runner/checkout_tools';
+            content  => template("${module_name}/tasks/checkout_tools');
     }
 }

@@ -5,9 +5,9 @@
 # Make sure runner runs at boot
 
 # Make sure we have tools and mozharness cloned and up-to-date
-# Run as cltbld
-if [ "$USER" != "cltbld" ]; then
-        sudo -E -u cltbld $0 $*
+# Run as  <%= scope.lookupvar('::config::builder_username') %>
+if [ "$USER" != "<%= scope.lookupvar('::config::builder_username') %>" ]; then
+        sudo -E -u  <%= scope.lookupvar('::config::builder_username') %> $0 $*
         exit $?
 fi
 HGTOOL=/usr/local/bin/hgtool.py
