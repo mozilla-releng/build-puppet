@@ -10,8 +10,8 @@ if [ -z "$HG_SHARE_BASE_DIR" ]; then
     exit
 fi
 
-if [ "$USER" != "cltbld" ]; then
-        sudo -E -u cltbld $0 $*
+if [ "$USER" != "<%= scope.lookupvar('::config::builder_username') %>" ]; then
+        sudo -E -u  <%= scope.lookupvar('::config::builder_username') %> $0 $*
         exit $?
 fi
 

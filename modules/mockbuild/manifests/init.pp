@@ -33,12 +33,12 @@ class mockbuild {
     exec {
         'mock_clean_mozilla-centos6-i386':
             # this will expire all mock caches
-            command => "/usr/bin/sudo -u cltbld /usr/bin/mock_mozilla -v -r mozilla-centos6-i386 --scrub=all",
+            command => "/usr/bin/sudo -u $::config::builder_username /usr/bin/mock_mozilla -v -r mozilla-centos6-i386 --scrub=all",
             onlyif => "/usr/bin/test -e /builds/mock_mozilla/mozilla-centos6-i386/result/state.log",
             refreshonly => true;
         'mock_clean_mozilla-centos6-x86_64':
             # this will expire all mock caches
-            command => "/usr/bin/sudo -u cltbld /usr/bin/mock_mozilla -v -r mozilla-centos6-x86_64 --scrub=all",
+            command => "/usr/bin/sudo -u $::config::builder_username /usr/bin/mock_mozilla -v -r mozilla-centos6-x86_64 --scrub=all",
             onlyif => "/usr/bin/test -e /builds/mock_mozilla/mozilla-centos6-x86_64/result/state.log",
             refreshonly => true;
     }

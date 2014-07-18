@@ -21,6 +21,11 @@ class config inherits config::base {
     $distinguished_puppetmaster = "sea-puppet.community.scl3.mozilla.com"
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
     $puppet_again_repo = "https://hg.mozilla.org/build/puppet/"
+    $puppetmaster_extsyncs = {
+        'fake_slavealloc' => {
+            # No real slavealloc to use, so do this manually
+        },
+    }
 
     $admin_users = [
         "dmitchell",
