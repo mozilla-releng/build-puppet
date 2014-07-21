@@ -23,7 +23,7 @@ class config inherits config::base {
     $puppet_again_repo = "https://hg.mozilla.org/build/puppet/"
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
 
-    $nrpe_allowed_hosts = "10.2.71.20,10.12.75.9,127.0.0.1,10.26.75.30"
+    $nrpe_allowed_hosts = "127.0.0.1,10.26.75.30"
     $ntp_server = "time.mozilla.org"
     $admin_users = [
         # Servo users who should be kept when syncing from LDAP:

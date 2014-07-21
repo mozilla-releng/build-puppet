@@ -241,7 +241,6 @@ class NSCANotifier(object):
 
     # map by datacenter (from DNS); default is None
     monitoring_hosts = {
-        'scl1': 'admin1.infra.scl1.mozilla.com',
         'sjc1': 'bm-admin01.mozilla.org',
         'mtv1': 'bm-admin01.mozilla.org',
         None: 'bm-admin01.mozilla.org',

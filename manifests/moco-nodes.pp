@@ -8,7 +8,7 @@ node /foopy\d+.tegra.releng.scl3.mozilla.com/ {
     include toplevel::server::foopy
 }
 
-node /foopy\d+\.p\d+\.releng\.(scl1|scl3)\.mozilla\.com/ {
+node /foopy\d+\.p\d+\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server::foopy
 }
 
@@ -19,17 +19,7 @@ node "r4-mini-001.test.releng.scl3.mozilla.com" {
     include toplevel::slave::releng::test::gpu
 }
 
-node /talos-r4-snow-\d+.build.scl1.mozilla.com/ {
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::test::gpu
-}
-
 node /t-snow-r4-\d+.test.releng.scl3.mozilla.com/ {
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::test::gpu
-}
-
-node /talos-r4-lion-\d+.build.scl1.mozilla.com/ {
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::test::gpu
 }
@@ -65,33 +55,12 @@ node /t-w732-ix-\d+.wintest.releng.scl3.mozilla.com/ {
 
 ## builders
 
-node /bld-linux64-ix-0(\d+).build.scl1.mozilla.com/ {
-    # determine the slave's trustlevel from slavealloc; this case is only
-    # required in the "old" datacenters; in new datacenters, trustlevel is
-    # based on VLAN atom.
-    if $clientcert =~ /bld-linux64-ix-0(\d+).build.scl1.mozilla.com/ {
-        if $1 <= 26 {
-            # decommed
-        } elsif $1 <= 37 {
-            $slave_trustlevel = 'core'
-        } elsif $1 <= 53 {
-            $slave_trustlevel = 'try'
-        }
-    }
-    include toplevel::slave::releng::build::mock
-}
-
 node /b-linux64-ix-\d+.build.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'core'
     include toplevel::slave::releng::build::mock
 }
 
 node /b-linux64-ix-\d+.try.releng.scl3.mozilla.com/ {
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::build::mock
-}
-
-node /b-linux64-hp-0*(\d+).build.scl1.mozilla.com/ {
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build::mock
 }
@@ -103,20 +72,6 @@ node /b-linux64-hp-\d+.build.releng.scl3.mozilla.com/ {
 
 node /b-linux64-hp-\d+.try.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'try'
-    include toplevel::slave::releng::build::mock
-}
-
-node /bld-centos6-hp-0*(\d+).build.scl1.mozilla.com/ {
-    # determine the slave's trustlevel from slavealloc; this case is only
-    # required in the "old" datacenters; in new datacenters, trustlevel is
-    # based on VLAN atom.
-    if $clientcert =~ /bld-centos6-hp-0*(\d+).build.scl1.mozilla.com/ {
-        if $1 <= 19 {
-            $slave_trustlevel = 'core'
-        } elsif $1 <= 42 {
-            $slave_trustlevel = 'try'
-        }
-    }
     include toplevel::slave::releng::build::mock
 }
 
@@ -233,7 +188,7 @@ node "slaveapi-dev1.srv.releng.scl3.mozilla.com" {
 
 ## mozpool servers
 
-node /mobile-imaging-stage1\.p127\.releng\.(scl1|scl3)\.mozilla\.com/ {
+node /mobile-imaging-stage1\.p127\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ "staging" ]
     $is_bmm_admin_host = $fqdn ? { /.*scl3\.mozilla\.com$/ => true, default => false }
     include toplevel::server::mozpool
@@ -242,7 +197,7 @@ node /mobile-imaging-stage1\.p127\.releng\.(scl1|scl3)\.mozilla\.com/ {
     }
 }
 
-node /mobile-imaging-\d+\.p\d+\.releng\.(scl1|scl3)\.mozilla\.com/ {
+node /mobile-imaging-\d+\.p\d+\.releng\.scl3\.mozilla\.com/ {
     $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => true, default => false }
     include toplevel::server::mozpool
     users::root::extra_authorized_key {

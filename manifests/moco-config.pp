@@ -37,7 +37,6 @@ class config inherits config::base {
     $data_server = $puppet_server
 
     $node_location = $fqdn? {
-        /.*\.scl1\.mozilla\.com/ => 'in-house',
         /.*\.scl3\.mozilla\.com/ => 'in-house',
         /.*\.use1\.mozilla\.com/ => 'aws',
         /.*\.usw2\.mozilla\.com/ => 'aws',
@@ -61,17 +60,14 @@ class config inherits config::base {
 
     $user_python_repositories = [ "http://pypi.pvt.build.mozilla.org/pub", "http://pypi.pub.build.mozilla.org/pub" ]
 
-    $nrpe_allowed_hosts = "10.2.71.20,10.12.75.9,127.0.0.1,10.26.75.30"
+    $nrpe_allowed_hosts = "127.0.0.1,10.26.75.30"
     $ntp_server = "time.mozilla.org"
     $relayhost = "[smtp.mozilla.org]"
 
     $signer_username = 'cltsign'
     $signing_tools_repo = 'https://hg.mozilla.org/build/tools'
-    $signing_redis_host = 'redis01.build.scl1.mozilla.com'
     $signing_mac_id = 'Mozilla'
     $signing_allowed_ips = [
-        '10.12.40.0/22',
-        '10.12.48.0/21',
         '10.26.36.0/22',
         '10.26.40.0/22',
         '10.26.48.0/24',
