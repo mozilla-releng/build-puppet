@@ -4,34 +4,26 @@
 class packages::mozilla::tooltool {
     # this package is simple enough that its source code is embedded in the
     # puppet repo.  It gets the Python intepreter added to its shebang line
-    case $::operatingsystem {
-        Windows: {
-            include packages::mozilla::mozilla_build
-            $python = 'c:\mozilla-build\python\python.exe'
+    include packages::mozilla::python27
+    $python = $::packages::mozilla::python27::python
+    $filename = $::operatingsystem ? {
+        windows => "C:/mozilla-build/tooltool.py",
+        default => "/tools/tooltool.py",
+    }
 
-            file{
-                "C:/mozilla-build/tooltool.py":
-                    require => Class["packages::mozilla::mozilla_build"],
-                    content => template("packages/tooltool.py");
-            }
-        }
-        default: {
-            include packages::mozilla::python27
-            include users::root
-            $python = $::packages::mozilla::python27::python
+    file {
+        $filename:
+            mode => filemode(0755),
+            content => template("packages/tooltool.py");
+    }
 
-            file {
-                "/tools/tooltool.py":
-                    owner => $users::root::username,
-                    group => $users::root::group,
-                    mode => 0755,
-                    content => template("packages/tooltool.py");
-            }
-            file {
-                "/builds/tooltool.py":
-                    ensure => "link",
-                    target => "/tools/tooltool.py";
-            }
+    # put a symlink in from /builds/tooltool.py, except where symlinks aren't
+    # supported.
+    if ($::operatingsystem != "windows") {
+        file {
+            "/builds/tooltool.py":
+                ensure => "link",
+                target => $filename;
         }
     }
 }
