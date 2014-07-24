@@ -1,12 +1,11 @@
-<%# This Source Code Form is subject to the terms of the Mozilla Public
-  # License, v. 2.0. If a copy of the MPL was not distributed with this
-  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-  #
-  # see https://mana.mozilla.org/wiki/display/SECURITY/Configuring+Your+Servers+to+Use+Proxies -%>
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 <% [ 'http_proxy', 'HTTP_PROXY',
      'https_proxy', 'HTTPS_PROXY',
      'ftp_proxy', 'FTP_PROXY' ].each do |var| -%>
-export <%= var %>="<%= @url %>"
+export <%= var %>="http://<%= @host %>:<%= @port %>/"
 <% end
 if @exceptions
   exc_str = @exceptions.join(',')

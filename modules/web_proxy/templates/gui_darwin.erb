@@ -1,0 +1,21 @@
+#! /bin/sh
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+<%-
+  if @exceptions
+    exc_str = @exceptions.join(',')
+  state = @host != "" ? "on" : "off"
+-%>
+
+<% [ '-setwebproxy', '-setsecurewebproxy', '-setftpproxy' ].each do |var| -%>
+/usr/sbin/networksetup <%= var %> Ethernet "<%= @host %>" "<%= @port %>"
+<%- end -%>
+
+<% [ '-setwebproxystate', '-setsecurewebproxystate', '-setftpproxystate' ].each do |var| -%>
+/usr/sbin/networksetup <%= var %> Ethernet "<%= state %>"
+<%- end -%>
+
+/usr/sbin/networksetup -setproxybypassdomains Ethernet "<%= exc_str %>"
+<%- end -%>

@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class web_proxy::environment {
-    if ($web_proxy::url != '') {
+    if $web_proxy::host != "" {
         case $operatingsystem {
             Darwin,
             CentOS,
@@ -12,31 +12,24 @@ class web_proxy::environment {
                     ensure => present,
                     content => template("${module_name}/environment.erb")
                 }
+
             }
             default: {
                 fail("${module_name} does not support ${operatingsystem}")
             }
         }
-    } else {
-        # Ensure the proxy settings are removed if none are set
-        case $operatingsystem {
-            Darwin,
-            CentOS,
-            Ubuntu: {
-                shellprofile::file { "proxy":
-                    ensure => absent
-                }
-            }
-        }
     }
 
-    # Environment vars for proxies is set via /etc/profile.puppet.d/proxy.sh now.
-    # Remove that section once all CentOS systems have been updated.
-    case $operatingsystem {
-       CentOS: {
-           file { "/etc/environment":
-               content => "",
-            }
+    # Puppet agent will not be able to install packages from repo if a proxy is
+    # set.  Source this script for all commands, which require no proxy being
+    # set.  Note that this file must exist unconditionally, as the puppet scripts
+    # use it and will fail if it is missing.
+    if ($operatingsystem != "windows") {
+        file { "proxy_reset_environment":
+            ensure => present,
+            path => "/usr/local/bin/proxy_reset_env.sh",
+            mode => "0755",
+            source => "puppet:///modules/web_proxy/unix_proxy_reset_env.sh"
         }
     }
 }

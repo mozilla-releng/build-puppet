@@ -32,7 +32,8 @@ class toplevel::base {
     include instance_metadata
 
     class { 'web_proxy':
-        url => $::config::web_proxy_url,
+        host => $::config::web_proxy_host,
+        port => $::config::web_proxy_port,
         exceptions => $::config::web_proxy_exceptions
     }
 
