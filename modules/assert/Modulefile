@@ -1,0 +1,8 @@
+name    'binford2k-assert'
+version '0.0.1'
+source 'https://github.com/binford2k/puppet-assert.git'
+author 'binford2k'
+license 'Apache License, Version 2.0'
+summary 'Provide an assert type for puppet'
+description 'Allows one to specify an assert as a resource that classes or resources depend on. If the assert fails, all dependencies will be skipped.'
+project_page 'https://github.com/binford2k/puppet-assert'
