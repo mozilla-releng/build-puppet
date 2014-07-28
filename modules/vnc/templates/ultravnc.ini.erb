@@ -1,0 +1,77 @@
+; This Source Code Form is subject to the terms of the Mozilla Public
+; License, v. 2.0. If a copy of the MPL was not distributed with this
+; file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+; Managed by puppet
+
+[ultravnc]
+passwd=<%= scope.function_secret(['builder_pw_vnc_ultravnc']) %>
+passwd2=<%= scope.function_secret(['builder_pw_vnc_ultravnc']) %>
+[admin]
+UseRegistry=0
+MSLogonRequired=0
+NewMSLogon=0
+DebugMode=0
+Avilog=0
+path=C:\Program Files\uvnc bvba\UltraVNC
+DebugLevel=0
+DisableTrayIcon=0
+LoopbackOnly=0
+UseDSMPlugin=0
+AllowLoopback=0
+AuthRequired=1
+ConnectPriority=0
+DSMPlugin=
+AuthHosts=
+DSMPluginConfig=
+AllowShutdown=1
+AllowProperties=1
+AllowEditClients=1
+FileTransferEnabled=1
+FTUserImpersonation=1
+BlankMonitorEnabled=1
+BlankInputsOnly=0
+DefaultScale=1
+CaptureAlphaBlending=1
+BlackAlphaBlending=0
+primary=1
+secondary=0
+SocketConnect=1
+HTTPConnect=1
+XDMCPConnect=0
+AutoPortSelect=1
+PortNumber=5900
+HTTPPortNumber=5800
+IdleTimeout=0
+RemoveWallpaper=1
+RemoveAero=1
+QuerySetting=2
+QueryTimeout=10
+QueryAccept=0
+QueryIfNoLogon=1
+InputsEnabled=1
+LockSetting=0
+LocalInputsDisabled=0
+EnableJapInput=0
+kickrdp=0
+clearconsole=0
+[admin_auth]
+group1=
+group2
+group3=
+locdom1=0
+locdom2=0
+locdom3=0
+[poll]
+TurboMode=1
+PollUnderCursor=0
+PollForeground=1
+PollFullScreen=1
+OnlyPollConsole=0
+OnlyPollOnEvent=0
+MaxCpu=40
+EnableDriver=0
+EnableHook=1
+EnableVirtual=0
+SingleWindow=0
+SingleWindowName=
