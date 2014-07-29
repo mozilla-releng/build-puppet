@@ -1,0 +1,45 @@
+#! /bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+cd /var/lib/puppetmaster/ssl/git/ca-certs
+
+# Certificates all expire on a multi-year basis, so alert with 30 days left
+CERT_DAYS=30
+# Master CRLs expire after 7 days, and are renewed daily, so alert at 5
+MASTER_CRL_DAYS=5
+# Root CRL expires after many years, so alert with 30 days left
+ROOT_CRL_DAYS=30
+
+BAD=''
+
+# validate certificates
+for file in *.crt; do
+        if ! openssl x509 -checkend $(( 86400 * $CERT_DAYS )) -in "$file" > /dev/null; then
+                BAD="$BAD $file"
+        fi
+done
+
+# validate CRLs
+for file in *.crl; do
+        exp="`openssl crl -nextupdate -noout -in $file | sed -e s/.*=//`"
+        exp="`date --date="$exp" +%s`"
+        now="`date +%s`"
+        if [[ "$file" =~ ^root ]]; then
+                days=$ROOT_CRL_DAYS
+        else
+                days=$MASTER_CRL_DAYS
+        fi
+        if [[ $exp < $(( now + days * 86400 )) ]]; then
+                BAD="$BAD $file"
+        fi
+done
+
+if [ -n "$BAD" ]; then
+        echo "Certs/CRLs expiring soon: $BAD"
+        exit 2
+else
+        echo "all certs OK"
+        exit 0
+fi
