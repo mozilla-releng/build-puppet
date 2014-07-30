@@ -41,4 +41,15 @@ class config inherits config::base {
     $buildbot_mail_to = "seamonkey-release@mozilla.org"
 
     $buildmaster_ssh_keys = ['seabld_dsa', 'id_dsa']
+
+    # runner task settings
+    $runner_hg_tools_path = '/tools/checkouts/build-tools'
+    $runner_hg_tools_repo = 'https://hg.mozilla.org/users/Callek_gmail.com/tools/'
+    $runner_hg_tools_branch = 'default'
+    $runner_hg_mozharness_path = '/tools/checkouts/mozharness'
+    $runner_hg_mozharness_repo = 'https://hg.mozilla.org/build/mozharness'
+    $runner_hg_mozharness_branch = 'production'
+    $runner_env_hg_share_base_dir = '/builds/hg-shared'
+    $runner_env_git_share_base_dir = '/builds/git-shared'
+    $runner_buildbot_slave_dir = '/builds/slave'
 }
