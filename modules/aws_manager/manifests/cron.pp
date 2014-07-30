@@ -14,7 +14,7 @@ class aws_manager::cron {
             cwd             => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir  => "${aws_manager::settings::root}",
             user            => "${users::buildduty::username}",
-            params          => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-west-2 -r us-east-1 -l ${aws_manager::settings::root}/aws_watch_pending.log";
+            params          => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-east-1 -l ${aws_manager::settings::root}/aws_watch_pending.log";
         "aws_watch_pending_servo":
             script          => "aws_watch_pending.py",
             ensure          => present,
@@ -31,7 +31,7 @@ class aws_manager::cron {
             cwd             => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir  => "${aws_manager::settings::root}",
             user            => "${users::buildduty::username}",
-            params          => "-c ${aws_manager::settings::secrets_dir}/passwords.json -r us-west-2 -r us-east-1 -j32 -l ${aws_manager::settings::root}/aws_stop_idle.log -t bld-linux64 -t tst-linux64 -t tst-linux32 -t tst-emulator64 -t try-linux64";
+            params          => "-c ${aws_manager::settings::secrets_dir}/passwords.json -r us-east-1 -j32 -l ${aws_manager::settings::root}/aws_stop_idle.log -t bld-linux64 -t tst-linux64 -t tst-linux32 -t tst-emulator64 -t try-linux64";
         "aws_stop_idle_servo":
             script          => "aws_stop_idle.py",
             ensure          => present,
@@ -47,21 +47,21 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-r us-west-2 -r us-east-1 -r us-west-1 --events-dir ${aws_manager::settings::events_dir}";
+            params         => "-r us-east-1 -r us-west-1 --events-dir ${aws_manager::settings::events_dir}";
         "tag_spot_instances.py":
             ensure         => present,
             minute         => '*/2',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-r us-west-2 -r us-east-1 -q";
+            params         => "-r us-east-1 -q";
         "spot_sanity_check.py":
             ensure         => present,
             minute         => '*/10',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-r us-west-2 -r us-east-1 -q --db ${aws_manager::settings::secrets_dir}/spots.sqlite";
+            params         => "-r us-east-1 -q --db ${aws_manager::settings::secrets_dir}/spots.sqlite";
         "aws_publish_amis.py":
             ensure         => present,
             minute         => '*/30',
