@@ -26,8 +26,6 @@ class hardware {
         ($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIT")) { # ix21x4
         # disable some broken NIC features
         include tweaks::i82574l_aspm
-        # and keep the IPMI firmware up to date
-        include hardware::supermicro_ipmi
     }
 
     # OK, so it's not strictly "hardware", but stlil..
