@@ -24,6 +24,11 @@ node "r4-mini-001.test.releng.scl3.mozilla.com" {
     include toplevel::slave::releng::test::gpu
 }
 
+# temporary test node for bhearsum
+node "r5-mini-002.test.releng.scl3.mozilla.com" {
+    include toplevel::server::signing
+}
+
 # AWS
 
 node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
