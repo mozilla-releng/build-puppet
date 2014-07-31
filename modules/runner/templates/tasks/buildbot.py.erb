@@ -1,0 +1,74 @@
+#!/usr/bin/env python
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+# Make sure runner runs at boot
+
+import os
+import subprocess
+import time
+import sys
+
+
+BUILDSLAVE_CMD = '/tools/buildbot/bin/buildslave'
+RUNSLAVE = '/usr/local/bin/runslave.py'
+# use the python from the buildbot virtualenv
+PYTHON = '/tools/buildbot/bin/python'
+BUILD_USER = "<%= scope.lookupvar('::config::builder_username') %>"
+BUILDBOT_PIDFILE_PATH = '/builds/slave/twistd.pid'
+
+
+def buildbot_process_id():
+    """Returns the pid of buildbot if it's running, zero otherwise
+    """
+    try:
+        with open(BUILDBOT_PIDFILE_PATH, 'r') as f:
+            pid = int(f.read())
+        try:
+            os.kill(pid, 0)  # check if process is running
+        except OSError:
+            print "Old pidfile still exists, deleting and continuing"
+            os.remove(BUILDBOT_PIDFILE_PATH)
+            return 0
+        return pid
+    except IOError:
+        # no pidfile, definitely not running
+        return 0
+
+
+def main():
+    if buildbot_process_id():
+        print >>sys.stderr, "Buildbot already running, exiting."
+        exit(1)
+
+    if not (os.path.isfile(BUILDSLAVE_CMD)
+            and os.access(BUILDSLAVE_CMD, os.X_OK)):
+        print >>sys.stderr, "{} does not exist, exiting".format(BUILDSLAVE_CMD)
+        exit(1)
+
+    print "Starting buildbot via runslave.py."
+    p = subprocess.Popen(['su', '-',
+                          BUILD_USER,
+                          '-c',
+                          PYTHON + ' ' + RUNSLAVE])
+    p.wait()
+
+    pid = buildbot_process_id()
+    if pid:
+        print "Buildbot started successfully."
+        while True:
+            try:
+                os.kill(pid, 0)
+            except OSError:
+                print "Buildbot finished."
+                break
+            time.sleep(5)
+    else:
+        print >>sys.stderr, "Buildbot failed to start, exiting runner."
+        exit(1)
+
+    exit(0)
+
+
+if __name__ == '__main__':
+    main()
