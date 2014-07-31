@@ -25,7 +25,7 @@ node "r4-mini-001.test.releng.scl3.mozilla.com" {
 }
 
 # temporary test node for bhearsum
-node "r5-mini-002.test.releng.scl3.mozilla.com" {
+node "r5-mini-002.srv.releng.scl3.mozilla.com" {
     include toplevel::server::signing
 }
 
