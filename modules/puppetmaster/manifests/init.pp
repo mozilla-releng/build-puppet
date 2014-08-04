@@ -16,4 +16,5 @@ class puppetmaster {
     include puppetmaster::extsyncs
     include puppetmaster::foreman_facts
     include puppetmaster::rsyslog
+    include nrpe::check::puppetmaster_certs
 }
