@@ -71,6 +71,9 @@ else
             echo ''
             hg diff -r $rev_before -r $rev_after
         ) | mail -s "[PuppetAgain Changes] Puppet changes applied at $hostname" $changemailto
+
+        # reload httpd, to flush puppet's caches
+        service httpd reload
     fi
 fi
 
