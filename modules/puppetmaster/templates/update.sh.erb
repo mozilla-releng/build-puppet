@@ -73,7 +73,7 @@ else
         ) | mail -s "[PuppetAgain Changes] Puppet changes applied at $hostname" $changemailto
 
         # reload httpd, to flush puppet's caches
-        service httpd reload
+        /sbin/service httpd reload >/dev/null 2>&1
     fi
 fi
 
