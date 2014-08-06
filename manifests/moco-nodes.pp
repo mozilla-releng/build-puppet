@@ -24,11 +24,6 @@ node "r4-mini-001.test.releng.scl3.mozilla.com" {
     include toplevel::slave::releng::test::gpu
 }
 
-# temporary test node for bhearsum
-node "r5-mini-002.srv.releng.scl3.mozilla.com" {
-    include toplevel::server::signing
-}
-
 # AWS
 
 node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
@@ -94,7 +89,7 @@ node /bld-lion-r5-\d+.try.releng.scl3.mozilla.com/ {
 
 ## signing servers
 
-node /(mac-|)signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
+node /(mac-(v2-|)|)signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     # all mac and linux signing servers
     include toplevel::server::signing
 }
