@@ -3,5 +3,11 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class toplevel::server::puppetmaster inherits toplevel::server {
-    include ::puppetmaster
+    assert {
+      'puppetmaster-centos-6.5':
+        condition => $::operatingsystem == "CentOS"
+                 and $::operatingsystemrelease == "6.5";
+    } ->
+    class { '::puppetmaster': }
 }
+
