@@ -1,0 +1,108 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+import yaml
+import ldap
+import sys
+import json
+
+URI = "<%= @moco_ldap_uri %>"
+DN = "<%= @moco_ldap_dn %>"
+PASS = "<%= @moco_ldap_pass %>"
+ROOT = "<%= @moco_ldap_root %>"
+# Ruby produces JSON via ERB, which we then parse in Python...
+USERS_IN_GROUPS = json.loads("""<%= JSON.generate(@users_in_groups) %>""")
+
+# This assumes that all users have class posixAccount, are under ROOT, and have
+# uid (POSIX username) and sshPublicKey (list of SSH keys) attributes.
+
+def all_ssh_keys(l):
+    res = l.search_s(ROOT, ldap.SCOPE_SUBTREE, "(objectClass=posixAccount)", ['uid', 'sshPublicKey'])
+
+    if not res:
+        print "No Results"
+        return {}
+
+    rv = {}
+    for mail, info in res:
+        if 'uid' in info and info['uid']:
+            uid = info['uid'][0]
+        else:
+            continue
+        if 'sshPublicKey' in info and info['sshPublicKey']:
+            pubkeys = [fix_pubkey(uid, k) for k in info['sshPublicKey']]
+            pubkeys = [k for k in pubkeys if k]  # filter out None's
+            pubkeys = [ '%(type)s %(key)s %(comment)s' % k for k in pubkeys ]
+        else:
+            continue
+        if not pubkeys:
+            continue
+        rv[uid] = pubkeys
+    return rv
+
+def fix_pubkey(uid, pubkey):
+    if not pubkey:
+        return None
+
+    pubkey = pubkey.replace('ssh-rsa\r\n', 'ssh-rsa ') #
+    pubkey = pubkey.replace('ssh-dss\r\n', 'ssh-dss ')
+    pubkey = pubkey.replace('ssh-ecdsa\r\n', 'ssh-ecdsa ')
+    pubkey = pubkey.replace('=\r\n', '= ')
+    pubkey = pubkey.replace('\r\n', '')
+    pubkey = dict(zip(('type', 'key', 'comment'), pubkey.split()))
+    if 'comment' not in pubkey:
+        pubkey['comment'] = 'for user %s' % uid
+
+    if pubkey['type'] in ('ssh-dss', 'ssh-rsa'):
+        return pubkey
+
+def get_uid(l, dn):
+    """get the uid (POSIX username) for a user give their DN"""
+    try:
+        uid = l.search_s(dn, ldap.SCOPE_BASE, "(objectClass=posixAccount)")[0][1]['uid'][0]
+        return uid
+    except (IndexError, ldap.LDAPError):
+        return
+
+def group_users(l, group_cn):
+    """Get the set of uids in a given LDAP group"""
+    l_filter = "cn=%s" % group_cn
+    res = l.search_s(ROOT, ldap.SCOPE_SUBTREE, l_filter, ['member'])
+
+    if not res:
+        return set()
+
+    members = res[0][1]['member']
+
+    rv = set()
+    for m in members:
+        # filter out users without uids
+        uid = get_uid(l, m)
+        if not uid:
+            continue
+        rv.add(uid)
+
+    return rv
+
+
+output = {}
+
+l = ldap.initialize(URI)
+l.simple_bind_s(DN, PASS)
+
+# first, get all of the ssh keys
+ssh_keys = all_ssh_keys(l)
+assert ssh_keys, "refusing to write an empty set of keys"
+output['ssh-keys'] = ssh_keys
+
+# now handle groups
+users_with_ssh_keys = set(ssh_keys)
+for varname, groups in USERS_IN_GROUPS.iteritems():
+    users = set()
+    for group_cn in groups:
+        users = users | group_users(l, group_cn)
+    # limit to people with ssh keys
+    output[varname] = list(users & users_with_ssh_keys)
+
+sys.stdout.write(yaml.safe_dump(output, encoding='utf-8', allow_unicode=True))

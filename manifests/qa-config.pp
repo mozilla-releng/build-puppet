@@ -23,6 +23,18 @@ class config inherits config::base {
 
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
     $puppetmaster_public_mirror_hosts = [ ]
+    $puppetmaster_extsyncs = {
+        'moco_ldap' => {
+            'moco_ldap_uri' => 'ldap://ldap.db.scl3.mozilla.com/',
+            'moco_ldap_root' => 'dc=mozilla',
+            'moco_ldap_dn' => secret('moco_ldap_dn'),
+            'moco_ldap_pass' => secret('moco_ldap_pass'),
+            'users_in_groups' => {
+                'ldap_admin_users' => ['relops',
+                    'netops', 'team_dcops', 'team_opsec', 'team_moc', 'team_infra', 'team_storage'],
+            },
+        }
+    }
 
     $ntp_server = "ns1.private.scl3.mozilla.com"
 
@@ -38,6 +50,7 @@ class config inherits config::base {
     $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
 
     $admin_users = [
+        # TODO: use unique(concat(..)) to concatenate the QA admins with a list of infra people
         'afernandez',
         'bpannabecker',
         'cknowles',
