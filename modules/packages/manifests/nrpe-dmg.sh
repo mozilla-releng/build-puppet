@@ -4,6 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+MOZ_SUFFIX=-moz1
+
 # set up a clean build dir
 if test -d build; then
     rm -rf build
@@ -27,7 +29,7 @@ dspath="/var/db/dslocal/nodes/Default/"
 curl -LO http://downloads.sourceforge.net/project/nagios/nrpe-2.x/nrpe-2.14/nrpe-2.14.tar.gz
 tar -xvf nrpe-2.14.tar.gz
 pushd nrpe-2.14
-./configure --prefix=/usr/local
+./configure --prefix=/usr/local --enable-command-args
 make
 make DESTDIR=$BUILD/installroot install
 popd
@@ -62,7 +64,7 @@ chmod +x $BUILD/scripts/postinstall
 PACKAGE_MAKER="/usr/bin/pkgbuild"
 
 DIR_TO_PACKAGE=installroot/usr/local/
-PACKAGE_BASENAME=nrpe-2.14
+PACKAGE_BASENAME=nrpe-2.14$MOZ_SUFFIX
 PACKAGE_SHORTNAME=nrpe214
 INSTALLDIR=/usr/
 
