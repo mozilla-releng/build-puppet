@@ -122,84 +122,26 @@ class config inherits config::base {
         'release-runner' => ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMCfdvoKtT4IU0cw6ckj748zxlr7wMxJfyRadUfpI+ZE6jOAjBrAxptVImaFYeVD9PFe5DXyAhRlhUPHSbtq+unMhkZrERYmUhxZ82TSqMSLDwMiacM0umXDnVqcs6cji5gjjE69TeLf9RywOzAmpU/JAasMDa7q4aNsccG7kj59vBl4yyZdx63yNNuxzBtvQd3LNjz2Ux3I60JZDM/xUu8eMBP9PDP5FIi4zILS8sKFzVD9l/7xsyLYv+IpFS1jLvX/eo0gKxM+27rlyyWET2mu/Vjw2J8gN6G9zh4nlMgEeeqFnR3ykFBgEl+LqM4PoH8xVzwZ1iZ8tDgP40nA3Z release-runner key'],
     }
 
+    # a few users from each team as the "short list" of people with access
+    $shortlist = [
+        # a few folks from relops..
+        'arr',
+        'dmitchell',
+        'jwatkins',
+
+        # ..and a few folks from releng
+        'bhearsum',
+        'catlee',
+        'coop',
+        'nthomas',
+        'raliiev',
+    ]
     $admin_users = $fqdn ? {
         # signing machines have a very limited access list
-        /^(mac-(v2-|))?signing\d\..*/ => [
-            # a few folks from relops..
-            'arr',
-            'dmitchell',
-            'jwatkins',
-
-            # ..and a few folks from releng
-            'bhearsum',
-            'catlee',
-            'coop',
-            'nthomas',
-            'raliiev',
-        ],
-        # NOTE: please copy this list to servo-config.pp as well
-        default => [
-            'achavez',
-            'adam',
-            'afernandez',
-            'armenzg',
-            'arr',
-            'asasaki',
-            'ashish',
-            'bhearsum',
-            'bhourigan',
-            'bpannabecker',
-            'catlee',
-            'cknowles',
-            'coop',
-            'cshields',
-            'dcurado',
-            'dmitchell',
-            'dmoore',
-            'dparsons',
-            'elim',
-            'eziegenhorn',
-            'gcox',
-            'gdestuynder',
-            'hwine',
-            'iconnolly',
-            'jbryner',
-            'jcrowe',
-            'jdow',
-            'jhopkins',
-            'jlund',
-            'jozeller',
-            'jratford',
-            'jstevensen',
-            'justdave',
-            'jvehent',
-            'jwatkins',
-            'jwood',
-            'kmoir',
-            'lhirlimann',
-            'mcornmesser',
-            'mgervasini',
-            'mhenry',
-            'mhommey',
-            'mpurzynski',
-            'mshal',
-            'nthomas',
-            'pmoore',
-            'pradcliffe',
-            'qfortier',
-            'raliiev',
-            'rbryce',
-            'rsoderberg',
-            'rtucker',
-            'rwatson',
-            'sbruno',
-            'sespinoza',
-            'shyam',
-            'tglek',
-            'vhua',
-            'vle',
-            'xionox',
-        ]
+        /^(mac-)?(v2-)?signing\d\..*/ => $shortlist,
+        default => hiera('ldap_admin_users',
+                         # backup to ensure access in case the sync fails:
+                         ['arr', 'dmitchell', 'jwatkins'])
     }
     $buildbot_mail_to = "release@mozilla.com"
     $master_json = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
