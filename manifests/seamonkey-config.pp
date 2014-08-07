@@ -32,6 +32,7 @@ class config inherits config::base {
         "ewong",
         "jwood",
         "kairo",
+        "jdow",
     ]
     $master_json = "https://hg.mozilla.org/users/Callek_gmail.com/tools/raw-file/default/buildfarm/maintenance/sea-production-masters.json"
     $buildbot_tools_hg_repo = "https://hg.mozilla.org/users/Callek_gmail.com/tools/"
