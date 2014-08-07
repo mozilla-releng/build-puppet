@@ -127,6 +127,12 @@ class config::base {
     # between them.
     $node_location = 'unknown'
 
+    # SSH keys that are not available from some extsync process.  Use this in
+    # orgs with no suitable extsync, or for keys that aren't present in the
+    # extsync source.  The format is {username: [key, ..], ..} where key is the
+    # content to be placed in authorized_keys (so, "<type> <key> <comment>")
+    $extra_user_ssh_keys = {}
+
     ##
     ## users
     ##

@@ -22,6 +22,14 @@ class config inherits config::base {
     $distinguished_puppetmaster = $puppet_server
     $puppet_again_repo = "https://hg.mozilla.org/build/puppet/"
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
+    $puppetmaster_extsyncs = {
+        'moco_ldap' => {
+            'moco_ldap_uri' => 'ldap://ldap.db.scl3.mozilla.com/',
+            'moco_ldap_root' => 'dc=mozilla',
+            'moco_ldap_dn' => secret('moco_ldap_dn'),
+            'moco_ldap_pass' => secret('moco_ldap_pass'),
+        }
+    }
 
     $puppetmaster_extsyncs = {
         'slavealloc' => {
@@ -44,7 +52,7 @@ class config inherits config::base {
     $admin_users = [
         # Servo users who should be kept when syncing from LDAP:
         'banderson',
-        'jdm',
+        'jmatthews',  # previously jdm
         'jmoffitt',
         'lbergstrom',
         # IT/RelEng:
