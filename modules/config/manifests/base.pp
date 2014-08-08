@@ -127,6 +127,9 @@ class config::base {
     # between them.
     $node_location = 'unknown'
 
+    # a flag the controls which nodes should install and run MIG Agent
+    $enable_mig_agent = false
+
     ##
     ## users
     ##

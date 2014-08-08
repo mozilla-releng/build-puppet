@@ -56,11 +56,14 @@ class packages::setup {
 
                 "hp-proliantsupportpack":
                     url_path => "repos/yum/mirrors/hp/proliantsupportpack/CentOS/$majorver/$architecture/current";
+
+                "mig-agent":
+                    url_path => "repos/yum/custom/mig-agent/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 16
+            $repoflag = 17
             file {
                 "/etc/.repo-flag":
                     content =>
@@ -146,6 +149,10 @@ class packages::setup {
             @packages::aptrepo {
                 "xorg-edgers":
                     url_path     => "repos/apt/xorg-edgers",
+                    distribution => "${lsbdistcodename}",
+                    components   => ["main"];
+                "mig-agent":
+                    url_path     => "repos/apt/custom/mig-agent",
                     distribution => "${lsbdistcodename}",
                     components   => ["main"];
             }
