@@ -30,6 +30,7 @@ class toplevel::base {
     include needs_reboot::motd
     include collectd
     include instance_metadata
+    include mig::agent
 
     class { 'web_proxy':
         host => $::config::web_proxy_host,
