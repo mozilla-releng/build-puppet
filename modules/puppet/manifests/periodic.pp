@@ -22,14 +22,21 @@ class puppet::periodic {
         Darwin: {
             # Launchd substitutes for crond on Darwin.  This runs a shell snippet
             # which adds some splay so that we don't kill the master every half-hour
+            $svc_plist = "/Library/LaunchDaemons/com.mozilla.puppet.plist"
             file {
-                "/Library/LaunchDaemons/com.mozilla.puppet.plist":
+                $svc_plist:
                     owner => root,
                     group => wheel,
                     mode => 0644,
                     source => "puppet:///modules/puppet/puppet-periodic.plist";
                 "/usr/local/bin/run-puppet.sh":
                     ensure => absent;
+            }
+            service {
+                "com.mozilla.puppet":
+                    enable => "true",
+                    ensure => "running",
+                    require => File[$svc_plist];
             }
         }
         default: {
