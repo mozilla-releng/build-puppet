@@ -24,12 +24,25 @@ define users::person($shell="/bin/bash") {
             }
         }
         Darwin: {
-            darwinuser {
-                $username:
-                    gid => $group,
-                    shell => $shell,
-                    home => $home,
-                    comment => $username;
+            case $::macosx_productversion_major {
+                10.6, 10.7, 10.8: {
+                    darwinuser {
+                        $username:
+                            gid => $group,
+                            shell => $shell,
+                            home => $home,
+                            comment => $username;
+                    }
+                }
+                default: {
+                    user {
+                        $username:
+                            gid => $group,
+                            shell => $shell,
+                            home => $home,
+                            comment => $username;
+                    }
+                }
             }
         }
     }
@@ -51,7 +64,12 @@ define users::person($shell="/bin/bash") {
             owner => $username,
             group => $group,
             require => $::operatingsystem ? {
-                Darwin => [ Darwinuser[$username] ],
+                Darwin => $::macosx_productversion_major ? {
+                    10.6 => [ Darwinuser[$username] ],
+                    10.7 => [ Darwinuser[$username] ],
+                    10.8 => [ Darwinuser[$username] ],
+                    default => [ User[$username] ],
+                },
                 default => []
             };
     }
