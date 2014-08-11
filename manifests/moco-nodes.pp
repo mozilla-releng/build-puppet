@@ -18,12 +18,6 @@ node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     include toplevel::slave::releng::test::gpu
 }
 
-# temporary test node
-node "r4-mini-001.test.releng.scl3.mozilla.com" {
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::test::gpu
-}
-
 # AWS
 
 node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
