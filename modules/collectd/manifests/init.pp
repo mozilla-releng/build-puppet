@@ -42,6 +42,7 @@ class collectd {
                 enable     => true,
                 hasstatus  => true,
                 hasrestart => true,
+                require => Class['packages::collectd'];
         }
     }
 }
