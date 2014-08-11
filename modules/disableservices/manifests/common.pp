@@ -83,11 +83,12 @@ class disableservices::common {
                 "remove-index" :
                     command => "/usr/bin/mdutil -a -E",
                     refreshonly => true ;
-                "disable-panic-reporting" :
-                    command =>
-                    "/bin/launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportPanic.plist",
-                    onlyif =>
-                    "/bin/launchctl list | /usr/bin/grep -q 'com.apple.ReportPanic'";            
+                "disable-panic-reporting":
+                    command => "/bin/launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportPanic.plist",
+                    onlyif => "/bin/launchctl list | /usr/bin/grep -q 'com.apple.ReportPanic$'";
+                "disable-panic-reporting-service":
+                    command => "/bin/launchctl unload -w /System/Library/LaunchDaemons/com.apple.ReportPanicService.plist",
+                    onlyif => "/bin/launchctl list | /usr/bin/grep -q 'com.apple.ReportPanicService$'";
             }
             osxutils::defaults {
             # set the global preference to not start bluetooth mouse assistant
