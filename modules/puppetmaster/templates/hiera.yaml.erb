@@ -7,9 +7,8 @@
 
 :hierarchy:
     - environments/%{environment}_secrets
-    - secrets<%- @puppetmaster_extsyncs.each do |sync, params| %>
-    - <%= sync %>
-<%- end %>
+    - secrets<%- @puppetmaster_extsyncs.sort.each do |sync, params| %>
+    - <%= sync %><% end %>
 
 :eyaml:
     :datadir: '/etc/hiera'

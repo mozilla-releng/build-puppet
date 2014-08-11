@@ -25,9 +25,20 @@ class config inherits config::base {
         'fake_slavealloc' => {
             # No real slavealloc to use, so do this manually
         },
+        'moco_ldap' => {
+            'moco_ldap_uri' => 'ldap://ldap.mozilla.org/',
+            'moco_ldap_root' => 'dc=mozilla',
+            'moco_ldap_dn' => secret('moco_ldap_dn'),
+            'moco_ldap_pass' => secret('moco_ldap_pass'),
+            'users_in_groups' => {
+                'ldap_admin_users' => [
+                    'netops', 'team_dcops', 'team_opsec', 'team_moc', 'team_infra', 'team_storage'],
+            },
+        }
     }
 
     $admin_users = [
+        # TODO: use unique(concat(..)) to concatenate the SM admins with a list of infra people
         "dmitchell",
         "ewong",
         "jwood",
