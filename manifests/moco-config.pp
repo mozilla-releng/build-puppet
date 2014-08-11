@@ -107,7 +107,7 @@ class config inherits config::base {
 
     $admin_users = $fqdn ? {
         # signing machines have a very limited access list
-        /^(mac-)?signing\d\..*/ => [
+        /^(mac-(v2-|))?signing\d\..*/ => [
             # a few folks from relops..
             'arr',
             'dmitchell',
