@@ -9,6 +9,14 @@ class packages::unzip {
                     ensure => latest;
             }
         }
+        Darwin: {
+            packages::pkgdmg {
+                'unzip':
+                    version => '6.0',
+                    os_version_specific => false,
+                    private => false;
+            }
+        }
 
         default: {
             fail("cannot install on $::operatingsystem")
