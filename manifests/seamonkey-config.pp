@@ -26,7 +26,7 @@ class config inherits config::base {
             # No real slavealloc to use, so do this manually
         },
         'moco_ldap' => {
-            'moco_ldap_uri' => 'ldap://ldap.mozilla.org/',
+            'moco_ldap_uri' => 'ldaps://ldap.mozilla.org/',
             'moco_ldap_root' => 'dc=mozilla',
             'moco_ldap_dn' => secret('moco_ldap_dn'),
             'moco_ldap_pass' => secret('moco_ldap_pass'),
