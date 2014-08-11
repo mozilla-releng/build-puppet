@@ -20,6 +20,10 @@ class mockbuild {
             require => Class["packages::mozilla::mock_mozilla"],
             source => "puppet:///modules/mockbuild/mozilla-centos6-x86_64.cfg",
             notify => Exec['mock_clean_mozilla-centos6-x86_64'];
+        "/etc/mock_mozilla/mozilla-centos6-x86_64-android.cfg":
+            require => Class["packages::mozilla::mock_mozilla"],
+            source => "puppet:///modules/mockbuild/mozilla-centos6-x86_64-android.cfg",
+            notify => Exec['mock_clean_mozilla-centos6-x86_64'];
         # make sure that the directory exists for cases when
         # /builds/mock_mozilla is mounted on a non persistent volumes (like EC2
         # instance storage)
@@ -40,6 +44,11 @@ class mockbuild {
             # this will expire all mock caches
             command => "/usr/bin/sudo -u $::config::builder_username /usr/bin/mock_mozilla -v -r mozilla-centos6-x86_64 --scrub=all",
             onlyif => "/usr/bin/test -e /builds/mock_mozilla/mozilla-centos6-x86_64/result/state.log",
+            refreshonly => true;
+        'mock_clean_mozilla-centos6-x86_64-android':
+            # this will expire all mock caches
+            command => "/usr/bin/sudo -u $::config::builder_username /usr/bin/mock_mozilla -v -r mozilla-centos6-x86_64-android --scrub=all",
+            onlyif => "/usr/bin/test -e /builds/mock_mozilla/mozilla-centos6-x86_64-android/result/state.log",
             refreshonly => true;
     }
 }
