@@ -8,6 +8,7 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
     include users::builder::autologin
     include ntp::atboot
     include packages::fonts
+    include packages::unzip
     include tweaks::fonts
     include tweaks::cleanup
     include dirs::builds::hg_shared
