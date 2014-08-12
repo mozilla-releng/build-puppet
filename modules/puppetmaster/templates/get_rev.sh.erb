@@ -12,7 +12,7 @@ fi
 
 if [ -d "$REPO/.hg" ]; then
     # filter out the "Not trusting" warning
-    /usr/bin/hg ident -i $REPO 2>/dev/null
+    /usr/local/bin/hg ident -i $REPO 2>/dev/null
 elif [ -d "$REPO/.git" ]; then
     (cd $REPO; /usr/local/bin/git describe --all --always --dirty)
 else
