@@ -64,11 +64,11 @@ class config inherits config::base {
         'shyam',
 
         # Admins of the QA org
-        'aeftimie',
-        'amatei',
-        'cmalutan',
+        'andrei.eftimie',  # previously aeftimie
+        'andreea.matei',  # previously amatei
+        'cosmin.malutan',  # previously cmalutan
         'ctalbert',
-        'dgherasim',
+        'daniel.gherasim',  # previously dgherasim
         'hskupin'
     ]
 }
