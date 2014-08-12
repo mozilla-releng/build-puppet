@@ -41,79 +41,19 @@ class config inherits config::base {
             'moco_ldap_dn' => secret('moco_ldap_dn'),
             'moco_ldap_pass' => secret('moco_ldap_pass'),
             'users_in_groups' => {
-                'ldap_admin_users' => ['releng', 'relops', 'netops', 'team_dcops', 'team_opsec',
-                                      'team_moc', 'team_infra', 'team_storage', 'vpn_servo'],
+                'ldap_admin_users' => ['releng', 'relops', 'vpn_servo',
+                    'netops', 'team_dcops', 'team_opsec', 'team_moc', 'team_infra', 'team_storage'],
             },
         }
     }
 
     $nrpe_allowed_hosts = "127.0.0.1,10.26.75.30"
     $ntp_server = "time.mozilla.org"
-    $admin_users = [
-        # Servo users who should be kept when syncing from LDAP:
-        'banderson',
-        'jmatthews',  # previously jdm
-        'jmoffitt',
-        'lbergstrom',
-        # IT/RelEng:
-        'achavez',
-        'adam',
-        'afernandez',
-        'armenzg',
-        'arr',
-        'asasaki',
-        'ashish',
-        'bhearsum',
-        'bhourigan',
-        'bpannabecker',
-        'catlee',
-        'cknowles',
-        'coop',
-        'cshields',
-        'dcurado',
-        'dmitchell',
-        'dmoore',
-        'dparsons',
-        'elim',
-        'eziegenhorn',
-        'gcox',
-        'gdestuynder',
-        'hwine',
-        'jbryner',
-        'jcrowe',
-        'jdow',
-        'jhopkins',
-        'jlund',
-        'jozeller',
-        'jratford',
-        'jstevensen',
-        'justdave',
-        'jvehent',
-        'jwatkins',
-        'jwood',
-        'kmoir',
-        'lhirlimann',
-        'mcornmesser',
-        'mgervasini',
-        'mhenry',
-        'mpurzynski',
-        'mshal',
-        'nthomas',
-        'pmoore',
-        'pradcliffe',
-        'qfortier',
-        'raliiev',
-        'rbryce',
-        'rsoderberg',
-        'rtucker',
-        'rwatson',
-        'sbruno',
-        'sespinoza',
-        'shyam',
-        'vhua',
-        'vle',
-        'xionox',
-    ]
+    $admin_users = hiera('ldap_admin_users',
+                         # backup to ensure access in case the sync fails:
+                         ['arr', 'dmitchell', 'jwatkins'])
+    }
+
     $buildbot_mail_to = "release@mozilla.com"
     $bors_servo_repo_owner = "mozilla"
     $bors_servo_repo = "servo"
