@@ -113,23 +113,24 @@ node /casper-netboot-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
 
 ## openstack admin servers
 
-node /ironic\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
+node /controller\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "jwatkins"
+    $aspects = [ "staging" ]
     include toplevel::server
 }
 
-node /glance\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
+node /glance-controller\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "jwatkins"
+    $aspects = [ "staging" ]
     include toplevel::server
 }
 
-node /keystone\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
-    include toplevel::server
-}
-
-node /horizon\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
-    include toplevel::server
-}
-
-node /neutron\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
+node /network-node\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "jwatkins"
+    $aspects = [ "staging" ]
     include toplevel::server
 }
 
