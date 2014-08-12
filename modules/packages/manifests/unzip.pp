@@ -9,6 +9,20 @@ class packages::unzip {
                     ensure => latest;
             }
         }
+        Ubuntu: {
+            package {
+                "unzip":
+                    ensure => '6.0-4ubuntu1';
+            }
+        }
+        Darwin: {
+            packages::pkgdmg {
+                'unzip':
+                    version => '6.0',
+                    os_version_specific => false,
+                    private => false;
+            }
+        }
 
         default: {
             fail("cannot install on $::operatingsystem")
