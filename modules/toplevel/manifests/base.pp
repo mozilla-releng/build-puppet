@@ -29,7 +29,6 @@ class toplevel::base {
     include tweaks::rc_local
     include needs_reboot::motd
     include collectd
-    include instance_metadata
 
     class { 'web_proxy':
         host => $::config::web_proxy_host,

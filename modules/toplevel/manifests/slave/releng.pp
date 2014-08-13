@@ -6,6 +6,7 @@
 class toplevel::slave::releng inherits toplevel::slave {
     include dirs::builds::slave
     include buildslave
+    include instance_metadata
 
     # packages common to all slaves
     include packages::mozilla::tooltool
