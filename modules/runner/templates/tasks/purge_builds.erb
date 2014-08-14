@@ -5,8 +5,10 @@
 # Make sure runner runs at boot
 
 # Call purge builds to make sure we have at least 10G free
-set -e
 TOOLS=$($RUNNER_CONFIG_CMD -g hg.tools_path)
 SLAVEDIR=$($RUNNER_CONFIG_CMD -g buildbot.slave_dir)
 cd $SLAVEDIR
 python $TOOLS/buildfarm/maintenance/purge_builds.py --not info --not 'rel-*:45d' --not 'tb-rel-*:45d' -s 10 $SLAVEDIR
+
+# Ignore failures, they are not critical
+exit 0
