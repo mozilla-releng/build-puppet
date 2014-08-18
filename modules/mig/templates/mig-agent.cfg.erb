@@ -1,0 +1,24 @@
+[agent]
+    isimmortal      = on
+    installservice  = on
+    relay           = "<%= scope.function_secret(['mig_agent_relay_uri']) %>"
+    socket          = "127.0.0.1:51664"
+    heartbeatfreq   = "30s"
+    moduletimeout   = "300s"
+
+[certs]
+    ca  = "/etc/mig/ca.crt"
+    cert= "/etc/mig/agent.crt"
+    key = "/etc/mig/agent.key"
+
+[logging]
+    mode    = "syslog" ; stdout | file | syslog
+    level   = "info"
+
+; for file logging
+;   file = "mig_scheduler.log"
+
+; for syslog, logs go into local3
+    host   = "localhost"
+    port   = 514
+    protocol = "udp"
