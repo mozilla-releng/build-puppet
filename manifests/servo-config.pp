@@ -49,7 +49,6 @@ class config inherits config::base {
 
     $nrpe_allowed_hosts = "127.0.0.1,10.26.75.30"
     $ntp_server = "time.mozilla.org"
-    $enable_mig_agent = true
     $admin_users = hiera('ldap_admin_users',
                          # backup to ensure access in case the sync fails:
                          ['arr', 'dmitchell', 'jwatkins'])
