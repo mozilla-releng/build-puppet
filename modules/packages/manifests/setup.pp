@@ -154,7 +154,7 @@ class packages::setup {
                 "mig-agent":
                     url_path     => "repos/apt/custom/mig-agent",
                     distribution => "${lsbdistcodename}",
-                    components   => ["main"];
+                    components   => ["all"];
             }
         }
         Darwin: {

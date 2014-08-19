@@ -7,14 +7,6 @@ class packages::mozilla::mig_agent {
         case $::operatingsystem {
             'CentOS', 'RedHat': {
                 realize(Packages::Yumrepo['mig-agent'])
-            }
-            'Ubuntu': {
-                realize(Packages::Aptrepo['mig-agent'])
-            }
-        }
-
-        case $::operatingsystem {
-            'CentOS', 'RedHat', 'Ubuntu': {
                 package {
                     # The package starts the mig-agent service on install
                     # the agent created the necessary service files for (upstart|systemd|sysvinit)
@@ -22,6 +14,13 @@ class packages::mozilla::mig_agent {
                     # https://github.com/mozilla/mig/blob/master/doc/concepts.rst
                     'mig-agent':
                         ensure => '201408181131+68245f0.prod-1'
+                }
+            }
+            'Ubuntu': {
+                realize(Packages::Aptrepo['mig-agent'])
+                package {
+                    'mig-agent':
+                        ensure => '201408181131+68245f0.prod'
                 }
             }
         }
