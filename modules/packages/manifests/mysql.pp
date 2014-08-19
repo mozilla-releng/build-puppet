@@ -9,6 +9,12 @@ class packages::mysql {
                     ensure => latest;
             }
         }
+        Ubuntu: {
+            package {
+                "mysql-client":
+                    ensure => latest;
+            }
+        }
 
         default: {
             fail("cannot install on $::operatingsystem")
