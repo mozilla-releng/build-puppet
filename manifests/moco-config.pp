@@ -74,8 +74,6 @@ class config inherits config::base {
     $ntp_server = "time.mozilla.org"
     $relayhost = "[smtp.mozilla.org]"
 
-    $enable_mig_agent = true
-
     $signer_username = 'cltsign'
     $signing_tools_repo = 'https://hg.mozilla.org/build/tools'
     $signing_mac_id = 'Mozilla'
