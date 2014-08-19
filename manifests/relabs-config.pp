@@ -58,6 +58,7 @@ class config inherits config::base {
     $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
 
     $ntp_server = "time.mozilla.org"
+    $enable_mig_agent = true
 
     $extra_user_ssh_keys = {
         # role accounts  (just here to test $extra_user_ssh_keys)

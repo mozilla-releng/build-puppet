@@ -15,5 +15,13 @@ class toplevel::server inherits toplevel::base {
     include packages::strace
     include packages::netcat
     include users::people
-    include mig::agent
+    include ::config
+    if ($::config::enable_mig_agent) {
+        case $::operatingsystem {
+            # Darwin support is coming soon
+            'CentOS', 'RedHat', 'Ubuntu': {
+                include mig::agent
+            }
+        }
+    }
 }
