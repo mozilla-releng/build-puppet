@@ -6,9 +6,11 @@ class packages::nrpe {
         Ubuntu: {
             package {
                 "nagios-nrpe-server":
-                    ensure => latest;
+                    ensure => latest,
+                    install_options => [ '--no-install-recommends' ];
                 "nagios-nrpe-plugin":
-                    ensure => latest;
+                    ensure => latest,
+                    install_options => [ '--no-install-recommends' ];
             }
         }
         CentOS: {
