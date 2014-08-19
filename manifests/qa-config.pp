@@ -37,6 +37,7 @@ class config inherits config::base {
     }
 
     $ntp_server = "ns1.private.scl3.mozilla.com"
+    $enable_mig_agent = true
 
     $web_proxy_host = "proxy.dmz.scl3.mozilla.com"
     $web_proxy_port = "3128"
