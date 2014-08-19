@@ -22,7 +22,6 @@ class toplevel::base {
     include users::root
     include network
     include sudoers
-    include clean
     include hardware
     include ssh
     include timezone
