@@ -136,6 +136,10 @@ node /network-node\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
 
 ## Misc servers
 
+node "proxxy1.srv.releng.scl3.mozilla.com" {
+    include toplevel::server
+}
+
 # aws-manager
 node "aws-manager1.srv.releng.scl3.mozilla.com" {
     include toplevel::server::aws_manager
