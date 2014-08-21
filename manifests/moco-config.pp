@@ -122,6 +122,9 @@ class config inherits config::base {
 
         # used on buildbot masters
         'release-runner' => ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMCfdvoKtT4IU0cw6ckj748zxlr7wMxJfyRadUfpI+ZE6jOAjBrAxptVImaFYeVD9PFe5DXyAhRlhUPHSbtq+unMhkZrERYmUhxZ82TSqMSLDwMiacM0umXDnVqcs6cji5gjjE69TeLf9RywOzAmpU/JAasMDa7q4aNsccG7kj59vBl4yyZdx63yNNuxzBtvQd3LNjz2Ux3I60JZDM/xUu8eMBP9PDP5FIi4zILS8sKFzVD9l/7xsyLYv+IpFS1jLvX/eo0gKxM+27rlyyWET2mu/Vjw2J8gN6G9zh4nlMgEeeqFnR3ykFBgEl+LqM4PoH8xVzwZ1iZ8tDgP40nA3Z release-runner key'],
+
+        # Contractor - see bug 1056306
+        'gmiroshnykov' => ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMD5DWPoEPG8UuXLsm1bNTz2gUz7rxPO/GuvcRjoNLPbNDqmygMlRbjm9BV8/IFAHvPCidLYkCTwDT20jvYcxf7RZMp3qw9mODpqvYZPAvW1hvv0NHbie5S2FCDFzt//QRvIdn0nEmITe9J4gdaROC/mUpwetJFsjpvh6wHsyF+T6X1HC1uXwlQ87p5a0eZ5gH055k5gggqqgYfGVipAT58OrKIE94G7Ow7avRK9VW01xpahig8giC0zL1SzeSWemmItkTGmXkda4jXhDPqJ/GrKOqDyI+UgYMsEiJw+aQmBvOptO+HOd0wgPVTGaDWX9MhCLsbADRnLqIyp6pMo6f'],
     }
 
     # a few users from each team as the "short list" of people with access
