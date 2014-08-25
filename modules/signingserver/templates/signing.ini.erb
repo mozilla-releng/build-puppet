@@ -38,8 +38,8 @@ new_token_auth0 = <%=@new_token_auth0%>
 <% end -%>
 # ips that can generate new signing tokens (buildmasters)
 new_token_allowed_ips = <%= @new_token_allowed_ips.join(', ') %>
-; 6 hours
-max_token_age = 21601
+; 7 hours
+max_token_age = 25201
 
 [paths]
 signed_dir = <%=@signed_dir%>
