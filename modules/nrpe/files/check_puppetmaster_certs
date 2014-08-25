@@ -7,7 +7,8 @@ cd /var/lib/puppetmaster/ssl/git/ca-certs
 
 # Certificates all expire on a multi-year basis, so alert with 30 days left
 CERT_DAYS=30
-# Master CRLs expire after 7 days, and are renewed daily, so alert at 5
+# Master CRLs automatically renew 6 days before expiration, so allow a day of
+# skew (see modules/puppetmaster/templates/ssl_common.sh.erb)
 MASTER_CRL_DAYS=5
 # Root CRL expires after many years, so alert with 30 days left
 ROOT_CRL_DAYS=30
