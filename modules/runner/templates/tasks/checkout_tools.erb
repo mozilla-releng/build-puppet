@@ -4,6 +4,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # Make sure runner runs at boot
 
+set -e
+
 # Make sure we have tools and mozharness cloned and up-to-date
 # Run as  <%= scope.lookupvar('::config::builder_username') %>
 if [ "$USER" != "<%= scope.lookupvar('::config::builder_username') %>" ]; then
@@ -24,6 +26,3 @@ MOZHARNESS_REPO=$($RUNNER_CONFIG_CMD -g hg.mozharness_repo)
 MOZHARNESS_BRANCH=$($RUNNER_CONFIG_CMD -g hg.mozharness_branch)
 MOZHARNESS_PATH=$($RUNNER_CONFIG_CMD -g hg.mozharness_path)
 $HGTOOL $MOZHARNESS_REPO -b $MOZHARNESS_BRANCH $MOZHARNESS_PATH
-
-# Ignore failures, they are not critical
-exit 0
