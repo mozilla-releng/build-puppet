@@ -5,6 +5,7 @@
 class puppetmaster::install {
     include packages::mercurial
     include packages::mozilla::git
+    include packages::mozilla::git_remote_hg
     # packages::httpd is handled by the httpd module
     include packages::mod_ssl
     include packages::mod_passenger

@@ -59,6 +59,9 @@ class packages::setup {
 
                 "mig-agent":
                     url_path => "repos/yum/custom/mig-agent/$architecture";
+
+                "git-remote-hg":
+                    url_path => "repos/yum/custom/git-remote-hg/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or

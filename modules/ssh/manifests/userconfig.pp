@@ -77,6 +77,15 @@ define ssh::userconfig($home='', $config='', $group='',
                 mode => filemode(0600),
                 content => $config;
         }
+    } else {
+        # allow the config to remain in place
+        file {
+            "$home_/.ssh/config":
+                owner => $owner_,
+                group => $group_,
+                mode => filemode(0600),
+                ensure => present;
+        }
     }
 
     if ($manage_known_hosts) {
