@@ -61,7 +61,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-r us-west-2 -r us-east-1 -q --db ${aws_manager::settings::secrets_dir}/spots.sqlite";
+            params         => "-r us-west-2 -r us-east-1 -q";
         "aws_publish_amis.py":
             ensure         => present,
             minute         => '*/30',
