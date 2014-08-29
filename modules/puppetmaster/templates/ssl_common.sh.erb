@@ -108,10 +108,17 @@ run_revocations() {
     done
     rm -f "${tempfile}"
 
-    # check the date on the CRL, regenerting if it's over a day old
-    if [ ! -f "${master_ca_crl}" ]; then
-        need_crl=true
-    elif [ -n "$(find ${master_ca_crl} -mtime +1 2>/dev/null)" ]; then
+    # if the CRL expires in less than six days, renew it (for seven days).  This is coordinated
+    # with the time range in modules/nrpe/files/check_puppetmaster_certs
+    days=6
+    if [ -f "${master_ca_crl}" ]; then
+        exp="`openssl crl -nextupdate -noout -in ${master_ca_crl} | sed -e s/.*=//`"
+        exp="`date --date="$exp" +%s`"
+        now="`date +%s`"
+        if [[ $exp < $(( now + days * 86400 )) ]]; then
+            need_crl=true
+        fi
+    else
         need_crl=true
     fi
 

@@ -60,4 +60,14 @@ class users::builder::setup($home, $username, $group) {
             group => $group,
             source => "puppet:///modules/users/screenrc";
     }
+
+    ##
+    # disable account-specific services
+
+    class {
+        'disableservices::user':
+            username => $username,
+            group => $group,
+            home => $home;
+    }
 }
