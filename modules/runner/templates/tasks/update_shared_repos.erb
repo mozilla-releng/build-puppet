@@ -18,4 +18,10 @@ if [ "$USER" != "<%= scope.lookupvar('::config::builder_username') %>" ]; then
 fi
 
 echo "Updating hg repos in $HG_SHARE_BASE_DIR"
-find "$HG_SHARE_BASE_DIR" -type d -name .hg -not -wholename '*l10n*' -not -wholename '*try*' -prune -printf '%h\0' | xargs -0 -P4 -t -n 1 hg pull -R
+find "$HG_SHARE_BASE_DIR" -type d -name .hg -not -wholename '*l10n*' -not -wholename '*try*' -prune -printf '%h\n' | while read repo; do
+    if [ ! -e "$repo/.hg/hgrc" ]; then
+        echo "Skipping $repo with missing hgrc" >&2
+     else
+        printf "$repo\0"
+    fi
+done | xargs -0 -P4 -t -n 1 hg pull -R
