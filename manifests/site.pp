@@ -40,7 +40,11 @@ Concat::Fragment {
 if ($::operatingsystem != "windows") {
     resources {
         'user':
-            purge => true;
+            purge => true,
+            # default for this is 500, but puppet assumes uids <= unless_system_user are system
+            # users, meaning that 500 is considered a system user.  This is not what we want!
+            # see https://tickets.puppetlabs.com/browse/PUP-3160
+            unless_system_user => 499;
     }
 }
 
