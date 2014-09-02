@@ -62,6 +62,9 @@ class packages::setup {
 
                 "git-remote-hg":
                     url_path => "repos/yum/custom/git-remote-hg/$architecture";
+
+                "openssl":
+                    url_path => "repos/yum/custom/openssl/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or

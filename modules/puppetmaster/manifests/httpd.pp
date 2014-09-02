@@ -40,8 +40,9 @@ class puppetmaster::httpd {
                     content => template("puppetmaster/puppetmaster_passenger.conf.erb");
             }
 
-            # add a dependency between two resources not defined here
+            # add a dependency between resources not defined here
             File['/etc/puppet/puppet.conf'] ~> Service['httpd']
+            Package['openssl'] ~> Service['httpd']
         }
 
         default: {
