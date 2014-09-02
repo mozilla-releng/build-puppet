@@ -50,6 +50,7 @@ def main():
         "aws_instance_id": get_aws_metadata("instance-id"),
         "aws_instance_type": get_aws_metadata("instance-type"),
         "aws_ami_id": get_aws_metadata("ami-id"),
+        "placement/availability_zone": get_aws_metadata("placement/availability-zone"),
     }
     js = json.dumps(metadata)
 
