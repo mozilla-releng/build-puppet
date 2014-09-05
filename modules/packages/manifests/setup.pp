@@ -161,10 +161,6 @@ class packages::setup {
                     url_path     => "repos/apt/custom/mig-agent",
                     distribution => "${lsbdistcodename}",
                     components   => ["all"];
-                "openssl":
-                    url_path     => "repos/apt/custom/openssl",
-                    distribution => "${lsbdistcodename}",
-                    components   => ["all"];
             }
         }
         Darwin: {
