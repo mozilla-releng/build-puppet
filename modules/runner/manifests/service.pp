@@ -29,6 +29,21 @@ class runner::service {
                     enable    => true;
             }
         }
+        'Ubuntu': {
+            file {
+                "/etc/init/runner.conf":
+                    content => template("runner/runner.upstart.conf.erb");
+            }
+            service {
+                'runner':
+                    require   => [
+                        Python::Virtualenv[$runner::settings::root],
+                        File["/etc/init/runner.conf"],
+                    ],
+                    hasstatus => false,
+                    enable    => true;
+            }
+        }
         default: {
             fail("Unsupported OS ${::operatingsystem}")
         }

@@ -5,6 +5,7 @@
 # Make sure runner runs at boot
 
 import os
+import os.path
 import subprocess
 import time
 import sys
@@ -15,25 +16,30 @@ RUNSLAVE = '/usr/local/bin/runslave.py'
 # use the python from the buildbot virtualenv
 PYTHON = '/tools/buildbot/bin/python'
 BUILD_USER = "<%= scope.lookupvar('::config::builder_username') %>"
-BUILDBOT_PIDFILE_PATH = '/builds/slave/twistd.pid'
+BUILDBOT_PIDFILE_PATHS = [
+    '/builds/slave/twistd.pid',
+    '/builds/slave/talos-slave/twistd.pid'
+]
 
 
 def buildbot_process_id():
     """Returns the pid of buildbot if it's running, zero otherwise
     """
-    try:
-        with open(BUILDBOT_PIDFILE_PATH, 'r') as f:
+    for pidfile in BUILDBOT_PIDFILE_PATHS:
+        if not os.path.exists(pidfile):
+            print "skipping %s" % pidfile
+            continue
+        with open(pidfile, 'r') as f:
             pid = int(f.read())
         try:
             os.kill(pid, 0)  # check if process is running
+            return pid
         except OSError:
             print "Old pidfile still exists, deleting and continuing"
-            os.remove(BUILDBOT_PIDFILE_PATH)
+            os.remove(pidfile)
             return 0
-        return pid
-    except IOError:
-        # no pidfile, definitely not running
-        return 0
+
+    return 0
 
 
 def main():
