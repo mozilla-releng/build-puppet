@@ -9,4 +9,4 @@ set -e
 TOOLS=$($RUNNER_CONFIG_CMD -g hg.tools_path)
 SLAVEDIR=$($RUNNER_CONFIG_CMD -g buildbot.slave_dir)
 cd $SLAVEDIR
-python $TOOLS/buildfarm/maintenance/purge_builds.py --not info --not 'rel-*:45d' --not 'tb-rel-*:45d' -s 10 $SLAVEDIR
+python $TOOLS/buildfarm/maintenance/purge_builds.py --not info --not 'rel-*:45d' --not 'tb-rel-*:45d' -s 8 $SLAVEDIR
