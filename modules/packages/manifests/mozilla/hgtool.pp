@@ -4,7 +4,7 @@
 class packages::mozilla::hgtool {
     include users::root
     case $::operatingsystem {
-        Darwin,CentOS: {
+        Darwin,CentOS,Ubuntu: {
             file  {
                 "/usr/local/bin/hgtool.py":
                     source => "puppet:///modules/packages/hgtool.py",
