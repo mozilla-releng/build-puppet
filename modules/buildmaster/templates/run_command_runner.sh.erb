@@ -5,7 +5,7 @@
 
 cd <%=scope.lookupvar('buildmaster::settings::queue_dir')%>
 (
-trap "rm -f command_runner.pid" EXIT
+trap "rm -f command_runner.pid" SIGHUP SIGINT SIGTERM EXIT
 bin/python tools/buildbot-helpers/command_runner.py -q /dev/shm/queue/commands -r 10 -t 60 -m 60 -j4 >> command_runner.log 2>&1 &
 echo $! > command_runner.pid
 wait
