@@ -14,6 +14,7 @@ case $::operatingsystem {
             owner => root,
             backup => false,
             mode => filemode(0644),
+            source_permissions => ignore,
         }
     }
     default: {
