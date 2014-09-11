@@ -33,7 +33,7 @@ class users::builder::account($username, $group, $grouplist, $home) {
             user {
                $username:
                     password => secret("builder_pw_cleartext"),
-                    groups  => ["administrators","Remote Desktop Users"],
+                    groups  => ["Administrators","Remote Desktop Users"],
                     managehome => true,
                     comment => "Builder";
             }
