@@ -5,7 +5,7 @@
 
 cd <%=scope.lookupvar('buildmaster::settings::queue_dir')%>
 (
-trap "rm -f pulse_publisher.pid" EXIT
+trap "rm -f pulse_publisher.pid" SIGHUP SIGINT SIGTERM EXIT
 bin/python tools/buildbot-helpers/pulse_publisher.py --passwords passwords.py -q /dev/shm/queue/pulse >> pulse_publisher.log 2>&1 &
 echo $! > pulse_publisher.pid
 wait
