@@ -11,11 +11,6 @@ class packages::nrpe {
                 "nagios-nrpe-plugin":
                     ensure => latest,
                     install_options => [ '--no-install-recommends' ];
-                # This is a temporary solution to removing nagios3 from
-                # a time before --no-install-recommends was available
-                # see bug 1006891
-                "nagios3":
-                    ensure => absent;
             }
         }
         CentOS: {
