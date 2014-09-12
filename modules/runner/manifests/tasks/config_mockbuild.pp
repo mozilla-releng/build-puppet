@@ -6,6 +6,8 @@ class runner::tasks::config_mockbuild($runlevel=3) {
     include runner
 
     file {
+        "/etc/mock_mozilla":
+            ensure => directory;
         "/etc/mock_mozilla/config-templates":
             source => 'puppet:///modules/runner/mockbuild-config-templates',
             recurse => true,
