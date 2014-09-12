@@ -19,7 +19,10 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
         "Ubuntu": {
             include runner::tasks::update_shared_repos
             include runner::tasks::checkout_tools
-            include runner::tasks::purge_builds
+            class {
+                'runner::tasks::purge_builds':
+                    required_space => 4;
+            }
          }
     }
 
