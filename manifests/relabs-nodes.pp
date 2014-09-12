@@ -8,14 +8,6 @@ node "relabs-puppet2.relabs.releng.scl3.mozilla.com" {
     include toplevel::server::puppetmaster
 }
 
-node "openstack1.relabs.releng.scl3.mozilla.com" {
-    include toplevel::server
-}
-
-node "neutron1.relabs.releng.scl3.mozilla.com" {
-    include toplevel::server
-}
-
 node "hp1.relabs.releng.scl3.mozilla.com" {
     include toplevel::base
 }
@@ -31,7 +23,6 @@ node "hp4.relabs.releng.scl3.mozilla.com" {
 }
 
 node "hp5.relabs.releng.scl3.mozilla.com" {
-    include toplevel::server
 }
 
 node "hp6.relabs.releng.scl3.mozilla.com" {
