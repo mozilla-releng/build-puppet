@@ -60,10 +60,8 @@ class config inherits config::base {
     $ntp_server = "time.mozilla.org"
     $enable_mig_agent = true
 
-    $extra_user_ssh_keys = {
-        # role accounts  (just here to test $extra_user_ssh_keys)
-        'release-runner' => ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMCfdvoKtT4IU0cw6ckj748zxlr7wMxJfyRadUfpI+ZE6jOAjBrAxptVImaFYeVD9PFe5DXyAhRlhUPHSbtq+unMhkZrERYmUhxZ82TSqMSLDwMiacM0umXDnVqcs6cji5gjjE69TeLf9RywOzAmpU/JAasMDa7q4aNsccG7kj59vBl4yyZdx63yNNuxzBtvQd3LNjz2Ux3I60JZDM/xUu8eMBP9PDP5FIi4zILS8sKFzVD9l/7xsyLYv+IpFS1jLvX/eo0gKxM+27rlyyWET2mu/Vjw2J8gN6G9zh4nlMgEeeqFnR3ykFBgEl+LqM4PoH8xVzwZ1iZ8tDgP40nA3Z release-runner key'],
-    }
+    $log_aggregator = 'hp1.relabs.releng.scl3.mozilla.com'
+
     $admin_users = [
         "arr",
         "bhearsum",

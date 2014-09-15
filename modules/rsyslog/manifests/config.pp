@@ -10,7 +10,7 @@ define rsyslog::config ($file = $title, $contents = '', $need_mysql=false) {
     }
 
     case $::operatingsystem {
-        CentOS : {
+        CentOS,Ubuntu: {
             include rsyslog::settings
 
             if ($file != undef) and ($contents != undef) {
@@ -26,6 +26,9 @@ define rsyslog::config ($file = $title, $contents = '', $need_mysql=false) {
                         show_diff => false;
                 }
             }
+        }
+        default: {
+            fail("cannot install on $::operatingsystem")
         }
     }
 }

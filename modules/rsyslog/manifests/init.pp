@@ -5,7 +5,7 @@ class rsyslog {
     include packages::rsyslog
 
     case $::operatingsystem {
-        CentOS : {
+        CentOS,Ubuntu: {
             service { "rsyslog":
                require => Class["packages::rsyslog"],
                ensure => running,
@@ -23,6 +23,22 @@ class rsyslog {
                     purge => true,
                     force => true;
             }
+        }
+        default: {
+            fail("cannot install on $::operatingsystem")
+        }
+    }
+
+    # CentOS and Ubuntu have different default, local logging configs
+    case $::operatingsystem {
+        CentOS,Ubuntu: {
+            rsyslog::config {
+                'default-local-logging':
+                    contents => template("${module_name}/rsyslog-${::operatingsystem}.conf.erb");
+            }
+        }
+        default: {
+            # do nothing
         }
     }
 }

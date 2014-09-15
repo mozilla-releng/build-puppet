@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::rsyslog {
     case $::operatingsystem {
-        CentOS: {
+        CentOS,Ubuntu: {
             package {
                 "rsyslog":
                     ensure => latest;
