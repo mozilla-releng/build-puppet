@@ -64,3 +64,8 @@ node "ix1204-4.relabs.releng.scl3.mozilla.com" {
 node "ix1204-5.relabs.releng.scl3.mozilla.com" {
     include toplevel::server
 }
+
+node "ix1204-9.relabs.releng.scl3.mozilla.com" {
+    # temporary syslog host for bug 1066145
+    include toplevel::server
+}
