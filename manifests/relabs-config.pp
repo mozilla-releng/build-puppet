@@ -76,9 +76,7 @@ class config inherits config::base {
         "dmaher",
         "hskupin",
         "pchiasson",
-        "tglek",
         "jvehent",
-        "release-runner",
     ]
 }
 
