@@ -34,17 +34,18 @@ class packages::openssl {
         }
 
         Ubuntu: {
+            realize(Packages::Aptrepo['openssl'])
             case $::operatingsystemrelease {
                 12.04: {
                     package {
                         ["openssl", "libssl1.0.0", "libssl-dev"]:
-                            ensure => '1.0.1-4ubuntu5.12';
+                            ensure => '1.0.1-4ubuntu5.17';
                     }
                 }
                 14.04: {
                     package {
                         ["openssl", "libssl1.0.0", "libssl-dev"]:
-                            ensure => '1.0.1f-1ubuntu2.1';
+                            ensure => '1.0.1f-1ubuntu2.5';
                     }
                 }
                 default: {
