@@ -7,11 +7,11 @@ class packages::puppet {
         'packages::puppet::end': ;
     }
 
-    $puppet_version = "3.6.1"
+    $puppet_version = "3.7.0"
     $puppet_dmg_version = "${puppet_version}"
     $puppet_rpm_version = "${puppet_version}-1.el6"
     $puppet_deb_version = "${puppet_version}-1puppetlabs1"
-    $facter_version = "2.0.2"
+    $facter_version = "2.2.0"
     $facter_dmg_version = "${facter_version}"
     $facter_rpm_version = "${facter_version}-1.el6"
     $facter_deb_version = "${facter_version}-1puppetlabs1"
