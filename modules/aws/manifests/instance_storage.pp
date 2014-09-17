@@ -1,7 +1,7 @@
 class aws::instance_storage {
     case $::operatingsystem {
         # On Linux systems, manage instance storage
-        Ubuntu, CentOS: {
+        CentOS: {
             include packages::mozilla::py27_mercurial
             $python = $::packages::mozilla::python27::python
 
@@ -25,26 +25,6 @@ class aws::instance_storage {
                     ],
                     hasstatus => false,
                     enable    => true;
-            }
-            file {
-                "/etc/lvm-init/lvm-init.json":
-                    ensure => absent;
-            }
-        }
-    }
-    case $::operatingsystem {
-        Ubuntu: {
-        # remove the lvm-init file
-            file {
-                "/sbin/lvm-init":
-                    ensure => absent;
-            }
-        }
-        CentOS: {
-        # on Centos, lvm-init is a package, remove it
-            package {
-                "lvm-init":
-                    ensure => absent;
             }
         }
     }
