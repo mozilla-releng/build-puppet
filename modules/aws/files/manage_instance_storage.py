@@ -1,33 +1,17 @@
 #!/usr/bin/env python
-"""Manages the instance storage space for aws instances
-   For try, jacuzzi and instances with more than REQ_BUILDS_SIZE,
-   the instance storage space is mounted under BUILDS_SLAVE_MNT,
-   In any other case, the instance storage space is mounted under
-   INSTANCE_STORAGE_MNT.
-   CCACHE_DIR is always mounted on the instance storage
-"""
+"""Manages the instance storage space for aws instances"""
 
-import errno
 import logging
-import json
 import os
 import urllib2
 import urlparse
 import time
-import tempfile
 from subprocess import check_call, CalledProcessError, Popen, PIPE
 
 
 log = logging.getLogger(__name__)
 
 AWS_METADATA_URL = "http://169.254.169.254/latest/meta-data/"
-INSTANCE_STORAGE_MNT = '/mnt/instance_storage'
-BUILDS_SLAVE_MNT = '/builds/slave'
-JACUZZI_METADATA_JSON = '/etc/jacuzzi_metadata.json'
-CCACHE_DIR = '/builds/ccache'
-MOCK_DIR = '/builds/mock_mozilla'
-ETC_FSTAB = '/etc/fstab'
-REQ_BUILDS_SIZE = 120  # size in GB
 
 
 def get_aws_metadata(key):
@@ -111,28 +95,6 @@ def aws2xen(device):
     return device.replace("/s", "/xv")
 
 
-def format_device(device):
-    """Formats device with ext4 fs if needed"""
-    if is_mounted(device):
-        log.info('%s is mounted: skipping formatting', device)
-        return
-    # assuming this device needs to be formatted
-    need_format = True
-    blkid_cmd = ['blkid', '-o', 'udev', device]
-    output = get_output_from_cmd(cmd=blkid_cmd, raise_on_error=False)
-    if output:
-        for line in output.splitlines():
-            if 'ID_FS_TYPE=ext4' in line or \
-               'ID_FS_TYPE=ext3' in line:
-               # if the disk is already ext4 or ext3, do not format
-                need_format = False
-                log.info('%s no need to format: %s', device, line)
-                break
-    if need_format:
-        log.info('formatting %s', device)
-        run_cmd(['mkfs.ext4', device])
-
-
 def needs_pvcreate(device):
     """Checks if pvcreate is needed"""
     output = get_output_from_cmd('pvs')
@@ -145,12 +107,12 @@ def needs_pvcreate(device):
 
 def _query_vgs(token, device=None):
     """Gets token value from vgs -o token device"""
-    cmd = ['vgs', '-o', token]
+    cmd = ['vgs', '--noheadings', '-o', token]
     if device:
         cmd.append(device)
     try:
         value = get_output_from_cmd(cmd)
-        value = value.split('\n')[1].strip()
+        value = value.splitlines()[0].strip()
         log.debug('vgs: %s = %s', token, value)
         return value
     except (CalledProcessError, IndexError):
@@ -170,290 +132,15 @@ def query_vg_name(device=None):
     return _query_vgs(token='vg_name', device=device)
 
 
-def vg_size(device=None):
-    """Returns the size of device in GB, 0 in case of error"""
-    raw_value = _query_vgs(token='vg_size', device=device)
-    if not raw_value:
-        return 0
-    # raw_value: 79.98g to 80
-    disk_size = int(round(float(raw_value.replace('g', ''))))
-    log.debug('disk size: %s', disk_size)
-    return int(round(float(raw_value.replace('g', ''))))
-
-
-def create_vg(vg_name, devices):
-    """Creates a volume group"""
-    log.info('creating a new volume group, %s with %s', vg_name, devices)
-    run_cmd(['vgcreate', vg_name] + devices)
-
-
-def remove_vg(vg_name):
-    """Removes a volume group"""
-    if vg_name is None:
-        log.debug('remove_vg: vg_name is None, nothing to do here')
-    log.info('removing volume group: %s', vg_name)
-    run_cmd(['vgremove', '-f', vg_name])
-
-
 def pvcreate(device):
     """Wrapper for pvcreate, determines if physical device needs initialization
        and manages cases where a physical device is already mounted"""
     if needs_pvcreate(device):
-        if is_mounted(device):
-            # switching from a single disk instance to multiple disks
-            # returns an error in pvcreate, let's umount the disk
-            umount(CCACHE_DIR)
-            umount(MOCK_DIR)
-            umount(device)
         log.info('running pvcreate on: %s', device)
         log.debug('clearing the partition table for %s', device)
         run_cmd(['dd', 'if=/dev/zero', 'of=%s' % device, 'bs=512', 'count=1'])
         log.debug('creating a new physical volume for: %s', device)
         run_cmd(['pvcreate', '-ff', '-y', device])
-
-
-def lvcreate(vg_name, lv_name, lv_path):
-    """lvcreate wrapper"""
-    lv_path = "/dev/mapper/%s-%s" % (vg_name, lv_name)
-    if not run_cmd(['lvdisplay', lv_path], raise_on_error=False):
-        log.info('creating a new logical volume')
-        run_cmd(['lvcreate', '-l', '100%VG', '--name', lv_name, vg_name])
-        format_device(lv_path)
-
-
-def lvmjoin(devices):
-    "Creates a single lvm volume from a list of block devices"
-    for device in devices:
-        pvcreate(device)
-    # Volume Group
-    vg_name = 'vg'
-    lv_name = 'local'
-    # old volume group
-    old_vg = query_vg_name()
-    if not old_vg:
-        create_vg(vg_name, devices)
-    elif old_vg != vg_name:
-        # vg already exists with a different name;
-        old_lv = query_lv_path()
-        # maps output from vgs -> fstab_entry
-        fstab_entry = dev_in_fstab(old_lv)
-        if is_mounted(fstab_entry):
-            disable_swap()
-            umount(CCACHE_DIR)
-            umount(MOCK_DIR)
-            umount(fstab_entry)
-        remove_vg(old_vg)
-        create_vg(vg_name, devices)
-    else:
-        # a volume group with the same name already exists
-        # output of vgs -
-        disable_swap()
-        umount(CCACHE_DIR)
-        umount(MOCK_DIR)
-        umount(query_lv_path())
-
-    # Logical Volume
-    lv_path = "/dev/mapper/%s-%s" % (vg_name, lv_name)
-    lvcreate(vg_name, lv_name, lv_path)
-    return lv_path
-
-
-def read_fstab():
-    """"Returns a list of lines in fstab"""
-    with open(ETC_FSTAB, 'r') as f_in:
-        return f_in.readlines()
-
-
-def get_builders_from(jacuzzi_metadata_file):
-    """Returns the builders list for the metadata file.
-       If the input file cannot be decoded or it does not exist, returns []"""
-    try:
-        with open(jacuzzi_metadata_file) as data_file:
-            json_data = json.load(data_file)
-    except (IOError, ValueError, AttributeError):
-        log.debug('%s does not exist or it cannot be decoded or is None',
-                  jacuzzi_metadata_file)
-        return []
-    try:
-        return json_data['builders']
-    except (TypeError, KeyError):
-        # json_data is not a dictionary or no keys
-        return []
-
-
-def get_disk_size(device):
-    """Returns disk size in GB"""
-    cmd = ['df', '-B', '1G', device]
-
-    need_mount = False
-    if device.startswith("/dev/") and not is_mounted(device):
-        # make sure to mount the device before running df because ephemeral
-        # devices lie about their size without mounting
-        need_mount = True
-        mount_point = tempfile.mkdtemp()
-
-    try:
-        if need_mount:
-            mount(device, mount_point)
-        output = get_output_from_cmd(cmd)
-        if need_mount:
-            umount(device)
-            os.rmdir(mount_point)
-        # ignore the first line
-        df_line = output.split("\n")[1].strip()
-        log.debug("%s df: %s", device, df_line)
-        # return second value
-        return int(df_line.split()[1])
-    except (CalledProcessError, IndexError, ValueError):
-        log.debug("Failed to get %s size", device, exc_info=True)
-        return None
-
-
-def mount_point(device):
-    """Defines the mount point of the instance storage devices
-       if a machine meets any of the following conditions:
-       is part of a jacuzzi pool
-       is a try slave,
-       has enough disk space,
-       the instance storage space is mounted under BUILDS_SLAVE_MNT.
-       For any other machine the mount point is INSTANCE_STORAGE_MNT
-    """
-    # default mount point
-    _mount_point = INSTANCE_STORAGE_MNT
-    if len(get_builders_from(JACUZZI_METADATA_JSON)) in range(1, 4):
-        # if there are 1, 2 or 3 builders: I am a Jacuzzi!
-        log.info('jacuzzi:    yes')
-        _mount_point = BUILDS_SLAVE_MNT
-    else:
-        log.info('jacuzzi:    no')
-    try:
-        with open('/etc/slave-trustlevel', 'r') as trustlevel_in:
-            trustlevel = trustlevel_in.read().strip()
-        log.info('trustlevel: %s', trustlevel)
-        if trustlevel == 'try':
-            _mount_point = BUILDS_SLAVE_MNT
-    except IOError:
-        # IOError   => file does not exist
-        log.info('/etc/slave-trustlevel does not exist')
-    # test if device has enough space, if so mount the disk
-    # in BUILDS_SLAVE_MNT regardless the type of machine
-    # assumption here: there's only one volume group
-    # vgs doesn't work on non LVM layouts, fall back to df
-    device_size = vg_size() or get_disk_size(device)
-    if device_size >= REQ_BUILDS_SIZE:
-        log.info('disk size: %s GB >= REQ_BUILDS_SIZE (%d GB)',
-                 device_size, REQ_BUILDS_SIZE)
-        _mount_point = BUILDS_SLAVE_MNT
-    else:
-        log.info('disk size: %s GB < REQ_BUILDS_SIZE (%d GB)',
-                 device_size, REQ_BUILDS_SIZE)
-    root_volume_size = get_disk_size("/")
-    # assume that 10G of the root device cannot be used by builds
-    if root_volume_size and root_volume_size - 10 <= device_size:
-        log.info("root volume size (%sGB) is less than ephemeral storage "
-                 "(%sGB) minus 10GB, using ephemeral storage for builds",
-                 root_volume_size, device_size)
-        _mount_point = BUILDS_SLAVE_MNT
-
-    log.info('mount point: %s', _mount_point)
-    return _mount_point
-
-
-def is_mounted(device):
-    """Checks if a device is mounted"""
-    if not device:
-        log.debug('refusing to check if None device is mounted')
-        return False
-    mount_out = get_output_from_cmd('mount')
-    log.debug("mount: %s", mount_out)
-    for line in mount_out.splitlines():
-        log.debug(line)
-        if device in line:
-            log.info('device: %s is mounted', device)
-            return True
-    log.info('device: %s is not mounted', device)
-    return False
-
-
-def umount(device):
-    """Unmounts device"""
-    if not device:
-        log.debug('umount: device in None, returning')
-        return
-    get_output_from_cmd(['umount', device], raise_on_error=False)
-    log.debug('%s is unmounted', device)
-    # manage umount errors?
-
-
-def disable_swap():
-    """Disable swap file"""
-    log.info('disabling swap files')
-    run_cmd(['swapoff', '-a'])
-
-
-def real_path(path):
-    """Transforms a path to real absolute path following symlinks (if any)"""
-    try:
-        realpath = get_output_from_cmd(['readlink', '-f', path]).strip()
-        log.debug('%s => %s', path, realpath)
-        return realpath
-    except CalledProcessError:
-        # file does not exist
-        return path
-
-
-def dev_in_fstab(path):
-    """Checks if a path is in fstab and returns the first element of the line
-       (fs_spec). It returns None if path is not present in fstab
-        e.g. /dev/mapper/vg-local and /dev/vg/local are both links to /dev/dm-0
-        but only /dev/mapper is in fstab
-    """
-    # discard /
-    fstab = [item.strip() for item in read_fstab()
-             if not item.startswith('LABEL=root_dev')]
-    # remove special mount points
-    fstab = [item for item in fstab if 'none' not in item]
-    for item in fstab:
-        fstab_entry = item.partition(' ')[0]
-        if fstab_entry:
-            if real_path(fstab_entry) == real_path(path):
-                log.debug('%s and %s point to the same device',
-                          fstab_entry, path)
-                return fstab_entry
-    return None
-
-
-def mount(device, mount_point, fstype=None, options=None):
-    """Mounts device"""
-    if not os.path.exists(mount_point):
-        log.debug('Creating directory %s', mount_point)
-        os.makedirs(mount_point)
-    log.info('mounting %s', device)
-    cmd = ["mount"]
-    if fstype:
-        cmd.extend(["-t", fstype])
-    if options:
-        cmd.extend(["-o", options])
-    cmd.extend([device, mount_point])
-    run_cmd(cmd)
-
-
-def mkdir_p(dst_dir, exist_ok=True):
-    """same as os.makedirs(path, exist_ok=True) in python > 3.2"""
-    try:
-        os.makedirs(dst_dir)
-        log.debug('created %s', dst_dir)
-    except OSError, error:
-        if error.errno == errno.EEXIST and os.path.isdir(dst_dir) and exist_ok:
-            pass
-        else:
-            log.error('cannot create %s, %s', dst_dir, error)
-            raise
-
-
-def chown(path, user, group):
-    user_group_str = '%s:%s' % (user, group)
-    run_cmd(['chown', user_group_str, path])
 
 
 def main():
@@ -464,42 +151,19 @@ def main():
         # no ephemeral devices, nothing to do, quit
         log.info('no ephemeral devices found')
         return
-    if len(devices) > 1:
-        # requires lvm
-        log.info('found devices: %s', devices)
-        device = lvmjoin(devices)
-    else:
-        # single device no need for lvm, just format
-        device = devices[0]
-        log.info('found device: %s', device)
-        format_device(device)
-    log.debug("Got %s", device)
-    _mount_point = mount_point(device)
-    ccache_dst = os.path.join(_mount_point, 'ccache')
-    mock_dst = os.path.join(_mount_point, 'mock_mozilla')
+    devices = [d for d in devices if needs_pvcreate(d)]
+    if not devices:
+        log.info('Ephemeral devices already in LVM')
+        return
 
-    if not is_mounted(device):
-        # mount the main share so we can create the ccache dir
-        mount(device, _mount_point, fstype="ext4", options="defaults,noatime")
+    root_vg = query_vg_name()
+    root_lv = query_lv_path()
+    for dev in devices:
+        pvcreate(dev)
+        run_cmd(["vgextend", root_vg, dev])
 
-    try:
-        mkdir_p(ccache_dst)
-        mkdir_p(mock_dst)
-        # avoid multiple mounts of the same share/directory/...
-        if not is_mounted(ccache_dst):
-            mount(ccache_dst, CCACHE_DIR, options="bind,noatime")
-        if not is_mounted(mock_dst):
-            mount(mock_dst, MOCK_DIR, options="bind,noatime")
-        # Make sure that the mount point are writable by cltbld
-        for directory in (_mount_point, CCACHE_DIR):
-            chown(directory, user='cltbld', group='cltbld')
-        # mock_mozilla needs different permissions
-        chown(MOCK_DIR, user='root', group='mock_mozilla')
-        run_cmd(["chmod", "2775", MOCK_DIR])
-    except OSError, error:
-        # mkdir failed, CCACHE_DIR not mounted
-        log.error(error)
-        log.error('%s and/or %s not mounted', ccache_dst, mock_dst)
+    run_cmd(["lvextend", "-l", "100%FREE", root_lv])
+    run_cmd(["resize2fs", root_lv])
 
 
 if __name__ == '__main__':
