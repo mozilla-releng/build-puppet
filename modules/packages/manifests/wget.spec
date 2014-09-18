@@ -1,7 +1,7 @@
 Summary: A utility for retrieving files using the HTTP or FTP protocols
 Name: wget
 Version: 1.15
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv3+ and GFDL
 Group: Applications/Internet
 Url: http://wget.sunsite.dk/
@@ -30,7 +30,7 @@ support for Proxy servers, and configurability.
 #%patch2 -p1
 
 %build
-%configure --with-ssl --enable-largefile --enable-opie --enable-digest --disable-ntlm --enable-nls --enable-ipv6 --disable-rpath
+%configure --with-ssl=openssl --enable-largefile --enable-opie --enable-digest --disable-ntlm --enable-nls --enable-ipv6 --disable-rpath
 make %{?_smp_mflags}
 
 %install
@@ -60,6 +60,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_infodir}/*
 
 %changelog
+* Thu Sep 18 2014 Chris Cooper <coop@mozilla.com> 1.15-2
+- recompile to use openssl instead of gnutls
+
 * Tue Feb 04 2014 Dustin J. Mitchell <dustin@mozilla.com> 1.15-1
 - update to wget-1.15
 - disable ntlm as it requires nettle, which isn't packaged
