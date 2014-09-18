@@ -12,7 +12,7 @@ class packages::wget {
             Anchor['packages::wget::begin'] ->
             package {
                 "wget":
-                    ensure => '1.15-1.el6';  # hand-compiled; see .spec
+                    ensure => '1.15-2.el6';  # hand-compiled; see .spec
             } -> Anchor['packages::wget::end']
         }
         Ubuntu: {
