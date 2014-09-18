@@ -1,0 +1,7 @@
+[api]
+api_root: https://ship-it.mozilla.org
+username: <%= scope.function_secret(['shipit_notifier_api_username']) %>
+password: <%= scope.function_secret(['shipit_notifier_api_password']) %>
+
+[shipit-notifier]
+verbose: <%= scope.lookupvar('config::shipit_notifier_verbose') %>
