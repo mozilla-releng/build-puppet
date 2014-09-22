@@ -25,7 +25,10 @@ class toplevel::slave::releng::build::mock inherits toplevel::slave::releng::bui
 
 
     include runner::tasks::checkout_tools
-    include runner::tasks::purge_builds
     include runner::tasks::update_shared_repos
     include runner::tasks::config_mockbuild
+    class {
+        'runner::tasks::purge_builds':
+            required_space => 20;
+    }
 }
