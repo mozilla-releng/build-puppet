@@ -13,7 +13,7 @@ class toplevel::server::signing inherits toplevel::server {
     case $config::org {
         moco: {
             $signing_formats = $operatingsystem ? {
-                Darwin => ["gpg", "dmg", "mar"],
+                Darwin => ["dmg"],
                 CentOS => ["gpg", "signcode", "mar", "jar", "b2gmar"]
             }
 
