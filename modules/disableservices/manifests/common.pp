@@ -70,7 +70,16 @@ class disableservices::common {
                 }
                 10.9: {
                     service {
-                        'com.apple.softwareupdated':
+                        [
+                            'com.apple.softwareupdated',
+                            'com.apple.systemstatsd',
+                            'com.apple.systemstats.daily',
+                            'com.apple.systemstats.analysis',
+                            'com.apple.metadata.mds',
+                            'com.apple.metadata.mds.index',
+                            'com.apple.metadata.mds.scan',
+                            'com.apple.metadata.mds.spindump',
+                        ]:
                             enable => false,
                             ensure => stopped,
                     }
