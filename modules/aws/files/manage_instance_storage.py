@@ -7,10 +7,10 @@ import urllib2
 import urlparse
 import time
 from subprocess import check_call, CalledProcessError, Popen, PIPE
+from logging.handlers import SysLogHandler
 
 
 log = logging.getLogger(__name__)
-
 AWS_METADATA_URL = "http://169.254.169.254/latest/meta-data/"
 
 
@@ -24,7 +24,7 @@ def get_aws_metadata(key):
             return urllib2.urlopen(url, timeout=1).read()
         except urllib2.URLError:
             if _ < max_tries - 1:
-                log.debug("failed to fetch %s; sleeping and retrying", url)
+                log.warn("failed to fetch %s; sleeping and retrying", url)
                 time.sleep(1)
                 continue
             return None
@@ -46,6 +46,7 @@ def run_cmd(cmd, cwd=None, raise_on_error=True, quiet=True):
         check_call(cmd, cwd=cwd, stdout=stdout, stderr=stderr)
         return True
     except CalledProcessError:
+        log.warn("Failed to run %s", cmd)
         if raise_on_error:
             raise
         return False
@@ -63,8 +64,9 @@ def get_output_from_cmd(cmd, cwd=None, raise_on_error=True):
     proc = Popen(cmd, cwd=cwd, stdout=PIPE)
     output, err = proc.communicate()
     retcode = proc.poll()
+    log.debug('cmd: %s returned %s (%s)', cmd, retcode, err)
+    log.debug("Output: %s", output)
     if retcode and raise_on_error:
-        log.debug('cmd: %s returned %s (%s)', cmd, retcode, err)
         raise CalledProcessError(retcode, cmd)
     return output
 
@@ -105,9 +107,9 @@ def needs_pvcreate(device):
     return True
 
 
-def _query_vgs(token, device=None):
+def _query_vgs(token, device=None, cmd='vgs'):
     """Gets token value from vgs -o token device"""
-    cmd = ['vgs', '--noheadings', '-o', token]
+    cmd = [cmd, '--units', 'b', '--nosuffix', '--noheadings', '-o', token]
     if device:
         cmd.append(device)
     try:
@@ -132,6 +134,14 @@ def query_vg_name(device=None):
     return _query_vgs(token='vg_name', device=device)
 
 
+def query_pv_free_size(device):
+    """Returns size of unused space on a LVM physical device"""
+    out = _query_vgs(token='pv_all', device=device, cmd='pvs')
+    size = int(out.split()[8])
+    log.debug("%s free size is %s", device, size)
+    return size
+
+
 def pvcreate(device):
     """Wrapper for pvcreate, determines if physical device needs initialization
        and manages cases where a physical device is already mounted"""
@@ -143,14 +153,40 @@ def pvcreate(device):
         run_cmd(['pvcreate', '-ff', '-y', device])
 
 
+def maybe_fix_lvm_devices(devs):
+    """Detects and fixes LVM VG size inconsistency"""
+    free_space = sum([query_pv_free_size(dev) for dev in devs])
+    log.debug("Free: %s", free_space)
+    if free_space:
+        log.warning("LVM volume group is not consistent, fixing...")
+        root_vg = query_vg_name()
+        root_lv = query_lv_path()
+        run_cmd(["vgcfgrestore", root_vg])
+        run_cmd(["vgchange", "-ay", root_vg])
+        run_cmd(["lvextend", "-l", "100%VG", root_lv])
+        run_cmd(["resize2fs", root_lv])
+    else:
+        log.debug("All good")
+
+
 def main():
     """Prepares the ephemeral devices"""
     logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
+    log.setLevel(logging.INFO)
+    syslog = SysLogHandler(address='/dev/log')
+    formatter = logging.Formatter(
+        'manage_instance_storage.py: %(name)s: %(levelname)s %(message)s')
+    syslog.setFormatter(formatter)
+    log.addHandler(syslog)
+
     devices = get_ephemeral_devices()
     if not devices:
         # no ephemeral devices, nothing to do, quit
         log.info('no ephemeral devices found')
         return
+    lvm_devices = [d for d in devices if not needs_pvcreate(d)]
+    if lvm_devices:
+        maybe_fix_lvm_devices(lvm_devices)
     devices = [d for d in devices if needs_pvcreate(d)]
     if not devices:
         log.info('Ephemeral devices already in LVM')
@@ -162,7 +198,7 @@ def main():
         pvcreate(dev)
         run_cmd(["vgextend", root_vg, dev])
 
-    run_cmd(["lvextend", "-l", "100%FREE", root_lv])
+    run_cmd(["lvextend", "-l", "100%VG", root_lv])
     run_cmd(["resize2fs", root_lv])
 
 
