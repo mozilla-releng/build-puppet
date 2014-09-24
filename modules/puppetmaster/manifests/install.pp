@@ -18,4 +18,5 @@ class puppetmaster::install {
 
     # By default we ship mercurial 1.4. Lets install the version for Python 2.7 for now
     include packages::mozilla::py27_mercurial
+    include packages::bash
 }
