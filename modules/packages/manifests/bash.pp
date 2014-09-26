@@ -10,7 +10,7 @@ class packages::bash {
                     realize(Packages::Yumrepo['bash'])
                     package {
                         "bash":
-                            ensure => "4.1.2-15.el6_5.1";
+                            ensure => "4.1.2-15.el6_5.2";
                     }
                 }
                 default: {
