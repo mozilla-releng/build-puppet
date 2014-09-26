@@ -44,5 +44,6 @@ class toplevel::base {
         # openssl ends up getting pulled in as a dependency everywhere, and we
         # want to carefully control its version, so include it everywhere.
         include packages::openssl
+        include packages::bash
     }
 }
