@@ -21,6 +21,7 @@ class packages::bash {
         Darwin: {
             packages::pkgdmg {
                 bash:
+                    os_version_specific => false,
                     version => "3.2-moz2";
             }
         }
