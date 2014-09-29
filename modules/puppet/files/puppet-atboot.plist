@@ -11,8 +11,6 @@
         <string>com.mozilla.puppet</string>
         <key>LaunchOnlyOnce</key>
         <true/>
-        <key>OnDemand</key>
-        <false/>
         <key>ProgramArguments</key>
         <array>
                 <string>/bin/bash</string>
