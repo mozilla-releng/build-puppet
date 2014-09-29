@@ -32,13 +32,13 @@ class packages::bash {
                 12.04: {
                     package {
                         "bash":
-                            ensure => '4.2-2ubuntu2.3';
+                            ensure => '4.2-2ubuntu2.5';
                     }
                 }
                 14.04: {
                     package {
                         "bash":
-                            ensure => '4.3-7ubuntu1.3';
+                            ensure => '4.3-7ubuntu1.4';
                     }
                 }
                 default: {
