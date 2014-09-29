@@ -19,7 +19,10 @@ class packages::bash {
             }
         }
         Darwin: {
-            # No Darwin packages yet
+            packages::pkgdmg {
+                bash:
+                    version => "3.2-moz2";
+            }
         }
 
         Ubuntu: {
