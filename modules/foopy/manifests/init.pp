@@ -57,6 +57,7 @@ class foopy {
             content => template("foopy/foopy.crontab.erb"),
             require => [
                 Class["foopy::repos"],
+                File["/builds/watch_devices.sh"],
             ];
 
         # Directory for rolled log files of watcher.log
