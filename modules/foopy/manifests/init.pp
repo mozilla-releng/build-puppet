@@ -28,32 +28,13 @@ class foopy {
 
     file {
         # Set perms on these files properly, so that our automation can use them.
-        ["/builds/tegra_status.txt",
-         "/builds/check.log",
-         "/builds/check2.log",
-         "/builds/tegra_stats.log",
-         "/builds/watcher.log"]:
+        ["/builds/watcher.log"]:
             owner => $users::builder::username,
             group => $users::builder::group,
             ensure => file,
             mode => 0644;
 
         # Link the helper scripts for humans to /builds
-        "/builds/check.sh":
-            owner => $users::builder::username,
-            group => $users::builder::group,
-            ensure => link,
-            target => "/builds/tools/buildfarm/mobile/check.sh";
-        "/builds/kill_stalled.sh":
-            owner => $users::builder::username,
-            group => $users::builder::group,
-            ensure => link,
-            target => "/builds/tools/buildfarm/mobile/kill_stalled.sh";
-        "/builds/tegra_stats.sh":
-            owner => $users::builder::username,
-            group => $users::builder::group,
-            ensure => link,
-            target => "/builds/tools/buildfarm/mobile/tegra_stats.sh";
         "/builds/watch_devices.sh":
             owner => $users::builder::username,
             group => $users::builder::group,
@@ -76,12 +57,6 @@ class foopy {
             content => template("foopy/foopy.crontab.erb"),
             require => [
                 Class["foopy::repos"],
-                File["/builds/tegra_stats.sh"],
-                File["/builds/check.sh"],
-                File["/builds/tegra_status.txt"],
-                File["/builds/check.log"],
-                File["/builds/check2.log"],
-                File["/builds/tegra_stats.log"],
             ];
 
         # Directory for rolled log files of watcher.log
@@ -109,7 +84,12 @@ class foopy {
     file {
         # Bug 875599: these files should no longer exist
         ["/builds/start_cp.sh",
-         "/builds/stop_cp.sh"]:
+         "/builds/stop_cp.sh",
+         "/builds/check.sh",
+         "/builds/tegra_status.txt",
+         "/builds/check.log",
+         "/builds/check2.log",
+         "/builds/tegra_stats.log"]:
             ensure => absent;
     }
 }
