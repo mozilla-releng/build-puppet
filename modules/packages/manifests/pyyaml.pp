@@ -10,13 +10,6 @@ class packages::pyyaml {
             }
         }
 
-        Ubuntu: {
-            package {
-                "python-yaml":
-                    ensure => present;
-            }
-        }
-
         default: {
             fail("cannot install on $::operatingsystem")
         }

@@ -17,7 +17,6 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
 
     case $::operatingsystem {
         "Ubuntu": {
-            include runner::tasks::check_ami
             include runner::tasks::update_shared_repos
             include runner::tasks::checkout_tools
             class {
