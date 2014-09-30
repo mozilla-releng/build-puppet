@@ -19,9 +19,10 @@ class runner {
 
     file {
         $runner::settings::taskdir:
-            ensure => directory,
-            force  => true,
-            purge  => true;
+            ensure  => directory,
+            force   => true,
+            recurse => true,
+            purge   => true;
         "${runner::settings::root}/runner.cfg":
             before  => Service['runner'],
             content => template('runner/runner.cfg.erb');
