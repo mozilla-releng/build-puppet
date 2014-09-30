@@ -9,8 +9,6 @@
 <dict>
         <key>Label</key>
         <string>com.mozilla.puppet</string>
-        <key>OnDemand</key>
-        <false/>
         <key>ProgramArguments</key>
         <array>
                 <string>/bin/bash</string>
