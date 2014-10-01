@@ -160,6 +160,10 @@ class packages::setup {
                     url_path     => "repos/apt/xorg-edgers",
                     distribution => "${lsbdistcodename}",
                     components   => ["main"];
+                "nginx-development":
+                    url_path     => "repos/apt/nginx-development",
+                    distribution => "${lsbdistcodename}",
+                    components   => ["main"];
                 "mig-agent":
                     url_path     => "repos/apt/custom/mig-agent",
                     distribution => "${lsbdistcodename}",
