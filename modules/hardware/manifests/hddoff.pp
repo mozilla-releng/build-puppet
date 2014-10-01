@@ -4,12 +4,7 @@
 
 #Disable harddrive timeout. Refer to http://technet.microsoft.com/en-us/library/cc748940%28v=ws.10%29.aspx
 class hardware::hddoff {
-    exec { "hddoff":
+    shared::execonce { "hddoff":
         command => '"C:\Windows\System32\powercfg.exe" /change disk-timeout-ac 0'
-    }
-    file {
-            'C:\programdata/PuppetLabs/puppet/var/lib/hddoff.txt':
-                require => Exec["hddoff"],
-                content => "Semaphore",
     }
 }  
