@@ -68,6 +68,10 @@ class packages::setup {
 
                 "bash":
                     url_path => "repos/yum/custom/bash/$architecture";
+
+                "osslsigncode":
+                    url_path => "repos/yum/custom/osslsigncode/$architecture";
+
             }
 
             # to flush the metadata cache, increase this value by one (or
