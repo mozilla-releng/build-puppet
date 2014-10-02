@@ -182,6 +182,12 @@ node /mobile-imaging-\d+\.p\d+\.releng\.scl3\.mozilla\.com/ {
     }
 }
 
+# Proxxy
+
+node /proxxy\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
+    include toplevel::server::proxxy
+}
+
 # Package Builders
 
 node /.*packager\d+\.srv\.releng\.use1\.mozilla\.com/ {
