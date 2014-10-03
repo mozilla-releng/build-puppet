@@ -35,40 +35,30 @@ class slave_secrets($ensure=present, $slave_type) {
         }
     }
 
-    # only install the google API key on build slaves
+    # install the following secrets only on build slaves
+    # * google API key
+    # * google oauth API
+    # * ceph credentials
+    # * mozilla API
     if ($slave_type == 'build') {
         class {
             'slave_secrets::google_api_key':
                 ensure => $ensure;
-        }
-    } else {
-        class {
-            'slave_secrets::google_api_key':
-                ensure => absent;
-        }
-    }
-
-    # install ceph credentials on build slaves
-    if ($slave_type == 'build') {
-        class {
+            'slave_secrets::google_oauth_api_key':
+                ensure => $ensure;
             'slave_secrets::ceph_config':
                 ensure => $ensure;
-        }
-    } else {
-        class {
-            'slave_secrets::ceph_config':
-                ensure => absent;
-        }
-    }
-
-    # only install the mozilla API key on build slaves
-    if ($slave_type == 'build') {
-        class {
             'slave_secrets::mozilla_api_key':
                 ensure => $ensure;
         }
     } else {
         class {
+            'slave_secrets::google_api_key':
+                ensure => absent;
+            'slave_secrets::google_oauth_api_key':
+                ensure => absent;
+            'slave_secrets::ceph_config':
+                ensure => absent;
             'slave_secrets::mozilla_api_key':
                 ensure => absent;
         }
