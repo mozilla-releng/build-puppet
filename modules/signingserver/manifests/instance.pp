@@ -50,6 +50,7 @@ define signingserver::instance(
     $signmar = "/tools/signmar/bin/signmar"
     $testfile_dir = "/tools/signing-test-files"
     $testfile_signcode = "${testfile_dir}/test.exe"
+    $testfile_osslsigncode = "${testfile_dir}/test64.exe"
     $testfile_mar = "${testfile_dir}/test.mar"
     $testfile_gpg = "${testfile_dir}/test.mar"
     $testfile_dmg = "${testfile_dir}/test.tar.gz"
