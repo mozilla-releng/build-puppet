@@ -28,6 +28,7 @@ class toplevel::base {
     include tweaks::rc_local
     include needs_reboot::motd
     include collectd
+    include log_aggregator::client
 
     class { 'web_proxy':
         host => $::config::web_proxy_host,
