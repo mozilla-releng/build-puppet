@@ -7,7 +7,7 @@ class disableservices::common {
     case $::operatingsystem {
         CentOS : {
             service {
-                ['acpid', 'anacron', 'apmd', 'atd', 'auditd', 'autofs',
+                ['acpid', 'anacron', 'apmd', 'atd', 'autofs',
                 'avahi-daemon', 'avahi-dnsconfd', 'bluetooth',
                 'cups', 'cups-config-daemon', 'gpm', 'hidd', 'hplip', 'kudzu',
                 'mcstrans', 'mdmonitor', 'pcscd', 'restorecond', 'rpcgssd',

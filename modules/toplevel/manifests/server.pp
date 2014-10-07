@@ -16,11 +16,22 @@ class toplevel::server inherits toplevel::base {
     include packages::netcat
     include users::people
     include ::config
+
     if ($::config::enable_mig_agent) {
         case $::operatingsystem {
             # Darwin support is coming soon
             'CentOS', 'RedHat', 'Ubuntu': {
                 include mig::agent
+            }
+        }
+    }
+
+    # auditd only runs on CentOS at the moment
+    case $::operatingsystem {
+        'CentOS': {
+            class {
+                'auditd':
+                    host_type => 'server';
             }
         }
     }
