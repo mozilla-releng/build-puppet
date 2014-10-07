@@ -11,7 +11,7 @@ class log_aggregator::client {
         CentOS,Ubuntu: {
             if ($log_aggregator) {
                 rsyslog::config {
-                    "log_aggregator_client.conf" :
+                    "log_aggregator_client" :
                         contents => template("${module_name}/client.conf.erb");
                 }
             }
