@@ -68,7 +68,7 @@ class users::root::account($username, $group, $home) {
                     }
                     $user_req = Darwinuser[$username]
                 }
-                '10.9': {
+                '10.9','10.10': {
                     if (secret("root_pw_pbkdf2") == '' or secret("root_pw_pbkdf2_salt") == '') {
                         fail('No root password pbkdf2 set')
                     }

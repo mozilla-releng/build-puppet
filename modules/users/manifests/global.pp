@@ -23,7 +23,7 @@ class users::global {
                 }
             }
             default: {
-                darwinuser {
+                user {
                     "administrator":
                         ensure => present,
                         password => secret("root_pw_pbkdf2"),
