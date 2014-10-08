@@ -9,4 +9,5 @@ class web_proxy (
 ){
     include web_proxy::environment
     include web_proxy::gui
+    include ::dirs::usr::local::bin
 }
