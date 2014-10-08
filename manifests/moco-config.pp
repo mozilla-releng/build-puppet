@@ -226,7 +226,67 @@ class config inherits config::base {
 
     $runner_buildbot_slave_dir = '/builds/slave'
 
+    # set the log aggregator only for some hosts; the idea is to get an idea of
+    # the total log bandwidth without killing anything
+    $log_aggregator = $fqdn ? {
+        'aws-manager1.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'dev-master1.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'mac-signing1.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'mac-signing2.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'mac-signing3.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'mac-signing4.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'mac-v2-signing1.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'mac-v2-signing2.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'mac-v2-signing3.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'proxxy1.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'signing4.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'signing5.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'signing6.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'slaveapi-dev1.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'slaveapi1.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
 
+        'releng-puppet1.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'releng-puppet2.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        # +4
+
+        'b-linux64-hp-0018.try.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'b-linux64-hp-0019.try.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'b-linux64-hp-0020.build.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'b-linux64-hp-0021.build.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        # +30
+
+        'b-linux64-ix-0001.build.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'b-linux64-ix-0002.build.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        # +25
+
+        'bld-lion-r5-014.build.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'bld-lion-r5-015.build.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'bld-lion-r5-016.try.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'bld-lion-r5-017.try.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        # +86
+
+        'buildbot-master81.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'buildbot-master82.srv.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        # +64
+
+        # +95 foopies (no flow)
+
+        # +11 mobile imaging servers (no flow)
+
+        't-snow-r4-0026.test.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        't-snow-r4-0027.test.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        # +163
+
+        'talos-linux32-ix-037.test.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'talos-linux32-ix-038.test.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        # +199
+
+        'talos-mtnlion-r5-033.test.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        'talos-mtnlion-r5-034.test.releng.scl3.mozilla.com' => 'hp1.relabs.releng.scl3.mozilla.com',
+        # +97
+
+        default => ''
+    }
 
     $xcode_version = $::macosx_productversion_major ? {
         10.6 => "4.2",

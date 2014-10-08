@@ -20,7 +20,7 @@ class log_aggregator {
     }
 
     rsyslog::config {
-        "log_aggregator_aggregator.conf" :
+        "log_aggregator_aggregator" :
             contents => template("${module_name}/aggregator.conf.erb");
     }
 }

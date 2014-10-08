@@ -15,9 +15,8 @@ define rsyslog::config ($file = $title, $contents = '', $need_mysql=false) {
 
             if ($file != undef) and ($contents != undef) {
                 file {
-                    "$file" :
+                    "/etc/rsyslog.d/$file.conf":
                         notify => Service['rsyslog'],
-                        path => "/etc/rsyslog.d/$file",
                         mode => "$rsyslog::settings::mode",
                         owner => "$rsyslog::settings::owner",
                         group => "$rsyslog::settings::group",
