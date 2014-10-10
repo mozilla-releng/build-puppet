@@ -81,7 +81,7 @@ class users::signer::account($username, $group, $grouplist, $home) {
                     }
                     $user_req = Darwinuser[$username]
                 }
-                '10.9': {
+                '10.9','10.10': {
                     if (secret("signer_pw_pbkdf2") == '' or secret("signer_pw_pbkdf2_salt") == '') {
                         fail('No signer password pbkdf2 set')
                     }
