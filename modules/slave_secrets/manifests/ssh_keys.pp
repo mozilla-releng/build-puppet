@@ -23,6 +23,7 @@ class slave_secrets::ssh_keys($slave_type) {
             }
             $prod_core_keyset = {
                 'ffxbld_dsa' => 'builder_ssh_key_prod_ffxbld_dsa',
+                'ffxbld_rsa' => 'builder_ssh_key_prod_ffxbld_rsa',
                 'xrbld_dsa' => 'builder_ssh_key_prod_xrbld_dsa',
                 'tbirdbld_dsa' => 'builder_ssh_key_prod_tbirdbld_dsa',
                 'b2gbld_dsa' => 'builder_ssh_key_prod_b2gbld_dsa',
