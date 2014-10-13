@@ -14,9 +14,12 @@ class puppet::periodic {
             file {
                 # This is done via crontab due to a memory leak in puppet identified by
                 # Mozilla IT.  There is enough splay here to avoid killing the master
-                # (configured in the crontask)
-                "/etc/cron.d/puppetcheck.cron":
+                # (configured in the crontask).  Note that files in /etc/cron.d must not
+                # have a '.' in the filename
+                "/etc/cron.d/puppetcheck":
                     content => template("puppet/puppetcheck.cron.erb");
+                "/etc/cron.d/puppetcheck.cron":
+                    ensure => absent;
             }
         }
         Darwin: {
