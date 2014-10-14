@@ -292,6 +292,7 @@ class config inherits config::base {
         10.7 => "4.1",
         10.8 => "4.5-cmdline",
         10.9 => "5.0-cmdline",
+        10.10 => "6.1-cmdline",
         default => undef
     }
 }
