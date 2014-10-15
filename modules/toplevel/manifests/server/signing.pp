@@ -17,6 +17,7 @@ class toplevel::server::signing inherits toplevel::server {
                 CentOS => ["gpg", "osslsigncode", "signcode", "mar", "jar", "b2gmar"]
             }
             $concurrency = $::macosx_productversion_major ? {
+                10.9    => 2,
                 default => 4
             }
 
