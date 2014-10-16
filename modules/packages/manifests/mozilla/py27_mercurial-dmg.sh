@@ -5,13 +5,6 @@
 
 set -e
 
-if ! test -f py27_mercurial.spec; then
-    echo "Run this from the root of the unpacked SRPM (it uses the sources)"
-    exit 1
-fi
-
-export PATH=`xcode-select -print-path`:/tools/packagemaker/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-
 # variables to parallel the spec file
 realname=mercurial
 pyrealname=python27
@@ -23,6 +16,22 @@ _libdir=$_prefix/lib
 package_sitelib=$_libdir/python$pyver/site-packages
 version=2.5.4
 release=2
+srpm_release=1
+
+# ensure the same build environment (you can change this if necessary, just test carefully)
+
+case "$(sw_vers -productVersion)" in
+    10.6) ;;  # ?? lost to the sands of time
+    10.7) ;;  # ?? lost to the sands of time
+    10.8) ;;  # ?? lost to the sands of time
+    10.9) ;;  # ?? lost to the sands of time
+    10.10)
+        # This was built with XCode 6.1 command line tools, but that version of XCode no longer
+        # supports a way to find its version on the command line.
+        ;;
+esac
+
+export PATH=`xcode-select -print-path`:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # set up a clean build dir
 if test -d build; then
@@ -32,8 +41,10 @@ mkdir build
 BUILD=$PWD/build
 cd $BUILD
 
+curl -L http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/x86_64/mozilla-$pyrealname-mercurial-$version-$srpm_release.el6.src.rpm | bsdtar -x
+
 # %prep
-tar -zxf ../$realname-$version.tar.gz
+tar -zxf $realname-$version.tar.gz
 cd $realname-$version
 
 PYTHON=/tools/$pyrealname/bin/python$pyver
@@ -61,7 +72,7 @@ mkdir dmg
 fullname=$pyrealname-$realname-$version-$release
 pkg=dmg/$fullname.pkg
 dmg=$fullname.dmg
-packagemaker -r $ROOT -v -i com.mozilla.$pyrealname-$realname -o $pkg -l /
+pkgbuild -r $ROOT -i com.mozilla.$pyrealname-$realname --install-location / $pkg
 hdiutil makehybrid -hfs -hfs-volume-name "mozilla-$pyrealname-$realname-$version-$release" -o ./$dmg dmg
 echo "Result:"
 echo $PWD/$dmg

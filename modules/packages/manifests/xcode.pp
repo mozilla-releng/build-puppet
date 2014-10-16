@@ -109,6 +109,24 @@ class packages::xcode {
                     }
                 }
 
+                "6.1-cmdline": {
+                    # N.B. This is the dev preview and should be upgraded before use!
+                    case $::macosx_productversion_major {
+                        10.9,10.10: {
+                            Anchor['packages::xcode::begin'] ->
+                            packages::pkgdmg {
+                                "command_line_tools_for_osx_10.10_for_xcode_6.1_gm_seed_2":
+                                    version => "6.1",
+                                    private => true,
+                                    dmgname => "command_line_tools_for_osx_10.10_for_xcode_6.1_gm_seed_2.dmg";
+                            } -> Anchor['packages::xcode::end']
+                        }
+                        default: {
+                            fail("cannot install XCode ${::config::xcode_version} ${macosx_productversion_major}")
+                        }
+                    }
+                }
+
                 default: {
                     fail("unknown XCode version ${::config::xcode_version}")
                 }
