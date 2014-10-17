@@ -26,7 +26,6 @@ servers = [ @data_server ] + Array(@data_servers)
 servers.uniq.each do |mirror_server| -%> --find-links=http://<%= mirror_server %>/python/packages <%
 end
 -%>")
-
     if ($user == 'root') {
         $home_dir = $::users::root::home
     } else {
@@ -35,13 +34,20 @@ end
             default => "/home/$user"
         }
     }
-
+    $ve_bin_dir = $operatingsystem ? {
+        windows => "${virtualenv}\\Scripts\\",
+        default => "${virtualenv}/bin/",
+    }
+    $exe = $operatingsystem ? {
+        windows => ".exe",
+        default => ""
+    }
     exec {
         # point pip at the package directory so that it can select the best option
         "pip $title":
-            name => "$virtualenv/bin/pip install $pip_options $pkg",
+            name => "${ve_bin_dir}pip${exe} install $pip_options $pkg",
             logoutput => on_failure,
-            onlyif => "$virtualenv/bin/python $pip_check_py $pkg",
+            onlyif => "${ve_bin_dir}python${exe} $pip_check_py $pkg",
             user => $user,
             environment => [
                 "HOME=$home_dir", # because sudo will sometimes lead pip to ~administrator/.pip

@@ -10,15 +10,16 @@ class packages::mozilla::python27 {
 
     case $::operatingsystem {
         windows: {
-            # on windows, we get Python from mozilla-build.
-            $python = 'C:\mozilla-build\python27\python'
+            include packages::mozilla::mozilla_build
 
             Anchor['packages::mozilla::python27::begin'] ->
-            class {
-                'packages::mozilla::mozilla_build': ;
-            } -> Anchor['packages::mozilla::python27::end']
-        }
+                Class['packages::mozilla::mozilla_build'] ->
+            Anchor['packages::mozilla::python27::end']
 
+            # on windows, we get Python from mozilla-build.
+            $python = 'C:\mozilla-build\python\python2.7.exe'
+
+         }
         default: {
             # everywhere else, we install from a custom-built package
             $python = '/tools/python27/bin/python2.7'
