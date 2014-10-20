@@ -100,19 +100,11 @@ class packages::collectd {
         }
 
         Darwin: {
-            case $macosx_productversion_major {
-                '10.6', '10.7', '10.8', '10.9' : {
-                    packages::pkgdmg {
-                        'collectd':
-                            version => '5.3.0',
-                            os_version_specific => true,
-                            private => false;
-                    }
-                }
-
-                default: {
-                    fail("cannot install on OS X ${macosx_productversion_major}")
-                }
+            packages::pkgdmg {
+                'collectd':
+                    version => '5.3.0',
+                    os_version_specific => true,
+                    private => false;
             }
         }
 

@@ -23,6 +23,7 @@ tar -zxvf collectd-${VER}.tar.gz
 
 # Configure, make and install to ROOT
 cd collectd-${VER}
+patch -p0 < ../../collectd-m4-quoting.patch
 ./configure --prefix=/usr/local
 make
 make DESTDIR=$ROOT install
@@ -63,4 +64,3 @@ pkgbuild --root $ROOT --identifier org.$REALNAME.$REALNAME --install-location / 
 hdiutil makehybrid -hfs -hfs-volume-name "${FULLNAME}" -o ./$DMG $OUT
 echo "Result:"
 echo $PWD/$DMG
-
