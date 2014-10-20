@@ -1,0 +1,42 @@
+{
+  "name": "liamjbennett-windows_firewall",
+  "version": "0.0.3",
+  "source": "UNKNOWN",
+  "author": "liamjbennett",
+  "license": "Apache License, Version 2.0",
+  "summary": "Module to the windows firewall",
+  "description": "UNKNOWN",
+  "project_page": "https://github.com/liamjbennett/puppet-windows_firewall",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">=3.0.0"
+    },
+    {
+      "name": "joshcooper/powershell",
+      "version_requirement": ">= 0.0.4"
+    },
+    {
+      "name": "liamjbennett/win_facts",
+      "version_requirement": ">= 0.0.1"
+    }
+  ],
+  "types": [
+
+  ],
+  "checksums": {
+    "AUTHORS": "58ac67da8c3fe42bf6a3758141614a6c",
+    "CHANGELOG.md": "3c0cb8285ca7f8b94ecf44e93b8709a3",
+    "Gemfile": "e0bcd55b3511a7557f189b8dfdf7fd8b",
+    "Gemfile.lock": "700455e7f11003efdb5408d18a864d08",
+    "LICENSE": "c4292981da574e24950e395e7fa079d5",
+    "ModuleFile": "5a9b2a6c7b5f22d8c7c653054338b27f",
+    "README.md": "91a9bdd9d566b8d46d28d4302b200f66",
+    "Rakefile": "c030897a4eb8572be1322557e83f989d",
+    "manifests/exception.pp": "17ce9e5d10588efaaa61ad5ad88ba780",
+    "manifests/init.pp": "24d80269e0de17d4beb6bb825237c33a",
+    "spec/classes/windows_firewall/windows_firewall_spec.rb": "b7c30621dfb688d49022e6d61a121338",
+    "spec/defines/windows_firewall/exception_spec.rb": "b987382568ff284131edb2a22dee9eba",
+    "spec/spec_helper.rb": "7f7c697f9b11cde9827df6f86ff74682"
+  }
+}
