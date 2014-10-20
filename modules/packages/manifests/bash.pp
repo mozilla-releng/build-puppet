@@ -22,7 +22,7 @@ class packages::bash {
             packages::pkgdmg {
                 bash:
                     os_version_specific => false,
-                    version => "3.2-moz2";
+                    version => "3.2-moz3";
             }
         }
 

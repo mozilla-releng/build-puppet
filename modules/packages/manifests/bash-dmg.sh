@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-MOZ_SUFFIX=-moz2
+MOZ_SUFFIX=-moz3
 APPLE_VERSION=92
 
 osx_vers=10.7.2  # convenient since it's a builder; not sure if this is important
@@ -56,6 +56,8 @@ popd
 
 mkdir -p root/usr/bin
 cp bash-${APPLE_VERSION}/build/Release/{bash,sh} root/usr/bin
+mkdir -p root/bin
+cp bash-${APPLE_VERSION}/build/Release/{bash,sh} root/bin
 
 PACKAGE_MAKER="/usr/bin/pkgbuild"
 PACKAGE_BASENAME=bash-3.2$MOZ_SUFFIX
