@@ -1,0 +1,66 @@
+--- configure~	2014-10-20 15:16:52.000000000 -0700
++++ configure	2014-10-20 15:17:16.000000000 -0700
+@@ -17368,19 +17368,15 @@
+     have_htonll="no"
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+-[
+ #include <sys/types.h>
+ #include <netinet/in.h>
+ #if HAVE_INTTYPES_H
+ # include <inttypes.h>
+ #endif
+-]
+ int
+ main ()
+ {
+-[
+           return htonll(0);
+-]
+ 
+   ;
+   return 0;
+@@ -20653,21 +20649,17 @@
+ 
+         cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+-[
+ #include <stdio.h>
+ #include <sys/types.h>
+ #include <asm/types.h>
+ #include <sys/socket.h>
+ #include <linux/netlink.h>
+ #include <linux/rtnetlink.h>
+-]
+ int
+ main ()
+ {
+-[
+ int retval = TCA_STATS2;
+ return (retval);
+-]
+ 
+   ;
+   return 0;
+@@ -20682,21 +20674,17 @@
+ 
+ 	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+-[
+ #include <stdio.h>
+ #include <sys/types.h>
+ #include <asm/types.h>
+ #include <sys/socket.h>
+ #include <linux/netlink.h>
+ #include <linux/rtnetlink.h>
+-]
+ int
+ main ()
+ {
+-[
+ int retval = TCA_STATS;
+ return (retval);
+-]
+ 
+   ;
+   return 0;
