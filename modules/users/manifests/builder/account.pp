@@ -90,7 +90,7 @@ class users::builder::account($username, $group, $grouplist, $home) {
                     }
                     $user_req = Darwinuser[$username]
                 }
-                '10.9': {
+                '10.9','10.10': {
                     if (secret("builder_pw_pbkdf2") == '' or secret("builder_pw_pbkdf2_salt") == '') {
                         fail('No builder password pbkdf2 set')
                     }
@@ -105,6 +105,9 @@ class users::builder::account($username, $group, $grouplist, $home) {
                             notify => Exec['kill-builder-keychain'];
                     }
                     $user_req = User[$username]
+                }
+                default: {
+                    fail("Cannot create user on OS X ${macosx_productversion_major}")
                 }
             }
             exec {

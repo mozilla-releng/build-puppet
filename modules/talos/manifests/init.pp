@@ -48,9 +48,6 @@ class talos {
         Darwin: {
             # Darwin-specific packages
             case $::macosx_productversion_major {
-                10.6: {
-                    # nothing extra
-                }
                 10.7: {
                     include packages::javadeveloper_for_os_x
                 }
@@ -58,12 +55,6 @@ class talos {
                     include packages::javadeveloper_for_os_x
                     # not sure why this is required, but it appears to be
                     include packages::xcode
-                }
-                10.9: {
-                    # nothing yet!
-                }
-                default: {
-                    fail("No talos configuration for OS X $::macosx_productversion_major")
                 }
             }
         }
