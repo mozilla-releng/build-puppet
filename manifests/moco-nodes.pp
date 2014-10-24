@@ -756,4 +756,14 @@ node "buildbot-master118.bb.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
+node "buildbot-master119.bb.releng.scl3.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm119-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
 ## Loaners
