@@ -9,7 +9,8 @@ class packages::openssl {
                 6.2: {
                     package {
                         ["openssl", "openssl-devel"]:
-                            ensure => "1.0.0-20.el6";
+                            # this is the latest version from our mirror of 'updates'
+                            ensure => "1.0.0-20.el6_2.2";
                     }
                 }
                 6.5: {
