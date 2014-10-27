@@ -181,7 +181,7 @@ class config inherits config::base {
     $selfserve_agent_sendchange_master = "bm81-build_scheduler"
     $selfserve_agent_branches_json = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-branches.json"
     $selfserve_agent_masters_json = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
-    $selfserve_agent_clobberer_url = "http://clobberer.pvt.build.mozilla.org/index.php"
+    $selfserve_agent_clobberer_url = "https://api.pub.build.mozilla.org/clobberer/lastclobber"
     $selfserve_agent_carrot_hostname = "releng-rabbitmq-zlb.webapp.scl3.mozilla.com"
     $selfserve_agent_carrot_vhost = "/buildapi"
     $selfserve_agent_carrot_userid = "buildapi"
