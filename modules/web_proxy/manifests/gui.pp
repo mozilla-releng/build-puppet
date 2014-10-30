@@ -5,6 +5,7 @@
 class web_proxy::gui {
     case $operatingsystem {
         Darwin: {
+            include ::dirs::usr::local::bin
             file {
                 "/usr/local/bin/setproxy.sh" :
                     ensure => present,

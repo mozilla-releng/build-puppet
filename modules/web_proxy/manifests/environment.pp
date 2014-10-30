@@ -25,6 +25,7 @@ class web_proxy::environment {
     # set.  Note that this file must exist unconditionally, as the puppet scripts
     # use it and will fail if it is missing.
     if ($operatingsystem != "windows") {
+        include ::dirs::usr::local::bin
         file { "proxy_reset_environment":
             ensure => present,
             path => "/usr/local/bin/proxy_reset_env.sh",
