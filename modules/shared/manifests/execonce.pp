@@ -22,7 +22,7 @@ define shared::execonce(
   $user=undef,
 ) {
     $base = $::operatingsystem ? {
-        windows => "'C:/programdata/PuppetLabs/puppet/var/lib",
+        windows => "C:/programdata/PuppetLabs/puppet/var/lib",
         default => "/var/lib/puppet",
     }
     $semaphore = "${base}/${title}.semaphore"
