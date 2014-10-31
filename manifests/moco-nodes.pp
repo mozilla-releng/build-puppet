@@ -215,6 +215,7 @@ node "dev-master1.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
     # Bug 975004 - Grant pkewisch access to dev-master1
     realize(Users::Person["pkewisch"])
+    realize(Users::Person["sledru"])
     users::root::extra_authorized_key {
         'pkewisch': ;
         'sledru': ;
