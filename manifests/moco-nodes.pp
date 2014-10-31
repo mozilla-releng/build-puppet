@@ -136,6 +136,18 @@ node /network-node\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
 
 ## Misc servers
 
+node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
+    # any dev or try node in the dev or try zones of use1 and usw2
+    # dev-* hosts are *always* staging
+    $slave_trustlevel = 'try'
+    include toplevel::slave::releng::build::mock
+    include diamond
+    include instance_metadata::diamond
+    users::root::extra_authorized_key {
+        'sledru': ;
+    }
+}
+
 # aws-manager
 
 node "aws-manager1.srv.releng.scl3.mozilla.com" {
@@ -205,9 +217,11 @@ node "dev-master1.srv.releng.scl3.mozilla.com" {
     realize(Users::Person["pkewisch"])
     users::root::extra_authorized_key {
         'pkewisch': ;
+        'sledru': ;
     }
     users::builder::extra_authorized_key {
         'pkewisch': ;
+        'sledru': ;
     }
 }
 
