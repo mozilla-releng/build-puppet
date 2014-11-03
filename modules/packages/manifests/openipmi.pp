@@ -4,11 +4,12 @@
 class packages::openipmi {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['openipmi'])
             package {
-                [ "OpenIPMI",
-                  "ipmitool",
-                ]:
+                "OpenIPMI":
                     ensure => latest;
+                "ipmitool":
+                    ensure => '1.8.11-21.el6';
             }
         }
         Ubuntu: {
