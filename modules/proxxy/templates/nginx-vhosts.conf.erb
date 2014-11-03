@@ -20,6 +20,7 @@ proxy_temp_path           <%= scope.lookupvar('::proxxy::settings::cache_dir') %
 proxy_ignore_headers      Expires Cache-Control Set-Cookie;
 proxy_cache_lock          on;
 proxy_cache_lock_timeout  10m;
+proxy_cache_bypass $http_x_refresh;
 
 server {
   listen 80 default_server;
