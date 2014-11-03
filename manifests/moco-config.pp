@@ -139,6 +139,7 @@ class config inherits config::base {
         'bhearsum',
         'catlee',
         'coop',
+        'jwood',
         'nthomas',
         'pmoore',
         'raliiev',
