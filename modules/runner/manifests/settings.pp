@@ -4,7 +4,7 @@
 # settings for runner
 class runner::settings {
     case $::operatingsystem {
-        'CentOS', 'Ubuntu': {
+        'CentOS', 'Ubuntu', 'Darwin': {
             $root = '/opt/runner'
         }
 
