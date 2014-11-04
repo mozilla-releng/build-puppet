@@ -74,6 +74,9 @@ class packages::setup {
 
                 "auditd":
                     url_path => "repos/yum/custom/auditd/$architecture";
+
+                "openipmi":
+                    url_path => "repos/yum/custom/openipmi/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
