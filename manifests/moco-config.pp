@@ -64,6 +64,7 @@ class config inherits config::base {
             'users_in_groups' => {
                 'ldap_admin_users' => ['releng', 'relops',
                     'netops', 'team_dcops', 'team_opsec', 'team_moc', 'team_infra', 'team_storage'],
+                'opsec' => ['team_opsec'],
             },
         }
     }
@@ -146,7 +147,7 @@ class config inherits config::base {
     ]
     $admin_users = $fqdn ? {
         # signing machines have a very limited access list
-        /^(mac-)?(v2-)?signing\d\..*/ => $shortlist,
+        /^(mac-)?(v2-)?signing\d\..*/ => concat($shortlist, hiera('opsec')),
         default => hiera('ldap_admin_users',
                          # backup to ensure access in case the sync fails:
                          ['arr', 'dmitchell', 'jwatkins'])

@@ -72,6 +72,8 @@ class packages::setup {
                 "osslsigncode":
                     url_path => "repos/yum/custom/osslsigncode/$architecture";
 
+                "auditd":
+                    url_path => "repos/yum/custom/auditd/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
