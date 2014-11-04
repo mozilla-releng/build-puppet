@@ -7,7 +7,7 @@ class auditd($host_type) {
     include packages::audisp_cef
     $packages = [
         Class['packages::auditd'],
-        Class['packages::audispd_cef'],
+        Class['packages::audisp_cef'],
     ]
 
     # filter legitimate host types; these are used by the
