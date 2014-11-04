@@ -5,7 +5,7 @@
 class auditd($host_type) {
     include packages::auditd
     include packages::audisp_cef
-    $pacakges = [
+    $packages = [
         Class['packages::auditd'],
         Class['packages::audispd_cef'],
     ]
