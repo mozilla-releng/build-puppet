@@ -26,7 +26,7 @@ class buildslave::startup {
     # select an implementation class based on operating system
     $startuptype = $::operatingsystem ? {
         CentOS      => "runner",
-        Darwin      => "runner",
+        Darwin      => "launchd",
         Ubuntu      => "runner"
     }
     Anchor['buildslave::startup::begin'] ->

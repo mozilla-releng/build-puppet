@@ -14,6 +14,5 @@ rm -rf /Users/cltbld/Library/Caches/TemporaryItems/*
 rm -rf /Users/cltbld/.Trash/*
 rm -rf /Users/cltbld/Downloads/*
 
-echo "$(basename $0): finished buildslave cleanup $(date)"
-
-exit 0
+logger -ist run-buildslave "starting runslave.py"
+exec /usr/bin/python /usr/local/bin/runslave.py

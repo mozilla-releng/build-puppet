@@ -44,24 +44,6 @@ class runner::service {
                     enable    => true;
             }
         }
-        'Darwin': {
-            file {
-                "/Library/LaunchDaemons/com.mozilla.runner.plist":
-                    owner => root,
-                    group => wheel,
-                    mode => 0644,
-                    content => template("runner/runner.plist.erb");
-            }
-            service {
-                "runner":
-                    require   => [
-                        Python::Virtualenv[$runner::settings::root],
-                        File["/Library/LaunchDaemons/com.mozilla.runner.plist"],
-                    ],
-                    hasstatus => false,
-                    enable    => true;
-            }
-        }
         default: {
             fail("Unsupported OS ${::operatingsystem}")
         }
