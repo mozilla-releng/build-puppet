@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ### Add swap file
-# chkconfig: 12345 99 01
+# chkconfig: 12345 60 01
 # description: add swap file
 
 ### BEGIN INIT INFO
