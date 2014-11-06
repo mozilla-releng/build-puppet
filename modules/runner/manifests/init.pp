@@ -4,6 +4,7 @@
 # runner module
 class runner {
     include ::config
+    include dirs::opt
     include runner::service
     include runner::settings
     include packages::mozilla::python27
@@ -28,9 +29,13 @@ class runner {
             content => template('runner/runner.cfg.erb');
     }
 
-    file {
-        '/etc/logrotate.d/runner':
-            mode => '0644',
-            content => template('runner/runner.logrotate.erb');
+    case $::operatingsystem {
+        'CentOS', 'Ubuntu': {
+            file {
+                '/etc/logrotate.d/runner':
+                    mode => '0644',
+                    content => template('runner/runner.logrotate.erb');
+            }
+        }
     }
 }

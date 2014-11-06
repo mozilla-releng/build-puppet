@@ -6,21 +6,18 @@
 
 import os
 import os.path
+import shlex
 import subprocess
 import time
 import sys
 
 
-BUILDSLAVE_CMD = '/tools/buildbot/bin/buildslave'
-RUNSLAVE = '/usr/local/bin/runslave.py'
-# use the python from the buildbot virtualenv
-PYTHON = '/tools/buildbot/bin/python'
-BUILD_USER = "<%= scope.lookupvar('::config::builder_username') %>"
+BUILDSLAVE_CMD = "<%= @buildslave_cmd %>"
+RUNSLAVE_CMD = "<%= @runslave_cmd %>"
 BUILDBOT_PIDFILE_PATHS = [
     '/builds/slave/twistd.pid',
     '/builds/slave/talos-slave/twistd.pid'
 ]
-
 
 def buildbot_process_id():
     """Returns the pid of buildbot if it's running, zero otherwise
@@ -53,10 +50,7 @@ def main():
         exit(1)
 
     print "Starting buildbot via runslave.py."
-    p = subprocess.Popen(['su', '-',
-                          BUILD_USER,
-                          '-c',
-                          PYTHON + ' ' + RUNSLAVE])
+    p = subprocess.Popen(shlex.split(RUNSLAVE_CMD))
     p.wait()
 
     pid = buildbot_process_id()

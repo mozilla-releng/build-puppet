@@ -21,6 +21,17 @@ class buildslave::startup::runner {
                     ensure => absent;
             }
         }
+        'Darwin': {
+            include runner::tasks::darwin_clean_buildbot
+            # TODO: Stop ensuring that buildslave.plist is absent after
+            # some reasonable amount of time passes (1 month post deployment).
+            # This is strictly a cleanup measure for moving off of the old
+            # launchd startup.
+            file {
+                "/Library/LaunchAgents/com.mozilla.buildslave.plist":
+                    ensure => absent;
+            }
+        }
     }
     include runner::tasks::buildbot
 }
