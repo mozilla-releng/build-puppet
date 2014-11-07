@@ -21,11 +21,8 @@ define shared::execonce(
   $unless=undef,
   $user=undef,
 ) {
-    $base = $::operatingsystem ? {
-        windows => "C:/programdata/PuppetLabs/puppet/var/lib",
-        default => "/var/lib/puppet",
-    }
-    $semaphore = "${base}/${title}.semaphore"
+    include shared::execonce::base
+    $semaphore = "${shared::execonce::base::semaphore_dir}/${title}.semaphore"
 
     exec {
         $title:
