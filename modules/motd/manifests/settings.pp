@@ -3,8 +3,9 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class motd::settings {
+    include dirs::etc
     $motd_file = $::operatingsystem ? {
-        Windows => "C:/Program Files/kts/scripts/MOTD.txt",
+        Windows => "c:/etc/MOTD.txt",
         default => '/etc/motd',
     }
 }
