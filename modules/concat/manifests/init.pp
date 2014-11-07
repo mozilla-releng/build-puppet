@@ -49,7 +49,7 @@ define concat(
   $path = $name,
   $owner = $::id,
   $group = $concat::setup::root_group,
-  $mode = '0644',
+  $mode = undef,
   $warn = false,
   $force = false,
   $backup = 'puppet',
