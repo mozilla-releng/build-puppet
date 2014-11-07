@@ -50,7 +50,7 @@ class aws_manager::cron {
             params         => "-r us-west-2 -r us-east-1 -r us-west-1 --events-dir ${aws_manager::settings::events_dir}";
         "tag_spot_instances.py":
             ensure         => present,
-            minute         => '*/2',
+            minute         => '*/5',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
