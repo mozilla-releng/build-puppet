@@ -33,5 +33,8 @@ class buildslave::startup::launchd {
         "/usr/local/bin/run-buildslave.sh":
             source => "puppet:///modules/${module_name}/darwin-run-buildslave.sh",
             mode => 0755;
+
+        "/Library/LaunchAgents/com.mozilla.runner.plist":
+            ensure => absent;
     }
 }
