@@ -1,0 +1,24 @@
+---
+acls:
+  tempdir:
+    target: 'C:\temp'
+    permissions:
+      - identity: 'tim'
+        rights:
+          - read
+          - list
+          - execute
+      - identity: 'bob'
+        rights:
+          - read
+          - list
+          - execute
+  dir2:
+    target: 'C:\temp'
+    permissions:
+      - identity: 'tim'
+        rights:
+          - full
+        affects: self_only
+        type: allow
+        child_types: all
