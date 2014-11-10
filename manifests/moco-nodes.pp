@@ -11,22 +11,6 @@ node /foopy\d+\.\w+\.releng\.scl3\.mozilla\.com/ {
 
 ## testers
 
-# temporary for bug 1055793
-node "t-snow-r4-0006.test.releng.scl3.mozilla.com" {
-    $pin_puppet_env = "mphillips"
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::test::gpu
-}
-
-# temporary for bug 1055793
-node "talos-mtnlion-r5-060.test.releng.scl3.mozilla.com" {
-    $pin_puppet_env = "mphillips"
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::test::gpu
-}
-
 # linux64 and OS X
 node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
@@ -63,22 +47,6 @@ node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
     include toplevel::slave::releng::build::mock
     include diamond
     include instance_metadata::diamond
-}
-
-# temporary for bug 1055793
-node "bld-lion-r5-051.build.releng.scl3.mozilla.com" {
-    $pin_puppet_env = "mphillips"
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $slave_trustlevel = 'core'
-    include toplevel::slave::releng::build::standard
-}
-
-# temporary for bug 1055793
-node "bld-lion-r5-043.build.releng.scl3.mozilla.com" {
-    $pin_puppet_env = "mphillips"
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $slave_trustlevel = 'core'
-    include toplevel::slave::releng::build::standard
 }
 
 # OS X
