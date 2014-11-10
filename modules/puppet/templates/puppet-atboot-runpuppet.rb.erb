@@ -1,0 +1,61 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+require 'open3'
+require 'pathname'
+require 'fileutils'
+
+# Send stdout and stderr to a logfile
+STDOUT.reopen(File.open('C:\\ProgramData\\PuppetLabs\\puppet\\var\\log\\runpuppet.log', 'w+'))
+STDERR.reopen(STDOUT)
+puts "Starting at #{Time.new}"
+
+# we use a semaphore file to indicate a successful puppet run.  On slaves, the buildslave
+# startup code waits for this file to appear.
+SEMAPHORE = <%= @puppet_semaphore.inspect %>
+File.delete(SEMAPHORE) if File.exists?(SEMAPHORE)
+
+PUPPETMASTERS = File.readlines(<%= @puppetmasters_txt.inspect %>)
+WAIT_TIME = 60
+GIVE_UP_AFTER_TRYING = 3
+
+def run_puppet(puppet_server)
+    puts "Running puppet against server #{puppet_server}"
+    output, status = Open3.capture2e(
+        "puppet agent --detailed-exitcodes --onetime --no-daemonize " +
+        "--logdest=console --color=false --server=#{puppet_server}")
+    # 0 and 2 are both success exit statuses
+    if status.exitstatus == 0 or status.exitstatus == 2
+        puts "success!"
+        return true
+    else
+        puts "Failed; output:"
+        puts output
+    end
+end
+
+def run_until_success()
+    success = false
+    wait_time = WAIT_TIME
+    GIVE_UP_AFTER_TRYING.times do
+        PUPPETMASTERS.each do |puppetmaster|
+            if run_puppet(puppetmaster)
+                # TODO: reboot if reboot-request exists
+                exit 0
+            end
+            sleep wait_time
+            wait_time *= 2
+        end
+    end
+
+    # Note that, unlike puppet-atboot-common, this does not proceed when puppet
+    # has failed.
+    puts "No success -- rebooting"
+    system('shutdown /r /f /t 0')
+end
+
+# create a file which the buildslave startup process can wait for
+File.open(SEMAPHORE, 'w+').write('semaphore')
+
+run_until_success

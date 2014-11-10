@@ -14,11 +14,11 @@ class puppet::atboot {
     case ($::operatingsystem) {
         windows: {
             include dirs::etc
-            $puppetmasters_txt = "C:/etc/puppetmasters.txt"
+            $puppetmasters_txt = "${dirs::etc::dir}/puppetmasters.txt"
             $reboot_after_puppet = "C:/REBOOT_AFTER_PUPPET"
         }
         default: {
-            $puppetmasters_txt = "/etc/puppet/puppetmasters.txt"
+            $puppetmasters_txt = "${dirs::etc::dir}/puppet/puppetmasters.txt"
             $reboot_after_puppet = "/REBOOT_AFTER_PUPPET"
         }
     }
@@ -137,7 +137,23 @@ class puppet::atboot {
             }
         }
         Windows: {
-            # TODO: Bug 1096610
+            # On Windows, we use a runpuppet.rb script, run from a scheduled task.  It creates
+            # a sempahore file when it's complete.
+            include dirs::programdata::puppetagain
+            $puppet_semaphore = 'C:\ProgramData\PuppetAgain\puppetcomplete.semaphore'
+            file {
+                "c:/programdata/puppetagain/runpuppet.rb":
+                    content => template("${module_name}/puppet-atboot-runpuppet.rb.erb");
+                "c:/programdata/puppetagain/runpuppet.xml":
+                    content => template("${module_name}/puppet-atboot-runpuppet.xml.erb");
+            }
+
+            $schtasks = 'C:\Windows\system32\schtasks.exe'
+            shared::execonce {
+                "puppet-atboot-schtask":
+                    command => "$schtasks /Create /XML \"C:\\programdata\\puppetagain\\runpuppet.xml\" /tn RunPuppet",
+                    require => File['c:/programdata/puppetagain/runpuppet.xml'];
+            }
         }
         default: {
             fail("puppet::atboot support missing for $::operatingsystem")
