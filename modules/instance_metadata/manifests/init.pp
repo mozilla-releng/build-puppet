@@ -72,9 +72,10 @@ class instance_metadata {
             }
         }
         default: {
-            # Non-AWS machines should have empty metadata
+            # Non-AWS machines (even windows!) should have empty metadata
+            include dirs::etc
             file {
-                "/etc/instance_metadata.json":
+                "${dirs::etc::dir}/instance_metadata.json":
                     owner   => root,
                     mode    => 0644,
                     content => "{}";
