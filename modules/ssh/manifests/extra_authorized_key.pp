@@ -6,7 +6,7 @@ define ssh::extra_authorized_key($username, $key, $home, $from='', $command='') 
 
     $authorized_keys = $operatingsystem ? {
         windows => "${ssh::settings::genkey_dir}/${username}.keys",
-        default => "${home_}/.ssh/authorized_keys",
+        default => "${home}/.ssh/authorized_keys",
     }
 
     concat::fragment {
