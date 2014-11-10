@@ -6,6 +6,22 @@ class runner::tasks::buildbot($runlevel=4) {
     include runner
     include buildslave::install
 
+    $buildslave_cmd = '/tools/buildbot/bin/buildslave'
+    $buildbot_python = '/tools/buildbot/bin/python'
+    $runslave_py = '/usr/local/bin/runslave.py'
+
+    case $::operatingsystem {
+        'Darwin': {
+            # On OSX we want to inherit our environment from the launchd agent
+            # so leave su out
+            $runslave_cmd = "${buildbot_python} ${runslave_py}"
+        }
+
+        default: {
+            $runslave_cmd = "su - ${::config::builder_username} -c '${buildbot_python} ${runslave_py}'"
+        }
+    }
+
     runner::task {
         "${runlevel}-buildbot.py":
             require => [
