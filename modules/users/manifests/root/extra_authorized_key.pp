@@ -7,6 +7,7 @@ define users::root::extra_authorized_key($from='', $command='') {
     $key = $name
     ssh::extra_authorized_key {
         "root-${key}":
+            username => $users::root::username,
             key => $key,
             home => $users::root::home,
             from => $from,

@@ -15,8 +15,77 @@ class ssh::config {
 
     case $::operatingsystem {
         Windows: {
-            # TODO-WIN: add support
+            include packages::kts
+
+            # TODO: set permissions on this file so that only the KTS daemon can read it,
+            # as it contains cleartext passwords
+            $publickey_logon_ini = "C:/Program Files/KTS/publickey_logon.ini"
+            $rsakey_ky = "C:/Program Files/KTS/rsakey.ky"
+            $kts_ini = "C:/Program Files/KTS/kts.ini"
+
+            file {
+                # TODO: lock down visibility of these directories
+
+                $ssh::settings::genkey_dir:
+                    ensure => directory;
+            }
+
+            # install kts.ini
+            file {
+                "C:/Program Files/KTS/kts.ini":
+                    content => template("${module_name}/kts.ini.erb"),
+                    notify => Service['KTS'],
+            }
+
+            # generate a server key for KTS
+            exec {
+                "RSAkey":
+                    command => '"C:\Program Files\KTS\daemon.exe" -rsakey',
+                    require => Class["packages::kts"],
+                    notify => Service['KTS'],
+                    creates => $rsakey_ky;
+            }
+
+            # install the logon batch file which will share the MOTD file
+            file {
+                "C:/Program Files/KTS/Scripts/allusers.bat":
+                    source => "puppet:///modules/ssh/allusers.bat",
+                    replace => true,
+                    require => Class["packages::kts"];
+            }
+
+            # regenerate publickey_logon_ini; this is connected to everything
+            # that would modify C:\Program Files\KTS\*.keys (from
+            # ssh::userconfig and ssh::extra_authorized_key) or C:\Program
+            # Files\KTS\*.pass (from users::{root,builder,etc.}
+            file {
+                "${::ssh::settings::genkey_dir}/genkeys.rb":
+                    source => "puppet:///modules/ssh/genkeys.rb",
+                    require => Class['packages::kts'];
+            }
+            exec {
+                'generate-kts-publickey-logon-ini':
+                    command => "\"${::ruby_interpreter}\" genkeys.rb -o ../publickey_logon.ini",
+                    cwd => $ssh::settings::genkey_dir,
+                    require => File["${::ssh::settings::genkey_dir}/genkeys.rb"],
+                    refreshonly => true,
+                    logoutput => true;
+            }
+
+            # finally, ensure that all of the files with passwords in them are
+            # readable only by SYSTEM and root (and in particular, not the builder)
+            acl {
+                [$publickey_logon_ini, $ssh::settings::genkey_dir, $rsakey_ky, $kts_ini]:
+                    purge => true,
+                    inherit_parent_permissions => false,
+                    owner => root,
+                    permissions => [
+                        { identity => 'root', rights => ['full'] },
+                        { identity => 'SYSTEM', rights => ['full'] },
+                    ];
+            }
         }
+
         default: {
             file {
                 $ssh::settings::ssh_config:

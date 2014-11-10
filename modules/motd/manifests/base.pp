@@ -21,6 +21,4 @@ class motd::base {
             target => $motd::settings::motd_file,
             content => "Unauthorized access prohibited\n"
     }
-
-    # TODO-WIN: add support for showing motd if KTS supports it
 }
