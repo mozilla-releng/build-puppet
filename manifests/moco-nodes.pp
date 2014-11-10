@@ -59,6 +59,11 @@ node /bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com/ {
 ## try builders
 
 #linux64
+node /b-2008-\w+-\d+.winbuild.releng.scl3.mozilla.com/ {
+    $slave_trustlevel = 'try'
+    include toplevel::base
+}
+
 node /b-linux64-\w+-\d+.try.releng.scl3.mozilla.com/ {
     # any b-linux64-(something)-digit host in the scl3 try zone
     $slave_trustlevel = 'try'

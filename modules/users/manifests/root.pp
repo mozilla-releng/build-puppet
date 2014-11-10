@@ -1,7 +1,8 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-# Set up the root user (or equvalent, e.g., Administrator on windows)
+
+# Set up the root user
 
 class users::root {
     include ::config
@@ -24,8 +25,8 @@ class users::root {
 
     $home = $::operatingsystem ? {
         Darwin => '/var/root',
+        # $rlocalpath is set by the winrootlp.rb in the shared module
         Windows => $rlocalpath,
-        #$rlocalpath is set by the winrootlp.rb in the shared module
         default => '/root'
     }
 

@@ -1,0 +1,199 @@
+[KRegkey]
+;
+; visit http://www.kpym.com/
+; to order your registration key
+;
+registration_key            =<%= scope.function_secret(['kts_registration_key']) %>'
+
+
+
+[KDaemon]
+;
+; 0 - telnet server
+; 1 - ssh server
+use_ssh                     =1
+port                        =22
+
+; ip address for multi homed machines
+; ex: 127.0.0.1
+ip                      =""
+
+service_name                =KTS
+service_info                =Free open source TELNET-SSH server for Windows.
+
+
+;
+; trace level
+; 0 - full trace
+; 10 - normal trace
+; 100 - no trace
+;
+trace_level                 =100
+log_file                    ="%KTS_HOME%\log\kts-log.txt"
+trace_file                  ="%KTS_HOME%\log\kts-trace.txt"
+error_file                  ="%KTS_HOME%\log\kts-daemon.?pid.err"
+
+
+max_sessions                =   255
+
+
+[KSession]
+;
+; ssh algo lists:
+;
+; kex_algo_list = key exchange algorithms
+; encr_algo_list = encription algorithms
+; mac_algo_list = mac algorithms
+;
+; don't mess with these unless you have a good reason!
+;
+kex_algo_list   = "diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1"
+encr_algo_list  = "3des-cbc,blowfish-cbc,cast128-cbc,idea-cbc,arcfour"
+mac_algo_list   = "hmac-sha1,hmac-md5"
+
+;
+; 0 - pf not allowed
+; 1 - pf allowed
+;
+; this is configured via access to the file "subsystems\port-forward.exe"
+;allow_port_forwarding          =1
+
+;
+; max active port forward channels
+max_portforward_channels = 15
+
+;
+; 0 - sftp not allowed
+; 1 - sftp allowed
+;
+; this is configured via access to the file "subsystems\file-transfer.exe"
+; ** we allow sftp (note that scp does not work)
+allow_sftp          =1
+
+;
+; sftp root folder
+;
+sftp_root = "%USERPROFILE%"
+
+;
+; sftp init script
+;
+sftp_init = "%COMSPEC% /C "scripts\sftp_init.bat""
+
+;
+; 0 - kill disconnected sessions
+; 1 - allow disconnected sessions
+;
+; ** we kill disconnected sessions, since we use shared accounts
+allow_disconnected_sessions = 0
+
+;
+; 0 - do not reconnect to disconnected session
+; 1 - reconnect to disconnected session
+;
+; ** and thus do not reconnect them
+auto_reconnect_session = 0
+
+;
+; 0 - normal mode
+; 1 - pipe mode / this is suitable for script automation
+; but will work for some command only
+;
+pipe_mode =0
+
+rsakey_file                 ="%KTS_HOME%\rsakey.ky"
+key_init                    ="%KTS_HOME%\utf-8.ini"
+telnet_init                 ="%KTS_HOME%\telnet.ini"
+auto_logon_init                 ="%KTS_HOME%\auto_logon.ini"
+publickey_logon_init                ="%KTS_HOME%\publickey_logon.ini"
+active_sessions_dir             ="%KTS_HOME%\log\active-sessions"
+subsystems_dir                  ="%KTS_HOME%\subsystems"
+
+;
+; ip ban module
+; set ban_max_connections = 0 to turn of
+;
+; ** we disable this because it's obnoxious
+ban_max_connections         =0
+ban_ip_directory            ="%KTS_HOME%\log\ip-ban"
+
+; ** we disable this
+;welcome_message                =   "\n ================================================================\n  KpyM TELNET/SSH Server v%KTS_VERSION%\n  http://www.kpym.com/\n  Copyright (c) 2002-2011, Kroum Grigorov\n  All rights reserved.\n ================================================================\n\n"
+
+; login_message can be customized for telnet sessions only
+login_message               =   "\nlogin: "
+pass_message                =   "\npassword: "
+pass_timeout_message        =   "\npassword timeout"
+idle_timeout_message        =   "\nidle timeout"
+service_stopped_message     =   "\nservice stopped"
+login_successfull_message   =   "\n\n"
+shell_dead_message          =   "\nlogout\n"
+
+;
+; use ':' for separator
+; ex. to disable administrator for connecting to kts
+; change "forbidden_login_list" param to:
+; forbiden_login_list = ":administrator:"
+; note we use : on both sides of "administrator"
+;
+; to allow only the user "kpym" to connect KTS
+; change "allowed_login_list" param to:
+; allowed_login_list = ":kpym:"
+; note we use : on both sides of "kpym"
+;
+;allowed_login_list         =   ""
+;forbidden_login_list       =   ""
+; this is configured via access to the files "subsystems\file-transfer.exe" "subsystems\terminal.exe" and "subsystems\port-forward.exe"
+
+shell_command               =   "%COMSPEC% /K "scripts\__shell.bat""
+
+default_user                =   ""
+default_pass                =   ""
+default_domain              =   ""
+
+;
+; trace level
+; 0 - full trace
+; 10 - normal trace
+; 100 - no trace
+;
+trace_level                 =10
+log_file                    ="%KTS_HOME%\log\kts-log.txt"
+trace_file                  =
+error_file                  ="%KTS_HOME%\log\kts-term.?pid.err"
+
+pass_timeout                =   30
+; ** customized: increased substantially to avoid aborted sessions
+idle_timeout                =   900
+io_timeout                  =   900
+max_login_attempts          =   3
+
+net_check_delay             =   300
+
+refresh_delay               =   100
+health_monitor_timeout      =   1000
+
+; wait for first packet to determin subsystem type
+; we need this hack for filezilla mostly
+first_packet_timeout        =   500
+
+; ** buff_height is increased ..
+screen_width                =   80
+screen_height               =   24
+buff_height                 =   2000
+
+dumb_client                 =   1
+
+
+
+[KKey]
+;
+; delay between sent keys in ms
+;
+send_key_delay                  =   1
+
+;
+; delay between SAME keys sent one after other in ms
+; increase this one if you have problems (ex you type 12334 -> but get 1234 )
+;
+send_same_key_delay             =   50

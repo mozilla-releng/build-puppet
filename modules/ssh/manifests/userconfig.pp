@@ -1,10 +1,12 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-define ssh::userconfig($home='', $config='', $group='',
+
+define ssh::userconfig($home='', $config='', $group='', $cleartext_password='',
             $authorized_keys=[], $authorized_keys_allows_extras=false,
             $manage_known_hosts=true) {
     include concat::setup
+    include ssh::settings
     include ssh::keys
     $username = $title
 
@@ -45,30 +47,39 @@ define ssh::userconfig($home='', $config='', $group='',
             force => true,
             backup => false;
     }
+
+    $authorized_keys_file = $operatingsystem ? {
+        windows => "${ssh::settings::genkey_dir}/${username}.keys",
+        default => "${home_}/.ssh/authorized_keys",
+    }
+
     if ($authorized_keys_allows_extras) {
         # to allow extras, set this up with concat
         concat {
-            "${home_}/.ssh/authorized_keys":
+            $authorized_keys_file:
                 owner => $owner_,
                 group => $group_,
-                mode => filemode(0600);
+                mode => filemode(0600),
+                notify => $ssh::settings::notify_on_key_change;
         }
         concat::fragment {
             "${home_}::${base}":
-                target => "$home_/.ssh/authorized_keys",
+                target => $authorized_keys_file,
                 content => template("ssh/ssh_authorized_keys.erb");
         }
 
     } else {
         # if no extras are allowed (the common case), just use a file
         file {
-            "${home_}/.ssh/authorized_keys":
+            $authorized_keys_file:
                 owner => $owner_,
                 group => $group_,
                 mode => filemode(0600),
-                content => template("ssh/ssh_authorized_keys.erb");
+                content => template("ssh/ssh_authorized_keys.erb"),
+                notify => $ssh::settings::notify_on_key_change;
         }
     }
+
     if ($config != '') {
         file {
             "$home_/.ssh/config":
@@ -96,6 +107,16 @@ define ssh::userconfig($home='', $config='', $group='',
                 group => $group_,
                 mode => filemode(0600),
                 content => template("${module_name}/known_hosts.erb");
+        }
+    }
+
+    # on windows, we need the password for the publickey_logon.ini file, so write
+    # that to the genkeys directory
+    if ($::operatingsystem == windows and $cleartext_password != '') {
+        file {
+            "${ssh::settings::genkey_dir}/${username}.pass":
+                content => $cleartext_password,
+                notify => $ssh::settings::notify_on_key_change;
         }
     }
 }

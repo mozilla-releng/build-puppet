@@ -11,10 +11,19 @@ class ssh::service {
             }
         }
         Windows : {
+            include packages::kts
+
+            # this installs the service which puppet subsequently manages
+            shared::execonce {
+                "Install-SSH-service":
+                    command => '"C:\Program Files\KTS\daemon.exe" -install',
+                    require => Class["packages::kts"];
+            }
             service {
-                "KpyM Telnet SSH Server v1.19c":
-                    enable => "true",
-                    ensure => "running";
+                "KTS":
+                    ensure => running,
+                    enable => true,
+                    require => Shared::Execonce["Install-SSH-service"];
             }
         }
 
