@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Populates a file (e.g. /etc/instance_data.json) with instance metadata
+Populates a file (e.g. /etc/instance_metadata.json) with instance metadata
 
 Usage:
     instance_metadata.py [-o output_file]

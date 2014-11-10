@@ -5,7 +5,7 @@
 
 TEMPLATES="/etc/mock_mozilla/config-templates"
 
-availability_zone=$(python -c 'import json; print json.load(open("/etc/instance_data.json")).get("placement/availability_zone", "")')
+availability_zone=$(python -c 'import json; print json.load(open("/etc/instance_metadata.json")).get("placement/availability_zone", "")')
 case "$availability_zone" in
     us-east-1*) REPOROOT="https://s3.amazonaws.com/mozilla-releng-mock-centos-us-east-1" ;;
     us-west-2*) REPOROOT="https://s3-us-west-2.amazonaws.com/mozilla-releng-mock-centos-us-west-2" ;;
