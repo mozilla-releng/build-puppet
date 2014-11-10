@@ -11,6 +11,6 @@ module Puppet::Parser::Functions
         :undef
     else
         args[0]
-        end
-      end
     end
+  end
+end
