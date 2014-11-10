@@ -47,4 +47,9 @@ class toplevel::base {
         include packages::openssl
         include packages::bash
     }
+
+    # run RDP on all windows systems
+    if ($::operatingsystem == windows) {
+        include rdp
+    }
 }
