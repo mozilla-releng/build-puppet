@@ -8,6 +8,10 @@
 # ensure: present/absent
 define buildslave::install::version($active=false, $ensure="present") {
     $version = $title
+        $virtualenv_path = $::operatingsystem ? {
+            windows => "c:\\mozilla-build\\buildbot-$version",
+            default => "/tools/buildbot-$version",
+        }
 
     anchor {
         "buildslave::install::version::${version}::begin": ;
@@ -39,26 +43,34 @@ define buildslave::install::version($active=false, $ensure="present") {
         present: {
             Anchor["buildslave::install::version::${version}::begin"] ->
             python::virtualenv {
-                "/tools/buildbot-$version":
+                "$virtualenv_path":
                     python => $::packages::mozilla::python27::python,
                     require => $py_require,
                     packages => $packages;
             } -> Anchor["buildslave::install::version::${version}::end"]
-
-            if $active {
-                Anchor["buildslave::install::version::${version}::begin"] ->
-                file {
-                    "/tools/buildbot":
-                        ensure => "link",
-                        target => "/tools/buildbot-$version";
-                } -> Anchor["buildslave::install::version::${version}::end"]
+            if ($active) {
+                case $::operatingsystem {
+                    Windows: {
+                        file {
+                            "C:/mozilla-build/bbpath.bat":
+                                content => "set BUILDBOT_PATH=$virtualenv_path";
+                        }
+                    }
+                    default: {
+                        Anchor["buildslave::install::version::${version}::begin"] ->
+                            file {
+                                "/tools/buildbot":
+                                    ensure => "link",
+                                    target => "$virtualenv_path";
+                        } -> Anchor["buildslave::install::version::${version}::end"]
+                    }
+                }
             }
         }
-
         absent: {
             # absent? that's easy - blow away the directory
             python::virtualenv {
-                "/tools/buildbot-$version":
+                 "$virtualenv_path":
                     python => $::packages::mozilla::python27::python,
                     packages => $packages,
                     ensure => absent;
