@@ -472,7 +472,11 @@ def main():
 
     # convert twistd_cmd into an args tuple
     if options.twistd_cmd:
-        options.twistd_cmd = [ options.twistd_cmd ]
+        if sys.platform == 'win32':
+            # on Windows, twistd is a .py file, so run it with the current Python
+            options.twistd_cmd = [ sys.executable, options.twistd_cmd ]
+        else:
+            options.twistd_cmd = [ options.twistd_cmd ]
     else:
         options.twistd_cmd = guess_twistd_cmd()
 

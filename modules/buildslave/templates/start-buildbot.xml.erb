@@ -4,17 +4,17 @@
 <?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.3" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
-    <Author>AD\administrator</Author>
+    <Author><%= @env_computername %>\root</Author>
   </RegistrationInfo>
   <Triggers>
     <LogonTrigger>
       <Enabled>true</Enabled>
-      <UserId><%= @env_computername %>\cltbld</UserId>
+      <UserId><%= @env_computername %>\<%= @builder_username %></UserId>
     </LogonTrigger>
   </Triggers>
   <Principals>
     <Principal id="Author">
-      <UserId><%= @env_computername %>\cltbld</UserId>
+      <UserId><%= @env_computername %>\<%= @builder_username %></UserId>
       <LogonType>InteractiveToken</LogonType>
       <RunLevel>HighestAvailable</RunLevel>
     </Principal>
@@ -44,7 +44,7 @@
   </Settings>
   <Actions Context="Author">
     <Exec>
-      <Command>C:\mozilla-build\start-buildbot.bat</Command>
+      <Command>C:\programdata\puppetagain\start-buildbot.bat</Command>
     </Exec>
   </Actions>
 </Task>
