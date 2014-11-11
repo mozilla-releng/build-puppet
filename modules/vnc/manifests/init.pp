@@ -5,7 +5,9 @@
 class vnc {
     include config
     include users::builder
-    include packages::vncserver
+    if ($::operatingsystem != Windows) {
+        include packages::vncserver
+    }
 
     case $::operatingsystem {
         Darwin: {
@@ -74,6 +76,10 @@ class vnc {
                     show_diff => false;
             }
             # note that x11vnc isn't started automatically
+        }
+        Windows: {
+            include packages::ultravnc
+            include vnc::ultravnc_ini
         }
         default: {
             fail("Cannot set up VNC on this platform")
