@@ -122,7 +122,8 @@ class puppet::atboot {
             }
         }
         default: {
-            fail("puppet::atboot support missing for $::operatingsystem")
+            # XXX: this is a work in progress; stubbed out for now
+            #fail("puppet::atboot support missing for $::operatingsystem")
         }
     }
 }
