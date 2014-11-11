@@ -3,14 +3,26 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class dirs::builds::slave {
     include dirs::builds
-    include users::builder
-    include config
 
-    file {
-            "/builds/slave" :
-            ensure => directory,
-            owner => "$users::builder::username",
-            group => "$users::builder::group",
-            mode => 0755;
+    case $::operatingsystem {
+        windows: {
+            file {
+                # XXX on windows it's named differently :(
+                # Best fix: switch to c:/builds/slave on windows
+                # Other fix: create dirs::builds::moz2_slave and use that in puppet
+                "C:/builds/moz2_slave":
+                    ensure => directory;
+            }
+        }
+        default: {
+            include users::builder
+            file {
+                    "/builds/slave" :
+                    ensure => directory,
+                    owner => "$users::builder::username",
+                    group => "$users::builder::group",
+                    mode => 0755;
+            }
+        }
     }
 }

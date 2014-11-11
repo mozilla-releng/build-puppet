@@ -2,9 +2,19 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class dirs::builds {
-    file {
-        "/builds/":
-            ensure => directory,
-            mode => 0755;
+    case $::operatingsystem {
+        windows: {
+            file {
+                "C:/builds/":
+                    ensure => directory;
+            }
+        }
+        default: {
+            file {
+                "/builds/":
+                    ensure => directory,
+                    mode => 0755;
+            }
+        }
     }
 }

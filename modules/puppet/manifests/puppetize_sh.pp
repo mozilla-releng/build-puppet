@@ -8,6 +8,6 @@ class puppet::puppetize_sh {
             source => "puppet:///modules/puppet/puppetize.sh",
             owner => root,
             group => $users::root::group,
-            mode => 0755;
+            mode => filemode(0755);
     }
 }

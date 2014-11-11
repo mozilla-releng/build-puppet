@@ -13,7 +13,7 @@ class disableservices::displaymanager {
                     force  => true;
             }
         }
-        Darwin, CentOS: {
+        Windows, Darwin, CentOS: {
             # N/A
         }
         default: {

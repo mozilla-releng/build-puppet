@@ -41,6 +41,14 @@ class packages::mozilla::py27_mercurial {
                     version => "2.5.4-2";
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
+        Windows: {
+            # on Windows, we use the hg that ships with MozillaBuild
+            $mercurial = 'C:\mozilla-build\hg\hg.exe'
+            include packages::mozilla::mozilla_build
+            Anchor['packages::mozilla::py27_mercurial::begin'] ->
+            Class['packages::mozilla::mozilla_build']
+            -> Anchor['packages::mozilla::py27_mercurial::end']
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }
