@@ -7,16 +7,27 @@ class puppet::atboot {
     include puppet::puppetize_sh
     include puppet::settings
     include packages::puppet
-    include dirs::usr::local::bin
 
     $puppet_server = $::puppet::settings::puppet_server
     $puppet_servers = $::puppet::settings::puppet_servers
+
+    case ($::operatingsystem) {
+        windows: {
+            include dirs::etc
+            $puppetmasters_txt = "C:/etc/puppetmasters.txt"
+            $reboot_after_puppet = "C:/REBOOT_AFTER_PUPPET"
+        }
+        default: {
+            $puppetmasters_txt = "/etc/puppet/puppetmasters.txt"
+            $reboot_after_puppet = "/REBOOT_AFTER_PUPPET"
+        }
+    }
 
     # signal puppetize.sh to reboot after this puppet run, if we're running
     # puppetize.sh (identified via the $puppetizing fact)
     if ($puppetizing) {
         file {
-            "/REBOOT_AFTER_PUPPET":
+            $reboot_after_puppet:
                 content => "please!";
         }
     }
@@ -27,18 +38,21 @@ class puppet::atboot {
     exec {
         # ask the puppet startup script to reboot
         "reboot-after-puppet":
-            command => "touch /REBOOT_AFTER_PUPPET",
+            command => $::operatingsystem ? {
+                windows => "type nul >$reboot_after_puppet",
+                default => "touch $reboot_after_puppet",
+            },
             path => ['/bin/', '/usr/bin/'],
             refreshonly => true;
     }
 
     # install the list of puppetmaster mirrors
     file {
-        "/etc/puppet/puppetmasters.txt":
+        $puppetmasters_txt:
             content => template("puppet/puppetmasters.txt.erb");
     }
 
-    # common source code for the startup scripts, used in templates
+    # common (shell) source code for the startup scripts, used in templates
     $puppet_atboot_common = template("puppet/puppet-atboot-common.erb")
 
     # create a service
@@ -108,6 +122,7 @@ class puppet::atboot {
             # the autologin takes place.  The script touches a semaphore file
             # when puppet has run to completion, and this signals the user-level
             # launchd to start the buildslave daemon.  Got that?
+            include dirs::usr::local::bin
             file {
                 "/Library/LaunchDaemons/com.mozilla.puppet.plist":
                     owner => root,
@@ -121,9 +136,11 @@ class puppet::atboot {
                     content => template("puppet/puppet-darwin-run-puppet.sh.erb");
             }
         }
+        Windows: {
+            # TODO: Bug 1096610
+        }
         default: {
-            # XXX: this is a work in progress; stubbed out for now
-            #fail("puppet::atboot support missing for $::operatingsystem")
+            fail("puppet::atboot support missing for $::operatingsystem")
         }
     }
 }
