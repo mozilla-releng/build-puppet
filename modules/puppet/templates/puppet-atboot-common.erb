@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # number of tries to make between attempts to run puppet.  6 waits about 2h
-PUPPETMASTERS=$(< /etc/puppet/puppetmasters.txt)
+PUPPETMASTERS=$(< <%= @puppetmasters_txt %>)
 LAST_GOOD_RUN_FILE=/var/lib/puppet/last-good-run
 GIVE_UP_AFTER_TRYING=3
 MAX_SECS_SINCE_GOOD_RUN=$((4*3600))

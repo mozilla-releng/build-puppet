@@ -7,9 +7,10 @@ class shared::execonce::base {
         windows: {
             # puppet's $libdir gets blown away on every agent run,
             # so we use our own subdirectory (and create it)
-            $semaphore_dir = "C:/ProgramData/PuppetAgain/semaphores"
+            include dirs::programdata::puppetagain
+            $semaphore_dir = "C:/programdata/puppetagain/semaphores"
             file {
-                ["C:/ProgramData/PuppetAgain", $semaphore_dir]:
+                $semaphore_dir:
                     ensure => directory;
             }
         }
