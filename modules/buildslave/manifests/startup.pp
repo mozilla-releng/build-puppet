@@ -17,9 +17,8 @@ class buildslave::startup {
         # everyone but windows uses runslave.py in the same place
         Windows: {
                 file {
-                    'C:/mozilla-build/runslave.py':
-                        source  => "puppet:///modules/buildslave/runslave.py",
-                        require => Class['packages::mozilla::mozilla_build'],
+                    'C:/programdata/puppetagain/runslave.py':
+                        source  => "puppet:///modules/buildslave/runslave.py";
             }
         }
         default: {

@@ -3,25 +3,29 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class buildslave::startup::windows {
-include packages::mozilla::mozilla_build
-    #Bat file to start buildbot
+    include users::builder
+    include dirs::programdata::puppetagain
+
+    $builder_username = $users::builder::username
+    $puppet_semaphore = 'C:\ProgramData\PuppetAgain\puppetcomplete.semaphore'
+    # Batch file to start buildbot
     file {
-        'C:/mozilla-build/start-buildbot.bat':
-            source  => "puppet:///modules/buildslave/start-buildbot.bat",
-            require => Class['packages::mozilla::mozilla_build'],
+        'c:/programdata/puppetagain/start-buildbot.bat':
+            content  => template("${module_name}/start-buildbot.bat.erb");
     }
-    # XML file to set up a schedule task to to launch buildbot on cltbld log in.
+
+    # XML file to set up a schedule task to to launch buildbot on builder log in.
     # XML file needs to exported from the task scheduler gui. Also note when using the XML import be aware of machine specific values such as name will need to be replaced with a variable.
     # Hence the need for the template.
     file {
-        'C:/mozilla-build/startbuildbot.xml':
-            content => template("buildslave/startbuildbot.xml.erb"),
-            require => Class['packages::mozilla::mozilla_build'],
+        "c:/programdata/puppetagain/start-buildbot.xml":
+            content => template("buildslave/start-buildbot.xml.erb");
     }
     # Importing the XML file using schtasks
     # Refrence http://technet.microsoft.com/en-us/library/cc725744.aspx and http://technet.microsoft.com/en-us/library/cc722156.aspx
+    $schtasks = 'C:\Windows\system32\schtasks.exe'
     shared::execonce { "startbuildbot":
-        command => '"C:\Windows\winsxs\x86_microsoft-windows-sctasks_31bf3856ad364e35_6.1.7601.17514_none_8c46e17f1398738b\schtasks.exe" /Create  /XML "C:\mozilla-build\startbuild.xml" /tn StartBuildbot',
-        require => File['C:/mozilla-build/startbuildbot.xml'],
+        command => "$schtasks /Create /XML c:\\programdata\\puppetagain\\start-buildbot.xml /tn StartBuildbot",
+        require => File['c:/programdata/puppetagain/start-buildbot.xml'],
     }
 }

@@ -9,6 +9,9 @@ require 'fileutils'
 # Send stdout and stderr to a logfile
 STDOUT.reopen(File.open('C:\\ProgramData\\PuppetLabs\\puppet\\var\\log\\runpuppet.log', 'w+'))
 STDERR.reopen(STDOUT)
+STDOUT.sync = true
+STDERR.sync = true
+
 puts "Starting at #{Time.new}"
 
 # we use a semaphore file to indicate a successful puppet run.  On slaves, the buildslave
