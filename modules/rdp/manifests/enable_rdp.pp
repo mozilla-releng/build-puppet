@@ -5,9 +5,9 @@
 class rdp::enable_rdp {
     #Enables Remote desktop access
     $service_notifies = [     
-        Service["Remote Desktop Service"],
-        Service["Remote Desktop Configuration"],
-        Service["Remote Desktop Services UserMode Port Redirector"]
+        Service["SessionEnv"],
+        Service["TermService"],
+        Service["UmRdpService"]
     ]
     registry::value { 'fDenyTSConnections':
         key    => 'HKLM\system\currentcontrolset\control\Terminal Server',
@@ -21,13 +21,13 @@ class rdp::enable_rdp {
         data   => '0',
         notify => $service_notifies;
     }
-    service {"Remote Desktop Service":
+    service {"SessionEnv":
         restart => true,
     }
-    service {"Remote Desktop Configuration":
+    service {"TermService":
         restart => true,
     }
-    service {"Remote Desktop Services UserMode Port Redirector":
+    service {"UmRdpService":
         restart => true,
     } 
 }
