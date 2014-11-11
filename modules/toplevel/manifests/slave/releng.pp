@@ -13,4 +13,20 @@ class toplevel::slave::releng inherits toplevel::slave {
     include packages::mozilla::tooltool
     include packages::mozilla::py27_mercurial
     include packages::wget
+    
+    if ($::operatingsystem == Windows) {
+        include tweaks::disablejit
+        include tweaks::memory_paging
+        include tweaks::nouac
+        include tweaks::ntfs_options
+        include tweaks::process_priority
+        include tweaks::pwrshell_options
+        include tweaks::server_initialize 
+        include tweaks::shutdown_tracker
+        include packages::binscope
+        include packages::psutil
+        include packages::mapi_headers
+        include fw::windows_exceptions
+        include fw::windows_settings
+    }
 }
