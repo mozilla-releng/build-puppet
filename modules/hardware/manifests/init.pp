@@ -19,13 +19,17 @@ class hardware {
     if (($::manufacturer == "HP" and $::productname =~ /ProLiant/) or
         ($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIL") or # ix700C
         ($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIT")) { # ix21x4
-        include hardware::ipmitool
+        if ($kernel == "Linux") {
+            include hardware::ipmitool
+        }
     }
 
     if (($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIL") or # ix700C
         ($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIT")) { # ix21x4
+        if ($kernel == "Linux") {
         # disable some broken NIC features
-        include tweaks::i82574l_aspm
+            include tweaks::i82574l_aspm
+        }
     }
 
     # OK, so it's not strictly "hardware", but stlil..
@@ -65,4 +69,8 @@ class hardware {
             }
         }
     }
-}
+    if ($::operatingsystem == "Windows") {
+        include hardware::hddoff
+        include hardware::highperformance
+    }
+}   
