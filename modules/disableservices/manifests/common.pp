@@ -126,5 +126,10 @@ class disableservices::common {
                     notify => Exec["disable-indexing", "remove-index"] ;
             }
         }
+        Windows: {
+            include disableservices::disableupdates
+            include disableservices::disableddns
+            include disableservices::winreport
+        }
     }
 }
