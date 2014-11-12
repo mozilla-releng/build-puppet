@@ -11,6 +11,14 @@ node /foopy\d+\.\w+\.releng\.scl3\.mozilla\.com/ {
 
 ## testers
 
+# temporary for bug 1095160
+node "talos-linux64-ix-046.test.releng.scl3.mozilla.com" {
+    $pin_puppet_env = "mphillips"
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $slave_trustlevel = 'try'
+    include toplevel::slave::releng::test::gpu
+}
+
 # linux64 and OS X
 node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
@@ -33,6 +41,14 @@ node /t-w732-ix-\d+.wintest.releng.scl3.mozilla.com/ {
 }
 
 ## builders
+
+# temporary for bug 1095160
+node "b-linux64-hp-0028.build.releng.scl3.mozilla.com" {
+    $pin_puppet_env = "mphillips"
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $slave_trustlevel = 'core'
+    include toplevel::slave::releng::build::mock
+}
 
 # linux64
 node /b-linux64-\w+-\d+.build.releng.scl3.mozilla.com/ {
