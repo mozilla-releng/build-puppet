@@ -14,7 +14,7 @@ class toplevel::server::signing inherits toplevel::server {
         moco: {
             $signing_formats = $operatingsystem ? {
                 Darwin => ["dmg"],
-                CentOS => ["gpg", "osslsigncode", "signcode", "mar", "jar", "b2gmar"]
+                CentOS => ["gpg", "osslsigncode", "signcode", "mar", "jar", "b2gmar", "emevoucher"]
             }
             $concurrency = $::macosx_productversion_major ? {
                 10.9    => 2,

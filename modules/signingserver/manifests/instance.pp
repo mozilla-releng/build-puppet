@@ -40,6 +40,7 @@ define signingserver::instance(
     $mar_keydir = "${secrets_dir}/mar"
     $jar_keystore = "${secrets_dir}/jar"
     $server_certdir = "${secrets_dir}/server"
+    $emevoucher_key = "${secrets_dir}/emevouch.pem"
 
     $dmg_keydir = "${secrets_dir}/dmg"
     $dmg_keychain = "${dmg_keydir}/signing.keychain"
@@ -51,6 +52,7 @@ define signingserver::instance(
     $testfile_dir = "/tools/signing-test-files"
     $testfile_signcode = "${testfile_dir}/test.exe"
     $testfile_osslsigncode = "${testfile_dir}/test64.exe"
+    $testfile_emevoucher = "${testfile_dir}/test.bin"
     $testfile_mar = "${testfile_dir}/test.mar"
     $testfile_gpg = "${testfile_dir}/test.mar"
     $testfile_dmg = "${testfile_dir}/test.tar.gz"

@@ -12,7 +12,7 @@ class packages::mozilla::signing_test_files {
             Anchor['packages::mozilla::signing_test_files::begin'] ->
             package {
                 "mozilla-signing-test-files":
-                    ensure => '1.1-1';
+                    ensure => '1.2-1';
             } -> Anchor['packages::mozilla::signing_test_files::end']
         }
         Darwin: {
