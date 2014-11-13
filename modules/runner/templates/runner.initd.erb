@@ -28,14 +28,26 @@ DESC="runner"
 CMD=<%= scope.lookupvar("::runner::settings::root") %>/bin/runner
 CONFIG=<%= scope.lookupvar("::runner::settings::root") %>/runner.cfg
 TASKDIR=<%= scope.lookupvar("::runner::settings::taskdir") %>
+PIDFILE=/var/run/runner.pid
 
 test -x ${CMD} || exit 0
+
+get_pid() {
+    cat "${PIDFILE}"
+}
+
+is_running() {
+    [ -f "${PIDFILE}" ] && ps $(get_pid) > /dev/null 2>&1
+}
 
 do_start () {
     echo "Starting runner"
     logrotate -f /etc/logrotate.d/runner
     ### XXX -n 1 for testing
-    if ${CMD} -c ${CONFIG} -n 1 ${TASKDIR} >> /var/log/runner.log 2>&1; then
+    nohup ${CMD} -c ${CONFIG} -n 1 ${TASKDIR} >> /var/log/runner.log &
+    echo $! > ${PIDFILE}
+
+    if is_running; then
         echo "done"
         return 0
     else
@@ -45,16 +57,24 @@ do_start () {
 }
 
 do_stop () {
-    echo "nothing to do"
+    echo "Stopping runner"
+    if is_running; then
+        kill $(get_pid)
+        rm -f ${PIDFILE}
+    else
+        echo "Runner already stopped"
+    fi
     return 0
 }
 
 do_reload () {
     do_stop
+    do_start
 }
 
 do_restart () {
     do_stop
+    do_start
 }
 
 case "$1" in
