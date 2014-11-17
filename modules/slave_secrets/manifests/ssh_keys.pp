@@ -105,9 +105,6 @@ class slave_secrets::ssh_keys($slave_type) {
                 'testy' => 'builder_ssh_key_prod_testy',
             }
         }
-        servo: {
-            $keyset = {}
-        }
         default: {
             fail("no slave_secrets::ssh_key configuration for ${config::org}")
         }

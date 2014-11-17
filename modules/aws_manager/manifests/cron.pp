@@ -15,15 +15,6 @@ class aws_manager::cron {
             virtualenv_dir  => "${aws_manager::settings::root}",
             user            => "${users::buildduty::username}",
             params          => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-west-2 -r us-east-1 -l ${aws_manager::settings::root}/aws_watch_pending.log";
-        "aws_watch_pending_servo":
-            script          => "aws_watch_pending.py",
-            ensure          => present,
-            minute          => '*/5',
-            process_timeout => 1200,
-            cwd             => "${aws_manager::settings::cloud_tools_dst}/scripts",
-            virtualenv_dir  => "${aws_manager::settings::root}",
-            user            => "${users::buildduty::username}",
-            params          => "-k ${aws_manager::settings::secrets_dir}/aws-secrets-servo.json -c ../configs/watch_pending_servo.cfg -r us-east-1 -l ${aws_manager::settings::root}/aws_watch_pending_servo.log";
         "aws_stop_idle.py":
             ensure          => present,
             minute          => '*/10',
@@ -32,15 +23,6 @@ class aws_manager::cron {
             virtualenv_dir  => "${aws_manager::settings::root}",
             user            => "${users::buildduty::username}",
             params          => "-c ${aws_manager::settings::secrets_dir}/passwords.json -r us-west-2 -r us-east-1 -j32 -l ${aws_manager::settings::root}/aws_stop_idle.log -t bld-linux64 -t tst-linux64 -t tst-linux32 -t tst-emulator64 -t try-linux64";
-        "aws_stop_idle_servo":
-            script          => "aws_stop_idle.py",
-            ensure          => present,
-            minute          => '*/10',
-            process_timeout => 1200,
-            cwd             => "${aws_manager::settings::cloud_tools_dst}/scripts",
-            virtualenv_dir  => "${aws_manager::settings::root}",
-            user            => "${users::buildduty::username}",
-            params          => "-c ${aws_manager::settings::secrets_dir}/passwords-servo.json -r us-east-1 -j32 -l ${aws_manager::settings::root}/aws_stop_idle_servo.log -t servo-linux64";
         "aws_sanity_checker.py":
             ensure         => present,
             minute        => '0,30',
