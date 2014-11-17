@@ -32,7 +32,7 @@ rm -f /builds/b2g_bumper/git_ref_cache.json
 # Run the bumpers in sequence
 all_succeeded=true
 find /builds/b2g_bumper/mozharness/configs/b2g_bumper/ -type f -name '*.py' | while read config; do
-    short_name="$(basename "${config}")"
+    short_name="$(basename "${config}" .py)"
     log "Running b2g bumper using ${config}, log in /builds/b2g_bumper/${short_name}.log"
     mkdir -p "/builds/b2g_bumper/${short_name}"
     if ! python /builds/b2g_bumper/mozharness/scripts/b2g_bumper.py --base-work-dir "/builds/b2g_bumper/${short_name}" -c "${config}" --import-git-ref-cache --push-loop --export-git-ref-cache > "/builds/b2g_bumper/${short_name}.log" 2>&1; then
