@@ -35,7 +35,7 @@ find /builds/b2g_bumper/mozharness/configs/b2g_bumper/ -type f -name '*.py' | wh
     short_name="$(basename "${config}")"
     log "Running b2g bumper using ${config}, log in /builds/b2g_bumper/${short_name}.log"
     mkdir -p "/builds/b2g_bumper/${short_name}"
-    if ! python /builds/b2g_bumper/mozharness/scripts/b2g_bumper.py --base-work-dir "/builds/b2g_bumper/${short_name}" -c "${config}.py" --import-git-ref-cache --push-loop --export-git-ref-cache > "/builds/b2g_bumper/${short_name}.log" 2>&1; then
+    if ! python /builds/b2g_bumper/mozharness/scripts/b2g_bumper.py --base-work-dir "/builds/b2g_bumper/${short_name}" -c "${config}" --import-git-ref-cache --push-loop --export-git-ref-cache > "/builds/b2g_bumper/${short_name}.log" 2>&1; then
         all_succeeded=false
     fi
 done
