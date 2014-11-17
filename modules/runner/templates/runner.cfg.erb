@@ -1,15 +1,12 @@
 [runner]
 max_time = 600
 sleep_time = 60
-
 [buildbot]
 slave_dir = <%= scope.lookupvar('::config::runner_buildbot_slave_dir') %>
 max_time = 0
-
 [env]
 HG_SHARE_BASE_DIR=<%= scope.lookupvar('::config::runner_env_hg_share_base_dir') %>
 GIT_SHARE_BASE_DIR=<%= scope.lookupvar('::config::runner_env_git_share_base_dir') %>
-
 [hg]
 tools_path = <%= scope.lookupvar('::config::runner_hg_tools_path') %>
 tools_repo = <%= scope.lookupvar('::config::runner_hg_tools_repo') %>
@@ -18,6 +15,3 @@ tools_branch = <%= scope.lookupvar('::config::runner_hg_tools_branch') %>
 mozharness_path = <%= scope.lookupvar('::config::runner_hg_mozharness_path') %>
 mozharness_repo = <%= scope.lookupvar('::config::runner_hg_mozharness_repo') %>
 mozharness_branch = <%= scope.lookupvar('::config::runner_hg_mozharness_branch') %>
-
-[populate_shared_repos]
-max_time = 1800
