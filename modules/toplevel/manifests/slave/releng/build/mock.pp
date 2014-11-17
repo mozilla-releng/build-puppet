@@ -31,8 +31,4 @@ class toplevel::slave::releng::build::mock inherits toplevel::slave::releng::bui
         'runner::tasks::purge_builds':
             required_space => 20;
     }
-    if ($::ec2_instance_id != null) {
-        # Prepopulate shared repos on AWS instances only
-        include runner::tasks::populate_shared_repos
-    }
 }
