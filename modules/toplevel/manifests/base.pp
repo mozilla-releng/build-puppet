@@ -39,8 +39,7 @@ class toplevel::base {
         include packages::screen
         include users::global
         include powermanagement
-        # XXX: temporarily removed for bug 1096734
-        #include collectd
+        include collectd
         include log_aggregator::client
 
         # openssl ends up getting pulled in as a dependency everywhere, and we
