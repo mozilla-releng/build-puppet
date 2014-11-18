@@ -1,5 +1,8 @@
-#! /bin/bash
-# initscript for pulse_publisher
+#!/bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+# Start up the pulse_publisher daemon
 
 # chkconfig: 2345 50 08
 ### BEGIN INIT INFO
@@ -18,78 +21,66 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 DESC="pulse publisher"
 
 USER=<%=scope.lookupvar('users::builder::username')%>
+BASE_DIR=<%=scope.lookupvar('buildmaster::settings::queue_dir')%>
+PYTHON="$BASE_DIR/bin/python"
+SCRIPT="$BASE_DIR/tools/buildbot-helpers/pulse_publisher.py"
+LOGFILE="$BASE_DIR/pulse_publisher.log"
+LOCKFILE="/var/lock/subsys/pulse_publisher"
+PIDFILE="$BASE_DIR/pulse_publisher.pid"
+OPTIONS="--passwords $BASE_DIR/passwords.py -q /dev/shm/queue/pulse >> $LOGFILE"
 
-DAEMON=<%=scope.lookupvar('buildmaster::settings::queue_dir')%>/run_pulse_publisher.sh
-PIDFILE=<%=scope.lookupvar('buildmaster::settings::queue_dir')%>/pulse_publisher.pid
 
-test -x ${DAEMON} || exit 0
+test -x "${SCRIPT}" || exit 0
 
 . /etc/init.d/functions
 
-start_agent() {
-    USER="$1"
-    ${PREFIXCMD} su -s /bin/bash -c "${DAEMON}" - ${USER}
-    return $?
+start() {
+    echo -n "Starting $DESC"
+    daemon --user $USER --pidfile $PIDFILE "$PYTHON $SCRIPT $OPTIONS &"
+    RETVAL=$?
+    PID=$(ps -f -U "$USER" | grep -F "$SCRIPT" | awk {'print $2'})
+    if [ -n "$PID" ]; then
+        echo $PID > "$PIDFILE"
+        touch "$LOCKFILE"
+    fi
+    echo
+    return $RETVAL
 }
 
-stop_agent() {
-    USER="$1"
-    if [ -f $PIDFILE ]; then
-        PID=$(cat $PIDFILE)
-        ${PREFIXCMD} su -s /bin/bash -c "kill $PID" - ${USER}
-        return $?
-    fi
-    return 0
+stop() {
+    echo -n "Stopping $DESC"
+    killproc -p "$PIDFILE" -d 1 "$SCRIPT"
+    RETVAL=$?
+    [ $RETVAL -eq 0 ] && rm -rf "$LOCKFILE"
+    echo
+    return $RETVAL
 }
 
-do_start () {
-    errors=0
-    if ! start_agent $USER; then
-         errors=1
-    fi
-    return $errors
-}
-
-do_stop () {
-    errors=0
-    if ! stop_agent $USER; then
-         errors=1
-    fi
-    return $errors
-}
-
-do_restart () {
-    errors=0
-    if ! do_stop; then
-        return 1
-    fi
-    if ! do_start; then
-        return 1
-    fi
-    return 0
+restart () {
+    stop
+    start
+    RETVAL=$?
+    echo
+    return $RETVAL
 }
 
 do_status () {
-    errors=0
-    if [ -f $PIDFILE ]; then
-        PID=$(cat $PIDFILE)
-        kill -0 $PID
-        return $?
-    fi
-    return 1
+    echo -n "$DESC"
+    status -p $PIDFILE
+    return $?
 }
 
 case "$1" in
   start)
-        do_start
+        start
         exit $?
         ;;
   stop)
-        do_stop
+        stop
         exit $?
         ;;
   restart)
-        do_restart
+        restart
         exit $?
         ;;
   status)
@@ -103,4 +94,3 @@ case "$1" in
 esac
 
 exit 0
-
