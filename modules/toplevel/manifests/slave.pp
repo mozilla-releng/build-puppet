@@ -14,8 +14,8 @@ class toplevel::slave inherits toplevel::base {
     include tweaks::dev_ptmx
     include tweaks::locale
 
-    # *all* Darwin slaves need to autologin, not just testers
-    if ($::operatingsystem == "Darwin") {
+    # *all* Darwin and Windows slaves need to autologin, not just testers
+    if ($::operatingsystem == "Darwin") or ($::operatingsystem == "Windows") {
         include users::builder::autologin
     }
 }
