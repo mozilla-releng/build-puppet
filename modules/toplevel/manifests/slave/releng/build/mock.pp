@@ -31,4 +31,9 @@ class toplevel::slave::releng::build::mock inherits toplevel::slave::releng::bui
         'runner::tasks::purge_builds':
             required_space => 20;
     }
+    if ($::virtual =~ /xen/) {
+        # Prepopulate shared repos on AWS instances only
+        # Requires boto (not installed on in-house machines)
+        include runner::tasks::populate_shared_repos
+    }
 }
