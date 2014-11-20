@@ -21,15 +21,9 @@ class buildmaster::queue {
             notify => Service["pulse_publisher"],
             mode => 755;
         "${buildmaster::settings::queue_dir}/run_command_runner.sh":
-            require => Python::Virtualenv["${buildmaster::settings::queue_dir}"],
-            content => template("buildmaster/run_command_runner.sh.erb"),
-            notify => Service["command_runner"],
-            mode => 755;
+            ensure => absent;
         "${buildmaster::settings::queue_dir}/run_pulse_publisher.sh":
-            require => Python::Virtualenv["${buildmaster::settings::queue_dir}"],
-            content => template("buildmaster/run_pulse_publisher.sh.erb"),
-            notify => Service["pulse_publisher"],
-            mode => 755;
+            ensure => absent;
         "${buildmaster::settings::queue_dir}/passwords.py":
             require => Python::Virtualenv["${buildmaster::settings::queue_dir}"],
             content => template("buildmaster/passwords.py.erb"),
@@ -43,7 +37,6 @@ class buildmaster::queue {
             hasstatus => true,
             require => [
                 File["/etc/init.d/command_runner"],
-                File["${buildmaster::settings::queue_dir}/run_command_runner.sh"],
                 Exec["install-tools"],
                 ],
             enable => true,
@@ -52,7 +45,6 @@ class buildmaster::queue {
             hasstatus => true,
             require => [
                 File["/etc/init.d/pulse_publisher"],
-                File["${buildmaster::settings::queue_dir}/run_pulse_publisher.sh"],
                 File["${buildmaster::settings::queue_dir}/passwords.py"],
                 Exec["install-tools"],
                 ],
