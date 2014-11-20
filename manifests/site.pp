@@ -2,6 +2,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+# debugging bug 1096734
+warning("fqdn $fqdn operatingsystem $operatingsystem")
+
 import "stages.pp"
 # both of these should be symlnks to the appropriate organization
 import "config.pp"
