@@ -24,7 +24,7 @@ class packages::kts {
             command => 'C:\WINDOWS\SYSTEM32\CMD.EXE /C MOVE kts119c KTS',
             cwd => 'C:\Program Files',
             refreshonly => true,
-            creates => "C:\Program Files\KTS";
+            creates => 'C:\Program Files\KTS';
     }
 
     file {
