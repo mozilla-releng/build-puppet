@@ -9,14 +9,6 @@ node /foopy\d+\.\w+\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server::foopy
 }
 
-# temporary for bug 1019013
-node "t-snow-r4-0008.test.releng.scl3.mozilla.com" {
-    $pin_puppet_env = "mphillips"
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::test::gpu
-}
-
 ## testers
 
 # linux64 and OS X
@@ -41,14 +33,6 @@ node /t-w732-ix-\d+.wintest.releng.scl3.mozilla.com/ {
 }
 
 ## builders
-
-# temporary for bug 1019013
-node "b-linux64-hp-0028.build.releng.scl3.mozilla.com" {
-    $pin_puppet_env = "mphillips"
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $slave_trustlevel = 'core'
-    include toplevel::slave::releng::build::mock
-}
 
 # linux64
 node /b-linux64-\w+-\d+.build.releng.scl3.mozilla.com/ {
