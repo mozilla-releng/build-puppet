@@ -10,7 +10,7 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
     include packages::fonts
     include packages::unzip
     include tweaks::fonts
-    include tweaks::cleanup
+    include runner::tasks::cleanup
     include dirs::builds::hg_shared
     include dirs::builds::git_shared
     include dirs::builds::tooltool_cache
