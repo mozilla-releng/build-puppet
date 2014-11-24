@@ -26,7 +26,8 @@ $WorkDirectory /var/spool/rsyslog
 # First some standard log files.  Log by facility.
 #
 auth,authpriv.*                 /var/log/auth.log
-*.*;auth,authpriv.none          -/var/log/syslog
+# local5 is auditd, which we don't want to see locally
+*.*;auth,authpriv,local5.none   -/var/log/syslog
 #cron.*                         /var/log/cron.log
 #daemon.*                       -/var/log/daemon.log
 kern.*                          -/var/log/kern.log
