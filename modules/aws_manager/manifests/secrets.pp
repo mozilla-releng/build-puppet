@@ -39,6 +39,8 @@ class aws_manager::secrets {
             group     => "${users::buildduty::group}",
             show_diff => false,
             content   => template("$module_name/aws-secrets.json.erb");
+        # TODO: remove the following file and the corresponding template when
+        # cloud-tools starts using SSH keys
         "${aws_manager::settings::secrets_dir}/passwords.json":
             mode      => 0600,
             owner     => "${users::buildduty::username}",
