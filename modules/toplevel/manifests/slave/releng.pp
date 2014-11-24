@@ -29,4 +29,10 @@ class toplevel::slave::releng inherits toplevel::slave {
         include fw::windows_exceptions
         include fw::windows_settings
     }
+    if ($::ec2_instance_id != "") {
+        # authorize aws-manager to reboot intsances
+        users::builder::extra_authorized_key {
+            'aws-ssh-key': ;
+        }
+    }
 }
