@@ -25,7 +25,8 @@ class aws_manager::cron {
             params          => "-c ${aws_manager::settings::secrets_dir}/passwords.json -r us-west-2 -r us-east-1 -j32 -l ${aws_manager::settings::root}/aws_stop_idle.log -t bld-linux64 -t tst-linux64 -t tst-linux32 -t tst-emulator64 -t try-linux64";
         "aws_sanity_checker.py":
             ensure         => present,
-            minute        => '0,30',
+            hour           => '6',
+            minute         => '0',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
