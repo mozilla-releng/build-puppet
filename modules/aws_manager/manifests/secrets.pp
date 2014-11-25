@@ -6,8 +6,6 @@ class aws_manager::secrets {
     include aws_manager::settings
     include users::buildduty
 
-    $builder_passwords = secret("builder_passwords")
-
     file {
         "${aws_manager::settings::secrets_dir}":
             ensure  => directory,
