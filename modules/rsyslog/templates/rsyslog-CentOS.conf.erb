@@ -2,7 +2,8 @@
 
 # Log anything (except mail) of level info or higher.
 # Don't log private authentication messages!
-*.info;mail.none;authpriv.none;cron.none;local0.none    /var/log/messages
+# Don't log auditd (local5)
+*.info;mail.none;authpriv.none;cron.none;local0.none;local5.none    /var/log/messages
 
 # The authpriv file has restricted access.
 authpriv.*                                              /var/log/secure
