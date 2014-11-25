@@ -80,6 +80,9 @@ class packages::setup {
 
                 "mock_mozilla":
                     url_path => "repos/yum/custom/mock_mozilla/$architecture";
+
+                "debian": # misc debian utilities
+                    url_path => "repos/yum/custom/debian/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or

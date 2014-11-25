@@ -5,6 +5,7 @@
 class packages::dpkg {
     case $operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['debian'])
             package {
                 ["dpkg", "dpkg-devel"]:
                     ensure => latest;
