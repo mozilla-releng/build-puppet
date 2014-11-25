@@ -1,0 +1,25 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+class cleanslate {
+    include dirs::opt
+    include cleanslate::settings
+    include packages::mozilla::python27
+
+    file {
+        "/var/tmp/cleanslate":
+            # old cleanslate files shouldn't persist between reboots
+            ensure => absent;
+    }
+
+    python::virtualenv {
+        $cleanslate::settings::root:
+            python   => $packages::mozilla::python27::python,
+            require  => Class['packages::mozilla::python27'],
+            packages => [
+                'cleanslate==1.0',
+            ];
+    }
+
+}
