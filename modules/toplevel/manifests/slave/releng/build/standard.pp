@@ -12,6 +12,7 @@ class toplevel::slave::releng::build::standard inherits toplevel::slave::releng:
         include packages::autoconf
         include packages::p7zip
         include packages::libpng
+        include packages::unzip
 
         # used for partner repacks, which only run on OS X
         include packages::upx
