@@ -23,6 +23,9 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
                 'runner::tasks::purge_builds':
                     required_space => 4;
             }
+            if ($::ec2_instance_id != "") {
+                include runner::tasks::check_ami
+            }
          }
     }
 
