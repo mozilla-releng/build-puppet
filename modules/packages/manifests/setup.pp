@@ -77,6 +77,9 @@ class packages::setup {
 
                 "openipmi":
                     url_path => "repos/yum/custom/openipmi/$architecture";
+
+                "mock_mozilla":
+                    url_path => "repos/yum/custom/mock_mozilla/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
