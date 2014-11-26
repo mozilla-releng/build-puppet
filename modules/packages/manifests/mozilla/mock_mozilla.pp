@@ -4,6 +4,7 @@
 class packages::mozilla::mock_mozilla {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['mock_mozilla'])
             package {
                 "mock_mozilla":
                     ensure => '1.0.3-1.el6';

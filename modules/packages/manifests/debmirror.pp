@@ -5,12 +5,9 @@
 class packages::debmirror {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['debian'])
             package {
                 "debmirror":
-                    # NOTE: this RPM is currently in the 'releng' repo, because
-                    # it was not present in the version of EPEL last mirrored.
-                    # It is now present in EPEL, so on the next EPEL mirroring,
-                    # the version in the releng repo can be deleted.
                     ensure => latest;
             }
         }
