@@ -25,7 +25,7 @@ define users::person($shell="/bin/bash") {
         }
         Darwin: {
             case $::macosx_productversion_major {
-                10.6, 10.7, 10.8: {
+                10.6, 10.7, 10.8, 10.10: {
                     darwinuser {
                         $username:
                             gid => $group,
@@ -68,6 +68,7 @@ define users::person($shell="/bin/bash") {
                     10.6 => [ Darwinuser[$username] ],
                     10.7 => [ Darwinuser[$username] ],
                     10.8 => [ Darwinuser[$username] ],
+                    10.10 => [ Darwinuser[$username] ],
                     default => [ User[$username] ],
                 },
                 default => []
