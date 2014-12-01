@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+"""
+Reboot darwin, linux, or win32 systems.
+"""
+
+import os
+import sys
+import time
+
+if sys.platform in ('darwin', 'linux2'):
+    def reboot():
+        # -S means to accept password from stdin, which we then redirect from
+        # /dev/null
+        # This results in sudo not waiting forever for a password.  If sudoers
+        # isn't set up properly, this will fail immediately
+        os.system("sudo -S reboot < /dev/null")
+        # After starting the shutdown, we go to sleep since the system can
+        # take a few minutes to shut everything down and reboot
+        time.sleep(600)
+
+elif sys.platform == "win32":
+    # Windows
+    def reboot():
+        os.system("shutdown -f -r -t 0")
+        # After starting the shutdown, we go to sleep since the system can
+        # take a few minutes to shut everything down and reboot
+        time.sleep(600)
+
+if __name__ == '__main__':
+    reboot()
