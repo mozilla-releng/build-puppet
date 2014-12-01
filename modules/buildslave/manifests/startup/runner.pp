@@ -4,6 +4,7 @@
 class buildslave::startup::runner {
     case $::operatingsystem {
         'CentOS': {
+            include runner::tasks::cleanslate_task
             file {
                 "/etc/init.d/buildbot":
                     ensure => absent,
@@ -16,6 +17,7 @@ class buildslave::startup::runner {
             }
         }
         'Ubuntu': {
+            include runner::tasks::cleanslate_task
             file {
                 "${::users::builder::home}/.config/autostart/gnome-terminal.desktop":
                     ensure => absent;
