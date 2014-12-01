@@ -1,6 +1,7 @@
 [runner]
 max_time = 600
 sleep_time = 60
+halt_task = halt.py
 
 [buildbot]
 slave_dir = <%= scope.lookupvar('::config::runner_buildbot_slave_dir') %>

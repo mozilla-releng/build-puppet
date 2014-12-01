@@ -34,4 +34,5 @@ class buildslave::startup::runner {
         }
     }
     include runner::tasks::buildbot
+    include runner::tasks::halt
 }
