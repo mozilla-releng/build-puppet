@@ -13,5 +13,3 @@ if [ $(uname) = "Darwin" ]; then
 else
     rm -fv "${BUILDER_HOME}/.mozilla/firefox/console.log"
 fi
-
-find /tmp/* -mmin +15 -print0 | xargs -0 -n1 rm -rfv
