@@ -87,7 +87,7 @@ class packages::setup {
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 26
+            $repoflag = 25
             file {
                 "/etc/.repo-flag":
                     content =>
@@ -122,7 +122,7 @@ class packages::setup {
             }
             # to flush the package index, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 20
+            $repoflag = 19
             file {
                 "/etc/.repo-flag":
                     content =>
@@ -191,10 +191,7 @@ class packages::setup {
                     url_path     => "repos/apt/custom/bash",
                     distribution => "${lsbdistcodename}",
                     components   => ["all"];
-                "mozilla-mercurial":
-                    url_path     => "repos/apt/custom/mozilla-mercurial",
-                    distribution => "${lsbdistcodename}",
-                    components   => ["all"];            }
+            }
         }
         Darwin: {
             #nothing to setup on Darwin
