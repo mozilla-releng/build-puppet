@@ -18,7 +18,7 @@ class cleanslate {
             python   => $packages::mozilla::python27::python,
             require  => Class['packages::mozilla::python27'],
             packages => [
-                'cleanslate==1.0',
+                'cleanslate==1.1',
             ];
     }
 
