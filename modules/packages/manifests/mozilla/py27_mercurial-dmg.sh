@@ -11,20 +11,17 @@ pyrealname=python27
 pyver=2.7
 pyhome=/tools/$pyrealname
 python_sitelib=$pyhome/lib/python$pyver/site-packages
-_prefix=/tools/${pyrealname}-${realname}
+_prefix=/tools/${pyrealname}_${realname}
 _libdir=$_prefix/lib
 package_sitelib=$_libdir/python$pyver/site-packages
-version=3.2.1
-release=1
+version=2.5.4
+release=2
 srpm_release=1
 
 # ensure the same build environment (you can change this if necessary, just test carefully)
 
 case "$(sw_vers -productVersion)" in
-    10.6)
-        USE_PACKAGEMAKER=1
-        DONT_USE_RPM_SOURCES=1
-        ;;  # ?? lost to the sands of time
+    10.6) ;;  # ?? lost to the sands of time
     10.7) ;;  # ?? lost to the sands of time
     10.8) ;;  # ?? lost to the sands of time
     10.9) ;;  # ?? lost to the sands of time
@@ -44,18 +41,7 @@ mkdir build
 BUILD=$PWD/build
 cd $BUILD
 
-if test -n "$DONT_USE_RPM_SOURCES"; then
-    # XXX This next line fails on snow... need the tar.gz itself
-    curl -L http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/x86_64/mozilla-$pyrealname-mercurial-$version-$srpm_release.el6.src.rpm | bsdtar -x
-else;
-    if test -f "../$relname-$version.tar.gz"; then
-        echo Copying $realname-$version.tar.gz into build environment
-        cp ../$realname-$version.tar.gz ./
-    else;
-        echo "Unable to find $realname-$version.tar.gz in current directory"
-        exit 1
-    fi;
-fi;
+curl -L http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/x86_64/mozilla-$pyrealname-mercurial-$version-$srpm_release.el6.src.rpm | bsdtar -x
 
 # %prep
 tar -zxf $realname-$version.tar.gz
@@ -86,13 +72,7 @@ mkdir dmg
 fullname=$pyrealname-$realname-$version-$release
 pkg=dmg/$fullname.pkg
 dmg=$fullname.dmg
-if test -n "$USE_PACKAGEMAKER"; then
-    # XXX pkgbuild not avail on 10.6
-    PATH="$PATH:/tools/packagemaker/bin"
-    packagemaker --root $ROOT -i com.mozilla.$pyrealname-$realname -o $pkg -l /
-else;
-    pkgbuild -r $ROOT -i com.mozilla.$pyrealname-$realname --install-location / $pkg
-fi
+pkgbuild -r $ROOT -i com.mozilla.$pyrealname-$realname --install-location / $pkg
 hdiutil makehybrid -hfs -hfs-volume-name "mozilla-$pyrealname-$realname-$version-$release" -o ./$dmg dmg
 echo "Result:"
 echo $PWD/$dmg
