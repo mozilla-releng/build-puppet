@@ -23,6 +23,7 @@ class packages::mozilla::py27_mercurial {
         }
         Ubuntu: {
             $mercurial = "/tools/python27-mercurial/bin/hg"
+            realize(Packages::Aptrepo['mozilla-mercurial'])
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             package {
                 "mozilla-python27-mercurial":
