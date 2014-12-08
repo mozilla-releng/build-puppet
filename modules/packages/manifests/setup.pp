@@ -194,7 +194,8 @@ class packages::setup {
                 "mozilla-mercurial":
                     url_path     => "repos/apt/custom/mozilla-mercurial",
                     distribution => "${lsbdistcodename}",
-                    components   => ["all"];            }
+                    components   => ["all"];
+            }
         }
         Darwin: {
             #nothing to setup on Darwin
