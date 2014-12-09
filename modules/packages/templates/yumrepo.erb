@@ -9,4 +9,6 @@ name=<%= @repo_name %>
 descr=Static "<%= @repo_name %>" repo managed by puppet
 mirrorlist=file://<%= @mirror_file %>
 enabled=1
+sslverify=1
+sslcacert=/var/lib/puppet/ssl/certs/ca.pem
 gpgcheck=0
