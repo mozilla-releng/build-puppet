@@ -17,28 +17,34 @@ class packages::mozilla::py27_mercurial {
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             package {
                 "mozilla-python27-mercurial":
-                    ensure => '2.5.4-1.el6',
+                    ensure => '3.2.1-1.el6',
                     require => Class['packages::mozilla::python27'];
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Ubuntu: {
-            include packages::mercurial
-            $mercurial = "/usr/bin/hg"
+            $mercurial = "/tools/python27-mercurial/bin/hg"
+            realize(Packages::Aptrepo['mozilla-mercurial'])
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
-            file {
-                ["/tools/python27-mercurial", "/tools/python27-mercurial/bin"]:
-                    ensure => directory;
-                "/tools/python27-mercurial/bin/hg":
-                    ensure => link,
-                    target => "/usr/bin/hg";
+            package {
+                "mozilla-python27-mercurial":
+                    ensure => '3.2.1',
+                    require => Class['packages::mozilla::python27'];
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Darwin: {
-            $mercurial = "/tools/python27_mercurial/bin/hg"
+            $mercurial = "/tools/python27-mercurial/bin/hg"
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             packages::pkgdmg {
                 python27-mercurial:
-                    version => "2.5.4-2";
+                    version => "3.2.1-1";
+            } ->
+            file {
+                # This link can go away in a few weeks after verification
+                # that nothing is using it.
+                ["/tools/python27_mercurial"]:
+                    ensure => link,
+                    force => true,
+                    target => "/tools/python27-mercurial";
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Windows: {

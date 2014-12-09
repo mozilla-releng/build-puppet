@@ -4,7 +4,6 @@
 # This is the 'real' name of the python to build with e.g. python26
 %define pyrealname python27
 %define pyver 2.7
-%define pyrel 3
 
 # This is the top level directory of the python installation
 # we'll use
@@ -30,7 +29,7 @@
 %define package_sitearch %{_libdir}/python%{pyver}/site-packages
 
 Name:       mozilla-%{pyrealname}-%{realname}
-Version:	2.5.4
+Version:	3.2.1
 Release:	1%{?dist}
 Summary:	This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
@@ -85,7 +84,13 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Apr 31 2013 Justin Wood <jwood mozilla com> 2.5.4-1
+* Mon Nov 24 2014 Justin Wood <jwood mozilla com> 3.2.1-1
+- update to hg 3.2.1 and drop unused pyrel from spec
+
+* Fri Oct 08 2014 Simone Bruno <sbruno mozilla com> 3.1.2-1
+- update to hg 3.1.2 and fix pyrel
+
+* Tue Apr 30 2013 Justin Wood <jwood mozilla com> 2.5.4-1
 - Update to hg 2.5.4 and fix pyrel
 
 * Mon Jul 09 2012 Dustin J. Mitchell <dustin mozilla com> 2.1.1-4
