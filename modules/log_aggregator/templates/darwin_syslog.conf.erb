@@ -62,7 +62,7 @@ local2.crit                                             /var/log/clamav.log
 #----
 # end of original OS X  config
 
-<% if @log_aggregator %>
+<% if @syslog_aggregator %>
 # forward all syslog data to the aggregation server (via UDP)
-*.* @<%= @log_aggregator %>:514
+*.* @<%= @syslog_aggregator %>:514
 <% end %>
