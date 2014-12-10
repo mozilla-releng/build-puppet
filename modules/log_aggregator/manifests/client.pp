@@ -5,11 +5,11 @@
 class log_aggregator::client {
     include ::config
 
-    $log_aggregator = $::config::log_aggregator
+    $syslog_aggregator = $::config::syslog_aggregator
 
     case $::operatingsystem {
         CentOS,Ubuntu: {
-            if ($log_aggregator) {
+            if ($syslog_aggregator) {
                 rsyslog::config {
                     "log_aggregator_client" :
                         contents => template("${module_name}/client.conf.erb");
