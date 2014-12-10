@@ -6,7 +6,7 @@
 if ! scope.lookupvar('::masterizing')
   servers = [ @data_server ] + Array(@data_servers)
   servers.uniq.each do |mirror_server| -%>
-http://<%= mirror_server %>/<%= @url_path %>
+https://<%= mirror_server %>/<%= @url_path %>
 <% end
 else -%>
 file:///data/<%= @url_path %>
