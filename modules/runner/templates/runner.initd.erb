@@ -43,7 +43,7 @@ is_running() {
 do_start () {
     echo "Starting runner"
     logrotate -f /etc/logrotate.d/runner
-    nohup ${CMD} -c ${CONFIG} ${TASKDIR} >> /var/log/runner.log &
+    nohup ${CMD} -n 30 -H -c ${CONFIG} ${TASKDIR} >> /var/log/runner.log &
     echo $! > ${PIDFILE}
 
     if is_running; then
