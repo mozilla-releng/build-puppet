@@ -14,4 +14,5 @@ class runner::settings {
     }
     $taskdir = "${root}/tasks.d"
     $configdir = "${root}/config.d"
+    $task_hook = "${root}/task_hook.py"
 }
