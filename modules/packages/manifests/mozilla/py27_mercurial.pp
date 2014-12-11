@@ -37,7 +37,7 @@ class packages::mozilla::py27_mercurial {
                 "/usr/bin/hg":
                     ensure => "link",
                     replace => "no",
-                    chmod => 755, # if the binary is here, the symlink won't care
+                    mode => 755, # if the binary is here, the symlink won't care
                     target => $mercurial;
             }
         }
