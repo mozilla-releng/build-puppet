@@ -2,9 +2,8 @@
 max_time = 600
 sleep_time = 60
 halt_task = halt.py
-; pre/post task hooks add are used for logging task status
-pre_task_hook = <%= scope.lookupvar('::runner::settings::task_hook') %>
-post_task_hook = <%= scope.lookupvar('::runner::settings::task_hook') %>
+; pre/post task hooks are used for logging task status
+task_hook = <%= scope.lookupvar('::runner::settings::task_hook') %>
 
 [buildbot]
 slave_dir = <%= scope.lookupvar('::config::runner_buildbot_slave_dir') %>
