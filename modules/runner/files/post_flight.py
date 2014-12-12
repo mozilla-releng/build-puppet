@@ -39,7 +39,7 @@ def get_hostname_blacklist():
     '''
     A list of hostname expressions which will coerce a halt.
     '''
-    return ['^t-.*', '^tst.*', '^talos.*']  # halt all test machines
+    return ['^t-.*', '^tst.*']  # halt all test machines
 
 
 def is_blacklisted(entry, blacklist):
