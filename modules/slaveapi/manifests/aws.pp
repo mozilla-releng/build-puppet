@@ -47,19 +47,20 @@ class slaveapi::aws ($environment='prod') {
     }
 
     # cloud-tools repo
-    mercurial::repo {
+    git::repo {
         "cloud-tools-${cloud_tools_dst}":
-            hg_repo => "${config::cloud_tools_hg_repo}",
+            repo => "${config::cloud_tools_git_repo}",
             dst_dir => $cloud_tools_dst,
             user    => $user,
-            branch  => "${config::cloud_tools_hg_branch}",
             require => Python::Virtualenv[$basedir];
     }
 
     # cron tasks
     file {
         "/etc/cron.d/slaveapi-update-hg-cloud-tools":
-            content => "*/5 * * * * ${user} cd ${cloud_tools_dst} && ${packages::mozilla::py27_mercurial::mercurial} pull -u\n";
+            ensure => absent;
+        "/etc/cron.d/slaveapi-update-git-cloud-tools":
+            content => "*/5 * * * * ${user} cd ${cloud_tools_dst} && git pull\n";
     }
 }
 

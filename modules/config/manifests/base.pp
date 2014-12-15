@@ -291,8 +291,7 @@ class config::base {
     # s3 prefix name for aws_manager log parsing
     $cloudtrail_s3_base_prefix = ""
     # mercurial repository and branch for cloud-tools
-    $cloud_tools_hg_repo = "http://hg.mozilla.org/build/cloud-tools"
-    $cloud_tools_hg_branch = "default"
+    $cloud_tools_git_repo = "https://github.com/mozilla/build-cloud-tools"
     $aws_manager_mail_to = "nobody@mozilla.com"
     # slaverebooter
     $slaverebooter_mail_to = "nobody@mozilla.com"

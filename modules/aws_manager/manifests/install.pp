@@ -39,13 +39,12 @@ class aws_manager::install {
                 "wsgiref==0.1.2",
             ];
     }
-    mercurial::repo {
+    git::repo {
         "cloud-tools-${aws_manager::settings::cloud_tools_dst}":
             require => Python::Virtualenv["${aws_manager::settings::root}"],
-            hg_repo => "${config::cloud_tools_hg_repo}",
+            repo    => "${config::cloud_tools_git_repo}",
             dst_dir => "${aws_manager::settings::cloud_tools_dst}",
-            user    => "${users::buildduty::username}",
-            branch  => "${config::cloud_tools_hg_branch}";
+            user    => "${users::buildduty::username}";
     }
     file {
         "${aws_manager::settings::root}/bin":
