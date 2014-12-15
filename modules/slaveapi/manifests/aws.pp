@@ -60,7 +60,7 @@ class slaveapi::aws ($environment='prod') {
         "/etc/cron.d/slaveapi-update-hg-cloud-tools":
             ensure => absent;
         "/etc/cron.d/slaveapi-update-git-cloud-tools":
-            content => "*/5 * * * * ${user} cd ${cloud_tools_dst} && git pull\n";
+            content => "*/5 * * * * ${user} cd ${cloud_tools_dst} && git pull -q\n";
     }
 }
 
