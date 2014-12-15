@@ -130,8 +130,8 @@ class aws_manager::cron {
 
     file {
         "/etc/cron.d/aws-manager-update-hg-clone":
-            content => "*/5 * * * * ${users::buildduty::username} cd ${aws_manager::settings::cloud_tools_dst} && ${packages::mozilla::py27_mercurial::mercurial} pull -u\n";
-        "/etc/cron.d/aws-manager-delete-old-certs":
-            content => "@daily find ${aws_manager::settings::secrets_dir}/cached_certs -type f -mtime +30 -delete\n";
+            ensure => absent;
+        "/etc/cron.d/aws-manager-update-git-clone":
+            content => "*/5 * * * * ${users::buildduty::username} cd ${aws_manager::settings::cloud_tools_dst} && git pull\n";
     }
 }
