@@ -1,6 +1,7 @@
 class slaveapi::aws ($environment='prod') {
     include ::config
     include users::builder
+    include packages::mozilla::py27_mercurial
 
     # use the slaveapi user - cltbld instead of buildduty
     $user = $users::builder::username
