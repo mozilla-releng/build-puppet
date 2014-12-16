@@ -1,0 +1,21 @@
+{
+  "CHANGELOG.md": "7903ab87d8c7c6d1f5a62d387eab071c",
+  "Gemfile": "be6bd0dbe4400bd57206a5af70ae0807",
+  "LICENSE": "6089b6bd1f0d807edb8bdfd76da0b038",
+  "README.md": "b00968ab5b81dd537f6864c14e6da6f3",
+  "Rakefile": "b7fa47f72583e517f019ab58f48853f2",
+  "lib/puppet/provider/exec/powershell.rb": "6cd041b40a8192ae0756893ae2b8525d",
+  "metadata.json": "e81631f2e9d439e3b8e4f17eebe3bab3",
+  "spec/acceptance/exec_powershell_spec.rb": "eb4fbbeee17bf7f4ae4bb512886fffe5",
+  "spec/acceptance/files/param_script.ps1": "942dc0c5aaf3880732b610bdae165cba",
+  "spec/acceptance/files/services.ps1": "6281d2a9de037d17514ba1618bc8d63f",
+  "spec/acceptance/nodesets/windows-2003-i386.yml": "ee44e67756ecd0c07e08ae8ec91684cd",
+  "spec/acceptance/nodesets/windows-2003-x86_64.yml": "33f48b5729235a6764880f18ddfdf976",
+  "spec/acceptance/nodesets/windows-2008-x86_64.yml": "78c97561cc383cde9e18d612aeafa335",
+  "spec/acceptance/nodesets/windows-2008r2-x86_64.yml": "bf563a036e054f0f50cc271d6cd819e6",
+  "spec/acceptance/nodesets/windows-2012-x86_64.yml": "678b95ea73e959c79d8723f35f66bc54",
+  "spec/acceptance/nodesets/windows-2012r2-x86_64.yml": "f1f44c34a702307974dd1cff2909f402",
+  "spec/spec_helper.rb": "fc0ee3c4cbe0c9500c277602a8261d6e",
+  "spec/spec_helper_acceptance.rb": "1ad802468cf47371ecaf31a7e8c6278b",
+  "spec/unit/provider/exec/powershell_spec.rb": "df51bcf7778c6e42284f4c2a45c5c329"
+}

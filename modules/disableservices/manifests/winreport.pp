@@ -5,7 +5,9 @@
 #Disable Windows reporting service
 
 class disableservices::winreport {
-    service { "Windows Error Reporting Service":
-        enable => false,
+    if ($env_os_version != 2008) {   
+        service { "Windows Error Reporting Service":
+            enable => false,
+        }
     }
 }  
