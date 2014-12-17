@@ -60,8 +60,6 @@ class config inherits config::base {
     $ntp_server = "us.pool.ntp.org"
     $enable_mig_agent = true
 
-    $log_aggregator = 'hp1.relabs.releng.scl3.mozilla.com'
-
     $admin_users = [
         "arr",
         "bhearsum",
