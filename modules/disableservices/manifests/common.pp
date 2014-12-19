@@ -68,7 +68,7 @@ class disableservices::common {
                             ensure => stopped,
                     }
                 }
-                10.9: {
+                10.9, 10.10: {
                     service {
                         [
                             'com.apple.softwareupdated',

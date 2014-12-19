@@ -5,7 +5,7 @@
 class config inherits config::base {
     $org = "moco"
 
-    $puppet_notif_email = "releng-shared@mozilla.com"
+    $puppet_notif_email = "releng-puppet-mail@mozilla.com"
     $puppet_server_reports = "tagmail,http"
     $puppet_server_reporturl = "http://foreman.pvt.build.mozilla.org:3001/"
     $puppet_server_facturl = "http://foreman.pvt.build.mozilla.org:3000/"

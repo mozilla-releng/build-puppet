@@ -37,6 +37,7 @@ DocumentRoot "<%= scope.lookupvar('talos::settings::apachedocumentroot') %>"
     #
     # Controls who can get stuff from this server.
     #
+    <%= scope.lookupvar('talos::settings::requireall') %>
     Order allow,deny
     Allow from all
 

@@ -56,6 +56,16 @@ class packages::mozilla::py27_mercurial {
                     force => true,
                     target => "/tools/python27-mercurial";
             } -> Anchor['packages::mozilla::py27_mercurial::end']
+            if ($::macosx_productversion_major == "10.10") {  
+                file {  
+                    ["/usr/bin/hg"]:
+                        ensure => link,
+                        owner => "root",
+                        replace => "no",
+                        group => $users::root::group,
+                        target => $mercurial;
+                }
+            }
         }
         Windows: {
             # on Windows, we use the hg that ships with MozillaBuild
