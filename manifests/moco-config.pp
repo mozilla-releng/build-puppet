@@ -64,7 +64,7 @@ class config inherits config::base {
     $user_python_repositories = [ "http://pypi.pvt.build.mozilla.org/pub", "http://pypi.pub.build.mozilla.org/pub" ]
 
     $nrpe_allowed_hosts = "127.0.0.1,10.26.75.30"
-    $ntp_server = "time.mozilla.org"
+    $ntp_server = "us.pool.ntp.org"
     $relayhost = "[smtp.mozilla.org]"
 
     $enable_mig_agent = true

@@ -17,6 +17,7 @@ class config inherits config::base {
     $puppet_server = $puppet_servers[0]
     $data_servers = $puppet_servers
     $data_server = $puppet_server
+    $ntp_server = "us.pool.ntp.org"
 
     $distinguished_puppetmaster = "sea-puppet.community.scl3.mozilla.com"
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
