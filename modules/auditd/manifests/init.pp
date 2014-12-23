@@ -22,6 +22,11 @@ class auditd($host_type) {
 
     case $operatingsystem {
         CentOS: {
+            # rsyslog's upstream default config logs all the auditd stuff
+            # to 'messages', which is super-noisy.  The puppet module filters
+            # that by default (bug 1100395).
+            include rsyslog
+
             service {
                 'auditd':
                     ensure => running,
