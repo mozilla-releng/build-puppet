@@ -5,11 +5,21 @@ class dirs::builds::hg_shared {
     include dirs::builds
     include users::builder
 
-    file {
-        "/builds/hg-shared":
-            ensure => directory,
-            owner => "$users::builder::username",
-            group => "$users::builder::group",
-            mode => 0755;
+    case $::operatingsystem {
+        windows: {
+            file {
+                "C:/builds/hg-shared":
+                    ensure => directory;
+            }
+        }
+        default:{
+            file {
+                "/builds/hg-shared":
+                    ensure => directory,
+                    owner => "$users::builder::username",
+                    group => "$users::builder::group",
+                    mode => 0755;
+            }
+        }
     }
 }

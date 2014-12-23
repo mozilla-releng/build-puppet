@@ -5,11 +5,21 @@ class dirs::builds::tooltool_cache {
     include dirs::builds
     include users::builder
 
-    file {
-        "/builds/tooltool_cache":
-            ensure => directory,
-            owner => "$users::builder::username",
-            group => "$users::builder::group",
-            mode => 0755;
+    case $::operatingsystem {
+        windows: {
+            file {
+                "C:/builds/tooltool_cache":
+                    ensure => directory;
+            }
+        }
+        default: {
+            file {
+                "/builds/tooltool_cache":
+                    ensure => directory,
+                    owner => "$users::builder::username",
+                    group => "$users::builder::group",
+                    mode => 0755;
+            }
+        }
     }
 }

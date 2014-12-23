@@ -6,16 +6,21 @@ class slave_secrets::mozilla_api_key($ensure=present) {
     include config
     include dirs::builds
 
+    $mozilla_api_key = $::operatingsystem ? {
+        Windows => 'C:/builds/mozilla-api.key',
+        default => "/builds/mozilla-api.key"
+    }
+       
     if ($ensure == 'present' and $config::install_mozilla_api_key) {
         file {
-            "/builds/mozilla-api.key":
+            $mozilla_api_key:
                 content => secret("mozilla_api_key"),
                 mode    => 0644,
                 show_diff => false;
         }
     } else {
         file {
-            "/builds/mozilla-api.key":
+            $mozilla_api_key:
                 ensure => absent;
         }
     }

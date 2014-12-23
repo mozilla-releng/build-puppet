@@ -6,11 +6,21 @@ class dirs::builds::logs {
     include users::root
     include shared
 
-    file {
-            "/builds/logs" :
-            ensure => directory,
-            owner => "root",
-            group => "$users::root::group",
-            mode => 0755;
+    case $::operatingsystem {
+        windows: {
+            file {
+                "C:/builds/logs":
+                    ensure => directory;
+            }
+        }
+        default: {
+            file {
+                "/builds/logs" :
+                    ensure => directory,
+                    owner => "root",
+                    group => "$users::root::group",
+                    mode => 0755;
+            }
+        }
     }
 }

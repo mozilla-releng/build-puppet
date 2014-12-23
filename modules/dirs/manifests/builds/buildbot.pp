@@ -6,11 +6,21 @@ class dirs::builds::buildbot {
     include config
     include dirs::builds
 
-    file {
-        "/builds/buildbot" :
-            ensure => directory,
-            owner => "$users::builder::username",
-            group => "$users::builder::group",
-            mode => 0755;
+        case $::operatingsystem {
+            windows: {
+                file {
+                    "C:/builds/buildbot":
+                        ensure => directory;
+                }
+            }
+        default: {
+            file {
+                "/builds/buildbot" :
+                    ensure => directory,
+                    owner => "$users::builder::username",
+                    group => "$users::builder::group",
+                    mode => 0755;
+            }
+        }
     }
-}
+}        

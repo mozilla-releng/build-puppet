@@ -12,6 +12,9 @@ class packages::mozilla::gittool {
                     mode => 0755;
             }
         }
+        Windows: {
+            #TODO: add windows support https://bugzilla.mozilla.org/show_bug.cgi?id=1113324
+        }
         default: {
             fail("Don't know where to put gittool on this platform")
         }
