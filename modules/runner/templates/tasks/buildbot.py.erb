@@ -27,11 +27,16 @@ def buildbot_process_id():
             print "skipping %s" % pidfile
             continue
         with open(pidfile, 'r') as f:
-            pid = int(f.read())
+            pid = f.read().strip()
+            if not pid.isdigit():
+                print "%s is invalid or empty, deleting and continuing" % pidfile
+                os.remove(pidfile)
+                continue
         try:
+            pid = int(pid)
             os.kill(pid, 0)  # check if process is running
             return pid
-        except OSError:
+        except OSError, ValueError:
             print "Old pidfile still exists, deleting and continuing"
             os.remove(pidfile)
             return 0
