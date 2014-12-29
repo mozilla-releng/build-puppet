@@ -16,7 +16,7 @@ class shipit_notifier {
             user     => "${users::builder::username}",
             group    => "${users::builder::group}",
             packages => [
-                "MozillaPulse==0.93",
+                "MozillaPulse==1.0",
                 "argparse==1.2.1",
                 "buildtools==1.0.4",
                 "python-dateutil==2.2",
