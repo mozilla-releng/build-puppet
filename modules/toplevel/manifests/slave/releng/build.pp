@@ -12,15 +12,19 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
 
     include users::builder
 
-    include ntp::daemon
-    include tweaks::nofile
-    include tweaks::filesystem
+    if ($::operatingsystem != Windows) {
+        include ntp::daemon
+        include tweaks::nofile
+        include tweaks::filesystem
+    }
 
     include nrpe
-    include nrpe::check::buildbot
-    include nrpe::check::ide_smart
-    include nrpe::check::procs_regex
-    include nrpe::check::child_procs_regex
+    if ($::operatingsystem != Windows) {
+        include nrpe::check::buildbot
+        include nrpe::check::ide_smart
+        include nrpe::check::procs_regex
+        include nrpe::check::child_procs_regex
+    }
 
     include packages::mozilla::git
     include packages::mozilla::py27_virtualenv
@@ -29,14 +33,18 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
     include packages::mozilla::retry
     include packages::patch
 
-    include jacuzzi_metadata
-    include aws::instance_storage
+    if ($::operatingsystem != Windows) {
+        include packages::mozilla::py27_virtualenv
 
-    ccache::ccache_dir {
-        "/builds/ccache":
-            maxsize => "10G",
-            owner => $users::builder::username,
-            group => $users::builder::group;
+        include jacuzzi_metadata
+        include aws::instance_storage
+
+        ccache::ccache_dir {
+            "/builds/ccache":
+                maxsize => "10G",
+                owner => $users::builder::username,
+                group => $users::builder::group;
+        }
     }
 
     class {

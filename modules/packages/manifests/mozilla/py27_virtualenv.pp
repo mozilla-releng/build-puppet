@@ -27,6 +27,9 @@ class packages::mozilla::py27_virtualenv {
                     version => "1.7.1.2-1";
             } -> Anchor['packages::mozilla::py27_virtualenv::end']
         }
+        Windows: {
+            #TODO: add windows support https://bugzilla.mozilla.org/show_bug.cgi?id=1113324
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }

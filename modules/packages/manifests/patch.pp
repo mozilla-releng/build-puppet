@@ -12,6 +12,9 @@ class packages::patch {
          Darwin: {
             #patch is installed with base image
         }
+        Windows: {
+            #TODO add windows support https://bugzilla.mozilla.org/show_bug.cgi?id=1113324
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }

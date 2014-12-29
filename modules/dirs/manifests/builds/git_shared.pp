@@ -5,11 +5,21 @@ class dirs::builds::git_shared {
     include dirs::builds
     include users::builder
 
-    file {
-        "/builds/git-shared":
-            ensure => directory,
-            owner => "$users::builder::username",
-            group => "$users::builder::group",
-            mode => 0755;
+    case $::operatingsystem {
+        windows: {
+            file {
+                "C:/builds/git-shared":
+                    ensure => directory;
+            }
+        }
+        default: {
+            file {
+                "/builds/git-shared":
+                    ensure => directory,
+                    owner => "$users::builder::username",
+                    group => "$users::builder::group",
+                mode => 0755;
+            }
+        }
     }
 }

@@ -3,6 +3,9 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class slave_secrets($ensure=present, $slave_type) {
+
+    include dirs::etc
+
     # check that the node-level variable is set
     if ($slave_trustlevel == '') {
         fail("No slave_trustlevel is set for this host; add that to your node definition")
@@ -14,12 +17,17 @@ class slave_secrets($ensure=present, $slave_type) {
     }
 
     # set the on-disk trust level if it's not already defined
-    $trustlevel_file = '/etc/slave-trustlevel'
+    $trustlevel_file =  $::operatingsystem ? {
+        windows => 'C:/etc/slave-trustlevel',
+        default => '/etc/slave-trustlevel',
+    }
+
     file {
         $trustlevel_file:
             content => $slave_trustlevel,
             replace => false,
-            mode => filemode(0500);
+            mode => filemode(0500),
+            require => Class[dirs::etc],
     }
 
     # actually do the work of installing, or removing, secrets

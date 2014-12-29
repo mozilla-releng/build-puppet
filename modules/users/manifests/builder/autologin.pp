@@ -26,6 +26,9 @@ class users::builder::autologin {
             # Managed by xvfb/Xsession
         }
         Windows: {
+            include tweaks::pwrshell_options
+            include dirs::etc
+
             # In Windows autologin is setup through registry settings
             registry::value { 'AutoAdminLogon':
                 key    => "HKLM\\SOFTWARE\\Microsoft",
@@ -48,25 +51,25 @@ class users::builder::autologin {
                 type   => dword,
                 data   => '100000',
             }
-            # Enables Clean Desktop Exp. managaer. See  http://technet.microsoft.com/en-us/library/ee344834.aspx for refrence.
-            exec { "cleanmgr":
-                creates => 'C:\programdata\PuppetLabs\puppet\var\lib\cleandesktopresults.xml',
-                command => 'C:\Windows\System32\servermanagercmd.exe -install Desktop-Experience -resultPath C:\programdata\PuppetLabs\puppet\var\lib\cleandesktopresults',
+            # Enables Clean Desktop Exp. feature. See http://technet.microsoft.com/en-us/library/jj205467.aspx.
+            shared::execonce { "desktop_exp":
+                command  => 'Import-Module Servermanager; Add-WindowsFeature Desktop-Experience ',
+                provider => powershell, 
             }
             # In the scenario where there is no live management the logon count could possible become 0
             # The following resets the count on login of the build user 
             #
-            # XML file to set up a schedule task to to launch buildbot on cltbld log in.
+            # XML file to set up a schedule task to reset logon value.
             # XML file needs to exported from the task scheduler gui. Also note when using the XML import be aware of machine specific values such as name will need to be replaced with a variable.
             # Hence the need for the template.
-            file {'C:/tmp/Update_Logon_Count.xml':
+            file {'C:/etc/Update_Logon_Count.xml':
                 content => template("users/Update_Logon_Count.xml.erb"),
             }
             # Importing the XML file using schtasks
             # Refrence http://technet.microsoft.com/en-us/library/cc725744.aspx and http://technet.microsoft.com/en-us/library/cc722156.aspx
             shared::execonce { "Update_Logon_Count":
                 command => '"C:\Windows\winsxs\x86_microsoft-windows-sctasks_31bf3856ad364e35_6.1.7601.17514_none_8c46e17f1398738b\schtasks.exe" /Create  /XML "C:\tmp\Update_Logon_Count.xml" /tn Update_Logon_Count.xml', 
-                require => File['C:/tmp/Update_Logon_Count.xml'];
+                require => File['C:/etc/Update_Logon_Count.xml'];
             }
         }
         default: {

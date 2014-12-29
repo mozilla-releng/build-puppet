@@ -7,9 +7,14 @@ class slave_secrets::google_oauth_api_key($ensure=present) {
     include users::builder
     include dirs::builds
 
+    $google_oauth_api_key = $::operatingsystem ? {
+        windows => 'C:/builds/google-oauth-api.key',
+        default => "/builds/google-oauth-api.key"
+    }
+
     if ($ensure == 'present' and $config::install_google_oauth_api_key) {
         file {
-            "/builds/google-oauth-api.key":
+            $google_oauth_api_key:
                 content => secret("google_oauth_api_key"),
                 owner  => $::users::builder::username,
                 group  => $::users::builder::group,
@@ -18,7 +23,7 @@ class slave_secrets::google_oauth_api_key($ensure=present) {
         }
     } else {
         file {
-            "/builds/google-oauth-api.key":
+            $google_oauth_api_key:
                 ensure => absent;
         }
     }

@@ -22,6 +22,9 @@ class packages::mozilla::git {
                     version => "1.7.9.4-1";
             } -> Anchor['packages::mozilla::git::end']
         }
+        Windows: {
+            #TODO: add windows support https://bugzilla.mozilla.org/show_bug.cgi?id=1113324
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }

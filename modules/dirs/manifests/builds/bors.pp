@@ -6,11 +6,21 @@ class dirs::builds::bors {
     include config
     include dirs::builds
 
-    file {
-        "/builds/bors" :
-            ensure => directory,
-            owner => "$users::builder::username",
-            group => "$users::builder::group",
-            mode => 0755;
+    case $::operatingsystem {
+        windows: {
+            file {
+                "C:/builds/bors":
+                    ensure => directory;
+            }
+        }
+        default: {
+            file {
+                "/builds/bors" :
+                    ensure => directory,
+                    owner => "$users::builder::username",
+                    group => "$users::builder::group",
+                    mode => 0755;
+            }
+        }
     }
 }
