@@ -19,6 +19,11 @@ puts "Starting at #{Time.new}"
 SEMAPHORE = <%= @puppet_semaphore.inspect %>
 File.delete(SEMAPHORE) if File.exists?(SEMAPHORE)
 
+# the REBOOT_FLAG_FILE indicates that we should reboot after running puppet. The flag
+# should be set by the puppet agent, so we should remove the flag file before each run.
+REBOOT_FLAG_FILE = "C:\\REBOOT_AFTER_PUPPET"
+File.delete(REBOOT_FLAG_FILE) if File.exists?(REBOOT_FLAG_FILE)
+
 PUPPETMASTERS = File.readlines(<%= @puppetmasters_txt.inspect %>)
 WAIT_TIME = 60
 GIVE_UP_AFTER_TRYING = 3
@@ -44,7 +49,12 @@ def run_until_success()
     GIVE_UP_AFTER_TRYING.times do
         PUPPETMASTERS.each do |puppetmaster|
             if run_puppet(puppetmaster)
-                # TODO: reboot if reboot-request exists
+                if File.exists?(REBOOT_FLAG_FILE)
+                    File.delete(REBOOT_FLAG_FILE)
+                    puts "Rebooting as requested"
+                    system('shutdown /r /f /t 0')
+                    sleep 120
+                end
                 exit 0
             end
             sleep wait_time
