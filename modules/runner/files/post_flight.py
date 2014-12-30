@@ -39,7 +39,8 @@ def get_hostname_blacklist():
     '''
     A list of hostname expressions which will coerce a halt.
     '''
-    return ['^t-.*', '^tst.*']  # halt all test machines
+    # blacklist test, talos, and try osx machines
+    return ['^t.*lion.*', '^t.*snow.*', '^t.*yosemite.*', '^t.*mavericks.*']
 
 
 def is_blacklisted(entry, blacklist):
