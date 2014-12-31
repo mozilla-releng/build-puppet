@@ -36,4 +36,12 @@ class toplevel::slave::releng inherits toplevel::slave {
             'aws-ssh-key': ;
         }
     }
+    if ($::config::enable_mig_agent) {
+        case $::operatingsystem {
+            # Darwin support is coming soon
+            'CentOS', 'RedHat', 'Ubuntu': {
+                include mig::agent::checkin
+            }
+        }
+    }
 }

@@ -1,10 +1,12 @@
 [agent]
-    isimmortal      = on
-    installservice  = on
+    isimmortal      = <%= @isimmortal %>
+    installservice  = <%= @installservice %>
+    discoverpublicip = <%= @discoverpublicip %>
+    checkin         = <%= @checkin %>
     relay           = "<%= scope.function_secret(['mig_agent_relay_uri']) %>"
     socket          = "127.0.0.1:51664"
     heartbeatfreq   = "30s"
-    moduletimeout   = "300s"
+    moduletimeout   = "<%= @moduletimeout %>"
 
 [certs]
     ca  = "/etc/mig/ca.crt"

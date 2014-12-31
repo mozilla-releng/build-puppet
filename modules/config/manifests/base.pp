@@ -133,7 +133,7 @@ class config::base {
     # content to be placed in authorized_keys (so, "<type> <key> <comment>")
     $extra_user_ssh_keys = {}
 
-    # a flag the controls which nodes should install and run MIG Agent
+    # a flag that controls which nodes should install and run MIG Agent
     $enable_mig_agent = false
 
     ##
