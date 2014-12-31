@@ -18,8 +18,8 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
         include tweaks::filesystem
     }
 
-    include nrpe
     if ($::operatingsystem != Windows) {
+        include nrpe
         include nrpe::check::buildbot
         include nrpe::check::ide_smart
         include nrpe::check::procs_regex
