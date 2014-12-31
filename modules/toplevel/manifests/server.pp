@@ -21,7 +21,7 @@ class toplevel::server inherits toplevel::base {
         case $::operatingsystem {
             # Darwin support is coming soon
             'CentOS', 'RedHat', 'Ubuntu': {
-                include mig::agent
+                include mig::agent::daemon
             }
         }
     }
