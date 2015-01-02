@@ -4,12 +4,25 @@
 class packages::mesa {
     case $::operatingsystem {
         Ubuntu: {
-            package {
-                # This package is a recompiled version of
-                # https://launchpad.net/ubuntu/+source/mesa
-                ["libgl1-mesa-dri", "libgl1-mesa-glx", "libglapi-mesa",
-                 "libglu1-mesa", "libxatracker1", "libgl1-mesa-dev"]:
-                    ensure => '8.0.4-0ubuntu0.6mozilla1';
+            case $::hardwaremodel {
+                "i686": {
+                    package {
+                        # This package is a recompiled version of
+                        # https://launchpad.net/ubuntu/+source/mesa
+                        ["libgl1-mesa-dri", "libgl1-mesa-glx", "libglapi-mesa",
+                         "libglu1-mesa","libxatracker1"]:
+                            ensure => '8.0.4-0ubuntu0.6mozilla1';
+                    }
+                }
+                "x86_64": {
+                    package {
+                        # This package is a recompiled version of
+                        # https://launchpad.net/ubuntu/+source/mesa
+                        ["libgl1-mesa-dri", "libgl1-mesa-glx", "libglapi-mesa",
+                         "libglu1-mesa","libxatracker1"]:
+                            ensure => '8.0.4-0ubuntu0.6mozilla1';
+                    }
+                }
             }
         }
         default: {
