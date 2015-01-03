@@ -4,4 +4,4 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # run mig-agent in checkin mode
-/sbin/mig-agent -m agent-checkin
+/sbin/mig-agent -m agent-checkin || true
