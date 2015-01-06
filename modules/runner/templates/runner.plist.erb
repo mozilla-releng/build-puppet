@@ -20,6 +20,9 @@
         <key>ProgramArguments</key>
         <array>
             <string><%= scope.lookupvar('::runner::settings::root') %>/bin/runner</string>
+            <string>-H</string>
+            <string>-n</string>
+            <string>15</string>
             <string>-c</string>
             <string><%= scope.lookupvar('::runner::settings::root') %>/runner.cfg</string>
             <string><%= scope.lookupvar('::runner::settings::root') %>/tasks.d</string>
