@@ -53,17 +53,6 @@ class packages::mozilla::py27_mercurial {
                 ["/tools/python27_mercurial"]:
                     ensure => absent;
             } -> Anchor['packages::mozilla::py27_mercurial::end']
-            if ($::macosx_productversion_major == "10.10") {
-                # Needed for plist PATH issues see Bug 1094293 c#31
-                file {  
-                    ["/usr/bin/hg"]:
-                        ensure => link,
-                        owner => "root",
-                        replace => "no",
-                        group => $users::root::group,
-                        target => $mercurial;
-                }
-            }
         }
         Windows: {
             # on Windows, we use the hg that ships with MozillaBuild
