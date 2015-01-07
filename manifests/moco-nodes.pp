@@ -116,6 +116,12 @@ node /releng-puppet\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
     include toplevel::server::puppetmaster
 }
 
+## deploystudio servers
+
+node /install\.(build|test)\.releng\.scl3\.mozilla\.com/ {
+    include toplevel::server
+}
+
 ## casper imaging servers
 
 node /casper-fs-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
