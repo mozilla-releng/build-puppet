@@ -56,7 +56,7 @@ class slave_secrets($ensure=present, $slave_type) {
                 ensure => $ensure;
             'slave_secrets::ceph_config':
                 ensure => $ensure;
-            'slave_secrets::mozilla_api_key':
+            'slave_secrets::mozilla_geoloc_api_keys':
                 ensure => $ensure;
         }
     } else {
@@ -67,7 +67,7 @@ class slave_secrets($ensure=present, $slave_type) {
                 ensure => absent;
             'slave_secrets::ceph_config':
                 ensure => absent;
-            'slave_secrets::mozilla_api_key':
+            'slave_secrets::mozilla_geoloc_api_keys':
                 ensure => absent;
         }
     }
