@@ -119,7 +119,7 @@ node /releng-puppet\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
 ## deploystudio servers
 
 node /install\.(build|test)\.releng\.scl3\.mozilla\.com/ {
-    include toplevel::server
+    include toplevel::server::deploystudio
 }
 
 ## casper imaging servers
