@@ -40,5 +40,10 @@ class buildmaster::db_maintenance {
             require => [Python::Virtualenv[$db_maintenance_dir], Mercurial::Repo["buildmaster::db_maintenance::tools"]],
             mode    => 600,
             content => template("buildmaster/buildmaster-db-maintenance.erb");
+        "$db_maintenance_dir/config.ini":
+            user    => "${users::builder::username}",
+            group   => "${users::builder::group}",
+            mode    => 600,
+            content => template("buildmaster/buildmaster-db-maintenance-config.erb");
     }
 }
