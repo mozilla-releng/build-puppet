@@ -11,14 +11,14 @@ class packages::mozilla::mig_agent {
                 # where needed. Agent init process is described at
                 # https://github.com/mozilla/mig/blob/master/doc/concepts.rst
                 'mig-agent':
-                    ensure => '20141229+f800238.prod-1'
+                    ensure => '20150109+a160729.prod-1'
             }
         }
         'Ubuntu': {
             realize(Packages::Aptrepo['mig-agent'])
             package {
                 'mig-agent':
-                    ensure => '20141229+f800238.prod'
+                    ensure => '20150109+a160729.prod'
             }
         }
     }
