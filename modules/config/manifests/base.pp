@@ -165,8 +165,8 @@ class config::base {
     $install_google_api_key = false
     # true if ceph access keys should be installed on build slaves
     $install_ceph_cfg = false
-    # true if secret("mozilla_api_key") should be installed at /builds/mozilla-api.key
-    $install_mozilla_api_key = false
+    # true if mozilla geo location API keys should be installed on build slaves
+    $install_mozilla_geoloc_api_keys = false
     # true if secret("google_oauth_api_key") should be installed at /builds/google-oauth-api.key
     $install_google_oauth_api_key = false
 
