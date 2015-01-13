@@ -1,15 +1,8 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-class users::deploystudio::account($username, $group, $grouplist, $home) {
+class users::deploystudio::account($username, $group, $grouplist, $home, $uid) {
     include ::config
-
-    ##
-    # sanity checks
-
-    if ($username == '') {
-        fail('No deploystudio username set')
-    }
 
     ##
     # create the user
@@ -24,6 +17,7 @@ class users::deploystudio::account($username, $group, $grouplist, $home) {
                     }
                     user {
                         $username:
+                            uid => $uid,
                             gid => $group,
                             shell => "/bin/bash",
                             home => $home,
@@ -39,6 +33,7 @@ class users::deploystudio::account($username, $group, $grouplist, $home) {
                     }
                     user {
                         $username:
+                            uid => $uid,
                             gid => $group,
                             shell => "/bin/bash",
                             home => $home,
@@ -54,6 +49,7 @@ class users::deploystudio::account($username, $group, $grouplist, $home) {
                     }
                     user {
                         $username:
+                            uid => $uid,
                             shell => "/bin/bash",
                             home => $home,
                             password => secret("deploystudio_pw_pbkdf2"),

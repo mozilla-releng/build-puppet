@@ -13,6 +13,16 @@ class users::deploystudio {
     # public variables used by other modules
 
     $username = $::config::deploystudio_username
+    if ! $username or $username == '' {
+        fail("Deploystudio username is not defined or empty")
+    }
+
+    # uid must be specified >500 for the user to be visable in the fileshare gui
+    # https://tickets.puppetlabs.com/browse/PUP-3833
+    $uid = $config::deploystudio_uid
+    if $uid < 500 {
+        fail("Deploystudio user UID must be set above 500")
+    }
 
     #files are owned by staff group on macosx
     $group =  'staff'
@@ -27,7 +37,8 @@ class users::deploystudio {
             username => $username,
             group => $group,
             grouplist => [],
-            home => $home;
+            home => $home,
+            uid => $uid;
     }
 
     Anchor['users::deploystudio::begin'] ->
