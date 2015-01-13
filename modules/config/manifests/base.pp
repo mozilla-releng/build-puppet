@@ -304,9 +304,10 @@ class config::base {
     $slaverebooter_slaveapi = ""
 
     # deploystudio 
-
-    # username of the user deploystudio uses to access its file share and http 
+    # username and uid of the user deploystudio uses to access its file share
     $deploystudio_username = 'dsadmin'
+    # deploystudio_uid must be an int greater than 500
+    $deploystudio_uid = 0
 
     # The version of xcode to install with packages::xcode. See that package
     # for the availible options.  If different hosts need different versions,

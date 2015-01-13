@@ -221,7 +221,10 @@ class config inherits config::base {
 
     $runner_buildbot_slave_dir = '/builds/slave'
 
+    # deploystudio
     $deploystudio_username = 'dsadmin'
+    # deploystudio_uid must be an int greater than 500
+    $deploystudio_uid = 543647
 
     $xcode_version = $::macosx_productversion_major ? {
         10.6 => "4.2",
