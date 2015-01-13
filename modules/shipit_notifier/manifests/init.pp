@@ -17,12 +17,13 @@ class shipit_notifier {
             group    => "${users::builder::group}",
             packages => [
                 "MozillaPulse==1.0",
+                "amqp==1.4.3",
+                "anyjson==0.3.3",
+                "certifi==0.0.8",
+                "kombu==3.0.12",
                 "python-dateutil==2.2",
                 "pytz==2013.7",
-                "amqp==1.4.3",
-                "kombu==3.0.12",
-                "anyjson==0.3.3",
-                "six==1.8.0"
+                "six==1.8.0",
             ];
     }
 
