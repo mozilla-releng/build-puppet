@@ -6,6 +6,11 @@ class runner::tasks::restart_services($runlevel=100) {
 
     $service_names = "xvfb"
 
+    # temporary, remove old leftover from previous runlevel
+    file {
+        "/opt/runner/tasks.d/2-restart_services":
+            ensure => absent,
+    }
     runner::task {
         "${runlevel}-restart_services":
             content  => template("${module_name}/tasks/restart_services.erb");
