@@ -10,6 +10,8 @@ class runner::tasks::restart_services($runlevel=99) {
     file {
         "/opt/runner/tasks.d/2-restart_services":
             ensure => absent,
+    }
+    file {
         "/opt/runner/tasks.d/100-restart_services":
             ensure => absent,
     }
