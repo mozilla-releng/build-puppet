@@ -40,7 +40,16 @@ def get_hostname_blacklist():
     A list of hostname expressions which will coerce a halt.
     '''
     # blacklist test, talos, and try
-    return ['^t.*', '^t.*lion.*', '^t.*snow.*', '^t.*yosemite.*', '^t.*mavericks.*']
+    return ['^t.*lion.*', '^t.*snow.*', '^t.*yosemite.*', '^t.*mavericks.*']
+
+
+def get_buildname_blacklist():
+    '''
+    A list of build name expressions which will coerce a halt, names are
+    retrieved from buildapi via get_recent_builds().
+    '''
+    # reboot after android, b2g emulator, reftest, or mochitest jobs
+    return ['.*android.*', '.*emulator.*', '.*mochi.*', '.*reftest.*']
 
 
 def is_blacklisted(entry, blacklist):
@@ -64,6 +73,11 @@ if __name__ == '__main__':
     if not build_data:
         # The exception should coerce a retry
         raise Exception('Failed to find data for %s' % hostname)
+
+    if is_blacklisted(build_data[0]['buildname'], get_buildname_blacklist()):
+        print('Buildname is blacklisted: halting')
+        halt()
+
     if build_data[0]['result'] != 0:
         print('Last job failed: halting')
         halt()
