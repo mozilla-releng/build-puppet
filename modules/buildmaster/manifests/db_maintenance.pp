@@ -41,7 +41,7 @@ class buildmaster::db_maintenance {
             mode    => 600,
             content => template("buildmaster/buildmaster-db-maintenance.erb");
         "$db_maintenance_dir/config.ini":
-            user    => "${users::builder::username}",
+            owner   => "${users::builder::username}",
             group   => "${users::builder::group}",
             mode    => 600,
             content => template("buildmaster/buildmaster-db-maintenance-config.erb");
