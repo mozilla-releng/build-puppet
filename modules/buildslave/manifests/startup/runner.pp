@@ -4,6 +4,8 @@
 class buildslave::startup::runner {
     case $::operatingsystem {
         'CentOS': {
+            include runner::tasks::cleanslate_task
+            include runner::tasks::post_flight
             file {
                 "/etc/init.d/buildbot":
                     ensure => absent,
@@ -16,12 +18,16 @@ class buildslave::startup::runner {
             }
         }
         'Ubuntu': {
+            include runner::tasks::cleanslate_task
+            include runner::tasks::post_flight
             file {
                 "${::users::builder::home}/.config/autostart/gnome-terminal.desktop":
                     ensure => absent;
             }
         }
         'Darwin': {
+            include runner::tasks::cleanslate_task
+            include runner::tasks::post_flight
             include runner::tasks::darwin_clean_buildbot
             # TODO: Stop ensuring that buildslave.plist is absent after
             # some reasonable amount of time passes (1 month post deployment).
@@ -33,8 +39,6 @@ class buildslave::startup::runner {
             }
         }
     }
-    include runner::tasks::cleanslate_task
-    include runner::tasks::post_flight
     include runner::tasks::buildbot
     include runner::tasks::halt
 }
