@@ -39,8 +39,7 @@ def get_hostname_blacklist():
     '''
     A list of hostname expressions which will coerce a halt.
     '''
-    # blacklist test, talos, and try
-    return ['^t.*lion.*', '^t.*snow.*', '^t.*yosemite.*', '^t.*mavericks.*']
+    return []
 
 
 def get_buildname_blacklist():
