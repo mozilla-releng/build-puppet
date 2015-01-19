@@ -12,6 +12,12 @@ pidfile = <%=@basedir%>/slaveapi.pid
 [secrets]
 credentials_file = <%=@credentials_file%>
 
+[aws]
+aws_base_path = <%=@basedir%>/aws
+cloud_tools_path  = <%=@basedir%>/aws/cloud-tools
+aws_secrets = <%=@basedir%>/aws/secrets/aws-secrets.json
+aws_ssh_key = <%= scope.lookupvar("::users::builder::home") %>/.ssh/aws-ssh-key
+
 [slavealloc]
 api_url = <%= scope.lookupvar("::config::slaveapi_slavealloc_url") %>
 
