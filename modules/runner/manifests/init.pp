@@ -9,15 +9,10 @@ class runner {
     include runner::settings
     include packages::mozilla::python27
 
-    $interpreter = $runner::settings::interpreter
-
     python::virtualenv {
         $runner::settings::root:
             python   => $packages::mozilla::python27::python,
-            require  => [
-                Class['packages::mozilla::python27'],
-                Class['dirs::opt']
-            ],
+            require  => Class['packages::mozilla::python27'],
             packages => [
                 'runner==1.6',
             ];
@@ -30,10 +25,10 @@ class runner {
             recurse => true,
             purge   => true;
         "${runner::settings::root}/runner.cfg":
-            require  => Python::Virtualenv[$runner::settings::root],
+            before  => Service['runner'],
             content => template('runner/runner.cfg.erb');
         "$runner::settings::task_hook":
-            require  => Python::Virtualenv[$runner::settings::root],
+            before  => Service['runner'],
             mode    => '0755',
             source  => 'puppet:///modules/runner/influxdb_hook.py';
     }

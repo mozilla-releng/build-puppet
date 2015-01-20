@@ -22,29 +22,12 @@ class runner::tasks::buildbot($runlevel=4) {
         }
     }
 
-    case $::operatingsystem {
-        'Windows': {
-            # Windows is still a little difficult to get right regarding the environment
-            # as such, for the time being, a separate buildbot batch file is used
-            # to start buildbot on that platform
-            runner::task {
-                "${runlevel}-buildbot.bat":
-                    require => [
-                        Class['buildslave::install']
-                    ],
-                    content  => template("${module_name}/tasks/buildbot.bat.erb");
-            }
-        }
-
-        default: {
-            runner::task {
-                "${runlevel}-buildbot.py":
-                    require => [
-                        File['/usr/local/bin/runslave.py'],
-                        Class['buildslave::install']
-                    ],
-                    content  => template("${module_name}/tasks/buildbot.py.erb");
-            }
-        }
+    runner::task {
+        "${runlevel}-buildbot.py":
+            require => [
+                File['/usr/local/bin/runslave.py'],
+                Class['buildslave::install']
+            ],
+            content  => template("${module_name}/tasks/buildbot.py.erb");
     }
 }
