@@ -25,14 +25,6 @@ class gui::appearance {
                         mode => 0755,
                         notify => Exec["set-background-image"] ;
                 }
-                if ($::macosx_productversion_major == "10.10") {
-                    osxutils::defaults {
-                        "${username}-enable-showscrollbars":
-                            domain => "-g",
-                            key => "AppleShowScrollBars",
-                            value => "Always";
-                    }
-                }
             }
         }
         Ubuntu: {
