@@ -6,6 +6,7 @@ class aws_manager::cron {
     include users::buildduty
     include users::builder
     include packages::mozilla::py27_mercurial
+    $repo_root = "${aws_manager::settings::cloud_tools_dst}"
 
     aws_manager::crontask {
         "aws_watch_pending.py":
@@ -15,7 +16,7 @@ class aws_manager::cron {
             cwd             => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir  => "${aws_manager::settings::root}",
             user            => "${users::buildduty::username}",
-            params          => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ../configs/watch_pending.cfg -r us-west-2 -r us-east-1 -l ${aws_manager::settings::root}/aws_watch_pending.log";
+            params          => "-k ${aws_manager::settings::secrets_dir}/aws-secrets.json -c ${repo_root}/configs/watch_pending.cfg -r us-west-2 -r us-east-1 -l ${aws_manager::settings::root}/aws_watch_pending.log";
         "aws_stop_idle.py":
             ensure          => present,
             minute          => '*/10',
@@ -68,7 +69,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-c ../configs/try-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_try.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 try-linux64-ec2-golden";
+            params         => "-c ${repo_root}/configs/try-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_try.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 try-linux64-ec2-golden";
         "bld-linux64-ec2-golden":
             script         => "aws_create_instance.py",
             ensure         => present,
@@ -77,7 +78,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-c ../configs/bld-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_prod.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 bld-linux64-ec2-golden";
+            params         => "-c ${repo_root}/configs/bld-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_prod.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 bld-linux64-ec2-golden";
         "tst-linux64-ec2-golden":
             script         => "aws_create_instance.py",
             ensure         => present,
@@ -86,7 +87,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-c ../configs/tst-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux64-ec2-golden";
+            params         => "-c ${repo_root}/configs/tst-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux64-ec2-golden";
         "tst-linux32-ec2-golden":
             script         => "aws_create_instance.py",
             ensure         => present,
@@ -95,7 +96,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-c ../configs/tst-linux32 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux32-ec2-golden";
+            params         => "-c ${repo_root}/configs/tst-linux32 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux32-ec2-golden";
         "tst-emulator64-ec2-golden":
             script         => "aws_create_instance.py",
             ensure         => present,
@@ -104,7 +105,7 @@ class aws_manager::cron {
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
-            params         => "-c ../configs/tst-emulator64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ../instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-emulator64-ec2-golden";
+            params         => "-c ${repo_root}/configs/tst-emulator64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-emulator64-ec2-golden";
         "aws_get_cloudtrail_logs.py":
             ensure         => present,
             minute         => '5,35',
