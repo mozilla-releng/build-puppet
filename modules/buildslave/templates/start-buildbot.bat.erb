@@ -36,11 +36,14 @@ timeout 5
 GOTO RubyCheck
 
 :start
-echo "%date% %time% - About to run runner.py"
+echo "%date% %time% - About to run runslave.py"
 
-"%MOZILLABUILD%\Python27\python.exe" c:\opt\runner\Scripts\runner.exe -c c:\opt\runner\runner.cfg c:\opt\runner\tasks.d
+REM running this via 'bash' is critical - bash adds a bunch of items to PATH
+REM which the build steps expect to find.  We pass the --twistd-cmd pointing
+REM to the appropriate twistd executable for the active Buildbot version
+"%MOZILLABUILD%\msys\bin\bash" --login -c "'%BUILDBOT_PATH%\Scripts\python' /c/programdata/puppetagain/runslave.py --twistd-cmd '%BUILDBOT_PATH%\Scripts\twistd.py'"
 
-echo "%date% %time% - runner.py finished"
+echo "%date% %time% - runslave.py finished"
 
 REM Delete the puppet semaphore so that on reboot we don't think it's started
 del <%= @puppet_semaphore %>
