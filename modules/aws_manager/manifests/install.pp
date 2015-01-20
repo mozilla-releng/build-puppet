@@ -23,7 +23,7 @@ class aws_manager::install {
             packages => [
                 "Fabric==1.8.0",
                 "IPy==0.81",
-                "MySQL-python==1.2.3",
+                "MySQL-python==1.2.5",
                 "SQLAlchemy==0.8.3",
                 "argparse==1.2.1",
                 "boto==2.27.0",
@@ -37,6 +37,14 @@ class aws_manager::install {
                 "simplejson==3.3.1",
                 "ssh==1.8.0",
                 "wsgiref==0.1.2",
+                'docopt==0.6.1',
+                'netaddr==0.7.12',
+                'cfn-pyplates==0.4.3',
+                'PyYAML==3.11',
+                'dnspython==1.12.0',
+                'pbr==0.10.7',
+                'ordereddict==1.1',
+                'schema==0.3.1',
             ];
     }
     git::repo {
@@ -45,6 +53,12 @@ class aws_manager::install {
             repo    => "${config::cloud_tools_git_repo}",
             dst_dir => "${aws_manager::settings::cloud_tools_dst}",
             user    => "${users::buildduty::username}";
+    }
+    exec {
+        'install-cloud-tools-dist':
+            command => "${aws_manager::settings::root}/bin/pip install -e ${aws_manager::settings::cloud_tools_dst}",
+            user => "${users::buildduty::username}",
+            require => Git::Repo["cloud-tools-${aws_manager::settings::cloud_tools_dst}"];
     }
     file {
         "${aws_manager::settings::root}/bin":
