@@ -6,7 +6,7 @@ define runner::task($content=undef, $source=undef) {
     include runner::settings
     file {
         "${runner::settings::taskdir}/${title}":
-            require  => Python::Virtualenv[$runner::settings::root],
+            before  => Service['runner'],
             content => $content,
             source  => $source,
             mode    => '0755';
