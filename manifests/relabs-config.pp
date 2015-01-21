@@ -57,7 +57,7 @@ class config inherits config::base {
     $vmwaretools_version = "9.4.0-1280544"
     $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
 
-    $ntp_server = "us.pool.ntp.org"
+    $ntp_servers = [ "ns1.private.releng.scl3.mozilla.com", "ns2.private.releng.scl3.mozilla.com" ]
     $enable_mig_agent = true
 
     $admin_users = [

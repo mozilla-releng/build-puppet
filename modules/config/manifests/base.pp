@@ -89,8 +89,8 @@ class config::base {
     ## basic host configuration
     ##
 
-    # NTP server to use for time sync
-    $ntp_server = "pool.ntp.org"
+    # NTP servers to use for time sync
+    $ntp_servers = [ "pool.ntp.org" ]
 
     # The host through which to relay mail; this goes to postfix's relayhost
     # parameter, so put [..] around it to avoid doing an MX lookup
