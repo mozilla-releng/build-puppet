@@ -4,3 +4,4 @@
 MAILTO="<%= scope.lookupvar('::config::puppet_notif_email') %>"
 <%= @minute1 %>,<%= @minute2 %> * * * * root . /usr/local/bin/proxy_reset_env.sh && /usr/bin/puppet agent --enable >/dev/null 2>/dev/null && /usr/bin/puppet agent --onetime --no-daemonize --logdest=syslog >/dev/null 2>&1
 MAILTO=root
+@reboot root rm -f /var/lib/puppet/state/agent_catalog_run.lock

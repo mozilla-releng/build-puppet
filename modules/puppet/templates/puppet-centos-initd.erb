@@ -28,6 +28,8 @@ export PATH
 
 case "$1" in
   start)
+    # -v to show that we're removing the lock in logs
+    rm -vf /var/lib/puppet/state/agent_catalog_run.lock
     run_until_success
     ;;
   stop)
