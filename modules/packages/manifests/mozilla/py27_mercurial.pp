@@ -47,11 +47,6 @@ class packages::mozilla::py27_mercurial {
             packages::pkgdmg {
                 python27-mercurial:
                     version => "3.2.1-1";
-            } ->
-            file {
-                # Obsolete no longer used link
-                ["/tools/python27_mercurial"]:
-                    ensure => absent;
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Windows: {
