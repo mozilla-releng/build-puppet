@@ -26,6 +26,20 @@ class gui::appearance {
                         notify => Exec["set-background-image"] ;
                 }
             }
+            if ($::macosx_productversion_major == "10.10") {
+                osxutils::defaults {
+                    "${username}-enable-showscrollbars":
+                        domain => "$::users::builder::home/Library/Preferences/.GlobalPreferences.plist",
+                        key => "AppleShowScrollBars",
+                        value => "Always",
+                        require => Class['users::builder'];
+                }
+                file {
+                    "$::users::builder::home/Library/Preferences/.GlobalPreferences.plist":
+                         owner => "$users::builder::username",
+                         group => "$users::builder::group";
+                     }
+            }
         }
         Ubuntu: {
             include packages::libglib20_bin
