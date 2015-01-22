@@ -808,7 +808,7 @@ node "buildbot-master119.bb.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node /log-aggregator\d+\.srv.\.releng\.scl3\.mozilla\.com/ {
+node /log-aggregator\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server
 }
 
