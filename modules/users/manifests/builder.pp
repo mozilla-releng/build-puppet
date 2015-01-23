@@ -20,9 +20,30 @@ class users::builder {
         default => $username
     }
 
-    $grouplist = $::operatingsystem ? {
-        Ubuntu => ["audio","video"],
-        default => []
+    case $::operatingsystem {
+        Ubuntu: {
+            $grouplist =  ["audio","video"]
+        }
+        Darwin: {
+            # Bug 1122875 - enable DevTools for debug tests
+            if ($::macosx_productversion_major == "10.10") {
+                exec {
+                    "enable-DevToolsSecurity" :
+                         command => "/usr/sbin/DevToolsSecurity -enable",
+                         refreshonly => true ;
+                }
+                file {
+                    "/var/lib/puppet/.DevToolsSecurity-enabled" :
+                        content => "DevToolsSecurity-enabled",
+                        notify => Exec["enable-DevToolsSecurity"] ;
+                }
+                # Bug 1122875 - cltld needs to be in this group for debug tests
+                $grouplist = ["_developer"]
+            }
+        }
+        default: {
+            $grouplist = []
+        }
     }
 
     # calculate the proper homedir

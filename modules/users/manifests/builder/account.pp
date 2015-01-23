@@ -102,6 +102,7 @@ class users::builder::account($username, $group, $grouplist, $home) {
                             salt => secret("builder_pw_pbkdf2_salt"),
                             iterations => secret("builder_pw_pbkdf2_iterations"),
                             comment => "Builder",
+                            groups => $grouplist,
                             notify => Exec['kill-builder-keychain'];
                     }
                     $user_req = User[$username]
