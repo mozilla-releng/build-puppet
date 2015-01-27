@@ -125,7 +125,7 @@ class packages::setup {
             }
             # to flush the package index, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 24
+            $repoflag = 25
             file {
                 "/etc/.repo-flag":
                     content =>
@@ -192,6 +192,10 @@ class packages::setup {
                     components   => ["all"];
                 "bash":
                     url_path     => "repos/apt/custom/bash",
+                    distribution => "${lsbdistcodename}",
+                    components   => ["all"];
+                "eglibc":
+                    url_path     => "repos/apt/custom/eglibc",
                     distribution => "${lsbdistcodename}",
                     components   => ["all"];
                 "mozilla-mercurial":

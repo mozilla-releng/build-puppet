@@ -27,7 +27,18 @@ class packages::libc {
         }
 
         Ubuntu: {
-            # still vulnerable - Bug 1126529
+            realize(Packages::Aptrepo['eglibc'])
+            case $::operatingsystemrelease {
+                12.04: {
+                    package {
+                        "libc6":
+                            ensure => '2.15-0ubuntu10.10';
+                    }
+                }
+                default: {
+                    # default version is fine
+                }
+            }
         }
 
         default: {
