@@ -26,7 +26,8 @@ class runner {
             purge   => true;
         "${runner::settings::root}/runner.cfg":
             before  => Service['runner'],
-            content => template('runner/runner.cfg.erb');
+            content => template('runner/runner.cfg.erb'),
+            show_diff => false;
         "$runner::settings::task_hook":
             before  => Service['runner'],
             mode    => '0755',
