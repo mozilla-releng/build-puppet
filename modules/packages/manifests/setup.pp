@@ -83,11 +83,14 @@ class packages::setup {
 
                 "debian": # misc debian utilities
                     url_path => "repos/yum/custom/debian/$architecture";
+
+                "glibc":
+                    url_path => "repos/yum/custom/glibc/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 30
+            $repoflag = 31
             file {
                 "/etc/.repo-flag":
                     content =>
