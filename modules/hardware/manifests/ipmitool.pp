@@ -19,7 +19,6 @@ class hardware::ipmitool {
         Anchor['hardware::ipmitool::begin'] ->
         kernelmodule {
             "ipmi_si": ;
-            "ipmi_devintf": ;
         } -> Anchor['hardware::ipmitool::end']
     }
 }
