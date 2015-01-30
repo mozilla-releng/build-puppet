@@ -6,10 +6,11 @@
 # buildbot instances at once.
 
 class toplevel::server::foopy inherits toplevel::server {
-    assert {
-      'foopy-centos-6.2':
-        condition => $::operatingsystem == "CentOS"
-                 and $::operatingsystemrelease == "6.2";
-    } ->
+    # Bug 1126428
+#    assert {
+#      'foopy-centos-6.2':
+#        condition => $::operatingsystem == "CentOS"
+#                 and $::operatingsystemrelease == "6.2";
+#    } ->
     class { '::foopy': }
 }
