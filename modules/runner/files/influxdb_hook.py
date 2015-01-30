@@ -47,7 +47,19 @@ def dict_to_influxdb_stats(name, stats_dict):
 
 def submit_stats(url, stats):
     '''Submit to influxdb with a simple http post.'''
-    result = urllib2.urlopen(url, stats)
+    # the influxdb url should have a username/password attached to it, which
+    # we'll strip off and add to a BasicAuth header instead of passing them
+    # in a GET
+    url = url.split('?')
+    data = url[1].split('&')
+    username = data[0].split('u=')[1]
+    password = data[1].split('p=')[1]
+    passman = urllib2.HTTPPasswordMgrWithDefaultRealm()
+    passman.add_password(None, url[0], username, password)
+    authhandler = urllib2.HTTPBasicAuthHandler(passman)
+    opener = urllib2.build_opener(authhandler)
+    urllib2.install_opener(opener)
+    result = urllib2.urlopen(url[0], stats)
     if result.code != 200:
         raise Exception('Stat submission to %s failed: HTTP RESPONSE %i' % (url, result.code))
 
