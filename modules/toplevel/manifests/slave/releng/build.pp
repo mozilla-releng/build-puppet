@@ -11,6 +11,10 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
     include dirs::builds::tooltool_cache
 
     include users::builder
+    
+    if ($::operatingsystem == Windows) {
+        include tweaks::vs_2013_lnk
+    }
 
     if ($::operatingsystem != Windows) {
         include ntp::daemon
