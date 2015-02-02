@@ -6,7 +6,7 @@ class packages::gdb {
         CentOS: {
             package {
                 "gdb":
-                    ensure => "7.2-50.el6";
+                    ensure => latest;
             }
         }
 
