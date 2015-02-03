@@ -14,7 +14,10 @@ class packages::jdk16 {
                 # the precise version here isn't terribly important, at least for signing servers,
                 # as long as it's 1.6.
                 'java-1.6.0-openjdk-devel':
-                    ensure => '1.6.0.0-1.43.1.10.6.el6_2';
+                    ensure => $operatingsystemrelease ? {
+                        6.2 => '1.6.0.0-1.43.1.10.6.el6_2',
+                        6.5 => '1.6.0.0-3.1.13.1.el6_5'
+                    };
             }
         }
         default: {
