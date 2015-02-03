@@ -13,6 +13,13 @@ class packages::mozilla::osslsigncode {
                             ensure => "1.7.1-1.el6";
                     }
                 }
+                6.5: {
+                    realize(Packages::Yumrepo['osslsigncode'])
+                    package {
+                        "osslsigncode":
+                            ensure => "1.7.1-1.el6";
+                    }
+                }
                 default: {
                     warning("Unrecognized CentOS version $::operatingsystemrelease")
                     package {
