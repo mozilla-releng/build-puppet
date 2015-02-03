@@ -177,7 +177,7 @@ node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
 
 # aws-manager
 
-node "aws-manager1.srv.releng.scl3.mozilla.com" {
+node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server::aws_manager
 }
 
