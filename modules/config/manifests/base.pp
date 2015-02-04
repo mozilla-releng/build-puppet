@@ -60,6 +60,11 @@ class config::base {
     # the hostname of a centralized syslog server puppetmasters should forward to
     $puppetmaster_syslog_server = ""
 
+    # extra hostnames to be included in the puppetmaster certificates as
+    # alternate hostnames.  If $apt_repo_server is not the hostname of your master,
+    # include it in this list.
+    $puppetmaster_cert_extra_names = []
+
     ##
     ## packages and data
     ##

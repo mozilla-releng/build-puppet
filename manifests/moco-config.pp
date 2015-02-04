@@ -62,6 +62,10 @@ class config inherits config::base {
     }
     $puppetmaster_syslog_server = "syslog1.private.scl3.mozilla.com"
 
+    # include this name in the master certs so that apt can validate the SSH
+    # connection
+    $puppetmaster_cert_extra_names = [$apt_repo_server]
+
     $user_python_repositories = [ "http://pypi.pvt.build.mozilla.org/pub", "http://pypi.pub.build.mozilla.org/pub" ]
 
     $nrpe_allowed_hosts = "127.0.0.1,10.26.75.30"

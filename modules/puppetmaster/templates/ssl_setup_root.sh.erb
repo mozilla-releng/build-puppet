@@ -113,7 +113,7 @@ keyUsage = keyEncipherment, digitalSignature
 extendedKeyUsage = serverAuth
 # include the master's fqdn here, as well as in the CN, to work
 # around https://bugs.ruby-lang.org/issues/6493
-subjectAltName = DNS:puppet,DNS:${fqdn}
+subjectAltName = <% @puppetmaster_cert_extra_names.each do |name| -%>DNS:<%= name %>,<% end %>DNS:puppet,DNS:${fqdn}
 EOF
 
 # generate a CRL immediately

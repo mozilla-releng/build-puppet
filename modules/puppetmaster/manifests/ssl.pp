@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class puppetmaster::ssl {
+    include ::config
     include puppetmaster::puppetsync_user
     include puppetmaster::install
     include puppetmaster::settings
@@ -44,6 +45,7 @@ class puppetmaster::ssl {
 
     # this master's certificate
     $master_cert = "${master_certs_dir}/${fqdn}.crt"
+    $puppetmaster_cert_extra_names = $::config::puppetmaster_cert_extra_names
     # the master's CA certificate and CRL
     $master_ca_cert = "${ca_certs_dir}/${fqdn}.crt"
     $master_ca_crl = "${ca_certs_dir}/${fqdn}.crl"
