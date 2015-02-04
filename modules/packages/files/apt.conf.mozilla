@@ -1,1 +1,15 @@
 APT::Get::AllowUnauthenticated "true";
+
+Acquire::https {
+    Verify-Peer "true";
+    Verify-Host "true";
+
+    # the puppetmasters serve "regular" https with the puppetmaster
+    # certificate, which we already have a CA for
+    CaInfo "/var/lib/puppet/ssl/certs/ca.pem";
+
+    # libcurl/gnutls don't support Subject Alternative Names with TLSv2, so
+    # we force SSLv3, which works.
+    # https://bugzilla.mozilla.org/show_bug.cgi?id=1079904
+    SslForceVersion "SSLv3";
+};
