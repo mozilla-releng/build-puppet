@@ -5,28 +5,10 @@
 class packages::mozilla::osslsigncode {
     case $::operatingsystem {
         CentOS: {
-            case $::operatingsystemrelease {
-                6.2: {
-                    realize(Packages::Yumrepo['osslsigncode'])
-                    package {
-                        "osslsigncode":
-                            ensure => "1.7.1-1.el6";
-                    }
-                }
-                6.5: {
-                    realize(Packages::Yumrepo['osslsigncode'])
-                    package {
-                        "osslsigncode":
-                            ensure => "1.7.1-1.el6";
-                    }
-                }
-                default: {
-                    warning("Unrecognized CentOS version $::operatingsystemrelease")
-                    package {
-                        "osslsigncode":
-                            ensure => present;
-                    }
-                }
+            realize(Packages::Yumrepo['osslsigncode'])
+            package {
+                "osslsigncode":
+                    ensure => "1.7.1-1.el6";
             }
         }
 
