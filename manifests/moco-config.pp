@@ -187,6 +187,7 @@ class config inherits config::base {
     $selfserve_agent_carrot_exchange = "buildapi.control"
     $selfserve_agent_carrot_queue = "buildapi-agent-rabbit2"
 
+    $distinguished_aws_manager = "aws-manager1.srv.releng.scl3.mozilla.com"
     $aws_manager_mail_to = "release+aws-manager@mozilla.com"
     $cloudtrail_s3_bucket = "mozilla-releng-aws-logs"
     $cloudtrail_s3_base_prefix = "AWSLogs/314336048151/CloudTrail"
