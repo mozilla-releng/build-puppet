@@ -808,6 +808,11 @@ node "buildbot-master119.bb.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
+# dustin's test system
+node "buildbot-master999.bb.releng.use1.mozilla.com" {
+    include toplevel::server::buildmaster::mozilla
+}
+
 node /log-aggregator\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server
 }
