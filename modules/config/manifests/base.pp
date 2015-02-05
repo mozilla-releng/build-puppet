@@ -321,4 +321,11 @@ class config::base {
     # it's fine to use a ternary operator here; see moco-config.pp for an
     # example.
     $xcode_version = undef
+
+    # current_kernel is a string of the kernel release version to be installed. if it
+    # is undef, the module is skipped over otherwise the it will install the kernel
+    # package version specified. obsolete_kernel is an array of kernel version
+    # strings and is optional. If current_kernel is undef, obsolete_kernel has no effect
+    $current_kernel = undef 
+    $obsolete_kernels = [] 
 }
