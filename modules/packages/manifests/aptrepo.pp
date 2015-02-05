@@ -9,6 +9,11 @@ define packages::aptrepo ($repo_name = $title, $url_path, $distribution, $compon
     # for the template
     $ipaddress = $::ipaddress
     $apt_repo_server = $config::apt_repo_server
+    # Precise doesn't support https at all
+    $scheme = $::operatingsystemrelease ? {
+        12.04 => 'http',
+        default => ''https'
+    }
 
     # This class uses numeric user/group IDs since this resource is in the
     # 'packagesetup' state, which comes before the 'main' stage where
