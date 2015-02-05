@@ -50,7 +50,7 @@ class toplevel::base {
         include packages::libc
     }
 
-    if $operatingsystem == Linux {
+    if $kernel == Linux {
         include packages::kernel
     }
 
