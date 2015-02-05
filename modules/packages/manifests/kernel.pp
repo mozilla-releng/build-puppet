@@ -18,11 +18,16 @@ class packages::kernel {
             'CentOS': {
                 realize(Packages::Yumrepo['kernel'])
                 $kernel_ver = "${current_kernel}.${architecture}"
+                # see https://bugzilla.mozilla.org/show_bug.cgi?id=1113328#c14
+                package { "bfa-firmware":
+                    ensure => absent,
+                }
                 package {
                     [ "kernel-${current_kernel}",
                       "kernel-headers-${current_kernel}",
                       "kernel-firmware-${current_kernel}"]:
-                          ensure => present
+                          ensure => present,
+                          require => Package['bfa-firmware'],
                 }
                 # uninstall obsolete kernels only if the current specified kernel is running
                 if $kernelrelease == $kernel_ver and ! empty($obsolete_kernel_list) {
