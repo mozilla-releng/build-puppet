@@ -28,7 +28,7 @@ define packages::pkgdmg(
         false => ""
     }
 
-    $source = "http://${::config::data_server}/repos${p}/DMGs${v}/$filename"
+    $source = "https://${::config::data_server}/repos${p}/DMGs${v}/$filename"
 
     package {
         $filename:
