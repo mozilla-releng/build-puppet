@@ -286,6 +286,8 @@ class config::base {
 
     # AWS management
 
+    # fqdn of the distinguished_aws_manager
+    $distinguished_aws_manager = ""
     # the username under which all operations take place
     $buildduty_username = 'buildduty'
     # root directory for aws_manager; this must be under /builds
