@@ -239,4 +239,32 @@ class config inherits config::base {
         10.10 => "6.1-cmdline",
         default => undef
     }
+
+    $current_kernel = $operatingsystem ? {
+        'CentOS' => $operatingsystemrelease ? {
+            '6.2'   => '2.6.32-504.3.3.el6',
+            '6.5'   => '2.6.32-504.3.3.el6',
+            default => undef,
+        },
+        'Ubuntu' => $operatingsystemrelease ? {
+            '12.04' => '3.2.0-75',
+            '14.04' => '3.13.0-44',
+            default => undef,
+        },
+        default => undef,
+    }
+
+    $obsolete_kernels = $operatingsystem ? {
+        'CentOS' => $operatingsystemrelease ? {
+            '6.2'   => [ '2.6.32-431.el6', '2.6.32-431.11.2.el6', '2.6.32-431.5.1.el6' ],
+            '6.5'   => [ '2.6.32-431.el6', '2.6.32-431.11.2.el6', '2.6.32-431.5.1.el6' ],
+            default => [],
+        },
+        'Ubuntu' => $operatingsystemrelease ? {
+            '12.04' => [ '3.2.0-38' ], 
+            '14.04' => [ '3.13.0-27' ],
+            default => [],
+        },
+        default => [],
+    }
 }

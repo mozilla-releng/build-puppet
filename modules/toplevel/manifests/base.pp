@@ -50,6 +50,10 @@ class toplevel::base {
         include packages::libc
     }
 
+    if $operatingsystem == Linux {
+        include packages::kernel
+    }
+
     # run RDP on all windows systems
     if ($::operatingsystem == windows) {
         include rdp
