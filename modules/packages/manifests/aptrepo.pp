@@ -12,7 +12,7 @@ define packages::aptrepo ($repo_name = $title, $url_path, $distribution, $compon
     # Precise doesn't support https at all
     $scheme = $::operatingsystemrelease ? {
         12.04 => 'http',
-        default => ''https'
+        default => 'https'
     }
 
     # This class uses numeric user/group IDs since this resource is in the
