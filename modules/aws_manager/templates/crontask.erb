@@ -5,8 +5,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 set -e
-LOCKFILE="<%= lockdir %>/<%= title %>.lock"
+LOCKFILE="<%= @lockdir %>/<%= @title %>.lock"
 lockfile -60 -r 3 "$LOCKFILE"
 trap "rm -f $LOCKFILE" EXIT
-cd <%= cwd %>
-<%= virtualenv_dir %>/bin/python "<%= script %>" <%= params %>
+cd <%= @cwd %>
+<%= @virtualenv_dir %>/bin/python "<%= @script %>" <%= @params %>
