@@ -9,6 +9,16 @@ class aws_manager::cron {
     $repo_root = "${aws_manager::settings::cloud_tools_dst}"
     $cron_switch = $aws_manager::settings::cron_switch
 
+    if $cron_switch == present {
+        motd { "aws-manager":
+            content => "** This is the distinguished aws-manager; crontasks are enabled here.\n";
+        }
+    } else {
+        motd { "aws-manager":
+            content => "** This is a standby aws-manager; crontasks are disabled here.\n*** The distinguished aws-managers is ${aws_manager::settings::distinguished_aws_manager}";
+        }
+    }
+
     aws_manager::crontask {
         "aws_watch_pending.py":
             ensure          => $cron_switch,
