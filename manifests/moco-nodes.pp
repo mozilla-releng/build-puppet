@@ -638,7 +638,7 @@ node "buildbot-master102.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master103.srv.releng.scl3.mozilla.com" {
+node "buildbot-master103.bb.releng.scl3.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
         "bm103-tests1-linux":
             http_port => 8201,
