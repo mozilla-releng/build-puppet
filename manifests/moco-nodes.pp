@@ -454,23 +454,17 @@ node "buildbot-master54.srv.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master66.bb.releng.usw2.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm66-build1":
-            http_port => 8001,
-            master_type => "build",
-            basedir => "build1";
-    }
+    # see
+    #   https://bugzilla.mozilla.org/show_bug.cgi?id=990173
+    #   https://bugzilla.mozilla.org/show_bug.cgi?id=990172
     include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::b2g_bumper
+    #include toplevel::mixin::b2g_bumper
 }
 
 node "buildbot-master66.srv.releng.usw2.mozilla.com" {
-    buildmaster::buildbot_master::mozilla {
-        "bm66-build1":
-            http_port => 8001,
-            master_type => "build",
-            basedir => "build1";
-    }
+    # see
+    #   https://bugzilla.mozilla.org/show_bug.cgi?id=990173
+    #   https://bugzilla.mozilla.org/show_bug.cgi?id=990172
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::b2g_bumper
 }
