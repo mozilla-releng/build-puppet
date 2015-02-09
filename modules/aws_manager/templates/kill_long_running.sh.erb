@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PATTERN=<%= script %>
-TIMEOUT=<%= process_timeout %>
+PATTERN=<%= @script %>
+TIMEOUT=<%= @process_timeout %>
 
 pid=$(pgrep -f "$PATTERN" -o)
 
