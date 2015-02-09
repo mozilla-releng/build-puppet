@@ -625,7 +625,8 @@ node "buildbot-master74.bb.releng.usw2.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::slaverebooter
+    # disabled per Callek
+    #include toplevel::mixin::slaverebooter
 }
 
 node "buildbot-master74.srv.releng.usw2.mozilla.com" {
@@ -636,7 +637,6 @@ node "buildbot-master74.srv.releng.usw2.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::slaverebooter
 }
 
 node "buildbot-master75.bb.releng.use1.mozilla.com" {
