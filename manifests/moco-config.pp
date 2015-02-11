@@ -250,6 +250,8 @@ class config inherits config::base {
         default => undef
     }
 
+    # When specifying the Ununtu current kernel, you must use the fully qualified version of the package
+    # The format is aa.bb.xx.yy.zz You can find this with 'dpkg -I linux-generic.deb'
     $current_kernel = $operatingsystem ? {
         'CentOS' => $operatingsystemrelease ? {
             '6.2'   => '2.6.32-504.3.3.el6',
@@ -257,13 +259,15 @@ class config inherits config::base {
             default => undef,
         },
         'Ubuntu' => $operatingsystemrelease ? {
-            '12.04' => '3.2.0-75',
-            '14.04' => '3.13.0-44',
+            '12.04' => '3.2.0.76.90',
+            '14.04' => '3.13.0.45.52',
             default => undef,
         },
         default => undef,
     }
 
+    # Specifying Ubuntu obsolete kernels is a different format than current kernel above
+    # The format is aa.bb.xx-yy
     $obsolete_kernels = $operatingsystem ? {
         'CentOS' => $operatingsystemrelease ? {
             '6.2'   => [ '2.6.32-431.el6', '2.6.32-431.11.2.el6', '2.6.32-431.5.1.el6' ],
@@ -271,8 +275,8 @@ class config inherits config::base {
             default => [],
         },
         'Ubuntu' => $operatingsystemrelease ? {
-            '12.04' => [ '3.2.0-38' ], 
-            '14.04' => [ '3.13.0-27' ],
+            '12.04' => [ '3.2.0-75', '3.2.0-38' ], 
+            '14.04' => [ '3.13.0-27', '3.13.0-44' ],
             default => [],
         },
         default => [],

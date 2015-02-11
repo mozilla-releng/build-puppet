@@ -11,13 +11,12 @@ class packages::kernel {
 
     # At a minimum the current kernel must be specified otherwise this module is ignored
     if $current_kernel {
-        if $current_kernel in $obsolete_kernel_list {
-            fail ( "Kernel defined as current (${current_kernel}) is also defined in obsolete kernel list" )
-        }
         case $operatingsystem {
             'CentOS': {
                 realize(Packages::Yumrepo['kernel'])
                 $kernel_ver = "${current_kernel}.${architecture}"
+                # No need to munipulate version string
+                $strip_ver = $current_kernel
                 # see https://bugzilla.mozilla.org/show_bug.cgi?id=1113328#c14
                 package { "bfa-firmware":
                     ensure => absent,
@@ -28,6 +27,9 @@ class packages::kernel {
                       "kernel-firmware-${current_kernel}"]:
                           ensure => present,
                           require => Package['bfa-firmware'],
+                }
+                grub::defaults {'grub-defaults':
+                    kern => $kernel_ver;
                 }
                 # uninstall obsolete kernels only if the current specified kernel is running
                 if $kernelrelease == $kernel_ver and ! empty($obsolete_kernel_list) {
@@ -46,12 +48,19 @@ class packages::kernel {
                     $suffix = '-generic-pae' }
                 else {
                     $suffix = '-generic' }
-
-                $kernel_ver = "${current_kernel}${suffix}"
+                # Because ubuntu is "special", the kernel version string must be altered
+                $strip_ver = regsubst($current_kernel, '^(\d+)\.(\d+)\.(\d+)\.(\d+).(\d+)', '\1.\2.\3-\4')
+                $kernel_ver = "${strip_ver}${suffix}"
                 package {
-                    [ "linux-image-${current_kernel}${suffix}",
-                      "linux-headers-${current_kernel}${suffix}" ]:
-                          ensure => present
+                    [ "linux-image${suffix}", "linux-headers${suffix}" ]:
+                          ensure => $current_kernel
+                } ->
+                package {
+                    "linux${suffix}" :
+                          ensure => $current_kernel
+                }
+                grub::defaults {'grub-defaults':
+                    kern => $kernel_ver;
                 }
                 # uninstall obsolete kernels only if the current specified kernel is running
                 if $kernelrelease == $kernel_ver and ! empty($obsolete_kernel_list) {
@@ -67,6 +76,12 @@ class packages::kernel {
                 fail( "${operatingsystem} is not supported by the kernel upgrades" )
             }
         }
+
+        # Make sure current kernel isn't also listed as obsolete
+        if $strip_ver in $obsolete_kernel_list {
+            fail ( "Kernel defined as current (${current_kernel}) is also defined in obsolete kernel list" )
+        }
+
         # This file is read by needs_reboot_kernel_upgrade.rb to determine if
         # a reboot is needed after a new kernel package is installed
         file { '/.kernel_release':
