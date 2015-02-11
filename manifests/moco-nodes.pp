@@ -739,7 +739,7 @@ node "buildbot-master79.srv.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master81.srv.releng.scl3.mozilla.com" {
+node /buildbot-master81\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm81-build_scheduler":
             master_type => "scheduler",
@@ -756,7 +756,7 @@ node "buildbot-master81.srv.releng.scl3.mozilla.com" {
     include toplevel::mixin::bouncer_check
 }
 
-node "buildbot-master82.srv.releng.scl3.mozilla.com" {
+node /buildbot-master82\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm82-build1":
             http_port => 8001,
@@ -766,7 +766,7 @@ node "buildbot-master82.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master83.srv.releng.scl3.mozilla.com" {
+node /buildbot-master83\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm83-try1":
             http_port => 8101,
@@ -776,7 +776,7 @@ node "buildbot-master83.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master84.srv.releng.scl3.mozilla.com" {
+node /buildbot-master84\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm84-build1":
             http_port => 8001,
@@ -786,7 +786,7 @@ node "buildbot-master84.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master85.srv.releng.scl3.mozilla.com" {
+node /buildbot-master85\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm85-build1":
             http_port => 8001,
@@ -796,7 +796,7 @@ node "buildbot-master85.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master86.srv.releng.scl3.mozilla.com" {
+node /buildbot-master86\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm86-build1":
             http_port => 8001,
@@ -806,8 +806,7 @@ node "buildbot-master86.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-
-node "buildbot-master87.srv.releng.scl3.mozilla.com" {
+node /buildbot-master87\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm87-try1":
             http_port => 8101,
@@ -817,7 +816,7 @@ node "buildbot-master87.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master89.srv.releng.scl3.mozilla.com" {
+node /buildbot-master89\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm89-tests1-panda":
             http_port => 8201,
@@ -868,7 +867,7 @@ node "buildbot-master94.srv.releng.use1.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master100.srv.releng.scl3.mozilla.com" {
+node /buildbot-master100\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm100-tests1-panda":
             http_port => 8201,
@@ -878,7 +877,7 @@ node "buildbot-master100.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master101.srv.releng.scl3.mozilla.com" {
+node /buildbot-master101\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm101-tests1-panda":
             http_port => 8201,
@@ -888,7 +887,7 @@ node "buildbot-master101.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master102.srv.releng.scl3.mozilla.com" {
+node /buildbot-master102\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm102-tests1-panda":
             http_port => 8201,
@@ -908,7 +907,7 @@ node "buildbot-master103.bb.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master104.srv.releng.scl3.mozilla.com" {
+node /buildbot-master104\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm104-tests1-linux":
             http_port => 8201,
@@ -918,7 +917,7 @@ node "buildbot-master104.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master105.srv.releng.scl3.mozilla.com" {
+node /buildbot-master105\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm105-tests1-linux":
             http_port => 8201,
@@ -928,7 +927,7 @@ node "buildbot-master105.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master106.srv.releng.scl3.mozilla.com" {
+node /buildbot-master106\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm106-tests1-macosx":
             http_port => 8201,
@@ -938,7 +937,7 @@ node "buildbot-master106.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master107.srv.releng.scl3.mozilla.com" {
+node /buildbot-master107\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm107-tests1-macosx":
             http_port => 8201,
@@ -948,7 +947,7 @@ node "buildbot-master107.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master108.srv.releng.scl3.mozilla.com" {
+node /buildbot-master108\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm108-tests1-macosx":
             http_port => 8201,
@@ -958,7 +957,7 @@ node "buildbot-master108.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master109.srv.releng.scl3.mozilla.com" {
+node /buildbot-master109\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm109-tests1-windows":
             http_port => 8201,
@@ -968,7 +967,7 @@ node "buildbot-master109.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master110.srv.releng.scl3.mozilla.com" {
+node /buildbot-master110\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm110-tests1-windows":
             http_port => 8201,
@@ -978,7 +977,7 @@ node "buildbot-master110.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master111.srv.releng.scl3.mozilla.com" {
+node /buildbot-master111\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm111-tests1-windows":
             http_port => 8201,
@@ -988,7 +987,7 @@ node "buildbot-master111.srv.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master112.srv.releng.scl3.mozilla.com" {
+node /buildbot-master112\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     buildmaster::buildbot_master::mozilla {
         "bm112-tests1-windows":
             http_port => 8201,
