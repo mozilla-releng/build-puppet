@@ -91,6 +91,10 @@ class config inherits config::base {
         '10.134.52.0/22',
         '10.134.64.0/22',
         '10.250.48.0/22',
+        # entire BB VLANs
+        "10.26.68.0/24",
+        "10.132.68.0/24",
+        "10.134.68.0/24",
     ]
     $signing_new_token_allowed_ips = [
         # .srv.releng.scl3.mozilla.com
@@ -115,21 +119,10 @@ class config inherits config::base {
         '10.134.48.86',
         '10.134.49.77',
         '10.134.49.111',
-        # .bb.releng.scl3.mozilla.com
-        # .bb.releng.usw2.mozilla.com
-        '10.132.68.24',
-        '10.132.68.25',
-        '10.132.68.26',
-        '10.132.68.27',
-        '10.132.68.28',
-        '10.132.68.29',
-        # .bb.releng.use1.mozilla.com
-        '10.134.68.24',
-        '10.134.68.25',
-        '10.134.68.26',
-        '10.134.68.27',
-        '10.134.68.28',
-        '10.134.68.29',
+        # entire BB VLANs
+        "10.26.68.0/24",
+        "10.132.68.0/24",
+        "10.134.68.0/24",
     ]
 
     $extra_user_ssh_keys = {
