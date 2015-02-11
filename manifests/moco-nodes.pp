@@ -1107,6 +1107,46 @@ node "buildbot-master119.bb.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
+node "buildbot-master120.bb.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm120-tests1-linux64":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux64";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master121.bb.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm121-tests1-linux64":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux64";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master122.bb.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm122-tests1-linux64":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux64";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master123.bb.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm123-tests1-linux64":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux64";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
 # dustin's test system
 node "buildbot-master999.bb.releng.use1.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
