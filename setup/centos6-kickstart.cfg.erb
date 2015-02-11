@@ -30,9 +30,9 @@ part / --fstype ext4 --size=1024 --grow --ondisk=sda
 reboot
 
 %%packages
-@core
-# do not install rhgb, as it obscures the puppetize.sh output
+# note that Core and Base are installed automatically
 -rhgb
+-subscription-manager
 
 %%post
 # This script runs inside the chroot'd new filesystem during install.  It gets
