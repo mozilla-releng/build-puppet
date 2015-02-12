@@ -14,6 +14,8 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
     
     if ($::operatingsystem == Windows) {
         include tweaks::vs_2013_lnk
+        # Both Releng Windows testers and builders use UltraVNC
+        include vnc
     }
 
     if ($::operatingsystem != Windows) {
