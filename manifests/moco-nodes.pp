@@ -739,7 +739,7 @@ node "buildbot-master79.srv.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node /buildbot-master81\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
+node "buildbot-master81.srv.releng.scl3.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
         "bm81-build_scheduler":
             master_type => "scheduler",
@@ -754,6 +754,25 @@ node /buildbot-master81\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
     include toplevel::mixin::shipit_notifier
     include toplevel::mixin::buildmaster_db_maintenance
     include toplevel::mixin::bouncer_check
+}
+
+node "buildbot-master81.bb.releng.scl3.mozilla.com" {
+# Pending bug 1130018
+#
+#    buildmaster::buildbot_master::mozilla {
+#        "bm81-build_scheduler":
+#            master_type => "scheduler",
+#            basedir => "build_scheduler";
+#        "bm81-tests_scheduler":
+#            master_type => "scheduler",
+#            basedir => "tests_scheduler";
+#    }
+    include toplevel::server::buildmaster::mozilla
+#    include toplevel::mixin::selfserve_agent
+#    include toplevel::mixin::releaserunner
+#    include toplevel::mixin::shipit_notifier
+#    include toplevel::mixin::buildmaster_db_maintenance
+#    include toplevel::mixin::bouncer_check
 }
 
 node /buildbot-master82\.(srv|bb)\.releng\.scl3\.mozilla\.com/ {
