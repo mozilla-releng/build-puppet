@@ -80,6 +80,7 @@ class config inherits config::base {
     $signing_allowed_ips = [
         '10.26.36.0/22',
         '10.26.40.0/22',
+        '10.26.48.25/32', # dev-master1
         '10.26.44.0/22',
         '10.26.52.0/22',
         '10.26.64.0/22',
@@ -93,6 +94,7 @@ class config inherits config::base {
         "10.134.68.0/24",
     ]
     $signing_new_token_allowed_ips = [
+        '10.26.48.25/32', # dev-master1
         # entire BB VLANs
         "10.26.68.0/24",
         "10.132.68.0/24",
