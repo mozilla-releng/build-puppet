@@ -354,15 +354,7 @@ node "buildbot-master54.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master66.bb.releng.usw2.mozilla.com" {
-    # see
-    #   https://bugzilla.mozilla.org/show_bug.cgi?id=990173
-    #   https://bugzilla.mozilla.org/show_bug.cgi?id=990172
-    include toplevel::server::buildmaster::mozilla
-    #include toplevel::mixin::b2g_bumper
-}
-
-node "buildbot-master66.srv.releng.usw2.mozilla.com" {
-    # see
+    # Not actually a master; see
     #   https://bugzilla.mozilla.org/show_bug.cgi?id=990173
     #   https://bugzilla.mozilla.org/show_bug.cgi?id=990172
     include toplevel::server::buildmaster::mozilla
