@@ -1,0 +1,3 @@
+class windows_path {
+}
+

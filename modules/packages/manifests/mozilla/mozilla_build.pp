@@ -11,4 +11,33 @@ class packages::mozilla::mozilla_build {
         zip => "MozillaBuildSetup-Latest.zip",
         target_dir => 'C:\mozilla-build';
     }
+    # Append needed directories to the Windows path variable
+    windows_path {
+        'c:/mozilla-build':
+            ensure => present;
+    }
+    windows_path {
+        'C:\mozilla-build\python':
+            ensure => present;
+    }
+    windows_path {
+        'C:\mozilla-build\python\scripts':
+            ensure => present;
+    }
+    windows_path {
+        'C:\mozilla-build\msys\bin':
+            ensure => present;
+    }
+    windows_path {
+        'C:\mozilla-build\C:\mozilla-build\vim\vim72':
+            ensure => present;
+    }
+    windows_path {
+        'C:\mozilla-build\wget':
+            ensure => present;
+    }
+    windows_path {
+        'C:\mozilla-build\info-zip':
+            ensure => present;
+    }
 }
