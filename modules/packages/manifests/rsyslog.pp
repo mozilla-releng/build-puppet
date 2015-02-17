@@ -6,7 +6,7 @@ class packages::rsyslog {
         CentOS: {
             package {
                 "rsyslog":
-                    ensure => latest;
+                    ensure => "5.8.10-8.el6";
             }
         }
 
