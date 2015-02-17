@@ -7,7 +7,7 @@ class packages::rsyslog_mysql {
         CentOS: {
             package {
                 "rsyslog-mysql":
-                    ensure => "5.8.10-8.el6";
+                    ensure => "5.8.10-8.el6",
                     require => Class['packages::rsyslog'];
             }
         }
