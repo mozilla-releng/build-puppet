@@ -1,0 +1,70 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#### Global settings ####
+
+global (
+  preservefqdn="on"
+  workdirectory="/var/spool/rsyslog"
+  defaultnetstreamdrivercafile="/etc/papertrail-bundle.pem" # trust these CAs
+)
+
+#### Load Modules ####
+
+module(load="imtcp" MaxSessions="500")
+module(load="imudp")
+
+#### Inputs ####
+
+input(type="imtcp" port="514")
+input(type="imudp" port="514")
+
+#### Rules ####
+
+# send CEF logs to the opsec cef host
+if $programname == 'audit-cef' then {
+  action (
+    type="omfwd"
+    target="<%= @cef_syslog_server %>"
+    action.resumeRetryCount="-1"
+    action.resumeInterval="10"
+    queue.filename="cef_queue" 
+    queue.size="100000" # how many messages to hold in RAM
+    queue.type="LinkedList" # allocate memory dynamically, better for spikes
+    queue.maxdiskspace="10g"
+    queue.highwatermark="80000"
+    queue.discardmark="97500"
+    queue.checkpointinterval="1000"
+    queue.saveonshutdown="on"
+  )
+  stop
+} else {
+
+# send everything else to central log store
+  action (
+    type="omfwd"
+    target="<%= scope.function_secret(['papertrail_loghost']) %>"
+    port="<%= scope.function_secret(['papertrail_logport']) %>"
+    protocol="tcp"
+    StreamDriverMode="1"
+    StreamDriver="gtls"
+    StreamDriverAuthMode="x509/name"
+    StreamDriverPermittedPeers="*.papertrailapp.com"
+    action.resumeRetryCount="-1"
+    action.resumeInterval="10"
+    queue.filename="papertrail_queue" 
+    queue.size="100000" # how many messages to hold in RAM
+    queue.type="LinkedList" # allocate memory dynamically, better for spikes
+    queue.maxdiskspace="10g"
+    queue.highwatermark="80000"
+    queue.discardmark="97500"
+    queue.checkpointinterval="1000"
+    queue.saveonshutdown="on"
+  )  
+
+  # unless the log is local, stop processing rules
+  if $fromhost-ip != "127.0.0.1" then {
+     stop
+  }
+}

@@ -850,7 +850,8 @@ node "buildbot-master999.bb.releng.use1.mozilla.com" {
 }
 
 node /log-aggregator\d+\.srv\.releng\.scl3\.mozilla\.com/ {
-    include toplevel::server
+    $is_log_aggregator_host = "true"
+    include toplevel::server::log_aggregator
 }
 
 ## Loaners

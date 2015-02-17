@@ -57,8 +57,14 @@ class config::base {
     # the URL at which puppet facts are sent to Foreman
     $puppet_server_facturl = ""
 
-    # the hostname of a centralized syslog server puppetmasters should forward to
+    # the hostname (or some more complicated formula generating the hostname)
+    # of the host to which all syslog data should be directed
+    $log_aggregator = ""
+
+    # the hostname of a centralized syslog server puppetmasters forward to
     $puppetmaster_syslog_server = ""
+    # the hostname of a cef server for auditd output
+    $cef_syslog_server = ""
 
     # extra hostnames to be included in the puppetmaster certificates as
     # alternate hostnames.  If $apt_repo_server is not the hostname of your master,

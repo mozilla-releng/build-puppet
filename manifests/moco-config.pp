@@ -60,7 +60,6 @@ class config inherits config::base {
             },
         }
     }
-    $puppetmaster_syslog_server = "syslog1.private.scl3.mozilla.com"
 
     # include this name in the master certs so that apt can validate the SSH
     # connection
@@ -198,6 +197,19 @@ class config inherits config::base {
     $diamond_batch_size = 1
     $diamond_poll_interval = 30
 
+    #### start configuration information for rsyslog logging
+    # syslog server definition exclusive to puppetmasters
+    $puppetmaster_syslog_server = "syslog1.private.scl3.mozilla.com"
+    # cef server for auditd output
+    $cef_syslog_server = "syslog1.private.scl3.mozilla.com"
+    # log aggregator settings per location/region
+    #$log_aggregator = $fqdn ? {
+    #    /.*\.scl3\.mozilla\.com/ => 'log-aggregator.srv.releng.scl3.mozilla.com',
+    #    /.*\.use1\.mozilla\.com/ => 'log-aggregator.srv.releng.use1.mozilla.com',
+    #    /.*\.usw2\.mozilla\.com/ => 'log-aggregator.srv.releng.usw2.mozilla.com',
+    #    default => 'unknown',
+    #}
+    #### end configuration information for rsyslog logging
 
     # runner task settings
     $runner_hg_tools_path = '/tools/checkouts/build-tools'
