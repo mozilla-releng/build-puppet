@@ -238,7 +238,7 @@ node /celery\d+.srv.releng.scl3.mozilla.com/ {
 
 ## buildbot masters
 
-node /dev-master\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
+node /dev-master\d+\.bb\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
     include toplevel::server::buildmaster::mozilla
     # Bug 975004 - Grant pkewisch access to dev-master1
     realize(Users::Person["pkewisch"])
