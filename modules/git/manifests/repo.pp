@@ -10,6 +10,7 @@ define git::repo($repo, $dst_dir, $user) {
             command => "git clone ${repo} ${dst_dir}",
             creates => "${dst_dir}/.git",
             path => "/usr/local/bin:/usr/bin:/bin",
+            cwd  => "/",
             user => $user;
     }
 }
