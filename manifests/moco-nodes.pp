@@ -849,7 +849,7 @@ node "buildbot-master999.bb.releng.use1.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node /log-aggregator\d+\.srv\.releng\.scl3\.mozilla\.com/ {
+node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
     $is_log_aggregator_host = "true"
     include toplevel::server::log_aggregator
 }
