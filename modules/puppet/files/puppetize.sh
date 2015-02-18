@@ -7,7 +7,6 @@
 # You can set PUPPET_SERVER before running this script to use a server other
 # than 'puppet'
 
-REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
 OS=`facter operatingsystem`
 case "$OS" in
     Darwin) ROOT=/var/root ;;
@@ -111,6 +110,7 @@ esac
 # source the shell script we got from the deploy run
 cd /var/lib/puppet/ssl || exit 1
 . $ROOT/certs.sh
+cd /
 
 # sanity check
 if ! [ -e private_keys/$FQDN.pem -a -e certs/$FQDN.pem -a -e certs/ca.pem ]; then
@@ -146,8 +146,6 @@ if $interactive; then
     echo "Certificates are ready; run puppet now."
     exit 0
 fi
-
-rm -f "$REBOOT_FLAG_FILE"
 
 run_puppet() {
     puppet_server="${PUPPET_SERVER:-puppet}"
@@ -209,9 +207,9 @@ if [ -f "$ROOT/post-puppetize-hook.sh" ]; then
     . "$ROOT/post-puppetize-hook.sh"
 fi
 
-if [ -f "$REBOOT_FLAG_FILE" ]; then
-    rm -f "$REBOOT_FLAG_FILE"
-    echo "Rebooting as requested"
-    sleep 10
-    reboot
-fi
+# Mandatory reboot after non-interactive puppetizing
+# use post-puppetize-hook.sh with 'exit 0' to prevent this
+echo "Rebooting now"
+sleep 10
+reboot
+
