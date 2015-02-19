@@ -16,4 +16,11 @@ class vnc::ultravnc_ini {
                 command    => 'C:\Windows\System32\icacls.exe "C:\Program Files\uvnc bvba\UltraVnc\ultravnc.ini" /deny cltbld:F',
                 require    => File['C:\Program Files\uvnc bvba\UltraVnc\ultravnc.ini'];
     }
+    service { 
+        "uvnc_service":
+            ensure    => running,
+            enable    => true,
+            require   => Class[ "packages::ultravnc" ],
+            subscribe => File['C:\Program Files\uvnc bvba\UltraVnc\ultravnc.ini'],
+    }
 }        

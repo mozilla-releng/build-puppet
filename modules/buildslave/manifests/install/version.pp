@@ -55,6 +55,11 @@ define buildslave::install::version($active=false, $ensure="present") {
                             "C:/mozilla-build/bbpath.bat":
                                 content => "set BUILDBOT_PATH=$virtualenv_path";
                         }
+                        # Append the virtual environment directory to the Windows path
+                        windows_path {
+                            "$virtualenv_path":
+                                ensure => present;
+                        }
                     }
                     default: {
                         Anchor["buildslave::install::version::${version}::begin"] ->

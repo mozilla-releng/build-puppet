@@ -1,0 +1,52 @@
+{
+  "name": "basti1302-windows_path",
+  "version": "0.1.1",
+  "source": "UNKNOWN",
+  "author": "Bastian Krol",
+  "license": "Apache License, Version 2.0",
+  "summary": "Manage individual entries in the Windows PATH variable as resources, that is, add and remove directories to the PATH in an idempotent manner.",
+  "description": "UNKNOWN",
+  "project_page": "https://github.com/basti1302/puppet-windows-path",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 2.3.0"
+    }
+  ],
+  "types": [
+    {
+      "name": "windows_path",
+      "doc": "Manages the Windows environment variable PATH",
+      "properties": [
+        {
+          "name": "ensure",
+          "doc": "The basic property that the resource should be in.  Valid values are `present`, `absent`."
+        }
+      ],
+      "parameters": [
+        {
+          "name": "directory",
+          "doc": "The path entry to be managed."
+        },
+        {
+          "name": "target",
+          "doc": "If the user or sytem path is to be modified.  Valid values are `system`, `user`."
+        }
+      ],
+      "providers": [
+        {
+          "name": "windows_path",
+          "doc": "Manage the Windows environment variable PATH\n\nDefault for `osfamily` == `windows`."
+        }
+      ]
+    }
+  ],
+  "checksums": {
+    "Modulefile": "d1786377fc8ee6bbe1dbf94f264b6abe",
+    "README.md": "ddcb14fc9825cf719079aa78ee38f847",
+    "lib/puppet/provider/windows_path/path_provider.rb": "2005f6b33d4dab615d1d486425610c8c",
+    "lib/puppet/type/windows_path.rb": "d8015b366659184825ed032272a0d0eb",
+    "manifests/init.pp": "2de4c2dcdcc0cee5ff81e7260f937ae5",
+    "tests/init.pp": "4b79615f46a6a114ddad8585813f3c31"
+  }
+}
