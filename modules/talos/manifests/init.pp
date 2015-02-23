@@ -51,8 +51,12 @@ class talos {
                 10.7: {
                     include packages::javadeveloper_for_os_x
                 }
-                10.8, 10.10 : {
+                10.8 : {
                     include packages::javadeveloper_for_os_x
+                    # gcc is needed from this package to compile psutil
+                    include packages::xcode
+                }
+                10.10 : {                    
                     # gcc is needed from this package to compile psutil
                     include packages::xcode
                 }
