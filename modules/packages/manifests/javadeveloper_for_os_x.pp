@@ -11,19 +11,32 @@ class packages::javadeveloper_for_os_x {
     case $::operatingsystem {
         Darwin: {
             # the dmg is available from https://developer.apple.com/downloads
-            Anchor['packages::javadeveloper_for_os_x::begin'] ->
-            packages::pkgdmg {
-                "javadeveloper_for_os_x_2012003__11m3646":
-                    version => "2012003__11m3646",
-                    private => true,
-                    os_version_specific => false, # I don't actually know.. --dustin
-                    dmgname => "javadeveloper_for_os_x_2012003__11m3646.dmg";
-            } -> Anchor['packages::javadeveloper_for_os_x::end']
+            case $macosx_productversion_major {
+                '10.10': {
+                    Anchor['packages::javadeveloper_for_os_x::begin'] ->
+                    packages::pkgdmg {
+                        "java_for_os_x_2013005_dp__11m4609":
+                            version => "2013005_dp__11m4609",
+                            private => true,
+                            os_version_specific => false,
+                            dmgname => "java_for_os_x_2013005_dp__11m4609.dmg";
+                    }-> Anchor['packages::javadeveloper_for_os_x::end']
+                }
+                default: {
+                    Anchor['packages::javadeveloper_for_os_x::begin'] ->
+                    packages::pkgdmg {
+                        "javadeveloper_for_os_x_2012003__11m3646":
+                            version => "2012003__11m3646",
+                            private => true,
+                            os_version_specific => false, # I don't actually know.. --dustin
+                            dmgname => "javadeveloper_for_os_x_2012003__11m3646.dmg";
+                    }-> Anchor['packages::javadeveloper_for_os_x::end']
+                }
+            }
         }
         default: {
             fail("cannot install on $::operatingsystem")
         }
     }
-
 }
 
