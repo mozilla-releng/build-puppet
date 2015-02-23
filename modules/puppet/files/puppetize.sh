@@ -110,13 +110,14 @@ esac
 # source the shell script we got from the deploy run
 cd /var/lib/puppet/ssl || exit 1
 . $ROOT/certs.sh
-cd /
 
 # sanity check
 if ! [ -e private_keys/$FQDN.pem -a -e certs/$FQDN.pem -a -e certs/ca.pem ]; then
     find . -type f
     hang "Got incorrect certificates (!?)"
 fi
+
+cd /
 
 if ! $interactive; then
     if test -f $ROOT/deploypass; then
