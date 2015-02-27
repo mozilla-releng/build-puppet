@@ -33,7 +33,7 @@ class users::builder::autologin {
 
             # In Windows autologin is setup through registry settings
             registry::value { 'AutoAdminLogon':
-                key    => "HKLM\\SOFTWARE\\Microsoft",
+                key    => "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
                 data   => '1',
             }
             registry::value { 'DefaultDomainName':
