@@ -180,6 +180,8 @@ class config::base {
     $install_mozilla_geoloc_api_keys = false
     # true if secret("google_oauth_api_key") should be installed at /builds/google-oauth-api.key
     $install_google_oauth_api_key = false
+    # true if secret("crash_stats_api_token") should be installed on build slaves
+    $install_crash_stats_api_token = false
 
     # signingserver
 

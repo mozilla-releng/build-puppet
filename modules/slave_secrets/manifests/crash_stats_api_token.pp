@@ -1,0 +1,30 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla..org/MPL/2.0/.
+
+class slave_secrets::crash_stats_api_token($ensure=present) {
+    include config
+    include users::builder
+    include dirs::builds
+
+    $crash_stats_api_token = $::operatingsystem ? {
+        windows => 'C:/builds/crash-stats-api.token',
+        default => "/builds/crash-stats-api.token"
+    }
+
+    if ($ensure == 'present' and $config::install_crash_stats_api_token) {
+        file {
+            $crash_stats_api_token:
+                content => secret("crash_stats_api_token"),
+                owner  => $::users::builder::username,
+                group  => $::users::builder::group,
+                mode    => 0600,
+                show_diff => false;
+        }
+    } else {
+        file {
+            $crash_stats_api_token:
+                ensure => absent;
+        }
+    }
+}
