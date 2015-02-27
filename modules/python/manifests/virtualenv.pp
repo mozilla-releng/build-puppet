@@ -9,7 +9,9 @@ define python::virtualenv($python, $ensure="present", $packages=null, $user=null
 
     $virtualenv = $title
     $ve_cmd = $operatingsystem ? {
-        windows => "$python -BE ${python::virtualenv::settings::misc_python_dir}\\virtualenv.py --python=$python --distribute --never-download $virtualenv",
+        # use --system-site-packages on Windows so that we can have access to pywin32, which
+        # isn't pip-installable
+        windows => "$python -BE ${python::virtualenv::settings::misc_python_dir}\\virtualenv.py --system-site-packages --python=$python --distribute --never-download $virtualenv",
         default => "$python -BE ${python::virtualenv::settings::misc_python_dir}/virtualenv.py \
                                         --python=$python --distribute --never-download $virtualenv",
     }
