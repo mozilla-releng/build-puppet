@@ -3,12 +3,19 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::rsyslog {
     case $::operatingsystem {
-        CentOS,Ubuntu: {
+        CentOS: {
+            realize(Packages::Yumrepo['rsyslog'])
             package {
                 "rsyslog":
-                    ensure => "5.8.10-8.el6";
+                    ensure => "latest";
             }
         }
+        Ubuntu: {
+            package {
+                "rsyslog":
+                    ensure => "latest";
+            }   
+        }           
 
         default: {
             fail("cannot install on $::operatingsystem")

@@ -3,7 +3,16 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::rsyslog_gnutls {
     case $::operatingsystem {
-        CentOS,Ubuntu: {
+        CentOS: {
+            realize(Packages::Yumrepo['rsyslog'])
+            package {
+                "rsyslog-gnutls":
+                    ensure => latest,
+                    require => Class['packages::rsyslog'];
+            }
+        }
+
+        Ubuntu: {
             package {
                 "rsyslog-gnutls":
                     ensure => latest,

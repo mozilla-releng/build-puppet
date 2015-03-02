@@ -7,6 +7,8 @@ class log_aggregator {
     include ::rsyslog
     include ::dirs::opt
     include packages::rsyslog_gnutls
+    include nrpe::check::ntp_time
+    include nrpe::check::swap
 
     file {
         "/var/spool/rsyslog":
@@ -17,6 +19,8 @@ class log_aggregator {
     }
 
     $cef_syslog_server = $::config::cef_syslog_server
+    $logging_port = $::config::logging_port
+
     rsyslog::config {
         "00-papertrail" :
             contents => template("${module_name}/papertrail.conf.erb");

@@ -17,7 +17,7 @@ module(load="imudp")
 
 #### Inputs ####
 
-input(type="imtcp" port="514")
+input(type="imtcp" port="<%= @logging_port %>")
 input(type="imudp" port="514")
 
 #### Rules ####
@@ -27,6 +27,8 @@ if $programname == 'audit-cef' then {
   action (
     type="omfwd"
     target="<%= @cef_syslog_server %>"
+    protocol="udp"
+    port="512"
     action.resumeRetryCount="-1"
     action.resumeInterval="10"
     queue.filename="cef_queue" 

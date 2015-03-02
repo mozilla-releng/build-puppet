@@ -5,9 +5,10 @@ class packages::rsyslog_mysql {
     include packages::rsyslog
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['rsyslog'])
             package {
                 "rsyslog-mysql":
-                    ensure => "5.8.10-8.el6",
+                    ensure => "latest",
                     require => Class['packages::rsyslog'];
             }
         }

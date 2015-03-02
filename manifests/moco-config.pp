@@ -204,12 +204,54 @@ class config inherits config::base {
     # cef server for auditd output
     $cef_syslog_server = "syslog1.private.scl3.mozilla.com"
     # log aggregator settings per location/region
-    #$log_aggregator = $fqdn ? {
+    $log_aggregator = $fqdn ? {
     #    /.*\.scl3\.mozilla\.com/ => 'log-aggregator.srv.releng.scl3.mozilla.com',
     #    /.*\.use1\.mozilla\.com/ => 'log-aggregator.srv.releng.use1.mozilla.com',
     #    /.*\.usw2\.mozilla\.com/ => 'log-aggregator.srv.releng.usw2.mozilla.com',
-    #    default => 'unknown',
-    #}
+        'aws-manager1.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'mac-signing2.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'mac-signing3.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'mac-v2-signing1.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'mac-v2-signing2.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'mac-v2-signing3.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'mac-v2-signing4.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'proxxy1.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'signing4.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'signing5.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'signing6.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'slaveapi-dev1.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'slaveapi1.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'releng-puppet1.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'releng-puppet2.srv.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'bld-lion-r5-014.build.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'bld-lion-r5-015.build.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'bld-lion-r5-016.try.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'bld-lion-r5-017.try.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'buildbot-master53.srv.releng.usw2.mozilla.com' => 'log-aggregator.srv.releng.usw2.mozilla.com',
+        'buildbot-master54.srv.releng.usw2.mozilla.com' => 'log-aggregator.srv.
+releng.usw2.mozilla.com',
+        'buildbot-master81.bb.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'buildbot-master82.bb.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'buildbot-master114.srv.releng.use1.mozilla.com' => 'log-aggregator.srv.releng.use1.mozilla.com',
+        'buildbot-master117.bb.releng.use1.mozilla.com' => 'log-aggregator.srv.releng.use1.mozilla.com',
+        't-snow-r4-0026.test.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        't-snow-r4-0027.test.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'talos-linux64-ix-037.test.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'talos-linux32-ix-037.test.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'talos-linux32-ix-038.test.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'talos-mtnlion-r5-033.test.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'talos-mtnlion-r5-034.test.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        'mobile-imaging-stage1.p127.releng.scl3.mozilla.com' => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        default => '',
+    }
+
+    # we need to pick a logging port > 1024 for AWS to use the ELB
+    $logging_port = $fqdn ? {
+        /.*\.scl3\.mozilla\.com/ => '514',
+        /.*\.(usw2|use1)\.mozilla\.com/ => '1514',
+        default => '',
+    }
+
     #### end configuration information for rsyslog logging
 
     # runner task settings

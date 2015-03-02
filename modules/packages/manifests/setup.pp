@@ -89,6 +89,9 @@ class packages::setup {
 
                 "glibc":
                     url_path => "repos/yum/custom/glibc/$architecture";
+
+                "rsyslog":
+                    url_path => "repos/yum/custom/rsyslog/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
