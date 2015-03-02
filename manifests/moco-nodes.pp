@@ -49,6 +49,13 @@ node /t-w732-ix-\d+.wintest.releng.scl3.mozilla.com/ {
 
 ## builders
 
+# Windows
+node /b-2008.*\.build\.releng\.(use1|usw2)\.mozilla.com/{
+    $slave_trustlevel = 'try'
+    include toplevel::slave::releng::build
+}
+    
+
 # linux64
 node /b-linux64-\w+-\d+.build.releng.scl3.mozilla.com/ {
     # any b-linux64-(something)-digit host in the scl3 build zone
@@ -73,13 +80,24 @@ node /bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com/ {
 
 ## try builders
 
-#Windows
+# Windows
 node /b-2008-\w+-\d+.winbuild.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build
 }
 
-#linux64
+node /b-2008.*\.(dev|try)\.releng\.(use1|usw2)\.mozilla.com/{
+    $slave_trustlevel = 'try'
+    include toplevel::slave::releng::build
+}
+
+# Datacenter Windows builder for testing
+node "ix-mn-w0864-002.wintest.releng.scl3.mozilla.com" {
+    $slave_trustlevel = 'try'
+    include toplevel::slave::releng::build
+}
+
+# linux64
 node /b-linux64-\w+-\d+.try.releng.scl3.mozilla.com/ {
     # any b-linux64-(something)-digit host in the scl3 try zone
     $slave_trustlevel = 'try'
