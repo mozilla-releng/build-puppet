@@ -6,8 +6,10 @@ class log_aggregator::client {
     include ::config
 
     $log_aggregator = $::config::log_aggregator
+    $logging_port = $::config::logging_port
 
-    if (!$is_log_aggregator_host) {
+
+    if (!$is_log_aggregator_host and $log_aggregator and $logging_port) {
         case $::operatingsystem {
             CentOS,Ubuntu: {
                 rsyslog::config {

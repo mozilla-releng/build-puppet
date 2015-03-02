@@ -4,4 +4,6 @@
 
 # forward all syslog data to the aggregation server 
 # (via TCP because of the second @)
-*.* @@<%= @log_aggregator %>:514
+
+*.* @@<%= @log_aggregator %>:<%= @logging_port %>
+
