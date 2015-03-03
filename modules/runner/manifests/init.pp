@@ -32,6 +32,10 @@ class runner {
             before  => Service['runner'],
             mode    => '0755',
             source  => 'puppet:///modules/runner/influxdb_hook.py';
+        "$runner::settings::influxcreds":
+            before  => Service['runner'],
+            content  => template('runner/influxcreds.erb'),
+            show_diff => false;
     }
 
     case $::operatingsystem {
