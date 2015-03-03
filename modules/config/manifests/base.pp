@@ -336,4 +336,10 @@ class config::base {
     # strings and is optional. If current_kernel is undef, obsolete_kernel has no effect
     $current_kernel = undef 
     $obsolete_kernels = [] 
+
+    # Bacula configuration.  Mozilla uses Bacula Enterprise, which is not
+    # redistributable.
+    $bacula_director = '' # hostname of the director
+    $bacula_fd_port = '' # port on the director
+    $bacula_cacert = '' # full text of the CA cert signing the director's keys
 }

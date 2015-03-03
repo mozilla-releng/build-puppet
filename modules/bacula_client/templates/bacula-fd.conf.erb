@@ -1,0 +1,33 @@
+#
+# Default  Bacula File Daemon Configuration file
+#
+#  For Bacula release 5.0.0 (26 January 2010) -- redhat Enterprise release
+#
+# There is not much to change here except perhaps the
+# File daemon Name to
+#
+
+#
+
+Director {
+  Name = <%= @bacula_director %>
+  Password = "<%= @bacula_director_password %>"
+  TlsCaCertificateFile = "/opt/bacula/ssl/cacert.pem"
+  TlsEnable = yes
+  TlsCertificate = "/opt/bacula/ssl/<%= scope.lookupvar('::fqdn') %>-crt.pem"
+  TlsKey = "/opt/bacula/ssl/<%= scope.lookupvar('::fqdn') %>-key.pem"
+  TlsRequire = yes
+}
+FileDaemon {
+  Name = "<%= scope.lookupvar('::fqdn') %>"
+  TlsAuthenticate = no
+  TlsCaCertificateFile = "/opt/bacula/ssl/cacert.pem"
+  TlsEnable = yes
+  TlsRequire = yes
+  WorkingDirectory = "/opt/bacula/working"
+  PidDirectory = "/opt/bacula/working"
+}
+Messages {
+  Name = "Standard"
+  Director  = "<%= @bacula_director %>" = All,!Debug,!Skipped,!Restored
+}

@@ -112,8 +112,16 @@ node /(mac-(v2-|)|)signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
 ## puppetmasters
 
 node /releng-puppet\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
-    # all non-legacy puppet masters in all releng datacenters
     include toplevel::server::puppetmaster
+}
+
+node "releng-puppet2.srv.releng.scl3.mozilla.com" {
+    include toplevel::server::puppetmaster
+    class {
+        'bacula_client':
+            cert => secret('releng_puppet2_srv_releng_scl3_bacula_cert'),
+            key => secret('releng_puppet2_srv_releng_scl3_bacula_key');
+    }
 }
 
 ## deploystudio servers
