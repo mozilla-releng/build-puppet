@@ -29,6 +29,8 @@ class users::builder::autologin {
             include tweaks::pwrshell_options
             include dirs::etc
 
+            $builder_username = $config::builder_username
+
             # In Windows autologin is setup through registry settings
             registry::value { 'AutoAdminLogon':
                 key    => "HKLM\\SOFTWARE\\Microsoft",
@@ -62,14 +64,14 @@ class users::builder::autologin {
             # XML file to set up a schedule task to reset logon value.
             # XML file needs to exported from the task scheduler gui. Also note when using the XML import be aware of machine specific values such as name will need to be replaced with a variable.
             # Hence the need for the template.
-            file {'C:/etc/Update_Logon_Count.xml':
+            file {'C:/programdata/puppetagain/Update_Logon_Count.xml':
                 content => template("users/Update_Logon_Count.xml.erb"),
             }
             # Importing the XML file using schtasks
             # Refrence http://technet.microsoft.com/en-us/library/cc725744.aspx and http://technet.microsoft.com/en-us/library/cc722156.aspx
             shared::execonce { "Update_Logon_Count":
-                command => '"C:\Windows\winsxs\x86_microsoft-windows-sctasks_31bf3856ad364e35_6.1.7601.17514_none_8c46e17f1398738b\schtasks.exe" /Create  /XML "C:\tmp\Update_Logon_Count.xml" /tn Update_Logon_Count.xml', 
-                require => File['C:/etc/Update_Logon_Count.xml'];
+                command =>'"C:\Windows\system32\schtasks.exe" /Create  /XML "C:/programdata/puppetagain/Update_Logon_Count.xml" /tn Update_Logon_Count.xml', 
+                require => File['C:/programdata/puppetagain/Update_Logon_Count.xml'];
             }
         }
         default: {
