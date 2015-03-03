@@ -25,5 +25,8 @@ mozharness_path = <%= scope.lookupvar('::config::runner_hg_mozharness_path') %>
 mozharness_repo = <%= scope.lookupvar('::config::runner_hg_mozharness_repo') %>
 mozharness_branch = <%= scope.lookupvar('::config::runner_hg_mozharness_branch') %>
 
+[clobberer]
+url = <%= scope.lookupvar('::config::runner_clobberer_url') %>
+
 [populate_shared_repos]
 max_time = 1800

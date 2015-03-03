@@ -237,6 +237,7 @@ releng.usw2.mozilla.com',
     $runner_env_git_share_base_dir = '/builds/git-shared'
 
     $runner_buildbot_slave_dir = '/builds/slave'
+    $runner_clobberer_url = 'https://api.pub.build.mozilla.org/clobberer/lastclobber/all'
 
     # deploystudio
     $deploystudio_username = 'dsadmin'
