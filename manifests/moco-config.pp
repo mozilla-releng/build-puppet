@@ -205,14 +205,9 @@ class config inherits config::base {
     $cef_syslog_server = "syslog1.private.scl3.mozilla.com"
     # log aggregator settings per location/region
     $log_aggregator = $fqdn ? {
-    #    /.*\.scl3\.mozilla\.com/ => 'log-aggregator.srv.releng.scl3.mozilla.com',
+        /.*\.scl3\.mozilla\.com/ => 'log-aggregator.srv.releng.scl3.mozilla.com',
         /.*\.use1\.mozilla\.com/ => 'log-aggregator.srv.releng.use1.mozilla.com',
-    #    /.*\.usw2\.mozilla\.com/ => 'log-aggregator.srv.releng.usw2.mozilla.com',
-        'buildbot-master53.srv.releng.usw2.mozilla.com' => 'log-aggregator.srv.releng.usw2.mozilla.com',
-        'buildbot-master54.srv.releng.usw2.mozilla.com' => 'log-aggregator.srv.
-releng.usw2.mozilla.com',
-        'buildbot-master114.srv.releng.use1.mozilla.com' => 'log-aggregator.srv.releng.use1.mozilla.com',
-        'buildbot-master117.bb.releng.use1.mozilla.com' => 'log-aggregator.srv.releng.use1.mozilla.com',
+        /.*\.usw2\.mozilla\.com/ => 'log-aggregator.srv.releng.usw2.mozilla.com',
         default => '',
     }
 
