@@ -3,6 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class users::global {
     include users::root
+    include sudoers
+
     shellprofile::file {
         "ps1":
 	    content => template("${module_name}/ps1.sh.erb");
@@ -29,6 +31,13 @@ class users::global {
                         password => secret("root_pw_pbkdf2"),
                         salt => secret("root_pw_pbkdf2_salt"),
                         iterations => secret("root_pw_pbkdf2_iterations");
+                }
+                # Required by slaveapi
+                # See https://bugzilla.mozilla.org/show_bug.cgi?id=1138764
+                sudoers::custom {
+                    'administrator-reboot':
+                        user => "administrator",
+                        command => $sudoers::settings::rebootpath;
                 }
             }
         }
