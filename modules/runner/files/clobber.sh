@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# Run clobberer against every build directory....
+
+CLOBBERER_URL=$($RUNNER_CONFIG_CMD -g clobberer.url)
+TOOLS_PATH=$($RUNNER_CONFIG_CMD -g hg.tools_path)
+SLAVE_DIR=$($RUNNER_CONFIG_CMD -g buildbot.slave_dir)
+
+$TOOLS_PATH/clobberer/clobberer.py \
+    -s scripts -s buildprops.json --url $CLOBBERER_URL \
+    --dir $SLAVE_DIR -v
