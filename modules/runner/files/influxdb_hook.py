@@ -69,8 +69,13 @@ if __name__ == '__main__':
 
     try:
         stats = sys.argv[1]
-        name = os.environ.get('INFLUXDB_NAME') or sys.argv[2]
-        url = os.environ.get('INFLUXDB_URL') or sys.argv[3]
+        cred_file = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), '.influxcreds')
+        if os.path.exists(cred_file):
+            url, name = open(cred_file, 'r').read().strip().split('|')
+        else:
+            name = os.environ.get('INFLUXDB_NAME') or sys.argv[2]
+            url = os.environ.get('INFLUXDB_URL') or sys.argv[3]
     except IndexError:
         print('Usage: influxdb_hook.py <stats_json> <name> <url>')
         sys.exit(0)
