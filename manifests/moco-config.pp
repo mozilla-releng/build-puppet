@@ -199,11 +199,17 @@ class config inherits config::base {
     $diamond_poll_interval = 30
 
     #### start configuration information for rsyslog logging
-    # syslog server definition exclusive to puppetmasters
-    $puppetmaster_syslog_server = "syslog1.private.scl3.mozilla.com"
+
     # cef server for auditd output
     $cef_syslog_server = "syslog1.private.scl3.mozilla.com"
+
     # log aggregator settings per location/region
+    #
+    # note that the log aggregation file is overwritten via cloud-init in AWS
+    # because the golden AMIs we generate are done in use1 and always specify
+    # log-aggregator.srv.releng.use1.mozilla.com even for usw2 hosts
+    # See https://github.com/mozilla/build-cloud-tools/pull/45
+
     $log_aggregator = $fqdn ? {
         /.*\.scl3\.mozilla\.com/ => 'log-aggregator.srv.releng.scl3.mozilla.com',
         /.*\.use1\.mozilla\.com/ => 'log-aggregator.srv.releng.use1.mozilla.com',

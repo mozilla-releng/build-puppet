@@ -61,8 +61,6 @@ class config::base {
     # of the host to which all syslog data should be directed
     $log_aggregator = ""
 
-    # the hostname of a centralized syslog server puppetmasters forward to
-    $puppetmaster_syslog_server = ""
     # the hostname of a cef server for auditd output
     $cef_syslog_server = ""
 
