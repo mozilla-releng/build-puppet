@@ -206,8 +206,8 @@ class config inherits config::base {
     # log aggregator settings per location/region
     $log_aggregator = $fqdn ? {
         /.*\.scl3\.mozilla\.com/ => 'log-aggregator.srv.releng.scl3.mozilla.com',
-#        /.*\.use1\.mozilla\.com/ => 'log-aggregator.srv.releng.use1.mozilla.com',
-#        /.*\.usw2\.mozilla\.com/ => 'log-aggregator.srv.releng.usw2.mozilla.com',
+        /.*\.use1\.mozilla\.com/ => 'log-aggregator.srv.releng.use1.mozilla.com',
+        /.*\.usw2\.mozilla\.com/ => 'log-aggregator.srv.releng.usw2.mozilla.com',
         default => '',
     }
 
