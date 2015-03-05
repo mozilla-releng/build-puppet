@@ -7,6 +7,7 @@ class puppet::atboot {
     include puppet::puppetize_sh
     include puppet::settings
     include packages::puppet
+    include needs_reboot
 
     $puppet_server = $::puppet::settings::puppet_server
     $puppet_servers = $::puppet::settings::puppet_servers
@@ -15,35 +16,10 @@ class puppet::atboot {
         windows: {
             include dirs::etc
             $puppetmasters_txt = "${dirs::etc::dir}/puppetmasters.txt"
-            $reboot_after_puppet = "C:/REBOOT_AFTER_PUPPET"
         }
         default: {
             $puppetmasters_txt = "${dirs::etc::dir}/puppet/puppetmasters.txt"
-            $reboot_after_puppet = "/REBOOT_AFTER_PUPPET"
         }
-    }
-
-    # signal puppetize.sh to reboot after this puppet run, if we're running
-    # puppetize.sh (identified via the $puppetizing fact)
-    if ($puppetizing) {
-        file {
-            $reboot_after_puppet:
-                content => "please!";
-        }
-    }
-
-    # and allow other systems to request a reboot as well (e.g., for installing
-    # kernel drivers)
-
-    exec {
-        # ask the puppet startup script to reboot
-        "reboot-after-puppet":
-            command => $::operatingsystem ? {
-                windows => "type nul >$reboot_after_puppet",
-                default => "touch $reboot_after_puppet",
-            },
-            path => ['/bin/', '/usr/bin/'],
-            refreshonly => true;
     }
 
     # install the list of puppetmaster mirrors
@@ -74,7 +50,7 @@ class puppet::atboot {
                     # then we need to explicitly force an update of the
                     # rc3.d symlink and we want to reboot because we've changed
                     # what we want to come after puppet in the boot order
-                    notify => [ Exec['initd-refresh'], Exec['reboot-after-puppet'] ];
+                    notify => [ Exec['initd-refresh'], Exec['reboot_semaphore'] ];
             }
 
             exec {
