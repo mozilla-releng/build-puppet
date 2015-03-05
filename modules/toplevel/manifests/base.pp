@@ -26,7 +26,7 @@ class toplevel::base {
     include ssh
     include timezone
     include tweaks::rc_local
-    include needs_reboot
+    include needs_reboot::motd
 
     class { 'web_proxy':
         host => $::config::web_proxy_host,
