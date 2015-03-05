@@ -3,6 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class packages::nvidia_drivers {
+    include needs_reboot
+
     realize(Packages::Aptrepo['xorg-edgers'])
 
     # The Ubuntu xorg-edgers reqo embeds the version number in the package
@@ -19,7 +21,7 @@ class packages::nvidia_drivers {
                     # requires unloading the nouveau drivers, which are
                     # installed by default for the startup frame buffer.. so we
                     # need to reboot.
-                    notify => Exec['reboot-after-puppet']
+                    notify => Exec['reboot_semaphore']
             }
         }
 

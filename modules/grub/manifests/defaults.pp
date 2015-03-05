@@ -3,13 +3,15 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 define grub::defaults($kern=0) {
     include grub
+    include needs_reboot
 
     case $operatingsystem {
         'Ubuntu': {
             file {
                 '/etc/default/grub':
                     ensure  => present,
-                    content => template("grub/defaults.erb");
+                    content => template("grub/defaults.erb"),
+                    notify  => Exec['reboot_semaphore'];
             } ~>
             exec { 'update-grub':
                 command => '/usr/sbin/update-grub',
@@ -22,6 +24,7 @@ define grub::defaults($kern=0) {
             file { '/boot/grub/grub.conf':
                 mode  => 600,
                 audit => content,
+                notify => Exec['reboot_semaphore'];
             } ~>
             exec { 'grubby':
                 command => "/sbin/grubby --set-default=/boot/vmlinuz-${kern}",
