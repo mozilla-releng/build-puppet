@@ -9,9 +9,22 @@ class buildslave::startup::windows {
     $builder_username = $users::builder::username
     $puppet_semaphore = 'C:\ProgramData\PuppetAgain\puppetcomplete.semaphore'
     # Batch file to start buildbot
-    file {
-        'c:/programdata/puppetagain/start-buildbot.bat':
-            content  => template("${module_name}/start-buildbot.bat.erb");
+    # Batch files varies slightly between AWS and datacenter machines 
+    case $::fqdn {
+        /.*\.releng\.(use1|usw2)\.mozilla\.com$/: {
+            include instance_metadata
+            file {
+                'c:/programdata/puppetagain/start-buildbot.bat':
+                    content  => template("${module_name}/EC2_start-buildbot.bat.erb"),
+                    require  => Class[instance_metadata];
+            }
+        }
+        default: {
+            file {
+                'c:/programdata/puppetagain/start-buildbot.bat':
+                    content  => template("${module_name}/start-buildbot.bat.erb");
+            }
+        }
     }
 
     # XML file to set up a schedule task to to launch buildbot on builder log in.
