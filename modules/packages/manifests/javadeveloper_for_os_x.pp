@@ -12,7 +12,7 @@ class packages::javadeveloper_for_os_x {
         Darwin: {
             # the dmg is available from https://developer.apple.com/downloads
             case $macosx_productversion_major {
-                '10.10': {
+                '10.8', '10.10': {
                     Anchor['packages::javadeveloper_for_os_x::begin'] ->
                     packages::pkgdmg {
                         "java_for_os_x_2013005_dp__11m4609":

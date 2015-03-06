@@ -56,15 +56,15 @@ class packages::xcode {
                     }
                 }
 
-                "4.5-cmdline": {
+                "5.1-cmdline": {
                     case $::macosx_productversion_major {
                         10.8: {
                             Anchor['packages::xcode::begin'] ->
                             packages::pkgdmg {
-                                "command_line_tools_for_xcode_4.5_os_x_mountain_lion":
-                                    version => "4.5",
+                                "command_line_tools_for_osx_mountain_lion_april_2014":
+                                    version => "5.1",
                                     private => true,
-                                    dmgname => "command_line_tools_for_xcode_4.5_os_x_mountain_lion.dmg";
+                                    dmgname => "command_line_tools_for_osx_mountain_lion_april_2014.dmg";
                             } -> Anchor['packages::xcode::end']
                         }
                         default: {

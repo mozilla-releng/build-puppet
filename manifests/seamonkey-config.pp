@@ -68,4 +68,5 @@ class config inherits config::base {
     $runner_env_hg_share_base_dir = '/builds/hg-shared'
     $runner_env_git_share_base_dir = '/builds/git-shared'
     $runner_buildbot_slave_dir = '/builds/slave'
+    $runner_clobberer_url = 'http://callek.net/always_clobber.php'
 }
