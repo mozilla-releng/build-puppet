@@ -16,13 +16,6 @@ class packages::mozilla::mozilla_build {
         "C:/mozilla-build/hg/hgrc.d/Paths.rc":
             replace => true,
             source  => "puppet:///modules/packages/Paths.rc";
-    # Currently Buildbot looks for python27 on Windows slaves.
-    # This will need to be revisited when Python is updated in the Mozillabuild package.
-    file {
-        'C:/mozilla-build/python27':
-            ensure => link,
-            links  => follow,
-            target => 'C:/mozilla-build/python';
     }
     # Append needed directories to the Windows path variable
     windows_path {
