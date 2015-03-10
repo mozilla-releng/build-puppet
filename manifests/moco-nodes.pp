@@ -20,21 +20,6 @@ node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
 
 # AWS
 
-# temporary for bug 1103123
-node "tst-linux32-spot-204.test.releng.use1.mozilla.com" {
-    $pin_puppet_env = "mphillips"
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::test::headless
-}
-
-node "tst-linux64-spot-737.test.releng.usw2.mozilla.com" {
-    $pin_puppet_env = "mphillips"
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::test::headless
-}
-
 node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
     # tst-anything in any region of the test.releng mozilla zones
     $slave_trustlevel = 'try'
