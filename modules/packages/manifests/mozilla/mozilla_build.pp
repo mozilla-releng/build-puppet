@@ -11,6 +11,12 @@ class packages::mozilla::mozilla_build {
         zip => "MozillaBuildSetup-Latest.zip",
         target_dir => 'C:\mozilla-build';
     }
+    # Update hg's Path.rc to point to a valid path
+    file {
+        "C:/mozilla-build/hg/hgrc.d/Paths.rc":
+            replace => true,
+            source  => "puppet:///modules/packages/Paths.rc";
+    }
     # Append needed directories to the Windows path variable
     windows_path {
         'c:/mozilla-build':
