@@ -8,6 +8,6 @@ class runner::tasks::clobber($runlevel=3) {
 
     runner::task {
         "${runlevel}-clobber":
-            source => 'puppet:///modules/runner/clobber.sh';
+            content => template("${module_name}/tasks/clobber.erb");
     }
 }
