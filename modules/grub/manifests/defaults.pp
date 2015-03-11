@@ -7,17 +7,29 @@ define grub::defaults($kern=0) {
 
     case $operatingsystem {
         'Ubuntu': {
-            file {
-                '/etc/default/grub':
-                    ensure  => present,
-                    content => template("grub/defaults.erb"),
-                    notify  => Exec['reboot_semaphore'];
-            } ~>
-            exec { 'update-grub':
-                command => '/usr/sbin/update-grub',
-                subscribe   => File['/etc/default/grub'],
-                refreshonly => true,
-                require => Class [ 'grub' ];
+            if $::ec2_instance_id != "" {
+                # Provide menu.lst for ec2 instances which use legacy grub
+                file {
+                    '/boot/grub/menu.lst':
+                        ensure => present,
+                        content => template("grub/ubuntu-menu.lst.erb"),
+                        notify => Exec['reboot_semaphore'];
+                }
+            }    
+            else {
+                # Use update-grub when dealing with grub2 (non-legacy)
+                file {
+                    '/etc/default/grub':
+                        ensure  => present,
+                        content => template("grub/defaults.erb"),
+                        notify  => Exec['reboot_semaphore'];
+                } ~>
+                exec { 'update-grub':
+                    command => '/usr/sbin/update-grub',
+                    subscribe   => File['/etc/default/grub'],
+                    refreshonly => true,
+                    require => Class [ 'grub' ];
+                }
             }
         }
         'CentOS': {
