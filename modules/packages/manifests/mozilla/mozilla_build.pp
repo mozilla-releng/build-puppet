@@ -17,6 +17,22 @@ class packages::mozilla::mozilla_build {
             replace => true,
             source  => "puppet:///modules/packages/Paths.rc";
     }
+    # Currently Buildbot looks for python27 on Windows slaves.
+    # This will need to be revisited when Python is updated in the Mozillabuild package.
+    file {
+        'C:/mozilla-build/python27':
+            ensure => link,
+            links  => follow,
+            target => 'C:/mozilla-build/python';
+    }
+    # When buildbot looks for nsis, version 3.0a2 causes an error "Error initalizing CEXEBuild: can't open file: integer expression expected"
+    # Reference https://bugzilla.mozilla.org/show_bug.cgi?id=989531
+    # Temporary work around is to move version 3.0a2, so that 2.46u is used  
+    exec {"move_nsis_3_0a2":
+        command => 'C:\mozilla-build\msys\bin\mv.exe  C:\mozilla-build\nsis-3.0a2 C:\mozilla-build\HOLDnsis-3.0a2',
+        creates => 'C:\mozilla-build\HOLDnsis-3.0a2 /y',
+        require => Packages::Pkgzip["MozillaBuildSetup-Latest.zip"];
+    }
     # Append needed directories to the Windows path variable
     windows_path {
         'c:/mozilla-build':
