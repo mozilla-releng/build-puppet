@@ -29,8 +29,8 @@ class packages::mozilla::mozilla_build {
     # Reference https://bugzilla.mozilla.org/show_bug.cgi?id=989531
     # Temporary work around is to move version 3.0a2, so that 2.46u is used  
     exec {"move_nsis_3_0a2":
-        command => 'C:\mozilla-build\msys\bin\mv.exe  C:\mozilla-build\nsis-3.0a2 C:\mozilla-build\HOLDnsis-3.0a2',
-        creates => 'C:\mozilla-build\HOLDnsis-3.0a2 /y',
+        command => 'C:\mozilla-build\msys\bin\mv.exe  C:\mozilla-build\nsis-3.0a2 C:\mozilla-build\HOLDnsis-3.0a2 /y',
+        creates => 'C:\mozilla-build\HOLDnsis-3.0a2',
         require => Packages::Pkgzip["MozillaBuildSetup-Latest.zip"];
     }
     # Append needed directories to the Windows path variable
