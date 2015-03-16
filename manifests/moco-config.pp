@@ -114,9 +114,6 @@ class config inherits config::base {
         # used on buildbot masters
         'release-runner' => ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMCfdvoKtT4IU0cw6ckj748zxlr7wMxJfyRadUfpI+ZE6jOAjBrAxptVImaFYeVD9PFe5DXyAhRlhUPHSbtq+unMhkZrERYmUhxZ82TSqMSLDwMiacM0umXDnVqcs6cji5gjjE69TeLf9RywOzAmpU/JAasMDa7q4aNsccG7kj59vBl4yyZdx63yNNuxzBtvQd3LNjz2Ux3I60JZDM/xUu8eMBP9PDP5FIi4zILS8sKFzVD9l/7xsyLYv+IpFS1jLvX/eo0gKxM+27rlyyWET2mu/Vjw2J8gN6G9zh4nlMgEeeqFnR3ykFBgEl+LqM4PoH8xVzwZ1iZ8tDgP40nA3Z release-runner key'],
         'aws-ssh-key'  => ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDVXLGITkkJL0lLIOqZh1hTZ59JoczFGQnaX6fHFxG0KdnD0qUQOXw5+gte+89vvvwdQybEBtH9+b+FeM4q1cOEfS+E5wJdzCqf3XRWrq9aNWMm3X4g+2aOlyc/O6+G6/WTXzUiBRKj9gDiodDYQFVEO01ytvIDKFuVZTLQTT/jveWArFFWsjvZZwj5RdAZQOoPylaNVzBnnoOxpn4iTowuXJ8QudzW47M9tLHHJWAGfGjejmS/rWKMnDmqHotQpLKUNItTogleFFdSDse2kkaABFYX65V1dbRQRh46hh+u0HDbFqdrTSEoHqRwmm6Varep7XjXi+Hdw3RiIs8LoNS1FKSEHfxDuc58kcPw/daq1n9a9nZK5g9V+4Oyn/ys9GcjZq44UCsjuJd0UI3Siz/I6vcBD9evzDjVHY4q3rdzv2Hdi0cDxBOgOBVWPUiwWsoHHXho2AFL/VyrEq525ib8cUT9jgod007JsgmlqVe/YyBeLSRHmSsAsKRE5tfnWlFJUygnPbkMugiWxxvFdEASKANvx+qxX96Uwr6a9Hi7OKVBKH886hLUP8+l5hVvOWLQW2uT7RRxIfRMg+fRIAROvydr9XiJiViFrSSR0dfeLghsHzzP6D5Voqad7scR9hMXuPMjx5PF9eX3D+XshAOSFzN2stWZFBRl4IxwSj3izQ== aws-ssh-key'],
-
-        # Contractor - see bug 1056306
-        'gmiroshnykov' => ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMD5DWPoEPG8UuXLsm1bNTz2gUz7rxPO/GuvcRjoNLPbNDqmygMlRbjm9BV8/IFAHvPCidLYkCTwDT20jvYcxf7RZMp3qw9mODpqvYZPAvW1hvv0NHbie5S2FCDFzt//QRvIdn0nEmITe9J4gdaROC/mUpwetJFsjpvh6wHsyF+T6X1HC1uXwlQ87p5a0eZ5gH055k5gggqqgYfGVipAT58OrKIE94G7Ow7avRK9VW01xpahig8giC0zL1SzeSWemmItkTGmXkda4jXhDPqJ/GrKOqDyI+UgYMsEiJw+aQmBvOptO+HOd0wgPVTGaDWX9MhCLsbADRnLqIyp6pMo6f'],
     }
 
     # a few users from each team as the "short list" of people with access
