@@ -5,10 +5,9 @@ Decide whether or not to halt runner based on slave data.
 '''
 
 import re
+import os
 import sys
-import json
 import socket
-import urllib2
 
 BUILD_API_URL_BASE = 'http://buildapi.pvt.build.mozilla.org/buildapi/recent/'
 BUILD_API_URL_SUFFIX = '?format=json&numbuilds=1'
@@ -20,12 +19,17 @@ def get_hostname():
     return socket.gethostname().split('.')[0]
 
 
-def get_recent_builds(slavename):
-    url = '%s%s%s' % (BUILD_API_URL_BASE, slavename, BUILD_API_URL_SUFFIX)
-    request = urllib2.Request(url)
-    results = urllib2.urlopen(request)
-    processed_results = json.loads(results.read())
-    return processed_results
+def get_recent_builds(twistd_log):
+    '''
+    Scrape a buildbot twistd log for builds which have run on this machine.
+    '''
+    all_builds = []
+    with open(twistd_log, 'r') as log:
+        for line in log:
+            match = re.search(r'.*\((.*)\).*message from master: ping', line)
+            if match:
+                all_builds.append(match.group(1))
+    return all_builds
 
 
 def halt():
@@ -66,17 +70,22 @@ if __name__ == '__main__':
         print('Hostname is blacklisted: halting')
         halt()
 
-    build_data = get_recent_builds(hostname)
-    print('Got build data: %s' % build_data)
+    build_data = None
+    log_path = os.environ.get('TWISTD_LOG_PATH', '/builds/slave/twistd.log')
+    log_path_retry = log_path + '.1'
+
+    try:
+        build_data = get_recent_builds(log_path)
+    except IOError:
+        print('%s not found, trying: %s' % (log_path, log_path_retry))
+    # In the case that logs were just rotated, we will find no data.
+    # So, try to fetch data from the most recently rotated log (logname + '.1')
+    if not build_data:
+        build_data = get_recent_builds(log_path_retry)
 
     if not build_data:
-        # The exception should coerce a retry
-        raise Exception('Failed to find data for %s' % hostname)
-
-    if is_blacklisted(build_data[0]['buildname'], get_buildname_blacklist()):
-        print('Buildname is blacklisted: halting')
+        print('No recent builds found: halting')
         halt()
-
-    if build_data[0]['result'] != 0:
-        print('Last job failed: halting')
+    elif is_blacklisted(build_data[-1], get_buildname_blacklist()):
+        print('Buildname is blacklisted: halting')
         halt()
