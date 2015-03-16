@@ -230,9 +230,6 @@ node /mobile-imaging-\d+\.p\d+\.releng\.scl3\.mozilla\.com/ {
 
 node /proxxy\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
     include toplevel::server::proxxy
-    users::root::extra_authorized_key {
-        'gmiroshnykov': ;
-    }
 }
 
 # Package Builders
