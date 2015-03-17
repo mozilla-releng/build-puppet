@@ -6,7 +6,7 @@ halt_task = halt.py
 task_hook = <%= scope.lookupvar('::runner::settings::task_hook') %>
 
 [buildbot]
-slave_dir =
+slave_dir = <%= scope.lookupvar('::config::runner_buildbot_slave_dir') %>
 max_time = 0
 
 [env]
