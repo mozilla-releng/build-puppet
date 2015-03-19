@@ -28,7 +28,8 @@ def get_aws_metadata(key):
             return urllib2.urlopen(url, timeout=1).read()
         except urllib2.URLError:
             if _ < max_tries - 1:
-                log.debug("failed to fetch %s; sleeping and retrying", url, exc_info=True)
+                log.debug("failed to fetch %s; sleeping and retrying", url,
+                          exc_info=True)
                 time.sleep(1)
                 continue
             return None
@@ -40,7 +41,9 @@ def main():
     parser.set_defaults(
         logdevel=logging.INFO,
     )
-    parser.add_option("-v", "--verbose", help="verbose logging", dest="loglevel", const=logging.DEBUG, action="store_const")
+    parser.add_option("-v", "--verbose", help="verbose logging",
+                      dest="loglevel", const=logging.DEBUG,
+                      action="store_const")
     parser.add_option("-o", dest="output_file")
     options, args = parser.parse_args()
 
@@ -50,7 +53,8 @@ def main():
         "aws_instance_id": get_aws_metadata("instance-id"),
         "aws_instance_type": get_aws_metadata("instance-type"),
         "aws_ami_id": get_aws_metadata("ami-id"),
-        "placement/availability_zone": get_aws_metadata("placement/availability-zone"),
+        "placement/availability_zone": get_aws_metadata(
+            "placement/availability-zone"),
     }
     js = json.dumps(metadata)
 
@@ -71,8 +75,9 @@ def main():
             os.close(fd)
             # Then rename to our final file
             os.rename(tmpname, options.output_file)
+            os.chmod(options.output_file, 0o644)
         except Exception:
-            log.exception("error writing json, trying to clean up temporary file")
+            log.exception("error writing json, removing temporary file")
             os.unlink(tmpname)
 
 if __name__ == '__main__':

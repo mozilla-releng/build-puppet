@@ -33,14 +33,8 @@ test -x ${CMD} || exit 0
 
 do_start () {
     echo "Fetching instance metadata"
-    if ${CMD} -o ${OUTPUT}; then
-        chmod 644 ${OUTPUT}
-        echo "done"
-        return 0
-    else
-        echo "failed"
-        return 1
-    fi
+    ${CMD} -o ${OUTPUT}
+    return $?
 }
 
 do_stop () {
