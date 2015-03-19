@@ -18,7 +18,8 @@ for tpl in $TEMPLATES/*.cfg; do
     sed "s#%REPOROOT%#${REPOROOT}#g" ${TEMPLATE} < ${tpl} > ${TMP}
     if [ ! -f ${TARGET} ] || ! diff -q ${TMP} ${TARGET}; then
         mv ${TMP} ${TARGET}
-        sudo -u <%= scope.lookupvar('::config::builder_username') %> /usr/bin/mock_mozilla -v -r $(basename $tpl .cfg) --scrub=all
+        # mock fails to write logs to a not existing directory without explicit --resultdir
+        sudo -u <%= scope.lookupvar('::config::builder_username') %> /usr/bin/mock_mozilla -v -r $(basename $tpl .cfg) --scrub=all --resultdir=/tmp
     else
         rm ${TMP}
     fi
