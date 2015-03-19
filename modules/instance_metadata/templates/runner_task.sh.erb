@@ -10,8 +10,4 @@ PYTHON=<%= scope.lookupvar('::packages::mozilla::python27::python') %>
 
 set -e
 
-if ${PYTHON} ${CMD} -o ${OUTPUT}; then
-    chmod 644 ${OUTPUT}
-else
-    exit 1
-fi
+${PYTHON} ${CMD} -o ${OUTPUT}
