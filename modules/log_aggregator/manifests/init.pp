@@ -8,6 +8,7 @@ class log_aggregator {
     include ::dirs::opt
     include packages::rsyslog_gnutls
     include nrpe::check::ntp_time
+    include nrpe::check::ntp_peer
     include nrpe::check::swap
 
     file {
