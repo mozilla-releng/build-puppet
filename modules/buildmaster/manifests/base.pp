@@ -14,6 +14,7 @@ class buildmaster::base {
     include users::builder
     include nrpe::check::mysql
     include nrpe::check::ntp_time
+    include nrpe::check::ntp_peer
     include nrpe::check::procs_regex
     include nrpe::check::child_procs_regex
     include nrpe::check::swap

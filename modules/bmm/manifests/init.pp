@@ -11,4 +11,5 @@ class bmm {
     include nrpe::check::procs_regex
     include nrpe::check::swap
     include nrpe::check::ntp_time
+    include nrpe::check::ntp_peer
 }
