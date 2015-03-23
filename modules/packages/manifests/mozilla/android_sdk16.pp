@@ -5,6 +5,7 @@
 class packages::mozilla::android_sdk16 {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['android-sdk'])
             package {
                 # See https://wiki.mozilla.org/ReleaseEngineering/How_To/Build_An_Android_SDK_rpm
                 'android-sdk16':
