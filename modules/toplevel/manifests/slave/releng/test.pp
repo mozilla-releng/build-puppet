@@ -20,12 +20,10 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
             include runner::tasks::update_shared_repos
             include runner::tasks::checkout_tools
             include runner::tasks::restart_services
+            include runner::tasks::check_ami
             class {
                 'runner::tasks::purge_builds':
                     required_space => 4;
-            }
-            if ($::ec2_instance_id != "") {
-                include runner::tasks::check_ami
             }
          }
     }

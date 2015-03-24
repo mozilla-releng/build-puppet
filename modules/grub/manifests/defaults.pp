@@ -15,7 +15,7 @@ define grub::defaults($kern=0) {
                         content => template("grub/ubuntu-menu.lst.erb"),
                         notify => Exec['reboot_semaphore'];
                 }
-            }    
+            }
             else {
                 # Use update-grub when dealing with grub2 (non-legacy)
                 file {
