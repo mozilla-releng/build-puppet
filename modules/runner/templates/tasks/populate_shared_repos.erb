@@ -1,14 +1,19 @@
 #!/usr/bin/env python
 # vim: ft=python
 
+try:
+    import requests
+    import boto
+except ImportError:
+    print "No boto or requests installed, skipping"
+    exit(0)
+
 import argparse
-import boto
 import logging
 import grp
 import os
 import pwd
 import re
-import requests
 import socket
 import tarfile
 
