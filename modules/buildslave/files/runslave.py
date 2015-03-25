@@ -101,38 +101,26 @@ class BuildbotTac:
 
         dirs = dict(
             posix_build='/builds/slave',
-            windows_build=r'e:\builds\moz2_slave',
-            linux_test='/home/cltbld/talos-slave',
-            mac_test='/Users/cltbld/talos-slave',
-            win_test=r'c:\talos-slave',
-            new_win_test=r'c:\slave',
+            windows_build=r'c:\builds\moz2_slave',
+            posix_test='/builds/slave',
+            windows_test=r'C:\slave',
         )
 
         # first try to guess based on the slave name
         basedir = None
-        if slave_matches('slave', 'xserve'):
-            if slave_matches('linux', 'darwin', 'mac', 'xserve'):
-                basedir = dirs['posix_build']
-            elif slave_matches('win', 'w32', 'w64'):
+        if slave_matches('bld-', 'b-', 'try-'):
+            if slave_matches('b-2008'):
                 basedir = dirs['windows_build']
-        elif slave_matches('talos', '-try', 'r3'):
-            if slave_matches('linux', 'ubuntu', 'fed'):
-                basedir = dirs['linux_test']
-            elif slave_matches('tiger', 'leopard', 'snow'):
-                basedir = dirs['mac_test']
-            elif slave_matches('xp', 'w7', 'w764'):
-                basedir = dirs['win_test']
-        elif slave_matches('-w864-'):
-            basedir = dirs['new_win_test']
+            else:
+                basedir = dirs['posix_build']
+        elif slave_matches('tst-', 't-'):
+            if slave_matches('-w732-', '-w864-', '-xp32-'):
+                basedir = dirs['windows_test']
+            else:
+                basedir = dirs['posix_test']
 
-        # failing that, find a directory that exists
+        # Not finding a basedir is fatal. We shouldn't be succeeding by accident.
         if not basedir:
-            for d in dirs.values():
-                if os.path.exists(d):
-                    basedir = d
-                    break
-
-        if basedir is None:
             print >>sys.stderr, "runslave.py could not guess basedir for %s" % slavename
             sys.exit(1)
 
@@ -213,7 +201,7 @@ class BuildbotTac:
             raise NoBuildbotTacError("no buildbot.tac found; cannot start")
         self.delete_pidfile()
         rv = subprocess.call(
-            self.options.twistd_cmd + 
+            self.options.twistd_cmd +
                     [ '--no_save',
                       '--logfile', os.path.join(self.get_basedir(), 'twistd.log'),
                       '--python', self.get_filename(),
