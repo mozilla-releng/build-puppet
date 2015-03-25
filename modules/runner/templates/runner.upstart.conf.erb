@@ -13,5 +13,5 @@ script
     sleep 30
 
     /usr/sbin/logrotate -f /etc/logrotate.d/runner
-    ${CMD} -n 30 -H -c ${CONFIG} ${TASKDIR} >> /var/log/runner.log 2>&1
+    ${CMD} -v --syslog -n 30 -H -c ${CONFIG} ${TASKDIR} >> /var/log/runner.log 2>&1
 end script
