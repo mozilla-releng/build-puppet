@@ -39,6 +39,10 @@ class config inherits config::base {
         }
     }
 
+    $extra_user_ssh_keys = {
+        'aws-ssh-key' => [''],
+    }
+
     $admin_users = unique(concat([
             "dmitchell",
             "ewong",
