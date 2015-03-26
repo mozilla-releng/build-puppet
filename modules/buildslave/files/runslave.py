@@ -113,7 +113,7 @@ class BuildbotTac:
                 basedir = dirs['windows_build']
             else:
                 basedir = dirs['posix_build']
-        elif slave_matches('tst-', 't-'):
+        elif slave_matches('tst-', 't-', 'talos-'):
             if slave_matches('-w732-', '-w864-', '-xp32-'):
                 basedir = dirs['windows_test']
             else:
