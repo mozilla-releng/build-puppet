@@ -39,7 +39,6 @@ class signingserver::base {
             include packages::libevent
             include packages::jdk16
             include packages::gcc
-            include packages::mozilla::android_sdk16
             # Make is used for manual XPI hotfix signing.
             include packages::make
             include packages::mozilla::osslsigncode
