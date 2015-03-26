@@ -35,6 +35,11 @@ class proxxy::settings {
             size => '16g',
             ttl => '1d',
         },
+        'tooltool.pvt.build.mozilla.org' => {
+            path => 'http://tooltool.pvt.build.mozilla.org/',
+            size => '16g',
+            ttl => '1d',
+        },
         'pvtbuilds.mozilla.org' => {
             path => 'https://pvtbuilds.mozilla.org/',
             size => '16g',
