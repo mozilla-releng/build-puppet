@@ -10,7 +10,7 @@ class deploystudio::files {
     if secret('deploy_password') == "" {
         fail("missing deploy_password")
     }
-    $deploypass = secret('deploy_password')
+    $deploy_password = secret('deploy_password')
 
     file {
         "${files_dir}":
