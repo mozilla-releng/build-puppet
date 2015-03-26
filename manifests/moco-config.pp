@@ -249,6 +249,8 @@ class config inherits config::base {
     $deploystudio_username = 'dsadmin'
     # deploystudio_uid must be an int greater than 500
     $deploystudio_uid = 543647
+    # deploystudio root data directory
+    $deploystudio_dir = "/Deploy"
 
     $xcode_version = $::macosx_productversion_major ? {
         10.6 => "4.2",

@@ -336,6 +336,8 @@ class config::base {
     $deploystudio_username = 'dsadmin'
     # deploystudio_uid must be an int greater than 500
     $deploystudio_uid = 0
+    # deploystudio root data directory
+    $deploystudio_dir = "/Deploy"
 
     # The version of xcode to install with packages::xcode. See that package
     # for the availible options.  If different hosts need different versions,
