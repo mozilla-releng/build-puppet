@@ -34,6 +34,7 @@ class ssh::config {
             file {
                 "C:/Program Files/KTS/kts.ini":
                     content => template("${module_name}/kts.ini.erb"),
+                    show_diff => false,
                     notify => Service['KTS'],
             }
 
