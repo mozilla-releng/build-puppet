@@ -24,24 +24,6 @@ SET PATH=%PATH%;%MOZ_TOOLS%\bin
 
 cd "%USERPROFILE%"
 
-echo Waiting for puppet to complete
-
-:FileCheck
-echo Checking for completetion of PuppetRun.bat.
-IF exist <%= @puppet_semaphore %> (GOTO RubyCheck)
-echo Puppet run has not completed; waiting
-timeout 5
-GOTO FileCheck
-
-:RubyCheck
-echo Checking that Ruby.exe is no longer running.
-tasklist /fi "imagename eq ruby.exe" |find "ruby.exe"
-if errorlevel 1 GOTO start
-echo Ruby.exe has not completed; waiting
-timeout 5
-GOTO RubyCheck
-
-:start
 echo "%date% %time% - About to run runslave.py"
 
 REM running this via 'bash' is critical - bash adds a bunch of items to PATH
@@ -50,6 +32,3 @@ REM to the appropriate twistd executable for the active Buildbot version
 "%MOZILLABUILD%\msys\bin\bash" --login -c "'%BUILDBOT_PATH%\Scripts\python' /c/programdata/puppetagain/runslave.py --twistd-cmd '%BUILDBOT_PATH%\Scripts\twistd.py'"
 
 echo "%date% %time% - runslave.py finished"
-
-REM Delete the puppet semaphore so that on reboot we don't think it's started
-del <%= @puppet_semaphore %>
