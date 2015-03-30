@@ -6,6 +6,7 @@ class puppetmaster::data {
     include puppetmaster::settings
     include packages::createrepo
     include packages::debmirror
+    include packages::hardlink
 
     # invent a random time for this host to synchronize.  Cron doesn't like
     # minutes written as "*/0,30", so this runs from 1..29
