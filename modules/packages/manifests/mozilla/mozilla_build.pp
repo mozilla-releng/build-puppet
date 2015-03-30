@@ -2,64 +2,81 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# Mozilla build package source: https://wiki.mozilla.org/MozillaBuild
-# MozillaBuildSetup-Latest.zip is manually repackaged using 7 zip
-# It is repackaged because the original exe cannot be silently installed and when extracted charecters in the top level directories are not recognized by Windows
+# Mozilla build package(s) source: https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/
 
 class packages::mozilla::mozilla_build {
-    packages::pkgzip {"MozillaBuildSetup-Latest.zip":
-        zip => "MozillaBuildSetup-Latest.zip",
-        target_dir => 'C:\mozilla-build';
+    include dirs::installersource::puppetagain_pub_build_mozilla_org::exes
+
+    $version = "1.11.0"
+    $moz_bld_dir = "C:\\mozilla-build"
+
+    # Bat file to check the for the current version and delete the version file and buildbot virtual environment directories if there is a mismatch.
+    # This will allow for the MozillaBuildSetup package install, and the package install will retrigger virtual environment creations.
+    file {
+        "C:/etc/MozBld_ver_check.bat":
+            content => template("${module_name}/MozBld_ver_check.bat.erb");
+    }
+    exec {
+        "check_version":
+            command => 'C:\Windows\system32\cmd.exe /c C:\etc\MozBld_ver_check.bat',
+            require => File["C:/etc/MozBld_ver_check.bat"];
+    }
+    file {
+        "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/MozillaBuildSetup-$version.exe":
+            ensure  => file,
+            source  => "puppet:///repos$p/EXEs/MozillaBuildSetup-$version.exe",
+            require => Class["dirs::installersource::puppetagain_pub_build_mozilla_org::exes"];
+    }
+    # Install Mozilla-Build package as needed
+    exec {
+        "MozillaBuildSetup-$version":
+            command => "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\MozillaBuildSetup-$version.exe /S", 
+            creates => "$moz_bld_dir\\version",
+            require => [Exec ["check_version"],
+                            File["C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/MozillaBuildSetup-$version.exe"]
+                       ];
     }
     # Update hg's Path.rc to point to a valid path
     file {
-        "C:/mozilla-build/hg/hgrc.d/Paths.rc":
+        "$moz_bld_dir/hg/hgrc.d/Paths.rc":
             replace => true,
-            source  => "puppet:///modules/packages/Paths.rc";
+            source  => "puppet:///modules/packages/Paths.rc",
+            require => Exec["MozillaBuildSetup-$version"];
     }
-    # Currently Buildbot looks for python27 on Windows slaves.
-    # This will need to be revisited when Python is updated in the Mozillabuild package.
-    file {
-        'C:/mozilla-build/python27':
-            ensure => link,
-            links  => follow,
-            target => 'C:/mozilla-build/python';
-    }
-    # When buildbot looks for nsis, version 3.0a2 causes an error "Error initalizing CEXEBuild: can't open file: integer expression expected"
-    # Reference https://bugzilla.mozilla.org/show_bug.cgi?id=989531
-    # Temporary work around is to move version 3.0a2, so that 2.46u is used  
-    exec {"move_nsis_3_0a2":
-        command => 'C:\mozilla-build\msys\bin\mv.exe  C:\mozilla-build\nsis-3.0a2 C:\mozilla-build\HOLDnsis-3.0a2 /y',
-        creates => 'C:\mozilla-build\HOLDnsis-3.0a2',
-        require => Packages::Pkgzip["MozillaBuildSetup-Latest.zip"];
+    # Exec is being used here since the file link attribute throws errors on subsequent runs on Windows
+    exec {
+        "pyhton_27_link":
+            command => "C:\\mozilla-build\\msys\\bin\\ln.exe -s $moz_bld_dir\\python $moz_bld_dir\\python27",
+            creates => "$moz_bld_dir\\python27",
+            require => Exec["MozillaBuildSetup-$version"];
     }
     # Append needed directories to the Windows path variable
     windows_path {
-        'c:/mozilla-build':
+        $moz_bld_dir:
             ensure => present;
     }
     windows_path {
-        'C:\mozilla-build\python':
+        "$moz_bld_dir\\python":
             ensure => present;
     }
     windows_path {
-        'C:\mozilla-build\python\scripts':
+        "$moz_bld_dir\\python\scripts":
             ensure => present;
     }
     windows_path {
-        'C:\mozilla-build\msys\bin':
+        "$moz_bld_dir\\msys\\bin":
             ensure => present;
     }
     windows_path {
-        'C:\mozilla-build\C:\mozilla-build\vim\vim72':
+        "$moz_bld_dir\\vim\\vim72":
             ensure => present;
     }
     windows_path {
-        'C:\mozilla-build\wget':
+        "$moz_bld_dir\\wget":
             ensure => present;
     }
     windows_path {
-        'C:\mozilla-build\info-zip':
+        "$moz_bld_dir\\info-zip":
             ensure => present;
     }
 }
