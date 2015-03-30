@@ -6,6 +6,7 @@ class vnc::ultravnc_ini {
     file { 'C:\Program Files\uvnc bvba\UltraVnc\ultravnc.ini':
         require => Class["packages::ultravnc"],
         replace => true,        
+        show_diff => false,
         content => template("vnc/ultravnc.ini.erb"), 
     }
 

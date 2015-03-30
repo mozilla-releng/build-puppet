@@ -44,6 +44,7 @@ class buildmaster::db_maintenance {
             owner   => "${users::builder::username}",
             group   => "${users::builder::group}",
             mode    => 600,
-            content => template("buildmaster/buildmaster-db-maintenance-config.erb");
+            content => template("buildmaster/buildmaster-db-maintenance-config.erb"),
+            show_diff => false;
     }
 }
