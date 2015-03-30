@@ -53,5 +53,8 @@ class mig::agent::base(
                     before => [ Class['packages::mozilla::mig_agent'] ];
             }
         }
+        default: {
+            fail("mig is not supported on ${::operatingsystem}")
+        }
     }
 }
