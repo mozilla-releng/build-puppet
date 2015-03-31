@@ -4,6 +4,9 @@
 class packages::mozilla::supervisor {
     case $::operatingsystem {
         CentOS: {
+            # this repo contains a custom-built supervisor along with
+            # its dependencies from EPEL
+            realize(Packages::Yumrepo['supervisor'])
             package {
                 "supervisor":
                     ensure => "3.0-0.10.b2.el6";
