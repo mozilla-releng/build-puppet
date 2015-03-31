@@ -93,6 +93,9 @@ class packages::setup {
                 "rsyslog":
                     url_path => "repos/yum/custom/rsyslog/$architecture";
 
+                "supervisor":
+                    url_path => "repos/yum/custom/supervisor/$architecture";
+
                 # a licensed copy of bacula enterprise, so not publicly available
                 "bacula-enterprise":
                     url_path => "repos/private/yum/mirrors/bacula-enterprise/$majorver-$architecture";
