@@ -21,5 +21,8 @@ class packages::mozilla::mig_agent {
                     ensure => '20150122+ad43a11.prod'
             }
         }
+        default: {
+            fail("mig is not supported on ${::operatingsystem}")
+        }
     }
  }
