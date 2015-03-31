@@ -75,6 +75,10 @@ class config inherits config::base {
 
     $user_python_repositories = [ "http://pypi.pvt.build.mozilla.org/pub", "http://pypi.pub.build.mozilla.org/pub" ]
 
+    # Releng hosts are 'medium' by default.  Slaves are specifically overridden
+    # with the 'low' level, and some others are flagged as 'high' or 'maximum'.
+    $default_security_level = 'medium'
+
     $nrpe_allowed_hosts = "127.0.0.1,10.26.75.30"
     $ntp_servers = [ "ns1.private.releng.scl3.mozilla.com", "ns2.private.releng.scl3.mozilla.com" ]
     $relayhost = "[smtp.mail.scl3.mozilla.com]"

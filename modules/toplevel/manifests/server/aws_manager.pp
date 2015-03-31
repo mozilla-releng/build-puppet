@@ -6,6 +6,11 @@
 # buildbot instances at once.
 
 class toplevel::server::aws_manager inherits toplevel::server {
+    include ::security
+    assert {
+      'aws-manager-high-security':
+        condition => $::security::high;
+    }
     include ::aws_manager
 }
 

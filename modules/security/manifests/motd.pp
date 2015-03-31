@@ -2,12 +2,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-class toplevel::server::proxxy inherits toplevel::server {
+class security::motd {
     include ::security
-    assert {
-      'proxxy-high-security':
-        condition => $::security::high;
+    motd {
+        "security-level":
+            content => "This host is set to follow security level \"${::security::level}\"\n",
+            order => 01;
     }
-
-    include ::proxxy
 }

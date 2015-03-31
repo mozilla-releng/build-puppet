@@ -59,4 +59,6 @@ class toplevel::base {
     if ($::operatingsystem == windows) {
         include rdp
     }
+
+    include security::motd
 }

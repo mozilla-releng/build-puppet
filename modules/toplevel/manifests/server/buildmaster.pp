@@ -5,7 +5,7 @@
 # buildbot master
 
 class toplevel::server::buildmaster inherits toplevel::server {
-
+    include security
     include nrpe::base
     include users::builder
     include dirs::builds::buildbot
@@ -18,5 +18,10 @@ class toplevel::server::buildmaster inherits toplevel::server {
     include packages::mozilla::py27_virtualenv
     include packages::mozilla::py27_mercurial
     include packages::patch
+
+    assert {
+      'buildmaster-high-security':
+        condition => $::security::high;
+    }
 }
 

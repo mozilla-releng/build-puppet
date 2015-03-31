@@ -98,6 +98,12 @@ class config::base {
     ## basic host configuration
     ##
 
+    # the default security level for hosts which do not specify a security
+    # level in their node definition.  The options here are 'low', 'medium',
+    # 'high', and 'maximum', and the ramifications of those levels are
+    # widespread.  See the 'security' module and look for '$security::level'.
+    $default_security_level = 'medium'
+
     # NTP servers to use for time sync
     $ntp_servers = [ "pool.ntp.org" ]
 
