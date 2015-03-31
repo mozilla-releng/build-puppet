@@ -862,10 +862,11 @@ node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
 ## temporary hosts Bug 1141628 and 1141626
 
 node "bld-lion-r4-001.test.releng.scl3.mozilla.com" {
-    include toplevel::base
+    $slave_trustlevel = 'core'
+    include toplevel::slave::releng::build::standard
 }
 
 node "mac-v2-signing5.test.releng.scl3.mozilla.com" {
-    include toplevel::base
+    include toplevel::server::signing
 }
 
