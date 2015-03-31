@@ -239,11 +239,6 @@ node /.*packager\d+\.srv\.releng\.use1\.mozilla\.com/ {
     include toplevel::server::pkgbuilder
 }
 
-node /celery\d+.srv.releng.scl3.mozilla.com/ {
-    # all celery nodes in srv.releng.scl3.mozilla.com
-    include toplevel::server
-}
-
 ## buildbot masters
 
 node "dev-master2.bb.releng.use1.mozilla.com" {
