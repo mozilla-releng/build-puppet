@@ -14,6 +14,7 @@ node /foopy\d+\.\w+\.releng\.scl3\.mozilla\.com/ {
 # linux64 and OS X
 node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
+    $node_security_level = 'low'
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::test::gpu
 }
@@ -22,6 +23,7 @@ node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
 
 node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
     # tst-anything in any region of the test.releng mozilla zones
+    $node_security_level = 'low'
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::test::headless
 }
@@ -29,6 +31,7 @@ node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
 # Windows
 node /t-w732-ix-\d+.wintest.releng.scl3.mozilla.com/ {
     # windows 7 nodes in wintest.releng.scl3.mozilla.com
+    $node_security_level = 'low'
     include toplevel::base
 }
 
@@ -36,6 +39,7 @@ node /t-w732-ix-\d+.wintest.releng.scl3.mozilla.com/ {
 
 # Windows
 node /b-2008.*\.build\.releng\.(use1|usw2)\.mozilla.com/{
+    $node_security_level = 'low'
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build
 }
@@ -44,12 +48,14 @@ node /b-2008.*\.build\.releng\.(use1|usw2)\.mozilla.com/{
 # linux64
 node /b-linux64-\w+-\d+.build.releng.scl3.mozilla.com/ {
     # any b-linux64-(something)-digit host in the scl3 build zone
+    $node_security_level = 'low'
     $slave_trustlevel = 'core'
     include toplevel::slave::releng::build::mock
 }
 
 node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
     # any bld-(something) host in the use1 and usw2 releng build zones
+    $node_security_level = 'low'
     $slave_trustlevel = 'core'
     include toplevel::slave::releng::build::mock
     include diamond
@@ -60,6 +66,7 @@ node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
 node /bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com/ {
     # any bld-lion-r5-(digit) hosts in the scl3 build zone
     $slave_trustlevel = 'core'
+    $node_security_level = 'low'
     include toplevel::slave::releng::build::standard
 }
 
@@ -68,16 +75,19 @@ node /bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com/ {
 # Windows
 node /b-2008-\w+-\d+.winbuild.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'try'
+    $node_security_level = 'low'
     include toplevel::slave::releng::build
 }
 
 node /b-2008.*\.(dev|try)\.releng\.(use1|usw2)\.mozilla.com/{
     $slave_trustlevel = 'try'
+    $node_security_level = 'low'
     include toplevel::slave::releng::build
 }
 
 # Datacenter Windows builder for testing
 node "ix-mn-w0864-002.wintest.releng.scl3.mozilla.com" {
+    $node_security_level = 'low'
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build
 }
@@ -85,6 +95,7 @@ node "ix-mn-w0864-002.wintest.releng.scl3.mozilla.com" {
 # linux64
 node /b-linux64-\w+-\d+.try.releng.scl3.mozilla.com/ {
     # any b-linux64-(something)-digit host in the scl3 try zone
+    $node_security_level = 'low'
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build::mock
 }
@@ -92,6 +103,7 @@ node /b-linux64-\w+-\d+.try.releng.scl3.mozilla.com/ {
 node /(dev|try)-.*\.(dev|try)\.releng\.(use1|usw2)\.mozilla.com/ {
     # any dev or try node in the dev or try zones of use1 and usw2
     # dev-* hosts are *always* staging
+    $node_security_level = 'low'
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build::mock
     include diamond
@@ -101,6 +113,7 @@ node /(dev|try)-.*\.(dev|try)\.releng\.(use1|usw2)\.mozilla.com/ {
 # OS X
 node /bld-lion-r5-\d+.try.releng.scl3.mozilla.com/ {
     # any bld-lion-r5-(digit) hosts in the scl3 try zone
+    $node_security_level = 'low'
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build::standard
 }
@@ -109,16 +122,19 @@ node /bld-lion-r5-\d+.try.releng.scl3.mozilla.com/ {
 
 node /(mac-(v2-|)|)signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     # all mac and linux signing servers
+    $node_security_level = 'maximum'
     include toplevel::server::signing
 }
 
 ## puppetmasters
 
 node /releng-puppet\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
+    $node_security_level = 'high'
     include toplevel::server::puppetmaster
 }
 
 node "releng-puppet2.srv.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     include toplevel::server::puppetmaster
     class {
         'bacula_client':
@@ -177,6 +193,7 @@ node /network-node\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
 node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
     # any dev or try node in the dev or try zones of use1 and usw2
     # dev-* hosts are *always* staging
+    $node_security_level = 'low'
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build::mock
     include diamond
@@ -189,16 +206,19 @@ node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
 # aws-manager
 
 node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
+    $node_security_level = 'high'
     include toplevel::server::aws_manager
 }
 
 # slaveapi
 
 node "slaveapi1.srv.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     include toplevel::server::slaveapi
 }
 
 node "slaveapi-dev1.srv.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     $aspects = [ "dev" ]
     include toplevel::server::slaveapi
 }
@@ -229,6 +249,7 @@ node /mobile-imaging-\d+\.p\d+\.releng\.scl3\.mozilla\.com/ {
 # Proxxy
 
 node /proxxy\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
+    $node_security_level = 'high'
     include toplevel::server::proxxy
 }
 
@@ -237,11 +258,6 @@ node /proxxy\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
 node /.*packager\d+\.srv\.releng\.use1\.mozilla\.com/ {
     # RPM and DPKG package servers
     include toplevel::server::pkgbuilder
-}
-
-node /celery\d+.srv.releng.scl3.mozilla.com/ {
-    # all celery nodes in srv.releng.scl3.mozilla.com
-    include toplevel::server
 }
 
 ## buildbot masters
@@ -262,6 +278,7 @@ node "dev-master2.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master01.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm01-tests1-linux32":
             http_port => 8201,
@@ -272,6 +289,7 @@ node "buildbot-master01.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master02.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm02-tests1-linux32":
             http_port => 8201,
@@ -282,6 +300,7 @@ node "buildbot-master02.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master03.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm03-tests1-linux32":
             http_port => 8201,
@@ -292,6 +311,7 @@ node "buildbot-master03.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master04.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm04-tests1-linux32":
             http_port => 8201,
@@ -302,6 +322,7 @@ node "buildbot-master04.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master05.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm05-tests1-linux32":
             http_port => 8201,
@@ -312,6 +333,7 @@ node "buildbot-master05.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master06.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm06-tests1-linux32":
             http_port => 8201,
@@ -322,6 +344,7 @@ node "buildbot-master06.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master51.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm51-tests1-linux64":
             http_port => 8201,
@@ -332,6 +355,7 @@ node "buildbot-master51.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master52.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm52-tests1-linux64":
             http_port => 8201,
@@ -342,6 +366,7 @@ node "buildbot-master52.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master53.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm53-tests1-linux64":
             http_port => 8201,
@@ -352,6 +377,7 @@ node "buildbot-master53.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master54.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm54-tests1-linux64":
             http_port => 8201,
@@ -365,11 +391,13 @@ node "buildbot-master66.bb.releng.usw2.mozilla.com" {
     # Not actually a master; see
     #   https://bugzilla.mozilla.org/show_bug.cgi?id=990173
     #   https://bugzilla.mozilla.org/show_bug.cgi?id=990172
+    $node_security_level = 'high'
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::b2g_bumper
 }
 
 node "buildbot-master67.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm67-tests1-linux64":
             http_port => 8201,
@@ -380,6 +408,7 @@ node "buildbot-master67.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master68.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm68-tests1-linux64":
             http_port => 8201,
@@ -390,6 +419,7 @@ node "buildbot-master68.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master69.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm69-tests1-windows":
             http_port => 8201,
@@ -400,6 +430,7 @@ node "buildbot-master69.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master70.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm70-build1":
             http_port => 8001,
@@ -411,6 +442,7 @@ node "buildbot-master70.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master71.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm71-build1":
             http_port => 8001,
@@ -422,6 +454,7 @@ node "buildbot-master71.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master72.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm72-build1":
             http_port => 8001,
@@ -433,6 +466,7 @@ node "buildbot-master72.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master73.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm73-build1":
             http_port => 8001,
@@ -444,6 +478,7 @@ node "buildbot-master73.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master74.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm74-build1":
             http_port => 8001,
@@ -456,6 +491,7 @@ node "buildbot-master74.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master75.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm75-try1":
             http_port => 8101,
@@ -466,6 +502,7 @@ node "buildbot-master75.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master76.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm76-try1":
             http_port => 8101,
@@ -476,6 +513,7 @@ node "buildbot-master76.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master77.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm77-build1":
             http_port => 8001,
@@ -486,6 +524,7 @@ node "buildbot-master77.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master78.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm78-try1":
             http_port => 8101,
@@ -496,6 +535,7 @@ node "buildbot-master78.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master79.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm79-try1":
             http_port => 8101,
@@ -506,6 +546,7 @@ node "buildbot-master79.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master81.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm81-build_scheduler":
             master_type => "scheduler",
@@ -523,6 +564,7 @@ node "buildbot-master81.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master82.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm82-build1":
             http_port => 8001,
@@ -533,6 +575,7 @@ node "buildbot-master82.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master83.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm83-try1":
             http_port => 8101,
@@ -543,6 +586,7 @@ node "buildbot-master83.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master84.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm84-build1":
             http_port => 8001,
@@ -553,6 +597,7 @@ node "buildbot-master84.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master85.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm85-build1":
             http_port => 8001,
@@ -563,6 +608,7 @@ node "buildbot-master85.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master86.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm86-build1":
             http_port => 8001,
@@ -573,6 +619,7 @@ node "buildbot-master86.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master87.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm87-try1":
             http_port => 8101,
@@ -583,6 +630,7 @@ node "buildbot-master87.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master89.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm89-tests1-panda":
             http_port => 8201,
@@ -593,6 +641,7 @@ node "buildbot-master89.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master91.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm91-build1":
             http_port => 8001,
@@ -603,6 +652,7 @@ node "buildbot-master91.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master94.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm94-build1":
             http_port => 8001,
@@ -613,6 +663,7 @@ node "buildbot-master94.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master100.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm100-tests1-panda":
             http_port => 8201,
@@ -623,6 +674,7 @@ node "buildbot-master100.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master101.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm101-tests1-panda":
             http_port => 8201,
@@ -633,6 +685,7 @@ node "buildbot-master101.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master102.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm102-tests1-panda":
             http_port => 8201,
@@ -643,6 +696,7 @@ node "buildbot-master102.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master103.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm103-tests1-linux":
             http_port => 8201,
@@ -653,6 +707,7 @@ node "buildbot-master103.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master104.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm104-tests1-linux":
             http_port => 8201,
@@ -663,6 +718,7 @@ node "buildbot-master104.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master105.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm105-tests1-linux":
             http_port => 8201,
@@ -673,6 +729,7 @@ node "buildbot-master105.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master106.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm106-tests1-macosx":
             http_port => 8201,
@@ -683,6 +740,7 @@ node "buildbot-master106.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master107.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm107-tests1-macosx":
             http_port => 8201,
@@ -693,6 +751,7 @@ node "buildbot-master107.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master108.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm108-tests1-macosx":
             http_port => 8201,
@@ -703,6 +762,7 @@ node "buildbot-master108.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master109.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm109-tests1-windows":
             http_port => 8201,
@@ -713,6 +773,7 @@ node "buildbot-master109.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master110.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm110-tests1-windows":
             http_port => 8201,
@@ -723,6 +784,7 @@ node "buildbot-master110.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master111.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm111-tests1-windows":
             http_port => 8201,
@@ -733,6 +795,7 @@ node "buildbot-master111.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master112.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm112-tests1-windows":
             http_port => 8201,
@@ -743,6 +806,7 @@ node "buildbot-master112.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master113.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm113-tests1-linux64":
             http_port => 8201,
@@ -753,6 +817,7 @@ node "buildbot-master113.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master114.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm114-tests1-linux64":
             http_port => 8201,
@@ -763,6 +828,7 @@ node "buildbot-master114.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master115.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm115-tests1-linux64":
             http_port => 8201,
@@ -773,6 +839,7 @@ node "buildbot-master115.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master116.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm116-tests1-linux64":
             http_port => 8201,
@@ -783,6 +850,7 @@ node "buildbot-master116.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master117.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm117-tests1-linux64":
             http_port => 8201,
@@ -793,6 +861,7 @@ node "buildbot-master117.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master118.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm118-tests1-linux64":
             http_port => 8201,
@@ -803,6 +872,7 @@ node "buildbot-master118.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master119.bb.releng.scl3.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm119-tests1-windows":
             http_port => 8201,
@@ -813,6 +883,7 @@ node "buildbot-master119.bb.releng.scl3.mozilla.com" {
 }
 
 node "buildbot-master120.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm120-tests1-linux64":
             http_port => 8201,
@@ -823,6 +894,7 @@ node "buildbot-master120.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master121.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm121-tests1-linux64":
             http_port => 8201,
@@ -833,6 +905,7 @@ node "buildbot-master121.bb.releng.use1.mozilla.com" {
 }
 
 node "buildbot-master122.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm122-tests1-linux64":
             http_port => 8201,
@@ -843,6 +916,7 @@ node "buildbot-master122.bb.releng.usw2.mozilla.com" {
 }
 
 node "buildbot-master123.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
         "bm123-tests1-linux64":
             http_port => 8201,
@@ -867,6 +941,7 @@ node "bld-lion-r4-001.test.releng.scl3.mozilla.com" {
 }
 
 node "mac-v2-signing5.test.releng.scl3.mozilla.com" {
+    $node_security_level = 'maximum'
     include toplevel::server::signing
 }
 
