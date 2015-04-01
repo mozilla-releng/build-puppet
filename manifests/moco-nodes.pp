@@ -263,7 +263,9 @@ node /.*packager\d+\.srv\.releng\.use1\.mozilla\.com/ {
 ## buildbot masters
 
 node "dev-master2.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
     include toplevel::server::buildmaster::mozilla
+
     # Bug 975004 - Grant pkewisch access to dev-master1
     realize(Users::Person["pkewisch"])
     realize(Users::Person["sledru"])
