@@ -1,6 +1,7 @@
 class slaveapi::aws ($environment='prod') {
     include ::config
     include users::builder
+    include packages::mysql_devel
     include packages::mozilla::py27_mercurial
 
     # use the slaveapi user - cltbld instead of buildduty
@@ -53,6 +54,13 @@ class slaveapi::aws ($environment='prod') {
             dst_dir => $cloud_tools_dst,
             user    => $user,
             require => Python::Virtualenv[$basedir];
+    }
+
+    exec {
+        'install-cloud-tools-dist':
+            command => "${slaveapi::base::root}/${environment}/bin/pip install -e ${cloud_tools_dst}",
+            user => $user,
+            require => Git::Repo["cloud-tools-${cloud_tools_dst}"];
     }
 
     # cron tasks
