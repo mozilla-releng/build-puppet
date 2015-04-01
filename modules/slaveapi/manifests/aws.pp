@@ -1,6 +1,7 @@
 class slaveapi::aws ($environment='prod') {
     include ::config
     include users::builder
+    include packages::mysql_devel
     include packages::mozilla::py27_mercurial
 
     # use the slaveapi user - cltbld instead of buildduty
@@ -55,12 +56,19 @@ class slaveapi::aws ($environment='prod') {
             require => Python::Virtualenv[$basedir];
     }
 
+    exec {
+        'install-cloud-tools-dist':
+            command => "${slaveapi::base::root}/${environment}/bin/pip install -e ${cloud_tools_dst}",
+            user => $user,
+            require => Git::Repo["cloud-tools-${cloud_tools_dst}"];
+    }
+
     # cron tasks
     file {
         "/etc/cron.d/slaveapi-update-hg-cloud-tools":
             ensure => absent;
         "/etc/cron.d/slaveapi-update-git-cloud-tools":
-            content => "*/5 * * * * ${user} cd ${cloud_tools_dst} && git pull -q\n";
+            content => "*/5 * * * * ${user} cd ${cloud_tools_dst} && /usr/local/bin/git pull -q\n";
     }
 }
 
