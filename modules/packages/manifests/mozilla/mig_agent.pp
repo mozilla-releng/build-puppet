@@ -2,6 +2,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::mozilla::mig_agent {
+    anchor {
+        'packages::mozilla::mig_agent::begin': ;
+        'packages::mozilla::mig_agent::end': ;
+    }
+
     # The mig-agent package does not start the agent automatically on install.
     # The agent needs to be invoked manually after install, by calling '/sbin/mig-agent'.
     # service files for (upstart|systemd|sysvinit) are created by the agent itself.
@@ -9,24 +14,27 @@ class packages::mozilla::mig_agent {
     case $::operatingsystem {
         'CentOS', 'RedHat': {
             realize(Packages::Yumrepo['mig-agent'])
+            Anchor['packages::mozilla::mig_agent::begin'] ->
             package {
                 'mig-agent':
                     ensure => '20150330+e3f41a6.prod-1'
-            }
+            } -> Anchor['packages::mozilla::mig_agent::end']
         }
         'Ubuntu': {
             realize(Packages::Aptrepo['mig-agent'])
+            Anchor['packages::mozilla::mig_agent::begin'] ->
             package {
                 'mig-agent':
                     ensure => '20150330+e3f41a6.prod'
-            }
+            } -> Anchor['packages::mozilla::mig_agent::end']
         }
         'Darwin': {
+            Anchor['packages::mozilla::mig_agent::begin'] ->
             packages::pkgdmg {
                 'mig-agent':
                     version => '20150402+1c880e7.prod-x86_64',
                     os_version_specific => false;
-            }
+            } -> Anchor['packages::mozilla::mig_agent::end']
         }
         default: {
             fail("mig is not supported on ${::operatingsystem}")

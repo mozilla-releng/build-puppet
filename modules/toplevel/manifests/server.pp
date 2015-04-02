@@ -20,7 +20,7 @@ class toplevel::server inherits toplevel::base {
     if ($::config::enable_mig_agent) {
         case $::operatingsystem {
             # Darwin support is coming soon
-            'CentOS', 'RedHat', 'Ubuntu': {
+            'CentOS', 'RedHat', 'Ubuntu', 'Darwin': {
                 include mig::agent::daemon
             }
         }
