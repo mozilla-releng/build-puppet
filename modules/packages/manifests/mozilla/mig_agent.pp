@@ -21,6 +21,13 @@ class packages::mozilla::mig_agent {
                     ensure => '20150330+e3f41a6.prod'
             }
         }
+        'Darwin': {
+            packages::pkgdmg {
+                'mig-agent':
+                    version => '20150402+1c880e7.prod-x86_64',
+                    os_version_specific => false;
+            }
+        }
         default: {
             fail("mig is not supported on ${::operatingsystem}")
         }
