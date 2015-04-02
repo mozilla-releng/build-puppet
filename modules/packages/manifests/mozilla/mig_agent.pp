@@ -11,14 +11,14 @@ class packages::mozilla::mig_agent {
             realize(Packages::Yumrepo['mig-agent'])
             package {
                 'mig-agent':
-                    ensure => '20150122+ad43a11.prod-1'
+                    ensure => '20150330+e3f41a6.prod-1'
             }
         }
         'Ubuntu': {
             realize(Packages::Aptrepo['mig-agent'])
             package {
                 'mig-agent':
-                    ensure => '20150122+ad43a11.prod'
+                    ensure => '20150330+e3f41a6.prod'
             }
         }
         default: {

@@ -7,9 +7,10 @@ class mig::agent::checkin {
     class { 'mig::agent::base':
         isimmortal => "off",
         installservice => "off",
-        discoverpublicip => "off",
+        discoverpublicip => "on",
         checkin => "on",
-        moduletimeout => "300s"
+        moduletimeout => "300s",
+        apiurl => "https://api.mig.mozilla.org/api/v1/"
     }
     # ensure some of the service files aren't present
     file {

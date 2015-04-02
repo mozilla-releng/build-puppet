@@ -6,7 +6,8 @@ class mig::agent::base(
     $installservice,
     $discoverpublicip,
     $checkin,
-    $moduletimeout
+    $moduletimeout,
+    $apiurl
 ) {
     include packages::mozilla::mig_agent
     case $::operatingsystem {
