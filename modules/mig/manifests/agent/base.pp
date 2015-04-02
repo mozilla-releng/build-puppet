@@ -6,11 +6,12 @@ class mig::agent::base(
     $installservice,
     $discoverpublicip,
     $checkin,
-    $moduletimeout
+    $moduletimeout,
+    $apiurl
 ) {
     include packages::mozilla::mig_agent
     case $::operatingsystem {
-        'CentOS', 'RedHat', 'Ubuntu': {
+        'CentOS', 'RedHat', 'Ubuntu', 'Darwin': {
             # Package installation is performed in packages::mozilla::mig_agent
             # Service startup is done in mig::agent::daemon. The service is not started in checkin mode,
             # because runner::tasks::mig_agent will invoke it between build jobs.
