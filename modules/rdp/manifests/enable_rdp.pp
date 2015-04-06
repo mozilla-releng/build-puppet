@@ -4,30 +4,33 @@
 
 class rdp::enable_rdp {
     #Enables Remote desktop access
-    $service_notifies = [     
-        Service["SessionEnv"],
-        Service["TermService"],
-        Service["UmRdpService"]
-    ]
     registry::value { 'fDenyTSConnections':
-        key    => 'HKLM\system\currentcontrolset\control\Terminal Server',
-        type   => dword,
-        data   => '0',
-        notify => $service_notifies;
+        key  => 'HKLM\system\currentcontrolset\control\Terminal Server',
+        type => dword,
+        data => '0';
     }
     registry::value { 'UserAuthentication':
         key    => 'HKLM\system\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp',
         type   => dword,
-        data   => '0',
-        notify => $service_notifies;
+        data   => '0';
     }
-    service {"SessionEnv":
-        restart => true,
+    # The service resource will throw errors when attempting to restart the services below hence falling back to the exec resource 
+    # Ref: https://bugzilla.mozilla.org/show_bug.cgi?id=1149726
+    exec {
+        "SessionEnv" :
+        command     => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe restart-service -name SessionEnv" -force',
+        subscribe   => [Registry::Value['fDenyTSConnections'],
+                            Registry::Value['UserAuthentication']
+                     ],         
+        refreshonly => true;
     }
-    service {"TermService":
-        restart => true,
+    # Restarting Termservice will also restart the UmRdpService service
+    exec {
+        "TermService" :
+        command     => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe restart-service -name termservice -force"',
+        subscribe   => [Registry::Value['fDenyTSConnections'],
+                            Registry::Value['UserAuthentication']
+                     ],
+        refreshonly => true;
     }
-    service {"UmRdpService":
-        restart => true,
-    } 
 }

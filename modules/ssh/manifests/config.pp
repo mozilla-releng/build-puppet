@@ -17,15 +17,11 @@ class ssh::config {
         Windows: {
             include packages::kts
 
-            # TODO: set permissions on this file so that only the KTS daemon can read it,
-            # as it contains cleartext passwords
             $publickey_logon_ini = "C:/Program Files/KTS/publickey_logon.ini"
             $rsakey_ky = "C:/Program Files/KTS/rsakey.ky"
             $kts_ini = "C:/Program Files/KTS/kts.ini"
 
             file {
-                # TODO: lock down visibility of these directories
-
                 $ssh::settings::genkey_dir:
                     ensure => directory;
             }
@@ -79,7 +75,11 @@ class ssh::config {
                 [$publickey_logon_ini, $ssh::settings::genkey_dir, $rsakey_ky, $kts_ini]:
                     purge => true,
                     inherit_parent_permissions => false,
-                    owner => root,
+                    require =>[Exec['generate-kts-publickey-logon-ini'],
+                                    File[$ssh::settings::genkey_dir],
+                                    Exec[ "RSAkey"],
+                                    File[$kts_ini],
+                              ],  
                     permissions => [
                         { identity => 'root', rights => ['full'] },
                         { identity => 'SYSTEM', rights => ['full'] },

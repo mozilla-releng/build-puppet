@@ -13,13 +13,33 @@ class slave_secrets::crash_stats_api_token($ensure=present) {
     }
 
     if ($ensure == 'present' and $config::install_crash_stats_api_token) {
-        file {
-            $crash_stats_api_token:
-                content => secret("crash_stats_api_token"),
-                owner  => $::users::builder::username,
-                group  => $::users::builder::group,
-                mode    => 0600,
-                show_diff => false;
+        case $::operatingsystem {
+            Windows: {
+                file {
+                    $crash_stats_api_token:
+                        content => secret("crash_stats_api_token"),
+                        show_diff => false;
+                }
+                acl {
+                    $crash_stats_api_token:
+                        purge => true,
+                        inherit_parent_permissions => false,
+                        permissions => [
+                            { identity => 'root', rights => ['full'] },
+                            { identity => 'SYSTEM', rights => ['full'] },
+                        ];
+                }
+            }
+            default: {
+                file {
+                    $crash_stats_api_token:
+                        content => secret("crash_stats_api_token"),
+                        owner  => $::users::builder::username,
+                        group  => $::users::builder::group,
+                        mode    => 0600,
+                        show_diff => false;
+                }
+            }
         }
     } else {
         file {

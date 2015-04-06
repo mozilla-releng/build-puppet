@@ -17,14 +17,34 @@ class slave_secrets::ceph_config($ensure=present) {
             # not present.
             $boto_content = ""
         }
-        file {
-            "${users::builder::home}/.boto":
-                mode      => 0600,
-                owner     => "${users::builder::username}",
-                group     => "${users::builder::group}",
-                show_diff => false,
-                content   => $boto_content,
-        }
+        case $::operatingsystem {
+            Windows: {
+                file {
+                    "${users::builder::home}/.boto":
+                        content => $boto_content,
+                        show_diff => false;
+                }
+                acl {
+                    "${users::builder::home}/.boto":
+                        purge => true,
+                        inherit_parent_permissions => false,
+                        permissions => [
+                            { identity => 'root', rights => ['full'] },
+                            { identity => 'SYSTEM', rights => ['full'] },
+                        ];
+                }
+            }
+            default: {
+                file {
+                    "${users::builder::home}/.boto":
+                        mode      => 0600,
+                        owner     => "${users::builder::username}",
+                        group     => "${users::builder::group}",
+                        show_diff => false,
+                        content   => $boto_content,
+                }
+            }
+    }
     } else {
         file {
             "${users::builder::home}/.boto":
