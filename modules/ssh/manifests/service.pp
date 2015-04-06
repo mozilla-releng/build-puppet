@@ -23,7 +23,9 @@ class ssh::service {
                 "KTS":
                     ensure => running,
                     enable => true,
-                    require => Shared::Execonce["Install-SSH-service"];
+                    require => [Shared::Execonce["Install-SSH-service"],
+                                    Class["ssh::config"]
+                                ];
             }
         }
 
