@@ -54,6 +54,11 @@ server {
     proxy_hide_header WWW-Authenticate;
     proxy_set_header Authorization "Basic <%= Base64.encode64(params['username'] + ':' + params['password']).chomp %>";
     <% end %>
+    <% if params.has_key?('proxy_redirect') -%>
+      <% params['proxy_redirect'].each do |redir| %>
+         proxy_redirect <%= redir %>;
+      <% end %>
+    <% end -%>
   }
 }
 <% end %>
