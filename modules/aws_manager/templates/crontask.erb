@@ -6,7 +6,7 @@
 
 set -e
 LOCKFILE="<%= @lockdir %>/<%= @title %>.lock"
-lockfile -60 -r 3 "$LOCKFILE"
+lockfile -60 -r 3 "$LOCKFILE" 2>&1 | logger -t aws_crontask
 trap "rm -f $LOCKFILE" EXIT
 cd <%= @cwd %>
 <%= @virtualenv_dir %>/bin/python "<%= @script %>" <%= @params %>
