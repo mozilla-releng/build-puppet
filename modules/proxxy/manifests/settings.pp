@@ -47,5 +47,18 @@ class proxxy::settings {
             username => 'proxy_reader',
             password => secret('proxxy_pvtbuilds_password'),
         },
+        's3-us-west-2.amazonaws.com' => {
+            path => 'https://s3-us-west-2.amazonaws.com/',
+            size => '16g',
+            ttl => '1d',
+        },
+        'queue.taskcluster.net' => {
+            path => 'https://queue.taskcluster.net/',
+            size => '16g',
+            ttl => '1d',
+            proxy_redirect => [
+                'https://s3-us-west-2.amazonaws.com/ http://s3-us-west-2.amazonaws.com.$host/',
+            ],
+        },
     }
 }
