@@ -42,7 +42,7 @@ class toplevel::slave::releng inherits toplevel::slave {
     if ($::config::enable_mig_agent) {
         case $::operatingsystem {
             # Darwin support is coming soon
-            'CentOS', 'RedHat', 'Ubuntu': {
+            'CentOS', 'RedHat', 'Ubuntu', 'Darwin': {
                 include mig::agent::checkin
             }
         }

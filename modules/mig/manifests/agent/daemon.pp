@@ -15,7 +15,7 @@ class mig::agent::daemon {
     exec {
         'restart mig':
             command => '/sbin/mig-agent -q=shutdown; /sbin/mig-agent',
-            subscribe => Package['mig-agent'],
+            subscribe => Class['packages::mozilla::mig_agent'],
             refreshonly => true
     }
 }

@@ -5,6 +5,18 @@
 class runner::tasks::mig_agent($runlevel=1) {
     include runner
 
+    # Since runner runs as builder_user on OS X and as root on Linux, but mig must
+    # run as root, we need to use sudo on OS X.
+    if $operatingsystem == "darwin" {
+        include users::builder
+        sudoers::custom {
+            'mig-agent-from-runner':
+                user => $users::builder::username,
+                command => "/sbin/mig-agent";
+        }
+
+    }
+
     runner::task {
         "${runlevel}-mig_agent":
             source  => 'puppet:///modules/runner/mig_agent_checkin.sh';
