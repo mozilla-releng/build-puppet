@@ -11,12 +11,6 @@ class signingserver::base {
         include fw
     }
 
-    # nagios checks for signing
-    include nrpe::check::child_procs_regex
-    include nrpe::check::ntp_time
-    include nrpe::check::ntp_peer
-    include nrpe::check::swap
-
     # lots of packages for signing, with some differing between operating
     # systems
     include packages::mozilla::python27
