@@ -41,6 +41,7 @@ define signingserver::instance(
     $jar_keystore = "${secrets_dir}/jar"
     $server_certdir = "${secrets_dir}/server"
     $emevoucher_key = "${secrets_dir}/emevouch.pem"
+    $emevoucher_chain = "${secrets_dir}/emechain.pem"
 
     $dmg_keydir = "${secrets_dir}/dmg"
     $dmg_keychain = "${dmg_keydir}/signing.keychain"
