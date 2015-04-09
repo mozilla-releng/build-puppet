@@ -59,7 +59,7 @@ class aws_manager::cron {
             user           => "${users::buildduty::username}",
             params         => "-r us-west-2 -r us-east-1 -q";
         "aws_publish_amis.py":
-            ensure         => absent,  # Bug 1149580
+            ensure         => $cron_switch,
             minute         => '*/30',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir => "${aws_manager::settings::root}",
@@ -74,7 +74,7 @@ class aws_manager::cron {
             user           => "${users::buildduty::username}";
         "try-linux64-ec2-golden":
             script         => "aws_create_instance.py",
-            ensure         => absent,  # Bug 1149580
+            ensure         => $cron_switch,
             minute         => '10',
             hour           => '1',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
@@ -83,7 +83,7 @@ class aws_manager::cron {
             params         => "-c ${repo_root}/configs/try-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_try.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 try-linux64-ec2-golden";
         "bld-linux64-ec2-golden":
             script         => "aws_create_instance.py",
-            ensure         => absent,  # Bug 1149580
+            ensure         => $cron_switch,
             minute         => '15',
             hour           => '1',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
@@ -92,7 +92,7 @@ class aws_manager::cron {
             params         => "-c ${repo_root}/configs/bld-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_prod.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 bld-linux64-ec2-golden";
         "tst-linux64-ec2-golden":
             script         => "aws_create_instance.py",
-            ensure         => absent,  # Bug 1149580
+            ensure         => $cron_switch,
             minute         => '20',
             hour           => '1',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
@@ -101,7 +101,7 @@ class aws_manager::cron {
             params         => "-c ${repo_root}/configs/tst-linux64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux64-ec2-golden";
         "tst-linux32-ec2-golden":
             script         => "aws_create_instance.py",
-            ensure         => absent,  # Bug 1149580
+            ensure         => $cron_switch,
             minute         => '25',
             hour           => '1',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
@@ -110,7 +110,7 @@ class aws_manager::cron {
             params         => "-c ${repo_root}/configs/tst-linux32 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux32-ec2-golden";
         "tst-emulator64-ec2-golden":
             script         => "aws_create_instance.py",
-            ensure         => absent,  # Bug 1149580
+            ensure         => $cron_switch,
             minute         => '45',
             hour           => '1',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
