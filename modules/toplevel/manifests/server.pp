@@ -12,6 +12,12 @@ class toplevel::server inherits toplevel::base {
     include disableservices::server
     include nrpe
     include nrpe::check::puppet_agent
+    include nrpe::check::ntp_time
+    include nrpe::check::ntp_peer
+    include nrpe::check::procs_regex
+    include nrpe::check::child_procs_regex
+    include nrpe::check::swap
+    include nrpe::check::ide_smart
     include packages::strace
     include packages::netcat
     include users::people
