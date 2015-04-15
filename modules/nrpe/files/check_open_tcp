@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+
+from subprocess import Popen, PIPE
+from optparse import OptionParser
+import sys
+
+
+UNKNOWN = 3
+OK = 0
+WARNING = 1
+CRITICAL = 2
+
+# The command: sudo lsof -b -n -i4tcp:22
+
+def getCount(port):
+    port = str(port)
+    PORT = '-i4TCP:' + port
+    p1 = Popen(['sudo', 'lsof', '-b', '-n', PORT], stdout=PIPE, stderr=PIPE)
+    output, stderr = p1.communicate()
+    COUNT = output.count('\n')
+    COUNT = COUNT-1
+    if p1.returncode != 0 or COUNT <= 0:
+        raise RuntimeError("Failed, status code %s stdout %r stderr %r" % ( p1.returncode, output, stderr))
+        sys.exit(UNKNOWN)
+    return COUNT
+
+
+if __name__ == '__main__':
+    parser = OptionParser()
+    parser.add_option('-c', '--critical', dest='crit', help='The critical limit or threshold', type=int)
+    parser.add_option('-w', '--warn', dest='warn', help='The warning limit or threshold', type=int)
+    parser.add_option('-p', '--port', dest='port', help='The tcp port to be monitored', type=int)
+    (options, args) = parser.parse_args()
+    if not options.crit is None and not options.port is None and not options.warn is None:
+        Connects = getCount(options.port)
+        if Connects > options.crit:
+            print "Critical: %s open tcp connections on port %s. exceeds threshold: %s"  %(Connects,options.port,options.crit)
+            sys.exit(CRITICAL)
+        elif Connects > options.warn:
+            print "Warning: %s open tcp connections on port %s. exceeds threshold: %s"  %(Connects,options.port,options.warn)
+            sys.exit(WARNING)
+        else:
+            print "OK: %s open tcp connections on port %s. below threshold: %s" %(Connects,options.port,options.warn)
+            sys.exit(OK)
+
+    else:
+        print "this script requires -w (warning) -c (critical) and -p (port)"
+sys.exit(UNKNOWN)
