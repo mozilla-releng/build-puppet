@@ -6,6 +6,7 @@ class log_aggregator {
     include ::config
     include ::rsyslog
     include ::dirs::opt
+    include nrpe::check::open_tcp
     include packages::rsyslog_gnutls
 
     file {
