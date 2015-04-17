@@ -44,6 +44,11 @@ node /b-2008.*\.build\.releng\.(use1|usw2)\.mozilla.com/{
     include toplevel::slave::releng::build
 }
     
+node /b-2008-\w+-\d+.winbuild.releng.scl3.mozilla.com/ {
+    $slave_trustlevel = 'core'
+    $node_security_level = 'low'
+    include toplevel::slave::releng::build
+}
 
 # linux64
 node /b-linux64-\w+-\d+.build.releng.scl3.mozilla.com/ {
@@ -73,7 +78,7 @@ node /bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com/ {
 ## try builders
 
 # Windows
-node /b-2008-\w+-\d+.winbuild.releng.scl3.mozilla.com/ {
+node /b-2008-\w+-\d+.wintry.releng.scl3.mozilla.com/ {
     $slave_trustlevel = 'try'
     $node_security_level = 'low'
     include toplevel::slave::releng::build
