@@ -18,7 +18,7 @@ define aws_manager::crontask($ensure, $virtualenv_dir, $user, $cwd, $params='',
         present: {
             file {
                 $cronfile:
-                    content => "$minute $hour $monthday $month $weekday $user $cronscript 2>&1 | mail -E -s '[aws cron] $subject' ${::config::aws_manager_mail_to}\n";
+                    content => "$minute $hour $monthday $month $weekday $user $cronscript 2>&1 | logger -t '$subject'\n";
                 $cronscript:
                     content => template("${module_name}/crontask.erb"),
                     mode => 0755;
@@ -26,7 +26,7 @@ define aws_manager::crontask($ensure, $virtualenv_dir, $user, $cwd, $params='',
             if ($process_timeout > 0){
                 file {
                     $monitoring_cronfile:
-                        content => "$minute $hour $monthday $month $weekday $user $monitoring_cronscript 2>&1 | mail -E -s '[aws cron] $subject monitor' ${::config::aws_manager_mail_to}\n";
+                        content => "$minute $hour $monthday $month $weekday $user $monitoring_cronscript 2>&1 | logger -t '$subject-monitor'\n";
                     $monitoring_cronscript:
                         content => template("${module_name}/kill_long_running.sh.erb"),
                         mode => 0755;
