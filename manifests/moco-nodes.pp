@@ -940,4 +940,10 @@ node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
 
 ## Loaners
 
+## temporary host node Bug 1155690
+
+node "jwatkins-trusty-testing.srv.releng.use1.mozilla.com" {
+    $node_security_level = 'low'
+    include toplevel::server
+}
 
