@@ -940,15 +940,4 @@ node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
 
 ## Loaners
 
-## temporary hosts Bug 1141628 and 1141626
-
-node "bld-lion-r4-001.build.releng.scl3.mozilla.com" {
-    $slave_trustlevel = 'core'
-    include toplevel::slave::releng::build::standard
-}
-
-node "mac-v2-signing5.test.releng.scl3.mozilla.com" {
-    $node_security_level = 'maximum'
-    include toplevel::server::signing
-}
 
