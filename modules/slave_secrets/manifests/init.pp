@@ -43,13 +43,17 @@ class slave_secrets($ensure=present, $slave_type) {
         }
     }
 
+    class {
+        'slave_secrets::relengapi_token':
+            ensure => $ensure;
+    }
+
     # install the following secrets only on build slaves
     # * google API key
     # * google oauth API
     # * ceph credentials
     # * mozilla API
     # * crash stats API token
-    # * relengapi token
     if ($slave_type == 'build') {
         class {
             'slave_secrets::google_api_key':
@@ -61,8 +65,6 @@ class slave_secrets($ensure=present, $slave_type) {
             'slave_secrets::mozilla_geoloc_api_keys':
                 ensure => $ensure;
             'slave_secrets::crash_stats_api_token':
-                ensure => $ensure;
-            'slave_secrets::relengapi_token':
                 ensure => $ensure;
         }
     } else {
