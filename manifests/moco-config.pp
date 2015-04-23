@@ -305,4 +305,14 @@ class config inherits config::base {
     $bacula_fd_port = 9102
     # this isn't actually secret, but it's long, so we stick it in hiera.
     $bacula_cacert = secret('bacula_ca_cert')
+
+    # Buildbot <-> Taskcluster bridge configuration
+    $buildbot_bridge_root = "/builds/bbb"
+    $buildbot_bridge_pulse_queue_basename = "queue/buildbot-bridge"
+    $buildbot_bridge_tclistener_pulse_exchange_basename = "exchange/taskcluster-queue/v1"
+    $buildbot_bridge_worker_type = "buildbot-bridge"
+    $buildbot_bridge_bblistener_pulse_exchange = "exchange/build"
+    $buildbot_bridge_worker_group = "buildbot-bridge"
+    $buildbot_bridge_worker_id = "buildbot-bridge"
+    $buildbot_bridge_reflector_interval = 60
 }

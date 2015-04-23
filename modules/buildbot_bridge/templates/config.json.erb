@@ -1,0 +1,34 @@
+{
+    "taskcluster_queue_config": {
+        "credentials": {
+            "clientId": "<%= scope.function_secret(["buildbot_bridge_taskcluster_client_id"]) %>",
+            "accessToken": "<%= scope.function_secret(["buildbot_bridge_taskcluster_access_token"]) %>"
+        }
+    },
+    "buildbot_scheduler_db": "mysql://<%= scope.function_secret(["buildbot_schedulerdb_username"]) %>:<%= scope.function_secret(["buildbot_schedulerdb_password"]) %>@<%= scope.function_secret(["buildbot_schedulerdb_hostname"]) %>/<%= scope.function_secret(["buildbot_schedulerdb_database"]) %>",
+    "bbb_db": "<%= scope.function_secret(["buildbot_bridge_dburi"]) %>",
+
+    "pulse_user": "<%= scope.function_secret(["buildbot_bridge_pulse_username"]) %>",
+    "pulse_password": "<%= scope.function_secret(["buildbot_bridge_pulse_password"]) %>",
+    "pulse_queue_basename": "<%= scope.lookupvar("config::buildbot_bridge_pulse_queue_basename") %>",
+
+    "tclistener": {
+        "pulse_exchange_basename": "<%= scope.lookupvar("config::buildbot_bridge_tclistener_pulse_exchange_basename") %>",
+        "worker_type": "<%= scope.lookupvar("config::buildbot_bridge_worker_type") %>",
+        "allowed_builders": [
+            ".*bhearsum.*"
+        ],
+        "logfile": "<%= scope.lookupvar("buildbot_bridge::settings::root") %>/tclistener.log"
+    },
+    "bblistener": {
+        "pulse_exchange": "<%= scope.lookupvar("config::buildbot_bridge_bblistener_pulse_exchange") %>",
+        "tc_worker_group": "<%= scope.lookupvar("config::buildbot_bridge_worker_group") %>",
+        "tc_worker_id": "<%= scope.lookupvar("config::buildbot_bridge_worker_id") %>",
+        "logfile": "<%= scope.lookupvar("buildbot_bridge::settings::root") %>/bblistener.log"
+    },
+    "reflector": {
+        "interval": <%= scope.lookupvar("config::buildbot_bridge_reflector_interval") %>,
+        "logfile": "<%= scope.lookupvar("buildbot_bridge::settings::root") %>/reflector.log"
+    }
+}
+
