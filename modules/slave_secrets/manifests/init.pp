@@ -79,8 +79,6 @@ class slave_secrets($ensure=present, $slave_type) {
                 ensure => absent;
             'slave_secrets::crash_stats_api_token':
                 ensure => absent;
-            'slave_secrets::relengapi_token':
-                ensure => absent;
         }
     }
 }
