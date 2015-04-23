@@ -363,4 +363,13 @@ class config::base {
     $bacula_director = '' # hostname of the director
     $bacula_fd_port = '' # port on the director
     $bacula_cacert = '' # full text of the CA cert signing the director's keys
+
+    # Buildbot <-> Taskcluster bridge configuration
+    $buildbot_bridge_pulse_queue_basename = ""
+    $buildbot_bridge_tclistener_pulse_exchange_basename = ""
+    $buildbot_bridge_worker_type = ""
+    $buildbot_bridge_bblistener_pulse_exchange = ""
+    $buildbot_bridge_worker_group = ""
+    $buildbot_bridge_worker_id = ""
+    $buildbot_bridge_reflector_interval = 60
 }
