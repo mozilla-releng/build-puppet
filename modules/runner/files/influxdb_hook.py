@@ -81,11 +81,19 @@ if __name__ == '__main__':
         sys.exit(0)
 
     # Make sure we don't kill runner due to a failing hook
+    instance_metadata = {}
+    try:
+        with open("/etc/instance_metadata.json") as metadata:
+            instance_metadata = json.loads(metadata.read())
+    except:
+        pass
+
     try:
         stats_dict = dumps_plus_args(
             stats,
             platform=sys.platform,
-            hostname=socket.gethostname()
+            hostname=socket.gethostname(),
+            **instance_metadata
         )
         stats_json = dict_to_influxdb_stats(name, stats_dict)
         submit_stats(url, stats_json)
