@@ -17,6 +17,7 @@ class config inherits config::base {
     $install_google_oauth_api_key = true
     $install_crash_stats_api_token = true
     $install_adjust_sdk_token = true
+    $install_relengapi_token = true
 
     # we use the sort_servers_by_group function to sort the list of servers, and then just use
     # the first as the primary server
