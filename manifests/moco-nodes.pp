@@ -476,8 +476,6 @@ node "buildbot-master72.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master73.bb.releng.usw2.mozilla.com" {
     $node_security_level = 'high'
-    # pinned to another server for bug 1157695
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
     buildmaster::buildbot_master::mozilla {
         "bm73-build1":
             http_port => 8001,
