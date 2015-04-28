@@ -15,9 +15,7 @@ define python::virtualenv::package($user) {
     $pkg = regsubst($title, "^.*\\|\\|", "")
 
     $pip_check_py = $python::pip_check_py::file
-    # give a --find-links option for each data server, so pip will search them
-    # all; note that pip will fall back to the find-links options in .pip.conf
-    # if all of these fail; that can't hurt.
+    # give a --find-links option for each data server, so pip will search them all.
     $data_server = $config::data_server
     $data_servers = $config::data_servers
 
@@ -50,7 +48,8 @@ end
             onlyif => "${ve_bin_dir}python${exe} $pip_check_py $pkg",
             user => $user,
             environment => [
-                "HOME=$home_dir", # because sudo will sometimes lead pip to ~administrator/.pip
+                "HOME=$home_dir",
+                "PIP_CONFIG_FILE=/dev/null" # because sudo will sometimes lead pip to ~administrator/.pip
             ],
             require => [
                 Class['python::pip_check_py'],
