@@ -188,6 +188,8 @@ class config::base {
     $install_crash_stats_api_token = false
     # true if secret("adjust_sdk_token") should be installed on build slaves
     $install_adjust_sdk_token = false
+    # true if secret('slave_relengapi_token') should be installed on all slaves
+    $install_relengapi_token = false
 
     # signingserver
 
