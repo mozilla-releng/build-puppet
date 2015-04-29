@@ -9,71 +9,71 @@ class packages::collectd {
                 "collectd":
                     ensure => '5.3.0-2.el6';
                 "collectd-apache":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-ascent":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-bind":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-contrib":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-curl":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-curl_json":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-curl_xml":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-dbi":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-debuginfo":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-dns":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-email":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-gmond":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-hddtemp":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-ipmi":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-iptables":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-libvirt":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-memcachec":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-mysql":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-nginx":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-notify_desktop":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-notify_email":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-nut":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-perl":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-pinba":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-ping":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-postgresql":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-python":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-rrdtool":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-sensors":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-snmp":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-varnish":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-write_http":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "collectd-write_riemann":
-                    ensure => '5.3.0-2.el6';
+                    ensure => absent;
                 "libcollectdclient":
                     ensure => '5.3.0-2.el6';
             }
