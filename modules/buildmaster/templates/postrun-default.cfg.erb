@@ -14,7 +14,7 @@
     "*": {
       "*": {
         "user": "ffxbld",
-        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_dsa",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_rsa",
         "host": "stage.mozilla.org"
         },
       "try": {
@@ -29,14 +29,14 @@
       },
       "shadow-central": {
         "user": "ffxbld",
-        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_dsa",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_rsa",
         "host": "pvtbuilds2.dmz.scl3.mozilla.com"
       }
     },
     "fuzzing": {
       "*": {
         "user": "ffxbld",
-        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_dsa",
+        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_rsa",
         "host": "pvtbuilds2.dmz.scl3.mozilla.com"
       }
     },
