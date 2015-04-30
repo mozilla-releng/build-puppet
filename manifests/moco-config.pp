@@ -158,7 +158,7 @@ class config inherits config::base {
     $releaserunner_smtp_server = "localhost"
     $releaserunner_hg_host = "hg.mozilla.org"
     $releaserunner_hg_username = "ffxbld"
-    $releaserunner_hg_ssh_key = "/home/cltbld/.ssh/ffxbld_dsa"
+    $releaserunner_hg_ssh_key = "/home/cltbld/.ssh/ffxbld_rsa"
     $releaserunner_production_masters = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
     $releaserunner_sendchange_master = "buildbot-master81.build.mozilla.org:9301"
     $releaserunner_ssh_username = "cltbld"
@@ -194,7 +194,7 @@ class config inherits config::base {
     $slaverebooter_slaveapi = "http://slaveapi1.srv.releng.scl3.mozilla.com:8080"
     $slaverebooter_mail_to = "release@mozilla.com"
 
-    $buildmaster_ssh_keys = [ 'b2gbld_dsa', 'b2gtry_dsa', 'ffxbld_rsa', 'ffxbld_dsa', 'tbirdbld_dsa', 'trybld_dsa', 'xrbld_dsa' ]
+    $buildmaster_ssh_keys = [ 'b2gbld_dsa', 'b2gtry_dsa', 'ffxbld_rsa', 'tbirdbld_dsa', 'trybld_dsa', 'xrbld_dsa' ]
 
     $collectd_write = {
         graphite_nodes => {
