@@ -31,7 +31,7 @@ class aws_manager::cron {
         "aws_stop_idle.py":
             ensure          => $cron_switch,
             minute          => '*/10',
-            process_timeout => 3600,
+            process_timeout => 1200,
             cwd             => "${aws_manager::settings::cloud_tools_dst}/scripts",
             virtualenv_dir  => "${aws_manager::settings::root}",
             user            => "${users::buildduty::username}",
