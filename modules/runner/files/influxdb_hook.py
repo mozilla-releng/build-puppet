@@ -9,12 +9,29 @@ Convert json strings into influxdb submissions along with host data.
     Run tests: python -m doctest -v influxdb_hook.py
 '''
 
+import re
 import sys
 import json
 import socket
 import urllib2
 
 socket.setdefaulttimeout(12)
+
+
+def get_recent_builds(twistd_log):
+    '''
+    Scrape a buildbot twistd log for builds which have run on this machine.
+    Note: Unfortunately this function has been copied from the post_flight hook,
+    this hook, along with all runner tasks, should be made into a python package
+    so that this can be avoided.
+    '''
+    all_builds = []
+    with open(twistd_log, 'r') as log:
+        for line in log:
+            match = re.search(r'.*\((.*)\).*message from master: ping', line)
+            if match:
+                all_builds.append(match.group(1))
+    return all_builds
 
 
 def dumps_plus_args(json_string, **kwargs):
@@ -88,11 +105,27 @@ if __name__ == '__main__':
     except:
         pass
 
+    log_path = os.environ.get('TWISTD_LOG_PATH', '/builds/slave/twistd.log')
+    log_path_retry = log_path + '.1'
+
+    build_data = []
+    try:
+        build_data = get_recent_builds(log_path)
+        # In the case that logs were just rotated, we will find no data.
+        # So, try to fetch data from the most recently rotated log (logname + '.1')
+        if not build_data:
+            build_data = get_recent_builds(log_path_retry)
+    except IOError:
+        print("No twistd long found, can't find last_build_name")
+
+    last_build_name = None if len(build_data) < 0 else build_data[-1]
+
     try:
         stats_dict = dumps_plus_args(
             stats,
             platform=sys.platform,
             hostname=socket.gethostname(),
+            last_build_name=last_build_name,
             **instance_metadata
         )
         stats_json = dict_to_influxdb_stats(name, stats_dict)
