@@ -45,6 +45,7 @@ class aws_manager::install {
                 'pbr==0.10.7',
                 'ordereddict==1.1',
                 'schema==0.3.1',
+                'redo==1.4',
             ];
     }
     git::repo {
