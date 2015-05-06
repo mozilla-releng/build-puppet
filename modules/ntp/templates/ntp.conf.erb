@@ -24,7 +24,7 @@ restrict -6 ::1
 # Please consider joining the pool (http://www.pool.ntp.org/join.html).
 
 <% @ntpservers.each do |host| -%>
-server <%= host %>
+server <%= host %> iburst
 <%end -%>
 
 #broadcast 192.168.1.255 key 42     # broadcast server
