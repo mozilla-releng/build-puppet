@@ -24,6 +24,15 @@ SET PATH=%PATH%;%MOZ_TOOLS%\bin
 
 cd "%USERPROFILE%"
 
+REM A temporary terrible hack to get pass hardcoding in mozharness for a deprecated path
+REM Once that is addressed this should be removed
+REM Ref Bug 1162230
+REM the hack is here because the link command needs to be rerun on each boot
+
+if not exist C:\mozilla-build\buildbotve mkdir C:\mozilla-build\buildbotve
+ln -s C:\mozilla-build\virtualenv.py C:\mozilla-build\buildbotve\virtualenv.py
+
+
 echo "%date% %time% - About to run runslave.py"
 
 REM running this via 'bash' is critical - bash adds a bunch of items to PATH
