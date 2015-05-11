@@ -6,14 +6,16 @@
 
 class packages::mozilla::mozilla_build {
     include dirs::installersource::puppetagain_pub_build_mozilla_org::exes
+    include dirs::etc
 
-    $version = "1.11.0"
+    $version = "1.9.0"
     $moz_bld_dir = "C:\\mozilla-build"
 
     # Bat file to check the for the current version and delete the version file and buildbot virtual environment directories if there is a mismatch.
     # This will allow for the MozillaBuildSetup package install, and the package install will retrigger virtual environment creations.
     file {
         "C:/etc/MozBld_ver_check.bat":
+            require => Class[dirs::etc],
             content => template("${module_name}/MozBld_ver_check.bat.erb");
     }
     exec {
@@ -43,11 +45,12 @@ class packages::mozilla::mozilla_build {
             source  => "puppet:///modules/packages/Paths.rc",
             require => Exec["MozillaBuildSetup-$version"];
     }
-    # Exec is being used here since the file link attribute throws errors on subsequent runs on Windows
+    # Buildbot currently looks for the python27 directory 
+    # This also removes the possiblitly of the incorrect python being picked up by various tools 
     exec {
-        "pyhton_27_link":
-            command => "C:\\mozilla-build\\msys\\bin\\ln.exe -s $moz_bld_dir\\python $moz_bld_dir\\python27",
-            creates => "$moz_bld_dir\\python27",
+        "rename_python_dir" :
+            command => "C:\\mozilla-build\\msys\\bin\mv.exe C:\\mozilla-build\\python C:\\mozilla-build\\python27",
+            creates => "C:\\mozilla-build\\python27\\python.exe",
             require => Exec["MozillaBuildSetup-$version"];
     }
     # Append needed directories to the Windows path variable
@@ -56,11 +59,15 @@ class packages::mozilla::mozilla_build {
             ensure => present;
     }
     windows_path {
-        "$moz_bld_dir\\python":
+          "$moz_bld_dir\\python":
+              ensure => absent;
+    }
+    windows_path {
+        "$moz_bld_dir\\python27":
             ensure => present;
     }
     windows_path {
-        "$moz_bld_dir\\python\scripts":
+        "$moz_bld_dir\\python27\scripts":
             ensure => present;
     }
     windows_path {

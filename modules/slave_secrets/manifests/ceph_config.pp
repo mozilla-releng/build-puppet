@@ -31,6 +31,7 @@ class slave_secrets::ceph_config($ensure=present) {
                         permissions => [
                             { identity => 'root', rights => ['full'] },
                             { identity => 'SYSTEM', rights => ['full'] },
+                            { identity => 'cltbld', rights => ['full'] },
                         ];
                 }
             }
