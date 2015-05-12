@@ -12,9 +12,11 @@ SET MOZVER=<%= @version %>
 IF EXIST "%MOZVERFILE%" (
 
     SET VAR=
-    IF "!VAR!"=="" (
+
     for /f %%i in ('findstr "%MOZVER%" %MOZVERFILE%') do set VAR=%%i
-        del %MOZVERFILE%
+
+    IF "!VAR!"=="" (
+        del /F /Q "%MOZVERFILE%"
         for /D  %%a in ("<%= @moz_bld_dir%>\buildbot-0*") do rd /s /q "%%~a"
         )
 )
