@@ -318,6 +318,7 @@ class config inherits config::base {
     $buildbot_bridge_pulse_queue_basename = "queue/buildbot-bridge"
     $buildbot_bridge_tclistener_pulse_exchange_basename = "exchange/taskcluster-queue/v1"
     $buildbot_bridge_worker_type = "buildbot-bridge"
+    $buildbot_bridge_provisioner_id = "buildbot-bridge"
     $buildbot_bridge_bblistener_pulse_exchange = "exchange/build"
     $buildbot_bridge_worker_group = "buildbot-bridge"
     $buildbot_bridge_worker_id = "buildbot-bridge"
