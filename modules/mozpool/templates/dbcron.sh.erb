@@ -5,11 +5,4 @@
 # This just runs the 'dbcron' stored procedure. The query sends diagnostic
 # output even on success, so this script only feeds that to cron on failure.
 
-mailto=<%= scope.lookupvar('::config::puppet_notif_email') %>
-logfile=$(mktemp)
-trap "rm -f ${logfile}; exit" SIGHUP SIGINT SIGTERM EXIT
-
-mysql -h <%= scope.lookupvar('::mozpool::settings::db_hostname') %> --user=<%= scope.lookupvar('::mozpool::settings::db_username') %> --password='<%= scope.lookupvar('::mozpool::settings::db_password') %>' <%= scope.lookupvar('::mozpool::settings::db_database') %> -e 'call dbcron();' > "${logfile}" 2>&1
-if [ $? != 0 ]; then
-    mail -s "Error running mozpool dbcron on "$(uname -n) "${mailto}" < "${logfile}"
-fi
+mysql -h <%= scope.lookupvar('::mozpool::settings::db_hostname') %> --user=<%= scope.lookupvar('::mozpool::settings::db_username') %> --password='<%= scope.lookupvar('::mozpool::settings::db_password') %>' <%= scope.lookupvar('::mozpool::settings::db_database') %> -e 'call dbcron();' 2>&1 | logger -t mozpool_dbcron
