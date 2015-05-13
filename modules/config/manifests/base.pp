@@ -372,6 +372,7 @@ class config::base {
     $buildbot_bridge_pulse_queue_basename = ""
     $buildbot_bridge_tclistener_pulse_exchange_basename = ""
     $buildbot_bridge_worker_type = ""
+    $buildbot_bridge_provisioner_id = ""
     $buildbot_bridge_bblistener_pulse_exchange = ""
     $buildbot_bridge_worker_group = ""
     $buildbot_bridge_worker_id = ""

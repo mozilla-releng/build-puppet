@@ -15,6 +15,7 @@
     "tclistener": {
         "pulse_exchange_basename": "<%= scope.lookupvar("config::buildbot_bridge_tclistener_pulse_exchange_basename") %>",
         "worker_type": "<%= scope.lookupvar("config::buildbot_bridge_worker_type") %>",
+        "provisioner_id": "<%= scope.lookupvar("config::buildbot_bridge_provisioner_id") %>",
         "allowed_builders": [
             ".*alder.*"
         ],
