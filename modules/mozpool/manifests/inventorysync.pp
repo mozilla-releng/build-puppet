@@ -6,7 +6,7 @@ class mozpool::inventorysync {
     if ($is_bmm_admin_host and !has_aspect('staging')) {
         file {
             "/etc/cron.d/mozpool-inventorysync":
-                content => "15,45 * * * * apache MOZPOOL_CONFIG=${::mozpool::settings::config_ini} ${::mozpool::settings::root}/frontend/bin/mozpool-inventorysync\n";
+                content => "15,45 * * * * apache MOZPOOL_CONFIG=${::mozpool::settings::config_ini} ${::mozpool::settings::root}/frontend/bin/mozpool-inventorysync 2>&1 | logger -t mozpool_inventorysync\n";
         }
     } else {
         file {
