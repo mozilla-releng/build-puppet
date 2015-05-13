@@ -31,7 +31,7 @@ class users::homeclean {
     cron {
         "homeclean":
             user => root,
-            command => "/usr/local/bin/homeclean.sh > /dev/null",
+            command => "/usr/local/bin/homeclean.sh 2>&1 | logger -t homeclean.sh",
             hour => 3,
             minute => 0,
             environment => "MAILTO=${::config::puppet_notif_email}";

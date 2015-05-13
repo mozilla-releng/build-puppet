@@ -24,15 +24,7 @@ BASE="${homebase}/archive/"
 DELETEAFTER=90 # in days
 EXCEPTIONS="lost+found archive Shared .localized" #users that we never backup or delete even if disabled
 
-_mailbody=$(mktemp -t homeclean-XXXXXX)
-
 set -e
-
-function sendmail()
-{
-    [[ -s $_mailbody ]] && cat $_mailbody | mail -s "homeclean.sh report for ${fqdn}" $puppet_notif_email
-	rm $_mailbody
-}
 
 function setup() 
 {
@@ -73,7 +65,7 @@ function backup()
 	for user in $(ls $homebase); do
 		exist ${user} || continue
 		grep -q ${user} ${homelist} || {
-			$VERBOSE && echo "+ will backup disabled user $user" | tee -a $_mailbody 
+			$VERBOSE && echo "INFO: will backup disabled user $user"
             [[ $NOOP -eq 0 ]] && tar Pczf ${BASE}${user}.tar.gz ${homebase}/${user} && rm -rf ${homebase}/${user}
 		}
 	done
@@ -84,7 +76,8 @@ function backup()
 #Delete any backup older than DELETEAFTER days (as rounded per 24h periods by find)
 function delete()
 {
-	find ${BASE} -mtime +${DELETEAFTER} -print | tee -a $_mailbody
+	$VERBOSE && echo "INFO: will delete disabled user backups older than $DELETEAFTER days:"
+	find ${BASE} -mtime +${DELETEAFTER} -print 
 	[[ $NOOP -eq 0 ]] && find ${BASE} -mindepth 1 -mtime +${DELETEAFTER} -delete
 }
 
@@ -93,4 +86,3 @@ $NOOP && echo "NOOP mode enabled: no action will be taken"
 $NOOP || setup
 backup
 delete
-sendmail

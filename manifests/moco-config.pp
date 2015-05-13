@@ -109,6 +109,7 @@ class config inherits config::base {
         "10.26.68.0/24",
         "10.132.68.0/24",
         "10.134.68.0/24",
+        "10.132.50.182/32", # Temporary entry, see bug 1164540
     ]
     $signing_new_token_allowed_ips = [
         '10.134.68.32/32', # dev-master2
@@ -117,6 +118,7 @@ class config inherits config::base {
         "10.26.68.0/24",
         "10.132.68.0/24",
         "10.134.68.0/24",
+        "10.132.50.182/32", # Temporary entry, see bug 1164540
     ]
 
     $extra_user_ssh_keys = {
