@@ -7,7 +7,7 @@
        - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <dict>
-	<key>Disabled</key>
+	<key>enabled</key>
 	<true/>
 	<key>Label</key>
 	<string>org.mozilla.puppetize</string>
