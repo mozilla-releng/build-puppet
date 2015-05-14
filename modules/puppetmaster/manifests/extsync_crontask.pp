@@ -12,7 +12,7 @@ define puppetmaster::extsync_crontask($generation_script, $ensure,
         present: {
             file {
                 $cronfile:
-                    content => "$minute $hour $monthday $month $weekday root /bin/bash $cronscript\n";
+                    content => "$minute $hour $monthday $month $weekday root /bin/bash $cronscript 2>&1 | logger -t extsync_$title\n";
                 $cronscript:
                     content => template("${module_name}/extsync_crontask.sh.erb"),
                     mode => 0755;

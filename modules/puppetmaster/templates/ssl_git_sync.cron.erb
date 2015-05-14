@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 MAILTO="<%= scope.lookupvar('::config::puppet_notif_email') %>"
-*/30 * * * * puppetsync (sleep $(($RANDOM\%1800))) && <%= @scripts_dir %>/ssl_git_sync.sh
+*/30 * * * * puppetsync (sleep $(($RANDOM\%1800))) && <%= @scripts_dir %>/ssl_git_sync.sh 2>&1 | logger -t puppetmaster_git_sync
 
 # sometimes by-hand git operations are accidentally run as root, so fix that up
 28 * * * * root chown -R puppetsync:puppetsync <%= scope.lookupvar('puppetmaster::settings::puppetmaster_root') %>/ssl/git
