@@ -8,7 +8,7 @@ class packages::nrpe {
                 "nagios-nrpe-server":
                     ensure => latest,
                     install_options => [ '--no-install-recommends' ];
-                "nagios-nrpe-plugin":
+                "nagios-plugins":
                     ensure => latest,
                     install_options => [ '--no-install-recommends' ];
             }
