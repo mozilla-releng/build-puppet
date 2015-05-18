@@ -21,3 +21,4 @@ url = <%=scope.lookupvar('::config::selfserve_agent_branches_json')%>
 
 [clobberer]
 url = <%=scope.lookupvar('::config::selfserve_agent_clobberer_url')%>
+auth = <%= scope.function_secret(["clobberer_token"])%>
