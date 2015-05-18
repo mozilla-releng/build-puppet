@@ -4,14 +4,14 @@
 %define _prefix /tools/%{realname}
 
 Name:       mozilla-%{realname}
-Version:    1.7.9.4
+Version:    2.4.1
 Release:    3%{?dist}
 Summary:    This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
 Group:      mozilla
 License:    GPLv2
-URL:        http://git-scm.com/
-Source0:    http://git-core.googlecode.com/files/%{realname}-%{version}.tar.gz
+URL:        https://www.kernel.org/pub/software/scm/git/
+Source0:    https://www.kernel.org/pub/software/scm/git/{realname}-%{version}.tar.gz
 BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/local/bin
 
 %changelog
+* Mon May 18 2015 James Lal <jlal mozilla com> 2.4.1
+- Upgrade to git 2.4.1 and change canonical source to kernel.org
+
 * Mon Jul 09 2012 Dustin J. Mitchell <dustin mozilla com> 1.7.9.4-3
 - add links from /usr/local/bin to all binaries
 
