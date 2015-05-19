@@ -190,6 +190,7 @@ class config inherits config::base {
     $selfserve_agent_carrot_userid = "buildapi"
     $selfserve_agent_carrot_exchange = "buildapi.control"
     $selfserve_agent_carrot_queue = "buildapi-agent-rabbit2"
+    $selfserve_private_url = "http://buildapi.pvt.build.mozilla.org/buildapi/self-serve"
 
     $distinguished_aws_manager = "aws-manager2.srv.releng.scl3.mozilla.com"
     $aws_manager_mail_to = "release+aws-manager@mozilla.com"

@@ -300,6 +300,8 @@ class config::base {
     # root directory for selfserve; this must be under /builds
     $selfserve_agent_root = "/builds/selfserve-agent"
 
+    $selfserve_private_url = ""
+
     # slaveapi
 
     # url for the slavealloc API (should end in '/api/')
