@@ -12,13 +12,14 @@
     "pulse_password": "<%= scope.function_secret(["buildbot_bridge_pulse_password"]) %>",
     "pulse_queue_basename": "<%= scope.lookupvar("config::buildbot_bridge_pulse_queue_basename") %>",
 
+    "allowed_builders": [
+        ".*alder.*"
+    ],
+
     "tclistener": {
         "pulse_exchange_basename": "<%= scope.lookupvar("config::buildbot_bridge_tclistener_pulse_exchange_basename") %>",
         "worker_type": "<%= scope.lookupvar("config::buildbot_bridge_worker_type") %>",
         "provisioner_id": "<%= scope.lookupvar("config::buildbot_bridge_provisioner_id") %>",
-        "allowed_builders": [
-            ".*alder.*"
-        ],
         "selfserve_url": "<%= scope.lookupvar("config::selfserve_private_url") %>",
         "logfile": "<%= scope.lookupvar("buildbot_bridge::settings::root") %>/tclistener.log"
     },
