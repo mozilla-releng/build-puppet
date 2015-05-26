@@ -52,6 +52,11 @@ class proxxy::settings {
             size => '16g',
             ttl => '1d',
         },
+        's3-us-west-1.amazonaws.com' => {
+            path => 'https://s3-us-west-1.amazonaws.com/',
+            size => '16g',
+            ttl => '1d',
+        },
         'queue.taskcluster.net' => {
             path => 'https://queue.taskcluster.net/',
             size => '16g',
