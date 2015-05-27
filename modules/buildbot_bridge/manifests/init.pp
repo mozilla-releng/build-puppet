@@ -35,9 +35,4 @@ class buildbot_bridge {
                 "bbb==0.4",
            ];
     }
-
-    nrpe::custom {
-        "buildbot_bridge.cfg":
-            content => template("buildbot_bridge/nagios.cfg.erb");
-    }
 }
