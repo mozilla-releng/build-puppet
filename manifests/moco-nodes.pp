@@ -63,8 +63,6 @@ node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
     $node_security_level = 'low'
     $slave_trustlevel = 'core'
     include toplevel::slave::releng::build::mock
-    include diamond
-    include instance_metadata::diamond
 }
 
 # OS X
@@ -111,8 +109,6 @@ node /(dev|try)-.*\.(dev|try)\.releng\.(use1|usw2)\.mozilla.com/ {
     $node_security_level = 'low'
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build::mock
-    include diamond
-    include instance_metadata::diamond
 }
 
 # OS X
@@ -201,8 +197,6 @@ node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
     $node_security_level = 'low'
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build::mock
-    include diamond
-    include instance_metadata::diamond
     users::root::extra_authorized_key {
         'sledru': ;
     }
