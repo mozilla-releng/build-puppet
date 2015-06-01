@@ -15,6 +15,9 @@ class log_aggregator {
         "/etc/papertrail-bundle.pem":
             mode => '0644',
             source => 'puppet:///modules/log_aggregator/etc/papertrail-bundle.pem';
+        "/etc/security/limits.conf":
+            mode => '0644',
+            source => 'puppet:///modules/log_aggregator/etc/limits.conf";
     }
 
     $cef_syslog_server = $::config::cef_syslog_server
