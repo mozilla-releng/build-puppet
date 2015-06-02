@@ -211,13 +211,6 @@ class config inherits config::base {
         },
     }
 
-    # hosted graphite settings
-    $diamond_graphite_host = "mozilla.carbon.hostedgraphite.com"
-    $diamond_graphite_port = "2003"
-    $diamond_graphite_path_prefix = secret('diamond_api_key')
-    $diamond_batch_size = 1
-    $diamond_poll_interval = 30
-
     #### start configuration information for rsyslog logging
 
     # cef server for auditd output
