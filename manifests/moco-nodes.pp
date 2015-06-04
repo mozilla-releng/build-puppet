@@ -935,6 +935,11 @@ node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
     include toplevel::server::log_aggregator
 }
 
+# Signing workers
+node /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+    include toplevel::server::signingworker
+}
+
 ## Loaners
 
 ## temporary host node Bug 1155690

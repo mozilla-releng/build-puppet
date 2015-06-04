@@ -318,4 +318,8 @@ class config inherits config::base {
     $buildbot_bridge_worker_group = "buildbot-bridge"
     $buildbot_bridge_worker_id = "buildbot-bridge"
     $buildbot_bridge_reflector_interval = 60
+
+    # TC signing workers
+    $signingworker_exchange = "exchange/taskcluster-queue/v1/task-pending"
+    $signingworker_worker_type = "signing-worker-v1"
 }
