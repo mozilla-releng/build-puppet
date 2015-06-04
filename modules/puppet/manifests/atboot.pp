@@ -19,7 +19,7 @@ class puppet::atboot {
             # Temp work around on to DACLs being appneded. REF: https://bugzilla.mozilla.org/show_bug.cgi?id=1170587
             exec {
                 "sec_descript_clear" :
-                     command => 'C:\windows\system32\cmd.exe icacls c:\etc\puppetmasters.txt /remove:g root',
+                     command => 'C:\windows\system32\icacls.exe c:\etc\puppetmasters.txt /remove:g root',
             }
         }
         default: {
