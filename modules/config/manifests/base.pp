@@ -379,4 +379,14 @@ class config::base {
     $buildbot_bridge_worker_group = ""
     $buildbot_bridge_worker_id = ""
     $buildbot_bridge_reflector_interval = 60
+
+    # TC signing workers
+    $signingworker_tools_repo = "https://hg.mozilla.org/build/tools"
+    $signingworker_tools_branch = "default"
+    $signingworker_root = "/builds/signingworker"
+    $signingworker_pulse_host = "pulse.mozilla.org"
+    $signingworker_pulse_port = 5671
+    $signingworker_verbose_logging = "true"
+    $signingworker_exchange = ""
+    $signingworker_worker_type = ""
 }
