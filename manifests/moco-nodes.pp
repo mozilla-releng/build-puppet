@@ -642,6 +642,7 @@ node "buildbot-master89.bb.releng.scl3.mozilla.com" {
             basedir => "tests1-panda";
     }
     include toplevel::server::buildmaster::mozilla
+    include toplevel::mixin::funsize_scheduler
 }
 
 node "buildbot-master91.bb.releng.usw2.mozilla.com" {
@@ -653,6 +654,7 @@ node "buildbot-master91.bb.releng.usw2.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
+    include toplevel::mixin::funsize_scheduler
 }
 
 node "buildbot-master94.bb.releng.use1.mozilla.com" {
@@ -664,6 +666,7 @@ node "buildbot-master94.bb.releng.use1.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
+    include toplevel::mixin::funsize_scheduler
 }
 
 node "buildbot-master100.bb.releng.scl3.mozilla.com" {
