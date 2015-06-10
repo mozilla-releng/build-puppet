@@ -73,7 +73,7 @@ class signingserver::base {
 
     motd {
         "signing":
-            content => "\nOnly start servers as CLTSIGN!\n\nThis signing server hosts the following instances:\n",
+            content => "\nONLY START SIGNING SERVERS AS cltsign\n\nThis signing server hosts the following instances:\n",
             order => 90;
     }
 
