@@ -322,4 +322,11 @@ class config inherits config::base {
     # TC signing workers
     $signingworker_exchange = "exchange/taskcluster-queue/v1/task-pending"
     $signingworker_worker_type = "signing-worker-v1"
+
+    # Funsize Scheduler configuration
+    $funsize_scheduler_root = "/builds/funsize"
+    $funsize_scheduler_balrog_username = "funsize"
+    $funsize_scheduler_pulse_username = "funsize"
+    $funsize_scheduler_pulse_queue = "scheduler"
+    $funsize_scheduler_pulse_exchange = "exchange/build"
 }

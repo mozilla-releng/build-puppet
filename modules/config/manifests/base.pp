@@ -389,4 +389,11 @@ class config::base {
     $signingworker_verbose_logging = "true"
     $signingworker_exchange = ""
     $signingworker_worker_type = ""
+
+    # Funsize Scheduler configuration
+    $funsize_scheduler_root = "/builds/funsize"
+    $funsize_scheduler_balrog_username = ""
+    $funsize_scheduler_pulse_username = ""
+    $funsize_scheduler_pulse_queue = ""
+    $funsize_scheduler_pulse_exchange = ""
 }
