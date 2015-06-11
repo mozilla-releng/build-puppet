@@ -5,6 +5,7 @@ class packages::collectd {
 
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['collectd'])
             package {
                 "collectd":
                     ensure => '5.3.0-2.el6';
@@ -82,12 +83,14 @@ class packages::collectd {
         Ubuntu: {
             case $::operatingsystemrelease {
                 12.04: {
+                    realize(Packages::Aptrepo['collectd'])
                     package {
                         ["collectd-core", "collectd", "libcollectdclient1", "libcollectdclient-dev", "collectd-dbg", "collectd-dev", "collectd-utils"]:
                             ensure => '5.3.0';
                     }
                 }
                 14.04: {
+                    realize(Packages::Aptrepo['collectd'])
                     package {
                         ["collectd-core", "collectd", "libcollectdclient1", "libcollectdclient-dev", "collectd-dbg", "collectd-dev", "collectd-utils"]:
                             ensure => '5.4.0-3ubuntu2';
