@@ -40,7 +40,7 @@ node /t-w732-ix-\d+.wintest.releng.scl3.mozilla.com/ {
 # Windows
 node /b-2008.*\.(winbuild|build)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
     $node_security_level = 'low'
-    $slave_trustlevel = 'try'
+    $slave_trustlevel = 'core'
     include toplevel::slave::releng::build
 }
     
