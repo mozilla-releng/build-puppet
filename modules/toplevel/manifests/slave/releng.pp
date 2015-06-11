@@ -24,7 +24,8 @@ class toplevel::slave::releng inherits toplevel::slave {
         include tweaks::pwrshell_options
         include tweaks::server_initialize
         include tweaks::shutdown_tracker
-        include tweaks::windows_network_optimization
+        include tweaks::windows_network_opt_netsh
+        include tweaks::windows_network_opt_registry
         include packages::binscope
         include packages::psutil
         include packages::pywin32
