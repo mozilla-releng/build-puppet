@@ -8,92 +8,25 @@ class packages::collectd {
             realize(Packages::Yumrepo['collectd'])
             package {
                 "collectd":
-                    ensure => '5.3.0-2.el6';
-                "collectd-apache":
-                    ensure => absent;
-                "collectd-ascent":
-                    ensure => absent;
-                "collectd-bind":
-                    ensure => absent;
-                "collectd-contrib":
-                    ensure => absent;
-                "collectd-curl":
-                    ensure => absent;
-                "collectd-curl_json":
-                    ensure => absent;
-                "collectd-curl_xml":
-                    ensure => absent;
-                "collectd-dbi":
-                    ensure => absent;
-                "collectd-debuginfo":
-                    ensure => absent;
-                "collectd-dns":
-                    ensure => absent;
-                "collectd-email":
-                    ensure => absent;
-                "collectd-gmond":
-                    ensure => absent;
-                "collectd-hddtemp":
-                    ensure => absent;
-                "collectd-ipmi":
-                    ensure => absent;
-                "collectd-iptables":
-                    ensure => absent;
-                "collectd-libvirt":
-                    ensure => absent;
-                "collectd-memcachec":
-                    ensure => absent;
-                "collectd-mysql":
-                    ensure => absent;
-                "collectd-nginx":
-                    ensure => absent;
-                "collectd-notify_desktop":
-                    ensure => absent;
-                "collectd-notify_email":
-                    ensure => absent;
-                "collectd-nut":
-                    ensure => absent;
-                "collectd-perl":
-                    ensure => absent;
-                "collectd-pinba":
-                    ensure => absent;
-                "collectd-ping":
-                    ensure => absent;
-                "collectd-postgresql":
-                    ensure => absent;
-                "collectd-python":
-                    ensure => absent;
-                "collectd-rrdtool":
-                    ensure => absent;
-                "collectd-sensors":
-                    ensure => absent;
-                "collectd-snmp":
-                    ensure => absent;
-                "collectd-varnish":
-                    ensure => absent;
-                "collectd-write_http":
-                    ensure => absent;
-                "collectd-write_riemann":
-                    ensure => absent;
+                    ensure => '5.5.0-1.el6';
+                "collectd-disk":
+                    ensure => '5.5.0-1.el6';
                 "libcollectdclient":
-                    ensure => '5.3.0-2.el6';
+                    ensure => '5.5.0-1.el6';
             }
         }
 
         Ubuntu: {
             case $::operatingsystemrelease {
-                12.04: {
+                12.04, 14.04: {
                     realize(Packages::Aptrepo['collectd'])
                     package {
-                        ["collectd-core", "collectd", "libcollectdclient1", "libcollectdclient-dev", "collectd-dbg", "collectd-dev", "collectd-utils"]:
-                            ensure => '5.3.0';
+                        ["collectd-core", "collectd", "libcollectdclient1", "collectd-utils"]:
+                            ensure => '5.5.0-1mozilla1';
                     }
-                }
-                14.04: {
-                    realize(Packages::Aptrepo['collectd'])
                     package {
-                        ["collectd-core", "collectd", "libcollectdclient1", "libcollectdclient-dev", "collectd-dbg", "collectd-dev", "collectd-utils"]:
-                            ensure => '5.4.0-3ubuntu2';
+                        ["libcollectdclient-dev", "collectd-dbg", "collectd-dev"]:
+                            ensure => absent;
                     }
                 }
                 default: {
@@ -105,7 +38,7 @@ class packages::collectd {
         Darwin: {
             packages::pkgdmg {
                 'collectd':
-                    version => '5.3.0',
+                    version => '5.5.0',
                     os_version_specific => true,
                     private => false;
             }
