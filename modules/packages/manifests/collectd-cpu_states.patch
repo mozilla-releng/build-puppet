@@ -1,0 +1,40 @@
+From e0683047a42e217c352c2419532b8e029f9f3f0a Mon Sep 17 00:00:00 2001
+From: Robert Viduya <robert@oit.gatech.edu>
+Date: Fri, 29 May 2015 17:47:21 -0400
+Subject: [PATCH] cpu plugin: Correct number of expected CPU states on Mac OS
+ X.
+
+This appears to be a regression introduced in f14ab935. Thanks to Robert Viduya
+for reporting the bug.
+
+Signed-off-by: Florian Forster <octo@collectd.org>
+---
+ src/cpu.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/src/cpu.c b/src/cpu.c
+index 57af2dd..2a2a4a9 100644
+--- a/src/cpu.c
++++ b/src/cpu.c
+@@ -582,16 +582,16 @@ static int cpu_read (void)
+ 			continue;
+ 		}
+ 
+-		if (cpu_info_len < COLLECTD_CPU_STATE_MAX)
++		if (cpu_info_len < CPU_STATE_MAX)
+ 		{
+ 			ERROR ("cpu plugin: processor_info returned only %i elements..", cpu_info_len);
+ 			continue;
+ 		}
+ 
+-		cpu_stage (cpu, COLLECTD_CPU_STATE_USER,   (derive_t) cpu_info.cpu_ticks[COLLECTD_CPU_STATE_USER],   now);
+-		cpu_stage (cpu, COLLECTD_CPU_STATE_NICE,   (derive_t) cpu_info.cpu_ticks[COLLECTD_CPU_STATE_NICE],   now);
+-		cpu_stage (cpu, COLLECTD_CPU_STATE_SYSTEM, (derive_t) cpu_info.cpu_ticks[COLLECTD_CPU_STATE_SYSTEM], now);
+-		cpu_stage (cpu, COLLECTD_CPU_STATE_IDLE,   (derive_t) cpu_info.cpu_ticks[COLLECTD_CPU_STATE_IDLE],   now);
++		cpu_stage (cpu, COLLECTD_CPU_STATE_USER,   (derive_t) cpu_info.cpu_ticks[CPU_STATE_USER],   now);
++		cpu_stage (cpu, COLLECTD_CPU_STATE_NICE,   (derive_t) cpu_info.cpu_ticks[CPU_STATE_NICE],   now);
++		cpu_stage (cpu, COLLECTD_CPU_STATE_SYSTEM, (derive_t) cpu_info.cpu_ticks[CPU_STATE_SYSTEM], now);
++		cpu_stage (cpu, COLLECTD_CPU_STATE_IDLE,   (derive_t) cpu_info.cpu_ticks[CPU_STATE_IDLE],   now);
+ 	}
+ /* }}} #endif PROCESSOR_CPU_LOAD_INFO */
+ 
