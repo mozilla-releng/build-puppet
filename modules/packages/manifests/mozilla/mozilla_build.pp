@@ -49,7 +49,7 @@ class packages::mozilla::mozilla_build {
     # This also removes the possiblitly of the incorrect python being picked up by various tools 
     exec {
         "rename_python_dir" :
-            command => "C:\\mozilla-build\\msys\\bin\mv.exe C:\\mozilla-build\\python C:\\mozilla-build\\python27",
+            command => "C:\\mozilla-build\\msys\\bin\\mv.exe C:\\mozilla-build\\python C:\\mozilla-build\\python27",
             creates => "C:\\mozilla-build\\python27\\python.exe",
             require => Exec["MozillaBuildSetup-$version"];
     }
