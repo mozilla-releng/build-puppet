@@ -26,16 +26,7 @@ class toplevel::slave::releng::build::mock inherits toplevel::slave::releng::bui
             require => [Class['packages::mozilla::mock_mozilla'], Class['users::builder']];
     }
 
-
-    include runner::tasks::checkout_tools
-    include runner::tasks::clobber
-    include runner::tasks::update_shared_repos
     include runner::tasks::config_mockbuild
-    include runner::tasks::cleanup
-    class {
-        'runner::tasks::purge_builds':
-            required_space => 20;
-    }
     case $::kernel {
         'Linux': {
             include runner::tasks::populate_shared_repos

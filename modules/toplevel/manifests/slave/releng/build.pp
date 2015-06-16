@@ -11,7 +11,7 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
     include dirs::builds::tooltool_cache
 
     include users::builder
-    
+
     if ($::operatingsystem == Windows) {
         include tweaks::vs_2013_lnk
         # Both Releng Windows testers and builders use UltraVNC
@@ -56,5 +56,14 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
     class {
         'slave_secrets':
             slave_type => 'build';
+    }
+
+    include runner::tasks::checkout_tools
+    include runner::tasks::clobber
+    include runner::tasks::update_shared_repos
+    include runner::tasks::cleanup
+    class {
+        'runner::tasks::purge_builds':
+            required_space => 20;
     }
 }

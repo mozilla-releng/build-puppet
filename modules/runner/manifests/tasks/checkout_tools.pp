@@ -10,7 +10,7 @@ class runner::tasks::checkout_tools($runlevel=0) {
         '/tools/checkouts':
             ensure => directory,
             owner  => $::config::builder_username,
-            group  => $::config::builder_username;
+            group  => $::config::builder_group;
      }
     runner::task {
         "${runlevel}-checkout_tools":

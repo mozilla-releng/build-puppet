@@ -5,10 +5,16 @@
 
 # Run clobberer against every build directory....
 
+# Run as  <%= scope.lookupvar('::config::builder_username') %>
+if [ "$USER" != "<%= scope.lookupvar('::config::builder_username') %>" ]; then
+        sudo -E -u  <%= scope.lookupvar('::config::builder_username') %> $0 $*
+        exit $?
+fi
+
 CLOBBERER_URL=$($RUNNER_CONFIG_CMD -g clobberer.url)
 TOOLS_PATH=$($RUNNER_CONFIG_CMD -g hg.tools_path)
 SLAVE_DIR=$($RUNNER_CONFIG_CMD -g buildbot.slave_dir)
 
-su <%= scope.lookupvar('::config::builder_username') %> -c "$TOOLS_PATH/clobberer/clobberer.py \
+$TOOLS_PATH/clobberer/clobberer.py \
     -s scripts -s buildprops.json --url $CLOBBERER_URL \
-    --dir $SLAVE_DIR -v"
+    --dir $SLAVE_DIR -v
