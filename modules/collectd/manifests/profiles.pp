@@ -16,7 +16,7 @@ class collectd::profiles {
         # configuration arguments and can be included using the
         # collectd::plugins::generic class
 
-        $common_plugins = [ 'cpu', 'memory', 'swap', 'uptime', 'load', ]
+        $common_plugins = [ 'memory', 'swap', 'uptime', 'load', ]
 
         # Here we include plugins based on OS since some plugins
         # may not be compatible with certain operation systems
@@ -25,7 +25,7 @@ class collectd::profiles {
         case $operatingsystem {
             'CentOS', 'Ubuntu': {
                 $os_generic_plugins = []
-                include collectd::plugins::aggregation
+                include collectd::plugins::cpu
                 include collectd::plugins::disk
                 include collectd::plugins::df
                 include collectd::plugins::interface
@@ -33,6 +33,7 @@ class collectd::profiles {
             }
             'Darwin': {
                 $os_generic_plugins = []
+                include collectd::plugins::cpu
                 include collectd::plugins::df
                 include collectd::plugins::interface
             }
