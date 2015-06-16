@@ -26,6 +26,14 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
                     required_space => 4;
             }
          }
+        "Darwin": {
+            include runner::tasks::update_shared_repos
+            include runner::tasks::checkout_tools
+            class {
+                'runner::tasks::purge_builds':
+                    required_space => 4;
+            }
+         }
     }
 
     class {
