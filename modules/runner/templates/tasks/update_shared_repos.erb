@@ -17,6 +17,12 @@ if [ "$USER" != "<%= scope.lookupvar('::config::builder_username') %>" ]; then
         exit $?
 fi
 
+<% if scope.lookupvar('::operatingsystem') == 'Darwin' -%>
+# Since we sudo -E above, we can end up with $TMPDIR pointing to a directory
+# that only root can write to
+export TMPDIR=/tmp
+<% end -%>
+
 # Since xargs will run, even if no results are passed to it, and -r option is not mac-compatible,
 # we will write results to a temporary file, and only execute xargs if the file has > 0 bytes
 temp_file="$(mktemp -t hg_shared_repos.XXXXXXXXXX)"
