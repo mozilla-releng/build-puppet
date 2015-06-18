@@ -34,7 +34,7 @@ class funsize_scheduler {
                 "pycparser==2.13",
                 "PyHawk-with-a-single-extra-commit==0.1.5",
                 "PyYAML==3.10",
-                "redo=1.4.1",
+                "redo==1.4.1",
                 # Taskcluster pins requests 2.4.3, so we need to de the same,
                 # even though we'd rather use a more up-to-date version.
                 "requests==2.4.3",
