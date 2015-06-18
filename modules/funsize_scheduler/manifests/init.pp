@@ -26,7 +26,7 @@ class funsize_scheduler {
                 # PGPy depends on this _specific_ version of cryptography
                 "cryptography==0.6",
                 "enum34==1.0.4",
-                "funsize==0.6",
+                "funsize==0.9",
                 "Jinja2==2.7.1",
                 "kombu==3.0.26",
                 "MarkupSafe==0.23",
@@ -34,6 +34,7 @@ class funsize_scheduler {
                 "pycparser==2.13",
                 "PyHawk-with-a-single-extra-commit==0.1.5",
                 "PyYAML==3.10",
+                "redo=1.4.1",
                 # Taskcluster pins requests 2.4.3, so we need to de the same,
                 # even though we'd rather use a more up-to-date version.
                 "requests==2.4.3",

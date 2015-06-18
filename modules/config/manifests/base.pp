@@ -396,4 +396,7 @@ class config::base {
     $funsize_scheduler_pulse_username = ""
     $funsize_scheduler_pulse_queue = ""
     $funsize_scheduler_pulse_exchange = ""
+    $funsize_scheduler_s3_bucket = ""
+    $funsize_scheduler_balrog_worker_api_root = ""
+    $funsize_scheduler_th_api_root = ""
 }

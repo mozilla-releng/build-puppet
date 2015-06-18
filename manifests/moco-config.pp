@@ -329,4 +329,7 @@ class config inherits config::base {
     $funsize_scheduler_pulse_username = "funsize"
     $funsize_scheduler_pulse_queue = "scheduler"
     $funsize_scheduler_pulse_exchange = "exchange/build"
+    $funsize_scheduler_s3_bucket = "mozilla-nightly-updates"
+    $funsize_scheduler_balrog_worker_api_root = "http://balrog/api"
+    $funsize_scheduler_th_api_root = "https://treeherder.mozilla.org/api"
 }
