@@ -4,6 +4,7 @@ balrog:
     password: "<%= scope.function_secret(["funsize_scheduler_balrog_password"]) %>"
     api_root: "https://aus4-admin.mozilla.org/api"
     cert: "<%= scope.lookupvar("config::funsize_scheduler_root") %>/lib/python2.7/site-packages/funsize/data/mozilla-root.crt"
+    worker_api_root: "<%= scope.lookupvar("config::funsize_scheduler_balrog_worker_api_root") %>"
 
 pulse:
     user: "<%= scope.lookupvar("config::funsize_scheduler_pulse_username") %>"
@@ -15,3 +16,8 @@ taskcluster:
     credentials:
       clientId: "<%= scope.function_secret(["funsize_scheduler_taskcluster_client_id"]) %>"
       accessToken: "<%= scope.function_secret(["funsize_scheduler_taskcluster_access_token"]) %>"
+s3:
+    bucket: "<%= scope.lookupvar("config::funsize_scheduler_s3_bucket") %>"
+    aws_access_key_id: "<%= scope.function_secret(["funsize_scheduler_aws_access_key_id"]) %>"
+    aws_secret_access_key: "<%= scope.function_secret(["funsize_scheduler_aws_secret_access_key"]) %>"
+th_api_root: "<%= scope.lookupvar("config::funsize_scheduler_th_api_root") %>"
