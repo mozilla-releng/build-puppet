@@ -30,12 +30,14 @@ class collectd::profiles {
                 include collectd::plugins::df
                 include collectd::plugins::interface
                 include collectd::plugins::ethstat
+                include collectd::plugins::statsd
             }
             'Darwin': {
                 $os_generic_plugins = []
                 include collectd::plugins::cpu
                 include collectd::plugins::df
                 include collectd::plugins::interface
+                include collectd::plugins::statsd
             }
             default: { fail("OS profile not found in ${title}") }
         }
