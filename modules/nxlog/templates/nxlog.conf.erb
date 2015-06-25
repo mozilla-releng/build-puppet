@@ -1,10 +1,10 @@
-; This Source Code Form is subject to the terms of the Mozilla Public
-; License, v. 2.0. If a copy of the MPL was not distributed with this
-; file, You can obtain one at http://mozilla.org/MPL/2.0/.
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-; Managed by puppet
+# Managed by puppet
 
-define ROOT <%= scope.lookup('nxlog::settings::root_dir') %>
+define ROOT <%= scope.lookupvar('nxlog::settings::root_dir') %>
  
 Moduledir %ROOT%\modules
 CacheDir  %ROOT%\data
@@ -12,27 +12,4 @@ Pidfile %ROOT%\data\nxlog.pid
 SpoolDir  %ROOT%\data
 LogFile %ROOT%\data\nxlog.log
 
-<Extension syslog>
-  Module xm_syslog
-</Extension>
-
-<Processor transform>
-  Module pm_transformer
-  Exec $Hostname = hostname_fqdn();
-  OutputFormat syslog_rfc5424
-</Processor>
-
-<Input eventlog>
-  Module im_msvistalog
-  ReadFromLast TRUE
-</Input>
-
-<Output aggregator>
-  Module om_tcp
-  Host <%= @log_aggregator %>
-  Port <%= @logging_port %>
-</Output>
-
-<Route eventlog_aggregator>
-  Path eventlog => transform => aggregator
-</Route>
+include <%= scope.lookupvar('nxlog::settings::conf_include') %>

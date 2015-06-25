@@ -13,7 +13,7 @@ class nxlog::svc {
                     ensure    => running,
                     enable    => true,
                     require   => Class [ 'packages::nxlog' ],
-                    subscribe => File [ "${nxlog::settings::root_dir}/conf/nxlog.conf" ],
+                    subscribe => File [ "${nxlog::settings::root_dir}/conf/nxlog.conf" ]
             }
         }
         default: {
