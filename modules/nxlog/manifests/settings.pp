@@ -3,8 +3,16 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class nxlog::settings {
-    $root_dir = $::hardwaremodel ? {
-        x64     => 'C:/Program Files (x86)/nxlog',
-        default => 'C:/Program Files/nxlog',
+    case $::operatingsystem {
+        Windows: {
+            $root_dir = $::hardwaremodel ? {
+                x64     => 'C:/Program Files (x86)/nxlog',
+                default => 'C:/Program Files/nxlog',
+            }
+            $conf_include = '%ROOT%\conf\nxlog_*.conf'
+        }
+        default: {
+            fail('Cannot initialise settings for NXLog on this platform')
+        }
     }
 }

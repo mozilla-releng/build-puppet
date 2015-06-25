@@ -12,9 +12,7 @@ class nxlog::conf {
             file {
                 "${nxlog::settings::root_dir}/conf/nxlog.conf":
                     require => Class [ 'packages::nxlog' ],
-                    replace => true,
-                    show_diff => false,
-                    content => template('nxlog/nxlog.conf.erb'),
+                    content => template('nxlog/nxlog.conf.erb')
             }
         }
         default: {
