@@ -28,6 +28,7 @@ class toplevel::base {
     include tweaks::rc_local
     include needs_reboot
     include log_aggregator::client
+    include packages::bash
 
     class { 'web_proxy':
         host => $::config::web_proxy_host,
@@ -45,7 +46,6 @@ class toplevel::base {
         # openssl ends up getting pulled in as a dependency everywhere, and we
         # want to carefully control its version, so include it everywhere.
         include packages::openssl
-        include packages::bash
 
         # ensure the version of libc where required
         include packages::libc
