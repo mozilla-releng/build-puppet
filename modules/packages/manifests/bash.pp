@@ -47,6 +47,14 @@ class packages::bash {
             }
         }
 
+        Windows: {
+            # on Windows, we use the bash that ships with MozillaBuild
+            include packages::mozilla::mozilla_build
+            Anchor['packages::bash::begin'] ->
+            Class['packages::mozilla::mozilla_build']
+            -> Anchor['packages::bash::end']
+        }
+
         default: {
             fail("cannot install on $::operatingsystem")
         }
