@@ -3,6 +3,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class packages::bash {
+
+    anchor {
+        'packages::bash::begin': ;
+        'packages::bash::end': ;
+    }
+
     case $::operatingsystem {
         CentOS: {
             case $::operatingsystemmajrelease {
