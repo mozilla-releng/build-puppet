@@ -1,4 +1,4 @@
-#! <%= @python %>
+#!/usr/bin/env python
 
 # tooltool is a lookaside cache implemented in Python
 # Copyright (C) 2011 John H. Ford <john@johnford.info>
@@ -17,10 +17,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-# An manifest file specifies files in that directory that are stored
-# elsewhere.  This file should only contain file in the directory
-# which the manifest file resides in and it should be called
-# 'manifest.manifest'
+# A manifest file specifies files in that directory that are stored
+# elsewhere. This file should only list files in the same directory
+# in which the manifest file resides and it should be called
+# 'manifest.tt'
 
 import hashlib
 import httplib
@@ -36,6 +36,7 @@ import threading
 import time
 import urllib2
 import urlparse
+import zipfile
 
 from subprocess import PIPE
 from subprocess import Popen
@@ -499,18 +500,22 @@ def fetch_file(base_urls, file_record, grabchunk=1024 * 4, auth_file=None, regio
         return None
 
 
-def untar_file(filename):
+def clean_path(dirname):
+    """Remove a subtree if is exists. Helper for unpack_file()."""
+    if os.path.exists(dirname):
+        log.info('rm tree: %s' % dirname)
+        shutil.rmtree(dirname)
+
+
+def unpack_file(filename):
     """Untar `filename`, assuming it is uncompressed or compressed with bzip2,
-    xz, or gzip.  The tarball is assumed to contain a single directory with
-    a name matching the base of the given filename.  Xz support is handled by
-    shelling out to 'tar'."""
+    xz, gzip, or unzip a zip file. The file is assumed to contain a single
+    directory with a name matching the base of the given filename.
+    Xz support is handled by shelling out to 'tar'."""
     if tarfile.is_tarfile(filename):
         tar_file, zip_ext = os.path.splitext(filename)
         base_file, tar_ext = os.path.splitext(tar_file)
-
-        if os.path.exists(base_file):
-            log.info('rm tree: %s' % base_file)
-            shutil.rmtree(base_file)
+        clean_path(base_file)
         log.info('untarring "%s"' % filename)
         tar = tarfile.open(filename)
         tar.extractall()
@@ -518,13 +523,18 @@ def untar_file(filename):
     elif filename.endswith('.tar.xz'):
         log.info('untarring "%s"' % filename)
         base_file = filename.replace('.tar.xz', '')
-        if os.path.exists(base_file):
-            log.info('rm tree: %s' % base_file)
-            shutil.rmtree(base_file)
+        clean_path(base_file)
         if not execute('tar -Jxf %s 2>&1' % filename):
             return False
+    elif zipfile.is_zipfile(filename):
+        log.info('unzipping "%s"' % filename)
+        base_file = filename.replace('.zip', '')
+        clean_path(base_file)
+        z = zipfile.ZipFile(filename)
+        z.extractall()
+        z.close()
     else:
-        log.error("Unknown zip extension for filename '%s'" % filename)
+        log.error("Unknown archive extension for filename '%s'" % filename)
         return False
     return True
 
@@ -654,7 +664,7 @@ def fetch_files(manifest_file, base_urls, filenames=[], cache_folder=None,
 
     # Unpack files that need to be unpacked.
     for filename in unpack_files:
-        if not untar_file(filename):
+        if not unpack_file(filename):
             failed_files.append(filename)
 
     # If we failed to fetch or validate a file, we need to fail
