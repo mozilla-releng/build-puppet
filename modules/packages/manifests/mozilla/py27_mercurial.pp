@@ -50,12 +50,17 @@ class packages::mozilla::py27_mercurial {
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Windows: {
-            # on Windows, we use the hg that ships with MozillaBuild
             $mercurial = 'C:\mozilla-build\hg\hg.exe'
             include packages::mozilla::mozilla_build
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
-            Class['packages::mozilla::mozilla_build']
-            -> Anchor['packages::mozilla::py27_mercurial::end']
+            file { "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/Mercurial-3.2.1-x64.exe" :
+                ensure => file,
+                source => "puppet:///repos/EXEs/Mercurial-3.2.1-x64.exe",
+            } -> exec { "Mercurial-3.2.1":
+                command   => "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\Mercurial-3.2.1-x64.exe /VerySilent /SUPPRESSMSGBOXES /DIR=C:\\mozilla-build\\hg",
+                subscribe => Exec["remove_old_hg"],
+                creates   => "C:\\mozilla-build\\hg\\MPR.dll", 
+            } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         default: {
             fail("cannot install on $::operatingsystem")
