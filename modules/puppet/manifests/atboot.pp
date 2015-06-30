@@ -16,10 +16,12 @@ class puppet::atboot {
         windows: {
             include dirs::etc
             $puppetmasters_txt = "${dirs::etc::dir}/puppetmasters.txt"
-            # Temp work around on to DACLs being appneded. REF: https://bugzilla.mozilla.org/show_bug.cgi?id=1170587
+            # Temp work around on to DACLs being appended. 
+            # REF: https://bugzilla.mozilla.org/show_bug.cgi?id=1170587 &  https://tickets.puppetlabs.com/browse/PUP-4802
             exec {
                 "sec_descript_clear" :
                      command => 'C:\windows\system32\icacls.exe c:\etc\puppetmasters.txt /remove:g root',
+                     require => File[$puppetmasters_txt],
             }
         }
         default: {
