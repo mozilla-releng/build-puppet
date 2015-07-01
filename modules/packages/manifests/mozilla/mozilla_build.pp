@@ -38,13 +38,12 @@ class packages::mozilla::mozilla_build {
                             File["C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/MozillaBuildSetup-$version.exe"]
                        ];
     }
-    # Update hg's Path.rc to point to a valid path
-    file {
-        "$moz_bld_dir/hg/hgrc.d/Paths.rc":
-            replace => true,
-            source  => "puppet:///modules/packages/Paths.rc",
-            require => Exec["MozillaBuildSetup-$version"];
-    }
+    # Remove the old HG directories. This is under the assumption that MozillaBuild version is pre 2.0.
+    exec {
+        "remove_old_hg" :
+            command => "C:\\Windows\\system32\\cmd.exe rmdir /S /Q C:\\mozilla-build\hg",
+            unless  => "C:\\Windows\\system32\\cmd.exe dir C:\\mozilla-build\\hg\\MPR.dll"
+    }     
     # Buildbot currently looks for the python27 directory 
     # This also removes the possiblitly of the incorrect python being picked up by various tools 
     exec {
