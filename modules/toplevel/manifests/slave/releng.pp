@@ -33,6 +33,7 @@ class toplevel::slave::releng inherits toplevel::slave {
         include packages::mapi_headers
         include fw::windows_exceptions
         include fw::windows_settings
+        include hardware::ec2_config
     }
     case $::kernel {
         'Linux': {
