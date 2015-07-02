@@ -18,11 +18,7 @@ share=
 rebase=
 mq=
 purge=
-bundleclone=<%=scope.lookupvar('mercurial::settings::hgext_dir')%>/bundleclone.py
 
 [hostfingerprints]
 hg.mozilla.org = af:27:b9:34:47:4e:e5:98:01:f6:83:2b:51:c9:aa:d8:df:fb:1a:27
 
-[bundleclone]
-# NB - this may be updated by runner to prefer the local AWS region
-prefers = ec2region=us-west-2, stream=revlogv1

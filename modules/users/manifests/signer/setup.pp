@@ -28,4 +28,15 @@ class users::signer::setup($home, $username, $group) {
             authorized_keys => [], # nobody is authorized
             authorized_keys_allows_extras => false;
     } -> Anchor['users::signer::setup::end']
+
+    ##
+    # Manage some configuration files
+
+    file {
+        "$home/.hgrc":
+            mode => 0644,
+            owner => $username,
+            group => $group,
+            source => "puppet:///modules/users/hgrc";
+    }
 }
