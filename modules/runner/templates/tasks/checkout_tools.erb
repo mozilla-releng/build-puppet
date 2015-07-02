@@ -9,17 +9,10 @@ set -e
 # Make sure we have tools and mozharness cloned and up-to-date
 # Run as  <%= scope.lookupvar('::config::builder_username') %>
 if [ "$USER" != "<%= scope.lookupvar('::config::builder_username') %>" ]; then
-        sudo -E -u  <%= scope.lookupvar('::config::builder_username') %> $0 $*
+        sudo -E -H -u <%= scope.lookupvar('::config::builder_username') %> $0 $*
         exit $?
 fi
 HGTOOL=/usr/local/bin/hgtool.py
-
-availability_zone=$(python -c 'import json; print json.load(open("/etc/instance_metadata.json")).get("placement/availability_zone", "")')
-case "$availability_zone" in
-    us-east-1*) BUNDLE_PREFIX="http://mozilla-releng-tarballs-use1.s3.amazonaws.com" ;;
-    us-west-2*) BUNDLE_PREFIX="http://mozilla-releng-tarballs-usw2.s3.amazonaws.com" ;;
-    *)          BUNDLE_PREFIX="http://mozilla-releng-tarballs-usw2.s3.amazonaws.com" ;;
-esac
 
 # $RUNNER_CONFIG_CMD is guaranteed to be set by Runner itself. See Runner
 # documentation for more information.
@@ -27,9 +20,9 @@ esac
 TOOLS_REPO=$($RUNNER_CONFIG_CMD -g hg.tools_repo)
 TOOLS_BRANCH=$($RUNNER_CONFIG_CMD -g hg.tools_branch)
 TOOLS_PATH=$($RUNNER_CONFIG_CMD -g hg.tools_path)
-$HGTOOL $TOOLS_REPO -b $TOOLS_BRANCH  --bundle "$BUNDLE_PREFIX/tools.bundle" $TOOLS_PATH
+$HGTOOL $TOOLS_REPO -b $TOOLS_BRANCH $TOOLS_PATH
 
 MOZHARNESS_REPO=$($RUNNER_CONFIG_CMD -g hg.mozharness_repo)
 MOZHARNESS_BRANCH=$($RUNNER_CONFIG_CMD -g hg.mozharness_branch)
 MOZHARNESS_PATH=$($RUNNER_CONFIG_CMD -g hg.mozharness_path)
-$HGTOOL $MOZHARNESS_REPO -b $MOZHARNESS_BRANCH --bundle "$BUNDLE_PREFIX/mozharness.bundle" $MOZHARNESS_PATH
+$HGTOOL $MOZHARNESS_REPO -b $MOZHARNESS_BRANCH $MOZHARNESS_PATH

@@ -32,7 +32,6 @@ class users::buildduty::setup($home, $username, $group) {
 
     ##
     # Manage some configuration files
-
     file {
         "$home/.gitconfig":
             mode => 0644,
@@ -44,11 +43,6 @@ class users::buildduty::setup($home, $username, $group) {
             owner => $username,
             group => $group,
             content => template("${module_name}/buildduty-bashrc.erb");
-        "$home/.hgrc":
-            mode => 0644,
-            owner => $username,
-            group => $group,
-            source => "puppet:///modules/users/hgrc";
         "$home/.vimrc":
             mode => 0644,
             owner => $username,
