@@ -33,11 +33,6 @@ class users::builder::setup($home, $username, $group) {
 
     ##
     # Manage some configuration files
-    mercurial::hgrc {
-        "$home/.hgrc":
-            owner => $username,
-            group => $group;
-    }
 
     file {
         "$home/.gitconfig":
@@ -50,6 +45,11 @@ class users::builder::setup($home, $username, $group) {
             owner => $username,
             group => $group,
             content => template("${module_name}/builder-bashrc.erb");
+        "$home/.hgrc":
+            mode => filemode(0644),
+            owner => $username,
+            group => $group,
+            source => "puppet:///modules/users/hgrc";
         "$home/.vimrc":
             mode => filemode(0644),
             owner => $username,

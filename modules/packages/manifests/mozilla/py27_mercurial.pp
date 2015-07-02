@@ -10,8 +10,6 @@ class packages::mozilla::py27_mercurial {
     }
 
     include packages::mozilla::python27
-    include mercurial::ext::bundleclone
-    include mercurial::system_hgrc
 
     case $::operatingsystem {
         CentOS: {

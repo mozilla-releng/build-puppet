@@ -36,8 +36,6 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
          }
     }
 
-    include runner::tasks::config_hgrc
-
     class {
         'slave_secrets':
             slave_type => 'test';
