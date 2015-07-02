@@ -1,11 +1,11 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+class mercurial::ext::bundleclone {
+    include mercurial::ext::common
 
-# Disable OSX finder service
-class tweaks::disable_fseventsd {
     file {
-        "/.fseventsd/no_log":
-            content => "";
+        "$mercurial::settings::hgext_dir/bundleclone.py":
+            source => "puppet:///modules/mercurial/bundleclone.py";
     }
 }
