@@ -81,6 +81,9 @@ def main():
     moz_instance_type = user_data["moz_instance_type"]
     amis = get_json(URL)
     compatible_amis = get_compatible_amis(amis, az, moz_instance_type)
+    if not compatible_amis:
+        log.warn("no compatible AMIs found, skipping")
+        exit(0)
     last_ami = compatible_amis[0]
     if my_ami != last_ami["id"]:
         created = int(last_ami["tags"]["moz-created"])

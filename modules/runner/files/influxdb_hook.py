@@ -118,7 +118,7 @@ if __name__ == '__main__':
     except IOError:
         print("No twistd long found, can't find last_build_name")
 
-    last_build_name = None if len(build_data) < 0 else build_data[-1]
+    last_build_name = None if len(build_data) <= 0 else build_data[-1]
 
     try:
         stats_dict = dumps_plus_args(
