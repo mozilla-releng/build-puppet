@@ -66,4 +66,6 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
         'slave_secrets':
             slave_type => 'build';
     }
+
+    include runner::tasks::config_hgrc
 }
