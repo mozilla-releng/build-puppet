@@ -70,7 +70,7 @@ else
         (
             echo "Puppet changes applied at $hostname:"
             echo ''
-            hg diff -r $rev_before -r $rev_after
+            $hg diff -r $rev_before -r $rev_after
         ) | mail -s "[PuppetAgain Changes] Puppet changes applied at $hostname" $changemailto
 
         # reload httpd, to flush puppet's caches
