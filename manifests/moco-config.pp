@@ -160,7 +160,6 @@ class config inherits config::base {
     $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
     # These need to be in "Foo <foo@bar.com>" style to work with release runner
     $releaserunner_notify_from = "Release Eng <release@mozilla.com>"
-    $releaserunner_notify_to = "Release Notifications <release-automation-notifications@mozilla.com>"
     $releaserunner_smtp_server = "localhost"
     $releaserunner_hg_host = "hg.mozilla.org"
     $releaserunner_hg_username = "ffxbld"
@@ -168,6 +167,23 @@ class config inherits config::base {
     $releaserunner_production_masters = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
     $releaserunner_sendchange_master = "buildbot-master81.build.mozilla.org:9301"
     $releaserunner_ssh_username = "cltbld"
+
+    $releaserunner_env_config = {
+        "stage" => {
+            ship_it_root => "https://ship-it-dev.allizom.org",
+            ship_it_username => secret("releaserunner_stage_ship_it_username"),
+            ship_it_password => secret("releaserunner_stage_ship_it_password"),
+            notify_to => "TBD",
+            allowed_branches => "date",
+        },
+        "prod" => {
+            ship_it_root => "https://ship-it.mozilla.org",
+            ship_it_username => secret("releaserunner_prod_ship_it_username"),
+            ship_it_password => secret("releaserunner_prod_ship_it_password"),
+            notify_to => "Release Notifications <release-automation-notifications@mozilla.com>",
+            allowed_branches => "mozilla-beta,mozilla-release,mozilla-esr,comm-beta,comm-esr",
+        }
+    }
 
     $shipit_notifier_api_root = "http://ship-it.mozilla.org"
     $shipit_notifier_verbose = true

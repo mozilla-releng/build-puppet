@@ -1,6 +1,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 class releaserunner {
     include ::config
     include dirs::builds
@@ -11,6 +12,8 @@ class releaserunner {
     include packages::gcc
     include packages::make
     include packages::mysql_devel
+
+    $env_config = $config::releaserunner_env_config[$releaserunner_env]
 
     python::virtualenv {
         "${releaserunner::settings::root}":
