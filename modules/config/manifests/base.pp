@@ -235,7 +235,6 @@ class config::base {
     $releaserunner_hg_ssh_key = ""
     # email to/from addresses and smtp server to use to send notifications
     $releaserunner_notify_from = ""
-    $releaserunner_notify_to = ""
     $releaserunner_smtp_server = ""
     # ssh username and (hand-installed) key to use to login to all buildmasters
     # and perform updates and reconfigs
@@ -253,6 +252,23 @@ class config::base {
     $releaserunner_tools_branch = "default"
     # root directory for releaserunner; this must be under /builds
     $releaserunner_root = "/builds/releaserunner"
+
+    $releaserunner_env_config = {
+        "stage" => {
+            ship_it_root => "",
+            ship_it_username => secret("releaserunner_stage_ship_it_username"),
+            ship_it_password => secret("releaserunner_stage_ship_it_password"),
+            notify_to => "",
+            allowed_branches => "",
+        },
+        "prod" => {
+            ship_it_root => "",
+            ship_it_username => secret("releaserunner_prod_ship_it_username"),
+            ship_it_password => secret("releaserunner_prod_ship_it_password"),
+            notify_to => "",
+            allowed_branches => "",
+        }
+    }
 
     # runner task settings
 
