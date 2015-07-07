@@ -10,7 +10,7 @@ class tweaks::windows_network_opt_netsh {
     # For additional info ref: https://bugzilla.mozilla.org/show_bug.cgi?id=1165567
     include dirs::etc
    
-    $netsh_log   = "C:\ProgramData\PuppetLabs\puppet\var\log\\netsh_error.log"
+    $netsh_log   = "C:\\ProgramData\\PuppetLabs\\puppet\\var\\log\\netsh_error.log"
     $set_netsh   = 'set netcmd=C:\windows\System32\netsh.exe'
     $run_netsh   = "\n %netcmd%\n"
     $failed      = " failed with  exit code %errorlevel% "
@@ -58,23 +58,35 @@ class tweaks::windows_network_opt_netsh {
                 content => "$set_netsh int ipv4 set subinterface $QuotedLAC_2 mtu=1500 store=persistent$run_netsh $ErrorCheck",
                 order   => 08,
             }
-            if ($::fqdn != "/.*\.releng\.(use1|usw2)\.mozilla\.com$/") {
-                concat::fragment { "global_dca" :
-                    target  => "$NetTwBat",
-                    content => "$set_netsh int tcp set global dca=enabled$run_netsh $ErrorCheck",
-                    order   => 09
-                }
+            concat::fragment { "global autotuning" :
+                target  => "$NetTwBat",
+                content => "$set_netsh int tcp set global autotuning=normal$run_netsh $ErrorCheck",
+                order   => 09,
             }
-            if ($::fqdn == "/.*\.releng\.(use1|usw2)\.mozilla\.com$/") {
-                concat::fragment { "global_rss" :
-                    target  => "$NetTwBat",
-                    content => "$set_netsh int tcp set global rss=enabled$run_netsh $ErrorCheck",
-                    order   => 09,
+            case $::fqdn {
+                /.*\.releng\.(use1|usw2)\.mozilla\.com$/: {
+                    concat::fragment { "global_rss" :
+                        target  => "$NetTwBat",
+                        content => "$set_netsh int tcp set global rss=enabled$run_netsh $ErrorCheck",
+                        order   => 10,
+                    }
+                    concat::fragment { "chimney" :
+                        target  => "$NetTwBat",
+                        content => "$set_netsh int tcp set global chimney=disabled$run_netsh $ErrorCheck",
+                        order   => 11,
+                    }
+                    concat::fragment { "global_dca" :
+                        target  => "$NetTwBat",
+                        content => "$set_netsh int tcp set global dca=disabled$run_netsh $ErrorCheck",
+                        order   => 12,
+                    }
                 }
-                concat::fragment { "global_dca" :
-                    target  => "$NetTwBat",
-                    content => "$set_netsh int tcp set global dca=disabled$run_netsh $ErrorCheck",
-                    order   => 15,
+                default: {
+                    concat::fragment { "global_dca" :
+                        target  => "$NetTwBat",
+                        content => "$set_netsh int tcp set global dca=enabled$run_netsh $ErrorCheck",
+                        order   => 10,
+                    }
                 }
             }
             file {'C:/programdata/puppetagain/SchTsk_netsh.xml':
