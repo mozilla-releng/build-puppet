@@ -169,11 +169,11 @@ class config inherits config::base {
     $releaserunner_ssh_username = "cltbld"
 
     $releaserunner_env_config = {
-        "stage" => {
+        "dev" => {
             ship_it_root => "https://ship-it-dev.allizom.org",
-            ship_it_username => secret("releaserunner_stage_ship_it_username"),
-            ship_it_password => secret("releaserunner_stage_ship_it_password"),
-            notify_to => "TBD",
+            ship_it_username => secret("releaserunner_dev_ship_it_username"),
+            ship_it_password => secret("releaserunner_dev_ship_it_password"),
+            notify_to => "bhearsum@mozilla.com,rail@mozilla.com,nthomas@mozilla.com",
             allowed_branches => "date",
         },
         "prod" => {
