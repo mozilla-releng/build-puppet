@@ -13,6 +13,7 @@ class runner::tasks::config_hgrc($runlevel=0) {
         sudoers::custom {
             'config_hgrc-from-runner':
                 user => $users::builder::username,
+                runas => 'root',
                 command => "${runner::settings::taskdir}/${runlevel}-config_hgrc";
         }
     }
