@@ -37,6 +37,7 @@ class users::global {
                 sudoers::custom {
                     'administrator-reboot':
                         user => "administrator",
+                        runas => 'root',
                         command => $sudoers::settings::rebootpath;
                 }
             }

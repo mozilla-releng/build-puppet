@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo -u buildduty /builds/aws_manager/bin/python /builds/aws_manager/cloud-tools/scripts/aws_check_subnets.py -r us-east-1 -r us-west-2 -s test -s try -s build

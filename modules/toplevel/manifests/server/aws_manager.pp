@@ -11,6 +11,7 @@ class toplevel::server::aws_manager inherits toplevel::server {
       'aws-manager-high-security':
         condition => $::security::high;
     }
+    include nrpe::check::check_free_aws_ips
     include ::aws_manager
 }
 

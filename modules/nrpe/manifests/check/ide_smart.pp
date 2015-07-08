@@ -13,6 +13,7 @@ class nrpe::check::ide_smart {
     sudoers::custom {
         'check_ide_smart':
             user => 'nagios',
+            runas => 'root',
             command => "$plugins_dir/check_ide_smart";
     }
 }

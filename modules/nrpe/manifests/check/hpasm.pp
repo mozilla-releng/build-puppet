@@ -17,6 +17,7 @@ class nrpe::check::hpasm {
     sudoers::custom {
         'check_hpasm':
             user => 'nagios',
+            runas => 'root',
             command => "/sbin/hpasmcli";
     }
 }

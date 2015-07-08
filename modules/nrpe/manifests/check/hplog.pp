@@ -17,6 +17,7 @@ class nrpe::check::hplog {
     sudoers::custom {
         'check_hplog':
             user => 'nagios',
+            runas => 'root',
             command => "/sbin/hplog";
     }
 }
