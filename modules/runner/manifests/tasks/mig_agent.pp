@@ -12,6 +12,7 @@ class runner::tasks::mig_agent($runlevel=1) {
         sudoers::custom {
             'mig-agent-from-runner':
                 user => $users::builder::username,
+                runas => 'root',
                 command => "/sbin/mig-agent";
         }
 

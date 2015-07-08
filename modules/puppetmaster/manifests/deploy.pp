@@ -33,6 +33,7 @@ class puppetmaster::deploy {
     sudoers::custom {
         'getcert':
             user => 'apache',
+            runas => 'root',
             command => $deployment_getcert_sh;
     }
 }

@@ -10,6 +10,7 @@ class sudoers::reboot {
     sudoers::custom {
         'builder-reboot':
             user => $users::builder::username,
+            runas => 'root',
             command => $sudoers::settings::rebootpath;
     }
 }
