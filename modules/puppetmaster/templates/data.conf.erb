@@ -57,3 +57,15 @@
         Order allow,deny
         allow from all
 </Directory>
+
+# NuGet repo redirection rules
+<Directory /data/repos/nuget/>
+        # override for /data/repos/nuget/.htaccess which is regenerated when there are changes to the packages folder
+        AllowOverride All
+
+        # static redirects that don't change when the package folder is modified
+        RedirectMatch 302 ^(.*)/api/v2/package/([^/]+)/([^/]+)/?$ $1/nupkg/$2.$3.nupkg
+        RedirectMatch 301 ^(.*)/api/v2/Packages/?$ $1/Packages
+        RedirectMatch 301 ^(.*)/packages/?$ $1/html/index.html
+        RedirectMatch 301 ^(.*)/packages/([^/]+)/([^/]+)/?$ $1/html/$1.$2.html
+</Directory>
