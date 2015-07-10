@@ -10,7 +10,7 @@ class packages::bacula_enterprise_client {
 
             package {
                 'bacula-enterprise-client':
-                    ensure => "8.0.7";
+                    ensure => present;
                 'bacula-common':
                     ensure => absent;
                 'bacula-client':
