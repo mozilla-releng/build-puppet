@@ -70,16 +70,6 @@ class tweaks::windows_network_opt_registry {
                 type => dword,
                 data => '5',
             }
-            registry::value { "DefaultTTL" :
-                key  => $TCPIPParameters,
-                type => dword,
-                data => '64',
-            }
-            registry::value { "TcpTimedWaitDelay" :
-                key  => $TCPIPParameters,
-                type => dword,
-                data => '30',
-            }
            registry::value { "explorer.exe" :
                 key  => $FeatureMAX_0ser,
                 type => dword,
@@ -116,11 +106,6 @@ class tweaks::windows_network_opt_registry {
                 type => dword,
                 data => 0,
             }
-            registry::value { "LargeSystemCache_SEL" :
-                key  =>  $MemManagement,
-                type => dword,
-                data => '1',
-            }
             registry::value { "NetworkThrottlingIndex" :
                 key  =>  $SystemProfile,
                 type => dword,
@@ -136,83 +121,86 @@ class tweaks::windows_network_opt_registry {
                 type => dword,
                 data => '4294967295',
             }
-            if ($::fqdn != "/.*\.releng\.(use1|usw2)\.mozilla\.com$/") {
-                registry::value { "DisableTaskOffload" :
-                    key  => $TCPIPParameters,
-                    type => dword,
-                    data => '0',
+            case $::fqdn {
+                /.*\.releng\.(use1|usw2)\.mozilla\.com$/: {
+                    registry::value { "SynAttackProtect_SEL" :
+                        key  => $TCPIPParameters,
+                        type => dword,
+                        data => '0',
+                    }
+                    registry::value { "DisableTaskOffload" :
+                        key  => $TCPIPParameters,
+                        type => dword,
+                        data => '1',
+                    }
+                    registry::value { "DisableTaskOffload_SEL" :
+                        key  => $TCPIPParameters,
+                        type => dword,
+                        data => '1',
+                    }
+                    registry::value { "iexplorer.exe" :
+                        key  => $FeatureMAX_0ser,
+                        type => dword,
+                        data => '16',
+                    }
+                    registry::value { "iexplorer.exe_01" :
+                        key   => $FeatureMAX,
+                        value => "iexplorer.exe",
+                        type  => dword,
+                        data  => '16',
+                    }
+                    registry::value { "LargeSystemCache_SEL" :
+                        key  =>  $MSMQParameters,
+                        type => dword,
+                        data => '1',
+                    }
+                     registry::value { "DefaultTTL" :
+                        key  => $TCPIPParameters,
+                        type => dword,
+                        data => '40',
+                    }
+                     registry::value { "TcpTimedWaitDelay" :
+                        key  => $TCPIPParameters,
+                        type => dword,
+                        data => '30',
+                    }
                 }
-                registry::value { "EnableDca" :
-                    key  => $TCPIPParameters,
-                    type => dword,
-                    data => '1',
-                }
-                registry::value { "EnableTCPA" :
-                    key  => $TCPIPParameters,
-                    type => dword,
-                    data => '1',
-                }
-                registry::value { "MaxUserPort" :
-                    key  => $TCPIPParameters,
-                    type => dword,
-                    data => '65534',
-                }
-            }
-            if ($::fqdn == "/.*\.releng\.(use1|usw2)\.mozilla\.com$/") {
-                registry::value { "DefaultTTL" :
-                    key    => $TCPIPParameters,
-                    ensure => absent,
-                }
-                 registry::value { "MaxUserPort" :
-                    key    => $TCPIPParameters,
-                    ensure => absent,
-                }
-                 registry::value { "TcpTimedWaitDelay" :
-                    key    => $TCPIPParameters,
-                    ensure => absent,
-                }
-                 registry::value { "SynAttackProtect" :
-                    key    => $TCPIPParameters,
-                    ensure => absent,
-                }
-                 registry::value { "TCPMaxDataRetransmissions" :
-                    key    => $TCPIPParameters,
-                    ensure => absent,
-                }
-                registry::value { "SynAttackProtect_SEL" :
-                    key  => $TCPIPParameters,
-                    type => dword,
-                    data => '0',
-                }
-                registry::value { "DisableTaskOffload" :
-                    key  => $TCPIPParameters,
-                    type => dword,
-                    data => '1',
-                }
-                registry::value { "DisableTaskOffload_SEL" :
-                    key  => $TCPIPParameters,
-                    type => dword,
-                    data => '1',
-                }
-                registry::value { "iexplorer.exe" :
-                    key  => $FeatureMAX_0ser,
-                    type => dword,
-                    data => '16',
-                }
-                registry::value { "iexplorer.exe_01" :
-                    key   => $FeatureMAX,
-                    value => "iexplorer.exe",
-                    type  => dword,
-                    data  => '16',
-                }
-                registry::value { "LargeSystemCache_SEL" :
-                    key  =>  $MSMQParameters,
-                    type => dword,
-                    data => '0',
-                }
-                 registry::value { "TCPNoDelay" :
-                    key    => $MSMQParameters,
-                    ensure => absent,
+                default: {
+                    registry::value { "DefaultTTL" :
+                        key  => $TCPIPParameters,
+                        type => dword,
+                        data => '64',
+                    }
+                    registry::value { "DisableTaskOffload" :
+                        key  => $TCPIPParameters,
+                        type => dword,
+                        data => '0',
+                    }
+                    registry::value { "EnableDca" :
+                        key  => $TCPIPParameters,
+                        type => dword,
+                        data => '1',
+                    }
+                    registry::value { "EnableTCPA" :
+                        key  => $TCPIPParameters,
+                        type => dword,
+                        data => '1',
+                    }
+                    registry::value { "MaxUserPort" :
+                        key  => $TCPIPParameters,
+                        type => dword,
+                        data => '65534',
+                    }
+                    registry::value { "TcpTimedWaitDelay" :
+                        key  => $TCPIPParameters,
+                        type => dword,
+                        data => '30',
+                    }
+                    registry::value { "LargeSystemCache_SEL" :
+                        key  =>  $MemManagement,
+                        type => dword,
+                        data => '1',
+                    }
                 }
             }
         }
@@ -221,28 +209,3 @@ class tweaks::windows_network_opt_registry {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
