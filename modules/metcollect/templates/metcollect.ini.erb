@@ -1,0 +1,21 @@
+[MAIN]
+interval: <%= scope.lookupvar('metcollect::settings::interval') %>
+
+[GRAPHITE]
+<% host = nodes.keys[0] -%>
+server: <%= host %>
+port: <%= nodes[host]['port'] %>
+prefix: <%= nodes[host]['prefix'] %>
+
+[LOG]
+file: C:\metcollect.log
+# debug
+
+[READ_MODULES_ENABLED]
+cpu
+memory
+swap
+disk_io
+disk_usage
+net_io_counters
+uptime
