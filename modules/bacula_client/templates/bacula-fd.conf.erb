@@ -24,8 +24,8 @@ FileDaemon {
   TlsCaCertificateFile = "/opt/bacula/ssl/cacert.pem"
   TlsEnable = yes
   TlsRequire = yes
-  WorkingDirectory = "/opt/bacula/working"
-  PidDirectory = "/opt/bacula/working"
+  WorkingDirectory = <%= scope.lookupvar('bacula_client::settings::workingdir') %>
+  PidDirectory = <%= scope.lookupvar('bacula_client::settings::piddir') %>
 }
 Messages {
   Name = "Standard"

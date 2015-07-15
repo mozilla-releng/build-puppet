@@ -134,8 +134,22 @@ node "releng-puppet2.srv.releng.scl3.mozilla.com" {
 
 ## deploystudio servers
 
-node /install\.(build|test)\.releng\.scl3\.mozilla\.com/ {
+node "install.build.releng.scl3.mozilla.com" {
     include toplevel::server::deploystudio
+    class {
+        'bacula_client':
+            cert => secret('install_build_releng_scl3_bacula_cert'),
+            key => secret('install_build_releng_scl3_bacula_key');
+    }
+}
+
+node "install.test.releng.scl3.mozilla.com" {
+    include toplevel::server::deploystudio
+    class {
+        'bacula_client':
+            cert => secret('install_test_releng_scl3_bacula_cert'),
+            key => secret('install_test_releng_scl3_bacula_key');
+    }
 }
 
 ## casper imaging servers
