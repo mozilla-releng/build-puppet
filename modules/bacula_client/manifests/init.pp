@@ -5,13 +5,11 @@
 class bacula_client($cert, $key) {
     # $cert and $key are the pem-formatted TLS certificate and key for this host
     include ::config
+    include packages::bacula_enterprise_client
+    include bacula_client::settings
 
     case $operatingsystem {
-        CentOS: {
-            include packages::bacula_enterprise_client
-
-            $owner = 'root'
-            $group = 'bacula'
+        CentOS, Darwin: {
 
             $bacula_director = $::config::bacula_director
             $bacula_fd_port = $::config::bacula_fd_port
@@ -19,48 +17,52 @@ class bacula_client($cert, $key) {
             $bacula_director_password = secret("bacula_director_password")
 
             file {
-                '/opt/bacula/etc/bacula-fd.conf':
+                "${bacula_client::settings::confpath}/bacula-fd.conf":
                     ensure     => file,
-                    owner      => $owner,
-                    group      => $group,
+                    owner      => $bacula_client::settings::owner,
+                    group      => $bacula_client::settings::group,
                     mode       => '0640',
-                    notify     => Service['bacula-fd'],
+                    notify     => Service[$bacula_client::settings::servicename],
+                    show_diff  => false,
                     require    => Class['packages::bacula_enterprise_client'],
                     content    => template('bacula_client/bacula-fd.conf.erb');
                 '/opt/bacula/ssl':
                     ensure     => directory,
-                    owner      => $owner,
-                    group      => $group,
+                    owner      => $bacula_client::settings::owner,
+                    group      => $bacula_client::settings::group,
                     mode       => '0640',
+                    purge      => true,
+                    recurse    => true,
                     require    => Class['packages::bacula_enterprise_client'];
                 '/opt/bacula/ssl/cacert.pem':
                     ensure     => file,
-                    owner      => $owner,
-                    group      => $group,
+                    owner      => $bacula_client::settings::owner,
+                    group      => $bacula_client::settings::group,
                     mode       => '0640',
-                    notify     => Service['bacula-fd'],
+                    notify     => Service[$bacula_client::settings::servicename],
                     require    => File['/opt/bacula/ssl'],
                     content    => $::config::bacula_cacert;
-                "/opt/bacula/ssl/${fqdn}-cert.pem":
+                "/opt/bacula/ssl/${fqdn}-crt.pem":
                     ensure     => file,
-                    owner      => $owner,
-                    group      => $group,
+                    owner      => $bacula_client::settings::owner,
+                    group      => $bacula_client::settings::group,
                     mode       => '0640',
-                    notify     => Service['bacula-fd'],
+                    notify     => Service[$bacula_client::settings::servicename],
                     require    => File['/opt/bacula/ssl'],
                     content    => $cert;
                 "/opt/bacula/ssl/${fqdn}-key.pem":
                     ensure     => file,
-                    owner      => $owner,
-                    group      => $group,
-                    mode       => '0640',
-                    notify     => Service['bacula-fd'],
+                    owner      => $bacula_client::settings::owner,
+                    group      => $bacula_client::settings::group,
+                    mode       => '0600',
+                    notify     => Service[$bacula_client::settings::servicename],
+                    show_diff  => false,
                     require    => File['/opt/bacula/ssl'],
                     content    => $key;
             }
 
             service {
-                'bacula-fd':
+                $bacula_client::settings::servicename:
                     ensure => running,
                     enable => true,
                     require => Class['packages::bacula_enterprise_client'];
