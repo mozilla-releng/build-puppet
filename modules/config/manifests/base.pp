@@ -256,15 +256,15 @@ class config::base {
     $releaserunner_env_config = {
         "dev" => {
             ship_it_root => "",
-            ship_it_username => secret("releaserunner_dev_ship_it_username"),
-            ship_it_password => secret("releaserunner_dev_ship_it_password"),
+            ship_it_username => "",
+            ship_it_password => "",
             notify_to => "",
             allowed_branches => "",
         },
         "prod" => {
             ship_it_root => "",
-            ship_it_username => secret("releaserunner_prod_ship_it_username"),
-            ship_it_password => secret("releaserunner_prod_ship_it_password"),
+            ship_it_username => "",
+            ship_it_password => "",
             notify_to => "",
             allowed_branches => "",
         }
