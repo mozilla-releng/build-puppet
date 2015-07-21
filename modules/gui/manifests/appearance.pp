@@ -7,26 +7,18 @@ class gui::appearance {
 
     case $::operatingsystem {
         Darwin: {
-            if (!$puppetizing) {
-                exec {
-                    "set-background-image" :
-                        command => "/bin/bash /usr/local/bin/changebackground.sh",
-                        unless => "/usr/bin/defaults read com.apple.desktop Background | egrep 'Solid Aqua Blue.png'",
-                        notify => Exec["restart-Dock"] ;
-                    "restart-Dock" :
-                        command => "/usr/bin/killall Dock",
-                        refreshonly => true;
-                }
-                file {
-                    "/usr/local/bin/changebackground.sh" :
-                        source => "puppet:///modules/gui/changebackground.sh",
-                        owner => "$users::root::username",
-                        group => "$users::root::group",
-                        mode => 0755,
-                        notify => Exec["set-background-image"] ;
-                }
-            }
             if ($::macosx_productversion_major == "10.10") {
+                   if (!$puppetizing) {
+                       exec {
+                           "set-background-image" :
+                                command => "/usr/bin/sqlite3 $::users::builder::home/Library/Application\ Support/Dock/desktoppicture.db \"update data set value = '/Library/Desktop Pictures/Solid Colors/Solid Aqua Blue.png'\"",
+                                unless => "/usr/bin/sqlite3 $::users::builder::home/Library/Application\ Support/Dock/desktoppicture.db \"select * from data\" | /usr/bin/egrep \'/Library/Desktop Pictures/Solid Colors/Solid Aqua Blue.png\'",
+                                notify => Exec["restart-Dock"] ;
+                            "restart-Dock" :
+                                command => "/usr/bin/killall Dock",
+                                refreshonly => true;
+                       }
+                   }
                 osxutils::defaults {
                     "${username}-enable-showscrollbars":
                         domain => "$::users::builder::home/Library/Preferences/.GlobalPreferences.plist",
