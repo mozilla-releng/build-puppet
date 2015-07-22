@@ -36,6 +36,7 @@ define signingserver::instance(
 
     $secrets_dir = "${basedir}/secrets"
     $signcode_keydir = "${secrets_dir}/signcode"
+    $sha2signcode_keydir = "${secrets_dir}/sha2signcode"
     $gpg_homedir = "${secrets_dir}/gpg"
     $mar_keydir = "${secrets_dir}/mar"
     $jar_keystore = "${secrets_dir}/jar"
@@ -120,6 +121,7 @@ define signingserver::instance(
          $unsigned_dir,
          $secrets_dir,
          $signcode_keydir,
+         $sha2signcode_keydir,
          $gpg_homedir,
          $mar_keydir,
          $dmg_keydir,
