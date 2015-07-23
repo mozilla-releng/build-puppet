@@ -10,10 +10,10 @@ class gui::appearance {
             if ($::macosx_productversion_major == "10.10") {
                    if (!$puppetizing) {
                        exec {
-                           "set-background-image" :
-                                command => "/usr/bin/sqlite3 $::users::builder::home/Library/Application\ Support/Dock/desktoppicture.db \"update data set value = '/Library/Desktop Pictures/Solid Colors/Solid Aqua Blue.png'\"",
-                                unless => "/usr/bin/sqlite3 $::users::builder::home/Library/Application\ Support/Dock/desktoppicture.db \"select * from data\" | /usr/bin/egrep \'/Library/Desktop Pictures/Solid Colors/Solid Aqua Blue.png\'",
-                                notify => Exec["restart-Dock"] ;
+                          "set-background-image" :
+                                command => "/bin/ln -sf /Library/Desktop\ Pictures/Solid\ Colors/Solid\ Aqua\ Blue.png /System/Library/CoreServices/DefaultDesktop.jpg",
+                                unless => "/bin/ls -la /System/Library/CoreServices/DefaultDesktop.jpg | /usr/bin/egrep \"/Library/Desktop\ Pictures/Solid\ Colors/Solid\ Aqua\ Blue.png\"",
+                                notify => Exec["restart-Dock"];
                             "restart-Dock" :
                                 command => "/usr/bin/killall Dock",
                                 refreshonly => true;
