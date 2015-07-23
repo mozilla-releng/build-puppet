@@ -26,7 +26,7 @@ class funsize_scheduler {
                 # PGPy depends on this _specific_ version of cryptography
                 "cryptography==0.6",
                 "enum34==1.0.4",
-                "funsize==0.19",
+                "funsize==0.20",
                 "Jinja2==2.7.1",
                 "kombu==3.0.26",
                 "MarkupSafe==0.23",
