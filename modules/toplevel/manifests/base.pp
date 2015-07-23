@@ -58,6 +58,7 @@ class toplevel::base {
     # run RDP on all windows systems
     if ($::operatingsystem == windows) {
         include rdp
+        include metcollect
     }
 
     include security::motd
