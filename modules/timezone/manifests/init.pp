@@ -55,7 +55,10 @@ class timezone {
             }
         }
         Windows: {
-            # TODO-WIN: add support
+            exec { 'settimezone':
+                command => 'tzutil /s "Pacific Standard Time"',
+                path    => 'C:/Windows/System32';
+            }
         }
     }
 }
