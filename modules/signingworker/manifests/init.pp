@@ -29,7 +29,7 @@ class signingworker {
                  "six==1.9.0",
                  "taskcluster==0.0.16",
                  "wsgiref==0.1.2",
-                 "signingworker==0.3"
+                 "signingworker==0.4"
            ];
     }
 
