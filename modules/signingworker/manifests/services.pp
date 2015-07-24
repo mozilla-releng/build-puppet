@@ -12,4 +12,12 @@ class signingworker::services {
                              Mercurial::Repo["signingworker-tools"]],
             extra_config => template("${module_name}/supervisor_config.erb");
     }
+    exec {
+        "restart-signingworker":
+            command     => "/usr/bin/supervisorctl restart signingworker",
+            refreshonly => true,
+            subscribe   => [Python::Virtualenv["${signingworker::settings::root}"],
+                            File["${signingworker::settings::root}/config.json"],
+                            File["${signingworker::settings::root}/passwords.json"]];
+    }
 }
