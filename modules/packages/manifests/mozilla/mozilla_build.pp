@@ -41,8 +41,9 @@ class packages::mozilla::mozilla_build {
     # Remove the old HG directories. This is under the assumption that MozillaBuild version is pre 2.0.
     exec {
         "remove_old_hg" :
-            command => "C:\\Windows\\system32\\cmd.exe rmdir /S /Q C:\\mozilla-build\hg",
-            unless  => "C:\\Windows\\system32\\cmd.exe dir C:\\mozilla-build\\hg\\MPR.dll"
+            command     => "C:\\Windows\\system32\\cmd.exe rmdir /S /Q C:\\mozilla-build\hg",
+            subscribe   => Exec["MozillaBuildSetup-$version"],
+            refreshonly => true
     }     
     # Buildbot currently looks for the python27 directory 
     # This also removes the possiblitly of the incorrect python being picked up by various tools 

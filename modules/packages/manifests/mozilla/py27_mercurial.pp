@@ -57,13 +57,23 @@ class packages::mozilla::py27_mercurial {
             $mercurial = 'C:\mozilla-build\hg\hg.exe'
             include packages::mozilla::mozilla_build
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
+            # This is a temporary work around until we have Windows package management in place 
+            # Ref Bugs 1178487 & 1170588 for the reasons behind Mercurial-3.2.1 being handled this manner 
             file { "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/Mercurial-3.2.1-x64.exe" :
                 ensure => file,
                 source => "puppet:///repos/EXEs/Mercurial-3.2.1-x64.exe",
-            } -> exec { "Mercurial-3.2.1":
-                command   => "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\Mercurial-3.2.1-x64.exe /VerySilent /SUPPRESSMSGBOXES /DIR=C:\\mozilla-build\\hg",
-                subscribe => Exec["remove_old_hg"],
-                creates   => "C:\\mozilla-build\\hg\\MPR.dll", 
+            } -> exec { "Schtasks_Mercurial-3.2.1":
+                command  => '"C:\Windows\system32\schtasks.exe" /create /sc once /st 23:59  /tn hg_3-2-1 /tr "C:\installersource\puppetagain.pub.build.mozilla.org\EXEs\Mercurial-3.2.1-x64.exe /SILENT /DIR=C:\mozilla-build\hg"',
+                require  => Exec["remove_old_hg"],
+                creates  => "C:\\mozilla-build\\hg\\MPR.dll", 
+            } -> exec { "Install_Mercurial-3.2.1":
+                command  => '"C:\Windows\system32\schtasks.exe" /run /tn hg_3-2-1',
+                subscribe => Exec["Schtasks_Mercurial-3.2.1"],
+                refreshonly => true,
+            } -> exec { "RM_Schtasks_Mercurial-3.2.1":
+                command  => '"C:\Windows\system32\schtasks.exe" /delete /tn hg_3-2-1 /f',
+                subscribe => Exec["Install_Mercurial-3.2.1"],
+                refreshonly => true,
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         default: {
