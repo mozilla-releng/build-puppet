@@ -20,6 +20,7 @@ fqdn="<%= scope.lookupvar('::fqdn') %>"
 NOOP=false
 VERBOSE=false
 BASE="${homebase}/archive/"
+PUPPETENV='/etc/puppet/environments'
 DELETEAFTER=90 # in days
 EXCEPTIONS="lost+found archive Shared .localized" #users that we never backup or delete even if disabled
 
@@ -27,57 +28,67 @@ set -e
 
 function setup() 
 {
-	mkdir -p ${BASE}
-	chmod 0700 ${BASE}
- 	# OS X doesn't update mtime on a chmod
-	touch ${BASE}
+    mkdir -p ${BASE}
+    chmod 0700 ${BASE}
+    # OS X doesn't update mtime on a chmod
+    touch ${BASE}
 }
 
 function exist()
 {
-	oldifs=$IFS
-	unset IFS
-	[[ -z "$1" ]] && return 1
-	for i in ${EXCEPTIONS}; do
-		[[ $i == $1 ]] && {
-			IFS=$oldifs
-			return 1
-		}
-	done
-	IFS=$oldifs
-	return 0
+    oldifs=$IFS
+    unset IFS
+    [[ -z "$1" ]] && return 1
+    for i in ${EXCEPTIONS}; do
+        [[ $i == $1 ]] && {
+            IFS=$oldifs
+            return 1
+        }
+    done
+    IFS=$oldifs
+    return 0
 }
 
 #Backup any user that has been disabled
 function backup()
 {
     # fill in $homelist with a list of in-use homedirs
-	homelist=$(mktemp -t homeclean-XXXXXX)
+    homelist=$(mktemp -t homeclean-XXXXXX)
     case $operatingsystem in
         Darwin) dscacheutil -q user | grep '^dir:' | cut -c 6- | sort -u > $homelist ;;
         *) getent passwd|cut -d ':' -f 6 > $homelist ;;
     esac
 
     # iterate over the existing homedirs
-	IFS="
+    IFS="
 "
-	for user in $(ls $homebase); do
-		exist ${user} || continue
-		grep -q ${user} ${homelist} || {
-			$VERBOSE && echo "INFO: will backup disabled user $user"
-            [[ $NOOP -eq 0 ]] && tar Pczf ${BASE}${user}.tar.gz ${homebase}/${user} && rm -rf ${homebase}/${user}
-		}
-	done
-	unset IFS
-	rm $homelist
+    for user in $(ls $homebase); do
+        exist ${user} || continue
+        grep -q ${user} ${homelist} || {
+        if [ -d ${PUPPETENV}/${user} ]; then
+            if [ -d ${homebase}/${user} ]; then
+                $VERBOSE && echo "INFO: moving puppet environment ${PUPPETENV}/${user} to user's home directory ${homebase}/${user}/puppet-environment"
+                [[ $NOOP -eq 0 ]] && mv -f ${PUPPETENV}/${user} ${homebase}/${user}/puppet-environment-${user}
+            else
+                $VERBOSE && echo "INFO: no home directory for ${user}, deleting puppet environment ${PUPPETENV}/${user}"
+                [[ $NOOP -eq 0 ]] && rm -rf ${PUPPETENV}/${user}
+            fi
+        fi
+
+        $VERBOSE && echo "INFO: will backup disabled user $user"
+        [[ $NOOP -eq 0 ]] && tar Pczf ${BASE}${user}.tar.gz ${homebase}/${user} && rm -rf ${homebase}/${user}
+                }
+    done
+    unset IFS
+    rm $homelist
 }
 
 #Delete any backup older than DELETEAFTER days (as rounded per 24h periods by find)
 function delete()
 {
-	$VERBOSE && echo "INFO: will delete disabled user backups older than $DELETEAFTER days:"
-	find ${BASE} -mtime +${DELETEAFTER} -print 
-	[[ $NOOP -eq 0 ]] && find ${BASE} -mindepth 1 -mtime +${DELETEAFTER} -delete
+    $VERBOSE && echo "INFO: will delete disabled user backups older than $DELETEAFTER days:"
+    find ${BASE} -mtime +${DELETEAFTER} -print 
+    [[ $NOOP -eq 0 ]] && find ${BASE} -mindepth 1 -mtime +${DELETEAFTER} -delete
 }
 
 # main()
