@@ -6,7 +6,9 @@ class cleanslate::settings {
         'CentOS', 'Ubuntu', 'Darwin': {
             $root = '/opt/cleanslate'
         }
-
+        'Windows': {
+            $root = "C:\\opt\\cleanslate"
+        }
         default: {
             fail("Unsupported OS ${::operatingsystem}")
         }

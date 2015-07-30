@@ -37,7 +37,7 @@ class buildslave::startup {
         CentOS      => "runner",
         Darwin      => "runner",
         Ubuntu      => "runner",
-        Windows     => "windows",
+        Windows     => "runner",
     }
     Anchor['buildslave::startup::begin'] ->
     class {

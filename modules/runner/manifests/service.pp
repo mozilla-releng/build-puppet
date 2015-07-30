@@ -62,6 +62,36 @@ class runner::service {
                     enable    => true;
             }
         }
+        'Windows': {
+        # On Windows Runner is luanched on each log in of cltbld and is not running as a service
+            include users::builder
+            include dirs::programdata::puppetagain
+
+            $builder_username = $users::builder::username
+            $puppet_semaphore = 'C:\ProgramData\PuppetAgain\puppetcomplete.semaphore'
+            # Batch file to start buildbot
+            file {
+                'c:/programdata/puppetagain/start-runner.bat':
+                    content  => template("runner/start-runner.bat.erb");
+            }
+            # XML file to set up a schedule task to launch runner on builder log in.
+            # XML file needs to exported from the task scheduler gui. Also note when
+            # using the XML import be aware of machine specific values such as name will
+            # need to be replaced with a variable. Hence the need for the template.
+            file {
+                "c:/programdata/puppetagain/start-runner.xml":
+                    content => template("runner/start-runner.xml.erb");
+            }
+            # Importing the XML file using schtasks
+            # Refrence http://technet.microsoft.com/en-us/library/cc725744.aspx and http://technet.microsoft.com/en-us/library/cc722156.aspx
+            $schtasks = 'C:\Windows\system32\schtasks.exe'
+            exec { "startrunner":
+                command => "$schtasks /Create /XML c:\\programdata\\puppetagain\\start-runner.xml /tn StartRunner",
+                require => File['c:/programdata/puppetagain/start-runner.xml'],
+                refreshonly => true,
+                subscribe   => File['c:/programdata/puppetagain/start-runner.bat'],
+            }
+        }
         default: {
             fail("Unsupported OS ${::operatingsystem}")
         }

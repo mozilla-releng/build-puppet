@@ -6,8 +6,27 @@
 class runner::tasks::clobber($runlevel=3) {
     include runner
 
-    runner::task {
-        "${runlevel}-clobber":
-            content => template("${module_name}/tasks/clobber.erb");
+    case $::operatingsystem {
+        'Windows': {
+            include packages::mozilla::mozilla_build
+            runner::task {
+                "${runlevel}-clobberer.bat":
+                    content  => template("${module_name}/tasks/clobber.bat.erb");
+            }
+            # Clobberer.py is needed before it is checkout for use by the clobber.bat
+            exec {
+                "get_clobberer.py" :
+                    command => "C:\\mozilla-build\\wget\\wget.exe  hg.mozilla.org/build/tools/raw-file/tip/clobberer/clobberer.py",
+                    cwd     => "C:\\opt",
+                    creates => "C:\\opt\\clobberer.py",
+                    require => Class["packages::mozilla::mozilla_build"];
+            }
+        }
+        default: {
+            runner::task {
+                "${runlevel}-clobber":
+                    content => template("${module_name}/tasks/clobber.erb");
+            }
+        }
     }
 }

@@ -8,16 +8,29 @@ class runner {
     include runner::service
     include runner::settings
     include packages::mozilla::python27
+    if ($::operatingsystem == Windows) {
+        include packages::mozilla::mozilla_build
+    }
 
+    $runner_service = $operatingsystem ? {
+        windows => Exec['startrunner'],
+        default => Service['runner'],
+    }
+    # When Puppet sets the mode on Windows it causes ACL permissions to be stripped rendering the file unusable
+    $mode  = $operatingsystem ? {
+        windows => undef,
+        default => '0755',
+    }
     python::virtualenv {
         $runner::settings::root:
             python   => $packages::mozilla::python27::python,
-            require  => Class['packages::mozilla::python27'],
+            require  => [Class['packages::mozilla::python27'],
+                            Class['dirs::opt']
+                        ],
             packages => [
                 'runner==2.0',
             ];
     }
-
     file {
         $runner::settings::taskdir:
             ensure  => directory,
@@ -25,19 +38,18 @@ class runner {
             recurse => true,
             purge   => true;
         "${runner::settings::root}/runner.cfg":
-            before  => Service['runner'],
+            before  => $runner_service,
             content => template('runner/runner.cfg.erb'),
             show_diff => false;
         "$runner::settings::task_hook":
-            before  => Service['runner'],
-            mode    => '0755',
+            before  => $runner_service,
+            mode    => $mode,
             source  => 'puppet:///modules/runner/influxdb_hook.py';
         "$runner::settings::influxcreds":
-            before  => Service['runner'],
+            before  => $runner_service,
             content  => template('runner/influxcreds.erb'),
             show_diff => false;
     }
-
     case $::operatingsystem {
         'CentOS', 'Ubuntu': {
             file {

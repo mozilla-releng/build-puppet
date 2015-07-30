@@ -3,8 +3,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class dirs::opt::bmm {
     include dirs::opt
+    $optbnm = $operatingsystem ? {
+        windows => "$opt\\bmm",
+        default => "/opt/bmm",
+    }
     file {
-        "/opt/bmm":
+        "$optbnm":
             ensure => directory,
             mode => 0755;
     }

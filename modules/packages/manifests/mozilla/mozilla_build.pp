@@ -67,7 +67,7 @@ class packages::mozilla::mozilla_build {
             ensure => present;
     }
     windows_path {
-        "$moz_bld_dir\\python27\scripts":
+        "$moz_bld_dir\\python27\\scripts":
             ensure => present;
     }
     windows_path {

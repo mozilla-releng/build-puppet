@@ -2,9 +2,34 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class dirs::opt {
-    file {
-        "/opt":
-            ensure => directory,
-            mode => 755;
+    $opt = $operatingsystem ? {
+        windows => "C:\\opt",
+        default => "/opt",
+    }
+    case $::operatingsystem {
+        Windows: {
+            file {
+                $opt:
+                    ensure => directory,
+            }
+            acl {
+                $opt:
+                    purge => true,
+                    inherit_parent_permissions => false,
+                    permissions => [
+                        { identity => 'root', rights => ['full'] },
+                        { identity => 'cltbld', rights => ['full'] },
+                        { identity => 'SYSTEM', rights => ['full'] },
+                        { identity => 'EVERYONE', rights => ['read'] },
+                    ];
+            }
+        }
+        default: {
+            file {
+                $opt:
+                    ensure => directory,
+                    mode => "755";
+            }
+        }
     }
 }
