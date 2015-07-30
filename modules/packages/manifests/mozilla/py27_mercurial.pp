@@ -63,7 +63,7 @@ class packages::mozilla::py27_mercurial {
                 ensure => file,
                 source => "puppet:///repos/EXEs/Mercurial-3.2.1-x64.exe",
             } -> exec { "Schtasks_Mercurial-3.2.1":
-                command  => '"C:\Windows\system32\schtasks.exe" /create /sc once /st 23:59  /tn hg_3-2-1 /tr "C:\installersource\puppetagain.pub.build.mozilla.org\EXEs\Mercurial-3.2.1-x64.exe /SILENT /DIR=C:\mozilla-build\hg"',
+                command  => '"C:\Windows\system32\schtasks.exe" /ru "SYSTEM" /create /sc once /st 23:59  /tn hg_3-2-1 /tr "C:\installersource\puppetagain.pub.build.mozilla.org\EXEs\Mercurial-3.2.1-x64.exe /SILENT /DIR=C:\mozilla-build\hg"',
                 require  => Exec["remove_old_hg"],
                 creates  => "C:\\mozilla-build\\hg\\MPR.dll", 
             } -> exec { "Install_Mercurial-3.2.1":
