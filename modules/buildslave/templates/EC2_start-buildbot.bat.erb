@@ -1,7 +1,7 @@
 @echo off
 
 REM Pull down the instance's metadata
-REM 
+REM
 REM This script should be triggered by runner in the future
 
 C:\mozilla-build\python\python.exe C:\etc\instance_metadata.py -o C:\etc\instance_metadata.json
@@ -13,6 +13,9 @@ echo "MozillaBuild directory: %MOZBUILDDIR%"
 REM set BUILDBOT_PATH, the path to the active Buildbot virtualenv
 call "C:/mozilla-build/bbpath.bat"
 echo "Buildbot virtualenv: %BUILDBOT_PATH%"
+
+REM halt/terminate an instance if its idle timer runs out
+SET IDLEIZER_HALT_ON_IDLE=true
 
 set log="c:\tmp\buildbot-startup.log"
 
