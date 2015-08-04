@@ -70,7 +70,7 @@ node /bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com/ {
 ## try builders
 
 # Windows
-node /(b|try)-2008-.*\.(try|wintry).releng.(use1|usw2|scl3).mozilla.com/ {
+node /(b|y|try)-2008-.*\.(try|wintry).releng.(use1|usw2|scl3).mozilla.com/ {
     $slave_trustlevel = 'try'
     $node_security_level = 'low'
     include toplevel::slave::releng::build
