@@ -27,11 +27,11 @@ class buildbot_bridge::services {
             extra_config => template("${module_name}/reflector_supervisor_config.erb");
     }
 
-#    exec {
-#        "restart-buildbot-bridge":
-#            command     => "/usr/bin/supervisorctl restart buildbot_bridge_bblistener buildbot_bridge_tclistener buildbot_bridge_reflector",
-#            refreshonly => true,
-#            subscribe   => [Python::Virtualenv["${buildbot_bridge::settings::root}"],
-#                            File["${buildbot_bridge::settings::root}/config.json"]];
-#    }
+    exec {
+        "restart-buildbot-bridge":
+            command     => "/usr/bin/supervisorctl restart buildbot_bridge_bblistener buildbot_bridge_tclistener buildbot_bridge_reflector",
+            refreshonly => true,
+            subscribe   => [Python::Virtualenv["${buildbot_bridge::settings::root}"],
+                            File["${buildbot_bridge::settings::root}/config.json"]];
+    }
 }
