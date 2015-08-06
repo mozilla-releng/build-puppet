@@ -31,7 +31,7 @@ GIVE_UP_AFTER_TRYING = 3
 def run_puppet(puppet_server)
     puts "Running puppet against server #{puppet_server}"
     output, status = Open3.capture2e(
-        "puppet agent --environment=mcornmesser --detailed-exitcodes --onetime --no-daemonize " +
+        "puppet agent --detailed-exitcodes --onetime --no-daemonize " +
         "--logdest=console --color=false --server=#{puppet_server}")
     # 0 and 2 are both success exit statuses
     if status.exitstatus == 0 or status.exitstatus == 2
