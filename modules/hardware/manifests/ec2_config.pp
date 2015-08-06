@@ -11,17 +11,6 @@ class hardware::ec2_config {
                 'C:/Program Files/Amazon/Ec2ConfigService/Settings/config.xml':
                     content => file("${module_name}/EC2_config.xml"),
             }
-            # Restricting access to read only, so that the EC2 service is prevented from reverting the file at shutdown
-            # Stopping the service does not prevent the file from being reverted 
-            acl {
-                'C:/Program Files/Amazon/Ec2ConfigService/Settings/config.xml':
-                    purge => true,
-                    inherit_parent_permissions => false,
-                    permissions => [
-                        { identity => 'root', rights => ['read'] },
-                        { identity => 'SYSTEM', rights => ['read'] },
-                    ];
-            }
         }
     }
 }
