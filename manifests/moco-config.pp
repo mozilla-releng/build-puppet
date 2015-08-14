@@ -314,7 +314,7 @@ class config inherits config::base {
             default => [],
         },
         'Ubuntu' => $operatingsystemrelease ? {
-            '12.04' => [ '3.2.0-75', '3.2.0-38' ], 
+            '12.04' => [ '3.2.0-75', '3.2.0-38', '3.5.0-18'],
             '14.04' => [ '3.13.0-27', '3.13.0-44' ],
             default => [],
         },
