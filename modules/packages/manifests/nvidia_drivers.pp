@@ -17,6 +17,7 @@ class packages::nvidia_drivers {
             package {
                 "nvidia-$nvidia_version":
                     ensure => latest,
+                    require => Class['packages::kernel'],
                     # the nvidia drivers need to be loaded, which usually
                     # requires unloading the nouveau drivers, which are
                     # installed by default for the startup frame buffer.. so we
