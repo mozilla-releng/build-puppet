@@ -260,6 +260,8 @@ class config::base {
             ship_it_password => "",
             notify_to => "",
             allowed_branches => "",
+            taskcluster_client_id => "",
+            taskcluster_access_token => "",
         },
         "prod" => {
             ship_it_root => "",
@@ -267,6 +269,8 @@ class config::base {
             ship_it_password => "",
             notify_to => "",
             allowed_branches => "",
+            taskcluster_client_id => "",
+            taskcluster_access_token => "",
         }
     }
 

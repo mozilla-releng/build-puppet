@@ -175,6 +175,8 @@ class config inherits config::base {
             ship_it_password => secret("releaserunner_dev_ship_it_password"),
             notify_to => "release-automation-notifications-dev@mozilla.com",
             allowed_branches => "date",
+            taskcluster_client_id => secret("releaserunner_dev_taskcluster_client_id"),
+            taskcluster_access_token => secret("releaserunner_dev_taskcluster_access_token"),
         },
         "prod" => {
             ship_it_root => "https://ship-it.mozilla.org",
@@ -182,6 +184,8 @@ class config inherits config::base {
             ship_it_password => secret("releaserunner_prod_ship_it_password"),
             notify_to => "Release Notifications <release-automation-notifications@mozilla.com>",
             allowed_branches => "mozilla-beta,mozilla-release,mozilla-esr,comm-beta,comm-esr",
+            taskcluster_client_id => secret("releaserunner_prod_taskcluster_client_id"),
+            taskcluster_access_token => secret("releaserunner_prod_taskcluster_access_token"),
         }
     }
 

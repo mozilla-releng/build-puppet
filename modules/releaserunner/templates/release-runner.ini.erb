@@ -25,6 +25,10 @@ ssh_username: <%= scope.lookupvar('config::releaserunner_ssh_username') %>
 ssh_key: <%= scope.lookupvar('users::builder::home') %>/.ssh/release-runner
 allowed_branches: <%= @env_config["allowed_branches"] %>
 
+[taskcluster]
+client_id: <%= @env_config["taskcluster_client_id"] %>
+access_token: <%= @env_config["taskcluster_access_token"] %>
+
 [symlinks]
 production_config.py: {buildbot_configs}/mozilla/localconfig.py
 thunderbird_production_config.py: {buildbot_configs}/mozilla/thunderbird_localconfig.py
