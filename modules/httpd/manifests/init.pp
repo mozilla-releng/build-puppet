@@ -52,6 +52,7 @@ class httpd {
             file {
                 # Bug 861200. Remove default vhost config
                 "/etc/apache2/sites-enabled/000-default":
+                    notify => Service["httpd"],
                     ensure => absent;
             }
         }
