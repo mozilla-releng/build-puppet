@@ -1,0 +1,12 @@
+start on starting x11
+
+task
+
+script
+    installed=$(dkms status -m nvidia-<%= @nvidia_version %> -v <%= @nvidia_full_version %> -k `uname -r` | wc -l)
+    if [ "x$installed" = "x0" ]; then
+        dkms add -m nvidia-<%= @nvidia_version %> -v <%= @nvidia_full_version %> -k `uname -r`
+        /usr/lib/dkms/dkms_autoinstaller start || true
+        modprobe nvidia-<%= @nvidia_version %> || true
+    fi
+end script

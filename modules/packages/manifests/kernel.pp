@@ -62,12 +62,14 @@ class packages::kernel {
                 grub::defaults {'grub-defaults':
                     kern => $kernel_ver;
                 }
-                # uninstall obsolete kernels only if the current specified kernel is running
+                # uninstall obsolete kernels only if the current specified kernel is running including both generic and generic-pae
                 if $kernelrelease == $kernel_ver and ! empty($obsolete_kernel_list) {
-                    $obsolete_kernels  = suffix( prefix( $obsolete_kernel_list, 'linux-image-' ), $suffix )
-                    $obsolete_headers  = suffix( prefix( $obsolete_kernel_list, 'linux-headers-' ), $suffix )
+                    $obsolete_kernels  = suffix( prefix( $obsolete_kernel_list, 'linux-image-' ), '-generic')
+                    $obsolete_headers  = suffix( prefix( $obsolete_kernel_list, 'linux-headers-' ), '-generic' )
+                    $obsolete_kernels_pae  = suffix( prefix( $obsolete_kernel_list, 'linux-image-' ), '-generic-pae')
+                    $obsolete_headers_pae  = suffix( prefix( $obsolete_kernel_list, 'linux-headers-' ), '-generic-pae' )
                     $obsolete_headers_all  = prefix( $obsolete_kernel_list, 'linux-headers-' )
-                    package { [ $obsolete_kernels, $obsolete_headers, $obsolete_headers_all ]:
+                    package { [ $obsolete_kernels, $obsolete_headers, $obsolete_headers_all, $obsolete_kernels_pae, $obsolete_headers_pae ]:
                         ensure => absent
                     }
                 }
