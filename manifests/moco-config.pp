@@ -173,7 +173,7 @@ class config inherits config::base {
             ship_it_root => "https://ship-it-dev.allizom.org",
             ship_it_username => secret("releaserunner_dev_ship_it_username"),
             ship_it_password => secret("releaserunner_dev_ship_it_password"),
-            notify_to => "release-automation-notifications-dev@mozilla.com",
+            notify_to => "Release Notifications Dev <release-automation-notifications-dev@mozilla.com>",
             allowed_branches => "date",
             taskcluster_client_id => secret("releaserunner_dev_taskcluster_client_id"),
             taskcluster_access_token => secret("releaserunner_dev_taskcluster_access_token"),
