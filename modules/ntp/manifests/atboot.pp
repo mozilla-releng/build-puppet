@@ -16,12 +16,16 @@ class ntp::atboot {
             }
         }
         Ubuntu: {
-            include config
             include packages::ntpdate
             # ntpdate is run by if-up
             file {
                 "/etc/default/ntpdate":
                     content => template("ntp/ntpdate.default.erb");
+            }
+        }
+        Windows: {
+            class { 'ntp::w32time':
+                daemon => false,
             }
         }
         default: {

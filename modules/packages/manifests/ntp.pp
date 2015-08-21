@@ -12,6 +12,9 @@ class packages::ntp {
         Darwin: {
             #ntpd is installed with base install image
         }
+        Windows: {
+            # Windows includes the Windows Time Service
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }
