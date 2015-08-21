@@ -59,6 +59,17 @@ class packages::openssl {
             }
         }
 
+        Windows: {
+            packages::pkgzip {
+                "openssl-09.8h-1-win32-exe.zip":
+                    zip => "openssl-09.8h-1-win32-exe.zip",
+                    target_dir => '"C:\Program Files (x86)"';
+                "openssl-09.8h-1-win32-dll.zip":
+                    zip => "openssl-09.8h-1-win32-dll.zip",
+                    target_dir => '"C:\Windows\System32"';
+            }
+        }
+
         default: {
             fail("cannot install on $::operatingsystem")
         }

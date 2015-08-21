@@ -6,11 +6,11 @@ class ntp::daemon {
     include packages::ntp
     include config
     include users::root
-    include ntp::atboot
 
     $ntpservers = $config::ntp_servers
     case $::operatingsystem {
         CentOS, Ubuntu: {
+            include ntp::atboot
             file {
                 "/etc/ntp.conf" :
                     content => template("ntp/ntp.conf.erb"),
@@ -28,6 +28,7 @@ class ntp::daemon {
             }
         }
         Darwin: {
+            include ntp::atboot
             file {
                 "/etc/ntp.conf" :
                     content => template("ntp/ntp-darwin.conf.erb"),
@@ -53,6 +54,11 @@ class ntp::daemon {
                 'whack-apple-ntpd':
                     command => '/usr/bin/killall ntpd',
                     minute => 0;
+            }
+        }
+        Windows: {
+            class { 'ntp::w32time':
+                daemon => true,
             }
         }
     }

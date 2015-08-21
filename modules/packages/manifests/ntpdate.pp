@@ -12,6 +12,14 @@ class packages::ntpdate {
         Darwin, CentOS: {
             # Ignore known OSes
         }
+        Windows: {
+            include packages::openssl
+            packages::pkgzip {
+                "ntpdate-4.2.6p3-RC8-win32.zip":
+                    zip => "ntpdate-4.2.6p3-RC8-win32.zip",
+                    target_dir => '"C:\Program Files (x86)"';
+            }
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }
