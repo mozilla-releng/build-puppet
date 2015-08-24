@@ -92,9 +92,6 @@ class disableservices::common {
                 "remove-index" :
                     command => "/usr/bin/mdutil -a -E",
                     refreshonly => true ;
-                "disable-freshclam" :
-                    command => "/usr/bin/sed -i -e 's/Checks [0-9]*/Checks 0/g' /etc/freshclam.conf",
-                    unless => "/bin/test -f /etc/freshclam.conf && /usr/bin/grep 'Checks 0' /etc/freshclam.conf" ;
                 "disable-panic-reporting":
                     command => "/bin/launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportPanic.plist",
                     onlyif => "/bin/launchctl list | /usr/bin/grep -q 'com.apple.ReportPanic$'";
