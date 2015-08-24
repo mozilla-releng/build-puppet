@@ -65,7 +65,7 @@ class aws_manager::cron {
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}";
         "delete_old_spot_amis.py":
-            params         => "-c tst-linux64 -c tst-linux32 -c try-linux64 -c bld-linux64 -c tst-emulator64",
+            params         => "-c tst-linux64 -c tst-linux32 -c try-linux64 -c bld-linux64 -c tst-emulator64 -c y-2008 -c b-2008",
             ensure         => $cron_switch,
             minute         => '30',
             hour           => '1',
