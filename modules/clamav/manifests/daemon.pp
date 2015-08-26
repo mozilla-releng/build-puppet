@@ -8,6 +8,7 @@ class clamav::daemon {
     service {
         "clamd":
             require => Class["packages::clamd"],
-            enable => true;
+            ensure  => running,
+            enable  => true;
     }
 }
