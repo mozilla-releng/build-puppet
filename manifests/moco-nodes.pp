@@ -43,7 +43,7 @@ node /b-2008.*\.(winbuild|build)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
     $slave_trustlevel = 'core'
     include toplevel::slave::releng::build
 }
-    
+
 # linux64
 node /b-linux64-\w+-\d+.build.releng.scl3.mozilla.com/ {
     # any b-linux64-(something)-digit host in the scl3 build zone
@@ -57,6 +57,12 @@ node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
     $node_security_level = 'low'
     $slave_trustlevel = 'core'
     include toplevel::slave::releng::build::mock
+}
+
+node /av-linux64.*\.build\.releng\.(use1|usw2)\.mozilla\.com/ {
+    $node_security_level = 'low'
+    $slave_trustlevel = 'core'
+    include toplevel::slave::releng::build::mock::av
 }
 
 # OS X

@@ -1,0 +1,56 @@
+#!/bin/sh
+#
+# Startup script for freshclam
+#
+# chkconfig: - 61 39
+# description: Clam AntiVirus Database refresher
+# processname: freshclam
+# pidfile: /var/run/clamav/freshclam.pid
+# config: /etc/freshclam.conf
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+[ -x /usr/bin/freshclam ] || exit 0
+
+# See how we were called.
+case "$1" in
+  start)
+	echo -n "Starting Freshclam Daemon: "
+	daemon freshclam -d
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/freshclam
+	;;
+  stop)
+	echo -n "Stopping Freshclam Daemon: "
+	killproc freshclam
+	rm -f /var/run/freshclam.pid
+	RETVAL=$?
+	echo
+### heres the fix... we gotta remove the stale files on restart
+	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/freshclam
+	;;
+  status)
+	status freshclam
+	RETVAL=$?
+	;;
+  restart|reload)
+	$0 stop
+	$0 start
+	RETVAL=$?
+	;;
+  condrestart)
+	[ -e /var/lock/subsys/freshclam ] && restart
+	RETVAL=$?
+	;;
+  *)
+	echo "Usage: freshclam {start|stop|status|restart|reload|condrestart}"
+	exit 1
+esac
+
+exit $RETVAL
+
