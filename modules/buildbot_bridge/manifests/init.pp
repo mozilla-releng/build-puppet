@@ -32,6 +32,8 @@ class buildbot_bridge {
                 "wsgiref==0.1.2",
                 "PyHawk-with-a-single-extra-commit==0.1.5",
                 "anyjson==0.3.3",
+                "PyYAML==3.10",
+                "jsonschema==2.4.0",
                 "bbb==1.3",
            ];
     }
