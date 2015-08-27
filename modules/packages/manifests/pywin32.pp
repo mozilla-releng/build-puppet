@@ -5,10 +5,11 @@
 # pywin32-218.win32-py2.7.exe  original package available at http://sourceforge.net/projects/pywin32/files/pywin32/Build%20218/
 class packages::pywin32 {
     include packages::mozilla::python27
+    include config
 
     exec { "pywin32":
         require => Class['packages::mozilla::python27'],
-        command => 'C:\mozilla-build\python27\Scripts\easy_install.exe  http://puppetagain.pub.build.mozilla.org/data/repos/EXEs/pywin32-218.win32-py2.7.exe',
+        command => 'C:\mozilla-build\python27\Scripts\easy_install.exe  http://${config::puppet_server}/repos/EXEs/pywin32-218.win32-py2.7.exe',
         creates => 'C:\mozilla-build\\pyhton27\\Lib\\site-packages\\pywin32-218-py2.7-win32.egg';
     }
 }
