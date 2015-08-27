@@ -5,6 +5,7 @@
 class packages::kernel {
     include stdlib
     include config
+    include needs_reboot
 
     $current_kernel = $config::current_kernel
     $obsolete_kernel_list = $config::obsolete_kernels
@@ -88,7 +89,8 @@ class packages::kernel {
         # a reboot is needed after a new kernel package is installed
         file { '/.kernel_release':
             content => "${kernel_ver}",
-            ensure  => present;
+            notify => Exec['reboot_semaphore'],
+            ensure  => file;
         }
     }
 }

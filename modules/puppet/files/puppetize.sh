@@ -7,6 +7,7 @@
 # You can set PUPPET_SERVER before running this script to use a server other
 # than 'puppet'
 
+REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
 OS=`facter operatingsystem`
 case "$OS" in
     Darwin) ROOT=/var/root ;;
@@ -210,6 +211,7 @@ fi
 
 # Mandatory reboot after non-interactive puppetizing
 # use post-puppetize-hook.sh with 'exit 0' to prevent this
+rm -f "${REBOOT_FLAG_FILE}"
 echo "Rebooting now"
 sleep 10
 reboot
