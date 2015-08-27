@@ -9,7 +9,7 @@ class packages::pywin32 {
 
     exec { "pywin32":
         require => Class['packages::mozilla::python27'],
-        command => 'C:\mozilla-build\python27\Scripts\easy_install.exe  http://${config::puppet_server}/repos/EXEs/pywin32-218.win32-py2.7.exe',
-        creates => 'C:\mozilla-build\\pyhton27\\Lib\\site-packages\\pywin32-218-py2.7-win32.egg';
+        command => "C:\\mozilla-build\\python27\\Scripts\\easy_install.exe  http://${config::puppet_server}/repos/EXEs/pywin32-218.win32-py2.7.exe",
+        creates => "C:\\mozilla-build\\pyhton27\\Lib\\site-packages\\pywin32-218-py2.7-win32.egg";
     }
 }
