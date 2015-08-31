@@ -7,6 +7,7 @@
     },
     "buildbot_scheduler_db": "mysql://<%= scope.function_secret(["buildbot_schedulerdb_username"]) %>:<%= scope.function_secret(["buildbot_schedulerdb_password"]) %>@<%= scope.function_secret(["buildbot_schedulerdb_hostname"]) %>/<%= scope.function_secret(["buildbot_schedulerdb_database"]) %>",
     "bbb_db": "<%= @env_config["dburi"] %>",
+    "selfserve_url": "<%= scope.lookupvar("config::selfserve_private_url") %>",
 
     "pulse_user": "<%= @env_config["pulse_username"] %>",
     "pulse_password": "<%= @env_config["pulse_password"] %>",
