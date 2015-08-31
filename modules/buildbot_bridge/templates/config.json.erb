@@ -12,6 +12,9 @@
     "pulse_password": "<%= @env_config["pulse_password"] %>",
     "pulse_queue_basename": "<%= @env_config["pulse_queue_basename"] %>",
 
+    "tc_worker_group": "<%= scope.lookupvar("config::buildbot_bridge_worker_group") %>",
+    "tc_worker_id": "<%= scope.lookupvar("config::buildbot_bridge_worker_id") %>",
+
     "allowed_builders": [
         "<%= @env_config["allowed_builders"] %>"
     ],
