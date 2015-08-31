@@ -330,7 +330,6 @@ class config inherits config::base {
 
     # Buildbot <-> Taskcluster bridge configuration
     $buildbot_bridge_root = "/builds/bbb"
-    $buildbot_bridge_pulse_queue_basename = "queue/buildbot-bridge"
     $buildbot_bridge_tclistener_pulse_exchange_basename = "exchange/taskcluster-queue/v1"
     $buildbot_bridge_worker_type = "buildbot-bridge"
     $buildbot_bridge_provisioner_id = "buildbot-bridge"
@@ -338,6 +337,29 @@ class config inherits config::base {
     $buildbot_bridge_worker_group = "buildbot-bridge"
     $buildbot_bridge_worker_id = "buildbot-bridge"
     $buildbot_bridge_reflector_interval = 60
+
+    $buildbot_bridge_env_config = {
+        "dev" => {
+            version => "1.3",
+            client_id => secret("buildbot_bridge_dev_taskcluster_client_id"),
+            access_token => secret("buildbot_bridge_dev_taskcluster_access_token"),
+            dburi => secret("buildbot_bridge_dev_dburi"),
+            pulse_username => secret("buildbot_bridge_dev_pulse_username"),
+            pulse_password => secret("buildbot_bridge_dev_pulse_password"),
+            pulse_queue_basename => "queue/buildbot-bridge-dev",
+            allowed_builders => "^.*alder.*$",
+        },
+        "prod" => {
+            version => "1.3",
+            client_id => secret("buildbot_bridge_prod_taskcluster_client_id"),
+            access_token => secret("buildbot_bridge_prod_taskcluster_access_token"),
+            dburi => secret("buildbot_bridge_prod_dburi"),
+            pulse_username => secret("buildbot_bridge_prod_pulse_username"),
+            pulse_password => secret("buildbot_bridge_prod_pulse_password"),
+            pulse_queue_basename => "queue/buildbot-bridge",
+            allowed_builders => "^((?!alder).)*$",
+        }
+    }
 
     # TC signing workers
     $signingworker_exchange = "exchange/taskcluster-queue/v1/task-pending"
