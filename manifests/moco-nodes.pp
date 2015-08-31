@@ -613,6 +613,7 @@ node "buildbot-master84.bb.releng.scl3.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
+    include toplevel::mixin::buildbot_bridge
 }
 
 node "buildbot-master85.bb.releng.scl3.mozilla.com" {
