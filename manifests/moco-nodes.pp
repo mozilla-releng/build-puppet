@@ -440,6 +440,7 @@ node "buildbot-master69.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master70.bb.releng.use1.mozilla.com" {
     $node_security_level = 'high'
+    $buildbot_bridge_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm70-build1":
             http_port => 8001,
@@ -465,6 +466,7 @@ node "buildbot-master71.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master72.bb.releng.usw2.mozilla.com" {
     $node_security_level = 'high'
+    $buildbot_bridge_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm72-build1":
             http_port => 8001,
@@ -577,6 +579,7 @@ node "buildbot-master81.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master82.bb.releng.scl3.mozilla.com" {
     $node_security_level = 'high'
+    $buildbot_bridge_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm82-build1":
             http_port => 8001,
@@ -602,6 +605,7 @@ node "buildbot-master83.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master84.bb.releng.scl3.mozilla.com" {
     $node_security_level = 'high'
+    $buildbot_bridge_env = "dev"
     buildmaster::buildbot_master::mozilla {
         "bm84-build1":
             http_port => 8001,

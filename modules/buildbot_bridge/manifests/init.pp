@@ -9,6 +9,8 @@ class buildbot_bridge {
     include packages::mysql_devel
     include users::builder
 
+    $bbb_version = $::buildbot_bridge::settings::env_config["version"]
+
     python::virtualenv {
         "${buildbot_bridge::settings::root}":
             python   => "${packages::mozilla::python27::python}",
@@ -34,7 +36,7 @@ class buildbot_bridge {
                 "anyjson==0.3.3",
                 "PyYAML==3.10",
                 "jsonschema==2.4.0",
-                "bbb==1.3",
+                "bbb==${bbb_version}",
            ];
     }
 }

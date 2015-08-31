@@ -4,6 +4,8 @@ class buildbot_bridge::conf {
     include dirs::builds
     include users::builder
 
+    $env_config = $::buildbot_bridge::settings::env_config
+
     file {
         "${buildbot_bridge::settings::root}/config.json":
             require     => Python::Virtualenv["${buildbot_bridge::settings::root}"],

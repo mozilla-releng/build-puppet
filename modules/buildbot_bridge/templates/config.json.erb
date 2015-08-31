@@ -1,19 +1,19 @@
 {
     "taskcluster_queue_config": {
         "credentials": {
-            "clientId": "<%= scope.function_secret(["buildbot_bridge_taskcluster_client_id"]) %>",
-            "accessToken": "<%= scope.function_secret(["buildbot_bridge_taskcluster_access_token"]) %>"
+            "clientId": "<%= @env_config["client_id"] %>",
+            "accessToken": "<%= @env_config["access_token"] %>"
         }
     },
     "buildbot_scheduler_db": "mysql://<%= scope.function_secret(["buildbot_schedulerdb_username"]) %>:<%= scope.function_secret(["buildbot_schedulerdb_password"]) %>@<%= scope.function_secret(["buildbot_schedulerdb_hostname"]) %>/<%= scope.function_secret(["buildbot_schedulerdb_database"]) %>",
-    "bbb_db": "<%= scope.function_secret(["buildbot_bridge_dburi"]) %>",
+    "bbb_db": "<%= @env_config["dburi"] %>",
 
-    "pulse_user": "<%= scope.function_secret(["buildbot_bridge_pulse_username"]) %>",
-    "pulse_password": "<%= scope.function_secret(["buildbot_bridge_pulse_password"]) %>",
-    "pulse_queue_basename": "<%= scope.lookupvar("config::buildbot_bridge_pulse_queue_basename") %>",
+    "pulse_user": "<%= @env_config["pulse_username"] %>",
+    "pulse_password": "<%= @env_config["pulse_password"] %>",
+    "pulse_queue_basename": "<%= @env_config["pulse_queue_basename"] %>",
 
     "allowed_builders": [
-        ".*"
+        "<%= @env_config["allowed_builders"] %>"
     ],
 
     "tclistener": {
