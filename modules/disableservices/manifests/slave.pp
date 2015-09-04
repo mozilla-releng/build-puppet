@@ -8,7 +8,24 @@ class disableservices::slave inherits disableservices::common {
     include disableservices::displaymanager
     include disableservices::notification_daemon
 
-    if $operatingsystem == "Ubuntu" {
-        include disableservices::release_upgrader
+       case $::operatingsystem {
+        Ubuntu : {
+            include disableservices::release_upgrader
+        }
+        Darwin : {
+            case $::macosx_productversion_major {
+                '10.7': {
+                    service {
+                        [
+                            'org.clamav.clamd',
+                            'org.clamav.freshclam-init',
+                            'org.clamav.freshclam',
+                        ]:
+                            enable => false,
+                            ensure => stopped,
+                    }
+                }
+            }
+        }
     }
 }
