@@ -19,6 +19,9 @@
     "allowed_builders": [
         "<%= @env_config["allowed_builders"] %>"
     ],
+    "ignored_builders": [
+        "<%= @env_config["ignored_builders"] %>"
+    ],
 
     "tclistener": {
         "pulse_exchange_basename": "<%= scope.lookupvar("config::buildbot_bridge_tclistener_pulse_exchange_basename") %>",

@@ -347,7 +347,8 @@ class config inherits config::base {
             pulse_username => secret("buildbot_bridge_dev_pulse_username"),
             pulse_password => secret("buildbot_bridge_dev_pulse_password"),
             pulse_queue_basename => "queue/buildbot-bridge-dev",
-            allowed_builders => "^.*alder.*$",
+            allowed_builders => "^.*$",
+            ignored_builders => "^((?!alder).)*$",
         },
         "prod" => {
             version => "1.3",
@@ -357,7 +358,8 @@ class config inherits config::base {
             pulse_username => secret("buildbot_bridge_prod_pulse_username"),
             pulse_password => secret("buildbot_bridge_prod_pulse_password"),
             pulse_queue_basename => "queue/buildbot-bridge",
-            allowed_builders => "^((?!alder).)*$",
+            allowed_builders => "^.*$",
+            ignored_builders => "^.*alder.*$",
         }
     }
 
