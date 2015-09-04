@@ -8,7 +8,6 @@ class log_aggregator::client {
     $log_aggregator = $::config::log_aggregator
     $logging_port = $::config::logging_port
 
-
     if (!$is_log_aggregator_host and $log_aggregator and $logging_port) {
         case $::operatingsystem {
             CentOS,Ubuntu: {
@@ -36,11 +35,24 @@ class log_aggregator::client {
             Windows: {
                 include ::nxlog
                 include nxlog::settings
+                case $::operatingsystemrelease {
+                    # Windows Server 2008
+                    "6.1.7601": {
+                        file {
+                            "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
+                                require => Class [ 'packages::nxlog' ],
+                                content => template('nxlog/nxlog_source_eventlog_win2008.conf.erb'),
+                                notify => service [ 'nxlog' ];
+                        }
+                    }
+                    default: {
+                        # this configuration will result in excessive logging traffic to the log aggregators.
+                        # if the error message below is appearing in puppet logs, add a filtered configuration,
+                        # tailored to the OS version shown in the error message (like the one above for "6.1.7601").
+                        fail("No nxlog eventlog filter found for OS: ${::operatingsystem}, version: ${::operatingsystemrelease}")
+                    }
+                }
                 file {
-                    "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
-                        require => Class [ 'packages::nxlog' ],
-                        content => template('nxlog/nxlog_source_eventlog.conf.erb'),
-                        notify => service [ 'nxlog' ];
                     "${nxlog::settings::root_dir}/conf/nxlog_transform_syslog.conf":
                         require => Class [ 'packages::nxlog' ],
                         content => template('nxlog/nxlog_transform_syslog.conf.erb'),
