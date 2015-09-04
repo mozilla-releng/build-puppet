@@ -1,0 +1,22 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# Managed by puppet
+
+<Input eventlog>
+  Module im_msvistalog
+  ReadFromLast TRUE
+  Query <QueryList>\
+          <Query Id="0">\
+            <Select Path="Application">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="HardwareEvents">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Internet Explorer">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Key Management Service">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="PreEmptive">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Security">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="System">*[System[Level=1 or Level=2 or Level=3 or EventID=1074]]</Select>\
+            <Select Path="Windows PowerShell">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+          </Query>\
+        </QueryList>
+</Input>
