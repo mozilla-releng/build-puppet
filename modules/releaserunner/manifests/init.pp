@@ -24,7 +24,7 @@ class releaserunner {
             packages => [
                 "Fabric==1.5.1",
                 "Jinja2==2.6",
-                "PyHawk-with-a-single-extra-commit==0.1.5"
+                "PyHawk-with-a-single-extra-commit==0.1.5",
                 "PyYAML==3.10",
                 "SQLAlchemy==0.8.0b2",
                 "Tempita==0.5.1",
