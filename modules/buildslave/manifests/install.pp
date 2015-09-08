@@ -3,40 +3,57 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # this class simply invokes the resource type with the production version
 class buildslave::install {
+    include packages::mozilla::python27
+
     anchor {
         'buildslave::install::begin': ;
         'buildslave::install::end': ;
     }
 
-    # TODO: include the package::python classes required here
+    $version = "0.8.4-pre-moz7" # N.B. used by runner
 
-    Anchor['buildslave::install::begin'] ->
-    buildslave::install::version {
-        # and the most recent version, kept around for posterity and as
-        # a reminder to ensure it's absent when there's a *new* most recent
-        # version.
-        #"0.8.4-pre-moz1":
-        #    active => false;
+    $virtualenv_path = $::operatingsystem ? {
+        windows => "c:\\mozilla-build\\buildbot-$version",
+        default => "/tools/buildbot-$version",
+    }
 
-        "0.8.4-pre-moz3":
-            active => false;
+    $py_require = Class['packages::mozilla::python27']
+    $packages = [
+        "zope.interface==3.6.1",
+        "buildbot-slave==$version",
+        # buildbot (master) is needed for buildbot sendchange
+        "buildbot==$version",
+        "Twisted==10.2.0",
+        # this is required for some mozilla custom classes
+        "simplejson==2.1.3" ]
 
-        "0.8.4-pre-moz4":
-            active => false;
+    Anchor["buildslave::install::begin"] ->
+    python::virtualenv {
+        "$virtualenv_path":
+            python => $::packages::mozilla::python27::python,
+            require => $py_require,
+            packages => $packages;
+    } -> Anchor["buildslave::install::end"]
 
-        "0.8.4-pre-moz5":
-            active => false;
-
-        "0.8.4-pre-moz6":
-            active => false;
-
-        "0.8.4-pre-moz7":
-            active => true;
-
-    } -> Anchor['buildslave::install::end']
-    if ($::operatingsystem == Windows) {
-    # Set a variable for the current active buildbot version
-    # Reference BUG 1193920
-        $BuildBotVer = "0.8.4-pre-moz7"
+    case $::operatingsystem {
+        Windows: {
+            file {
+                "C:/mozilla-build/bbpath.bat":
+                    content => "set BUILDBOT_PATH=$virtualenv_path";
+            }
+            # Append the virtual environment directory to the Windows path
+            windows_path {
+                "$virtualenv_path":
+                    ensure => present;
+            }
+        }
+        default: {
+            Anchor["buildslave::install::begin"] ->
+            file {
+                "/tools/buildbot":
+                    ensure => "link",
+                    target => "$virtualenv_path";
+            } -> Anchor["buildslave::install::end"]
+        }
     }
 }
