@@ -4,8 +4,19 @@
 
 class runner::tasks::halt() {
     include runner
-    runner::task {
-        "halt.py":
-            content  => template("${module_name}/tasks/halt.py.erb");
+
+    case $::operatingsystem {
+        'Windows': {
+            runner::task {
+                "halt.bat":
+                    source => "puppet:///modules/runner/tasks/halt.bat";
+            }
+        }
+        default: {
+            runner::task {
+                "halt.py":
+                    content  => template("${module_name}/tasks/halt.py.erb");
+            }
+        }
     }
 }

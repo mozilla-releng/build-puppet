@@ -34,4 +34,9 @@ class buildslave::install {
             active => true;
 
     } -> Anchor['buildslave::install::end']
+    if ($::operatingsystem == Windows) {
+    # Set a variable for the current active buildbot version
+    # Reference BUG 1193920
+        $BuildBotVer = "0.8.4-pre-moz7"
+    }
 }

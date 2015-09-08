@@ -6,9 +6,22 @@ define runner::task($content=undef, $source=undef) {
     include runner::settings
     file {
         "${runner::settings::taskdir}/${title}":
-            before  => Service['runner'],
+            before  => $runner_service,
             content => $content,
             source  => $source,
-            mode    => '0755';
+            mode    => $mode;
+    }
+    if ($::operatingsystem == Windows) {
+        acl {
+            "${runner::settings::taskdir}/${title}":
+                purge => true,
+                inherit_parent_permissions => false,
+                permissions => [
+                    { identity => 'root', rights => ['full'] },
+                    { identity => 'cltbld', rights => ['full'] },
+                    { identity => 'SYSTEM', rights => ['full'] },
+                    { identity => 'EVERYONE', rights => ['read'] },
+                ];
+        }
     }
 }

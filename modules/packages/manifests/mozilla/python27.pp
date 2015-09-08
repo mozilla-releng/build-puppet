@@ -17,7 +17,8 @@ class packages::mozilla::python27 {
             Anchor['packages::mozilla::python27::end']
 
             # on windows, we get Python from mozilla-build.
-            $python = 'C:\mozilla-build\python27\python2.7.exe'
+            $pythondir = "C:\\mozilla-build\\python27"
+            $python = "$pythondir\\python2.7.exe"
 
          }
         default: {

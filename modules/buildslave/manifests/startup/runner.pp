@@ -33,8 +33,13 @@ class buildslave::startup::runner {
             }
         }
     }
-    include runner::tasks::cleanslate_task
-    include runner::tasks::post_flight
     include runner::tasks::buildbot
     include runner::tasks::halt
+    if ($::operatingsystem == Windows) {
+        include runner::tasks::clobber
+    }
+    if ($::operatingsystem != Windows) {
+        include runner::tasks::cleanslate_task
+        include runner::tasks::post_flight
+    }
 }
