@@ -36,8 +36,8 @@ class log_aggregator::client {
                 include ::nxlog
                 include nxlog::settings
                 case $::operatingsystemrelease {
-                    # Windows Server 2008
-                    "6.1.7601": {
+                    # Windows Server 2008 (6.1.7601: ec2, 1.0.11(0.46/3/2): ix)
+                    "6.1.7601", "1.0.11(0.46/3/2)": {
                         file {
                             "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
                                 require => Class [ 'packages::nxlog' ],
@@ -46,7 +46,6 @@ class log_aggregator::client {
                         }
                     }
                     default: {
-                        # this configuration will result in excessive logging traffic to the log aggregators.
                         # if the error message below is appearing in puppet logs, add a filtered configuration,
                         # tailored to the OS version shown in the error message (like the one above for "6.1.7601").
                         fail("No nxlog eventlog filter found for OS: ${::operatingsystem}, version: ${::operatingsystemrelease}")
