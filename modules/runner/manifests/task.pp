@@ -4,6 +4,16 @@
 # a task to be run by runner
 define runner::task($content=undef, $source=undef) {
     include runner::settings
+
+    $runner_service = $operatingsystem ? {
+        Windows => Exec['startrunner'],
+        default => Service['runner'],
+    }
+     $mode  = $operatingsystem ? {
+        Windows => undef,
+        default => '0755',
+    }
+
     file {
         "${runner::settings::taskdir}/${title}":
             before  => $runner_service,
