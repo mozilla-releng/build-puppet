@@ -16,7 +16,7 @@ class runner::settings {
             include packages::mozilla::python27
 
             $runner_path = "C:\\opt\\runner"
-            $runner_env_path = "${path};${runner_path};C:\\mozilla-build\\buildbotve;${::packages::mozilla::python27::pythondir};C:\\mozilla-build\\msys\\mingw\\bin;C:\\mozilla-build\\msys\\bin;C:\\mozilla-build\\msys\\local\bin;.:/usr/local/bin"
+            $runner_env_path = "${path};${runner_path};C:\\mozilla-build\\buildbotve;${::packages::mozilla::python27::pythondir};C:\\mozilla-build\\msys\\mingw\\bin;C:\\mozilla-build\\msys\\bin;C:\\mozilla-build\\msys\\local\\bin;.:/usr/local/bin"
             $python = "${::packages::mozilla::python27::python}"
         }
         default: {

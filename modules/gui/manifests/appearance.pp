@@ -11,8 +11,8 @@ class gui::appearance {
                    if (!$puppetizing) {
                        exec {
                           "set-background-image" :
-                                command => "/bin/ln -sf /Library/Desktop\ Pictures/Solid\ Colors/Solid\ Aqua\ Blue.png /System/Library/CoreServices/DefaultDesktop.jpg",
-                                unless => "/bin/ls -la /System/Library/CoreServices/DefaultDesktop.jpg | /usr/bin/egrep \"/Library/Desktop\ Pictures/Solid\ Colors/Solid\ Aqua\ Blue.png\"",
+                                command => '/bin/ln -sf "/Library/Desktop Pictures/Solid Colors/Solid Aqua Blue.png" /System/Library/CoreServices/DefaultDesktop.jpg',
+                                unless => '/bin/ls -la /System/Library/CoreServices/DefaultDesktop.jpg | /usr/bin/egrep "/Library/Desktop Pictures/Solid Colors/Solid Aqua Blue.png"',
                                 notify => Exec["restart-Dock"];
                             "restart-Dock" :
                                 command => "/usr/bin/killall Dock",
