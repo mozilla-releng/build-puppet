@@ -2,10 +2,10 @@
 interval: <%= scope.lookupvar('metcollect::settings::interval') %>
 
 [GRAPHITE]
-<% host = nodes.keys[0] -%>
+<% host = @nodes.keys[0] -%>
 server: <%= host %>
-port: <%= nodes[host]['port'] %>
-prefix: <%= nodes[host]['prefix'] %>
+port: <%= @nodes[host]['port'] %>
+prefix: <%= @nodes[host]['prefix'] %>
 
 [LOG]
 file: C:\metcollect.log
