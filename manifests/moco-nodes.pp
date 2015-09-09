@@ -961,15 +961,3 @@ node /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 
 ## Loaners
 
-## temporary host node Bug 1155690
-
-node "jwatkins-trusty-testing.srv.releng.use1.mozilla.com" {
-    $node_security_level = 'low'
-    include toplevel::server
-}
-
-node "dividehex-test.relabs.releng.scl3.mozilla.com" {
-    $node_security_level = 'low'
-    include toplevel::base
-}
-
