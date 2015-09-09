@@ -42,7 +42,7 @@ class log_aggregator::client {
                             "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
                                 require => Class [ 'packages::nxlog' ],
                                 content => template('nxlog/nxlog_source_eventlog_win2008.conf.erb'),
-                                notify => service [ 'nxlog' ];
+                                notify => Service [ 'nxlog' ];
                         }
                     }
                     default: {
@@ -55,15 +55,15 @@ class log_aggregator::client {
                     "${nxlog::settings::root_dir}/conf/nxlog_transform_syslog.conf":
                         require => Class [ 'packages::nxlog' ],
                         content => template('nxlog/nxlog_transform_syslog.conf.erb'),
-                        notify => service [ 'nxlog' ];
+                        notify => Service [ 'nxlog' ];
                     "${nxlog::settings::root_dir}/conf/nxlog_target_aggregator.conf":
                         require => Class [ 'packages::nxlog' ],
                         content => template('nxlog/nxlog_target_aggregator.conf.erb'),
-                        notify => service [ 'nxlog' ];
+                        notify => Service [ 'nxlog' ];
                     "${nxlog::settings::root_dir}/conf/nxlog_route_eventlog_aggregator.conf":
                         require => Class [ 'packages::nxlog' ],
                         content => template('nxlog/nxlog_route_eventlog_aggregator.conf.erb'),
-                        notify => service [ 'nxlog' ]
+                        notify => Service [ 'nxlog' ]
                 }
             }
             default: {
