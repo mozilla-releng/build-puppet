@@ -63,7 +63,7 @@ rm -f /var/lib/puppet/ssl/certs/ca.pem || exit 1
 # curl and wget are not installed everywhere by default.
 while true; do
     https_proxy= python <<EOF
-import urllib2, getpass
+import urllib2, getpass, ssl
 deploypass="""$deploypass"""
 puppet_server="${PUPPET_SERVER:-puppet}"
 print "Contacting puppet server %s" % (puppet_server,)
@@ -71,8 +71,15 @@ if not deploypass:
     deploypass = getpass.getpass('deploypass: ')
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
 password_mgr.add_password(None, 'https://'+puppet_server, 'deploy', deploypass)
-handler = urllib2.HTTPBasicAuthHandler(password_mgr)
-opener = urllib2.build_opener(handler)
+handlers = [urllib2.HTTPBasicAuthHandler(password_mgr)]
+try:
+    # on Pythons that support it, add an SSL context
+    context = ssl._create_unverified_context()
+    sslhandler = urllib2.HTTPSHandler(context=context)
+    handlers.insert(0, sslhandler)
+except AttributeError:
+    pass
+opener = urllib2.build_opener(*handlers)
 data = opener.open('https://%s/deploy/getcert.cgi' % (puppet_server,)).read()
 open("$ROOT/certs.sh", "w").write(data)
 EOF
