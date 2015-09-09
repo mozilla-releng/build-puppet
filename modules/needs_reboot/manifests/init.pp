@@ -50,7 +50,7 @@ class needs_reboot {
         Windows: {
             windowsutils::startup_tasks { "rm_reboot_semaphore":
                 ensure  => present,
-                command => "cmd.exe /c if exist C:\REBOOT_AFTER_PUPPET del /F /Q C:\REBOOT_AFTER_PUPPET";
+                command => 'cmd.exe /c if exist C:\REBOOT_AFTER_PUPPET del /F /Q C:\REBOOT_AFTER_PUPPET';
             }
         }
     }
