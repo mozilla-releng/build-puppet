@@ -30,6 +30,7 @@ class funsize_scheduler {
                 "Jinja2==2.7.1",
                 "kombu==3.0.26",
                 "MarkupSafe==0.23",
+                "more_itertools==2.2",
                 "PGPy==0.3.0",
                 "pycparser==2.13",
                 "PyHawk-with-a-single-extra-commit==0.1.5",
