@@ -22,7 +22,7 @@ class buildbot_bridge {
                 # even though we'd rather use a more up-to-date version.
                 "requests==2.4.3",
                 "arrow==0.5.4",
-                "taskcluster==0.0.16",
+                "taskcluster==0.0.26",
                 "sqlalchemy==1.0.0",
                 "kombu==3.0.24",
                 "redo==1.4",
