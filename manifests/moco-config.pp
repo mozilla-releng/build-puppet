@@ -347,7 +347,9 @@ class config inherits config::base {
             pulse_username => secret("buildbot_bridge_dev_pulse_username"),
             pulse_password => secret("buildbot_bridge_dev_pulse_password"),
             pulse_queue_basename => "queue/buildbot-bridge-dev",
+            # TODO: remove allowed builders after bug 1196407 lands
             allowed_builders => "^.*$",
+            restricted_builders => "^release-.*$",
             ignored_builders => "^((?!alder).)*$",
         },
         "prod" => {
@@ -359,6 +361,7 @@ class config inherits config::base {
             pulse_password => secret("buildbot_bridge_prod_pulse_password"),
             pulse_queue_basename => "queue/buildbot-bridge",
             allowed_builders => "^.*$",
+            restricted_builders => "^release-.*$",
             ignored_builders => "^.*alder.*$",
         }
     }
