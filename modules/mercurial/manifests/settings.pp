@@ -8,6 +8,12 @@ class mercurial::settings {
             $hgrc = "/etc/mercurial/hgrc"
             $hgrc_parentdirs = ["/etc/mercurial"]
         }
+        # Setting up for future use and to prevent failures
+        Windows: {
+            $hgext_dir = "C:\\mozilla-build\\hg\\"
+            $hgrc = "C:\\mozilla-build\\hg\\hgrc.d"
+            $hgrc_parentdirs = ["C:\\mozilla-build\\hg"]
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }
