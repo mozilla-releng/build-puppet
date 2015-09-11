@@ -340,7 +340,7 @@ class config inherits config::base {
 
     $buildbot_bridge_env_config = {
         "dev" => {
-            version => "1.5",
+            version => "1.5.1",
             client_id => secret("buildbot_bridge_dev_taskcluster_client_id"),
             access_token => secret("buildbot_bridge_dev_taskcluster_access_token"),
             dburi => secret("buildbot_bridge_dev_dburi"),
@@ -348,9 +348,15 @@ class config inherits config::base {
             pulse_password => secret("buildbot_bridge_dev_pulse_password"),
             pulse_queue_basename => "queue/buildbot-bridge-dev",
             # TODO: remove allowed builders after bug 1196407 lands
-            allowed_builders => "^.*$",
-            restricted_builders => "^release-.*$",
-            ignored_builders => "^((?!alder).)*$",
+            allowed_builders => [
+                "^.*$",
+            ],
+            restricted_builders => [
+                "^release-.*$",
+            ],
+            ignored_builders => [
+                "^((?!(alder|date)).)*$",
+            ],
         },
         "prod" => {
             version => "1.4.2",
@@ -360,9 +366,17 @@ class config inherits config::base {
             pulse_username => secret("buildbot_bridge_prod_pulse_username"),
             pulse_password => secret("buildbot_bridge_prod_pulse_password"),
             pulse_queue_basename => "queue/buildbot-bridge",
-            allowed_builders => "^.*$",
-            restricted_builders => "^release-.*$",
-            ignored_builders => "^.*alder.*$",
+            allowed_builders => [
+                "^.*$",
+            ],
+            restricted_builders => [
+                "^release-.*$",
+            ],
+            ignored_builders => [
+                "^.*alder.*$",
+                "^.*date.*$",
+                "^release-.*$",
+            ],
         }
     }
 

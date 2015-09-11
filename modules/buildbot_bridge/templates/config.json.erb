@@ -17,13 +17,13 @@
     "tc_worker_id": "<%= scope.lookupvar("config::buildbot_bridge_worker_id") %>",
 
     "allowed_builders": [
-        "<%= @env_config["allowed_builders"] %>"
+        "<%= Array(@env_config["allowed_builders"]).join("\",\n        \"") %>"
     ],
     "restricted_builders": [
-        "<%= @env_config["restricted_builders"] %>"
+        "<%= Array(@env_config["restricted_builders"]).join("\",\n        \"") %>"
     ],
     "ignored_builders": [
-        "<%= @env_config["ignored_builders"] %>"
+        "<%= Array(@env_config["ignored_builders"]).join("\",\n        \"") %>"
     ],
 
     "tclistener": {
