@@ -78,6 +78,9 @@ def main():
     if not user_data:
         log.error("cannot operate without userdata")
         exit(1)
+    if "golden" in user_data.get("hostname", ""):
+        log.warn("Skipping golden AMI %s", user_data["hostname"])
+        exit(0)
     moz_instance_type = user_data["moz_instance_type"]
     amis = get_json(URL)
     compatible_amis = get_compatible_amis(amis, az, moz_instance_type)
