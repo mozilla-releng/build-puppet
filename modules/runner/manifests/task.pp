@@ -3,15 +3,23 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # a task to be run by runner
 define runner::task($content=undef, $source=undef) {
-    include runner
     include runner::settings
+
+    $runner_service = $operatingsystem ? {
+        Windows => Exec['startrunner'],
+        default => Service['runner'],
+    }
+     $mode  = $operatingsystem ? {
+        Windows => undef,
+        default => '0755',
+    }
 
     file {
         "${runner::settings::taskdir}/${title}":
-            before  => $runner::runner_service,
+            before  => $runner_service,
             content => $content,
             source  => $source,
-            mode    => $runner::mode;
+            mode    => $mode;
     }
     if ($::operatingsystem == Windows) {
         acl {
