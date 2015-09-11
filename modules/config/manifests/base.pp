@@ -391,7 +391,7 @@ class config::base {
     $bacula_cacert = '' # full text of the CA cert signing the director's keys
 
     # Buildbot <-> Taskcluster bridge configuration
-    $buildbot_bridge_pulse_queue_basename = ""
+    $buildbot_bridge_root = ""
     $buildbot_bridge_tclistener_pulse_exchange_basename = ""
     $buildbot_bridge_worker_type = ""
     $buildbot_bridge_provisioner_id = ""
@@ -399,6 +399,46 @@ class config::base {
     $buildbot_bridge_worker_group = ""
     $buildbot_bridge_worker_id = ""
     $buildbot_bridge_reflector_interval = 60
+
+    $buildbot_bridge_env_config = {
+        "dev" => {
+            version => "",
+            client_id => "",
+            access_token => "",
+            dburi => "",
+            pulse_username => "",
+            pulse_password => "",
+            pulse_queue_basename => "",
+            # TODO: remove allowed builders after bug 1196407 lands
+            allowed_builders => [
+                "",
+            ],
+            restricted_builders => [
+                "",
+            ],
+            ignored_builders => [
+                "",
+            ],
+        },
+        "prod" => {
+            version => "",
+            client_id => "",
+            access_token => "",
+            dburi => "",
+            pulse_username => "",
+            pulse_password => "",
+            pulse_queue_basename => "",
+            allowed_builders => [
+                "",
+            ],
+            restricted_builders => [
+                "",
+            ],
+            ignored_builders => [
+                "",
+            ],
+        }
+    }
 
     # TC signing workers
     $signingworker_tools_repo = "https://hg.mozilla.org/build/tools"
