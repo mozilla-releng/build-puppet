@@ -4,9 +4,8 @@ SET MOZBUILDDIR=C:\mozilla-build
 SET MOZILLABUILD=%MOZBUILDDIR%
 echo "MozillaBuild directory: %MOZBUILDDIR%"
 
-REM set BUILDBOT_PATH, the path to the active Buildbot virtualenv
-call "C:/mozilla-build/bbpath.bat"
-echo "Buildbot virtualenv: %BUILDBOT_PATH%"
+REM set BUILDBOT_PATH
+Set BUILDBOT_PATH=C:\mozilla-build\buildbotve
 
 set log="c:\runner\buildbot-startup.log"
 
