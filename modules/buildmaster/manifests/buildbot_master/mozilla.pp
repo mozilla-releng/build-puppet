@@ -60,6 +60,14 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
             require => Exec["setup-${basedir}"],
             mode => 600,
             content => template("buildmaster/buildmaster-cron.erb");
+        "/usr/local/bin/buildmaster-retry_dead_queue.sh":
+            mode => 0755,
+            require => Exec["setup-${basedir}"],
+            source => "puppet:///modules/buildmaster/buildmaster-retry_dead_queue.sh";
+        "/etc/cron.d/buildmaster-retry_dead_queue":
+            mode    => 644,
+            require => Exec["setup-${basedir}"],
+            content => template("buildmaster/buildmaster-retry_dead_queue.erb");
     }
 
     # Scheduler masters don't need postrun.cfg
