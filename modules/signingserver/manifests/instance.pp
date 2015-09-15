@@ -116,6 +116,10 @@ define signingserver::instance(
             rev => $code_tag;
     }
 
+    if secret("${config::org}_signing_server_ssl_private_key") == "" {
+        fail("missing ${config::org}_signing_server_ssl_private_key")
+    }
+
     file {
         [$signed_dir,
          $unsigned_dir,
@@ -144,10 +148,14 @@ define signingserver::instance(
             notify => Exec["$title-reload-signing-server"],
             require => Python::Virtualenv[$basedir],
             show_diff => false;
-# TODO
-#        $full_private_ssl_cert:
-#            content => file("/etc/puppet/secrets/signing.server.key"),
-#            mode => 600;
+
+        $full_private_ssl_cert:
+            content => secret("${config::org}_signing_server_ssl_private_key"),
+            owner => $user,
+            group => $group,
+            show_diff => false,
+            mode => 600;
+
         $full_public_ssl_cert:
             owner => $user,
             group => $group,
