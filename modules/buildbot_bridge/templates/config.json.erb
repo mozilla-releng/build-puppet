@@ -16,9 +16,6 @@
     "tc_worker_group": "<%= scope.lookupvar("config::buildbot_bridge_worker_group") %>",
     "tc_worker_id": "<%= scope.lookupvar("config::buildbot_bridge_worker_id") %>",
 
-    "allowed_builders": [
-        "<%= Array(@env_config["allowed_builders"]).join("\",\n        \"") %>"
-    ],
     "restricted_builders": [
         "<%= Array(@env_config["restricted_builders"]).join("\",\n        \"") %>"
     ],
@@ -30,13 +27,10 @@
         "pulse_exchange_basename": "<%= scope.lookupvar("config::buildbot_bridge_tclistener_pulse_exchange_basename") %>",
         "worker_type": "<%= scope.lookupvar("config::buildbot_bridge_worker_type") %>",
         "provisioner_id": "<%= scope.lookupvar("config::buildbot_bridge_provisioner_id") %>",
-        "selfserve_url": "<%= scope.lookupvar("config::selfserve_private_url") %>",
         "logfile": "<%= scope.lookupvar("buildbot_bridge::settings::root") %>/tclistener.log"
     },
     "bblistener": {
         "pulse_exchange": "<%= scope.lookupvar("config::buildbot_bridge_bblistener_pulse_exchange") %>",
-        "tc_worker_group": "<%= scope.lookupvar("config::buildbot_bridge_worker_group") %>",
-        "tc_worker_id": "<%= scope.lookupvar("config::buildbot_bridge_worker_id") %>",
         "logfile": "<%= scope.lookupvar("buildbot_bridge::settings::root") %>/bblistener.log"
     },
     "reflector": {
