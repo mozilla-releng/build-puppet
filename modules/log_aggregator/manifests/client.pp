@@ -36,12 +36,21 @@ class log_aggregator::client {
                 include ::nxlog
                 include nxlog::settings
                 case $::operatingsystemrelease {
-                    # Windows Server 2008 (6.1.7601: ec2, 1.0.11(0.46/3/2): ix)
-                    "6.1.7601", "1.0.11(0.46/3/2)": {
+                    # Windows Server 2008 ec2
+                    "6.1.7601": {
                         file {
                             "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
                                 require => Class [ 'packages::nxlog' ],
-                                content => template('nxlog/nxlog_source_eventlog_win2008.conf.erb'),
+                                content => template('nxlog/nxlog_source_eventlog_win2008_ec2.conf.erb'),
+                                notify => Service [ 'nxlog' ];
+                        }
+                    }
+                    # Windows Server 2008 ix
+                    "1.0.11(0.46/3/2)": {
+                        file {
+                            "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
+                                require => Class [ 'packages::nxlog' ],
+                                content => template('nxlog/nxlog_source_eventlog_win2008_ix.conf.erb'),
                                 notify => Service [ 'nxlog' ];
                         }
                     }
