@@ -1,0 +1,41 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# Managed by puppet
+
+<Input eventlog>
+  Module im_msvistalog
+  ReadFromLast TRUE
+  Query <QueryList>\
+          <Query Id="0">\
+            <Select Path="Application">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Security">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="System">*[System[Level=1 or Level=2 or Level=3 or EventID=1074]]</Select>\
+            <Select Path="EC2ConfigService">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="HardwareEvents">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Internet Explorer">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Key Management Service">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-ServiceBus-Client/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-Application Server-Applications/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-Dhcp-Client/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-DhcpNap/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-Dhcpv6-Client/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-Diagnosis-Scripted/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-EnrollmentPolicyWebService/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-EnrollmentWebService/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-IIS-Configuration/Administrative">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-Kernel-EventTracing/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-MUI/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-PrintService/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-RemoteApp and Desktop Connections/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="microsoft-windows-RemoteDesktopServices-RemoteDesktopSessionManager/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-TerminalServices-ClientUSBDevices/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-TerminalServices-LocalSessionManager/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-TerminalServices-PnPDevices/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Microsoft-Windows-TerminalServices-RemoteConnectionManager/Admin">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="PreEmptive">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+            <Select Path="Windows PowerShell">*[System[Level=1 or Level=2 or Level=3]]</Select>\
+          </Query>\
+        </QueryList>
+</Input>
