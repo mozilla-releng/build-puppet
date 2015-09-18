@@ -352,6 +352,26 @@ node "buildbot-master06.bb.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
+node "buildbot-master07.bb.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm07-tests1-linux32":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux32";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master08.bb.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm08-tests1-linux32":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux32";
+    }
+    include toplevel::server::buildmaster
+}
+
 node "buildbot-master51.bb.releng.use1.mozilla.com" {
     $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
@@ -947,6 +967,26 @@ node "buildbot-master123.bb.releng.usw2.mozilla.com" {
             basedir => "tests1-linux64";
     }
     include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master124.bb.releng.use1.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm124-tests1-linux64":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux64";
+    }
+    include toplevel::server::buildmaster
+}
+
+node "buildbot-master125.bb.releng.usw2.mozilla.com" {
+    buildmaster::buildbot_master::mozilla {
+        "bm125-tests1-linux64":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-linux64";
+    }
+    include toplevel::server::buildmaster
 }
 
 node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
