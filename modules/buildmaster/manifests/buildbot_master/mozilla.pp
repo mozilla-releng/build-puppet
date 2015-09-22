@@ -16,6 +16,7 @@
 #
 define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=undef) {
     include ::config
+    include buildmaster::base
 
     $master_group = "${users::builder::group}"
     $master_user = "${users::builder::username}"
