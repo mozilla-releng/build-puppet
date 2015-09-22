@@ -5,6 +5,7 @@ class signingworker {
     include dirs::builds
     include packages::mozilla::python27
     include users::builder
+    include tweaks::swap_on_instance_storage
 
     python::virtualenv {
         "${signingworker::settings::root}":
