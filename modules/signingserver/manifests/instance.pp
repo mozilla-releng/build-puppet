@@ -125,7 +125,7 @@ define signingserver::instance(
             "${basedir}/tools/release/signing/signing_wrapper.sh":
                 user => $user,
                 runas => 'root',
-                command => "${basedir}/signing_wrapper.sh";
+                command => "${basedir}/tools/release/signing/signing_wrapper.sh";
         }
     }
 
