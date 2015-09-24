@@ -120,6 +120,15 @@ define signingserver::instance(
         fail("missing ${config::org}_signing_server_ssl_private_key")
     }
 
+    if $::operatingsystem == 'Darwin' {
+        sudoers::custom {
+            "${basedir}/tools/release/signing/signing_wrapper.sh":
+                user => $user,
+                runas => 'root',
+                command => "${basedir}/signing_wrapper.sh";
+        }
+    }
+
     file {
         [$signed_dir,
          $unsigned_dir,
