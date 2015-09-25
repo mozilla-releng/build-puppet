@@ -31,7 +31,7 @@ rm -f /builds/b2g_bumper/git_ref_cache.json
 
 # Run the bumpers in sequence
 all_succeeded=true
-find /builds/b2g_bumper/mozharness/configs/b2g_bumper/ -type f -name '*.py' | while read config; do
+for config in $(find /builds/b2g_bumper/mozharness/configs/b2g_bumper/ -type f -name '*.py'); do
     short_name="$(basename "${config}" .py)"
     log "Running b2g bumper using ${config}, log in /builds/b2g_bumper/${short_name}.log"
     mkdir -p "/builds/b2g_bumper/${short_name}"
