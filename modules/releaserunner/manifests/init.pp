@@ -61,10 +61,10 @@ class releaserunner {
             group     => "${users::builder::group}",
             content   => secret('releaserunner_ssh_key'),
             show_diff => false;
-        "${releaserunner::settings::root}/docker-worker-public.pem":
+        "${releaserunner::settings::root}/docker-worker-pub.pem":
             owner     => "${users::builder::username}",
             group     => "${users::builder::group}",
-            source    => "puppet:///modules/$module_name/docker-worker-public.pem"
+            source    => "puppet:///modules/$module_name/docker-worker-pub.pem"
     }
 
     mercurial::repo {
