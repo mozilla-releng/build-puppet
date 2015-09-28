@@ -37,7 +37,7 @@ class log_aggregator::client {
                 include nxlog::settings
                 case $::operatingsystemrelease {
                     # Windows Server 2008 ec2
-                    "6.1.7601": {
+                    "2008 R2", "6.1.7601": {
                         file {
                             "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
                                 require => Class [ 'packages::nxlog' ],
