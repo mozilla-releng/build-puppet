@@ -23,6 +23,7 @@ PATH=<%= scope.lookupvar('::runner::settings::runner_env_path') %>
 <%- else -%>
 PATH=<%= scope.lookupvar('::runner::settings::runner_path') %>
 TWISTD_LOG_PATH=<%= scope.lookupvar('::config::runner_buildbot_slave_dir') %>/twistd.log
+IDLEIZER_DISABLE_SHUTDOWN=true
 <% end -%>
 [hg]
 tools_path = <%= scope.lookupvar('::config::runner_hg_tools_path') %>
