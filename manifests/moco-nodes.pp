@@ -360,7 +360,7 @@ node "buildbot-master07.bb.releng.usw2.mozilla.com" {
             master_type => "tests",
             basedir => "tests1-linux32";
     }
-    include toplevel::server::buildmaster
+    include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master08.bb.releng.use1.mozilla.com" {
@@ -371,7 +371,7 @@ node "buildbot-master08.bb.releng.use1.mozilla.com" {
             master_type => "tests",
             basedir => "tests1-linux32";
     }
-    include toplevel::server::buildmaster
+    include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master51.bb.releng.use1.mozilla.com" {
@@ -979,7 +979,7 @@ node "buildbot-master124.bb.releng.use1.mozilla.com" {
             master_type => "tests",
             basedir => "tests1-linux64";
     }
-    include toplevel::server::buildmaster
+    include toplevel::server::buildmaster::mozilla
 }
 
 node "buildbot-master125.bb.releng.usw2.mozilla.com" {
@@ -990,7 +990,7 @@ node "buildbot-master125.bb.releng.usw2.mozilla.com" {
             master_type => "tests",
             basedir => "tests1-linux64";
     }
-    include toplevel::server::buildmaster
+    include toplevel::server::buildmaster::mozilla
 }
 
 node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
