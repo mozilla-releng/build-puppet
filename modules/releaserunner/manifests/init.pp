@@ -37,7 +37,7 @@ class releaserunner {
                 "paramiko==1.9.0",
                 "pycrypto==2.6",
                 "python-dateutil==1.5",
-                "releasetasks==0.3.1",
+                "releasetasks==0.3.2",
                 "requests==2.6.0",
                 "simplejson==2.6.2",
                 "sqlalchemy-migrate==0.7.2",
