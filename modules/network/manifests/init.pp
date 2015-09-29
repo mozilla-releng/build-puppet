@@ -62,15 +62,13 @@ class network {
                         unless => "/usr/sbin/networksetup -getairportpower en1 | egrep 'Off'";
                 }
             }
-            # bug 1144206 frequent talos failures caused by multicast hello protocol causing dns
-            # timeouts and not allowing g.m.o to resolve
-            if ($::macosx_productversion_major == "10.10") {
-                exec {
-                   "disable multicast":
-                        command => "/usr/libexec/PlistBuddy -c \"Add :ProgramArguments: string --no-multicast\" /System/Library/LaunchDaemons/com.apple.discoveryd.plist",
-                        unless => "/usr/bin/defaults read /System/Library/LaunchDaemons/com.apple.discoveryd.plist | egrep 'no-multicast'"
+            # This file is a byproduct of the previous code which disabled multicast mdns discovery
+            # it has been updated and moved to modules/tweaks/manifests/disable_bonjour.pp
+            if $::macosx_productversion =~ /10\.10\.[4-9]/ {
+                file { "/System/Library/LaunchDaemons/com.apple.discoveryd.plist":
+                    ensure => absent;
                 }
-             }
+            }
         }
     }
 }
