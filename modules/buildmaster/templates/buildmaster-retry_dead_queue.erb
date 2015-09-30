@@ -1,2 +1,2 @@
 MAILTO=""
-* */6 * * * root /usr/local/bin/buildmaster-retry_dead_queue.sh
+* */6 * * * root /usr/local/bin/buildmaster-retry_dead_queue.sh 2>&1 | logger -t retry_dead_queue
