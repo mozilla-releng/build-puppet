@@ -8,6 +8,12 @@ class packages::p7zip {
     }
 
     case $::operatingsystem {
+        CentOS: {
+            package {
+                "p7zip":
+                    ensure => latest;
+            }
+        }
         Darwin: {
             Anchor['packages::p7zip::begin'] ->
             packages::pkgdmg {

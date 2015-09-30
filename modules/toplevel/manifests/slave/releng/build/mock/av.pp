@@ -5,4 +5,5 @@
 class toplevel::slave::releng::build::mock::av inherits toplevel::slave::releng::build::mock {
     include clamav::daemon
     include clamav::freshclam
+    include packages::p7zip
 }
