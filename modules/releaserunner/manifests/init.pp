@@ -42,6 +42,7 @@ class releaserunner {
                 "simplejson==2.6.2",
                 "sqlalchemy-migrate==0.7.2",
                 "taskcluster==0.0.24",
+                "treeherder-client==1.7.0",
                 "wsgiref==0.1.2",
                 "zope.interface==4.0.2",
             ];
