@@ -10,6 +10,7 @@ class releaserunner {
     include releaserunner::services
     include packages::mozilla::python27
     include packages::gcc
+    include packages::libffi
     include packages::make
     include packages::mysql_devel
 
@@ -18,12 +19,16 @@ class releaserunner {
     python::virtualenv {
         "${releaserunner::settings::root}":
             python   => "${packages::mozilla::python27::python}",
-            require  => Class['packages::mozilla::python27'],
+            require  => [
+                Class['packages::mozilla::python27'],
+                Class["packages::libffi"],
+            ],
             user     => "${users::builder::username}",
             group    => "${users::builder::group}",
             packages => [
                 "Fabric==1.5.1",
                 "Jinja2==2.6",
+                "PGPy==0.3.0",
                 "PyHawk-with-a-single-extra-commit==0.1.5",
                 "PyYAML==3.10",
                 "SQLAlchemy==0.8.0b2",
@@ -33,13 +38,17 @@ class releaserunner {
                 "buildbot==0.8.7p1",
                 "certifi==0.0.8",
                 "chunkify==1.1",
+                "cryptography==0.6",
                 "decorator==3.4.0",
+                "enum34==1.0.4.tar.gz",
+                "oauth2==1.5.211",
                 "paramiko==1.9.0",
                 "pycrypto==2.6",
                 "python-dateutil==1.5",
                 "releasetasks==0.3.2",
                 "requests==2.6.0",
                 "simplejson==2.6.2",
+                "singledispatch==3.4.0.3",
                 "sqlalchemy-migrate==0.7.2",
                 "taskcluster==0.0.24",
                 "treeherder-client==1.7.0",
