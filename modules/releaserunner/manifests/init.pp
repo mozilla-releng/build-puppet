@@ -40,7 +40,7 @@ class releaserunner {
                 "chunkify==1.1",
                 "cryptography==0.6",
                 "decorator==3.4.0",
-                "enum34==1.0.4.tar.gz",
+                "enum34==1.0.4",
                 "oauth2==1.5.211",
                 "paramiko==1.9.0",
                 "pycrypto==2.6",
