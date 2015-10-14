@@ -190,6 +190,8 @@ class config::base {
     $install_adjust_sdk_token = false
     # true if secret('slave_relengapi_token') should be installed on all slaves
     $install_relengapi_token = false
+    # true if secret('release_s3_credentials') should be installed on build slaves
+    $install_release_s3_credentials = false
 
     # signingserver
 
