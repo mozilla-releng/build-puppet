@@ -44,7 +44,10 @@ class buildmaster::queue {
             ensure => running;
         "pulse_publisher":
             hasstatus => true,
-            subscribe => Python::Virtualenv["${buildmaster::settings::queue_dir}"],
+            subscribe => [
+                Python::Virtualenv["${buildmaster::settings::queue_dir}"],
+                File["${buildmaster::settings::queue_dir}/passwords.py"],
+            ],
             require => [
                 File["/etc/init.d/pulse_publisher"],
                 File["${buildmaster::settings::queue_dir}/passwords.py"],
