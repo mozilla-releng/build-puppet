@@ -9,4 +9,4 @@ verbose: <%= scope.lookupvar('config::shipit_notifier_verbose') %>
 [pulse]
 user = <%= scope.function_secret(['shipit_notifier_pulse_username']) %>
 password = <%= scope.function_secret(['shipit_notifier_pulse_password']) %>
-ssl = false
+ssl = true
