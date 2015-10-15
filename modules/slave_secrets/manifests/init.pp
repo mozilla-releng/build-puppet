@@ -55,6 +55,7 @@ class slave_secrets($ensure=present, $slave_type) {
     # * mozilla API
     # * crash stats API token
     # * Adjust SDK token
+    # * Release automation S3 credentials
     if ($slave_type == 'build') {
         class {
             'slave_secrets::google_api_key':
@@ -68,6 +69,8 @@ class slave_secrets($ensure=present, $slave_type) {
             'slave_secrets::crash_stats_api_token':
                 ensure => $ensure;
             'slave_secrets::adjust_sdk_token':
+                ensure => $ensure;
+            'slave_secrets::release_s3_credentials':
                 ensure => $ensure;
         }
     } else {
@@ -83,6 +86,8 @@ class slave_secrets($ensure=present, $slave_type) {
             'slave_secrets::crash_stats_api_token':
                 ensure => absent;
             'slave_secrets::adjust_sdk_token':
+                ensure => absent;
+            'slave_secrets::release_s3_credentials':
                 ensure => absent;
         }
     }
