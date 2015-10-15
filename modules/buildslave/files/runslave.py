@@ -108,8 +108,8 @@ class BuildbotTac:
 
         # first try to guess based on the slave name
         basedir = None
-        if slave_matches('bld-', 'b-', 'try-'):
-            if slave_matches('b-2008'):
+        if slave_matches('bld-', 'b-', 'try-', 'y-'):
+            if slave_matches('b-2008', 'y-2008'):
                 basedir = dirs['windows_build']
             else:
                 basedir = dirs['posix_build']
