@@ -15,22 +15,12 @@
       "*": {
         "user": "ffxbld",
         "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_rsa",
-        "host": "stage.mozilla.org"
+        "host": "upload.ffxbld.productdelivery.prod.mozaws.net"
         },
       "try": {
         "user": "trybld",
         "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/trybld_dsa",
-        "host": "stage.mozilla.org"
-      },
-      "gaia-try": {
-        "user": "trybld",
-        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/trybld_dsa",
-        "host": "stage.mozilla.org"
-      },
-      "shadow-central": {
-        "user": "ffxbld",
-        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_rsa",
-        "host": "pvtbuilds2.dmz.scl3.mozilla.com"
+        "host": "upload.trybld.productdelivery.prod.mozaws.net"
       }
     },
     "fuzzing": {
@@ -40,35 +30,16 @@
         "host": "pvtbuilds2.dmz.scl3.mozilla.com"
       }
     },
-    "xulrunner": {
-      "*": {
-        "user": "xrbld",
-        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/xrbld_dsa",
-        "host": "stage.mozilla.org"
-      }
-    },
     "thunderbird": {
       "*": {
         "user": "tbirdbld",
         "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/tbirdbld_dsa",
-        "host": "stage.mozilla.org"
+        "host": "upload.tbirdbld.productdelivery.prod.mozaws.net"
       },
       "try-comm-central": {
-        "user": "tbirdtry",
+        "user": "trybld",
         "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/trybld_dsa",
-        "host": "stage.mozilla.org"
-      }
-    },
-    "thunderbird-test": {
-      "*": {
-        "user": "tbirdbld",
-        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/tbirdbld_dsa",
-        "host": "stage.mozilla.org"
-      },
-      "try-comm-central": {
-        "user": "tbirdtry",
-        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/trybld_dsa",
-        "host": "stage.mozilla.org"
+        "host": "upload.trybld.productdelivery.prod.mozaws.net"
       }
     }
   }
