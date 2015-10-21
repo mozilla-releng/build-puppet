@@ -178,6 +178,8 @@ class config inherits config::base {
             allowed_branches => "date",
             taskcluster_client_id => secret("releaserunner_dev_taskcluster_client_id"),
             taskcluster_access_token => secret("releaserunner_dev_taskcluster_access_token"),
+            balrog_username => "stage-ffxbld",
+            balrog_password => secret("stage-ffxbld_ldap_password"),
         },
         "prod" => {
             ship_it_root => "https://ship-it.mozilla.org",
@@ -187,6 +189,8 @@ class config inherits config::base {
             allowed_branches => "mozilla-beta,mozilla-release,mozilla-esr,comm-beta,comm-esr",
             taskcluster_client_id => secret("releaserunner_prod_taskcluster_client_id"),
             taskcluster_access_token => secret("releaserunner_prod_taskcluster_access_token"),
+            balrog_username => "ffxbld",
+            balrog_password => secret("ffxbld_ldap_password"),
         }
     }
 
