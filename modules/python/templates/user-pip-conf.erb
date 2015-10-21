@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 [install]
 no-index = true
+disable-pip-version-check = true
 find-links = <%- @user_python_repositories.each do |rep| %>
     <%= rep -%>
 <%- end %>
