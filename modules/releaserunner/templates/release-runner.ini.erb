@@ -33,3 +33,7 @@ access_token: <%= @env_config["taskcluster_access_token"] %>
 [symlinks]
 production_config.py: {buildbot_configs}/mozilla/localconfig.py
 thunderbird_production_config.py: {buildbot_configs}/mozilla/thunderbird_localconfig.py
+
+[balrog]
+username = <%= @env_config["balrog_username"] %>
+password = <%= @env_config["balrog_password"] %>
