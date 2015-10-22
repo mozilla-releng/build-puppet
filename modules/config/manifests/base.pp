@@ -243,9 +243,6 @@ class config::base {
     $releaserunner_ssh_username = ""
     # URL for masters.json, defaulting to $master_json from above
     $releaserunner_production_masters = $master_json
-    # mercurial repository and branch for buildbot-configs
-    $releaserunner_buildbot_configs_branch = "production"
-    $releaserunner_buildbot_configs = "https://hg.mozilla.org/build/buildbot-configs"
     # mercurial repository and branch for buildbotcustom
     $releaserunner_buildbotcustom_branch = "production-0.8"
     $releaserunner_buildbotcustom = "https://hg.mozilla.org/build/buildbotcustom"

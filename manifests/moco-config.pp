@@ -180,6 +180,8 @@ class config inherits config::base {
             taskcluster_access_token => secret("releaserunner_dev_taskcluster_access_token"),
             balrog_username => "stage-ffxbld",
             balrog_password => secret("stage-ffxbld_ldap_password"),
+            releaserunner_buildbot_configs_branch => "default",
+            releaserunner_buildbot_configs => "https://hg.mozilla.org/build/buildbot-configs",
         },
         "prod" => {
             ship_it_root => "https://ship-it.mozilla.org",
@@ -191,6 +193,8 @@ class config inherits config::base {
             taskcluster_access_token => secret("releaserunner_prod_taskcluster_access_token"),
             balrog_username => "ffxbld",
             balrog_password => secret("ffxbld_ldap_password"),
+            releaserunner_buildbot_configs_branch => "production",
+            releaserunner_buildbot_configs => "https://hg.mozilla.org/build/buildbot-configs",
         }
     }
 
