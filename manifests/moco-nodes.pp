@@ -246,7 +246,7 @@ node /mobile-imaging-stage1\.p127\.releng\.scl3\.mozilla\.com/ {
 }
 
 node /mobile-imaging-\d+\.p\d+\.releng\.scl3\.mozilla\.com/ {
-    $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-001/ => true, default => false }
+    $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-004/ => true, default => false }
     include toplevel::server::mozpool
     users::root::extra_authorized_key {
         'mcote': ;
