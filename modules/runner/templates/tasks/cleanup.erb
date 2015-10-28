@@ -12,4 +12,6 @@ if [ $(uname) = "Darwin" ]; then
     rm -fv "${BUILDER_HOME}/Library/Application Support/Firefox/console.log"
 else
     rm -fv "${BUILDER_HOME}/.mozilla/firefox/console.log"
+    # android emulator temp files
+    rm -fvr /tmp/android-cltbld
 fi
