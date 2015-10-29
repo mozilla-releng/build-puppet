@@ -693,6 +693,7 @@ node "buildbot-master91.bb.releng.usw2.mozilla.com" {
     }
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::funsize_scheduler
+    include toplevel::mixin::nightlypromotion
 }
 
 node "buildbot-master94.bb.releng.use1.mozilla.com" {
