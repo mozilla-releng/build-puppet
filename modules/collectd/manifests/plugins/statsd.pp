@@ -18,10 +18,13 @@ class collectd::plugins::statsd {
                       'DeleteTimers true',
                       'DeleteGauges true',
                       'DeleteSets true',
-                      'TimerLower false',
-                      'TimerUpper false',
+                      'TimerLower true',
+                      'TimerUpper true',
                       'TimerSum false',
-                      'TimerCount false', ]
+                      'TimerCount false',
+                      'TimerPercentile 50',
+                      'TimerPercentile 95',
+ ]
         }
         default: {fail("Collectd plugin ${title} is not supported with ${::operatingsystem}")}
     }
