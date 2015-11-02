@@ -21,3 +21,5 @@ s3:
     aws_access_key_id: "<%= scope.function_secret(["funsize_scheduler_aws_access_key_id"]) %>"
     aws_secret_access_key: "<%= scope.function_secret(["funsize_scheduler_aws_secret_access_key"]) %>"
 th_api_root: "<%= scope.lookupvar("config::funsize_scheduler_th_api_root") %>"
+signing:
+    pvt_key: "<%= scope.lookupvar("config::funsize_scheduler_root") %>/id_rsa"
