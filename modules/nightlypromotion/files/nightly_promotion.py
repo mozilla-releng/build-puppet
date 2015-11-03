@@ -4,7 +4,7 @@ import hashlib
 import tempfile
 from mardor.marfile import BZ2MarFile
 import shutil
-import configparser
+import ConfigParser
 from functools import partial
 import os
 import json
@@ -22,7 +22,7 @@ ARIES_CONFIG = dict(namespace='gecko.v2.mozilla-central.latest.b2g.aries-ota-opt
                     locale='en-US',
                     balrog_username='stage-b2gbld',  # TODO - use production username
                     schema_version=4)
-B2GDROID_CONFIG = dict(namespace='gecko.v2.mozilla-central.latest.mobile.android-b2gdroid-opt',
+B2GDROID_CONFIG = dict(namespace='gecko.v2.mozilla-central.latest.mobile.android-api-11-b2gdroid-opt',
                        artifact='public/build/target.apk',
                        product='B2GDroid',
                        branch='mozilla-central',
@@ -65,7 +65,7 @@ def get_info_from_ini(ini_path, archive_path, archive):
 
     try:
         ini = archive.extract(ini_path, tmpdir)
-        conf = configparser.RawConfigParser()
+        conf = ConfigParser.RawConfigParser()
         conf.read([ini])
         if ini_path.filename == 'platform.ini':
             retval['platformVersion'] = conf.get('Build', 'Milestone')
