@@ -451,6 +451,7 @@ class config::base {
     $signingworker_verbose_logging = "true"
     $signingworker_exchange = ""
     $signingworker_worker_type = ""
+    $signingworker_balrog_api_root = "https://aus4-admin.mozilla.org/api"
 
     # Funsize Scheduler configuration
     $funsize_scheduler_root = "/builds/funsize"
