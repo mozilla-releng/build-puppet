@@ -9,7 +9,7 @@ class buildslave::install {
         'buildslave::install::end': ;
     }
 
-    $version = "0.8.4-pre-moz9"
+    $version = "0.8.4-pre-moz10"
 
     $virtualenv_path = $::operatingsystem ? {
         windows => "c:\\mozilla-build\\buildbotve",
