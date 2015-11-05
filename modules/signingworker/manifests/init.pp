@@ -8,15 +8,11 @@ class signingworker {
     include tweaks::swap_on_instance_storage
     include packages::gcc
     include packages::make
-    include packages::libffi
 
     python::virtualenv {
         "${signingworker::settings::root}":
             python   => "${packages::mozilla::python27::python}",
-            require  => [
-                Class["packages::mozilla::python27"],
-                Class["packages::libffi"],
-            ],
+            require  => Class["packages::mozilla::python27"],
             user     => "${users::builder::username}",
             group    => "${users::builder::group}",
             packages => [
@@ -36,15 +32,10 @@ class signingworker {
                  "redo==1.4.1",
                  "requests==2.4.3",
                  "sh==1.11",
-                 "signingworker==0.9balrog3",
+                 "signingworker==0.9",
                  "six==1.9.0",
                  "taskcluster==0.0.16",
                  "wsgiref==0.1.2",
-                 "cffi==1.3.0",
-                 "cryptography==0.6",
-                 "mar==1.2",
-                 "boto==2.27.0",
-                 "pycparser==2.13",
            ];
     }
 
