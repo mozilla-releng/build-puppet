@@ -3,5 +3,14 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class disableservices::server inherits disableservices::common {
     # This class disables unnecessary services on the server
-
+    case $::operatingsystem {
+        Darwin : {
+            service {
+                # coreaudiod
+                'com.apple.audio.coreaudiod':
+                    enable => false,
+                    ensure => stopped,
+            }
+        }
+    }
 }
