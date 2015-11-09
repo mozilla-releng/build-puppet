@@ -23,6 +23,7 @@ class nightlypromotion {
                 "mar==1.2",
                 "requests==2.8.1",
                 "wsgiref==0.1.2",
+                "boto==2.27.0",
                 "argparse==1.2.1"
             ];
     }
@@ -37,5 +38,11 @@ class nightlypromotion {
             require => File["${nightlypromotion::settings::script}"],
             content => template("nightlypromotion/run_nightlypromotion.cron.erb"),
             owner  => root;
+        "$nightlypromotion::settings::aws_authfile":
+            mode      => 0600,
+            owner     => $user,
+            group     => $group,
+            show_diff => false,
+            content   => template("nightlypromotion/aws-secrets.json.erb");
     }
 }

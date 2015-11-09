@@ -7,10 +7,13 @@ import shutil
 import ConfigParser
 from functools import partial
 import os
+import sys
 import json
 from zipfile import ZipFile
 import logging
 from argparse import ArgumentParser
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 log = logging.getLogger(__name__)
 
 CONFIGS = []
@@ -21,6 +24,8 @@ ARIES_CONFIG = dict(namespace='gecko.v2.mozilla-central.latest.b2g.aries-ota-opt
                     platform='aries',
                     locale='en-US',
                     balrog_username='stage-b2gbld',  # TODO - use production username
+                    bucket='TODO-bucket',
+                    key_base='TODO-key',
                     schema_version=4)
 B2GDROID_CONFIG = dict(namespace='gecko.v2.mozilla-central.latest.mobile.android-api-11-b2gdroid-opt',
                        artifact='public/build/target.apk',
@@ -30,6 +35,8 @@ B2GDROID_CONFIG = dict(namespace='gecko.v2.mozilla-central.latest.mobile.android
                        platform='Android_arm-eabi-gcc3',
                        locale='en-US',
                        balrog_username='ffxbld',
+                       bucket='mozilla-releng-nightly-promotion-mozilla-central-b2gdroid',
+                       key_base='B2GDroid-mozilla-central-nightly',
                        schema_version=4)
 
 # TODO - append aries config
@@ -100,7 +107,7 @@ def get_apk_info(archive_path):
     return retval
 
 
-def get_file_info(url):
+def upload_to_s3_and_get_info(url, s3, bucket, key_base, auth_file):
     s = 0
     r = requests.get(url, stream=True)
     expected_size = int(r.headers['Content-Length'])
@@ -111,14 +118,22 @@ def get_file_info(url):
         tmp.flush()
         assert expected_size == s
 
+        info = {}
+        keys = []
         if url.endswith(".mar"):
             info = get_mar_info(tmp.name)
-            info['completes'][0]['fileUrl'] = url
-            return info
+            for suffix in [info['buildID'], 'latest']:
+                keys.append("{}-{}.mar".format(key_base, suffix))
         elif url.endswith(".apk"):
             info = get_apk_info(tmp.name)
-            info['completes'][0]['fileUrl'] = url
-            return info
+            for suffix in [info['buildID'], 'latest']:
+                keys.append("{}-{}.apk".format(key_base, suffix))
+
+        s3_url = s3.upload_to_s3(bucket=bucket, keys=keys, fp=tmp,
+                                 auth_file=auth_file)
+        info['completes'][0]['fileUrl'] = s3_url
+
+        return info
 
 
 class TCIndex:
@@ -128,6 +143,32 @@ class TCIndex:
         url = '{}/task/{}/artifacts/{}'.format(self.api_root, namespace, filename)
         return requests.get(url, allow_redirects=False).headers['Location']
 
+class AWSS3:
+    auth = ()
+
+    def get_auth(self, auth_file):
+        if self.auth:
+            return self.auth
+        auth = load_json(auth_file)
+        self.auth = auth["aws_id"], auth["aws_key"]
+        return self.auth
+
+    def upload_to_s3(self, bucket, keys, fp, auth_file):
+        c = S3Connection(*self.get_auth(auth_file))
+        file_url = None
+        try:
+            for key in keys:
+                k = Key(c.get_bucket(bucket))
+                k.key = key
+                k.set_contents_from_file(fp, rewind=True)  # rewind fp back to start of file
+                if 'latest' not in key:
+                    # we want to point balrog to specific releases not the nightly.m.o latest link
+                    file_url = k.generate_url(expires_in=0, query_auth=False)
+            return file_url
+        except Exception:
+            log.exception('could not upload {} keys to s3'.format(str(keys)))
+            raise
+
 
 class Balrog:
     auth = ()
@@ -135,11 +176,6 @@ class Balrog:
     def get_auth(self, username, auth_file=None):
         if self.auth:
             return self.auth
-
-        if not os.path.exists(auth_file):
-            log.error(
-                'Could not determine path to balrog credentials. Does "{}" exist?'.format(auth_file)
-            )
 
         credentials = {}
         execfile(auth_file, credentials)
@@ -180,9 +216,7 @@ class Balrog:
         resp.raise_for_status()
 
 
-def load_cache(filename=None):
-    if not filename:
-        filename = 'cache.json'
+def load_json(filename):
     try:
         return json.load(open(filename))
     except IOError:
@@ -201,9 +235,10 @@ def main(args):
                         filename=args.log_file)
     balrog = Balrog()
     index = TCIndex()
+    s3 = AWSS3()
 
     log.info('loading cache')
-    cache = load_cache(filename=args.cache_file)
+    cache = load_json(filename=args.cache_file)
     log.debug('cache: %s', cache)
 
     for c in CONFIGS:
@@ -220,7 +255,7 @@ def main(args):
             continue
         cache[cache_key] = url
         log.info('downloading...')
-        info = get_file_info(url)
+        info = upload_to_s3_and_get_info(url, s3, c['bucket'], c['key_base'], args.aws_auth_file)
 
         log.info('updating balrog: %s', info)
         # submit this release then update 'latest' channel to point to it
@@ -230,7 +265,7 @@ def main(args):
             )
             try:
                 balrog.update_release(c['product'], c['schema_version'], api, info,
-                                      c['balrog_username'], args.auth_file, args.ca_cert)
+                                      c['balrog_username'], args.balrog_auth_file, args.ca_cert)
             except Exception:
                 log.exception('could not submit release blob to: {}'.format(api))
                 raise
@@ -239,17 +274,25 @@ def main(args):
     log.debug('cache: %s', cache)
     save_cache(cache, args.cache_file)
 
+def validate_args(args):
+    for path in [args.balrog_auth_file, args.aws_auth_file, args.ca_cert]:
+        if not os.path.exists(path):
+            print 'Could not determine path to required arg. Does "{}" exist?'.format(path)
+            sys.exit(2)
+
 if __name__ == '__main__':
     parser = ArgumentParser(description='Looks for latest completed continuous integration '
                                         'build from a product and promotes it to a nightly by '
                                         'submitting build info to update server, Balrog')
-    parser.add_argument('auth_file', help='path to update server credentials')
+    parser.add_argument('balrog_auth_file', help='path to update server credentials')
+    parser.add_argument('aws_auth_file', help='path to update server credentials')
     parser.add_argument('ca_cert', help='path to ca_cert')
     parser.add_argument('--log-file', help='path of log file', default='nightly-promotion.log')
     parser.add_argument('--cache-file', help='path to cache of most recently promoted '
                                              'continuous integration taskcluster job',
                         default='cache.json')
     args = parser.parse_args()
+    validate_args(args)
 
     main(args)
 

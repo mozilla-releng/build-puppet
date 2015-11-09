@@ -9,6 +9,7 @@ class nightlypromotion::settings {
     $script = "${root}/nightly_promotion.py"
     $logfile = "${root}/nightly-promotion.log"
     $cachefile = "${root}/cache.json"
-    $authfile = "${buildmaster::settings::master_root}/build1/master/BuildSlaves.py"
+    $balrog_authfile = "${buildmaster::settings::master_root}/build1/master/BuildSlaves.py"
+    $aws_authfile = "${root}/aws-secrets.json"
     $cacert = "${buildmaster::settings::master_root}/build1/tools/misc/certs/ca-bundle.crt"
 }
