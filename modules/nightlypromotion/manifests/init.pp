@@ -40,8 +40,7 @@ class nightlypromotion {
             owner  => root;
         "$nightlypromotion::settings::aws_authfile":
             mode      => 0600,
-            owner     => $user,
-            group     => $group,
+            owner     => $nightlypromotion_user,
             show_diff => false,
             content   => template("nightlypromotion/aws-secrets.json.erb");
     }
