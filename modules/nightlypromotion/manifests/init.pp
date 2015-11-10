@@ -34,10 +34,6 @@ class nightlypromotion {
             owner   => "$nightlypromotion_user",
             source  => 'puppet:///modules/nightlypromotion/nightly_promotion.py';
 
-        "/etc/cron.d/run_nightly_promotion":
-            require => File["${nightlypromotion::settings::script}"],
-            content => template("nightlypromotion/run_nightlypromotion.cron.erb"),
-            owner  => root;
         "$nightlypromotion::settings::aws_authfile":
             mode      => 0600,
             owner     => $nightlypromotion_user,
