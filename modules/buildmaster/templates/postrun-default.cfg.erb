@@ -23,18 +23,6 @@
         "host": "upload.trybld.productdelivery.prod.mozaws.net"
       }
     },
-    "b2g": {
-      "*": {
-        "user": "ffxbld",
-        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/ffxbld_rsa",
-        "host": "stage.mozilla.org"
-        },
-      "try": {
-        "user": "trybld",
-        "sshkey": "<%=scope.lookupvar('users::builder::home')%>/.ssh/trybld_dsa",
-        "host": "stage.mozilla.org"
-      }
-    },
     "fuzzing": {
       "*": {
         "user": "ffxbld",
