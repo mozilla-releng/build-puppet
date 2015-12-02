@@ -1016,6 +1016,28 @@ node "buildbot-master127.bb.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
+node "buildbot-master128.bb.releng.use1.mozilla.com" {
+    $node_security_level = 'high'
+    buildmaster::buildbot_master::mozilla {
+        "bm128-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master129.bb.releng.usw2.mozilla.com" {
+    $node_security_level = 'high'
+    buildmaster::buildbot_master::mozilla {
+        "bm129-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
 node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
     $is_log_aggregator_host = "true"
     include toplevel::server::log_aggregator
