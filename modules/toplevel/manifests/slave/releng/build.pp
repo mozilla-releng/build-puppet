@@ -14,6 +14,7 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
 
     if ($::operatingsystem == Windows) {
         include tweaks::vs_2013_lnk
+        include tweaks::windows_sendchange_hack
         # Both Releng Windows testers and builders use UltraVNC
         include vnc
     }
@@ -38,6 +39,16 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
     include packages::mozilla::gittool
     include packages::mozilla::retry
     include packages::patch
+
+    # The runner purge_build target for Windows is set to 35 GB
+    # This is to ensure there is enough space for PGO builds
+    # Ref: https://bugzilla.mozilla.org/show_bug.cgi?id=1227390
+    if ($::operatingsystem == Windows) {
+        class {
+            'runner::tasks::purge_builds':
+                required_space => 35;
+        }
+    }
 
     if ($::operatingsystem != Windows) {
         include packages::mozilla::py27_virtualenv

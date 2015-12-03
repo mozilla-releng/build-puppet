@@ -27,6 +27,7 @@ class slave_secrets::crash_stats_api_token($ensure=present) {
                         permissions => [
                             { identity => 'root', rights => ['full'] },
                             { identity => 'SYSTEM', rights => ['full'] },
+                            { identity => 'cltbld', rights => ['full'] },
                         ];
                 }
             }

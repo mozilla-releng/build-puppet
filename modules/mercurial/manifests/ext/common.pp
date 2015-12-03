@@ -5,10 +5,18 @@ class mercurial::ext::common {
     include mercurial::settings
     include packages::mozilla::py27_mercurial
 
+    $owner = $::operatingsystem ? {
+        Windows => undef,
+        default => "root"
+    }
+    $mode = $::operatingsystem ? {
+        Windows => undef,
+        default => "0755"
+    }
     file {
         $mercurial::settings::hgext_dir:
             ensure => directory,
-            owner => root,
-            mode => 0755;
+            owner  => $owner,
+            mode   => $mode;
     }
 }

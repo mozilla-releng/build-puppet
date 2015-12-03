@@ -5,10 +5,30 @@
 class runner::tasks::purge_builds($runlevel=1, $required_space=10) {
     # Requires tools checked out
     include runner
-    include runner::tasks::checkout_tools
+    if ($::operatingsystem != Windows) {
+        include runner::tasks::checkout_tools
+    }
 
-    runner::task {
-        "${runlevel}-purge_builds":
-            content  => template("${module_name}/tasks/purge_builds.erb");
+    case $::operatingsystem {
+        'Windows': {
+            include packages::mozilla::mozilla_build
+            runner::task {
+                "${runlevel}-purge_builds.bat":
+                    content  => template("${module_name}/tasks/purge_builds.bat.erb");
+            }
+            exec {
+                "get_purge_builds.py" :
+                    command => "C:\\mozilla-build\\wget\\wget.exe  http://hg.mozilla.org/build/tools/raw-file/tip/buildfarm/maintenance/purge_builds.py",
+                    cwd     => "C:\\opt",
+                    creates => "C:\\opt\\purge_builds.py",
+                    require => Class["packages::mozilla::mozilla_build"];
+            }
+        }
+        default: {
+            runner::task {
+                "${runlevel}-purge_builds":
+                    content  => template("${module_name}/tasks/purge_builds.erb");
+            }
+        }
     }
 }

@@ -27,6 +27,7 @@ class slave_secrets::google_oauth_api_key($ensure=present) {
                         permissions => [
                             { identity => 'root', rights => ['full'] },
                             { identity => 'SYSTEM', rights => ['full'] },
+                            { identity => 'cltbld', rights => ['full'] },
                         ];
                 }
             }

@@ -8,4 +8,16 @@ class mercurial::ext::bundleclone {
         "$mercurial::settings::hgext_dir/bundleclone.py":
             source => "puppet:///modules/mercurial/bundleclone.py";
     }
+    if ($::operatingsystem == Windows) {
+        acl {
+            "$mercurial::settings::hgext_dir/bundleclone.py":
+                purge => true,
+                inherit_parent_permissions => false,
+                permissions => [
+                    { identity => 'root', rights => ['full'] },
+                    { identity => 'SYSTEM', rights => ['full'] },
+                    { identity => 'cltbld', rights => ['full'] },
+                ];
+        }
+    }
 }

@@ -41,7 +41,13 @@ class packages::mozilla::mozilla_build {
     # Remove the old HG directories. This is under the assumption that MozillaBuild version is pre 2.0.
     exec {
         "remove_old_hg" :
-            command     => 'C:\Windows\system32\cmd.exe rmdir /S /Q C:\mozilla-build\hg',
+            command     => "C:\\mozilla-build\\msys\\bin\\rm.exe -f -r  /S /Q C:\\mozilla-build\\hg",
+            subscribe   => Exec["MozillaBuildSetup-$version"],
+            refreshonly => true
+    }
+    exec {
+        "remove_old_yasm" :
+            command     => "C:\\mozilla-build\\msys\\bin\\rm.exe -f C:\\mozilla-build\\yasm\\yasm.exe",
             subscribe   => Exec["MozillaBuildSetup-$version"],
             refreshonly => true
     }     

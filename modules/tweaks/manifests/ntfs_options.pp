@@ -19,4 +19,8 @@ class tweaks::ntfs_options {
         key    => 'HKLM\SYSTEM\CurrentControlSet\Control\FileSystem',
         data   => '1',
     }
+    registry::value { 'NtfsMemoryUsage':
+        key    => 'HKLM\SYSTEM\CurrentControlSet\Control\FileSystem',
+        data   => '2',
+    }
 }
