@@ -4,7 +4,15 @@ for i in commands pulse
 do
     for f in /dev/shm/queue/${i}/dead/*
     do
-        find /dev/shm/queue/${i}/dead/ -iname "*.log" -delete
+        find /dev/shm/queue/${i}/dead/ -iname "*.log" |
+        while read line 
+            do 
+                egrep "error|ERROR|Error" "$line"
+                if  [ $? -eq 0 ]; then 
+                    echo "ERROR has been found on the log file on $(hostname)"
+                fi 
+                rm -rf "$line" 
+        done
         if ! [ $? -eq 0 ]; then
             echo "ERROR: Unable to remove the log files on $(hostname)"
         fi
