@@ -18,12 +18,11 @@ import socket
 import tarfile
 
 SUPPORTED_HOSTNAME_PREFIXES = ["bld-linux64", "try-linux64"]
-JACUZZI_ALLOCATOR_URL = "http://jacuzzi-allocator.pub.build.mozilla.org/v1"
 
 DIRS = {
     "/builds/git-shared/repo": {
         "regex": "^b2g",
-        "deploy_to_unallocated_slaves": True,
+        "deploy_to_prod_slaves": True,
         "deploy_to_try_slaves": True,
         "buckets": {
             "us-east-1": "mozilla-releng-tarballs-use1",
@@ -34,7 +33,7 @@ DIRS = {
     },
     "/builds/hg-shared/integration/mozilla-inbound/.hg": {
         "regex": "mozilla-inbound",
-        "deploy_to_unallocated_slaves": True,
+        "deploy_to_prod_slaves": True,
         "deploy_to_try_slaves": False,
         "buckets": {
             "us-east-1": "mozilla-releng-tarballs-use1",
@@ -45,7 +44,7 @@ DIRS = {
     },
     "/builds/hg-shared/mozilla-central/.hg": {
         "regex": "mozilla-central",
-        "deploy_to_unallocated_slaves": False,
+        "deploy_to_prod_slaves": True,
         "deploy_to_try_slaves": False,
         "buckets": {
             "us-east-1": "mozilla-releng-tarballs-use1",
@@ -56,7 +55,7 @@ DIRS = {
     },
     "/builds/hg-shared/integration/b2g-inbound/.hg": {
         "regex": "b2g-inbound",
-        "deploy_to_unallocated_slaves": False,
+        "deploy_to_prod_slaves": False,
         "deploy_to_try_slaves": False,
         "buckets": {
             "us-east-1": "mozilla-releng-tarballs-use1",
@@ -66,7 +65,7 @@ DIRS = {
         "key": "b2g-inbound.tar"
     },
     "/builds/hg-shared/try/.hg": {
-        "deploy_to_unallocated_slaves": False,
+        "deploy_to_prod_slaves": False,
         "deploy_to_try_slaves": True,
         "buckets": {
             "us-east-1": "mozilla-releng-tarballs-use1",
@@ -96,33 +95,13 @@ def get_availability_zone():
     return az
 
 
-def get_allocated_builders(hostname):
-    url = "{h}/machines/{n}".format(h=JACUZZI_ALLOCATOR_URL, n=hostname)
-    builders = None
-    try:
-        r = requests.get(url, timeout=30).json()
-        builders = r.get("builders")
-    except:
-        pass
-    return builders
-
-
-def get_prepopulated_dirs(builders=None, is_try=False):
+def get_prepopulated_dirs(is_try=False):
     dirs = {}
     for target_dir, info in DIRS.iteritems():
-        if builders is None:
-            if (info["deploy_to_unallocated_slaves"] and not is_try) or \
-                    (info["deploy_to_try_slaves"] and is_try):
-                log.info("To deploy: %s", target_dir)
-                dirs[target_dir] = info
-        else:
-            if not info.get("regex"):
-                log.info("Ignoring %s without 'regex' set", target_dir)
-                continue
-            regex = re.compile(info["regex"])
-            if any(regex.search(b) for b in builders):
-                log.info("To deploy: %s", target_dir)
-                dirs[target_dir] = info
+        if (info["deploy_to_prod_slaves"] and not is_try) or \
+                (info["deploy_to_try_slaves"] and is_try):
+            log.info("To deploy: %s", target_dir)
+            dirs[target_dir] = info
 
     az = get_availability_zone()
     for target_dir, info in dirs.iteritems():
@@ -197,15 +176,9 @@ def main():
         dirs = get_prepopulated_dirs(is_try=True)
         deploy(dirs)
     else:
-        builders = get_allocated_builders(hostname)
-        if builders:
-            log.info("Jacuzzied slave detected")
-            dirs = get_prepopulated_dirs(builders=builders, is_try=False)
-            deploy(dirs)
-        else:
-            log.info("Non allocated slave detected")
-            dirs = get_prepopulated_dirs(builders=None, is_try=False)
-            deploy(dirs)
+        log.info("Prod slave detected")
+        dirs = get_prepopulated_dirs(builders=None, is_try=False)
+        deploy(dirs)
 
 if __name__ == "__main__":
     try:
