@@ -45,7 +45,7 @@ class releaserunner {
                 "paramiko==1.9.0",
                 "pycrypto==2.6",
                 "python-dateutil==1.5",
-                "releasetasks==0.3.2",
+                "releasetasks==0.3.3",
                 "requests==2.6.0",
                 "simplejson==2.6.2",
                 "singledispatch==3.4.0.3",
