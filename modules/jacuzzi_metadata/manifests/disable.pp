@@ -7,9 +7,13 @@ class jacuzzi_metadata::disable {
         "/usr/local/bin/jacuzzi_metadata.py":
             ensure => absent;
     }
-    service {
-        "jacuzzi_metadata":
-            ensure => stopped,
-            enable => false;
+    case ::$operatingsystem {
+        Ubuntu, CentOS: {
+            service {
+                "jacuzzi_metadata":
+                    ensure => stopped,
+                    enable => false;
+            }
+        }
     }
 }
