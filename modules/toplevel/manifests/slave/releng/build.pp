@@ -42,7 +42,7 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
     if ($::operatingsystem != Windows) {
         include packages::mozilla::py27_virtualenv
 
-        include jacuzzi_metadata
+        include jacuzzi_metadata::disable
         include aws::instance_storage
 
         ccache::ccache_dir {
