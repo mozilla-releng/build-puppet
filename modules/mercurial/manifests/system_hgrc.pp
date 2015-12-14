@@ -5,20 +5,25 @@ class mercurial::system_hgrc {
     include mercurial::settings
 
     $group = $::operatingsystem ? {
-        Darwin => wheel,
+        Darwin  => wheel,
+        Windows => undef,
+        default => root
+    }
+    $owner =  $::operatingsystem ? {
+        Windows => undef,
         default => root
     }
 
     file {
         $mercurial::settings::hgrc_parentdirs:
             ensure => directory,
-            owner => "root",
+            owner => $owner,
             group => $group;
     }
 
     mercurial::hgrc {
         "$mercurial::settings::hgrc":
-            owner => "root",
+            owner => $owner,
             group => $group;
     }
 }

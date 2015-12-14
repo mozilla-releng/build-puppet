@@ -4,11 +4,22 @@
 define mercurial::hgrc($path=$title, $owner, $group)  {
     include mercurial::settings
 
-    file {
-        $path:
-            mode => filemode(0644),
-            owner => $owner,
-            group => $group,
-            content => template("mercurial/hgrc.erb");
+    case $::operatingsystem {
+        # Keeping the two templates separate due to the high quantity of noise in the mercurial.ini
+        'Windows': {
+            file {
+                "$settings::hgrc_parentdirs\\mercurial.ini":
+                    content => template("mercurial/mercurial.ini.erb");
+            }
+        }
+        default: {
+            file {
+                $path:
+                    mode => filemode(0644),
+                    owner => $owner,
+                    group => $group,
+                    content => template("mercurial/hgrc.erb");
+            }
+        }
     }
 }

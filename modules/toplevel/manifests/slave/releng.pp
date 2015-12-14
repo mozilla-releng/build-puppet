@@ -31,6 +31,7 @@ class toplevel::slave::releng inherits toplevel::slave {
         include packages::psutil
         include packages::pywin32
         include packages::mapi_headers
+        include packages::yasm
         include fw::windows_exceptions
         include fw::windows_settings
         include hardware::ec2_config

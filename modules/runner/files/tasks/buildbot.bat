@@ -20,7 +20,7 @@ SET IDLEIZER_HALT_ON_IDLE=true
 cd "%USERPROFILE%"
 
 :start
-echo "%date% %time% - About to run runner.py"
+echo "%date% %time% - About to run runslave.py"
 
 REM running this via 'bash' is critical - bash adds a bunch of items to PATH
 REM which the build steps expect to find.  We pass the --twistd-cmd pointing

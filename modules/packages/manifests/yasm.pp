@@ -15,6 +15,15 @@ class packages::yasm {
                     version => "1.1.0";
             } -> Anchor['packages::yasm::end']
         }
+        Windows: {
+            include packages::mozilla::mozilla_build
+            file {
+                "C:/mozilla-build/yasm/yasm.exe":
+                    ensure  => file,
+                    source  => "puppet:///repos/EXEs/yasm-1.3.0-win64.exe",
+                    require => Exec["remove_old_yasm"],
+            }
+        }    
         default: {
             fail("cannot install on $::operatingsystem")
         }
