@@ -19,11 +19,11 @@ define python::virtualenv($python, $ensure="present", $packages=null, $user=null
     # Figure out user/group if they haven't been set
     # User and Group attributes are not support by Windows when using the exec resource
     case $::operatingsystem {
-        Windows: {  
+        Windows: {
             $ve_user = undef
             $ve_group = undef
-        } 
-        default: {   
+        }
+        default: {
             case $user {
                 null: {
                     $ve_user = "root"

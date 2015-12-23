@@ -4,7 +4,7 @@
 class ntp::atboot {
     include config
 
-    $ntpservers = $config::ntp_servers 
+    $ntpservers = $config::ntp_servers
 
     case $::operatingsystem {
         CentOS, Darwin: {

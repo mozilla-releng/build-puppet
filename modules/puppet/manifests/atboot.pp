@@ -27,7 +27,7 @@ class puppet::atboot {
         default: {
             $puppetmasters_txt = "${dirs::etc::dir}/puppet/puppetmasters.txt"
         }
-    }   
+    }
 
     # install the list of puppetmaster mirrors
     file {

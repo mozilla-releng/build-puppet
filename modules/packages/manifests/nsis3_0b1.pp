@@ -6,7 +6,7 @@
 # It is repackaged into a zip file due to the source package did not accept command line arguments
 
 class packages::nsis3_0b1 {
-    include packages::mozilla::mozilla_build 
+    include packages::mozilla::mozilla_build
 
     packages::pkgzip {"nsis-3.0b1.zip":
         require    => Class[packages::mozilla::mozilla_build],

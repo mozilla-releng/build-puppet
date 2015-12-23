@@ -14,12 +14,12 @@ class tweaks::windows_network_opt_registry {
     $MemManagement   = 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management'
     $MSMQParameters  = 'HKLM\SOFTWARE\Microsoft\MSMQ\Parameters'
     $DNSParameters   = 'HKLM\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters'
-    $Pshed           = 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Psched'  
+    $Pshed           = 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Psched'
     $SystemProfile   = 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile'
     $IP6Parameters   = 'HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters'
 
     case $env_os_version {
-        2008: { 
+        2008: {
             registry::value { "DnsPriority" :
                 key  => $ServiceProvider,
                 type => dword,
@@ -77,7 +77,7 @@ class tweaks::windows_network_opt_registry {
             }
             registry::value { "explorer.exe_01" :
                 key   => $FeatureMAX,
-                value => "explorer.exe", 
+                value => "explorer.exe",
                 type  => dword,
                 data  => '16',
             }

@@ -7,4 +7,4 @@ class hardware::hddoff {
     shared::execonce { "hddoff":
         command => '"C:\Windows\System32\powercfg.exe" /change disk-timeout-ac 0'
     }
-}  
+}

@@ -17,10 +17,10 @@ class tweaks::windows_network_opt_netsh {
     $ErrorCheck  = "If %errorlevel% neq 0 echo %netcmd%$failed>>$netsh_log\n"
     $QuotedLAC   = '"Local Area Connection"'
     $QuotedLAC_2 = '"Local Area Connection 2"'
-    $NetTwBat    = "c:\\etc\\network_tweak.bat"    
+    $NetTwBat    = "c:\\etc\\network_tweak.bat"
 
     case $env_os_version {
-        2008: { 
+        2008: {
             concat { "$NetTwBat":
             }
             concat::fragment  { "network_tweak_bat_header" :
@@ -104,7 +104,7 @@ class tweaks::windows_network_opt_netsh {
                 command      => '"C:\Windows\system32\schtasks.exe" /Run /TN SchTsk_netsh',
                 require      => [Concat::Fragment["global_dca"],
                                 Exec["SchTsk_netsh"]
-                                ],   
+                                ],
                 subscribe   => Concat["$NetTwBat"],
                 refreshonly => true,
             }

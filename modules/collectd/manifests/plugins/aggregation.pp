@@ -18,7 +18,7 @@ class collectd::plugins::aggregation {
                       'GroupBy "Host"',
                       'GroupBy "TypeInstance"',
                       'CalculateSum true',
-                      'CalculateAverage true', 
+                      'CalculateAverage true',
                       '</Aggregation>',]
         }
         'Darwin': {

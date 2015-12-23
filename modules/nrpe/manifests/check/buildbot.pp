@@ -11,6 +11,6 @@ class nrpe::check::buildbot {
             # line.  Different OS's show different things for the command name
             # (twistd, python, python2.7, etc.), so don't use -C
             cfg => "$plugins_dir/check_procs -w 1:1 --argument-array=buildbot.tac",
-            nsclient_cfg => "check_buildbot=inject CheckProcState ShowAll python.exe=started"; 
+            nsclient_cfg => "check_buildbot=inject CheckProcState ShowAll python.exe=started";
     }
 }
