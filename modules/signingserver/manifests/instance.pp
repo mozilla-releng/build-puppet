@@ -130,15 +130,15 @@ define signingserver::instance(
     }
 
     file {
-        [$signed_dir,
-         $unsigned_dir,
-         $secrets_dir,
-         $signcode_keydir,
-         $sha2signcode_keydir,
-         $gpg_homedir,
-         $mar_keydir,
-         $dmg_keydir,
-         $server_certdir]:
+        [ $signed_dir,
+          $unsigned_dir,
+          $secrets_dir,
+          $signcode_keydir,
+          $sha2signcode_keydir,
+          $gpg_homedir,
+          $mar_keydir,
+          $dmg_keydir,
+          $server_certdir]:
             ensure => directory,
             owner => $user,
             group => $group,

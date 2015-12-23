@@ -6,10 +6,11 @@ class rsyslog {
 
     case $::operatingsystem {
         CentOS,Ubuntu: {
-            service { "rsyslog":
-               require => Class["packages::rsyslog"],
-               ensure => running,
-               enable => true;
+            service {
+              "rsyslog":
+                require => Class["packages::rsyslog"],
+                ensure => running,
+                enable => true;
             }
             file {
                 "/etc/rsyslog.conf":

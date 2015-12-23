@@ -29,8 +29,8 @@ class users::builder {
             if ($::macosx_productversion_major == "10.10") {
                 exec {
                     "enable-DevToolsSecurity" :
-                         command => "/usr/sbin/DevToolsSecurity -enable",
-                         refreshonly => true ;
+                        command => "/usr/sbin/DevToolsSecurity -enable",
+                        refreshonly => true ;
                 }
                 file {
                     "/var/lib/puppet/.DevToolsSecurity-enabled" :

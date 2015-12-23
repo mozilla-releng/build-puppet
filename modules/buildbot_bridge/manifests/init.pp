@@ -38,6 +38,6 @@ class buildbot_bridge {
                 "jsonschema==2.4.0",
                 "slugid==1.0.6",
                 "bbb==${bbb_version}",
-           ];
+            ];
     }
 }

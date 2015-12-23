@@ -9,7 +9,7 @@ class tweaks::windows_network_opt_netsh {
     # To work around this the commands are being concated into bat file and then executed through a Scheduled task 
     # For additional info ref: https://bugzilla.mozilla.org/show_bug.cgi?id=1165567
     include dirs::etc
-   
+
     $netsh_log   = "C:\\ProgramData\\PuppetLabs\\puppet\\var\\log\\netsh_error.log"
     $set_netsh   = 'set netcmd=C:\windows\System32\netsh.exe'
     $run_netsh   = "\n %netcmd%\n"

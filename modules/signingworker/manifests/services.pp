@@ -7,9 +7,9 @@ class signingworker::services {
         "signingworker":
             command      => "${signingworker::settings::root}/bin/signing-worker --admin.conf ${signingworker::settings::root}/config.json",
             user         => $::config::builder_username,
-            require      => [File["${signingworker::settings::root}/config.json"],
-                             File["${signingworker::settings::root}/passwords.json"],
-                             Mercurial::Repo["signingworker-tools"]],
+            require      => [ File["${signingworker::settings::root}/config.json"],
+                              File["${signingworker::settings::root}/passwords.json"],
+                              Mercurial::Repo["signingworker-tools"]],
             extra_config => template("${module_name}/supervisor_config.erb");
     }
     exec {

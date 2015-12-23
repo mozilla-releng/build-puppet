@@ -84,13 +84,13 @@ class foopy {
     # Obsolete
     file {
         # Bug 875599: these files should no longer exist
-        ["/builds/start_cp.sh",
-         "/builds/stop_cp.sh",
-         "/builds/check.sh",
-         "/builds/tegra_status.txt",
-         "/builds/check.log",
-         "/builds/check2.log",
-         "/builds/tegra_stats.log"]:
-            ensure => absent;
+        [ "/builds/start_cp.sh",
+          "/builds/stop_cp.sh",
+          "/builds/check.sh",
+          "/builds/tegra_status.txt",
+          "/builds/check.log",
+          "/builds/check2.log",
+          "/builds/tegra_stats.log"]:
+              ensure => absent;
     }
 }

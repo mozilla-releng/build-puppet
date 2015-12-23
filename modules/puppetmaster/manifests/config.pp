@@ -17,7 +17,7 @@ class puppetmaster::config {
             source => "puppet:///modules/puppetmaster/fileserver.conf";
         "/etc/puppet/tagmail.conf":
             content => template("puppetmaster/tagmail.conf.erb");
-         "/var/lib/puppet/reports":
+        "/var/lib/puppet/reports":
             require => Class["puppet"],
             ensure => directory,
             mode => 750,

@@ -24,7 +24,7 @@ class tweaks::windows_sendchange_hack {
     }
     file {
         'C:\mozilla-build\python27\Lib\site-packages\twisted':
-           require => Class["buildslave::install"],
+            require => Class["buildslave::install"],
             ensure => directory,
             recurse => true,
             source => "C:\\mozilla-build\\buildbotve\\Lib\\site-packages\\twisted",

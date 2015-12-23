@@ -35,8 +35,8 @@ class packages::mozilla::mozilla_build {
             command => "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\MozillaBuildSetup-$version.exe /S",
             creates => "$moz_bld_dir\\version",
             require => [Exec ["check_version"],
-                            File["C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/MozillaBuildSetup-$version.exe"]
-                       ];
+                        File["C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/MozillaBuildSetup-$version.exe"]
+                        ];
     }
     # Remove the old HG directories. This is under the assumption that MozillaBuild version is pre 2.0.
     exec {

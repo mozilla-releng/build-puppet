@@ -7,7 +7,7 @@ class dirs::tools {
         Windows: {
             file {
                 "C:/tools":
-                     ensure => directory;
+                    ensure => directory;
             }
         }
         default: {
