@@ -37,3 +37,6 @@ thunderbird_production_config.py: {buildbot_configs}/mozilla/thunderbird_localco
 [balrog]
 username = <%= @env_config["balrog_username"] %>
 password = <%= @env_config["balrog_password"] %>
+
+[signing]
+pvt_key = <%= scope.lookupvar("config::releaserunner_root") %>/id_rsa
