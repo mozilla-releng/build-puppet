@@ -7,7 +7,7 @@ class disableservices::user($username, $group, $home) {
     case $::operatingsystem {
         Darwin : {
             osxutils::defaults {
-                '${username}-disablescreensaver':
+                "${username}-disablescreensaver":
                     domain => "${home}/Library/Preferences/ByHost/com.apple.screensaver.$sp_platform_uuid",
                     key => "idleTime",
                     value => "0";
