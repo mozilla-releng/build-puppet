@@ -40,15 +40,18 @@ class releaserunner {
                 "chunkify==1.1",
                 "cryptography==0.6",
                 "decorator==3.4.0",
+                "ecdsa==0.10",
                 "enum34==1.0.4",
                 "oauth2==1.5.211",
                 "paramiko==1.9.0",
-                "pycrypto==2.6",
+                "pycrypto==2.6.1",
                 "python-dateutil==1.5",
+                "python-jose==0.5.2",
                 "releasetasks==0.3.3",
                 "requests==2.6.0",
                 "simplejson==2.6.2",
                 "singledispatch==3.4.0.3",
+                "six==1.9.0",
                 "sqlalchemy-migrate==0.7.2",
                 "taskcluster==0.0.24",
                 "treeherder-client==1.7.0",
@@ -72,9 +75,18 @@ class releaserunner {
             content   => secret('releaserunner_ssh_key'),
             show_diff => false;
         "${releaserunner::settings::root}/docker-worker-pub.pem":
+            require   => Python::Virtualenv["${releaserunner::settings::root}"],
             owner     => "${users::builder::username}",
             group     => "${users::builder::group}",
             source    => "puppet:///modules/$module_name/docker-worker-pub.pem"
+        # XXX: Todo name funsize_signing_pvt_key better for current use-case
+        "${releaserunner::settings::root}/id_rsa":
+            require     => Python::Virtualenv["${releaserunner::settings::root}"],
+            mode        => 600,
+            owner       => "${users::builder::username}",
+            group       => "${users::builder::group}",
+            content     => secret("funsize_signing_pvt_key"),
+            show_diff   => false;
     }
 
     mercurial::repo {
