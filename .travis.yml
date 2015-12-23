@@ -21,13 +21,12 @@ script:
 
 gemfile: .gemfile
 
-# currently cannot customise per user fork, see:
-# https://github.com/travis-ci/travis-ci/issues/1094
-# please comment out this section in your personal fork!
+# The channel name "irc.mozilla.org#releng" is encrypted against mozilla/build-buildbot-configs to prevent IRC spam of forks
+# Generated with: travis encrypt --repo mozilla/build-puppet  --skip-version-check irc.mozilla.org#releng
 notifications:
   irc:
     channels:
-      - "irc.mozilla.org#callek"
+      - secure: "DlqdA6eYvBRFOLIUnOs38nzy61g20+bu1OyiANIcm0U7e9lRNZNMnmTqG2F8YmzgJgnWfQeogkpF2tsFVAVMuXeRIfC9xSbsCE4oWucScp5SJiOvp68284/jpEhCZWAscer3J+9F5Md+voW4foteAY70GPms1xNJkfy1gs2UZKs="
     on_success: always
     on_failure: always
     template:
