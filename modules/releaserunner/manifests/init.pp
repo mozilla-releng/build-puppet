@@ -78,7 +78,7 @@ class releaserunner {
             require   => Python::Virtualenv["${releaserunner::settings::root}"],
             owner     => "${users::builder::username}",
             group     => "${users::builder::group}",
-            source    => "puppet:///modules/$module_name/docker-worker-pub.pem"
+            source    => "puppet:///modules/$module_name/docker-worker-pub.pem";
         # XXX: Todo name funsize_signing_pvt_key better for current use-case
         "${releaserunner::settings::root}/id_rsa":
             require     => Python::Virtualenv["${releaserunner::settings::root}"],
