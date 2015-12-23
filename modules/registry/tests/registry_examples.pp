@@ -13,6 +13,7 @@
 #     include registry_example
 #
 # (MARKUP: http://links.puppetlabs.com/puppet_manifest_documentation)
+# lint:ignore:autoloader_layout
 class registry_example {
   registry_key { 'HKLM\Software\Vendor':
     ensure => present,
@@ -85,3 +86,4 @@ class registry_example {
 }
 
 include registry_example
+# lint:endignore

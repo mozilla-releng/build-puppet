@@ -1,3 +1,4 @@
+# lint:ignore:autoloader_layout
 class { 'one': }
 
 # two should be applied
@@ -36,3 +37,4 @@ class three {
 class four {
   notify { 'this is from the fourth class': }
 }
+# lint:endignore

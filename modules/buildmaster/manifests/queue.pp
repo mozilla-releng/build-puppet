@@ -73,13 +73,12 @@ class buildmaster::queue {
             ];
     }
 
-    define nrpe_custom {
-        nrpe::custom {
-            "$name":
-                content => template("buildmaster/${name}.erb"),
-        }
+    nrpe::custom {
+        "pulse_publisher.cfg":
+            content => template("buildmaster/pulse_publisher.cfg.erb");
+        "command_runner.cfg":
+            content => template("buildmaster/command_runner.cfg.erb");
     }
-    nrpe_custom {["pulse_publisher.cfg", "command_runner.cfg"]: }
 
     mercurial::repo {
         "clone-tools":

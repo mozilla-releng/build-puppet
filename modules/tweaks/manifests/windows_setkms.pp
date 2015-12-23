@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-class tweaks::windows_activation {
+class tweaks::windows_setkms {
     shared::execonce { "ActivateKMS":
         require => Class["tweaks::windows_setkms"],
         command => 'C:\Windows\System32\cscript.exe C:\windows\system32\slmgr.vbs /ato';

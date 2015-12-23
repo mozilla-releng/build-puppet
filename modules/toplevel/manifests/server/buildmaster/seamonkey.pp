@@ -4,7 +4,7 @@
 
 # seamonkey buildbot master
 
-class toplevel::server::buildmaster::mozilla inherits toplevel::server::buildmaster {
+class toplevel::server::buildmaster::seamonkey inherits toplevel::server::buildmaster {
     include buildmaster::base
     include buildmaster::queue
     include buildmaster::settings
