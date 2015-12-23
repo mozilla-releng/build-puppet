@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class puppetmaster::extsync::moco_ldap($ensure, $moco_ldap_uri, $moco_ldap_root,
-                                       $moco_ldap_dn, $moco_ldap_pass, $users_in_groups={}) {
+                $moco_ldap_dn, $moco_ldap_pass, $users_in_groups={}) {
     include packages::pyyaml
     include packages::python_ldap
 

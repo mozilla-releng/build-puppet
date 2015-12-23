@@ -12,12 +12,12 @@ class collectd::plugins::csv {
 
     case $::operatingsystem {
         'CentOS', 'Ubuntu': {
-            $args = ['DataDir "/var/lib/collectd/csv"',
-                     'StoreRates true', ]
+            $args =  ['DataDir "/var/lib/collectd/csv"',
+                      'StoreRates true', ]
         }
         'Darwin': {
-            $args = ['DataDir "/usr/local/var/lib/collectd/csv"',
-                     'StoreRates true', ]
+            $args =  ['DataDir "/usr/local/var/lib/collectd/csv"',
+                      'StoreRates true', ]
         }
         default: {fail("Collectd plugin ${title} is not supported with ${::operatingsystem}")}
     }

@@ -14,8 +14,8 @@ class mig::agent::checkin {
     }
     # ensure some of the service files aren't present
     file {
-        ["/etc/cron.d/mig-agent", "/etc/init/mig-agent.conf",
-         "/etc/init.d/mig-agent", "/etc/systemd/system/mig-agent.service"]:
+        [ "/etc/cron.d/mig-agent", "/etc/init/mig-agent.conf",
+          "/etc/init.d/mig-agent", "/etc/systemd/system/mig-agent.service"]:
             ensure => absent
     }
     include runner::tasks::mig_agent

@@ -21,8 +21,8 @@ class selfserve_agent::services {
         "selfserve-agent":
             command      => "${selfserve_agent::settings::root}/bin/selfserve-agent --config-file ${selfserve_agent::settings::root}/selfserve-agent.ini --wait -v",
             user         => $::config::builder_username,
-            require      => [File["${selfserve_agent::settings::root}/selfserve-agent.ini"],
-                             Python::Virtualenv["${selfserve_agent::settings::root}"]],
+            require      => [ File["${selfserve_agent::settings::root}/selfserve-agent.ini"],
+                              Python::Virtualenv["${selfserve_agent::settings::root}"]],
             extra_config => template("${module_name}/extra_config.erb");
     }
 

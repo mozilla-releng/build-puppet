@@ -5,7 +5,7 @@ class bmm::tftpd {
     include ::tftpd
 
     file {
-       "/var/lib/tftpboot/pxelinux.cfg":
+        "/var/lib/tftpboot/pxelinux.cfg":
             ensure => directory,
             # owned by apache so the CGI can write to it
             owner => apache,

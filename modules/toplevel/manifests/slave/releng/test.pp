@@ -25,7 +25,7 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
                 'runner::tasks::purge_builds':
                     required_space => 4;
             }
-         }
+        }
         "Darwin": {
             include runner::tasks::update_shared_repos
             include runner::tasks::checkout_tools
@@ -34,7 +34,7 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
                 'runner::tasks::purge_builds':
                     required_space => 4;
             }
-         }
+        }
     }
 
     include runner::tasks::config_hgrc

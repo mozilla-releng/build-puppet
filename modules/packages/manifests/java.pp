@@ -14,8 +14,8 @@ class packages::java {
             Anchor['packages::java::begin'] ->
             packages::pkgdmg {
                 "java":
-                   version => "7.0.600",
-                   os_version_specific => false,
+                    version => "7.0.600",
+                    os_version_specific => false,
             } -> Anchor['packages::java::end']
         }
         Ubuntu: {

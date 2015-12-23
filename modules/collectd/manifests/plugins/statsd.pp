@@ -24,7 +24,7 @@ class collectd::plugins::statsd {
                       'TimerCount false',
                       'TimerPercentile 50',
                       'TimerPercentile 95',
- ]
+            ]
         }
         default: {fail("Collectd plugin ${title} is not supported with ${::operatingsystem}")}
     }

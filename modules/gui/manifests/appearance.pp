@@ -8,17 +8,17 @@ class gui::appearance {
     case $::operatingsystem {
         Darwin: {
             if ($::macosx_productversion_major == "10.10") {
-                   if (!$puppetizing) {
-                       exec {
-                          "set-background-image" :
-                                command => '/bin/ln -sf "/Library/Desktop Pictures/Solid Colors/Solid Aqua Blue.png" /System/Library/CoreServices/DefaultDesktop.jpg',
-                                unless => '/bin/ls -la /System/Library/CoreServices/DefaultDesktop.jpg | /usr/bin/egrep "/Library/Desktop Pictures/Solid Colors/Solid Aqua Blue.png"',
-                                notify => Exec["restart-Dock"];
-                            "restart-Dock" :
-                                command => "/usr/bin/killall Dock",
-                                refreshonly => true;
-                       }
-                   }
+                if (!$puppetizing) {
+                    exec {
+                        "set-background-image" :
+                            command => '/bin/ln -sf "/Library/Desktop Pictures/Solid Colors/Solid Aqua Blue.png" /System/Library/CoreServices/DefaultDesktop.jpg',
+                            unless => '/bin/ls -la /System/Library/CoreServices/DefaultDesktop.jpg | /usr/bin/egrep "/Library/Desktop Pictures/Solid Colors/Solid Aqua Blue.png"',
+                            notify => Exec["restart-Dock"];
+                        "restart-Dock" :
+                            command => "/usr/bin/killall Dock",
+                            refreshonly => true;
+                    }
+                }
                 osxutils::defaults {
                     "${username}-enable-showscrollbars":
                         domain => "$::users::builder::home/Library/Preferences/.GlobalPreferences.plist",
@@ -28,9 +28,9 @@ class gui::appearance {
                 }
                 file {
                     "$::users::builder::home/Library/Preferences/.GlobalPreferences.plist":
-                         owner => "$users::builder::username",
-                         group => "$users::builder::group";
-                     }
+                        owner => "$users::builder::username",
+                        group => "$users::builder::group";
+                }
             }
         }
         Ubuntu: {

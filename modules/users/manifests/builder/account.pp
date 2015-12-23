@@ -31,7 +31,7 @@ class users::builder::account($username, $group, $grouplist, $home) {
         }
         Windows: {
             user {
-               $username:
+                $username:
                     password => secret("builder_pw_cleartext"),
                     groups  => ["Administrators","Remote Desktop Users"],
                     managehome => true,

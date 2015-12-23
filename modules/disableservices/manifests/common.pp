@@ -113,13 +113,13 @@ class disableservices::common {
                     key => "BluetoothAutoSeekKeyboard",
                     value => "0";
             }
-	    osxutils::defaults {
-	    # set the global preference to not restart apps open before reboot
-	        'disable-relaunch-apps':
-		    domain => "/Library/Preferences/com.apple.loginwindow",
+            osxutils::defaults {
+                # set the global preference to not restart apps open before reboot
+                'disable-relaunch-apps':
+                    domain => "/Library/Preferences/com.apple.loginwindow",
                     key => "LoginwindowLaunchesRelaunchApps",
                     value => "0";
-	    }
+            }
             file {
                 "/var/lib/puppet/.indexing-disabled" :
                     content => "indexing-disabled",

@@ -4,7 +4,7 @@
 
 class tweaks::windows_network_opt_registry {
     # For 2008 refrence Bugs 1165314, 1166415, & 1168812
- 
+
     $ServiceProvider = 'HKLM\SYSTEM\CurrentControlSet\services\Tcpip\ServiceProvider'
     $LSParameters    = 'HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters'
     $AFDParameters   = 'HKLM\SYSTEM\CurrentControlSet\services\AFD\Parameters'
@@ -70,7 +70,7 @@ class tweaks::windows_network_opt_registry {
                 type => dword,
                 data => '5',
             }
-           registry::value { "explorer.exe" :
+            registry::value { "explorer.exe" :
                 key  => $FeatureMAX_0ser,
                 type => dword,
                 data => '16',
@@ -154,12 +154,12 @@ class tweaks::windows_network_opt_registry {
                         type => dword,
                         data => '1',
                     }
-                     registry::value { "DefaultTTL" :
+                    registry::value { "DefaultTTL" :
                         key  => $TCPIPParameters,
                         type => dword,
                         data => '40',
                     }
-                     registry::value { "TcpTimedWaitDelay" :
+                    registry::value { "TcpTimedWaitDelay" :
                         key  => $TCPIPParameters,
                         type => dword,
                         data => '30',

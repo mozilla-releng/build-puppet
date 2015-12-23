@@ -20,7 +20,7 @@ class packages::mozilla::python27 {
             $pythondir = "C:\\mozilla-build\\python27"
             $python = "$pythondir\\python2.7.exe"
 
-         }
+        }
         default: {
             # everywhere else, we install from a custom-built package
             $python = '/tools/python27/bin/python2.7'

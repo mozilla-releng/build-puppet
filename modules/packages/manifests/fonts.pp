@@ -5,12 +5,12 @@ class packages::fonts {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                ["fonts-kacst-one", "fonts-kacst", "fonts-liberation",
-                 "ttf-indic-fonts-core", "ttf-kannada-fonts", "ttf-dejavu",
-                 "ttf-oriya-fonts", "ttf-punjabi-fonts", "ttf-arphic-uming",
-                 "ttf-paktype", "fonts-stix", "fonts-unfonts-core",
-                 "fonts-unfonts-extra", "fonts-vlgothic", "ttf-sazanami-mincho"]:
-                     ensure => latest;
+                [ "fonts-kacst-one", "fonts-kacst", "fonts-liberation",
+                  "ttf-indic-fonts-core", "ttf-kannada-fonts", "ttf-dejavu",
+                  "ttf-oriya-fonts", "ttf-punjabi-fonts", "ttf-arphic-uming",
+                  "ttf-paktype", "fonts-stix", "fonts-unfonts-core",
+                  "fonts-unfonts-extra", "fonts-vlgothic", "ttf-sazanami-mincho"]:
+                    ensure => latest;
             }
         }
         Darwin: {

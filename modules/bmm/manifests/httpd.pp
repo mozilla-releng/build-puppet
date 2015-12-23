@@ -10,7 +10,7 @@ class bmm::httpd {
     }
 
     file {
-       "/opt/bmm/www":
+        "/opt/bmm/www":
             ensure => directory;
         "/opt/bmm/www/scripts":
             ensure => directory;
@@ -21,7 +21,7 @@ class bmm::httpd {
             sourceselect => all,
             ensure => directory,
             show_diff => false;
-       "/opt/bmm/www/artifacts":
+        "/opt/bmm/www/artifacts":
             recurse => true,
             purge => true,
             source => [ "puppet:///bmm/artifacts", "puppet:///bmm/private/artifacts" ],

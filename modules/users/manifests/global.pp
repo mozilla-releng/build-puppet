@@ -7,9 +7,9 @@ class users::global {
 
     shellprofile::file {
         "ps1":
-	    content => template("${module_name}/ps1.sh.erb");
-	"timeout":
-	    content => "export TMOUT=86400";  # Shells timeout after 1 day
+        content => template("${module_name}/ps1.sh.erb");
+    "timeout":
+        content => "export TMOUT=86400";  # Shells timeout after 1 day
     }
 
     # On OS X, the Administrator user is created at system install time.  We
@@ -48,6 +48,6 @@ class users::global {
     include shellprofile::settings
     file {
         "${::shellprofile::settings::profile_d}/ps1.sh":
-	    ensure => absent;
+        ensure => absent;
     }
 }

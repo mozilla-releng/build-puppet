@@ -5,11 +5,11 @@ class packages::gstreamer {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                ["gstreamer0.10-ffmpeg", "gstreamer0.10-plugins-base",
-                 "gstreamer0.10-plugins-good", "gstreamer0.10-plugins-ugly",
-                 # plugins-bad contains a libfaad-based AAC decoder that will make
-                 # tests succeed - see bug 912854
-                 "gstreamer0.10-plugins-bad"]:
+                [ "gstreamer0.10-ffmpeg", "gstreamer0.10-plugins-base",
+                  "gstreamer0.10-plugins-good", "gstreamer0.10-plugins-ugly",
+                  # plugins-bad contains a libfaad-based AAC decoder that will make
+                  # tests succeed - see bug 912854
+                  "gstreamer0.10-plugins-bad"]:
                     ensure => latest;
             }
         }
