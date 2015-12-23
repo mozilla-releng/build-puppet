@@ -79,7 +79,7 @@ class ssh::config {
                                     File[$ssh::settings::genkey_dir],
                                     Exec[ "RSAkey"],
                                     File[$kts_ini],
-                              ],  
+                              ],
                     permissions => [
                         { identity => 'root', rights => ['full'] },
                         { identity => 'SYSTEM', rights => ['full'] },

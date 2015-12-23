@@ -32,7 +32,7 @@ class packages::mozilla::mozilla_build {
     # Install Mozilla-Build package as needed
     exec {
         "MozillaBuildSetup-$version":
-            command => "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\MozillaBuildSetup-$version.exe /S", 
+            command => "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\MozillaBuildSetup-$version.exe /S",
             creates => "$moz_bld_dir\\version",
             require => [Exec ["check_version"],
                             File["C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/MozillaBuildSetup-$version.exe"]
@@ -50,7 +50,7 @@ class packages::mozilla::mozilla_build {
             command     => "C:\\mozilla-build\\msys\\bin\\rm.exe -f C:\\mozilla-build\\yasm\\yasm.exe",
             subscribe   => Exec["MozillaBuildSetup-$version"],
             refreshonly => true
-    }     
+    }
     # Buildbot currently looks for the python27 directory 
     # This also removes the possiblitly of the incorrect python being picked up by various tools 
     exec {

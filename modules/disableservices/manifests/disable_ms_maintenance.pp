@@ -41,4 +41,4 @@ class disableservices::disable_ms_maintenance {
                 require => Exec["Idle_Maintenance"],
                 content => "Semaphore",
     }
-}  
+}

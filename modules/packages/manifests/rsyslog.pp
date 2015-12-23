@@ -14,8 +14,8 @@ class packages::rsyslog {
             package {
                 "rsyslog":
                     ensure => "latest";
-            }   
-        }           
+            }
+        }
 
         default: {
             fail("cannot install on $::operatingsystem")

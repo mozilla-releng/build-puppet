@@ -23,7 +23,7 @@ class packages::yasm {
                     source  => "puppet:///repos/EXEs/yasm-1.3.0-win64.exe",
                     require => Exec["remove_old_yasm"],
             }
-        }    
+        }
         default: {
             fail("cannot install on $::operatingsystem")
         }

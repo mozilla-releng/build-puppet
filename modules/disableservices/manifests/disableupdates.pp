@@ -15,7 +15,7 @@ class disableservices::disableupdates {
         key    => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
         type   => dword,
         data   => '00000001',
-    }    
+    }
     registry::value { 'ForceActiveDesktopOn':
         key    => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
         type   => dword,
