@@ -12,7 +12,7 @@ class packages::mesa {
                         # This package is a recompiled version of
                         # http://packages.ubuntu.com/precise-updates/mesa-common-dev-lts-saucy
                         ["libgl1-mesa-dri-lts-saucy", "libgl1-mesa-glx-lts-saucy",
-                         "libglapi-mesa-lts-saucy", "libxatracker1-lts-saucy":
+                         "libglapi-mesa-lts-saucy", "libxatracker1-lts-saucy"]:
                             ensure => '9.2.1-1ubuntu3~precise1mozilla1';
                     }
                 }
