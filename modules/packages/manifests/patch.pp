@@ -9,7 +9,7 @@ class packages::patch {
                     ensure => latest;
             }
         }
-         Darwin: {
+        Darwin: {
             #patch is installed with base image
         }
         Windows: {

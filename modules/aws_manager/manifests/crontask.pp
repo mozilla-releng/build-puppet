@@ -2,9 +2,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 define aws_manager::crontask($ensure, $virtualenv_dir, $user, $cwd, $params='',
-                             $hour='*', $minute='*', $month='*', $monthday='*',
-                             $weekday='*', $script=$title, $subject=$title,
-                             $process_timeout=0) {
+            $hour='*', $minute='*', $month='*', $monthday='*',
+            $weekday='*', $script=$title, $subject=$title,
+            $process_timeout=0) {
     include cron
     include ::config
 

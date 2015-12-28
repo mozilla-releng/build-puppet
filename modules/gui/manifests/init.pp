@@ -132,9 +132,9 @@ class gui(
                     notify => Service['x11'];
 
                 # make sure the builder user doesn't have any funny business
-                ["${users::builder::home}/.xsession",
-                 "${users::builder::home}/.xinitrc",
-                 "${users::builder::home}/.Xsession"]:
+                [ "${users::builder::home}/.xsession",
+                  "${users::builder::home}/.xinitrc",
+                  "${users::builder::home}/.Xsession"]:
                     ensure => absent;
             }
 

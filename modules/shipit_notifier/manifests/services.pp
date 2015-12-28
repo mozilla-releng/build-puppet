@@ -10,9 +10,9 @@ class shipit_notifier::services {
         "shipit_notifier":
             command      => "${shipit_notifier::settings::root}/bin/python ${shipit_notifier::settings::tools_dst}/buildfarm/release/shipit-notifier.py -c ${shipit_notifier::settings::root}/shipit_notifier.ini",
             user         => $::config::builder_username,
-            require      => [File["${shipit_notifier::settings::root}/shipit_notifier.ini"],
-                             Python::Virtualenv["${shipit_notifier::settings::root}"],
-                             Mercurial::Repo["shipit_notifier_tools"]],
+            require      => [ File["${shipit_notifier::settings::root}/shipit_notifier.ini"],
+                              Python::Virtualenv["${shipit_notifier::settings::root}"],
+                              Mercurial::Repo["shipit_notifier_tools"]],
             extra_config => template("${module_name}/extra_config.erb")
     }
 }

@@ -22,7 +22,7 @@ class slaverebooter {
                             "docopt==0.6.1",
                             "buildtools==1.0.6",
                             "orderedmultidict==0.7.1",
-           ];
+            ];
     }
 
     file {

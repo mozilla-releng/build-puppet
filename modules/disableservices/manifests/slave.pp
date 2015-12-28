@@ -8,7 +8,7 @@ class disableservices::slave inherits disableservices::common {
     include disableservices::displaymanager
     include disableservices::notification_daemon
 
-       case $::operatingsystem {
+    case $::operatingsystem {
         Ubuntu : {
             include disableservices::release_upgrader
         }

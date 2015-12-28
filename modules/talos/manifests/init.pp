@@ -62,8 +62,8 @@ class talos {
     case $::operatingsystem {
         Darwin, CentOS, Ubuntu: {
             file {
-                ["/builds/slave/talos-data",
-                 $talos::settings::apachedocumentroot]:
+                [ "/builds/slave/talos-data",
+                  $talos::settings::apachedocumentroot]:
                     ensure => directory,
                     owner => "$users::builder::username",
                     group => "$users::builder::group",

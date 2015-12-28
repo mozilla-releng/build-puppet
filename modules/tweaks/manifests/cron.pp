@@ -6,11 +6,11 @@ class tweaks::cron {
     case $::operatingsystem {
         Ubuntu: {
             file {
-                ["/etc/cron.weekly/apt-xapian-index", "/etc/cron.weekly/man-db",
-                 "/etc/cron.daily/apache2", "/etc/cron.daily/apport", "/etc/cron.daily/apt",
-                 "/etc/cron.daily/aptitude", "/etc/cron.daily/bsdmainutils", "/etc/cron.daily/man-db",
-                 "/etc/cron.daily/mlocate", "/etc/cron.daily/popularity-contest", "/etc/cron.daily/standard",
-                 "/etc/cron.daily/update-notifier-common"]:
+                [ "/etc/cron.weekly/apt-xapian-index", "/etc/cron.weekly/man-db",
+                  "/etc/cron.daily/apache2", "/etc/cron.daily/apport", "/etc/cron.daily/apt",
+                  "/etc/cron.daily/aptitude", "/etc/cron.daily/bsdmainutils", "/etc/cron.daily/man-db",
+                  "/etc/cron.daily/mlocate", "/etc/cron.daily/popularity-contest", "/etc/cron.daily/standard",
+                  "/etc/cron.daily/update-notifier-common"]:
                     ensure => absent;
             }
         }

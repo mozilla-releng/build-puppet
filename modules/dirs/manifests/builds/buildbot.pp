@@ -23,4 +23,4 @@ class dirs::builds::buildbot {
             }
         }
     }
-}        
+}

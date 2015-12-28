@@ -17,10 +17,13 @@ class collectd::plugins::unixsock {
                       'SocketPerms 0770',
                       'DeleteSocket true', ]
         }
-        default: {fail("Collectd plugin ${title} is not supported with ${::operatingsystem}")}
-     }
-        # members of this group may interact with collectd via the unixsocket
-        # if group write permissions are set on the socket file
+        default: {
+            fail("Collectd plugin ${title} is not supported with ${::operatingsystem}")
+        }
+    }
+
+    # members of this group may interact with collectd via the unixsocket
+    # if group write permissions are set on the socket file
     group {
         $socketgroup:
             ensure => present,

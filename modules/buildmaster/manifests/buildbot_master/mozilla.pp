@@ -84,7 +84,7 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
             "/etc/cron.d/buildmaster-retry_dead_queue":
                 mode    => 644,
                 require => Exec["setup-${basedir}"],
-                content => template("buildmaster/buildmaster-retry_dead_queue.erb");    	
+                content => template("buildmaster/buildmaster-retry_dead_queue.erb");
         }
         
     }

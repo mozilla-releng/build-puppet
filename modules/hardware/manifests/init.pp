@@ -73,4 +73,4 @@ class hardware {
         include hardware::hddoff
         include hardware::highperformance
     }
-}   
+}

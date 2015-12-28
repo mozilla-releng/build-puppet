@@ -10,9 +10,9 @@ class sudoers::settings {
     case $::operatingsystem {
         CentOS: {
             $rebootpath = "/usr/bin/reboot"
-         }
-         Darwin, Ubuntu: {
+        }
+        Darwin, Ubuntu: {
             $rebootpath = "/sbin/reboot"
-         }
+        }
     }
 }

@@ -8,7 +8,7 @@ class clean::appstate {
         include users::builder
 
         tidy {
-            "$::users::builder::home/Library/Saved Application State": 
+            "$::users::builder::home/Library/Saved Application State":
                 matches => "*.savedState",
                 rmdirs => true,
                 recurse => true;
@@ -20,7 +20,7 @@ class clean::appstate {
                 group => $::users::builder::group,
                 mode => 0700,
                 require => Class['users::builder'];
-           "$::users::builder::home/Library/Preferences":
+            "$::users::builder::home/Library/Preferences":
                 ensure => directory,
                 owner => $::users::builder::username,
                 group => $::users::builder::group,

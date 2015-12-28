@@ -20,8 +20,8 @@ class rdp::enable_rdp {
         "SessionEnv" :
         command     => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe restart-service -name SessionEnv" -force',
         subscribe   => [Registry::Value['fDenyTSConnections'],
-                            Registry::Value['UserAuthentication']
-                     ],         
+                        Registry::Value['UserAuthentication']
+                        ],
         refreshonly => true;
     }
     # Restarting Termservice will also restart the UmRdpService service
@@ -29,8 +29,8 @@ class rdp::enable_rdp {
         "TermService" :
         command     => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe restart-service -name termservice -force"',
         subscribe   => [Registry::Value['fDenyTSConnections'],
-                            Registry::Value['UserAuthentication']
-                     ],
+                        Registry::Value['UserAuthentication']
+                        ],
         refreshonly => true;
     }
 }

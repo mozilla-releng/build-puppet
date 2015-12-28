@@ -6,5 +6,5 @@ class packages::binscope{
         "SDL BinScope":
             msi => "BinScopeSetup.msi",
             install_options => ['/QUIET'];
-    }      
+    }
 }

@@ -31,7 +31,7 @@ define ssh::userconfig($home='', $config='', $group='', $cleartext_password='',
             if ($group != '') {
                 $group_ = $group
             } else {
-                 $group_ = $username
+                $group_ = $username
             }
         }
     }

@@ -46,8 +46,8 @@ class vnc {
             exec {
                 #allow builder user to connect via screensharing
                 "enable-remote-builduser-access":
-                 command => "$kickstart -configure -allowAccessFor -specifiedUsers; $kickstart -activate -configure -access -on -users $::users::builder::username -privs -all -restart -agent -menu",
-                 refreshonly => true;
+                  command => "$kickstart -configure -allowAccessFor -specifiedUsers; $kickstart -activate -configure -access -on -users $::users::builder::username -privs -all -restart -agent -menu",
+                  refreshonly => true;
             }
         }
         Ubuntu: {

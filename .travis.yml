@@ -1,0 +1,36 @@
+language: ruby
+rvm:
+  - 1.8.7
+
+script:
+  #- "ln -s manifests/moco-config.pp manifests/config.pp"
+  #- "ln -s manifests/moco-nodes.pp manifests/nodes.pp"
+  - "puppet parser validate `find modules -name '*.pp'`"
+  - "puppet-lint --no-arrow_alignment-check --no-80chars-check \
+      --no-documentation-check --no-double_quoted_strings-check \
+      --no-variable_scope-check --no-case_without_default-check \
+      --no-variables_not_enclosed-check --no-only_variable_string-check \
+      --no-ensure_first_param-check --no-unquoted_file_mode-check \
+      --no-variable_contains_dash-check --no-parameter_order-check \
+      --no-file_mode-check --no-nested_classes_or_defines \
+      --no-quoted_booleans --no-puppet_url_without_modules \
+      --no-selector_inside_resource --no-unquoted_resource_title \
+      --no-names_containing_dash \
+      --log-format '%{path} - %{KIND}: %{message} on line %{line} - %{check}'
+      modules"
+
+gemfile: .gemfile
+
+# The channel name "irc.mozilla.org#releng" is encrypted against mozilla/build-buildbot-configs to prevent IRC spam of forks
+# Generated with: travis encrypt --repo mozilla/build-puppet  --skip-version-check irc.mozilla.org#releng
+notifications:
+  irc:
+    channels:
+      - secure: "DlqdA6eYvBRFOLIUnOs38nzy61g20+bu1OyiANIcm0U7e9lRNZNMnmTqG2F8YmzgJgnWfQeogkpF2tsFVAVMuXeRIfC9xSbsCE4oWucScp5SJiOvp68284/jpEhCZWAscer3J+9F5Md+voW4foteAY70GPms1xNJkfy1gs2UZKs="
+    on_success: always
+    on_failure: always
+    template:
+      - "\x02%{repository}\x0314#%{build_number}\x03\x02 (%{branch} - %{commit} : %{author}): \x02\x0312%{message}\x02\x03"
+      - "\x02Change view\x02 : \x0314%{compare_url}\x03"
+      - "\x02Build details\x02 : \x0314%{build_url}\x03"
+      - "\x02Commit message\x02 : \x0314%{commit_message}\x03"

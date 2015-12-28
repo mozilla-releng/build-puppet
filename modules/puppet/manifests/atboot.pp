@@ -20,14 +20,14 @@ class puppet::atboot {
             # REF: https://bugzilla.mozilla.org/show_bug.cgi?id=1170587 &  https://tickets.puppetlabs.com/browse/PUP-4802
             exec {
                 "sec_descript_clear" :
-                     command => 'C:\windows\system32\icacls.exe c:\etc\puppetmasters.txt /remove:g root',
-                     require => File[$puppetmasters_txt],
+                    command => 'C:\windows\system32\icacls.exe c:\etc\puppetmasters.txt /remove:g root',
+                    require => File[$puppetmasters_txt],
             }
         }
         default: {
             $puppetmasters_txt = "${dirs::etc::dir}/puppet/puppetmasters.txt"
         }
-    }   
+    }
 
     # install the list of puppetmaster mirrors
     file {

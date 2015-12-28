@@ -8,4 +8,4 @@ class packages::7z920 {
         msi             => "7z920.msi",
         install_options => ['/quiet'];
     }
- }
+}

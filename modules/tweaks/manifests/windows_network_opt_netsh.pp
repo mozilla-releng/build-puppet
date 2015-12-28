@@ -9,7 +9,7 @@ class tweaks::windows_network_opt_netsh {
     # To work around this the commands are being concated into bat file and then executed through a Scheduled task 
     # For additional info ref: https://bugzilla.mozilla.org/show_bug.cgi?id=1165567
     include dirs::etc
-   
+
     $netsh_log   = "C:\\ProgramData\\PuppetLabs\\puppet\\var\\log\\netsh_error.log"
     $set_netsh   = 'set netcmd=C:\windows\System32\netsh.exe'
     $run_netsh   = "\n %netcmd%\n"
@@ -17,10 +17,10 @@ class tweaks::windows_network_opt_netsh {
     $ErrorCheck  = "If %errorlevel% neq 0 echo %netcmd%$failed>>$netsh_log\n"
     $QuotedLAC   = '"Local Area Connection"'
     $QuotedLAC_2 = '"Local Area Connection 2"'
-    $NetTwBat    = "c:\\etc\\network_tweak.bat"    
+    $NetTwBat    = "c:\\etc\\network_tweak.bat"
 
     case $env_os_version {
-        2008: { 
+        2008: {
             concat { "$NetTwBat":
             }
             concat::fragment  { "network_tweak_bat_header" :
@@ -104,7 +104,7 @@ class tweaks::windows_network_opt_netsh {
                 command      => '"C:\Windows\system32\schtasks.exe" /Run /TN SchTsk_netsh',
                 require      => [Concat::Fragment["global_dca"],
                                 Exec["SchTsk_netsh"]
-                                ],   
+                                ],
                 subscribe   => Concat["$NetTwBat"],
                 refreshonly => true,
             }

@@ -28,7 +28,7 @@ class collectd {
 
         if $collectd::settings::servicescript {
             file {
-               "${collectd::settings::servicepath}/${collectd::settings::servicescript}":
+              "${collectd::settings::servicepath}/${collectd::settings::servicescript}":
                 ensure => present,
                 source => "puppet:///modules/collectd/${collectd::settings::servicescript}",
                 notify => Service[$collectd::settings::servicename],

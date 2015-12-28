@@ -9,8 +9,8 @@ class packages::mesa {
                     package {
                         # This package is a recompiled version of
                         # https://launchpad.net/ubuntu/+source/mesa
-                        ["libgl1-mesa-dri", "libgl1-mesa-glx", "libglapi-mesa",
-                         "libglu1-mesa", "libxatracker1"]:
+                        [ "libgl1-mesa-dri", "libgl1-mesa-glx", "libglapi-mesa",
+                          "libglu1-mesa", "libxatracker1"]:
                             ensure => '8.0.4-0ubuntu0.6mozilla1';
                     }
                 }
@@ -19,8 +19,8 @@ class packages::mesa {
                         # This package is a recompiled version of
                         # https://launchpad.net/ubuntu/+source/mesa
                         # libgl1-mesa-dev:i386 is required by B2G emulators, Bug 1013634
-                        ["libgl1-mesa-dri", "libgl1-mesa-glx", "libglapi-mesa",
-                         "libglu1-mesa", "libxatracker1", "libgl1-mesa-dev:i386"]:
+                        [ "libgl1-mesa-dri", "libgl1-mesa-glx", "libglapi-mesa",
+                          "libglu1-mesa", "libxatracker1", "libgl1-mesa-dev:i386"]:
                             ensure => '8.0.4-0ubuntu0.6mozilla1';
                     }
                 }

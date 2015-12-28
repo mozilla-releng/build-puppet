@@ -4,7 +4,7 @@
 
 class tweaks::windows_network_opt_registry {
     # For 2008 refrence Bugs 1165314, 1166415, & 1168812
- 
+
     $ServiceProvider = 'HKLM\SYSTEM\CurrentControlSet\services\Tcpip\ServiceProvider'
     $LSParameters    = 'HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters'
     $AFDParameters   = 'HKLM\SYSTEM\CurrentControlSet\services\AFD\Parameters'
@@ -14,12 +14,12 @@ class tweaks::windows_network_opt_registry {
     $MemManagement   = 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management'
     $MSMQParameters  = 'HKLM\SOFTWARE\Microsoft\MSMQ\Parameters'
     $DNSParameters   = 'HKLM\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters'
-    $Pshed           = 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Psched'  
+    $Pshed           = 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Psched'
     $SystemProfile   = 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile'
     $IP6Parameters   = 'HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters'
 
     case $env_os_version {
-        2008: { 
+        2008: {
             registry::value { "DnsPriority" :
                 key  => $ServiceProvider,
                 type => dword,
@@ -70,14 +70,14 @@ class tweaks::windows_network_opt_registry {
                 type => dword,
                 data => '5',
             }
-           registry::value { "explorer.exe" :
+            registry::value { "explorer.exe" :
                 key  => $FeatureMAX_0ser,
                 type => dword,
                 data => '16',
             }
             registry::value { "explorer.exe_01" :
                 key   => $FeatureMAX,
-                value => "explorer.exe", 
+                value => "explorer.exe",
                 type  => dword,
                 data  => '16',
             }
@@ -154,12 +154,12 @@ class tweaks::windows_network_opt_registry {
                         type => dword,
                         data => '1',
                     }
-                     registry::value { "DefaultTTL" :
+                    registry::value { "DefaultTTL" :
                         key  => $TCPIPParameters,
                         type => dword,
                         data => '40',
                     }
-                     registry::value { "TcpTimedWaitDelay" :
+                    registry::value { "TcpTimedWaitDelay" :
                         key  => $TCPIPParameters,
                         type => dword,
                         data => '30',

@@ -47,6 +47,6 @@ class funsize_scheduler {
                 "slugid==1.0.6",
                 "taskcluster==0.0.26",
                 "wsgiref==0.1.2",
-           ];
+            ];
     }
 }

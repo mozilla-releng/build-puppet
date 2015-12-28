@@ -56,7 +56,7 @@ class users::builder::autologin {
             # Enables Clean Desktop Exp. feature. See http://technet.microsoft.com/en-us/library/jj205467.aspx.
             shared::execonce { "desktop_exp":
                 command  => 'Import-Module Servermanager; Add-WindowsFeature Desktop-Experience ',
-                provider => powershell, 
+                provider => powershell,
             }
             # In the scenario where there is no live management the logon count could possible become 0
             # The following resets the count on login of the build user 
@@ -70,7 +70,7 @@ class users::builder::autologin {
             # Importing the XML file using schtasks
             # Refrence http://technet.microsoft.com/en-us/library/cc725744.aspx and http://technet.microsoft.com/en-us/library/cc722156.aspx
             shared::execonce { "Update_Logon_Count":
-                command =>'"C:\Windows\system32\schtasks.exe" /Create  /XML "C:/programdata/puppetagain/Update_Logon_Count.xml" /tn Update_Logon_Count.xml', 
+                command =>'"C:\Windows\system32\schtasks.exe" /Create  /XML "C:/programdata/puppetagain/Update_Logon_Count.xml" /tn Update_Logon_Count.xml',
                 require => File['C:/programdata/puppetagain/Update_Logon_Count.xml'];
             }
         }

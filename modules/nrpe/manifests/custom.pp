@@ -6,7 +6,7 @@ define nrpe::custom($content) {
     include nrpe::settings
 
     file {
-       "${nrpe::settings::nrpe_etcdir}/nrpe.d/${title}":
+        "${nrpe::settings::nrpe_etcdir}/nrpe.d/${title}":
             owner => $::users::root::username,
             group => $::users::root::group,
             notify => Class['nrpe::service'],

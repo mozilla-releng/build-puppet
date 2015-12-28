@@ -40,4 +40,4 @@ class packages::mozilla::mig_agent {
             fail("mig is not supported on ${::operatingsystem}")
         }
     }
- }
+}
