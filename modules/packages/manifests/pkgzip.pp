@@ -7,7 +7,10 @@ define packages::pkgzip($package=$title, $zip, $private=false, $target_dir) {
     include packages::7z920
     $installersource_posix = 'c:/InstallerSource/puppetagain.pub.build.mozilla.org'
     $installersource_win = 'c:\InstallerSource\puppetagain.pub.build.mozilla.org'
-    $quoted_7zip = '"C:\Program Files (x86)\7-Zip\7z.exe"'
+    $quoted_7zip =  $env_processor_architecture ? {
+        x86     => '"C:\Program Files\7-Zip\7z.exe"',
+        default => '"C:\Program Files (x86)\7-Zip\7z.exe"',
+    }
     $p = $private ? {
         true => "/private",
         false => ""
