@@ -29,7 +29,7 @@ class packages::libc {
         Ubuntu: {
             case $::operatingsystemrelease {
                 12.04: {
-                    realize(Packages::Aptrepo['eglibc'])
+                    realize(Packages::Aptrepo['precise-updates'])
                     package {
                         "libc6":
                             ensure => '2.15-0ubuntu10.12';
