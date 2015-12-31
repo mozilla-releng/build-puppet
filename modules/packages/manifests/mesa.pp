@@ -12,8 +12,8 @@ class packages::mesa {
                       # This package is a recompiled version of
                       # http://packages.ubuntu.com/precise-updates/mesa-common-dev-lts-saucy
                       ["libgl1-mesa-dri-lts-saucy", "libgl1-mesa-glx-lts-saucy",
-                       "libglapi-mesa-lts-saucy", "libxatracker1-lts-saucy"]:
-                         ensure => '9.2.1-1ubuntu3~precise1mozilla1';
+                      "libglapi-mesa-lts-saucy", "libxatracker1-lts-saucy"]:
+                        ensure => '9.2.1-1ubuntu3~precise1mozilla1';
                     }
                 }
                 "x86_64": {
@@ -22,9 +22,9 @@ class packages::mesa {
                       # http://packages.ubuntu.com/precise-updates/mesa-common-dev-lts-saucy
                       # libgl1-mesa-dev-lts-saucy:i386 is required by B2G emulators, Bug 1013634
                       ["libgl1-mesa-dri-lts-saucy", "libgl1-mesa-glx-lts-saucy",
-                       "libglapi-mesa-lts-saucy", "libxatracker1-lts-saucy",
-                       "libgl1-mesa-dev-lts-saucy:i386"]:
-                         ensure => '9.2.1-1ubuntu3~precise1mozilla1';
+                      "libglapi-mesa-lts-saucy", "libxatracker1-lts-saucy",
+                      "libgl1-mesa-dev-lts-saucy:i386"]:
+                        ensure => '9.2.1-1ubuntu3~precise1mozilla1';
                     }
                 }
             }
