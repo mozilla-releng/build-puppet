@@ -49,15 +49,16 @@ class packages::mozilla::python27 {
                     } -> Anchor['packages::mozilla::python27::end']
                 }
                 Ubuntu: {
+                    realize(Packages::Aptrepo['precise-updates'])
                     Anchor['packages::mozilla::python27::begin'] ->
                     package {
                         "python2.7":
-                            ensure => '2.7.3-0ubuntu3';
+                            ensure => '2.7.3-0ubuntu3.8';
                     } -> Anchor['packages::mozilla::python27::end']
                     Anchor['packages::mozilla::python27::begin'] ->
                     package {
                         "python2.7-dev":
-                            ensure => '2.7.3-0ubuntu3';
+                            ensure => '2.7.3-0ubuntu3.8';
                     } -> Anchor['packages::mozilla::python27::end']
 
                     # Create symlinks for compatibility with other platforms
