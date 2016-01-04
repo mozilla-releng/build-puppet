@@ -7,6 +7,11 @@
 # You can set PUPPET_SERVER before running this script to use a server other
 # than 'puppet'
 
+# You can set PUPPET_EXTRA_OPTIONS to pass extra command line arguments to
+# puppet agent. For example, you can set
+#  PUPPET_EXTRA_OPTIONS="--environment $username"
+# to use your dev environment
+
 REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
 OS=`facter operatingsystem`
 case "$OS" in
@@ -158,6 +163,7 @@ fi
 
 run_puppet() {
     puppet_server="${PUPPET_SERVER:-puppet}"
+    PUPPET_EXTRA_OPTIONS=${PUPPET_EXTRA_OPTIONS:-}
     echo $"Running puppet agent against server '$puppet_server'"
     # this includes:
     # --pluginsync so that we download plugins on the first run, as they may be required
@@ -170,7 +176,7 @@ run_puppet() {
     # when the puppet exit status is incorrect.
     tmp=`mktemp /tmp/puppet-outputXXXXXX`
     [ -f "$tmp" ] || hang "mktemp failed"
-    /usr/bin/puppet agent $PUPPET_OPTIONS > $tmp 2>1
+    /usr/bin/puppet agent $PUPPET_OPTIONS $PUPPET_EXTRA_OPTIONS > $tmp 2>1
     retval=$?
     # just in case, if there were any errors logged, flag it as an error run
     if grep -q "^Error:" $tmp
