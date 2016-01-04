@@ -54,9 +54,16 @@ class users::builder::autologin {
                 data   => '100000',
             }
             # Enables Clean Desktop Exp. feature. See http://technet.microsoft.com/en-us/library/jj205467.aspx.
-            shared::execonce { "desktop_exp":
-                command  => 'Import-Module Servermanager; Add-WindowsFeature Desktop-Experience ',
-                provider => powershell,
+            case $env_os_version {
+                2008: {
+                    shared::execonce { "desktop_exp":
+                        command  => 'Import-Module Servermanager; Add-WindowsFeature Desktop-Experience ',
+                        provider => powershell,
+                    }
+                }
+                default: {
+                    # Only needed for Windows Server OSes
+                }
             }
             # In the scenario where there is no live management the logon count could possible become 0
             # The following resets the count on login of the build user 
