@@ -11,12 +11,17 @@ class slave_secrets::release_s3_credentials($ensure=present) {
         windows => 'C:/builds/release-s3.credentials',
         default => "/builds/release-s3.credentials"
     }
+    # These config files are for partner repacks. We don't do these repacks on Windows.
+    $s3cfg_release = "/builds/release-s3cfg"
+    $s3cfg_partners = "/builds/partners-s3cfg"
 
     case $::operatingsystem {
         CentOS, Darwin: {
             $environment = slavealloc_environment($clientcert)
             if ($environment == 'prod' and $slave_trustlevel == 'core') {
                 $credentials_content = secret('release_s3_credentials_prod')
+                $s3cfg_release_content = secret('release_s3cfg')
+                $s3cfg_partners_content = secret('partners_s3cfg')
                 $_ensure = $ensure
             } elsif ($environment == 'dev/pp') {
                 $credentials_content = secret('release_s3_credentials_staging')
@@ -42,9 +47,33 @@ class slave_secrets::release_s3_credentials($ensure=present) {
                 mode    => 0600,
                 show_diff => false;
         }
+        file {
+            $s3cfg_release:
+                content => $s3cfg_release_content,
+                owner  => $::users::builder::username,
+                group  => $::users::builder::group,
+                mode    => 0600,
+                show_diff => false;
+        }
+        file {
+            $s3cfg_partners:
+                content => $s3cfg_partners_content,
+                owner  => $::users::builder::username,
+                group  => $::users::builder::group,
+                mode    => 0600,
+                show_diff => false;
+        }
     } else {
         file {
             $credentials_file:
+                ensure => absent;
+        }
+        file {
+            $s3cfg_release:
+                ensure => absent;
+        }
+        file {
+            $s3cfg_partners:
                 ensure => absent;
         }
     }
