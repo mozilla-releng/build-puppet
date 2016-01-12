@@ -4,6 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+set -e
+
 ## WARNING: This script is based on https://bugzilla.mozilla.org/show_bug.cgi?id=720470#c4
 ## and generates a working DMG, but the DMG currently in the puppet repos was built by hand,
 ## not by this script.
@@ -16,28 +18,38 @@ mkdir build
 BUILD=$PWD/build
 cd $BUILD
 
-curl -LO http://www.tortall.net/projects/yasm/releases/yasm-1.1.0.tar.gz
-tar zxf yasm-1.1.0.tar.gz
-cd yasm-1.1.0
+VERSION=1.3.0
+SHA2=3dce6601b495f5b3d45b59f7d2492a340ee7e84b5beca17e48f862502bd5603f
+curl -LO https://www.tortall.net/projects/yasm/releases/yasm-$VERSION.tar.gz
+CHECKSUM=$(shasum -a 256 yasm-$VERSION.tar.gz | cut -d ' ' -f 1)
+if [[ $SHA2 != "$CHECKSUM" ]]; then
+  echo "CHECKSUM MISMATCH! download wasn't as expected"
+  echo "expected $SHA2"
+  echo "     got $CHECKSUM"
+  exit 1
+else
+  echo "Checksum matches"
+fi
+
+tar zxf yasm-$VERSION.tar.gz
+cd yasm-$VERSION
 ./configure --prefix=/usr/local
 make
 make install DESTDIR=installroot
 
 # -- create-dmg.sh
 
-PACKAGE_MAKER="/Developer/usr/bin/packagemaker"
-
 DIR_TO_PACKAGE=installroot/usr/local/
-PACKAGE_BASENAME=yasm-1.1.0
-PACKAGE_SHORTNAME=yasm110
+PACKAGE_BASENAME=yasm-$VERSION
+PACKAGE_SHORTNAME=yasm$(echo $VERSION | sed -e 's/\.//g')
 INSTALLDIR=/usr/
 
 if [[ -z $DIR_TO_PACKAGE || -z $PACKAGE_BASENAME || -z $PACKAGE_SHORTNAME || -z $INSTALLDIR ]]; then
     echo "Usage: $0 dir-to-package package-base-name package-short-name installdir"
     exit 1
 fi
-if [[ ! -x $PACKAGE_MAKER ]]; then
-    echo "Couldn't find packagemaker"
+if [[ ! -x $(which pkgbuild) ]]; then
+    echo "Couldn't find pkgbuild"
     exit 1
 fi
 if [[ ! -d $DIR_TO_PACKAGE ]]; then
@@ -55,9 +67,9 @@ tmp=`mktemp -d -t magic`
 trap "rm -rf $tmp" EXIT
 
 rsync -av $DIR_TO_PACKAGE $tmp
-echo $PACKAGE_MAKER -r $tmp -v -i com.mozilla.$PACKAGE_SHORTNAME -o $tmp/$PACKAGE_BASENAME.pkg -l $INSTALLDIR
-$PACKAGE_MAKER -r $tmp -v -i com.mozilla.$PACKAGE_SHORTNAME -o $tmp/$PACKAGE_BASENAME.pkg -l $INSTALLDIR
+pkgbuild --root $tmp --identifier com.mozilla.$PACKAGE_SHORTNAME \
+  --version $VERSION --install-location $INSTALLDIR \
+  $tmp/$PACKAGE_BASENAME.pkg
 rm -rf $tmp/`basename $DIR_TO_PACKAGE`
-echo hdiutil makehybrid -hfs -hfs-volume-name "Mozilla $PACKAGE_BASENAME" -o ./$PACKAGE_BASENAME.dmg $tmp
 hdiutil makehybrid -hfs -hfs-volume-name "Mozilla $PACKAGE_BASENAME" -o ./$PACKAGE_BASENAME.dmg $tmp
-echo "DMG is at" "$PWD/$PACKAGE_BASENAME.dmg"
+echo "Disk image is ready at" "$PWD/$PACKAGE_BASENAME.dmg"
