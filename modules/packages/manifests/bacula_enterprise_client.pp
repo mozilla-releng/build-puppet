@@ -27,7 +27,7 @@ class packages::bacula_enterprise_client {
                     version => '8.0.7',
                     private => true,
                     os_version_specific => false,
-                    dmgname => "Bacula_Enterprise_File_Daemon_8.0.7.dmg";
+                    dmgname => "Bacula_Enterprise_File_Daemon_8.4.0.dmg";
             }
         }
 
