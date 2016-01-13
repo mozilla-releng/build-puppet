@@ -12,7 +12,7 @@ class packages::yasm {
             Anchor['packages::yasm::begin'] ->
             packages::pkgdmg {
                 yasm:
-                    version => "1.1.0";
+                    version => "1.3.0";
             } -> Anchor['packages::yasm::end']
         }
         Windows: {
