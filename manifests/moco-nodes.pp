@@ -36,6 +36,11 @@ node /t-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
     include toplevel::slave
 }
 
+node /t-w1064.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
+    $node_security_level = 'low'
+    include toplevel::slave
+}
+
 ## builders
 
 # Windows

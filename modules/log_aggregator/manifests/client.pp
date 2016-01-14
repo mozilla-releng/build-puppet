@@ -54,6 +54,9 @@ class log_aggregator::client {
                                 notify => Service [ 'nxlog' ];
                         }
                     }
+                    # Windows 10: Support needs to be added
+                    "10.0.10240": {
+                    }
                     default: {
                         # if the error message below is appearing in puppet logs, add a filtered configuration,
                         # tailored to the OS version shown in the error message (like the one above for "6.1.7601").

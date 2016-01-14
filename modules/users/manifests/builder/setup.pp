@@ -33,10 +33,28 @@ class users::builder::setup($home, $username, $group) {
 
     ##
     # Manage some configuration files
-    mercurial::hgrc {
-        "$home/.hgrc":
-            owner => $username,
-            group => $group;
+    case $::operatingsystem {
+        Windows: {
+            case $env_os_version {
+                2008: {
+                    mercurial::hgrc {
+                        "$home/.hgrc":
+                            owner => $username,
+                            group => $group;
+                    }
+                }
+                # Windows tester mecurial support will be added in the future
+                default: {
+                }
+            }
+        }
+        default: {
+            mercurial::hgrc {
+                "$home/.hgrc":
+                    owner => $username,
+                    group => $group;
+            }
+        }
     }
 
     file {
