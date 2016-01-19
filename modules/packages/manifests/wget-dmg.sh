@@ -1,16 +1,19 @@
 #! /bin/bash
 
-set -e
+set -xe
 
 # variables to parallel the spec file
 realname=wget
-version=1.12
-release=1
-srpm_release=1.4
+version=1.15
+release=2
+srpm_release=2
 
 pod2man_broken=false
 case "$(sw_vers -productVersion)" in
-    10.6) ;;  # ?? lost to the sands of time
+    10.6*) 
+       USE_PACKAGEMAKER="1";
+       DONT_USE_RPM_SOURCES=1
+       ;;  # ?? lost to the sands of time
     10.7) ;;  # ?? lost to the sands of time
     10.8) ;;  # ?? lost to the sands of time
     10.9) ;;  # ?? lost to the sands of time
@@ -33,11 +36,18 @@ mkdir build
 BUILD=$PWD/build
 cd $BUILD
 
-curl -L http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/noarch/wget-$version-$srpm_release.el6.src.rpm | bsdtar -x
+if test -n "$DONT_USE_RPM_SOURCES"; then
+    echo Expect 'wget-$version.tar.gz' in local dir
+    echo Copying $realname-$version.tar.gz into build environment
+    cp ../wget-$version.tar.gz ./
+else
+    curl -L http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/noarch/wget-$version-$srpm_release.el6.src.rpm > wget-$version-$srpm_release.el6.src.rpm
+    bsdtar -xf wget-$version-$srpm_release.el6.src.rpm
+fi
 ls
 
 # %prep
-tar -zxf $realname-$version.tar.bz2
+tar -zxf $realname-$version.tar.gz
 cd $realname-$version
 
 # patch out the pod2man call
@@ -47,7 +57,7 @@ if $pod2man_broken; then
 fi
 
 # %build
-./configure
+./configure  --with-ssl=openssl --enable-largefile --enable-opie --enable-digest --disable-ntlm --enable-nls --enable-ipv6 --disable-rpath
 make -j2
 
 # %install
@@ -62,7 +72,13 @@ mkdir dmg
 fullname=$realname-$version-$release
 pkg=dmg/$fullname.pkg
 dmg=$fullname.dmg
-pkgbuild  -r $ROOT -i com.mozilla.$realname --install-location / $pkg
+if test -n "$USE_PACKAGEMAKER"; then
+    # XXX pkgbuild not avail on 10.6
+    PATH="$PATH:/tools/packagemaker/bin:/Developer/usr/bin"
+    packagemaker --root $ROOT -i com.mozilla.$realname -o $pkg -l /
+else
+    pkgbuild -r $ROOT -i com.mozilla.$realname --install-location / $pkg
+fi
 hdiutil makehybrid -hfs -hfs-volume-name "mozilla-$realname-$version-$release" -o ./$dmg dmg
 echo "Result:"
 echo $PWD/$dmg
