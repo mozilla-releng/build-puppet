@@ -180,6 +180,8 @@ class config inherits config::base {
             taskcluster_access_token => secret("releaserunner_dev_taskcluster_access_token"),
             balrog_username => "stage-ffxbld",
             balrog_password => secret("stage-ffxbld_ldap_password"),
+            beetmover_aws_access_key_id => secret("stage-beetmover-aws_access_key_id"),
+            beetmover_aws_secret_access_key => secret("stage-beetmover-aws_secret_access_key"),
             releaserunner_buildbot_configs_branch => "default",
             releaserunner_buildbot_configs => "https://hg.mozilla.org/build/buildbot-configs",
         },
@@ -193,6 +195,8 @@ class config inherits config::base {
             taskcluster_access_token => secret("releaserunner_prod_taskcluster_access_token"),
             balrog_username => "ffxbld",
             balrog_password => secret("ffxbld_ldap_password"),
+            beetmover_aws_access_key_id => secret("beetmover-aws_access_key_id"),
+            beetmover_aws_secret_access_key => secret("beetmover-aws_secret_access_key"),
             releaserunner_buildbot_configs_branch => "production",
             releaserunner_buildbot_configs => "https://hg.mozilla.org/build/buildbot-configs",
         }

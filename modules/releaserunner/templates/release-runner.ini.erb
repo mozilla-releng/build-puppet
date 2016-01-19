@@ -38,5 +38,9 @@ thunderbird_production_config.py: {buildbot_configs}/mozilla/thunderbird_localco
 username = <%= @env_config["balrog_username"] %>
 password = <%= @env_config["balrog_password"] %>
 
+[beetmover]
+aws_access_key_id = <%= @env_config["beetmover_aws_access_key_id"] %>
+aws_secret_access_key = <%= @env_config["beetmover_aws_secret_access_key"] %>
+
 [signing]
 pvt_key = <%= scope.lookupvar("config::releaserunner_root") %>/id_rsa
