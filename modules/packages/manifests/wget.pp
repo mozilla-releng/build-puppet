@@ -26,7 +26,7 @@ class packages::wget {
             Anchor['packages::wget::begin'] ->
             packages::pkgdmg {
                 wget:
-                    version => "1.12-1";
+                    version => "1.15-2";
             } -> Anchor['packages::wget::end']
         }
         Windows: {
