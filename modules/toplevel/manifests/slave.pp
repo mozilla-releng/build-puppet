@@ -18,10 +18,10 @@ class toplevel::slave inherits toplevel::base {
     if ($::operatingsystem == "Darwin") or ($::operatingsystem == "Windows") {
         include users::builder::autologin
     }
-    # The initial pass for support for Win 7 is meant to only support secrets
-    # This is temporarily here until we do full Puppet support for Win 7
+    # The initial pass for support for Win 7 and Win 10 is meant to only support secrets
+    # This is temporarily here until we do full Puppet support for Win 7 or Win 10
     if ($::operatingsystem == Windows) {
-        if ($env_os_version == w732) {
+        if ($env_os_version == w732) or ($env_os_version == w1064) {
             include slave_secrets::relengapi_token
             include slave_secrets::crash_stats_api_token
         }
