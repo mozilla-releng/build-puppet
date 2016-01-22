@@ -27,7 +27,7 @@ ARIES_CONFIG = dict(namespace='gecko.v2.mozilla-central.latest.b2g.aries-ota-opt
                     bucket='TODO-bucket',
                     key_base='TODO-key',
                     schema_version=4)
-B2GDROID_CONFIG = dict(namespace='gecko.v2.mozilla-central.latest.mobile.android-api-11-b2gdroid-opt',
+B2GDROID_CONFIG = dict(namespace='gecko.v2.mozilla-central.latest.mobile.android-api-15-b2gdroid-opt',
                        artifact='public/build/target.apk',
                        product='B2GDroid',
                        branch='mozilla-central',
