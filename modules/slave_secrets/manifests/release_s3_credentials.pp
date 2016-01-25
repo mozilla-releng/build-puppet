@@ -11,9 +11,16 @@ class slave_secrets::release_s3_credentials($ensure=present) {
         windows => 'C:/builds/release-s3.credentials',
         default => "/builds/release-s3.credentials"
     }
-    # These config files are for partner repacks. We don't do these repacks on Windows.
-    $s3cfg_release = "/builds/release-s3cfg"
-    $s3cfg_partners = "/builds/partners-s3cfg"
+    # These config files are for partner repacks. While we don't do these
+    # repacks on Windows, they need to be a proper file resource.
+    $s3cfg_release = $::operatingsystem ? {
+        windows => 'C:/builds/release-s3cfg',
+        default => "/builds/release-s3cfg"
+    }
+    $s3cfg_partners = $::operatingsystem ? {
+        windows => 'C:/builds/partners-s3cfg',
+        default => "/builds/partners-s3cfg"
+    }
 
     case $::operatingsystem {
         CentOS, Darwin: {
