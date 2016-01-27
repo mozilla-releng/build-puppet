@@ -9,6 +9,7 @@ import yaml
 import os
 import logging
 import random
+import sys
 
 AWS_METADATA_URL = "http://169.254.169.254/latest/meta-data/"
 AWS_USERDATA_URL = "http://169.254.169.254/latest/user-data"
@@ -92,7 +93,13 @@ def main():
         created = int(last_ami["tags"]["moz-created"])
         if should_recycle(created, AMI_TTL):
             log.warn("Time to recycle!")
-            os.system("/sbin/poweroff")
+            if sys.platform == "linux2":
+                os.system("/sbin/poweroff")
+            elif sys.platform == "win32":
+                os.system('shutdown -f -s -t 0 -c "check_ami.py shutdown"')
+            else:
+                log.warn("Cannot shutdown unknown platform: " + sys.platform)
+
 
 if __name__ == "__main__":
     logging.basicConfig(format="%(message)s", level=logging.INFO)
