@@ -5,6 +5,7 @@ class mig::agent::base(
     $isimmortal,
     $installservice,
     $discoverpublicip,
+    $discoverawsmeta,
     $checkin,
     $moduletimeout,
     $apiurl

@@ -8,6 +8,7 @@ class mig::agent::checkin {
         isimmortal => "off",
         installservice => "off",
         discoverpublicip => "on",
+        discoverawsmeta => "off",
         checkin => "on",
         moduletimeout => "300s",
         apiurl => "https://api.mig.mozilla.org/api/v1/"

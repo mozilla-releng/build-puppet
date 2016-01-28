@@ -6,6 +6,7 @@ class mig::agent::daemon {
         isimmortal => "on",
         installservice => "on",
         discoverpublicip => "on",
+        discoverawsmeta => "on",
         checkin => "off",
         moduletimeout => "1200s",
         apiurl => "https://api.mig.mozilla.org/api/v1/"
