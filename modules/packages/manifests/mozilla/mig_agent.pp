@@ -17,7 +17,7 @@ class packages::mozilla::mig_agent {
             Anchor['packages::mozilla::mig_agent::begin'] ->
             package {
                 'mig-agent':
-                    ensure => '20160127-0.c128226.prod-1'
+                    ensure => '20160127_0.c128226.prod-1'
             } -> Anchor['packages::mozilla::mig_agent::end']
         }
         'Ubuntu': {
