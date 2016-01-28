@@ -53,11 +53,6 @@ class tweaks::windows_network_opt_netsh {
                 content => "$set_netsh int ipv4 set subinterface $QuotedLAC mtu=1500 store=persistent$run_netsh $ErrorCheck",
                 order   => 07,
             }
-            concat::fragment { "local_area2_mtu" :
-                target  => "$NetTwBat",
-                content => "$set_netsh int ipv4 set subinterface $QuotedLAC_2 mtu=1500 store=persistent$run_netsh $ErrorCheck",
-                order   => 08,
-            }
             concat::fragment { "global autotuning" :
                 target  => "$NetTwBat",
                 content => "$set_netsh int tcp set global autotuning=normal$run_netsh $ErrorCheck",
