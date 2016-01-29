@@ -47,8 +47,13 @@ def get_aws_userdata():
     """Gets AWS user-data"""
     user_data = get_page(AWS_USERDATA_URL)
     try:
+        if sys.platform == "win32":
+            start = user_data.find('<mozuserdata>') + len('<mozuserdata>')
+            end = user_data.find('</mozuserdata>')
+            user_data = user_data[start:end]
         return yaml.safe_load(user_data)
     except Exception:
+        log.exception('Error parsing userdata')
         return None
 
 
