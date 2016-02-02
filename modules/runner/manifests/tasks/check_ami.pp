@@ -7,8 +7,22 @@ class runner::tasks::check_ami($runlevel=0) {
     include runner
     include packages::pyyaml
 
-    runner::task {
-        "${runlevel}-check_ami":
-            source => 'puppet:///modules/runner/check_ami.py';
+    case $::operatingsystem {
+        'Windows': {
+            runner::task {
+                "${runlevel}-check_ami.bat":
+                    source => "puppet:///modules/runner/tasks/check_ami.bat";
+            }
+            file {
+                "C:/opt/runner/check_ami.py" :
+                    source => 'puppet:///modules/runner/check_ami.py';
+            }
+        }
+        default: {
+            runner::task {
+                "${runlevel}-check_ami":
+                    source => 'puppet:///modules/runner/check_ami.py';
+            }
+        }
     }
 }

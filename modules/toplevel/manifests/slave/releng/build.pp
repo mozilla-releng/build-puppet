@@ -40,6 +40,8 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
     include packages::mozilla::retry
     include packages::patch
 
+    include runner::tasks::clobber
+
     # The runner purge_build target for Windows is set to 35 GB
     # This is to ensure there is enough space for PGO builds
     # Ref: https://bugzilla.mozilla.org/show_bug.cgi?id=1227390
@@ -48,6 +50,7 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
             'runner::tasks::purge_builds':
                 required_space => 35;
         }
+        include runner::tasks::check_ami
     }
 
     if ($::operatingsystem != Windows) {
@@ -64,7 +67,6 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
         }
 
         include runner::tasks::checkout_tools
-        include runner::tasks::clobber
         include runner::tasks::update_shared_repos
         include runner::tasks::cleanup
         include runner::tasks::config_hgrc
