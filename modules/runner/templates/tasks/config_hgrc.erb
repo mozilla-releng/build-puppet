@@ -12,8 +12,8 @@ fi
 
 availability_zone=$(python -c 'import json; print json.load(open("/etc/instance_metadata.json")).get("placement/availability_zone", "")')
 case "$availability_zone" in
-    us-east-1*) PREFERS="ec2region=us-east-1, stream=revlogv1" ;;
-    *) PREFERS="ec2region=us-west-2, stream=revlogv1" ;;
+    us-east-1*) PREFERS="cdn=true, ec2region=us-east-1, stream=revlogv1" ;;
+    *) PREFERS="cdn=true, ec2region=us-west-2, stream=revlogv1" ;;
 esac
 
 for f in /home/cltbld/.hgrc <%= scope.lookupvar('mercurial::settings::hgrc') %>; do
