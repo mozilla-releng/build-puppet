@@ -83,10 +83,13 @@ traceback = True
 
 [bundleclone]
 # NB - this may be updated by runner to prefer the local AWS region
-prefers = ec2region=us-west-2, stream=revlogv1
+prefers = cdn=true, ec2region=us-west-2, stream=revlogv1
 
 [hostfingerprints]
 hg.mozilla.org = af:27:b9:34:47:4e:e5:98:01:f6:83:2b:51:c9:aa:d8:df:fb:1a:27
+s3-external-1.amazonaws.com = 44:ae:c0:4d:9e:8d:50:13:fc:c3:0c:27:8c:06:f0:53:8a:ad:d2:22
+s3-us-west-2.amazonaws.com = ad:ab:0d:1e:fe:1c:78:5b:94:f9:76:b2:5a:12:51:9a:12:7b:66:a2
+ftp-ssl.mozilla.org = 9d:8e:3e:7c:4a:33:6f:53:c6:64:a8:48:d3:ea:72:05:f0:73:a4:90
 ;
 ; Define external diff commands
 ;
