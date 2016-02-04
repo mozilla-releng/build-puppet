@@ -37,7 +37,7 @@ class pkgbuilder {
             exec {
                 'mock-group':
                     require => Class['packages::mock'],
-                    command => "/bin/sed -i -e '/^mock:/s/^\(mock:[^:]*:[^:]*:\).*/\1$users/' /etc/group";
+                    command => "/bin/sed -i -e '/^mock:/s/^\\(mock:[^:]*:[^:]*:\\).*/\\1$users/' /etc/group";
             }
 
             file {
