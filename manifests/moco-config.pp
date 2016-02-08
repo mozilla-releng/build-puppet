@@ -234,7 +234,7 @@ class config inherits config::base {
     $slaverebooter_slaveapi = "http://slaveapi1.srv.releng.scl3.mozilla.com:8080"
     $slaverebooter_mail_to = "release@mozilla.com"
 
-    $buildmaster_ssh_keys = [ 'b2gbld_dsa', 'b2gtry_dsa', 'ffxbld_rsa', 'tbirdbld_dsa', 'trybld_dsa', 'xrbld_dsa' ]
+    $buildmaster_ssh_keys = [ 'b2gbld_dsa', 'b2gtry_dsa', 'ffxbld_rsa', 'tbirdbld_dsa', 'trybld_dsa' ]
 
     $collectd_write = {
         graphite_nodes => {
