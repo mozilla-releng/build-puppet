@@ -11,6 +11,11 @@ class slave_secrets::adjust_sdk_token($ensure=present) {
         windows => 'C:/builds/adjust-sdk.token',
         default => "/builds/adjust-sdk.token"
     }
+    $adjust_sdk_beta_token = $::operatingsystem ? {
+        windows => 'C:/builds/adjust-sdk-beta.token',
+        default => "/builds/adjust-sdk-beta.token"
+    }
+
 
     if ($ensure == 'present' and $config::install_adjust_sdk_token) {
         case $::operatingsystem {
@@ -24,11 +29,19 @@ class slave_secrets::adjust_sdk_token($ensure=present) {
                         group  => $::users::builder::group,
                         mode    => 0600,
                         show_diff => false;
+                    $adjust_sdk_beta_token:
+                        content => secret("adjust_sdk_beta_token"),
+                        owner  => $::users::builder::username,
+                        group  => $::users::builder::group,
+                        mode    => 0600,
+                        show_diff => false;
                 }
             }
             default: {
                 file {
                     $adjust_sdk_token:
+                        ensure => absent;
+                    $adjust_sdk_beta_token:
                         ensure => absent;
                 }
             }
@@ -36,6 +49,8 @@ class slave_secrets::adjust_sdk_token($ensure=present) {
     } else {
         file {
             $adjust_sdk_token:
+                ensure => absent;
+            $adjust_sdk_beta_token:
                 ensure => absent;
         }
     }
