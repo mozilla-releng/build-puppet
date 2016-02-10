@@ -33,7 +33,19 @@ class packages::wget {
             # on Windows, we use the wget that ships with MozillaBuild
             include packages::mozilla::mozilla_build
             Anchor['packages::wget::begin'] ->
-            Class['packages::mozilla::mozilla_build']
+            Class['packages::mozilla::mozilla_build'] ->
+            packages::pkgzip {
+                "wget-1.16.3-win32.zip":
+                    zip => "wget-1.16.3-win32.zip",
+                    target_dir => "$packages::mozilla::mozilla_build::moz_bld_dir/wget",
+                    subscribe => Exec["MozillaBuildSetup-$packages::mozilla::mozilla_build::version"];
+            } ->
+            file {
+                "$packages::mozilla::mozilla_build::moz_bld_dir/msys/etc/ca-bundle.crt":
+                    ensure => file,
+                    source  => "puppet:///modules/packages/wget/ca-bundle.crt",
+                    subscribe => Exec["MozillaBuildSetup-$packages::mozilla::mozilla_build::version"];
+            }
             -> Anchor['packages::wget::end']
         }
         default: {
