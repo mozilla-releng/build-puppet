@@ -4,39 +4,24 @@
 class packages::mesa {
     case $::operatingsystem {
         Ubuntu: {
-            realize(Packages::Aptrepo['mesa-lts-saucy'])
             case $::hardwaremodel {
                 "i686": {
                     package {
-                      # This package is a recompiled version of
-                      # http://packages.ubuntu.com/precise-updates/mesa-common-dev-lts-saucy
-                      ["libgl1-mesa-dev-lts-saucy",
-                      "libgl1-mesa-dri-lts-saucy",
-                      "libgl1-mesa-glx-lts-saucy",
-                      "libxatracker1-lts-saucy",
-                      "libglapi-mesa-lts-saucy",
-                      "libgl1-mesa-dri-lts-saucy-dbg",
-                      "mesa-common-dev-lts-saucy"]:
-                        ensure => '9.2.1-1ubuntu3~precise1mozilla2';
+                        # This package is a recompiled version of
+                        # https://launchpad.net/ubuntu/+source/mesa
+                        [ "libgl1-mesa-dri", "libgl1-mesa-glx", "libglapi-mesa",
+                          "libglu1-mesa", "libxatracker1"]:
+                            ensure => '8.0.4-0ubuntu0.6mozilla1';
                     }
                 }
                 "x86_64": {
                     package {
-                      # This package is a recompiled version of
-                      # http://packages.ubuntu.com/precise-updates/mesa-common-dev-lts-saucy
-                      # libgl1-mesa-dev-lts-saucy:i386 is required by B2G emulators, Bug 1013634
-                      ["libgl1-mesa-dev-lts-saucy:i386",
-                      "libgl1-mesa-dri-lts-saucy",
-                      "libgl1-mesa-dri-lts-saucy:i386",
-                      "libgl1-mesa-glx-lts-saucy",
-                      "libgl1-mesa-glx-lts-saucy:i386",
-                      "libglapi-mesa-lts-saucy",
-                      "libglapi-mesa-lts-saucy:i386",
-                      "libxatracker1-lts-saucy",
-                      "libgl1-mesa-dri-lts-saucy-dbg",
-                      "libgl1-mesa-dri-lts-saucy-dbg:i386",
-                      "mesa-common-dev-lts-saucy:i386"]:
-                        ensure => '9.2.1-1ubuntu3~precise1mozilla2';
+                        # This package is a recompiled version of
+                        # https://launchpad.net/ubuntu/+source/mesa
+                        # libgl1-mesa-dev:i386 is required by B2G emulators, Bug 1013634
+                        [ "libgl1-mesa-dri", "libgl1-mesa-glx", "libglapi-mesa",
+                          "libglu1-mesa", "libxatracker1", "libgl1-mesa-dev:i386"]:
+                            ensure => '8.0.4-0ubuntu0.6mozilla1';
                     }
                 }
             }
