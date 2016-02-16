@@ -54,16 +54,24 @@ class packages::mozilla::py27_mercurial {
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Windows: {
-            $mercurial = 'C:\mozilla-build\hg\hg.exe'
             include packages::mozilla::mozilla_build
+            $mercurial = 'C:\mozilla-build\hg\hg.exe'
+            $merc_exe = $hardwaremodel ? {
+                i686    => "Mercurial-3.2.1.exe",
+                default => "Mercurial-3.2.1-x64.exe",
+            }
+            $merc_exe_dir = "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\"
+            $merc_exe_flag = " /SILENT /DIR=C:\\mozilla-build\\hg"
+            $quoted_merc_cmd = "\"$merc_exe_dir$merc_exe$merc_exe_flag\""
+
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             # This is a temporary work around until we have Windows package management in place 
-            # Ref Bugs 1178487 & 1170588 for the reasons behind Mercurial-3.2.1 being handled this manner 
-            file { "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/Mercurial-3.2.1-x64.exe" :
+            # Ref Bugs 1178487 & 1170588 for the reasons behind Mercurial-3.2.1 being handled this manner
+            file { "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/$merc_exe" :
                 ensure => file,
-                source => "puppet:///repos/EXEs/Mercurial-3.2.1-x64.exe",
+                source => "puppet:///repos/EXEs/$merc_exe",
             } -> exec { "Schtasks_Mercurial-3.2.1":
-                command  => '"C:\Windows\system32\schtasks.exe" /ru "SYSTEM" /create /sc once /st 23:59  /tn hg_3-2-1 /tr "C:\installersource\puppetagain.pub.build.mozilla.org\EXEs\Mercurial-3.2.1-x64.exe /SILENT /DIR=C:\mozilla-build\hg"',
+                command  => "C:\\Windows\\system32\\schtasks.exe /ru SYSTEM /create /sc once /st 23:59  /tn hg_3-2-1 /tr $quoted_merc_cmd",
                 require  => Exec["remove_old_hg"],
                 creates  => "C:\\mozilla-build\\hg\\MPR.dll",
             } -> exec { "Install_Mercurial-3.2.1":
