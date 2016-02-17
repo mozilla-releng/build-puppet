@@ -10,7 +10,7 @@ class packages::libc {
                     realize(Packages::Yumrepo['glibc'])
                     package {
                         'glibc':
-                            ensure => "2.12-1.149.el6_6.5";
+                            ensure => "2.12-1.166.el6_7.7";
                     }
                 }
                 6.2: {
