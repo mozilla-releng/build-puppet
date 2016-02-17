@@ -141,7 +141,7 @@ class packages::setup {
             }
             # to flush the package index, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 32
+            $repoflag = 33
             file {
                 "/etc/.repo-flag":
                     content =>

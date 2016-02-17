@@ -32,7 +32,14 @@ class packages::libc {
                     realize(Packages::Aptrepo['eglibc'])
                     package {
                         "libc6":
-                            ensure => '2.15-0ubuntu10.10';
+                            ensure => '2.15-0ubuntu10.13';
+                    }
+                }
+                14.04: {
+                    realize(Packages::Aptrepo['eglibc'])
+                    package {
+                        "libc6":
+                            ensure => '2.19-0ubuntu6.7';
                     }
                 }
                 default: {
