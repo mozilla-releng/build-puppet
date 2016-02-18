@@ -10,6 +10,7 @@ class packages::mesa {
                     package {
                       # This package is a recompiled version of
                       # http://packages.ubuntu.com/precise-updates/mesa-common-dev-lts-saucy
+                      # with some additional patches
                       ["libgl1-mesa-dev-lts-saucy",
                       "libgl1-mesa-dri-lts-saucy",
                       "libgl1-mesa-glx-lts-saucy",
@@ -24,6 +25,7 @@ class packages::mesa {
                     package {
                       # This package is a recompiled version of
                       # http://packages.ubuntu.com/precise-updates/mesa-common-dev-lts-saucy
+                      # with some additional patches
                       # libgl1-mesa-dev-lts-saucy:i386 is required by B2G emulators, Bug 1013634
                       ["libgl1-mesa-dev-lts-saucy:i386",
                       "libgl1-mesa-dri-lts-saucy",
