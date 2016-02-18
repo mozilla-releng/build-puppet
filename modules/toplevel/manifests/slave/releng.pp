@@ -16,17 +16,15 @@ class toplevel::slave::releng inherits toplevel::slave {
     include packages::mozilla::py27_mercurial
 
     if ($::operatingsystem == Windows) {
-        include tweaks::disablejit
         include tweaks::memory_paging
         include tweaks::nouac
         include tweaks::ntfs_options
         include tweaks::process_priority
         include tweaks::pwrshell_options
         include tweaks::server_initialize
-        include tweaks::shutdown_tracker
         include tweaks::windows_network_opt_netsh
         include tweaks::windows_network_opt_registry
-        include packages::binscope
+        include packages::mozilla::git
         include packages::nsis3_0b1
         include packages::psutil
         include packages::pywin32
@@ -35,6 +33,7 @@ class toplevel::slave::releng inherits toplevel::slave {
         include fw::windows_exceptions
         include fw::windows_settings
         include hardware::ec2_config
+        include vnc
     }
     case $::kernel {
         'Linux': {

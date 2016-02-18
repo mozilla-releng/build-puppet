@@ -15,12 +15,17 @@ class tweaks::windows_network_opt_netsh {
     $run_netsh   = "\n %netcmd%\n"
     $failed      = " failed with  exit code %errorlevel% "
     $ErrorCheck  = "If %errorlevel% neq 0 echo %netcmd%$failed>>$netsh_log\n"
-    $QuotedLAC   = '"Local Area Connection"'
-    $QuotedLAC_2 = '"Local Area Connection 2"'
+    # This is a hack to move forward in getting toplevel::slave::releng support for Windows 7
+    # This will be re-addressed with bug 1247707
+    $QuotedLAC   = $env_os_version ? {
+        2008 =>  '"Local Area Connection "',
+        w732 =>  '"Local Area Connection 2"',
+    }
+    # $QuotedLAC_2 = '"Local Area Connection 2"'
     $NetTwBat    = "c:\\etc\\network_tweak.bat"
 
     case $env_os_version {
-        2008: {
+        2008, w732: {
             concat { "$NetTwBat":
             }
             concat::fragment  { "network_tweak_bat_header" :

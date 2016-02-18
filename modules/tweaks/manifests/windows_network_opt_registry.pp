@@ -19,7 +19,7 @@ class tweaks::windows_network_opt_registry {
     $IP6Parameters   = 'HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters'
 
     case $env_os_version {
-        2008: {
+        2008, w732: {
             registry::value { "DnsPriority" :
                 key  => $ServiceProvider,
                 type => dword,
