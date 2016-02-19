@@ -18,7 +18,7 @@ class tweaks::windows_network_opt_netsh {
     # This is a hack to move forward in getting toplevel::slave::releng support for Windows 7
     # This will be re-addressed with bug 1247707
     $QuotedLAC   = $env_os_version ? {
-        2008 =>  '"Local Area Connection "',
+        2008 =>  '"Local Area Connection"',
         w732 =>  '"Local Area Connection 2"',
     }
     # $QuotedLAC_2 = '"Local Area Connection 2"'
