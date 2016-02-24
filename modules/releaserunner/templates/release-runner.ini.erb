@@ -37,7 +37,6 @@ thunderbird_production_config.py: {buildbot_configs}/mozilla/thunderbird_localco
 [balrog]
 username = <%= @env_config["balrog_username"] %>
 password = <%= @env_config["balrog_password"] %>
-extra_balrog_submitter_params = <%= @env_config["extra_balrog_submitter_params"] %>
 
 [beetmover]
 aws_access_key_id = <%= @env_config["beetmover_aws_access_key_id"] %>
