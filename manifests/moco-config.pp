@@ -184,6 +184,7 @@ class config inherits config::base {
             beetmover_aws_secret_access_key => secret("stage-beetmover-aws_secret_access_key"),
             releaserunner_buildbot_configs_branch => "default",
             releaserunner_buildbot_configs => "https://hg.mozilla.org/build/buildbot-configs",
+            releaserunner_gpg_key_path => "scripts/release/FAKE_KEY",
         },
         "prod" => {
             ship_it_root => "https://ship-it.mozilla.org",
@@ -199,6 +200,7 @@ class config inherits config::base {
             beetmover_aws_secret_access_key => secret("beetmover-aws_secret_access_key"),
             releaserunner_buildbot_configs_branch => "production",
             releaserunner_buildbot_configs => "https://hg.mozilla.org/build/buildbot-configs",
+            releaserunner_gpg_key_path => "scripts/release/KEY",
         }
     }
 
