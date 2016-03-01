@@ -17,9 +17,4 @@ class runner::tasks::config_hgrc($runlevel=0) {
                 command => "${runner::settings::taskdir}/${runlevel}-config_hgrc";
         }
     }
-
-    runner::task {
-        "${runlevel}-config_hgrc":
-            content  => template("${module_name}/tasks/config_hgrc.erb");
-    }
 }
