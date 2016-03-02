@@ -40,13 +40,13 @@ class packages::openssl {
                 12.04: {
                     package {
                         ["openssl", "libssl1.0.0", "libssl-dev"]:
-                            ensure => '1.0.1-4ubuntu5.20';
+                            ensure => '1.0.1-4ubuntu5.35';
                     }
                 }
                 14.04: {
                     package {
                         ["openssl", "libssl1.0.0", "libssl-dev"]:
-                            ensure => '1.0.1f-1ubuntu2.7';
+                            ensure => '1.0.1f-1ubuntu2.18';
                     }
                 }
                 default: {
