@@ -95,8 +95,8 @@ class tweaks::windows_network_opt_netsh {
             # Set up the schedule task
             exec { "SchTsk_netsh":
                 command     => '"C:\Windows\system32\schtasks.exe" /Create  /XML "C:/programdata/puppetagain/SchTsk_netsh.xml" /TN SchTsk_netsh',
-                require     => Concat["$NetTwBat"],
-                subscribe   => File['C:/programdata/puppetagain/SchTsk_netsh.xml'],
+                subscribe   => Concat["$NetTwBat"],
+                require     => File['C:/programdata/puppetagain/SchTsk_netsh.xml'],
                 refreshonly => true,
             }
             # Execute schedule task
