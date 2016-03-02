@@ -17,7 +17,7 @@ class packages::openssl {
                     realize(Packages::Yumrepo['openssl'])
                     package {
                         ["openssl", "openssl-devel"]:
-                            ensure => "1.0.1e-30.el6_5.2";
+                            ensure => "1.0.1e-42.el6_7.4";
                     }
                 }
                 default: {
