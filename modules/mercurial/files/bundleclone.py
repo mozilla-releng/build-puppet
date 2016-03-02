@@ -158,6 +158,10 @@ Python < 2.7.9 does not support SNI, a TLS extension that allows multiple
 SSL certificates to be installed on the same IP. Hosting services often
 use SNI to enable multiple services to exist on the same IP.
 
+In addition, Mercurial < 3.3 did not support using the modern SSL capabilities
+exposed by modern Python versions. Therefore SNI does not work on Mercurial <
+3.3.
+
 The ``requiresni`` manifest attribute can be defined on the server to
 indicate whether an entry requires SNI. If it is ``true`` and the client
 doesn't support SNI, the entry is automatically discarded. For this reason,
@@ -165,11 +169,13 @@ server operators may want to ensure that there is a non-SNI entry in the
 manifest to ensure all clients can fetch the bundles.
 """
 
+import struct
 import sys
 import time
 import urllib
 import urllib2
 
+import mercurial.branchmap as branchmap
 import mercurial.changegroup as changegroup
 import mercurial.cmdutil as cmdutil
 import mercurial.demandimport as demandimport
@@ -188,7 +194,7 @@ except ImportError:
     exchange = None
 demandimport.enable()
 
-testedwith = '2.5 2.6 2.7 2.8 2.9 3.0 3.1 3.2 3.3 3.4'
+testedwith = '2.5 2.6 2.7 2.8 2.9 3.0 3.1 3.2 3.3 3.4 3.5 3.6'
 buglink = 'https://bugzilla.mozilla.org/enter_bug.cgi?product=Developer%20Services&component=Mercurial%3A%20bundleclone'
 
 cmdtable = {}
@@ -197,13 +203,175 @@ command = cmdutil.command(cmdtable)
 origcapabilities = wireproto.capabilities
 
 
-def generatestreamclone(repo):
-    """Emit content for a streaming clone.
+# BEGIN COPY OF CONTENT FROM mercurial/streamclone.py.
+# We copy parts of upstream streamclone.py into this file so we have a single
+# API to deal with. Otherwise, we are calling functions from up to 3 different
+# locations depending on the Mercurial version.
 
-    This is a generator of raw chunks that constitute a streaming clone.
+def canperformstreamclone(pullop, bailifbundle2supported=False):
+    """Whether it is possible to perform a streaming clone as part of pull.
 
-    This code is copied from Mercurial. Until Mercurial 3.5, this code was
-    a closure in wireproto.py and not consumeable by extensions.
+    ``bailifbundle2supported`` will cause the function to return False if
+    bundle2 stream clones are supported. It should only be called by the
+    legacy stream clone code path.
+
+    Returns a tuple of (supported, requirements). ``supported`` is True if
+    streaming clone is supported and False otherwise. ``requirements`` is
+    a set of repo requirements from the remote, or ``None`` if stream clone
+    isn't supported.
+    """
+    repo = pullop.repo
+    remote = pullop.remote
+
+    bundle2supported = False
+    if pullop.canusebundle2:
+        if 'v1' in pullop.remotebundle2caps.get('stream', []):
+            bundle2supported = True
+        # else
+            # Server doesn't support bundle2 stream clone or doesn't support
+            # the versions we support. Fall back and possibly allow legacy.
+
+    # Ensures legacy code path uses available bundle2.
+    if bailifbundle2supported and bundle2supported:
+        return False, None
+    # Ensures bundle2 doesn't try to do a stream clone if it isn't supported.
+    #elif not bailifbundle2supported and not bundle2supported:
+    #    return False, None
+
+    # Streaming clone only works on empty repositories.
+    if len(repo):
+        return False, None
+
+    # Streaming clone only works if all data is being requested.
+    if pullop.heads:
+        return False, None
+
+    streamrequested = pullop.streamclonerequested
+
+    # If we don't have a preference, let the server decide for us. This
+    # likely only comes into play in LANs.
+    if streamrequested is None:
+        # The server can advertise whether to prefer streaming clone.
+        streamrequested = remote.capable('stream-preferred')
+
+    if not streamrequested:
+        return False, None
+
+    # In order for stream clone to work, the client has to support all the
+    # requirements advertised by the server.
+    #
+    # The server advertises its requirements via the "stream" and "streamreqs"
+    # capability. "stream" (a value-less capability) is advertised if and only
+    # if the only requirement is "revlogv1." Else, the "streamreqs" capability
+    # is advertised and contains a comma-delimited list of requirements.
+    requirements = set()
+    if remote.capable('stream'):
+        requirements.add('revlogv1')
+    else:
+        streamreqs = remote.capable('streamreqs')
+        # This is weird and shouldn't happen with modern servers.
+        if not streamreqs:
+            return False, None
+
+        streamreqs = set(streamreqs.split(','))
+        # Server requires something we don't support. Bail.
+        if streamreqs - repo.supportedformats:
+            return False, None
+        requirements = streamreqs
+
+    return True, requirements
+
+def maybeperformlegacystreamclone(pullop):
+    """Possibly perform a legacy stream clone operation.
+
+    Legacy stream clones are performed as part of pull but before all other
+    operations.
+
+    A legacy stream clone will not be performed if a bundle2 stream clone is
+    supported.
+    """
+    supported, requirements = canperformstreamclone(pullop)
+
+    if not supported:
+        return
+
+    repo = pullop.repo
+    remote = pullop.remote
+
+    # Save remote branchmap. We will use it later to speed up branchcache
+    # creation.
+    rbranchmap = None
+    if remote.capable('branchmap'):
+        rbranchmap = remote.branchmap()
+
+    repo.ui.status(_('streaming all changes\n'))
+
+    fp = remote.stream_out()
+    l = fp.readline()
+    try:
+        resp = int(l)
+    except ValueError:
+        raise error.ResponseError(
+            _('unexpected response from remote server:'), l)
+    if resp == 1:
+        raise error.Abort(_('operation forbidden by server'))
+    elif resp == 2:
+        raise error.Abort(_('locking the remote repository failed'))
+    elif resp != 0:
+        raise error.Abort(_('the server sent an unknown error code'))
+
+    l = fp.readline()
+    try:
+        filecount, bytecount = map(int, l.split(' ', 1))
+    except (ValueError, TypeError):
+        raise error.ResponseError(
+            _('unexpected response from remote server:'), l)
+
+    lock = repo.lock()
+    try:
+        consumev1(repo, fp, filecount, bytecount)
+
+        # new requirements = old non-format requirements +
+        #                    new format-related remote requirements
+        # requirements from the streamed-in repository
+        repo.requirements = requirements | (
+                repo.requirements - repo.supportedformats)
+        repo._applyopenerreqs()
+        repo._writerequirements()
+
+        if rbranchmap:
+            branchmap.replacecache(repo, rbranchmap)
+
+        repo.invalidate()
+    finally:
+        lock.release()
+
+def allowservergeneration(ui):
+    """Whether streaming clones are allowed from the server."""
+    return ui.configbool('server', 'uncompressed', True, untrusted=True)
+
+# This is it's own function so extensions can override it.
+def _walkstreamfiles(repo):
+    return repo.store.walk()
+
+def generatev1(repo):
+    """Emit content for version 1 of a streaming clone.
+
+    This returns a 3-tuple of (file count, byte size, data iterator).
+
+    The data iterator consists of N entries for each file being transferred.
+    Each file entry starts as a line with the file name and integer size
+    delimited by a null byte.
+
+    The raw file data follows. Following the raw file data is the next file
+    entry, or EOF.
+
+    When used on the wire protocol, an additional line indicating protocol
+    success will be prepended to the stream. This function is not responsible
+    for adding it.
+
+    This function will obtain a repository lock to ensure a consistent view of
+    the store is captured. It therefore may raise LockError.
     """
     entries = []
     total_bytes = 0
@@ -211,7 +379,7 @@ def generatestreamclone(repo):
     lock = repo.lock()
     try:
         repo.ui.debug('scanning\n')
-        for name, ename, size in repo.store.walk():
+        for name, ename, size in _walkstreamfiles(repo):
             if size:
                 entries.append((name, size))
                 total_bytes += size
@@ -220,57 +388,120 @@ def generatestreamclone(repo):
 
     repo.ui.debug('%d files, %d bytes to transfer\n' %
                   (len(entries), total_bytes))
-    yield '%d %d\n' % (len(entries), total_bytes)
 
-    sopener = repo.svfs
-    oldaudit = sopener.mustaudit
+    svfs = repo.svfs
+    oldaudit = svfs.mustaudit
     debugflag = repo.ui.debugflag
-    sopener.mustaudit = False
+    svfs.mustaudit = False
 
-    try:
-        for name, size in entries:
-            if debugflag:
-                repo.ui.debug('sending %s (%d bytes)\n' % (name, size))
-            # partially encode name over the wire for backwards compat
-            yield '%s\0%d\n' % (store.encodedir(name), size)
-            if size <= 65536:
-                fp = sopener(name)
-                try:
-                    data = fp.read(size)
-                finally:
-                    fp.close()
-                yield data
-            else:
-                for chunk in util.filechunkiter(sopener(name), limit=size):
-                    yield chunk
-    finally:
-        sopener.mustaudit = oldaudit
+    def emitrevlogdata():
+        try:
+            for name, size in entries:
+                if debugflag:
+                    repo.ui.debug('sending %s (%d bytes)\n' % (name, size))
+                # partially encode name over the wire for backwards compat
+                yield '%s\0%d\n' % (store.encodedir(name), size)
+                if size <= 65536:
+                    fp = svfs(name)
+                    try:
+                        data = fp.read(size)
+                    finally:
+                        fp.close()
+                    yield data
+                else:
+                    for chunk in util.filechunkiter(svfs(name), limit=size):
+                        yield chunk
+        finally:
+            svfs.mustaudit = oldaudit
 
+    return len(entries), total_bytes, emitrevlogdata()
 
-def consumestreamclone(repo, fp):
-    """Apply the contents from a streaming clone file.
+def generatev1wireproto(repo):
+    """Emit content for version 1 of streaming clone suitable for the wire.
 
-    This code is copied from Mercurial. Until Mercurial 3.5, this code was
-    a closure in wireproto.py and not consumeable by extensions.
+    This is the data output from ``generatev1()`` with a header line
+    indicating file count and byte size.
+    """
+    filecount, bytecount, it = generatev1(repo)
+    yield '%d %d\n' % (filecount, bytecount)
+    for chunk in it:
+        yield chunk
+
+def generatebundlev1(repo, compression='UN'):
+    """Emit content for version 1 of a stream clone bundle.
+
+    The first 4 bytes of the output ("HGS1") denote this as stream clone
+    bundle version 1.
+
+    The next 2 bytes indicate the compression type. Only "UN" is currently
+    supported.
+
+    The next 16 bytes are two 64-bit big endian unsigned integers indicating
+    file count and byte count, respectively.
+
+    The next 2 bytes is a 16-bit big endian unsigned short declaring the length
+    of the requirements string, including a trailing \0. The following N bytes
+    are the requirements string, which is ASCII containing a comma-delimited
+    list of repo requirements that are needed to support the data.
+
+    The remaining content is the output of ``generatev1()`` (which may be
+    compressed in the future).
+
+    Returns a tuple of (requirements, data generator).
+    """
+    if compression != 'UN':
+        raise ValueError('we do not support the compression argument yet')
+
+    requirements = repo.requirements & repo.supportedformats
+    requires = ','.join(sorted(requirements))
+
+    def gen():
+        yield 'HGS1'
+        yield compression
+
+        filecount, bytecount, it = generatev1(repo)
+        repo.ui.status(_('writing %d bytes for %d files\n') %
+                         (bytecount, filecount))
+
+        yield struct.pack('>QQ', filecount, bytecount)
+        yield struct.pack('>H', len(requires) + 1)
+        yield requires + '\0'
+
+        # This is where we'll add compression in the future.
+        assert compression == 'UN'
+
+        seen = 0
+        repo.ui.progress(_('bundle'), 0, total=bytecount)
+
+        for chunk in it:
+            seen += len(chunk)
+            repo.ui.progress(_('bundle'), seen, total=bytecount)
+            yield chunk
+
+        repo.ui.progress(_('bundle'), None)
+
+    return requirements, gen()
+
+def consumev1(repo, fp, filecount, bytecount):
+    """Apply the contents from version 1 of a streaming clone file handle.
+
+    This takes the output from "streamout" and applies it to the specified
+    repository.
+
+    Like "streamout," the status line added by the wire protocol is not handled
+    by this function.
     """
     lock = repo.lock()
     try:
-        repo.ui.status(_('streaming all changes\n'))
-        l = fp.readline()
-        try:
-            total_files, total_bytes = map(int, l.split(' ', 1))
-        except (ValueError, TypeError):
-            raise error.ResponseError(
-                _('unexpected response from remote server:'), l)
         repo.ui.status(_('%d files to transfer, %s of data\n') %
-                       (total_files, util.bytecount(total_bytes)))
+                       (filecount, util.bytecount(bytecount)))
         handled_bytes = 0
-        repo.ui.progress(_('clone'), 0, total=total_bytes)
+        repo.ui.progress(_('clone'), 0, total=bytecount)
         start = time.time()
 
         tr = repo.transaction(_('clone'))
         try:
-            for i in xrange(total_files):
+            for i in xrange(filecount):
                 # XXX doesn't support '\n' or '\r' in filenames
                 l = fp.readline()
                 try:
@@ -286,8 +517,7 @@ def consumestreamclone(repo, fp):
                 ofp = repo.svfs(store.decodedir(name), 'w')
                 for chunk in util.filechunkiter(fp, limit=size):
                     handled_bytes += len(chunk)
-                    repo.ui.progress(_('clone'), handled_bytes,
-                                     total=total_bytes)
+                    repo.ui.progress(_('clone'), handled_bytes, total=bytecount)
                     ofp.write(chunk)
                 ofp.close()
             tr.close()
@@ -302,41 +532,52 @@ def consumestreamclone(repo, fp):
             elapsed = 0.001
         repo.ui.progress(_('clone'), None)
         repo.ui.status(_('transferred %s in %.1f seconds (%s/sec)\n') %
-                       (util.bytecount(total_bytes), elapsed,
-                        util.bytecount(total_bytes / elapsed)))
+                       (util.bytecount(bytecount), elapsed,
+                        util.bytecount(bytecount / elapsed)))
     finally:
         lock.release()
 
+def applybundlev1(repo, fp):
+    """Apply the content from a stream clone bundle version 1.
 
-def applystreamclone(repo, remotereqs, fp):
-    """Apply stream clone data to a repository.
-
-    This code is mostly copied from mercurial.repository.stream_in. We needed
-    to copy the code because the original code was tightly coupled to the wire
-    protocol and not suitable for reuse. Code for dealing with the branch map
-    has been removed, as it isn't relevant to our needs.
+    We assume the 4 byte header has been read and validated and the file handle
+    is at the 2 byte compression identifier.
     """
-    lock = repo.lock()
-    try:
-        consumestreamclone(repo, fp)
+    if len(repo):
+        raise error.Abort(_('cannot apply stream clone bundle on non-empty '
+                            'repo'))
 
-        # new requirements = old non-format requirements +
-        #                    new format-related remote requirements
-        # requirements from the streamed-in repository
-        repo.requirements = list(remotereqs | (
-                set(repo.requirements) - repo.supportedformats))
-        if hasattr(repo, '_applyopenerreqs'):
-            repo._applyopenerreqs()
-        else:
-            repo._applyrequirements(repo.requirements)
-        repo._writerequirements()
-        repo.invalidate()
-    finally:
-        lock.release()
+    compression = fp.read(2)
+    if compression != 'UN':
+        raise error.Abort(_('only uncompressed stream clone bundles are '
+            'supported; got %s') % compression)
 
+    filecount, bytecount = struct.unpack('>QQ', fp.read(16))
+    requireslen = struct.unpack('>H', fp.read(2))[0]
+    requires = fp.read(requireslen)
 
-def capabilities(*args, **kwargs):
-    return origcapabilities(*args, **kwargs) + ' bundles'
+    if not requires.endswith('\0'):
+        raise error.Abort(_('malformed stream clone bundle: '
+                            'requirements not properly encoded'))
+
+    requirements = set(requires.rstrip('\0').split(','))
+    missingreqs = requirements - repo.supportedformats
+    if missingreqs:
+        raise error.Abort(_('unable to apply stream clone: '
+                            'unsupported format: %s') %
+                            ', '.join(sorted(missingreqs)))
+
+    consumev1(repo, fp, filecount, bytecount)
+
+# END COPY OF mercurial/streamclone.py
+
+def capabilities(repo, proto):
+    caps = origcapabilities(repo, proto)
+
+    if repo.opener.exists('bundleclone.manifest'):
+        caps += ' bundles'
+
+    return caps
 
 def bundles(repo, proto):
     """Server command for returning info for available bundles.
@@ -348,9 +589,10 @@ def bundles(repo, proto):
 def pull(orig, repo, remote, *args, **kwargs):
     res = orig(repo, remote, *args, **kwargs)
 
-    if remote.capable('bundles') and \
-            repo.ui.configbool('bundleclone', 'pullmanifest', False):
+    if not repo.ui.configbool('bundleclone', 'pullmanifest', False):
+        return res
 
+    if remote.capable('bundles'):
         lock = repo.lock()
         repo.ui.status(_('pulling bundleclone manifest\n'))
         manifest = remote._call('bundles')
@@ -359,26 +601,56 @@ def pull(orig, repo, remote, *args, **kwargs):
         finally:
             lock.release()
 
+    # This functionality isn't in upstream Mercurial yet.
+    if remote.capable('clonebundles'):
+        lock = repo.lock()
+        repo.ui.status(_('pulling clonebundles manifest\n'))
+        manifest = remote._call('clonebundles')
+        try:
+            repo.opener.write('clonebundles.manifest', manifest)
+        finally:
+            lock.release()
+
     return res
 
 
-@command('streambundle', [], _('hg streambundle path'))
-def streambundle(ui, repo, path):
-    """Generate a stream bundle file for a repository."""
+@command('streambundle', [
+    ('t', 'type', '', 'type of bundle', 'TYPE'),
+], _('hg streambundle [-t TYPE] path'))
+def streambundle(ui, repo, path, **opts):
+    """Generate a stream bundle file for a repository.
 
-    requires = set(repo.requirements) & repo.supportedformats
-    if requires - set(['revlogv1']):
-        raise util.Abort(_('cannot generate stream bundle for this repo '
-            'because of requirement: %s') % (' '.join(requires)))
+    If ``--type`` is not defined (the default), produce a legacy bundle format.
+    Else, produce the requested bundle format, which currently is limited to
+    ``S1``.
+    """
+    typ = opts.get('type', None)
+    if not typ:
+        requires = set(repo.requirements) & repo.supportedformats
+        if requires - set(['revlogv1']):
+            raise util.Abort(_('cannot generate stream bundle for this repo '
+                'because of requirement: %s') % (' '.join(requires)))
 
-    ui.status(_('writing %s\n') % path)
-    with open(path, 'w') as fh:
-        for chunk in generatestreamclone(repo):
+        ui.status(_('writing %s\n') % path)
+        with open(path, 'w') as fh:
+            for chunk in generatev1wireproto(repo):
+                fh.write(chunk)
+
+        ui.write(_('stream bundle file written successully.\n'))
+        ui.write(_('include the following in its manifest entry:\n'))
+        ui.write('stream=%s\n' % ','.join(requires))
+        return
+
+    if typ.lower() != 's1':
+        raise error.Abort(_('can only produce s1 bundles'))
+
+    requirements, gen = generatebundlev1(repo)
+    with open(path, 'wb') as fh:
+        for chunk in gen:
             fh.write(chunk)
 
-    ui.write(_('stream bundle file written successully.\n'))
-    ui.write(_('include the following in its manifest entry:\n'))
-    ui.write('stream=%s\n' % ','.join(requires))
+    ui.write(_('bundle requirements: %s\n') % ', '.join(sorted(requirements)))
+
 
 def extsetup(ui):
     # exchange isn't available on older Mercurial. Wrapped pull pulls down
@@ -398,7 +670,24 @@ def reposetup(ui, repo):
     class bundleclonerepo(repo.__class__):
         def clone(self, remote, heads=[], stream=False):
             supported = True
-            if not remote.capable('bundles'):
+
+            if (exchange and hasattr(exchange, '_maybeapplyclonebundle')
+                    and remote.capable('clonebundles')):
+                supported = False
+                self.ui.warn(_('(mercurial client has built-in support for '
+                               'bundle clone features; the "bundleclone" '
+                               'extension can likely safely be removed)\n'))
+
+                if not self.ui.configbool('experimental', 'clonebundles', False):
+                    self.ui.warn(_('(but the experimental.clonebundles config '
+                                   'flag is not enabled: enable it before '
+                                   'disabling bundleclone or cloning from '
+                                   'pre-generated bundles may not work)\n'))
+                    # We assume that presence of the bundleclone extension
+                    # means they want clonebundles enabled. Otherwise, why do
+                    # they have bundleclone enabled? So silently enable it.
+                    ui.setconfig('experimental', 'clonebundles', True)
+            elif not remote.capable('bundles'):
                 supported = False
                 self.ui.debug(_('bundle clone not supported\n'))
             elif heads:
@@ -423,13 +712,26 @@ def reposetup(ui, repo):
             pyver = sys.version_info
             pyver = (pyver[0], pyver[1], pyver[2])
 
-            # Testing backdoor.
+            hgver = util.version()
+            # Discard bit after '+'.
+            hgver = hgver.split('+')[0]
+            try:
+                hgver = tuple([int(i) for i in hgver.split('.')[0:2]])
+            except ValueError:
+                hgver = (0, 0)
+
+            # Testing backdoors.
             if ui.config('bundleclone', 'fakepyver'):
                 pyver = ui.configlist('bundleclone', 'fakepyver')
                 pyver = tuple(int(v) for v in pyver)
 
+            if ui.config('bundleclone', 'fakehgver'):
+                hgver = ui.configlist('bundleclone', 'fakehgver')
+                hgver = tuple(int(v) for v in hgver[0:2])
+
             entries = []
-            snifiltered = False
+            snifilteredfrompython = False
+            snifilteredfromhg = False
 
             for line in result.splitlines():
                 fields = line.split()
@@ -440,18 +742,35 @@ def reposetup(ui, repo):
                     attrs[urllib.unquote(key)] = urllib.unquote(value)
 
                 # Filter out SNI entries if we don't support SNI.
-                if attrs.get('requiresni') == 'true' and pyver < (2, 7, 9):
-                    # Take this opportunity to inform people they are using an
-                    # old, insecure Python.
-                    if not snifiltered:
+                if attrs.get('requiresni') == 'true':
+                    skip = False
+                    if pyver < (2, 7, 9):
+                        # Take this opportunity to inform people they are using an
+                        # old, insecure Python.
+                        if not snifilteredfrompython:
+                            self.ui.warn(_('(your Python is older than 2.7.9 '
+                                           'and does not support modern and '
+                                           'secure SSL/TLS; please consider '
+                                           'upgrading your Python to a secure '
+                                           'version)\n'))
+                        snifilteredfrompython = True
+                        skip = True
+
+                    if hgver < (3, 3):
+                        if not snifilteredfromhg:
+                            self.ui.warn(_('(you Mercurial is old and does '
+                                           'not support modern and secure '
+                                           'SSL/TLS; please consider '
+                                           'upgrading your Mercurial to 3.3+ '
+                                           'which supports modern and secure '
+                                           'SSL/TLS)\n'))
+                        snifilteredfromhg = True
+                        skip = True
+
+                    if skip:
                         self.ui.warn(_('(ignoring URL on server that requires '
                                        'SNI)\n'))
-                        self.ui.warn(_('(your Python is older than 2.7.9 and '
-                                       'does not support modern and secure '
-                                       'SSL/TLS; please consider upgrading '
-                                       'your Python to a secure version)\n'))
-                    snifiltered = True
-                    continue
+                        continue
 
                 entries.append((url, attrs))
 
@@ -530,14 +849,22 @@ def reposetup(ui, repo):
                 # specially.
                 if 'stream' in attrs:
                     reqs = set(attrs['stream'].split(','))
-                    applystreamclone(self, reqs, fh)
+                    l = fh.readline()
+                    filecount, bytecount = map(int, l.split(' ', 1))
+                    self.ui.status(_('streaming all changes\n'))
+                    consumev1(self, fh, filecount, bytecount)
                 else:
                     if exchange:
                         cg = exchange.readbundle(self.ui, fh, 'stream')
                     else:
                         cg = changegroup.readbundle(fh, 'stream')
 
-                    if hasattr(changegroup, 'addchangegroup'):
+                    # Mercurial 3.6 introduced cgNunpacker.apply().
+                    # Before that, there was changegroup.addchangegroup().
+                    # Before that, there was localrepository.addchangegroup().
+                    if hasattr(cg, 'apply'):
+                        cg.apply(self, 'bundleclone', url)
+                    elif hasattr(changegroup, 'addchangegroup'):
                         changegroup.addchangegroup(self, cg, 'bundleclone', url)
                     else:
                         self.addchangegroup(cg, 'bundleclone', url)
