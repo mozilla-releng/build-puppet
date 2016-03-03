@@ -32,7 +32,7 @@ class signingworker {
                   "redo==1.4.1",
                   "requests==2.4.3",
                   "sh==1.11",
-                  "signingworker==0.11",
+                  "signingworker==0.12",
                   "six==1.9.0",
                   "taskcluster==0.0.16",
                   "wsgiref==0.1.2",
