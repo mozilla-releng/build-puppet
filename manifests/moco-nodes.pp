@@ -654,6 +654,7 @@ node "buildbot-master84.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master85.bb.releng.scl3.mozilla.com" {
     $node_security_level = 'high'
+    $releaserunner_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm85-build1":
             http_port => 8001,
@@ -661,6 +662,7 @@ node "buildbot-master85.bb.releng.scl3.mozilla.com" {
             basedir => "build1";
     }
     include toplevel::server::buildmaster::mozilla
+    include toplevel::mixin::releaserunner
 }
 
 node "buildbot-master86.bb.releng.scl3.mozilla.com" {
