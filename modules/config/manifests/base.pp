@@ -412,10 +412,6 @@ class config::base {
             pulse_username => "",
             pulse_password => "",
             pulse_queue_basename => "",
-            # TODO: remove allowed builders after bug 1196407 lands
-            allowed_builders => [
-                "",
-            ],
             restricted_builders => [
                 "",
             ],
@@ -431,9 +427,6 @@ class config::base {
             pulse_username => "",
             pulse_password => "",
             pulse_queue_basename => "",
-            allowed_builders => [
-                "",
-            ],
             restricted_builders => [
                 "",
             ],
