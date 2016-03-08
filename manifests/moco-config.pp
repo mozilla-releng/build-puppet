@@ -383,7 +383,7 @@ class config inherits config::base {
             ignored_builders => [
                 "^.*alder.*$",
                 "^.*date.*$",
-                "^release-.*$",
+                "^release-mozilla-release.*$",
             ],
         }
     }
