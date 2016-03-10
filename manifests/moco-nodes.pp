@@ -687,18 +687,6 @@ node "buildbot-master87.bb.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master89.bb.releng.scl3.mozilla.com" {
-    $node_security_level = 'high'
-    buildmaster::buildbot_master::mozilla {
-        "bm89-tests1-panda":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-panda";
-    }
-    include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::funsize_scheduler
-}
-
 node "buildbot-master91.bb.releng.usw2.mozilla.com" {
     $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
@@ -724,39 +712,6 @@ node "buildbot-master94.bb.releng.use1.mozilla.com" {
     include toplevel::mixin::funsize_scheduler
 }
 
-node "buildbot-master100.bb.releng.scl3.mozilla.com" {
-    $node_security_level = 'high'
-    buildmaster::buildbot_master::mozilla {
-        "bm100-tests1-panda":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-panda";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master101.bb.releng.scl3.mozilla.com" {
-    $node_security_level = 'high'
-    buildmaster::buildbot_master::mozilla {
-        "bm101-tests1-panda":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-panda";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master102.bb.releng.scl3.mozilla.com" {
-    $node_security_level = 'high'
-    buildmaster::buildbot_master::mozilla {
-        "bm102-tests1-panda":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-panda";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
 node "buildbot-master103.bb.releng.scl3.mozilla.com" {
     $node_security_level = 'high'
     buildmaster::buildbot_master::mozilla {
@@ -766,6 +721,7 @@ node "buildbot-master103.bb.releng.scl3.mozilla.com" {
             basedir => "tests1-linux";
     }
     include toplevel::server::buildmaster::mozilla
+    include toplevel::mixin::funsize_scheduler
 }
 
 node "buildbot-master104.bb.releng.scl3.mozilla.com" {
