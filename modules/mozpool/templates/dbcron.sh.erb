@@ -1,8 +1,0 @@
-# This Source Code Form is subject to the terms of the Mozilla Public
-# License, v. 2.0. If a copy of the MPL was not distributed with this
-# file, You can obtain one at http://mozilla.org/MPL/2.0/.
-#
-# This just runs the 'dbcron' stored procedure. The query sends diagnostic
-# output even on success, so this script only feeds that to cron on failure.
-
-mysql -h <%= scope.lookupvar('::mozpool::settings::db_hostname') %> --user=<%= scope.lookupvar('::mozpool::settings::db_username') %> --password='<%= scope.lookupvar('::mozpool::settings::db_password') %>' <%= scope.lookupvar('::mozpool::settings::db_database') %> -e 'call dbcron();' 2>&1 | logger -t mozpool_dbcron

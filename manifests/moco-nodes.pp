@@ -2,13 +2,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-## foopies
-
-node /foopy\d+\.\w+\.releng\.scl3\.mozilla\.com/ {
-    # covers pN and tegra vlans
-    include toplevel::server::foopy
-}
-
 ## testers
 
 # linux64 and OS X
@@ -242,29 +235,6 @@ node "slaveapi-dev1.srv.releng.scl3.mozilla.com" {
     $node_security_level = 'high'
     $aspects = [ "dev" ]
     include toplevel::server::slaveapi
-}
-
-# mozpool servers
-
-node /mobile-imaging-stage1\.p127\.releng\.scl3\.mozilla\.com/ {
-    $aspects = [ "staging" ]
-    $is_bmm_admin_host = $fqdn ? { /.*scl3\.mozilla\.com$/ => true, default => false }
-    include toplevel::server::mozpool
-    users::root::extra_authorized_key {
-        'mcote': ;
-    }
-    shared::execonce {
-        'test-exec':
-            command => "/bin/touch /tmp/foo";
-    }
-}
-
-node /mobile-imaging-\d+\.p\d+\.releng\.scl3\.mozilla\.com/ {
-    $is_bmm_admin_host = $fqdn ? { /^mobile-imaging-004/ => true, default => false }
-    include toplevel::server::mozpool
-    users::root::extra_authorized_key {
-        'mcote': ;
-    }
 }
 
 # Proxxy
