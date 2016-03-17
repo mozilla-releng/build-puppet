@@ -1,1 +1,0 @@
-*/5 * * * * root if test -f /tmp/mozpool-suicide; then echo "ERROR: mozpool suicide on $(uname -n): `ls -al /tmp/mozpool-suicide`" | logger -t mozpool_suicide; rm -f /tmp/mozpool-suicide; fi
