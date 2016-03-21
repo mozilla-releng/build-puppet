@@ -102,11 +102,14 @@ class packages::setup {
 
                 "collectd":
                     url_path => "repos/yum/custom/collectd/$architecture";
+
+                "git":
+                    url_path => "repos/yum/custom/git/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 41
+            $repoflag = 42
             file {
                 "/etc/.repo-flag":
                     content =>
