@@ -9,11 +9,17 @@ class packages::mozilla::git {
 
     case $::operatingsystem {
         CentOS: {
-            Anchor['packages::mozilla::git::begin'] ->
+            realize(Packages::Yumrepo['git'])
             package {
+                "git":
+                    ensure => '2.7.4-moz1.el6';
+                "perl-Git":
+                    ensure => '2.7.4-moz1.el6';
+                "perl-Error":
+                    ensure => present;
                 "mozilla-git":
-                    ensure => '2.4.1-3.el6';
-            } -> Anchor['packages::mozilla::git::end']
+                    ensure => absent;
+            }
         }
         Darwin: {
             Anchor['packages::mozilla::git::begin'] ->

@@ -8,7 +8,7 @@ class packages::mozilla::git_remote_hg {
         CentOS: {
             package {
                 "git-remote-hg":
-                    ensure => '185852e-1.el6';
+                    ensure => absent;
             }
         }
         default: {
