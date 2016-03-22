@@ -21,6 +21,27 @@ class packages::mozilla::git {
                     ensure => absent;
             }
         }
+        Ubuntu: {
+            case $::operatingsystemrelease {
+                12.04: {
+                    realize(Packages::Aptrepo['git'])
+                    package {
+                        "git":
+                            ensure => '1:2.7.4-0ppa1~ubuntu12.04.1';
+                    }
+                }
+                14.04: {
+                    realize(Packages::Aptrepo['git'])
+                    package {
+                        "git":
+                            ensure => '1:2.7.4-0ppa1~ubuntu14.04.1';
+                    }
+                }
+                default: {
+                    fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                }
+            }
+        }
         Darwin: {
             Anchor['packages::mozilla::git::begin'] ->
             packages::pkgdmg {
