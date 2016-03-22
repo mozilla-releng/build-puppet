@@ -163,7 +163,7 @@ class puppetmaster::ssl {
     exec {
         # initialize the two git repositories
         'puppetmaster-ssl-git-init':
-            command => '/usr/local/bin/git init',
+            command => '/usr/bin/git init',
             cwd => $git_dir,
             user => 'puppetsync',
             group => 'puppetsync',
@@ -175,7 +175,7 @@ class puppetmaster::ssl {
             creates => "${git_dir}/.git";
 
         'puppetmaster-ssl-git-common-init':
-            command => '/usr/local/bin/git init --bare',
+            command => '/usr/bin/git init --bare',
             cwd => $git_common_dir,
             user => 'puppetsync',
             group => 'puppetsync',
