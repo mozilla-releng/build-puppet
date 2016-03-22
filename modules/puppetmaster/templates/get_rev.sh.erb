@@ -14,7 +14,7 @@ if [ -d "$REPO/.hg" ]; then
     # filter out the "Not trusting" warning
     /usr/local/bin/hg ident -i $REPO 2>/dev/null
 elif [ -d "$REPO/.git" ]; then
-    (cd $REPO; /usr/local/bin/git describe --all --always --dirty)
+    (cd $REPO; /usr/bin/git describe --all --always --dirty)
 else
     echo "unknown"
 fi

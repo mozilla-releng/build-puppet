@@ -10,8 +10,7 @@ source "${scripts_dir}/vars.sh"
 
 # run git
 git() {
-    # use the git from packages::mozilla::git, in the right dir
-    (cd "${git_dir}"; /usr/local/bin/git "${@}")
+    (cd "${git_dir}"; /usr/bin/git "${@}")
 }
 
 # return 0 if the git index is dirty
