@@ -10,6 +10,7 @@ class packages::mozilla::git {
     case $::operatingsystem {
         CentOS: {
             realize(Packages::Yumrepo['git'])
+            Anchor['packages::mozilla::git::begin'] ->
             package {
                 "git":
                     ensure => '2.7.4-moz1.el6';
@@ -19,23 +20,25 @@ class packages::mozilla::git {
                     ensure => present;
                 "mozilla-git":
                     ensure => absent;
-            }
+            } -> Anchor['packages::mozilla::git::end']
         }
         Ubuntu: {
             case $::operatingsystemrelease {
                 12.04: {
                     realize(Packages::Aptrepo['git'])
+                    Anchor['packages::mozilla::git::begin'] ->
                     package {
                         "git":
                             ensure => '1:2.7.4-0ppa1~ubuntu12.04.1';
-                    }
+                    } -> Anchor['packages::mozilla::git::end']
                 }
                 14.04: {
                     realize(Packages::Aptrepo['git'])
+                    Anchor['packages::mozilla::git::begin'] ->
                     package {
                         "git":
                             ensure => '1:2.7.4-0ppa1~ubuntu14.04.1';
-                    }
+                    } -> Anchor['packages::mozilla::git::end']
                 }
                 default: {
                     fail("Unrecognized Ubuntu version $::operatingsystemrelease")
@@ -45,8 +48,10 @@ class packages::mozilla::git {
         Darwin: {
             Anchor['packages::mozilla::git::begin'] ->
             packages::pkgdmg {
-                git:
-                    version => "1.7.9.4-1";
+                "git":
+                    os_version_specific => false,
+                    private => false,
+                    version => "2.7.4-1";
             } -> Anchor['packages::mozilla::git::end']
         }
         Windows: {
