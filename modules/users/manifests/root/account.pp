@@ -8,7 +8,7 @@ class users::root::account($username, $group, $home) {
     # create the user
 
     case $::operatingsystem {
-        CentOS: {
+        CentOS, Ubuntu: {
             if (secret("root_pw_hash") == '') {
                 fail('No root password hash set')
             }
@@ -94,6 +94,9 @@ class users::root::account($username, $group, $home) {
                     ensure => directory,
                     require => $user_req;
             }
+        }
+        default: {
+            fail("cannot manage root account on $::operatingsystem")
         }
     }
 }
