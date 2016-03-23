@@ -69,7 +69,7 @@ define slaveapi::instance($listenaddr, $port, $version="1.6.1") {
                 "MySQL-python==1.2.5",
                 "PyYAML==3.11",
                 "SQLAlchemy==0.8.3",
-                "cfn-pyplates==0.4.3",
+                "cfn-pyplates>=0.5.0",
                 "ecdsa==0.10",
                 "invtool==4.4",
                 "netaddr==0.7.12",
