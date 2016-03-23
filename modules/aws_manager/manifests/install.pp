@@ -39,7 +39,7 @@ class aws_manager::install {
                 "wsgiref==0.1.2",
                 'docopt==0.6.1',
                 'netaddr==0.7.12',
-                'cfn-pyplates==0.4.3',
+                'cfn-pyplates>=0.5.0',
                 'PyYAML==3.11',
                 'dnspython==1.12.0',
                 'pbr==0.10.7',
