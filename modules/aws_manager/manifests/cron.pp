@@ -135,16 +135,16 @@ class aws_manager::cron {
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
             params         => "-c ${repo_root}/configs/b-2008 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_prod.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 b-2008-ec2-golden";
-       # Commented out until we have additional IOPS avialable in AWS  case 1681428931  
-       # "t-w732-ec2-golden":
-           # script         => "aws_create_instance.py",
-           # ensure         => $cron_switch,
-           # minute         => '40',
-           # hour           => '1',
-           # cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
-           # virtualenv_dir => "${aws_manager::settings::root}",
-           # user           => "${users::buildduty::username}",
-           # params         => "-c ${repo_root}/configs/t-w732 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 t-w732-ec2-golden";
+        # Commented out until we have additional IOPS avialable in AWS  case 1681428931  
+        # "t-w732-ec2-golden":
+            # script         => "aws_create_instance.py",
+            # ensure         => $cron_switch,
+            # minute         => '40',
+            # hour           => '1',
+            # cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            # virtualenv_dir => "${aws_manager::settings::root}",
+            # user           => "${users::buildduty::username}",
+            # params         => "-c ${repo_root}/configs/t-w732 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 t-w732-ec2-golden";
         "tst-emulator64-ec2-golden":
             script         => "aws_create_instance.py",
             ensure         => $cron_switch,
