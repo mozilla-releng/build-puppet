@@ -3,23 +3,25 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class security {
-    include ::config
 
     # including this class just gets you $security::level, which corresponds to
     # the host's system security level, as defined in
     # https://mana.mozilla.org/wiki/display/ITSECURITY/IT+System+security+guidelines
     # Other modules then alter their configurations depending on the host's security level.
     #
-    # The available levels are "low", "medium", "high", and "maximum".
-    #
-    # The level for a specific host can be specified in a node definition by
-    # setting $node_security_level; if that is not set, then the security level is
-    # config::default_security_level.
+    # The available levels are "low", "medium", "high", and "maximum". Default is "medium".
 
-    if "${node_security_level}" == "" {
-        $level = $::config::default_security_level
-    } else {
-        $level = $node_security_level
+    if (has_aspect("low-security")) {
+        $level = "low"
+    }
+    elsif (has_aspect("high-security")) {
+        $level = "high"
+    }
+    elsif (has_aspect("maximum-security")) {
+        $level = "maximum"
+    }
+    else {
+        $level = "medium"
     }
 
     # the following booleans can help determine if a host is at the given level
