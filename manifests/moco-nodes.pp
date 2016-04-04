@@ -234,8 +234,7 @@ node "slaveapi1.srv.releng.scl3.mozilla.com" {
 }
 
 node "slaveapi-dev1.srv.releng.scl3.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $aspects = [ "dev" ]
+    $aspects = [ 'high-security', "dev" ]
     include toplevel::server::slaveapi
 }
 
