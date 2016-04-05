@@ -18,10 +18,11 @@ class packages::mozilla::py27_mercurial {
     case $::operatingsystem {
         CentOS: {
             $mercurial = "/tools/python27-mercurial/bin/hg"
+            realize(Packages::Yumrepo['mozilla-mercurial'])
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             package {
                 "mozilla-python27-mercurial":
-                    ensure => '3.2.1-1.el6',
+                    ensure => '3.7.3-1.el6',
                     require => Class['packages::mozilla::python27'];
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }

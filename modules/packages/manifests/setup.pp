@@ -105,11 +105,14 @@ class packages::setup {
 
                 "git":
                     url_path => "repos/yum/custom/git/$architecture";
+
+                "mozilla-mercurial":
+                    url_path => "repos/yum/custom/mozilla-mercurial/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 42
+            $repoflag = 44
             file {
                 "/etc/.repo-flag":
                     content =>

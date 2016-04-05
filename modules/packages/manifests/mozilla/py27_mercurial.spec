@@ -29,14 +29,14 @@
 %define package_sitearch %{_libdir}/python%{pyver}/site-packages
 
 Name:       mozilla-%{pyrealname}-%{realname}
-Version:	3.2.1
+Version:    3.7.3
 Release:	1%{?dist}
 Summary:	This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
 Group:	    mozilla
 License:	GPLv2+
-URL:		http://www.selenic.com/mercurial/
-Source0:	http://www.selenic.com/mercurial/release/%{realname}-%{version}.tar.gz
+URL:		https://www.mercurial-scm.org/
+Source0:	%{realname}-%{version}.tar.gz
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires:  mozilla-%{pyrealname}
@@ -84,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Apr 04 2016 Jake Watkins <jwatkins mozilla com> 3.7.3-1
+- update to hg 3.7.3
+
 * Mon Nov 24 2014 Justin Wood <jwood mozilla com> 3.2.1-1
 - update to hg 3.2.1 and drop unused pyrel from spec
 
@@ -104,3 +107,4 @@ rm -rf $RPM_BUILD_ROOT
 
 * Tue Mar 13 2012 John Ford <jhford mozilla com> 2.1.1-1
 - initial commit
+
