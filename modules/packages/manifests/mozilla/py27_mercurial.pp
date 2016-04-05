@@ -31,8 +31,8 @@ class packages::mozilla::py27_mercurial {
             realize(Packages::Aptrepo['mozilla-mercurial'])
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             package {
-                [ "mozilla-python27-mercurial", "mozilla-python27-mercurial-common" ]:
-                    ensure => '3.7.3-1mozilla1',
+                "mozilla-python27-mercurial":
+                    ensure => '3.2.1',
                     require => Class['packages::mozilla::python27'];
             } -> Anchor['packages::mozilla::py27_mercurial::end']
 
