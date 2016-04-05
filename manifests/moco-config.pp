@@ -366,7 +366,7 @@ class config inherits config::base {
                 "^release-.*$",
             ],
             ignored_builders => [
-                "^((?!(alder|date)).)*$",
+                "^((?!(alder|-date|jamun)).)*$",
             ],
         },
         "prod" => {
@@ -382,7 +382,8 @@ class config inherits config::base {
             ],
             ignored_builders => [
                 "^.*alder.*$",
-                "^.*date.*$",
+                "^.*jamun.*$",
+                "^.*-date.*$",
                 "^release-mozilla-release.*$",
             ],
         }
