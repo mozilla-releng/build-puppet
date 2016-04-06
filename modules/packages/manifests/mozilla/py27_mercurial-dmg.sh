@@ -14,7 +14,7 @@ python_sitelib=$pyhome/lib/python$pyver/site-packages
 _prefix=/tools/${pyrealname}-${realname}
 _libdir=$_prefix/lib
 package_sitelib=$_libdir/python$pyver/site-packages
-version=3.2.1
+version=3.7.3
 release=1
 srpm_release=1
 
@@ -44,21 +44,9 @@ mkdir build
 BUILD=$PWD/build
 cd $BUILD
 
-if test -n "$DONT_USE_RPM_SOURCES"; then
-    # XXX This next line fails on snow... need the tar.gz itself
-    curl -L http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/x86_64/mozilla-$pyrealname-mercurial-$version-$srpm_release.el6.src.rpm | bsdtar -x
-else;
-    if test -f "../$relname-$version.tar.gz"; then
-        echo Copying $realname-$version.tar.gz into build environment
-        cp ../$realname-$version.tar.gz ./
-    else;
-        echo "Unable to find $realname-$version.tar.gz in current directory"
-        exit 1
-    fi;
-fi;
 
 # %prep
-tar -zxf $realname-$version.tar.gz
+tar -zxf ../$realname-$version.tar.gz
 cd $realname-$version
 
 PYTHON=/tools/$pyrealname/bin/python$pyver
@@ -90,7 +78,7 @@ if test -n "$USE_PACKAGEMAKER"; then
     # XXX pkgbuild not avail on 10.6
     PATH="$PATH:/tools/packagemaker/bin"
     packagemaker --root $ROOT -i com.mozilla.$pyrealname-$realname -o $pkg -l /
-else;
+else
     pkgbuild -r $ROOT -i com.mozilla.$pyrealname-$realname --install-location / $pkg
 fi
 hdiutil makehybrid -hfs -hfs-volume-name "mozilla-$pyrealname-$realname-$version-$release" -o ./$dmg dmg
