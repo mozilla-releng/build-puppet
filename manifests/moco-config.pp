@@ -65,9 +65,7 @@ class config inherits config::base {
             'moco_ldap_dn' => secret('moco_ldap_dn'),
             'moco_ldap_pass' => secret('moco_ldap_pass'),
             'users_in_groups' => {
-                'ldap_admin_users' => ['releng', 'relops',
-                    'netops', 'team_dcops', 'team_opsec', 'team_moc', 'team_infra', 'team_storage'],
-                'opsec' => ['team_opsec'],
+                'ldap_admin_users' => ['releng', 'relops'],
             },
         }
     }
@@ -149,10 +147,10 @@ class config inherits config::base {
     ]
     $admin_users = $fqdn ? {
         # signing machines have a very limited access list
-        /^(mac-)?(v2-)?signing\d\..*/ => concat($shortlist, hiera('opsec')),
+        /^(mac-)?(v2-)?signing\d\..*/ => concat($shortlist),
         default => hiera('ldap_admin_users',
                          # backup to ensure access in case the sync fails:
-                         ['arr', 'dmitchell', 'jwatkins'])
+                         ['arr', 'klibby', 'jwatkins'])
     }
     $buildbot_mail_to = "release@mozilla.com"
     $master_json = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
