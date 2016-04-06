@@ -48,12 +48,14 @@ class packages::mozilla::py27_mercurial {
         }
         Darwin: {
             $mercurial = "/tools/python27-mercurial/bin/hg"
+            file {
+                "/var/db/.puppet_pkgdmg_installed_python27-mercurial-3.2.1-1.dmg":
+                    ensure => absent;
+            }
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             packages::pkgdmg {
                 python27-mercurial:
-                    os_version_specific => false,
-                    private => false,
-                    version => "3.7.3-1";
+                    version => "3.2.1-1";
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Windows: {
