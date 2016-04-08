@@ -49,9 +49,9 @@ class packages::mozilla::git {
             Anchor['packages::mozilla::git::begin'] ->
             packages::pkgdmg {
                 "git":
-                    os_version_specific => false,
+                    os_version_specific => true,
                     private => false,
-                    version => "2.7.4-1";
+                    version => "2.7.4-2";
             } -> Anchor['packages::mozilla::git::end']
         }
         Windows: {
