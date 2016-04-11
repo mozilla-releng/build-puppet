@@ -46,13 +46,32 @@ class packages::mozilla::git {
             }
         }
         Darwin: {
-            Anchor['packages::mozilla::git::begin'] ->
-            packages::pkgdmg {
-                "git":
-                    os_version_specific => true,
-                    private => false,
-                    version => "2.7.4-2";
-            } -> Anchor['packages::mozilla::git::end']
+            case $::macosx_productversion_major {
+                10.6, 10.10: {
+                    Anchor['packages::mozilla::git::begin'] ->
+                    packages::pkgdmg {
+                        "git":
+                            os_version_specific => true,
+                            private => false,
+                            version => "2.7.4-2";
+                    } -> Anchor['packages::mozilla::git::end']
+                }
+                10.7: {
+                    # New release # needed for 10.7 in order to push new package
+                    # This is due to pkgdmg package resource being non-versionable
+                    # See bug 1257633
+                    Anchor['packages::mozilla::git::begin'] ->
+                    packages::pkgdmg {
+                        "git":
+                            os_version_specific => true,
+                            private => false,
+                            version => "2.7.4-3";
+                    } -> Anchor['packages::mozilla::git::end']
+                }
+                default: {
+                    fail("Cannot install on OS X $macosx_productversion_major")
+                }
+            }
         }
         Windows: {
             file {
