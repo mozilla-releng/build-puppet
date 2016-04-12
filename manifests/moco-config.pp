@@ -382,7 +382,6 @@ class config inherits config::base {
                 "^.*alder.*$",
                 "^.*jamun.*$",
                 "^.*-date.*$",
-                "^release-mozilla-release.*$",
             ],
         }
     }
