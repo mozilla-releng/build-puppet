@@ -67,7 +67,7 @@ class packages::mozilla::python27 {
                             }
                         }
                         default: {
-                           fail("Cannot install on Ubuntu version $::operatingsystemrelease") 
+                            fail("Cannot install on Ubuntu version $::operatingsystemrelease")
                         }
                     }
                 }
