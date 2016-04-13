@@ -28,22 +28,29 @@ class packages::mozilla::py27_mercurial {
         }
         Ubuntu: {
             $mercurial = "/tools/python27-mercurial/bin/hg"
-            realize(Packages::Aptrepo['mozilla-mercurial'])
-            Anchor['packages::mozilla::py27_mercurial::begin'] ->
-            package {
-                "mozilla-python27-mercurial":
-                    ensure => '3.2.1',
-                    require => Class['packages::mozilla::python27'];
-            } -> Anchor['packages::mozilla::py27_mercurial::end']
+            case $::operatingsystemrelease {
+                12.04: {
+                    realize(Packages::Aptrepo['mozilla-mercurial'])
+                    Anchor['packages::mozilla::py27_mercurial::begin'] ->
+                    package {
+                        "mozilla-python27-mercurial":
+                            ensure => '3.7.3-1mozilla2',
+                            require => Class['packages::mozilla::python27'];
+                    } -> Anchor['packages::mozilla::py27_mercurial::end']
 
-            # Some things want to find hg in /usr/bin, so symlink
-            # but only if its not present from another package
-            file {
-                "/usr/bin/hg":
-                    ensure => "link",
-                    replace => "no",
-                    mode => 755, # if the binary is here, the symlink won't care
-                    target => $mercurial;
+                    # Some things want to find hg in /usr/bin, so symlink
+                    # but only if its not present from another package
+                    file {
+                        "/usr/bin/hg":
+                            ensure => "link",
+                            replace => "no",
+                            mode => 755, # if the binary is here, the symlink won't care
+                            target => $mercurial;
+                    }
+                }
+                default: {
+                    fail("Cannot install on Ubuntu version $::operatingsystemrelease")
+                }
             }
         }
         Darwin: {
