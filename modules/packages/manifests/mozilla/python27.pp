@@ -49,24 +49,26 @@ class packages::mozilla::python27 {
                     } -> Anchor['packages::mozilla::python27::end']
                 }
                 Ubuntu: {
-                    Anchor['packages::mozilla::python27::begin'] ->
-                    package {
-                        "python2.7":
-                            ensure => '2.7.3-0ubuntu3';
-                    } -> Anchor['packages::mozilla::python27::end']
-                    Anchor['packages::mozilla::python27::begin'] ->
-                    package {
-                        "python2.7-dev":
-                            ensure => '2.7.3-0ubuntu3';
-                    } -> Anchor['packages::mozilla::python27::end']
+                    case $::operatingsystemrelease {
+                        12.04: {
+                            Anchor['packages::mozilla::python27::begin'] ->
+                            package {
+                                [ "python2.7", "python2.7-dev"]:
+                                    ensure => '2.7.3-0ubuntu3';
+                            } -> Anchor['packages::mozilla::python27::end']
 
-                    # Create symlinks for compatibility with other platforms
-                    file {
-                        ["/tools/python27", "/tools/python27/bin"]:
-                            ensure => directory;
-                        [$python, "/usr/local/bin/python2.7"]:
-                            ensure => link,
-                            target => "/usr/bin/python";
+                            # Create symlinks for compatibility with other platforms
+                            file {
+                                ["/tools/python27", "/tools/python27/bin"]:
+                                    ensure => directory;
+                                [$python, "/usr/local/bin/python2.7"]:
+                                    ensure => link,
+                                    target => "/usr/bin/python";
+                            }
+                        }
+                        default: {
+                           fail("Cannot install on Ubuntu version $::operatingsystemrelease") 
+                        }
                     }
                 }
                 Darwin: {
