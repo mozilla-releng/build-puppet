@@ -224,6 +224,17 @@ node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
 node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'high-security' ]
     include toplevel::server::aws_manager
+
+    # Bug 1265758 - Add acccess to the following accounts to dev-master2
+    realize(Users::Person["ashiue"])
+    realize(Users::Person["gchang"])
+    realize(Users::Person["ihsiao"])
+
+    users::builder::extra_authorized_key {
+        'ashiue': ;
+        'gchang': ;
+        'ihsiao': ;
+    }
 }
 
 # slaveapi
