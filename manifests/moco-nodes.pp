@@ -259,8 +259,12 @@ node "dev-master2.bb.releng.use1.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 
     # Bug 975004 - Grant pkewisch access to dev-master1
+    # Bug 1265758 - Add acccess to the following accounts to dev-master2
     realize(Users::Person["pkewisch"])
     realize(Users::Person["sledru"])
+    realize(Users::Person["ashiue"])
+    realize(Users::Person["gchang"])
+    realize(Users::Person["ihsiao"])
     users::root::extra_authorized_key {
         'pkewisch': ;
         'sledru': ;
