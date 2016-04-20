@@ -45,5 +45,20 @@ SlavePasswords = {
     'vm_android_2_3': """<%=scope.function_secret(["android_tests_password"])%>""",
 }
 
+datazillaAuth = {
+    'talos': {
+        'oauthKey': """<%=scope.function_secret(["talos_oauth_key"])%>""",
+        'oauthSecret': """<%=scope.function_secret(["talos_oauth_secret"])%>""",
+    },
+    'jetperf': {
+        'oauthKey': """<%=scope.function_secret(["jetperf_oauth_key"])%>""",
+        'oauthSecret': """<%=scope.function_secret(["jetperf_oauth_secret"])%>""",
+    },
+    'test': {
+        'oauthKey': '84c76536-5bea-4858-990b-434ad3bbadc1',
+        'oauthSecret': '92e1d99d-fd5a-45a7-b07e-ec5a9f59c844',
+    },
+}
+
 blobber_username = """<%=scope.function_secret(["blobber_username"])%>"""
 blobber_password = """<%=scope.function_secret(["blobber_password"])%>"""
