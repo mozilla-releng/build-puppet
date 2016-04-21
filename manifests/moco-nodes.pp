@@ -230,7 +230,7 @@ node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     realize(Users::Person["gchang"])
     realize(Users::Person["ihsiao"])
 
-    users::builder::extra_authorized_key {
+    users::buildduty::extra_authorized_key {
         'ashiue': ;
         'gchang': ;
         'ihsiao': ;
