@@ -39,6 +39,10 @@
     # do not fall back to cached catalogs
     usecacheonfailure = false
 
+    # Default configtimeout is 2m.  We double this to prevent timeouts
+    # when puppetmasters are under heavy load. See bug 1266192
+    configtimeout = 4m
+
 [master]
     # default to looking in the production/ subdirectory of /etc/puppet
     ssldir = /var/lib/puppetmaster/ssl
@@ -60,3 +64,4 @@
     # lookup of parameterized class variables
     hiera_config = $confdir/hiera.yaml
     data_binding_terminus = none
+
