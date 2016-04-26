@@ -10,9 +10,9 @@ class packages::mozilla::py27_mercurial {
     }
 
     include packages::mozilla::python27
-    include mercurial::ext::bundleclone
+    include mercurial::system_hgrc
     if ($::operatingsystem != Windows) {
-        include mercurial::system_hgrc
+        include mercurial::ext::bundleclone
     }
 
     case $::operatingsystem {
@@ -65,12 +65,12 @@ class packages::mozilla::py27_mercurial {
             include packages::mozilla::mozilla_build
             $mercurial = 'C:\mozilla-build\hg\hg.exe'
             $merc_exe = $hardwaremodel ? {
-                i686    => "Mercurial-3.2.1.exe",
-                default => "Mercurial-3.2.1-x64.exe",
+                i686    => "Mercurial-3.7.3.exe",
+                default => "Mercurial-3.7.3-x64.exe",
             }
             $merc_exe_dir = "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\"
             $merc_exe_flag = " /SILENT /DIR=C:\\mozilla-build\\hg"
-            $quoted_merc_cmd = "\"$merc_exe_dir$merc_exe$merc_exe_flag\""
+            $merc_cmd = "$merc_exe_dir$merc_exe$merc_exe_flag"
 
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             # This is a temporary work around until we have Windows package management in place 
@@ -78,18 +78,10 @@ class packages::mozilla::py27_mercurial {
             file { "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/$merc_exe" :
                 ensure => file,
                 source => "puppet:///repos/EXEs/$merc_exe",
-            } -> exec { "Schtasks_Mercurial-3.2.1":
-                command  => "C:\\Windows\\system32\\schtasks.exe /ru SYSTEM /create /sc once /st 23:59  /tn hg_3-2-1 /tr $quoted_merc_cmd",
+            } -> exec { "$merc_exe":
+                command  => "$merc_cmd",
                 require  => Exec["remove_old_hg"],
-                creates  => "C:\\mozilla-build\\hg\\MPR.dll",
-            } -> exec { "Install_Mercurial-3.2.1":
-                command  => '"C:\Windows\system32\schtasks.exe" /run /tn hg_3-2-1',
-                subscribe => Exec["Schtasks_Mercurial-3.2.1"],
-                refreshonly => true,
-            } -> exec { "RM_Schtasks_Mercurial-3.2.1":
-                command  => '"C:\Windows\system32\schtasks.exe" /delete /tn hg_3-2-1 /f',
-                subscribe => Exec["Install_Mercurial-3.2.1"],
-                refreshonly => true,
+                creates  => "C:\\mozilla-build\\hg\\msvcp90.dll",
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         default: {
