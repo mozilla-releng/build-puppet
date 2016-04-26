@@ -39,6 +39,15 @@ class packages::mozilla::mozilla_build {
                         ];
     }
     # Remove the old HG directories. This is under the assumption that MozillaBuild version is pre 2.0.
+    # The first exec is to uninstall the existing hg installation that is present on our starting golden 2008 AMIs
+    # The API-MS-Win-Core-Debug-L1-1-0.dll does not exist in the 3.7.3 version
+    # The second exec will remove the remaining files
+    # Or in the event of completely fresh machine config, it will remove the hg files that are installed by the build package
+    exec {
+        "uninstall_hg" :
+            command => "C:\\mozilla-build\\hg\\unins000.exe /silent",
+            onlyif  => "C:\\mozilla-build\\msys\\bin\\ls.exe C:\\mozilla-build\\hg\\API-MS-Win-Core-Debug-L1-1-0.dll";
+    }
     exec {
         "remove_old_hg" :
             command     => "C:\\mozilla-build\\msys\\bin\\rm.exe -f -r  /S /Q C:\\mozilla-build\\hg",

@@ -1,6 +1,12 @@
+<% if scope.lookupvar('::operatingsystem') == 'windows' -%>
+; This Source Code Form is subject to the terms of the Mozilla Public
+; License, v. 2.0. If a copy of the MPL was not distributed with this
+; file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<% else -%>
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+<% end -%>
 
 [diff]
 git=True
@@ -13,6 +19,11 @@ dotencode=False
 [ui]
 username = Mozilla Release Engineering <release@mozilla.com>
 traceback = True
+
+<% if scope.lookupvar('::operatingsystem') == 'windows' -%>
+[worker]
+backgroundclose=false
+<% end -%>
 
 [extensions]
 share=
