@@ -1,0 +1,185 @@
+#!/bin/bash
+#
+# A nrpe plugin that will poll the state of puppet on a machine. We want
+# to have different notification intervals for different states, so this
+# script operates in two different modes.
+#
+# -c: Check for catalog compile failures only
+# -t: Check the last time puppet ran and check for run time errors
+#
+# Based on code by Alexander Swen <a@swen.nu>
+#
+# CHANGELOG
+# 5/15/2013 bhourigan Initial commit
+# 6/27/2013 bhourigan Addressing bug 887439, looking at /var/lib/puppet/state/agent_catalog_run.lock
+#  2/3/2014 bhourigan Bug 967265 - not properly parsing multi-line YAML messages
+#
+
+# NOTE: Puppet 3.x changed configprint syntax
+puppetversion=$(puppet -V)
+case $puppetversion in
+   2.*)
+      statedir=$(puppet --configprint statedir)
+      ;;
+   3.*)
+      statedir=$(puppet config print statedir)
+      ;;
+   *)
+      echo "Sorry, puppet version ${puppetversion:-UNKNOWN} is unsupported by $0"
+      exit 3
+      ;;
+esac
+
+statefile=${statedir}/last_run_summary.yaml
+reportfile=${statedir}/last_run_report.yaml
+disablefile=${statedir}/disabled.at
+
+usage(){
+   if [ $# -gt 0 ]; then
+      echo "ERROR: $*"
+      echo
+   fi
+
+   echo -e "Usage: $0 [-c] [-t <threshold>] [-s <statefile>] [-r <reportfile>] [-d <disablefile>]"
+   echo
+   echo -e "\t-w last run alert threshold"
+   echo -e "\t-c check for catalog compilation failures only"
+   echo -e "\t-d disable file location (default: ${statedir}/disabled.at)"
+   echo -e "\t-r report file location (default: ${statedir}/last_run_report.yaml)"
+   echo -e "\t-s state file location (default: ${statedir}/last_run_summary.yaml)"
+   echo
+   exit 1
+}
+
+result(){
+   echo "$1"
+   exit $2
+}
+
+check_stale_lock_files(){
+   if [ -f /var/lib/puppet/state/agent_catalog_run.lock ]; then
+      age=$(date -d "now - $(stat -c "%Y" /var/lib/puppet/state/agent_catalog_run.lock) seconds" +%s)
+
+      if [ "${age:-0}" -gt ${threshold} ]; then
+         result "Agent lockfile /var/lib/puppet/state/agent_catalog_run.lock ${age} seconds old" 3
+      fi
+   fi
+}
+
+check_catalog_version(){
+   if [ -z "$configuration_version" ]; then
+      echo "Catalog version is unknown"
+      exit 3
+   fi
+}
+
+check_last_run_time(){
+   if [ ! -f $disablefile ]; then
+      # Parse last_last run from statefile
+      last_run_time=$(awk '/\s*last_run:/ {print $2}' $statefile)
+      if [ ${last_run_time:-0} -eq 0 ]; then
+         result "Can't get last_run from $statefile" 3
+      fi
+
+      now=$(date "+%s")
+      time_since_last=$((now-last_run_time))
+      if [ $time_since_last -gt $threshold ]; then
+         result "Last run was ${time_since_last} seconds ago" 3
+      fi
+   else
+      comment=$(grep 'Puppet has been disabled' /etc/motd | sed -r "s/\x1B\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g")
+      result "${comment}" 0
+   fi
+}
+
+check_last_run_errors(){
+   failed=$(awk '/\s*failed:/ {print $2}' $statefile)
+   failure=$(awk '/\s*failed:/ {print $2}' $statefile)
+   fail_to_restart=$(awk '/\s*failed:/ {print $2}' $statefile)
+   sum_of_fail=$((failed+failure+failure_to_restart))
+
+   if [ ${sum_of_fail:-0} -gt 0 ]; then
+      if [ ${sum_of_fail:-0} -gt 1 ]; then
+         s="s"
+      fi
+      result "Last run had ${sum_of_fail} error${s:-}" 1
+   fi
+}
+
+check_catalog_compile(){
+   # Print catalog compilation failure message (1 line)
+   failed_catalog=$(sed -n '/^ *message: |-/ { n; s/^ *//; s/^/message: "/; s/$/"/; p; d; }; /^ *message: [^|]/ { s/^ *//; p; d; }' $reportfile | awk -F '"' '/\s*Could not retrieve catalog from remote server:|\s*Failed to apply catalog/ {gsub(/on node .*/,"",$2); print $2}')
+
+   if [ ! -z "${failed_catalog:-}" ]; then
+      if [[ "${failed_catalog:-}" =~ "execution expired" ]]; then
+         result "${failed_catalog}" 3
+      else
+         result "${failed_catalog}" 2
+      fi
+   fi
+}
+
+result_ok(){
+   result "Puppet agent ${puppetversion} running catalog ${configuration_version:-UNKNOWN}" 0
+}
+
+while getopts ":t:s:d:c" opt; do
+   case $opt in
+      t)
+         threshold=$OPTARG
+         ;;
+      t)
+         statefile=$OPTARG
+         ;;
+      d)
+         disablefile=$OPTARG
+         ;;
+      r)
+         reportfile=$OPTARG
+         ;;
+      c)
+         check_catalog=1
+         ;;
+      \?)
+         usage "Invalid option: -$OPTARG"
+         ;;
+      :)
+         usage "Option -$OPTARG requires an argument."
+         ;;
+   esac
+done
+
+if [ ! -f $statefile ]; then
+   result "State file $statefile doesn't exist" 3
+fi
+
+if [ ! -f $reportfile ]; then
+   result "Report file $reportfile doesn't exist" 3
+fi
+
+# Nagios won't allow us to have different alerting timers for different
+# states (we want to see catalog compile failures and recoveries
+# immediately, and run time errors daily), so this script will operate
+# in two modes which will be defined with two different notification
+# intervals in Nagios
+configuration_version=$(awk -F '"' '/\s*configuration_version:/ {print $2}' $reportfile)
+
+if [ ${check_catalog:-0} -eq 1 ]; then
+   if [ ${threshold:-0} -gt 1 ]; then
+      usage "Threshold argument not allowed with -c"
+   fi
+
+   check_catalog_compile
+   check_catalog_version
+else
+   if [ ${threshold:-0} -lt 1 ]; then
+      usage "Invalid time threshold $OPTARG"
+   fi
+
+   check_stale_lock_files
+   check_last_run_time
+   check_last_run_errors
+   check_catalog_version
+fi
+
+result_ok
