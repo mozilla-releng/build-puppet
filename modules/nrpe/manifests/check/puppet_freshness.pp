@@ -10,6 +10,10 @@ class nrpe::check::puppet_freshness {
             cfg => "sudo $plugins_dir/check_puppet_freshness -t \$ARG1\$";
     }
 
+    nrpe::plugin {
+        "check_puppet_freshness": ;
+    }
+
     sudoers::custom {
         'check_puppet_freshness':
             user => 'nagios',

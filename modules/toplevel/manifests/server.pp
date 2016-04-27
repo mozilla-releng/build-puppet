@@ -18,6 +18,7 @@ class toplevel::server inherits toplevel::base {
     include nrpe::check::child_procs_regex
     include nrpe::check::swap
     include nrpe::check::ide_smart
+    include nrpe::check::puppet_freshness
     include packages::strace
     include packages::netcat
     include users::people
