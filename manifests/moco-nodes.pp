@@ -418,6 +418,15 @@ node "buildbot-master54.bb.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
+node "buildbot-master66.bb.releng.usw2.mozilla.com" {
+    # Not actually a master; see
+    #   https://bugzilla.mozilla.org/show_bug.cgi?id=990173
+    #   https://bugzilla.mozilla.org/show_bug.cgi?id=990172
+    $aspects = [ 'high-security' ]
+    include toplevel::server::buildmaster::mozilla
+    include toplevel::mixin::b2g_bumper
+}
+
 node "buildbot-master67.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
     buildmaster::buildbot_master::mozilla {
