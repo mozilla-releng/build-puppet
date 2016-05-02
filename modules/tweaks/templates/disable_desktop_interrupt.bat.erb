@@ -1,0 +1,14 @@
+REM This Source Code Form is subject to the terms of the Mozilla Public
+REM License, v. 2.0. If a copy of the MPL was not distributed with this
+REM file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+
+<%= @reg_add_desktop %> ScreenSaveActive <%= @reg_options %>
+
+<%= @reg_add_desktop %> ScreenSaveTimeOut <%= @reg_options %>
+
+<%= @reg_add_advance %> EnableBalloonTips <%= @reg_options %>
+
+reg import <%= @script_dir %>\tray.reg
+
+<%= @schtask %> /delete <%= @tn_flag %> /f
