@@ -28,6 +28,13 @@ node /t-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
     $slave_trustlevel = 'try'
     include toplevel::slave
 }
+node /g-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
+    # windows 7 nodes in wintest.releng.scl3.mozilla.com
+    $aspects = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    include toplevel::slave
+}
+
 # Node declaration is for Win 7 development
 # To keep development and production catalogs separate
 node /d-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
