@@ -244,6 +244,13 @@ node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     }
 }
 
+# buildduty-tools
+
+node /buildduty-tools\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
+    include toplevel::server::buildduty_tools
+    $aspects = [ 'medium-security' ]
+}
+
 # slaveapi
 
 node "slaveapi1.srv.releng.scl3.mozilla.com" {
@@ -1012,6 +1019,61 @@ node "buildbot-master131.bb.releng.usw2.mozilla.com" {
             http_port => 8201,
             master_type => "tests",
             basedir => "tests1-linux64";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master132.bb.releng.scl3.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm132-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master133.bb.releng.scl3.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm133-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master134.bb.releng.scl3.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm134-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master135.bb.releng.scl3.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm135-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master136.bb.releng.scl3.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm136-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
     }
     include toplevel::server::buildmaster::mozilla
 }
