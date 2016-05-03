@@ -74,17 +74,24 @@ class packages::mozilla::git {
             }
         }
         Windows: {
+
+            include dirs::etc
+
+            $git_exe  = "Git-2.7.4-32-bit.exe"
+            $inst_dir = "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\"
+            $inst_cmd = "$inst_dir$git_exe"
+
             file {
-                "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/Git-1.9.2-preview20140411.exe":
+                "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/$git_exe":
                     ensure  => file,
-                    source  => "puppet:///repos/EXEs/Git-1.9.2-preview20140411.exe",
+                    source  => "puppet:///repos/EXEs/$git_exe",
                     require => Class["dirs::installersource::puppetagain_pub_build_mozilla_org::exes"];
             }
             exec {
-                "Git-1.9.2-preview20140411.exe":
-                    command => "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\Git-1.9.2-preview20140411.exe /VERYSILENT /DIR=C:\\mozilla-build\\Git",
-                    creates => "C:\\mozilla-build\\git\\unins000.exe",
-                    require => File["C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/Git-1.9.2-preview20140411.exe"],
+                "$git_exe":
+                    command => "$inst_cmd  /VERYSILENT /DIR=C:\\mozilla-build\\Git",
+                    creates => "C:\\mozilla-build\\git\\unins001.exe",
+                    require => File["C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/$git_exe"],
             }
         }
         default: {
