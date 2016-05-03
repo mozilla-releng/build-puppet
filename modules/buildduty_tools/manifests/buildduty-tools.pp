@@ -17,20 +17,20 @@ class buildduty_tools::buildduty-tools {
             user => "${users::buildduty::username}",
             group => "${users::buildduty::group}",
             packages => [
-       "Jinja2==2.7.1",
-       "MarkupSafe==0.18",
-       "Twisted==10.2.0",
-       "argparse==1.2.1",
-       "cffi==1.3.0",
-       "cryptography==0.6",
-       "pyOpenSSL==0.10",
-       "pyasn1==0.1.9",
-       "pycparser==2.13",
-       "pycrypto==2.6",
-       "simplejson==3.3.0",
-       "six==1.9.0",
-       "wsgiref==0.1.2",
-       "zope.interface==4.0.2",
+        "Jinja2==2.7.1",
+        "MarkupSafe==0.18",
+        "Twisted==10.2.0",
+        "argparse==1.2.1",
+        "cffi==1.3.0",
+        "cryptography==0.6",
+        "pyOpenSSL==0.10",
+        "pyasn1==0.1.9",
+        "pycparser==2.13",
+        "pycrypto==2.6",
+        "simplejson==3.3.0",
+        "six==1.9.0",
+        "wsgiref==0.1.2",
+        "zope.interface==4.0.2",
             ];
     }
 
@@ -41,7 +41,7 @@ class buildduty_tools::buildduty-tools {
             group   => "${users::buildduty::group}",
             require => [
                 Python::Virtualenv["/home/buildduty/buildduty-tools"],
-            ]; 
+            ];
     }
 
     mercurial::repo {
