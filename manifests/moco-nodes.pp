@@ -1023,6 +1023,61 @@ node "buildbot-master131.bb.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
+node "buildbot-master132.bb.releng.scl3.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm132-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master133.bb.releng.scl3.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm133-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master134.bb.releng.scl3.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm134-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master135.bb.releng.scl3.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm135-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master136.bb.releng.scl3.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm136-tests1-macosx":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-macosx";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
 node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
     $aspects = [ 'high-security' ]
     $is_log_aggregator_host = "true"
