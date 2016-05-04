@@ -40,13 +40,6 @@ class proxxy::settings {
             size => '16g',
             ttl => '1d',
         },
-        'pvtbuilds.mozilla.org' => {
-            path => 'https://pvtbuilds.mozilla.org/',
-            size => '16g',
-            ttl => '1d',
-            username => 'proxy_reader',
-            password => secret('proxxy_pvtbuilds_password'),
-        },
         's3-us-west-2.amazonaws.com' => {
             path => 'https://s3-us-west-2.amazonaws.com/',
             size => '16g',
