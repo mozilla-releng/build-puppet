@@ -8,13 +8,18 @@ class packages::mozilla::supervisor {
             # its dependencies from EPEL
             realize(Packages::Yumrepo['supervisor'])
             package {
-                "supervisor":
-                    ensure => "3.0-0.10.b2.el6";
+                'supervisor':
+                    ensure => '3.0-0.10.b2.el6';
+            }
+            file {
+                '/etc/logrotate.d/supervisor':
+                    require => Package['supervisor'],
+                    source  => 'puppet:///modules/packages/supervisor.logrotate';
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }
