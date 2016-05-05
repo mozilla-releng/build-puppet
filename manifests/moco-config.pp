@@ -136,7 +136,7 @@ class config inherits config::base {
     $shortlist = [
         # a few folks from relops..
         'arr',
-        'dmitchell',
+        'klibby',
         'jwatkins',
 
         # ..and a few folks from releng
