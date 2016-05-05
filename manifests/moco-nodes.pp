@@ -138,12 +138,12 @@ node /(mac-(v2-|)|)signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
 ## puppetmasters
 
 node /releng-puppet\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
-    $aspects = [ 'high-security' ]
+    $aspects = [ 'maximum-security' ]
     include toplevel::server::puppetmaster
 }
 
 node "releng-puppet2.srv.releng.scl3.mozilla.com" {
-    $aspects = [ 'high-security' ]
+    $aspects = [ 'maximum-security' ]
     include toplevel::server::puppetmaster
     class {
         'bacula_client':
@@ -155,7 +155,7 @@ node "releng-puppet2.srv.releng.scl3.mozilla.com" {
 ## deploystudio servers
 
 node "install.build.releng.scl3.mozilla.com" {
-    $aspects = [ "high-security" ]
+    $aspects = [ "maximum-security" ]
     include toplevel::server::deploystudio
     class {
         'bacula_client':
@@ -165,7 +165,7 @@ node "install.build.releng.scl3.mozilla.com" {
 }
 
 node "install.test.releng.scl3.mozilla.com" {
-    $aspects = [ "high-security" ]
+    $aspects = [ "maximum-security" ]
     include toplevel::server::deploystudio
     class {
         'bacula_client':
