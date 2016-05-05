@@ -162,7 +162,7 @@ fi
 # immediately, and run time errors daily), so this script will operate
 # in two modes which will be defined with two different notification
 # intervals in Nagios
-configuration_version=$(awk -F '"' '/\s*configuration_version:/ {print $2}' $reportfile)
+configuration_version=$(awk '/\s*configuration_version:/ {print $2}' $reportfile)
 
 if [ ${check_catalog:-0} -eq 1 ]; then
    if [ ${threshold:-0} -gt 1 ]; then
