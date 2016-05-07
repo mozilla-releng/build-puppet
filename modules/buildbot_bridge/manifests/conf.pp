@@ -15,8 +15,5 @@ class buildbot_bridge::conf {
             group       => "${users::builder::group}",
             content     => template("${module_name}/config.json.erb"),
             show_diff   => false;
-        "/etc/logrotate.d/buildbotbridge":
-            content     => template("${module_name}/buildbotbridge.logrotate.erb"),
-            require     => Class['packages::logrotate'];
     }
 }
