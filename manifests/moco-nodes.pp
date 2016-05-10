@@ -1078,6 +1078,50 @@ node "buildbot-master136.bb.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
+node "buildbot-master137.bb.releng.use1.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm137-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master138.bb.releng.use1.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm138-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master139.bb.releng.usw2.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm139-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
+node "buildbot-master140.bb.releng.usw2.mozilla.com" {
+    $aspects = [ 'high-security' ]
+    buildmaster::buildbot_master::mozilla {
+        "bm140-tests1-windows":
+            http_port => 8201,
+            master_type => "tests",
+            basedir => "tests1-windows";
+    }
+    include toplevel::server::buildmaster::mozilla
+}
+
 node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
     $aspects = [ 'high-security' ]
     $is_log_aggregator_host = "true"
