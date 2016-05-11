@@ -355,7 +355,7 @@ class config inherits config::base {
 
     $buildbot_bridge_env_config = {
         "dev" => {
-            version => "1.5.14",
+            version => "1.5.15",
             client_id => secret("buildbot_bridge_dev_taskcluster_client_id"),
             access_token => secret("buildbot_bridge_dev_taskcluster_access_token"),
             dburi => secret("buildbot_bridge_dev_dburi"),
@@ -370,7 +370,7 @@ class config inherits config::base {
             ],
         },
         "prod" => {
-            version => "1.5.14",
+            version => "1.5.15",
             client_id => secret("buildbot_bridge_prod_taskcluster_client_id"),
             access_token => secret("buildbot_bridge_prod_taskcluster_access_token"),
             dburi => secret("buildbot_bridge_prod_dburi"),
