@@ -9,7 +9,7 @@ class packages::ultravnc{
         i686    => "UltraVnc_10962_x86.msi",
         default => "UltraVnc_10962_x64.msi",
     }
-    packages::pkgmsi {"UltraVNC":
+    packages::pkgmsi {"UltraVnc":
         msi => "$vnc_msi",
         install_options => ['/QUIET'];
     }

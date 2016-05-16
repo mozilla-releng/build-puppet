@@ -6,7 +6,7 @@ class packages::nxlog{
     case $::operatingsystem {
         Windows: {
             packages::pkgmsi {
-                'nxlog':
+                'NXLOG-CE':
                     msi => 'nxlog-ce-2.8.1248.msi',
                     install_options => [ '/quiet' ];
             }
