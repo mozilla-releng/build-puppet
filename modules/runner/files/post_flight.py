@@ -51,7 +51,7 @@ def get_buildname_blacklist():
     A list of build name expressions which will coerce a halt, names are
     retrieved from buildapi via get_recent_builds().
     '''
-    # reboot after android, b2g emulator, reftest, or mochitest jobs
+    # reboot after android, emulator, reftest, or mochitest jobs
     return ['.*android.*', '.*emulator.*', '.*mochi.*', '.*reftest.*']
 
 

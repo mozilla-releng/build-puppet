@@ -11,19 +11,15 @@ class slave_secrets::ssh_keys($slave_type) {
             # a table of keysets by environment (from slavealloc) and $slave_trustlevel
             $staging_keyset = {
                 'trybld_dsa' => 'builder_ssh_key_staging_trybld_dsa',
-                'b2gtry_dsa' => 'builder_ssh_key_staging_b2gbld_dsa',
                 'ffxbld_rsa' => 'builder_ssh_key_staging_ffxbld_rsa',
                 'tbirdbld_dsa' => 'builder_ssh_key_staging_tbirdbld_dsa',
-                'b2gbld_dsa' => 'builder_ssh_key_staging_b2gbld_dsa',
             }
             $prod_try_keyset = {
                 'trybld_dsa' => 'builder_ssh_key_try_trybld_dsa',
-                'b2gtry_dsa' => 'builder_ssh_key_try_b2gtry_dsa',
             }
             $prod_core_keyset = {
                 'ffxbld_rsa' => 'builder_ssh_key_prod_ffxbld_rsa',
                 'tbirdbld_dsa' => 'builder_ssh_key_prod_tbirdbld_dsa',
-                'b2gbld_dsa' => 'builder_ssh_key_prod_b2gbld_dsa',
             }
             $environment = slavealloc_environment($clientcert)
             case $slave_type {
