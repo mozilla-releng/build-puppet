@@ -56,6 +56,29 @@ class httpd {
                     ensure => absent;
             }
         }
+        Windows: {
+
+        include dirs::slave::talos-data::talos
+
+            # Return set to 1. Installation on the service exits with 1 but installs.
+            # The installation dislikes "Order allow,deny" @ line 41 in the conf file
+            # However that is a standard configuration
+            # This will be followed up in Bug 1270302
+
+            exec {
+                "install_apache_service":
+                    command     => '"C:\Program Files\Apache Software Foundation\Apache2.2\bin\httpd.exe" -k install',
+                    require     => Class[dirs::slave::talos-data::talos],
+                    subscribe   => Packages::Pkgmsi["Apache HTTP Server 2.2.22"],
+                    returns     => 1,
+                    refreshonly => true;
+            }
+            service {
+                "Apache2.2":
+                    enable    => true,
+                    require   => Packages::Pkgmsi["Apache HTTP Server 2.2.22"];
+            }
+        }
         default: {
             fail("Don't know how to set up httpd on $::operatingsystem")
         }

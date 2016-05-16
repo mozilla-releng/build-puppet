@@ -7,13 +7,15 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
     include vnc
     include users::builder::autologin
     include ntp::atboot
-    include packages::fonts
-    include packages::unzip
-    include tweaks::fonts
     include runner::tasks::cleanup
     include dirs::builds::hg_shared
     include dirs::builds::git_shared
     include dirs::builds::tooltool_cache
+    if ($::operatingsystem != Windows) {
+        include tweaks::fonts
+        include packages::fonts
+        include packages::unzip
+    }
 
     case $::operatingsystem {
         "Ubuntu": {
@@ -35,12 +37,24 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
                     required_space => 4;
             }
         }
+        "Windows": {
+            include disableservices::disable_indexing
+            include disableservices::disable_win_defend
+            include disableservices::disable_win_driver_signing
+            include disableservices::disableupdates
+            include packages::mozilla::mozilla_maintenance_service
+            include tweaks::disable_desktop_interruption
+            include tweaks::memory_paging
+            include tweaks::sync_logon_scripts
+        }
     }
 
-    include runner::tasks::config_hgrc
+    if ($::operatingsystem != Windows) {
+        include runner::tasks::config_hgrc
 
-    class {
-        'slave_secrets':
-            slave_type => 'test';
+        class {
+            'slave_secrets':
+                slave_type => 'test';
+        }
     }
 }
