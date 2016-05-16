@@ -43,10 +43,14 @@ class packages::mozilla::mozilla_build {
     # The API-MS-Win-Core-Debug-L1-1-0.dll does not exist in the 3.7.3 version
     # The second exec will remove the remaining files
     # Or in the event of completely fresh machine config, it will remove the hg files that are installed by the build package
-    exec {
-        "uninstall_hg" :
-            command => "C:\\mozilla-build\\hg\\unins000.exe /silent",
-            onlyif  => "C:\\mozilla-build\\msys\\bin\\ls.exe C:\\mozilla-build\\hg\\API-MS-Win-Core-Debug-L1-1-0.dll";
+
+    # Old version of HG is only preinstalled on the starting AMIs for 2008 golden images
+    if ($::env_os_version == 2008) {
+        exec {
+            "uninstall_hg" :
+                command => "C:\\mozilla-build\\hg\\unins000.exe /silent",
+                onlyif  => "C:\\mozilla-build\\msys\\bin\\ls.exe C:\\mozilla-build\\hg\\API-MS-Win-Core-Debug-L1-1-0.dll";
+        }
     }
     exec {
         "remove_old_hg" :

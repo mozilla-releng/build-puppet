@@ -19,6 +19,15 @@ class packages::httpd {
         Darwin: {
             # installed by default
         }
+        Windows: {
+            # Package source: https://archive.apache.org/dist/httpd/binaries/win32/
+            packages::pkgmsi {
+                "Apache HTTP Server 2.2.22":
+                    msi             => "httpd-2.2.22-win32-x86-no_ssl.msi",
+                    private         => true,
+                    install_options => ['/qb'];
+            }
+        }
 
         default: {
             fail("cannot install on $::operatingsystem")

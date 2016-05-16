@@ -2,12 +2,15 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class talos {
-    include talos::settings
+
     include httpd
-    include packages::xvfb
-    include users::builder
     include dirs::builds::slave
-    include packages::nodejs
+    include users::builder
+    include talos::settings
+    if ($::operatingsystem != Windows) {
+        include packages::xvfb
+        include packages::nodejs
+    }
 
     # Due to different tests and flavors of tests run on different platforms,
     # each has a peculiar set of packages required, with little or no overlap.
@@ -77,6 +80,18 @@ class talos {
             httpd::config {
                 "talos.conf":
                     content => template("talos/talos-httpd.conf.erb") ;
+            }
+        }
+        Windows: {
+
+        include dirs::slave::talos-data::talos
+        include packages::httpd
+
+            file {
+                "C:/Program Files/Apache Software Foundation/Apache2.2/conf/httpd.conf":
+                    content => template("talos/talos-httpd.conf.erb"),
+                    require => Packages::Pkgmsi["Apache HTTP Server 2.2.22"],
+                    notify  => Service["Apache2.2"];
             }
         }
     }
