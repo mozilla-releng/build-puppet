@@ -13,13 +13,13 @@ class users::syncbld {
 
     case $::operatingsystem {
         CentOS, Ubuntu: {
-	    user {
-	        $username:
-		    password => secret("buildduty_pw_hash"),
-		    shell => "/bin/bash",
-		    managehome => true,
-		    comment => "syncbld";
-	    }
+            user {
+                $username:
+                password => secret("buildduty_pw_hash"),
+                shell => "/bin/bash",
+                managehome => true,
+                comment => "syncbld";
+            }
         }
         default: {
             fail("users::syncbld: $::operatingsystem not suported")
