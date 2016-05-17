@@ -20,7 +20,7 @@ class toplevel::server::signing inherits toplevel::server {
         moco: {
             $signing_formats = $operatingsystem ? {
                 Darwin => ["dmg"],
-                CentOS => ["gpg", "sha2signcode", "osslsigncode", "signcode", "mar", "jar", "b2gmar", "emevoucher"]
+                CentOS => ["gpg", "sha2signcode", "osslsigncode", "signcode", "mar", "jar", "emevoucher"]
             }
             $concurrency = $::macosx_productversion_major ? {
                 10.9    => 2,
@@ -44,9 +44,6 @@ class toplevel::server::signing inherits toplevel::server {
                     new_token_auth0=> "${signing_server_username}:${signing_server_nightly_password}",
                     mar_key_name   => "nightly1",
                     jar_key_name   => "nightly",
-                    b2g_key0       => "test-oem-1",
-                    b2g_key1       => "test-carrier-1",
-                    b2g_key2       => "test-mozilla-1",
                     formats        => $signing_formats,
                     concurrency    => $concurrency;
             }
@@ -63,9 +60,6 @@ class toplevel::server::signing inherits toplevel::server {
                     new_token_auth0=> "${signing_server_username}:${signing_server_dep_password}",
                     mar_key_name   => "dep1",
                     jar_key_name   => "nightly",
-                    b2g_key0       => "test-oem-1",
-                    b2g_key1       => "test-carrier-1",
-                    b2g_key2       => "test-mozilla-1",
                     formats        => $signing_formats,
                     signcode_timestamp => "no",
                     concurrency    => $concurrency;
@@ -84,9 +78,6 @@ class toplevel::server::signing inherits toplevel::server {
                     new_token_auth0=> "${signing_server_username}:${moco_signing_server_repack_password}",
                     mar_key_name   => "rel1",
                     jar_key_name   => "release",
-                    b2g_key0       => "test-oem-1",
-                    b2g_key1       => "test-carrier-1",
-                    b2g_key2       => "test-mozilla-1",
                     formats        => $signing_formats,
                     concurrency    => $concurrency;
             }
@@ -94,7 +85,7 @@ class toplevel::server::signing inherits toplevel::server {
         relabs: {
             $signing_formats = $operatingsystem ? {
                 Darwin => ["gpg", "dmg", "mar"],
-                CentOS => ["gpg", "signcode", "mar", "jar", "b2gmar"]
+                CentOS => ["gpg", "signcode", "mar", "jar"]
             }
 
             signingserver::instance {
@@ -109,9 +100,6 @@ class toplevel::server::signing inherits toplevel::server {
                     new_token_auth0=> "${signing_server_username}:${signing_server_dep_password}",
                     mar_key_name   => "relabs1",
                     jar_key_name   => "relabs",
-                    b2g_key0       => "relabs-oem-1",
-                    b2g_key1       => "relabs-carrier-1",
-                    b2g_key2       => "relabs-mozilla-1",
                     formats        => $signing_formats;
             }
         }

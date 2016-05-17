@@ -7,7 +7,6 @@ define signingserver::instance(
         $token_secret, $token_secret0,
         $new_token_auth, $new_token_auth0,
         $mar_key_name, $jar_key_name,
-        $b2g_key0, $b2g_key1, $b2g_key2,
         $formats, $mac_cert_subject_ou,
         $signcode_timestamp="yes",
         $concurrency=4) {
@@ -63,7 +62,6 @@ define signingserver::instance(
     # commands
     $signscript = "${basedir}/bin/python2.7 ${script_dir}/signscript.py -c ${basedir}/signscript.ini"
     $mar_cmd = "${signmar} -d ${basedir}/secrets/mar -n ${mar_key_name} -s"
-    $b2gmar_cmd = "${signmar} -d ${basedir}/secrets/b2gmar -n0 ${b2g_key0} -n1 ${b2g_key1} -n2 ${b2g_key2} -s"
 
     # copy vars from config
     $tools_repo = $config::signing_tools_repo

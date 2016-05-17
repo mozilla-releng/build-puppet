@@ -274,9 +274,6 @@ class config::base {
         }
     }
 
-    # nightly promotion settings
-    $nightlypromotion_root = "/builds/nightlypromotion"
-
     # runner task settings
 
     $runner_hg_tools_path = "/tools/checkouts/build-tools"

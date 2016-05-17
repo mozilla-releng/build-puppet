@@ -20,17 +20,6 @@ import tarfile
 SUPPORTED_HOSTNAME_PREFIXES = ["bld-linux64", "try-linux64"]
 
 DIRS = {
-    "/builds/git-shared/repo": {
-        "regex": "^b2g",
-        "deploy_to_prod_slaves": True,
-        "deploy_to_try_slaves": True,
-        "buckets": {
-            "us-east-1": "mozilla-releng-tarballs-use1",
-            "us-west-1": "mozilla-releng-tarballs-usw1",
-            "us-west-2": "mozilla-releng-tarballs-usw2",
-        },
-        "key": "git-shared-repo.tar"
-    },
     "/builds/hg-shared/integration/mozilla-inbound/.hg": {
         "regex": "mozilla-inbound",
         "deploy_to_prod_slaves": True,
