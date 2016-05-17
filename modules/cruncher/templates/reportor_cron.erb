@@ -1,0 +1,10 @@
+MAILTO=release+cruncher@mozilla.com
+HOME=/home/buildduty
+
+# Reportor!
+PATH=/home/buildduty/reportor/bin:/usr/local/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/buildduty/bin
+2   0 * * *   buildduty find /var/www/html/builds/reportor -maxdepth 1 -type d -mtime +14 -exec rm -rf {} \;
+30  0 * * *   buildduty $HOME/reportor/bin/reportor.sh -m $HOME/reportor/reports/reports.yaml -o '/var/www/html/builds/reportor/\%Y-\%m-\%d' -s /var/www/html/builds/reportor/daily -l $HOME/reportor/reportor.log daily
+1   * * * *   buildduty find /var/www/html/builds/reportor -maxdepth 1 -type d -name '*:*' -mtime +2 -exec rm -rf {} \;
+2   * * * *   buildduty $HOME/reportor/bin/reportor.sh -m $HOME/reportor/reports/reports.yaml -o '/var/www/html/builds/reportor/\%Y-\%m-\%d:\%H' -s /var/www/html/builds/reportor/hourly -l reportor.log hourly
+*/5 * * * *   buildduty $HOME/reportor/bin/reportor.sh -m $HOME/reportor/reports/reports.yaml -o '/var/www/html/builds/reportor/\%Y-\%m-\%d:\%H:\%M' -l reportor.log fivemins
