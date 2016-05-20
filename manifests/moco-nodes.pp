@@ -60,7 +60,7 @@ node /t-w1064.*\.wintest\.releng\.scl3\.mozilla\.com/ {
 }
 
 # windows 10 test AWS instances
-node /(g|t)-w10.*\.test\.releng\.(use1|usw2)\.mozilla\.com/
+node /(g|t)-w10.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     include toplevel::slave
 }
