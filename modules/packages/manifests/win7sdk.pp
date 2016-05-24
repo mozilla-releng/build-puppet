@@ -25,7 +25,7 @@ class packages::win7sdk {
             install_options => [{'MSI_TARGETDIR' => "C:\\perftools\\"}, {'WPFPERFDIR' => 'C:\perftools\WPF Performance Suite'}, {'ARPINSTALLLOCATION' => 'C:\perftools'}, {'ADDLOCAL' => 'ALL'}],
             require         => Exec["7sdk_setup_exe"];
     }
-    # No need to keep 1+ GB of files around
+    # No need to keep files around
     # No concerns of re-installs because of the semaphore in the puppetagain directory the for the pkgzip package
     file {
         "C:/installersource/puppetagain.pub.build.mozilla.org/ZIPs/win7sdk":
@@ -33,14 +33,6 @@ class packages::win7sdk {
             purge   => true,
             recurse => true,
             force   => true,
-            require => Package["Microsoft Windows Performance Toolkit"];
-    }
-    file {
-        "del_win7sdk.zip":
-            ensure => absent,
-            path   => "C:\\installersource\\puppetagain.pub.build.mozilla.org\\ZIPs\\win7sdk.zip",
-            purge  => true,
-            force  => true,
             require => Package["Microsoft Windows Performance Toolkit"];
     }
 }
