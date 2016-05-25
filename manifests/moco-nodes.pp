@@ -14,6 +14,14 @@ node "talos-linux64-ix-024.test.releng.scl3.mozilla.com" {
     include toplevel::slave::releng::test::gpu
 }
 
+node /talos-linux64-ix-0[01].\.test\.releng\.scl3\.mozilla.com/ {
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "raliiev"
+    $aspects = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    include toplevel::slave::releng::test::gpu
+}
+
 node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
     $aspects = [ 'low-security' ]
