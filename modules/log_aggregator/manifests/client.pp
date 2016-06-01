@@ -36,30 +36,53 @@ class log_aggregator::client {
                 include ::nxlog
                 include nxlog::settings
                 case $::operatingsystemrelease {
-                    # Windows Server 2008 ec2
-                    "2008 R2", "6.1.7601": {
-                        file {
-                            "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
-                                require => Class [ 'packages::nxlog' ],
-                                content => template('nxlog/nxlog_source_eventlog_win2008_ec2.conf.erb'),
-                                notify => Service [ 'nxlog' ];
-                        }
-                    }
-                    # Windows Server 2008 ix
-                    "1.0.11(0.46/3/2)": {
-                        file {
-                            "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
-                                require => Class [ 'packages::nxlog' ],
-                                content => template('nxlog/nxlog_source_eventlog_win2008_ix.conf.erb'),
-                                notify => Service [ 'nxlog' ];
+                    # Windows Server 2008 & Windows 7 have the same kernal ID.
+                    # We can seperate the two out by 64 bit and 32 bit. However, we will need to revist this if Win 7 64 bit is ever in use.
+
+                    "6.1.7601": {
+                        case $::hardwaremodel {
+                            "x64": {
+                                file {
+                                    "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
+                                        require => Class [ 'packages::nxlog' ],
+                                        content => template('nxlog/nxlog_source_eventlog_win2008_ec2.conf.erb'),
+                                        notify => Service [ 'nxlog' ];
+                                }
+                            }
+                            "i686": {
+                                case $::domain {
+                                    "build.mozilla.org": {
+                                        file {
+                                            "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
+                                                require => Class [ 'packages::nxlog' ],
+                                                content => template('nxlog/nxlog_source_eventlog_win7.conf.erb'),
+                                                notify => Service [ 'nxlog' ];
+                                        }
+                                    }
+                                    "test.releng.use1.mozilla.com", "test.releng.usw1.mozilla.com": {
+                                        file {
+                                            "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
+                                                require => Class [ 'packages::nxlog' ],
+                                                content => template('nxlog/nxlog_source_eventlog_win7_ec2.conf.erb'),
+                                                notify => Service [ 'nxlog' ];
+                                        }
+                                    }
+                                    default: {
+                                        # if the error message below is appearing in puppet logs, add a filtered configuration,
+                                        # tailored to the OS version shown in the error message (like the one above for "6.1.7601").
+                                        fail("No nxlog eventlog filter found for OS: ${::operatingsystem}, version: ${::operatingsystemrelease}")
+                                    }
+                                }
+                            }
+                            default: {
+                                fail("No nxlog eventlog filter found for OS: ${::operatingsystem}, version: ${::operatingsystemrelease}")
+                            }
                         }
                     }
                     # Windows 10: Support needs to be added
                     "10.0.10240": {
                     }
                     default: {
-                        # if the error message below is appearing in puppet logs, add a filtered configuration,
-                        # tailored to the OS version shown in the error message (like the one above for "6.1.7601").
                         fail("No nxlog eventlog filter found for OS: ${::operatingsystem}, version: ${::operatingsystemrelease}")
                     }
                 }
