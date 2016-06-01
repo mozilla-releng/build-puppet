@@ -43,6 +43,7 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
             include disableservices::disable_win_driver_signing
             include disableservices::disableupdates
             include packages::mozilla::mozilla_maintenance_service
+            include packages::nvidia_drivers
             include packages::win7sdk
             include tweaks::disable_desktop_interruption
             include tweaks::memory_paging
