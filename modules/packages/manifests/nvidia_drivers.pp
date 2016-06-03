@@ -59,7 +59,7 @@ class packages::nvidia_drivers {
             }
             $lang = $domain ? {
                 "$datacnter_domain" => "-english-whql",
-                 default            => "-international-whql",
+                default             => "-international-whql",
             }
             # The installation in AWS exits with 1 even though the driver is installed and functioning
             # The exit code is due to a dll file failing to be unloaded
