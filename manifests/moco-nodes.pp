@@ -202,15 +202,18 @@ node "install.test.releng.scl3.mozilla.com" {
 
 node /casper-fs-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     # casper fileserver
+    $aspects = [ "low-security" ]
     include toplevel::server
     include casper::fileserver
 }
 
 node /casper-jss-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
+    $aspects = [ "low-security" ]
     include toplevel::server
 }
 
 node /casper-netboot-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
+    $aspects = [ "low-security" ]
     include toplevel::server
 }
 
@@ -251,7 +254,7 @@ node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
 }
 
 node /cruncher-aws\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
-    $node_security_level = 'high'
+    $aspects = [ "high-security" ]
     include toplevel::server::cruncher
 }
 
@@ -303,6 +306,7 @@ node /proxxy\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
 
 node /.*packager\d+\.srv\.releng\.use1\.mozilla\.com/ {
     # RPM and DPKG package servers
+    $aspects = [ "low-security" ]
     include toplevel::server::pkgbuilder
 }
 
