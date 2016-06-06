@@ -13,7 +13,7 @@ class gui(
     include users::builder
     include gui::appearance
 
-    $nvidia_version = '310.32'
+    $nvidia_version = '361.42'
     $gpu_bus_id = "PCI:01:00:0"
 
     # only use the nvidia drivers and settings if we're using a GPU, and are not

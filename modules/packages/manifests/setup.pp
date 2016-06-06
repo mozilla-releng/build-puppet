@@ -196,8 +196,8 @@ class packages::setup {
                     components   => ["dependencies", "main"];
             }
             @packages::aptrepo {
-                "xorg-edgers":
-                    url_path     => "repos/apt/xorg-edgers",
+                "graphics-drivers":
+                    url_path     => "repos/apt/graphics-drivers",
                     distribution => "${lsbdistcodename}",
                     components   => ["main"];
                 "nginx-development":
