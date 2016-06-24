@@ -72,7 +72,7 @@ class packages::xcode {
                         }
                     }
                 }
-                
+
                 "4.6.2-cmdline": {
                     # this might work on other OS X versions, but hasn't been tested
                     case $::macosx_productversion_major {

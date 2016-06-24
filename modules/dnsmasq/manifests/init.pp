@@ -11,7 +11,7 @@ class dnsmasq {
             ensure  => absent,
             notify  => Service[$dnsmasq::settings::servicename],
             require => Class['packages::dnsmasq'];
-        
+
         $dnsmasq::settings::confdir:
             ensure  => directory,
             recurse => true,

@@ -78,7 +78,7 @@ define python::virtualenv($python, $ensure="present", $packages=null, $user=null
                     },
                     cwd => $virtualenv;
             }
-          
+
             if ($packages != null) {
                 # now install each package; we use regsubst to qualify the resource
                 # name with the virtualenv; a similar regsubst will be used in the
