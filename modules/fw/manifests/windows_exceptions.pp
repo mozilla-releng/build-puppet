@@ -4,7 +4,7 @@
 
 class fw::windows_exceptions {
     # Ref. https://forge.puppetlabs.com/liamjbennett/windows_firewall
-    
+
     # These firewall exceptions reflect the GPO that was applied to Domain
     # managed Windows testers and builders as of July 2014.
 

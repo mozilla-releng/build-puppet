@@ -7,7 +7,7 @@ class casper::fileserver {
     $fs_accounts = $casper::settings::fs_accounts
 
     # We will only support casper under OSX 10.8 and 10.9
-    
+
     case $::operatingsystem {
         Darwin: {
             case $::macosx_productversion_major {

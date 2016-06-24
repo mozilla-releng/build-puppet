@@ -86,7 +86,6 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
                 require => Exec["setup-${basedir}"],
                 content => template("buildmaster/buildmaster-retry_dead_queue.erb");
         }
-        
     }
 
     mercurial::repo {
