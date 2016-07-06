@@ -55,7 +55,6 @@ class releaserunner {
                 "six==1.9.0",
                 "sqlalchemy-migrate==0.7.2",
                 "taskcluster==0.0.24",
-                "treeherder-client==2.0.1",
                 "wsgiref==0.1.2",
                 "zope.interface==4.0.2",
             ];
