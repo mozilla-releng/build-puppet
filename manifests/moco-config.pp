@@ -203,9 +203,6 @@ class config inherits config::base {
         }
     }
 
-    $shipit_notifier_api_root = "http://ship-it.mozilla.org"
-    $shipit_notifier_verbose = true
-
     $slaveapi_slavealloc_url = "http://slavealloc.build.mozilla.org/api/"
     $slaveapi_inventory_url = "https://inventory.mozilla.org/en-US/tasty/v3/"
     $slaveapi_inventory_username = "releng-inventory-automation"
