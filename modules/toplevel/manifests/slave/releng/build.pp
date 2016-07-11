@@ -35,7 +35,6 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
     }
 
     include packages::mozilla::git
-    include packages::mozilla::py27_virtualenv
     include packages::mozilla::hgtool
     include packages::mozilla::gittool
     include packages::mozilla::retry
