@@ -27,6 +27,7 @@ class toplevel::slave::releng inherits toplevel::slave {
         include packages::mozilla::git
         include packages::nsis3_0b1
         include packages::psutil
+        include packages::mozilla::py27_virtualenv
         include packages::pywin32
         include packages::mapi_headers
         include packages::yasm
