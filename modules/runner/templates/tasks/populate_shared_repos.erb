@@ -1,58 +1,21 @@
 #!/usr/bin/env python
 # vim: ft=python
 
-try:
-    import requests
-    import boto
-except ImportError:
-    print "No boto or requests installed, skipping"
-    exit(0)
-
 import argparse
 import logging
 import grp
 import os
 import pwd
-import re
 import socket
-import tarfile
+import subprocess
+
 
 SUPPORTED_HOSTNAME_PREFIXES = ["bld-linux64", "try-linux64"]
 
-DIRS = {
-    "/builds/hg-shared/integration/mozilla-inbound/.hg": {
-        "regex": "mozilla-inbound",
-        "deploy_to_prod_slaves": True,
-        "deploy_to_try_slaves": False,
-        "buckets": {
-            "us-east-1": "mozilla-releng-tarballs-use1",
-            "us-west-1": "mozilla-releng-tarballs-usw1",
-            "us-west-2": "mozilla-releng-tarballs-usw2",
-        },
-        "key": "mozilla-inbound.tar"
-    },
-    "/builds/hg-shared/mozilla-central/.hg": {
-        "regex": "mozilla-central",
-        "deploy_to_prod_slaves": True,
-        "deploy_to_try_slaves": False,
-        "buckets": {
-            "us-east-1": "mozilla-releng-tarballs-use1",
-            "us-west-1": "mozilla-releng-tarballs-usw1",
-            "us-west-2": "mozilla-releng-tarballs-usw2",
-        },
-        "key": "mozilla-central.tar"
-    },
-    "/builds/hg-shared/try/.hg": {
-        "deploy_to_prod_slaves": False,
-        "deploy_to_try_slaves": True,
-        "buckets": {
-            "us-east-1": "mozilla-releng-tarballs-use1",
-            "us-west-1": "mozilla-releng-tarballs-usw1",
-            "us-west-2": "mozilla-releng-tarballs-usw2",
-        },
-        "key": "try.tar"
-    },
-}
+SHARE_BASE_DIR = '/builds/hg-shared'
+FIREFOX_REPO = 'https://hg.mozilla.org/mozilla-unified'
+FIREFOX_SHA1 = '8ba995b74e18334ab3707f27e9eb8f4e37ba3d29'
+
 
 log = logging.getLogger(__name__)
 
@@ -62,54 +25,27 @@ def is_suported_slave(hostname):
                SUPPORTED_HOSTNAME_PREFIXES)
 
 
-def is_try_slave(hostname):
-    return hostname.startswith("try-")
+def clone_firefox():
+    """Clone the Firefox repo to the hg-shared directory."""
+    dest_dir = os.path.join(SHARE_BASE_DIR, FIREFOX_SHA1)
+    if os.path.exists(dest_dir):
+        log.info('%s already exists; skipping' % dest_dir)
+        return
 
-
-def get_availability_zone():
-    url = "http://169.254.169.254/latest/meta-data/placement/availability-zone"
-    log.info("Fetching region data")
-    az = requests.get(url, timeout=3).content
-    return az
-
-
-def get_prepopulated_dirs(is_try=False):
-    dirs = {}
-    for target_dir, info in DIRS.iteritems():
-        if (info["deploy_to_prod_slaves"] and not is_try) or \
-                (info["deploy_to_try_slaves"] and is_try):
-            log.info("To deploy: %s", target_dir)
-            dirs[target_dir] = info
-
-    az = get_availability_zone()
-    for target_dir, info in dirs.iteritems():
-        bucket_map = info["buckets"]
-        for region, bucket in bucket_map.iteritems():
-            if az.startswith(region):
-                # change in-place
-                info["bucket"] = bucket
-    return dirs
-
-
-def deploy(dirs):
-    for target_dir, info in dirs.iteritems():
-        if os.path.exists(target_dir):
-            log.info("%s already exists, skipping.", target_dir)
-            continue
-        unpack_tarball(info["bucket"], info["key"], target_dir)
-
-
-def unpack_tarball(bucket, key, target_dir):
-    log.info("Creatging %s", target_dir)
-    os.makedirs(target_dir, 0775)
-    log.info("Fetching s3://%s/%s to %s...", bucket, key, target_dir)
-    conn = boto.connect_s3()
-    bucket = conn.get_bucket(bucket)
-    key = bucket.get_key(key)
-    tar = tarfile.open(mode="r|*", fileobj=key)
-    log.info("Extracting...")
-    tar.extractall(path=target_dir)
-    log.info("Extracted")
+    # hg.mozilla.org automatically serves a clone bundle URL appropriate
+    # for the client's IP. So just `hg clone` to get the data.
+    log.info('creating %s' % dest_dir)
+    args = [
+        'hg',
+        # Prefer a streaming clone bundle because they are the fastest
+        # to download and preserve optimal encoding from server.
+        '--config', 'ui.clonebundleprefers=VERSION=packed1',
+        'clone',
+        '--noupdate',
+        FIREFOX_REPO,
+        dest_dir,
+    ]
+    return subprocess.call(args)
 
 
 def run_as(user, group):
@@ -149,18 +85,14 @@ def main():
         log.warn("%s is not supported", hostname)
         exit(0)
 
-    if is_try_slave(hostname):
-        log.info("Try slave detected")
-        dirs = get_prepopulated_dirs(is_try=True)
-        deploy(dirs)
-    else:
-        log.info("Prod slave detected")
-        dirs = get_prepopulated_dirs(builders=None, is_try=False)
-        deploy(dirs)
+    # The Firefox repo is the only one large enough to warrant
+    # seeding.
+    clone_firefox()
+
 
 if __name__ == "__main__":
     try:
         main()
     except Exception:
-        log.exception("Failed to fetch tarballs, gracefully exiting...")
+        log.exception("Failed to seed repo, gracefully exiting...")
         exit(0)
