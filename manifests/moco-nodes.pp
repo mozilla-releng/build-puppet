@@ -1137,27 +1137,6 @@ node "buildbot-master140.bb.releng.usw2.mozilla.com" {
     }
     include toplevel::server::buildmaster::mozilla
 }
-node "buildbot-master141.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    buildmaster::buildbot_master::mozilla {
-        "bm03-tests1-linux32":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux32";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master142.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    buildmaster::buildbot_master::mozilla {
-        "bm04-tests1-linux32":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux32";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
 
 node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
     $aspects = [ 'high-security' ]
