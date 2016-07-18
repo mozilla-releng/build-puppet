@@ -144,6 +144,7 @@ class config inherits config::base {
         'jwood',
         'nthomas',
         'raliiev',
+        'kmoir',
     ]
     $admin_users = $fqdn ? {
         # signing machines have a very limited access list
