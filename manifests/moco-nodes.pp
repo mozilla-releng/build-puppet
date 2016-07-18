@@ -616,7 +616,6 @@ node "buildbot-master81.bb.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::selfserve_agent
     include toplevel::mixin::releaserunner
-    include toplevel::mixin::shipit_notifier
     include toplevel::mixin::buildmaster_db_maintenance
     include toplevel::mixin::bouncer_check
 }

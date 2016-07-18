@@ -289,18 +289,6 @@ class config::base {
     $runner_buildbot_slave_dir = ""
     $runner_clobberer_url = ""
 
-    # shipit_notifier
-
-    # shipit api root
-    $shipit_notifier_api_root = "https://ship-it.mozilla.org"
-    # shipit notifier verbosity level
-    $shipit_notifier_verbose = true
-    # mercurial repository and branch for tools
-    $shipit_notifier_tools = "https://hg.mozilla.org/build/tools"
-    $shipit_notifier_tools_branch = "default"
-    # root directory for shipit_notifier; this must be under /builds
-    $shipit_notifier_root = "/builds/shipit_notifier"
-
     # selfserve (buildapi agent)
 
     # fqdn:port of the buildmaster with which to invoke 'buildbot sendchange'
