@@ -47,6 +47,7 @@ class releaserunner {
                 "pycrypto==2.6.1",
                 "python-dateutil==1.5",
                 "python-jose==0.5.2",
+                "redo==1.5",
                 "releasetasks==0.3.3",
                 "requests==2.6.0",
                 "requests-hawk==1.0.0",
