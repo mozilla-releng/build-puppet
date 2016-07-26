@@ -65,8 +65,7 @@ class aws_manager::cron {
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}";
         "delete_old_spot_amis.py":
-            # b-2008 and y-2008 removed from this list while we're not generating them, bug 1281199
-            params         => "-c tst-linux64 -c tst-linux32 -c try-linux64 -c bld-linux64 -c tst-emulator64 -c t-w732 -c av-linux64",
+            params         => "-c tst-linux64 -c tst-linux32 -c try-linux64 -c bld-linux64 -c tst-emulator64 -c y-2008 -c b-2008 -c t-w732 -c av-linux64",
             ensure         => $cron_switch,
             minute         => '30',
             hour           => '1',
@@ -129,7 +128,7 @@ class aws_manager::cron {
             params         => "-c ${repo_root}/configs/y-2008 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_try.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 y-2008-ec2-golden";
         "b-2008-ec2-golden":
             script         => "aws_create_instance.py",
-            ensure         => absent,  # bug 1281199
+            ensure         => $cron_switch,
             minute         => '35',
             hour           => '1',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
