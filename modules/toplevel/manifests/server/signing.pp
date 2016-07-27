@@ -57,7 +57,7 @@ class toplevel::server::signing inherits toplevel::server {
                     token_secret   => secret('moco_signing_server_dep_token_secret'),
                     token_secret0  => secret('moco_signing_server_old_token_secret'),
                     new_token_auth => "${signing_server_username}:${signing_server_dep_password}",
-                    new_token_auth0=> "${signing_server_username}:${signing_server_dep_password}",
+                    new_token_auth0=> "${signing_server_username}:${signing_server_old_dep_password}",
                     mar_key_name   => "dep1",
                     jar_key_name   => "nightly",
                     formats        => $signing_formats,
