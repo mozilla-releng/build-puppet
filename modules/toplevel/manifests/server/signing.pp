@@ -8,6 +8,7 @@ class toplevel::server::signing inherits toplevel::server {
 
     $signing_server_username = secret('signing_server_username')
     $signing_server_dep_password = secret('signing_server_dep_password')
+    $signing_server_old_dep_password = secret('signing_server_old_dep_password')
     $signing_server_release_password = secret('signing_server_release_password')
     $signing_server_nightly_password = secret('signing_server_nightly_password')
 
