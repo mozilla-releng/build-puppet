@@ -5,4 +5,4 @@ HOME=/home/buildduty
 PATH=/home/buildduty/allthethings/bin:/usr/local/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/buildduty/bin
 */15 * * * * buildduty $HOME/allthethings/repos/braindump/community/generate_allthethings_json.sh -w $HOME/allthethings -v $HOME/allthethings
 # Remove older files that show differences between commits
-5    0 * * * buildduty find /var/www/html/builds/ -type f -name "allthethings.*" -mtime +90 -delete
+5    0 * * * buildduty find /var/www/html/builds/ -type f -name "allthethings._*" -mtime +90 -delete
