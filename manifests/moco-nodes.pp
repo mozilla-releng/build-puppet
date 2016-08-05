@@ -263,8 +263,8 @@ node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
 # buildduty-tools
 
 node /buildduty-tools\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
-    include toplevel::server::buildduty_tools
     $aspects = [ 'medium-security' ]
+    include toplevel::server::buildduty_tools
 }
 
 # slaveapi
