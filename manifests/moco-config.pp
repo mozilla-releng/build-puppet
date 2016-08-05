@@ -138,6 +138,7 @@ class config inherits config::base {
         'jwatkins',
 
         # ..and a few folks from releng
+        'asasaki',
         'bhearsum',
         'catlee',
         'coop',
