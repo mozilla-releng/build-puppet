@@ -45,8 +45,6 @@ class toplevel::server::signing inherits toplevel::server {
                     mar_key_name   => "nightly1",
                     jar_key_name   => "nightly",
                     formats        => $signing_formats,
-                    ssl_cert => secret('moco_signing_server_ssl_cert'),
-                    ssl_private_key => secret('moco_signing_server_ssl_private_key'),
                     concurrency    => $concurrency;
             }
 
@@ -64,8 +62,6 @@ class toplevel::server::signing inherits toplevel::server {
                     jar_key_name   => "nightly",
                     formats        => $signing_formats,
                     signcode_timestamp => "no",
-                    ssl_cert => $config::signing_server_ssl_certs[$hostname],
-                    ssl_private_key => $config::signing_server_ssl_private_keys[$hostname],
                     concurrency    => $concurrency;
             }
             signingserver::instance {
@@ -83,8 +79,6 @@ class toplevel::server::signing inherits toplevel::server {
                     mar_key_name   => "rel1",
                     jar_key_name   => "release",
                     formats        => $signing_formats,
-                    ssl_cert => secret('moco_signing_server_ssl_cert'),
-                    ssl_private_key => secret('moco_signing_server_ssl_private_key'),
                     concurrency    => $concurrency;
             }
         }
@@ -106,9 +100,7 @@ class toplevel::server::signing inherits toplevel::server {
                     new_token_auth0=> "${signing_server_username}:${signing_server_dep_password}",
                     mar_key_name   => "relabs1",
                     jar_key_name   => "relabs",
-                    formats        => $signing_formats,
-                    ssl_cert => secret('relabs_signing_server_ssl_cert'),
-                    ssl_private_key => secret('relabs_signing_server_ssl_private_key');
+                    formats        => $signing_formats;
             }
         }
         default: {
