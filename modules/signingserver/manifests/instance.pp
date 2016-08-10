@@ -8,6 +8,7 @@ define signingserver::instance(
         $new_token_auth, $new_token_auth0,
         $mar_key_name, $jar_key_name,
         $formats, $mac_cert_subject_ou,
+        $ssl_cert, $ssl_private_key,
         $signcode_timestamp="yes",
         $concurrency=4) {
     include config
@@ -114,8 +115,11 @@ define signingserver::instance(
             rev => $code_tag;
     }
 
-    if secret("${config::org}_signing_server_ssl_private_key") == "" {
-        fail("missing ${config::org}_signing_server_ssl_private_key")
+    if "${ssl_cert}" == "" {
+        fail("missing ssl_cert")
+    }
+    if "${ssl_private_key}" == "" {
+        fail("missing ssl_private_key")
     }
 
     if $::operatingsystem == 'Darwin' {
@@ -157,16 +161,16 @@ define signingserver::instance(
             show_diff => false;
 
         $full_private_ssl_cert:
-            content => secret("${config::org}_signing_server_ssl_private_key"),
+            content => "${ssl_private_key}",
             owner => $user,
             group => $group,
             show_diff => false,
             mode => 600;
 
         $full_public_ssl_cert:
+            content => "${ssl_cert}",
             owner => $user,
-            group => $group,
-            source => "puppet:///modules/signingserver/${config::org}/signing.server.cert";
+            group => $group;
     }
 
     # The actual signing process is started by hand by users, who must then
