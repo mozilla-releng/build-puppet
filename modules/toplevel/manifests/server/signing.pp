@@ -45,8 +45,8 @@ class toplevel::server::signing inherits toplevel::server {
                     mar_key_name   => "nightly1",
                     jar_key_name   => "nightly",
                     formats        => $signing_formats,
-                    ssl_cert => secret('moco_signing_server_ssl_cert'),
-                    ssl_private_key => secret('moco_signing_server_ssl_private_key'),
+                    ssl_cert => $config::signing_server_ssl_certs[$hostname],
+                    ssl_private_key => $config::signing_server_ssl_private_keys[$hostname],
                     concurrency    => $concurrency;
             }
 
@@ -83,8 +83,8 @@ class toplevel::server::signing inherits toplevel::server {
                     mar_key_name   => "rel1",
                     jar_key_name   => "release",
                     formats        => $signing_formats,
-                    ssl_cert => secret('moco_signing_server_ssl_cert'),
-                    ssl_private_key => secret('moco_signing_server_ssl_private_key'),
+                    ssl_cert => $config::signing_server_ssl_certs[$hostname],
+                    ssl_private_key => $config::signing_server_ssl_private_keys[$hostname],
                     concurrency    => $concurrency;
             }
         }
