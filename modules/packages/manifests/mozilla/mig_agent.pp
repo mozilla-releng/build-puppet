@@ -25,14 +25,14 @@ class packages::mozilla::mig_agent {
             Anchor['packages::mozilla::mig_agent::begin'] ->
             package {
                 'mig-agent':
-                    ensure => '20160729_0.a06734a.prod'
+                    ensure => '20160729-0.a06734a.prod'
             } -> Anchor['packages::mozilla::mig_agent::end']
         }
         'Darwin': {
             Anchor['packages::mozilla::mig_agent::begin'] ->
             packages::pkgdmg {
                 'mig-agent':
-                    version => '20160729_0.a06734a.prod-x86_64',
+                    version => '20160729-0.a06734a.prod-x86_64',
                     os_version_specific => false;
             } -> Anchor['packages::mozilla::mig_agent::end']
         }
