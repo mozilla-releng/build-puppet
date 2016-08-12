@@ -17,7 +17,7 @@ class packages::mozilla::mig_agent {
             Anchor['packages::mozilla::mig_agent::begin'] ->
             package {
                 'mig-agent':
-                    ensure => '20160127_0.c128226.prod-1'
+                    ensure => '20160729_0.a06734a.prod-1'
             } -> Anchor['packages::mozilla::mig_agent::end']
         }
         'Ubuntu': {
@@ -25,14 +25,14 @@ class packages::mozilla::mig_agent {
             Anchor['packages::mozilla::mig_agent::begin'] ->
             package {
                 'mig-agent':
-                    ensure => '20160127-0.c128226.prod'
+                    ensure => '20160729_0.a06734a.prod'
             } -> Anchor['packages::mozilla::mig_agent::end']
         }
         'Darwin': {
             Anchor['packages::mozilla::mig_agent::begin'] ->
             packages::pkgdmg {
                 'mig-agent':
-                    version => '20160127-0.c128226.prod-x86_64',
+                    version => '20160729_0.a06734a.prod-x86_64',
                     os_version_specific => false;
             } -> Anchor['packages::mozilla::mig_agent::end']
         }
