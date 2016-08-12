@@ -11,7 +11,7 @@ class signing_scriptworker {
 
     python35::virtualenv {
         "${signing_scriptworker::settings::root}":
-            python   => "${packages::mozilla::python35::python}",
+            python3   => "${packages::mozilla::python35::python3}",
             require  => Class["packages::mozilla::python35"],
             user     => "${users::builder::username}",
             group    => "${users::builder::group}",
