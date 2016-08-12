@@ -1,0 +1,12 @@
+{
+    "work_dir": "<%= scope.lookupvar("config::signing_scriptworker_root") %>/work",
+    "artifact_dir": "<%= scope.lookupvar("config::signing_scriptworker_root") %>/artifacts",
+
+    "my_ip": "<%= @ipaddress %>",
+    "signing_server_config": "<%= scope.lookupvar("config::signing_scriptworker_root") %>/passwords.json",
+    "ssl_cert": "<%= scope.lookupvar("config::signing_scriptworker_root") %>/lib/python3.5/site-packages/signingscript/data/host.cert",
+    "schema_file": "<%= scope.lookupvar("config::signing_scriptworker_root") %>/lib/python3.5/site-packages/signingscript/data/signing_task_schema.json",
+
+    "signtool": "<%= scope.lookupvar("config::signing_scriptworker_root") %>/bin/signtool",
+    "verbose": <%= scope.lookupvar("config::signing_scriptworker_verbose_logging") %>
+}

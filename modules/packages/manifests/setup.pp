@@ -108,11 +108,14 @@ class packages::setup {
 
                 "mozilla-mercurial":
                     url_path => "repos/yum/custom/mozilla-mercurial/$architecture";
+
+                "python35":
+                    url_path => "repos/yum/custom/mozilla-python35/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 45
+            $repoflag = 46
             file {
                 "/etc/.repo-flag":
                     content =>

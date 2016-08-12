@@ -1170,5 +1170,11 @@ node /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::signingworker
 }
 
+# Signing scriptworkers
+node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
+    $aspects = [ 'maximum-security' ]
+    include toplevel::server::signingscriptworker
+}
+
 ## Loaners
 
