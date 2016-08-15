@@ -53,6 +53,7 @@ class toplevel::base {
 
     if $kernel == Linux {
         include packages::kernel
+        include tweaks::tcp_challenge_ack_limit
     }
 
     # run RDP on all windows systems
