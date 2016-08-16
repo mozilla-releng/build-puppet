@@ -119,7 +119,7 @@ class aws_manager::cron {
             params         => "-c ${repo_root}/configs/tst-linux32 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-linux32-ec2-golden";
         "y-2008-ec2-golden":
             script         => "aws_create_instance.py",
-            ensure         => absent,  # bug 1281199
+            ensure         => $cron_switch,
             minute         => '30',
             hour           => '1',
             cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
