@@ -153,6 +153,7 @@ class config inherits config::base {
     $admin_users = $fqdn ? {
         # signing machines have a very limited access list
         /^(mac-)?(v2-)?signing\d\..*/ => $shortlist,
+        /^signing-linux-\d\..*/ => $shortlist,
         default => hiera('ldap_admin_users',
                          # backup to ensure access in case the sync fails:
                          ['arr', 'klibby', 'jwatkins'])
