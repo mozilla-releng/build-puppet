@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # Handle installing Python virtualenvs containing Python packages.
 # https://wiki.mozilla.org/ReleaseEngineering/Puppet/Modules/python
-define python35::virtualenv($python3, $ensure="present", $packages=null, $user=null, $group=null) {
+define python35::virtualenv($python3, $ensure="present", $packages=null, $user=null, $group=null, $mode=755) {
     include python35::virtualenv::settings
 
     $virtualenv = $title
@@ -48,7 +48,8 @@ define python35::virtualenv($python3, $ensure="present", $packages=null, $user=n
                 "$virtualenv":
                     owner => $ve_user,
                     group => $ve_group,
-                    ensure => directory;
+                    ensure => directory,
+                    mode => $mode;
             }
             python35::virtualenv::package {
                 "$virtualenv||pip==${python35::virtualenv::settings::pip_version}":

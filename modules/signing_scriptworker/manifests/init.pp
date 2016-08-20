@@ -11,10 +11,11 @@ class signing_scriptworker {
 
     python35::virtualenv {
         "${signing_scriptworker::settings::root}":
-            python3   => "${packages::mozilla::python35::python3}",
+            python3  => "${packages::mozilla::python35::python3}",
             require  => Class["packages::mozilla::python35"],
             user     => "${users::builder::username}",
             group    => "${users::builder::group}",
+            mode     => 700,
             packages => [
                   "aiohttp==0.22.0a0",
                   "arrow==0.8.0",
