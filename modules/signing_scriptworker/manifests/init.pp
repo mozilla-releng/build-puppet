@@ -4,7 +4,7 @@ class signing_scriptworker {
     include signing_scriptworker::settings
     include dirs::builds
     include packages::mozilla::python35
-    include users::builder
+    include users::signer
     include tweaks::swap_on_instance_storage
     include packages::gcc
     include packages::make
@@ -13,8 +13,8 @@ class signing_scriptworker {
         "${signing_scriptworker::settings::root}":
             python3  => "${packages::mozilla::python35::python3}",
             require  => Class["packages::mozilla::python35"],
-            user     => "${users::builder::username}",
-            group    => "${users::builder::group}",
+            user     => "${users::signer::username}",
+            group    => "${users::signer::group}",
             mode     => 700,
             packages => [
                   "aiohttp==0.22.0a0",
@@ -51,22 +51,22 @@ class signing_scriptworker {
         "${signing_scriptworker::settings::root}/script_config.json":
             require     => Python35::Virtualenv["${signing_scriptworker::settings::root}"],
             mode        => 600,
-            owner       => "${users::builder::username}",
-            group       => "${users::builder::group}",
+            owner       => "${users::signer::username}",
+            group       => "${users::signer::group}",
             content     => template("${module_name}/script_config.json.erb"),
             show_diff   => true;
         "${signing_scriptworker::settings::root}/config.json":
             require     => Python35::Virtualenv["${signing_scriptworker::settings::root}"],
             mode        => 600,
-            owner       => "${users::builder::username}",
-            group       => "${users::builder::group}",
+            owner       => "${users::signer::username}",
+            group       => "${users::signer::group}",
             content     => template("${module_name}/config.json.erb"),
             show_diff   => false;
         "${signing_scriptworker::settings::root}/passwords.json":
             require     => Python35::Virtualenv["${signing_scriptworker::settings::root}"],
             mode        => 600,
-            owner       => "${users::builder::username}",
-            group       => "${users::builder::group}",
+            owner       => "${users::signer::username}",
+            group       => "${users::signer::group}",
             content     => template("${module_name}/passwords.json.erb"),
             show_diff => false;
     }

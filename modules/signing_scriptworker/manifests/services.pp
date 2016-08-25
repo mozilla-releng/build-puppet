@@ -6,7 +6,7 @@ class signing_scriptworker::services {
     supervisord::supervise {
         "signing_scriptworker":
             command      => "${signing_scriptworker::settings::root}/bin/scriptworker ${signing_scriptworker::settings::root}/config.json",
-            user         => $::config::builder_username,
+            user         => $::config::signer_username,
             require      => [ File["${signing_scriptworker::settings::root}/config.json"],
                               File["${signing_scriptworker::settings::root}/script_config.json"],
                               File["${signing_scriptworker::settings::root}/passwords.json"]],
