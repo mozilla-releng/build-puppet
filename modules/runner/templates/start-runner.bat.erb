@@ -1,6 +1,10 @@
 @echo off
 
 <% if scope.lookupvar('::fqdn') =~ /.*\.releng\.(use1|usw2)\.mozilla\.com$/ -%>
+
+@ECHO %COMPUTERNAME% | find /I "GOLD"
+if "%ERRORLEVEL%"=="0" exit
+
 REM Pull down the latest AWS instance's metadata
 
 if exist C:\etc\instance_metadata.json  rm -f C:\etc\instance_metadata.json
