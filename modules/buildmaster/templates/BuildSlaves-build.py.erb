@@ -31,6 +31,10 @@ balrog_credentials = {
     'tbirdbld': """<%= scope.function_secret(["tbirdbld_ldap_password"])%>""",
     'stage-tbirdbld': """<%= scope.function_secret(["stage-tbirdbld_ldap_password"])%>""",
 }
+ship_it_credentials = {
+    'ffxbld': """<%= scope.function_secret(["releaserunner_prod_ship_it_password"])%>""",
+    'stage-ffxbld': """<%= scope.function_secret(["releaserunner_dev_ship_it_password"])%>""",
+}
 blobber_username = """<%=scope.function_secret(["blobber_username"])%>"""
 blobber_password = """<%=scope.function_secret(["blobber_password"])%>"""
 influxdb_credentials = """<%=scope.function_secret(["influxdb_credentials"])%>"""
