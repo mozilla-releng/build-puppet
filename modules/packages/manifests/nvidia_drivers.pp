@@ -39,7 +39,7 @@ class packages::nvidia_drivers {
             # However, the install has only been tested on Win 7 in AWS
             # Further testing will be needed in the other environments
 
-            $datacnter_domain = "wintest.releng.scl3.mozilla.com"
+            $datacnter_domain = "build.mozilla.org"
             $nv_dir           = "C:\\installersource\\puppetagain.pub.build.mozilla.org\\ZIPs\\nvidia\\"
 
             $arch = $hardwaremodel ? {
@@ -59,13 +59,11 @@ class packages::nvidia_drivers {
                 "$datacnter_domain" => "-english-whql",
                 default             => "-international-whql",
             }
-            # The installation for 314 and 354 exits with 1 even though the driver is installed and functioning
+            # The installation in AWS exits with 1 even though the driver is installed and functioning
             # The exit code is due to a dll file failing to be unloaded
-            # Leaving the variables in place so there is work around in the future if this condition changes
-            # 0 and 1 is being left in place because there maybe a condition under USERDATA where it exits with 0
             $ex_code = $domain ? {
-                "$datacnter_domain" => "1",
-                default             => "0, 1,",
+                "$datacnter_domain" => "0",
+                default             => "0, 1",
             }
 
             $nv_driver = "$nv_version$nv_name$arch$lang"
@@ -75,24 +73,24 @@ class packages::nvidia_drivers {
                     zip        => "$nv_driver.zip",
                     private    => true,
                     target_dir => "c:\\InstallerSource\\puppetagain.pub.build.mozilla.org\\zips\\nvidia";
-           }
-           # This will fail on any AWS instance type that is not g2
-           exec {
+            }
+            # This will fail on any AWS instance type that is not g2
+            exec {
                 "nvidia_setup_exe":
-                    command     => "$nv_dir$nv_driver\\setup.exe /s -clean -noreboot -loglevel:6 -log:C:\\ProgramData\\PuppetLabs\\puppet\\var\\log",
+                    command     => "$nv_dir$nv_driver\\setup.exe -clean -passive -noreboot -loglevel:6 -log:C:\\ProgramData\\PuppetLabs\\puppet\\var\\log",
                     returns     => "$ex_code",
                     subscribe   => Packages::Pkgzip["nv_driver"],
                     refreshonly => true;
-           }
-           # No need to keep these files around
-           file {
+            }
+            # No need to keep these files around
+            file {
                 "C:/installersource/puppetagain.pub.build.mozilla.org/ZIPs/nvidia-$nvidia_full_version-${arch}bit":
                     ensure  => absent,
                     purge   => true,
                     recurse => true,
                     force   => true,
                     require => Exec["nvidia_setup_exe"];
-           }
+            }
         }
         default: {
             fail("cannot install on $::operatingsystem")

@@ -56,7 +56,9 @@ class toplevel::base {
         include tweaks::tcp_challenge_ack_limit
     }
 
+    # run RDP on all windows systems
     if ($::operatingsystem == windows) {
+        include rdp
         include metcollect
     }
 

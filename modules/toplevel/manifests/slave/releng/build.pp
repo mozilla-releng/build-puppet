@@ -13,7 +13,6 @@ class toplevel::slave::releng::build inherits toplevel::slave::releng {
     include users::builder
 
     if ($::operatingsystem == Windows) {
-        include rdp
         include tweaks::vs_2013_lnk
         include tweaks::windows_sendchange_hack
         include tweaks::disablejit

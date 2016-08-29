@@ -78,29 +78,11 @@ class packages::mozilla::py27_mercurial {
             file { "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/$merc_exe" :
                 ensure => file,
                 source => "puppet:///repos/EXEs/$merc_exe",
-            }
-            case $::fqdn {
-                /.*\.releng\.(use1|usw2)\.mozilla\.com$/: {
-                    Anchor['packages::mozilla::py27_mercurial::begin'] ->
-                    exec { "$merc_exe":
-                        command  => "$merc_cmd",
-                        require  => Exec["remove_old_hg"],
-                        creates  => "C:\\mozilla-build\\hg\\msvcp90.dll",
-                    } -> Anchor['packages::mozilla::py27_mercurial::end']
-                }
-                default: {
-                    Anchor['packages::mozilla::py27_mercurial::begin'] ->
-                    exec { "$merc_exe":
-                            command => 'C:\Windows\system32\schtasks.exe /ru SYSTEM /create /sc once /st 23:59  /tn merc_exe /tr "C:\installersource\puppetagain.pub.build.mozilla.org\EXEs\Mercurial-3.7.3.exe /SILENT /DIR=C:\mozilla-build\hg"',
-                            require  => Exec["remove_old_hg"],
-                            creates  => "C:\\mozilla-build\\hg\\msvcp90.dll",
-                    } -> exec { "trigger_$merc_exe":
-                            command  => "C:\\Windows\\system32\\schtasks.exe /run /tn merc_exe",
-                            subscribe => Exec["$merc_exe"],
-                            refreshonly => true,
-                    } -> Anchor['packages::mozilla::py27_mercurial::end']
-                }
-            }
+            } -> exec { "$merc_exe":
+                command  => "$merc_cmd",
+                require  => Exec["remove_old_hg"],
+                creates  => "C:\\mozilla-build\\hg\\msvcp90.dll",
+            } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         default: {
             fail("cannot install on $::operatingsystem")
