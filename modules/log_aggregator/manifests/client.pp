@@ -51,7 +51,7 @@ class log_aggregator::client {
                             }
                             "i686": {
                                 case $::domain {
-                                    "build.mozilla.org": {
+                                    "wintest.releng.scl3.mozilla.com": {
                                         file {
                                             "${nxlog::settings::root_dir}/conf/nxlog_source_eventlog.conf":
                                                 require => Class [ 'packages::nxlog' ],
