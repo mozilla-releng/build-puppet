@@ -7,6 +7,11 @@
     "work_dir": "<%= scope.lookupvar("config::signing_scriptworker_root") %>/work",
     "log_dir": "<%= scope.lookupvar("config::signing_scriptworker_root") %>/logs",
     "artifact_dir": "<%= scope.lookupvar("config::signing_scriptworker_root") %>/artifacts",
+    "task_log_dir": "<%= scope.lookupvar("config::signing_scriptworker_root") %>/artifacts/public/logs",
+    "valid_artifact_path_regexes": ["^/v1/task/(?P<taskId>[^/]+)(/runs/\\d+)?/artifacts/(?P<filepath>.*)$"],
+    "verify_chain_of_trust": false,
+    "sign_chain_of_trust": false,
+
 
     "credentials": {
         "clientId": "<%= scope.function_secret(["signing_scriptworker_taskcluster_client_id"]) %>",
