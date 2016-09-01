@@ -13,7 +13,7 @@ class runner::tasks::mig_agent($runlevel=1) {
             'mig-agent-from-runner':
                 user => $users::builder::username,
                 runas => 'root',
-                command => "/sbin/mig-agent";
+                command => "/usr/local/bin/mig-agent";
         }
 
     }
