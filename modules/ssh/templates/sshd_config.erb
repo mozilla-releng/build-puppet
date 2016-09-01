@@ -10,7 +10,13 @@ AcceptEnv XMODIFIERS
 
 LogLevel VERBOSE
 
+<% if scope.lookupvar("::config::only_user_ssh") -%>
+PermitRootLogin no
+PasswordAuthentication no
+PermitEmptyPasswords no
+<% else -%>
 PasswordAuthentication yes
+<% end %>
 ChallengeResponseAuthentication no
 GSSAPIAuthentication no
 

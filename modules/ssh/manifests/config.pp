@@ -5,6 +5,7 @@ class ssh::config {
     include users::root
     include ssh::settings
     include ssh::service
+    include ::config
 
     case $::operatingsystem {
         CentOS: {
