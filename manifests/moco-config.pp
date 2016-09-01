@@ -161,6 +161,12 @@ class config inherits config::base {
                          # backup to ensure access in case the sync fails:
                          ['arr', 'klibby', 'jwatkins'])
     }
+    $only_user_ssh = $fqdn ? {
+        # signing machines disallow root and password-based ssh
+        /^(mac-)?(v2-)?signing\d\..*/ => true,
+        /^signing-linux-\d\..*/ => true,
+        default => false
+    }
     $buildbot_mail_to = "release@mozilla.com"
     $master_json = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
 
