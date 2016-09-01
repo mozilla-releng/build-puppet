@@ -8,5 +8,13 @@ if [ "$UID" != 0 ]; then
     PREFIX="sudo"
 fi
 
+# See bug 1288763
+OS=$(uname -s)
+if [ "$OS" == "Darwin" ]; then
+    MIG_PATH="/usr/local/bin/mig-agent"
+else
+    MIG_PATH="/sbin/mig-agent"
+fi
+
 # run mig-agent in checkin mode
-$PREFIX /sbin/mig-agent -m agent-checkin || true
+$PREFIX $MIG_PATH -m agent-checkin || true

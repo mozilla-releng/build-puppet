@@ -13,9 +13,10 @@ class mig::agent::daemon {
     }
     # on package update, shutdown the old agent and start the new one
     # when the package is upgraded, exec a new instance of the agent
+    $mig_path = $operatingsystem ? { /(CentOS|Ubuntu)/ => '/sbin/mig-agent', Darwin => '/usr/local/bin/mig-agent' }
     exec {
         'restart mig':
-            command => '/sbin/mig-agent -q=shutdown; /sbin/mig-agent',
+            command => "${mig_path} -q=shutdown; ${mig_path}",
             subscribe => Class['packages::mozilla::mig_agent'],
             refreshonly => true
     }
