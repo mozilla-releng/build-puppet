@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-define slaveapi::instance($listenaddr, $port, $version="1.6.1") {
+define slaveapi::instance($listenaddr, $port, $version="1.6.2") {
     include config
     include slaveapi::base
     include users::builder
@@ -51,7 +51,7 @@ define slaveapi::instance($listenaddr, $port, $version="1.6.1") {
                 "MarkupSafe==0.18",
                 "WebOb==1.2.3",
                 "requests==2.0.1",
-                "bzrest==0.7",
+                "bzrest==0.9",
                 "dnspython==1.12.0",
                 "paramiko==1.12.0",
                 "Flask==0.10.1",
