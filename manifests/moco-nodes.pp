@@ -201,29 +201,6 @@ node /casper-netboot-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server
 }
 
-## openstack admin servers
-
-node /controller\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $pin_puppet_env = "jwatkins"
-    $aspects = [ "staging" ]
-    include toplevel::server
-}
-
-node /glance-controller\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $pin_puppet_env = "jwatkins"
-    $aspects = [ "staging" ]
-    include toplevel::server
-}
-
-node /network-node\d+\.admin\.cloud\.releng\.scl3\.mozilla\.com/ {
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $pin_puppet_env = "jwatkins"
-    $aspects = [ "staging" ]
-    include toplevel::server
-}
-
 ## Misc servers
 
 node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
