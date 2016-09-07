@@ -157,6 +157,7 @@ class config inherits config::base {
         # signing machines have a very limited access list
         /^(mac-)?(v2-)?signing\d\..*/ => $shortlist,
         /^signing-linux-\d\..*/ => $shortlist,
+        /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ => $shortlist,
         default => hiera('ldap_admin_users',
                          # backup to ensure access in case the sync fails:
                          ['arr', 'klibby', 'jwatkins'])
@@ -165,6 +166,7 @@ class config inherits config::base {
         # signing machines disallow root and password-based ssh
         /^(mac-)?(v2-)?signing\d\..*/ => true,
         /^signing-linux-\d\..*/ => true,
+        /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ => true,
         default => false
     }
     $buildbot_mail_to = "release@mozilla.com"
