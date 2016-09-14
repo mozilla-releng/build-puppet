@@ -149,9 +149,6 @@ class config inherits config::base {
         'nthomas',
         'raliiev',
         'kmoir',
-
-        # and infosec, for pentesting in bug 1298199
-        'jclaudius',
     ]
     $admin_users = $fqdn ? {
         # signing machines have a very limited access list
