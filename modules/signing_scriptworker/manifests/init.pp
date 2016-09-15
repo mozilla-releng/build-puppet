@@ -33,7 +33,7 @@ class signing_scriptworker {
                   "python-gnupg==0.3.8",
                   "python-jose==1.2.0",
                   "requests==2.11.1",
-                  "scriptworker==0.5.0",
+                  "scriptworker==0.6.0",
                   "signingscript==0.5.1",
                   "signtool==2.0.3",
                   "six==1.10.0",
