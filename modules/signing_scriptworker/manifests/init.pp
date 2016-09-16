@@ -28,6 +28,8 @@ class signing_scriptworker {
                   "mohawk==0.3.3",
                   "multidict==1.2.2",
                   "pefile==2016.7.26",
+                  "pexpect==4.2.1",
+                  "ptyprocess==0.5.1",
                   "pycrypto==2.6.1",
                   "python-dateutil==2.5.3",
                   "python-gnupg==0.3.8",
