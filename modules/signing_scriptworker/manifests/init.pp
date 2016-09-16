@@ -72,5 +72,13 @@ class signing_scriptworker {
             group       => "${users::signer::group}",
             content     => template("${module_name}/passwords.json.erb"),
             show_diff => false;
+        '/root/certs.sh':
+            ensure => absent;
     }
+
+    service {
+        'rpcbind':
+            enable => false;
+    }
+
 }
