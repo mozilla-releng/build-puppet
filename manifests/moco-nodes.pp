@@ -137,9 +137,17 @@ node /bld-lion-r5-\d+.try.releng.scl3.mozilla.com/ {
 
 ## signing servers
 
-node /(mac-(v2-|)|)signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
-    # all mac and linux signing servers
+node /mac-(v2-|)signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
+    # mac signing servers
     $aspects = [ 'maximum-security' ]
+    $timezone = "GMT"
+    include toplevel::server::signing
+}
+
+node /signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
+    # linux signing servers
+    $aspects = [ 'maximum-security' ]
+    $timezone = "UTC"
     include toplevel::server::signing
 }
 
@@ -1150,6 +1158,7 @@ node /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 # Signing scriptworkers
 node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
+    $timezone = "UTC"
     include toplevel::server::signingscriptworker
 }
 
