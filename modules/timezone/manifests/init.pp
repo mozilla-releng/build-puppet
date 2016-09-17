@@ -7,16 +7,12 @@ class timezone {
     case $::operatingsystem {
         CentOS: {
             include packages::tzdata
-            # UTC or US/Pacific
-            if ($timezone == '') {
-                $timezone = 'US/Pacific'
-            }
             file {
                 "/etc/localtime":
                     mode => 644,
                     owner => root,
                     group => $users::root::group,
-                    content => file("/usr/share/zoneinfo/$timezone"),
+                    content => file("/usr/share/zoneinfo/US/Pacific"),
                     force => true,
                     require => Class['packages::tzdata'],
                     notify => Exec['/usr/sbin/tzdata-update'];
@@ -24,7 +20,7 @@ class timezone {
                     mode => 644,
                     owner => root,
                     group => $users::root::group,
-                    content => "ZONE=\"$timezone\"",
+                    content => 'ZONE="US/Pacific"',
                     force => true,
                     require => Class['packages::tzdata'],
                     notify => Exec['/usr/sbin/tzdata-update'];
@@ -53,13 +49,9 @@ class timezone {
             }
         }
         Darwin: {
-            # GMT or America/Los_Angeles
-            if ($timezone != 'GMT') {
-                $timezone = 'America/Los_Angeles'
-            }
             osxutils::systemsetup {
                 timezone:
-                    setting => "$timezone";
+                    setting => "America/Los_Angeles";
             }
         }
         Windows: {
