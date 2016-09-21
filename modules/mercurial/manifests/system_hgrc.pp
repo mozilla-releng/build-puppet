@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class mercurial::system_hgrc {
     include mercurial::settings
+    include mercurial::cacert
 
     $group = $::operatingsystem ? {
         Darwin  => wheel,
