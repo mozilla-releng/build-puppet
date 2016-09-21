@@ -11,7 +11,7 @@ class mercurial::cacert {
                 '/etc/mercurial/cacert':
                     ensure => directory,
                     mode => 0755;
-                
+
                 '/etc/mercurial/cacert/cacert.pem':
                     ensure => file,
                     source => "puppet:///modules/mercurial/cacert.pem",
