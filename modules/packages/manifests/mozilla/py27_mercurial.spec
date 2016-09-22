@@ -29,7 +29,7 @@
 %define package_sitearch %{_libdir}/python%{pyver}/site-packages
 
 Name:       mozilla-%{pyrealname}-%{realname}
-Version:    3.7.3
+Version:    3.9.1
 Release:	1%{?dist}
 Summary:	This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
@@ -84,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Sep 13 2016 Alin Selagea <aselagea mozilla com> 3.9.1-1
+- update to hg 3.9.1
+
 * Mon Apr 04 2016 Jake Watkins <jwatkins mozilla com> 3.7.3-1
 - update to hg 3.7.3
 
