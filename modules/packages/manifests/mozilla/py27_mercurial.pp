@@ -58,7 +58,7 @@ class packages::mozilla::py27_mercurial {
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             packages::pkgdmg {
                 python27-mercurial:
-                    version => "3.7.3-2";
+                    version => "3.9.1-1";
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Windows: {
