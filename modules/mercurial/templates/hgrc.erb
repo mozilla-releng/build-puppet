@@ -42,5 +42,8 @@ hg.mozilla.org = af:27:b9:34:47:4e:e5:98:01:f6:83:2b:51:c9:aa:d8:df:fb:1a:27
 ftp-ssl.mozilla.org = 9d:8e:3e:7c:4a:33:6f:53:c6:64:a8:48:d3:ea:72:05:f0:73:a4:90
 
 [web]
+<% if scope.lookupvar('::operatingsystem') != 'windows' -%>
 cacerts = /etc/mercurial/cacert/cacert.pem
-
+<% else -%>
+cacerts=C:\mozilla-build\hg\hgrc.d\cacert.pem
+<% end -%>
