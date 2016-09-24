@@ -18,6 +18,13 @@ class mercurial::cacert {
                     owner => "root";
             }
         }
+        Windows: {
+            file {
+                'C:/mozilla-build/hg/hgrc.d/cacert.pem':
+                    ensure => file,
+                    source => "puppet:///modules/mercurial/cacert.pem";
+            }
+        }
     }
 }
 
