@@ -8,6 +8,11 @@ class mercurial::cacert {
     case $operatingsystem {
         CentOS,Ubuntu,Darwin: {
             file {
+                '/builds':
+                    ensure => directory,
+                    mode => 0755;
+
+            file {
                 '/builds/mercurial-certs':
                     ensure => directory,
                     mode => 0755;
