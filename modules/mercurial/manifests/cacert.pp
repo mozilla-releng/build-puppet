@@ -8,11 +8,11 @@ class mercurial::cacert {
     case $operatingsystem {
         CentOS,Ubuntu,Darwin: {
             file {
-                '/etc/mercurial/cacert':
+                '/builds/mercurial-certs':
                     ensure => directory,
                     mode => 0755;
 
-                '/etc/mercurial/cacert/cacert.pem':
+                '/builds/mercurial-certs/cacert.pem':
                     ensure => file,
                     source => "puppet:///modules/mercurial/cacert.pem",
                     owner => "root";
