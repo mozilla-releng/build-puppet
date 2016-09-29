@@ -3,7 +3,7 @@ balrog:
     username: "<%= scope.lookupvar("config::funsize_scheduler_balrog_username") %>"
     password: "<%= scope.function_secret(["funsize_scheduler_balrog_password"]) %>"
     api_root: "https://aus4-admin.mozilla.org/api"
-    cert: "<%= scope.lookupvar("config::funsize_scheduler_root") %>/lib/python2.7/site-packages/funsize/data/mozilla-root.crt"
+    cert: "<%= scope.lookupvar("config::funsize_scheduler_root") %>/lib/python2.7/site-packages/funsize/data/ca-bundle.crt"
     worker_api_root: "<%= scope.lookupvar("config::funsize_scheduler_balrog_worker_api_root") %>"
 
 pulse:
