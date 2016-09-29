@@ -27,7 +27,7 @@ class funsize_scheduler {
                 "cryptography==0.6",
                 "ecdsa==0.10",
                 "enum34==1.0.4",
-                "funsize==0.57",
+                "funsize==0.58",
                 "Jinja2==2.7.1",
                 "kombu==3.0.26",
                 "MarkupSafe==0.23",
