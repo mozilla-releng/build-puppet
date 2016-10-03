@@ -65,8 +65,8 @@ class packages::mozilla::py27_mercurial {
             include packages::mozilla::mozilla_build
             $mercurial = 'C:\mozilla-build\hg\hg.exe'
             $merc_exe = $hardwaremodel ? {
-                i686    => "Mercurial-3.7.3.exe",
-                default => "Mercurial-3.7.3-x64.exe",
+                i686    => "Mercurial-3.9.1.exe",
+                default => "Mercurial-3.9.1-x64.exe",
             }
             $merc_exe_dir = "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\"
             $merc_exe_flag = " /SILENT /DIR=C:\\mozilla-build\\hg"
