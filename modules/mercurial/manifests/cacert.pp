@@ -21,7 +21,7 @@ class mercurial::cacert {
         }
         Windows: {
             file {
-                'C:/mozilla-build/hg/hgrc.d/cacert.pem':
+                'C:/mozilla-build/hg/cacert.pem':
                     ensure => file,
                     source => "puppet:///modules/mercurial/cacert.pem";
             }
