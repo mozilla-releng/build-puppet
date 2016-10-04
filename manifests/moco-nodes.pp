@@ -1162,5 +1162,11 @@ node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::signingscriptworker
 }
 
-## Loaners
+# Balrog scriptworkers
+node /balrogworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+    $aspects = [ 'maximum-security' ]
+    $timezone = "UTC"
+    include toplevel::server::balrogscriptworker
+}
 
+## Loaners

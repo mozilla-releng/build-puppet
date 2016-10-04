@@ -19,7 +19,9 @@ class cruncher::slave_health {
                 "MySQL-python",
                 "SQLAlchemy",
                 "pytz",
-                "requests",
+                # Pinning to avoid investigating if an update would break
+                # https://bugzilla.mozilla.org/show_bug.cgi?id=1289822#c7
+                "requests==2.8.1",
                 "simplejson",
                 "wsgiref",
             ];
