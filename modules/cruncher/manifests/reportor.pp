@@ -29,7 +29,9 @@ class cruncher::reportor {
             user => "${users::buildduty::username}",
             group => "${users::buildduty::group}",
             packages => [
-                "requests",
+                # Pinning to avoid investigating if an update would break
+                # https://bugzilla.mozilla.org/show_bug.cgi?id=1289822#c7
+                "requests==2.8.1",
                 "SQLAlchemy",
                 "simplejson",
                 "MySQL-python",
