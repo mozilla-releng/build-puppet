@@ -15,7 +15,7 @@ class balrog_scriptworker {
 
     file {
         ["${balrog_scriptworker::settings::base}",
-         "${balrog_scriptworker::settings::root}"]:
+        "${balrog_scriptworker::settings::root}"]:
             mode        => 700,
             owner       => "${users::builder::username}",
             group       => "${users::builder::group}",
