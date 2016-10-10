@@ -1,3 +1,2 @@
 MAILTO=<%=scope.lookupvar('config::buildbot_mail_to')%>
-# Disabled for bug 1308588 during cutover to InnoDB
-#@weekly <%=scope.lookupvar('users::builder::username')%> <%=@db_maintenance_dir%>/bin/python <%=@db_maintenance_dir%>/tools/buildfarm/maintenance/cleanup_db.py --cutoff $(date -d '-6 months' +\%Y-\%m-\%d) -l <%=@db_maintenance_dir%>/cleanup_db.log --config <%=@db_maintenance_dir%>/config.ini --skip-orphans
+@weekly <%=scope.lookupvar('users::builder::username')%> <%=@db_maintenance_dir%>/bin/python <%=@db_maintenance_dir%>/tools/buildfarm/maintenance/cleanup_db.py --cutoff $(date -d '-6 months' +\%Y-\%m-\%d) -l <%=@db_maintenance_dir%>/cleanup_db.log --config <%=@db_maintenance_dir%>/config.ini --skip-orphans
