@@ -1,0 +1,21 @@
+{
+    "git_key_repo_url": "<%= scope["config::signing_scriptworker_gpg_repo_url"] %>",
+    "git_commit_signing_pubkey_dir": "<%= scope["signing_scriptworker::settings::git_pubkey_dir"] %>",
+    "gpg_keyserver": "hkp://gpg.mozilla.org",
+    "pubkey_path": "/home/<%= scope["users::signer::username"] %>/pubkey",
+    "privkey_path": "/home/<%= scope["users::signer::username"] %>/privkey",
+    "gpg_homedirs": {
+        "docker-worker": {
+            "type": "flat",
+            "ignore_suffixes": [".md"]
+        },
+        "generic-worker": {
+            "type": "flat",
+            "ignore_suffixes": [".md"]
+        },
+        "scriptworker": {
+            "type": "signed",
+            "ignore_suffixes": [".md"]
+        }
+    }
+}

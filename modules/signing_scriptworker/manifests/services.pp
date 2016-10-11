@@ -5,10 +5,10 @@ class signing_scriptworker::services {
 
     supervisord::supervise {
         "signing_scriptworker":
-            command      => "${signing_scriptworker::settings::root}/bin/scriptworker ${signing_scriptworker::settings::root}/config.json",
+            command      => "${signing_scriptworker::settings::root}/bin/scriptworker ${signing_scriptworker::settings::root}/scriptworker.json ${signing_scriptworker::settings::root}/cot_config.json",
             user         => $::config::signer_username,
-            require      => [ File["${signing_scriptworker::settings::root}/config.json"],
-                              File["${signing_scriptworker::settings::root}/script_config.json"],
+            require      => [ File["${signing_scriptworker::settings::root}/scriptworker.json"],
+                              File["${signing_scriptworker::settings::root}/cot_config.json"],
                               File["${signing_scriptworker::settings::root}/passwords.json"]],
             extra_config => template("${module_name}/supervisor_config.erb");
     }
@@ -17,8 +17,8 @@ class signing_scriptworker::services {
             command     => "/usr/bin/supervisorctl restart signing_scriptworker",
             refreshonly => true,
             subscribe   => [Python35::Virtualenv["${signing_scriptworker::settings::root}"],
-                            File["${signing_scriptworker::settings::root}/config.json"],
-                            File["${signing_scriptworker::settings::root}/script_config.json"],
+                            File["${signing_scriptworker::settings::root}/scriptworker.json"],
+                            File["${signing_scriptworker::settings::root}/cot_config.json"],
                             File["${signing_scriptworker::settings::root}/passwords.json"]];
     }
 }
