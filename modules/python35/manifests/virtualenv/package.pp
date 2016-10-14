@@ -46,6 +46,7 @@ end
             name => "${ve_bin_dir}pip${exe} install $pip_options $pkg",
             logoutput => on_failure,
             user => $user,
+            onlyif => "${ve_bin_dir}python${exe} $pip_check_py $pkg",
             environment => [
                 "HOME=$home_dir",
                 "PIP_CONFIG_FILE=/dev/null" # because sudo will sometimes lead pip to ~administrator/.pip
