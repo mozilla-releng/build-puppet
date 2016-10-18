@@ -1,0 +1,48 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+transforms:
+  - env
+  - secrets
+config:
+  capacity:         1
+  credentials:
+    # Create a client with the scope:
+    # assume:project:taskcluster:worker-test-scopes
+    # secrets:get:project/taskcluster/taskcluster-worker/stateless-dns
+    clientId:       <%= @taskcluster_client_id %>
+    accessToken:    <%= @taskcluster_access_token %>
+  provisionerId:    tc-worker-provisioner
+  workerType:       gecko-t-osx-<%= @macos_version %>
+  workerGroup:      macosx-tc-worker
+  workerId:         <%= @hostname %>
+  engine:           macosx
+  engines:
+    macosx:
+      createUser: true
+      sudo: true
+      userGroups: ['staff', 'everyone', 'localaccounts', '_developer', '_lpoperator', 'com.apple.sharepoint.group.1']
+  logLevel:         info
+  plugins:
+    disabled:       ['success', 'interactive']
+  pollingInterval:  10
+  queueBaseUrl:     https://queue.taskcluster.net/v1
+  reclaimOffset:    120
+  temporaryFolder:  /var/tmp/tc-worker-tmp
+  serverIp:           127.0.0.1
+  serverPort:         60000
+  tlsCertificiate:
+    $secret:  project/taskcluster/taskcluster-worker/stateless-dns
+    key:      certificate
+  tlsKey:
+    $secret:  project/taskcluster/taskcluster-worker/stateless-dns
+    key:      tlsKey
+  statelessDNSSecret:
+    $secret:  project/taskcluster/taskcluster-worker/stateless-dns
+    key:      secret
+  statelessDNSDomain:
+    $secret:  project/taskcluster/taskcluster-worker/stateless-dns
+    key:      domain
+  maxLifeCycle:       600
+  minimumDiskSpace:   10000000  # 10 GB
+  minimumMemory:      1000000   # 1 GB
