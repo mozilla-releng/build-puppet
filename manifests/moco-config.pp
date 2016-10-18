@@ -441,6 +441,24 @@ class config inherits config::base {
     $balrog_scriptworker_git_balrogscript_keys = '/builds/balrog/balrogscript/keys'
     $balrog_scriptworker_git_balrogscript_repo = 'https://github.com/mozilla-releng/funsize-balrogworker.git'
 
+    # TC beetmover scriptworkers
+    $beetmover_scriptworker_provisioner_id = "scriptworker-prov-v1"
+    $beetmover_scriptworker_worker_group = "beetmoverworker-v1"
+    $beetmover_scriptworker_worker_type = "beetmoverworker-v1"
+    $beetmover_scriptworker_taskcluster_client_id = secret("beetmover_scriptworker_taskcluster_client_id")
+    $beetmover_scriptworker_taskcluster_access_token = secret("beetmover_scriptworker_taskcluster_access_token")
+    $beetmover_scriptworker_task_max_timeout = 2400
+    $beetmover_scriptworker_artifact_expiration_hours = 336
+    $beetmover_scriptworker_artifact_upload_timeout = 600
+    $beetmover_scriptworker_verbose_logging = false
+    $beetmover_scriptworker_root = "/builds/beetmoverworker"
+    $beetmover_scriptworker_beetmoverscript_dir = "/builds/beetmoverworker/beetmoverscript"
+    $beetmover_scriptworker_beetmoverscript_repo_url = "https://github.com/mozilla-releng/beetmoverscript.git"
+    $beetmover_scriptworker_s3_bucket = secret("beetmover_scriptworker_s3_bucket")
+    $beetmover_scriptworker_s3_id = secret("beetmover_scriptworker_s3_id")
+    $beetmover_scriptworker_s3_key = secret("beetmover_scriptworker_s3_key")
+
+
     # Funsize Scheduler configuration
     $funsize_scheduler_root = "/builds/funsize"
     $funsize_scheduler_balrog_username = "funsize"
