@@ -13,7 +13,7 @@ class python35::pip_check_py {
 
     file {
         "$file":
-            source => "puppet:///modules/python/pip-check.py",
+            source => "puppet:///modules/python35/pip-check.py",
             owner => root,
             group => $::users::root::group,
             mode => filemode(0644),
