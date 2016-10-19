@@ -111,11 +111,14 @@ class packages::setup {
 
                 "python35":
                     url_path => "repos/yum/custom/mozilla-python35/$architecture";
+
+                "python27-12":
+                    url_path => "repos/yum/custom/mozilla-python2712/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 47
+            $repoflag = 48
             file {
                 "/etc/.repo-flag":
                     content =>

@@ -42,11 +42,25 @@ class packages::mozilla::python27 {
 
             case $::operatingsystem {
                 CentOS: {
-                    Anchor['packages::mozilla::python27::begin'] ->
-                    package {
-                        "mozilla-python27":
-                            ensure => '2.7.3-1.el6';
-                    } -> Anchor['packages::mozilla::python27::end']
+                    # Bug 1307757 - Deploy python 2.7.12 to releng servers
+                    # install Python 2.7.12 for 'buildduty-tools' and 'cruncher-aws' servers in order
+                    # to silence the alerts caused by using on older Python version (2.7.3) when
+                    # performing HG operation.
+                    if $hostname in [ 'buildduty-tools', 'cruncher-aws' ] {
+                      realize(Packages::Yumrepo['python27-12'])
+                      Anchor['packages::mozilla::python27::begin'] ->
+                      package {
+                          "mozilla-python27":
+                              ensure => '2.7.12-1.el6';
+                      } -> Anchor['packages::mozilla::python27::end']
+                    }
+                    else {
+                      Anchor['packages::mozilla::python27::begin'] ->
+                      package {
+                          "mozilla-python27":
+                              ensure => '2.7.3-1.el6';
+                      } -> Anchor['packages::mozilla::python27::end']
+                    }
                 }
                 Ubuntu: {
                     case $::operatingsystemrelease {
