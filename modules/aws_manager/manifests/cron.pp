@@ -65,7 +65,7 @@ class aws_manager::cron {
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}";
         "delete_old_spot_amis.py":
-            params         => "-c tst-linux64 -c tst-linux32 -c try-linux64 -c bld-linux64 -c tst-emulator64 -c y-2008 -c b-2008 -c t-w732 -c g-w732 -c av-linux64",
+            params         => "-c tst-linux64 -c tst-linux32 -c try-linux64 -c bld-linux64 -c tst-emulator64 -c y-2008 -c b-2008 -c t-w732 -c g-w732 -c t-w10 -c g-w10 -c av-linux64",
             ensure         => $cron_switch,
             minute         => '30',
             hour           => '1',
@@ -153,6 +153,24 @@ class aws_manager::cron {
             virtualenv_dir => "${aws_manager::settings::root}",
             user           => "${users::buildduty::username}",
             params         => "-c ${repo_root}/configs/g-w732 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 g-w732-ec2-golden";
+        "t-w10-ec2-golden":
+            script         => "aws_create_instance.py",
+            ensure         => $cron_switch,
+            minute         => '40',
+            hour           => '1',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}",
+            params         => "-c ${repo_root}/configs/t-w10 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 t-w10-ec2-golden";
+        "g-w10-ec2-golden":
+            script         => "aws_create_instance.py",
+            ensure         => $cron_switch,
+            minute         => '40',
+            hour           => '1',
+            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
+            virtualenv_dir => "${aws_manager::settings::root}",
+            user           => "${users::buildduty::username}",
+            params         => "-c ${repo_root}/configs/g-w10 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 g-w10-ec2-golden";
         "tst-emulator64-ec2-golden":
             script         => "aws_create_instance.py",
             ensure         => $cron_switch,
