@@ -415,7 +415,7 @@ class config inherits config::base {
     $signing_scriptworker_task_max_timeout = 1200
     $signing_scriptworker_artifact_expiration_hours = 336
     $signing_scriptworker_artifact_upload_timeout = 600
-    $signing_scriptworker_verbose_logging = false
+    $signing_scriptworker_verbose_logging = true
     $signing_scriptworker_gpg_private_keys = hiera_hash('signing_scriptworker_gpg_private_keys')
     $signing_scriptworker_gpg_public_keys = hiera_hash('signing_scriptworker_gpg_public_keys')
     $signing_scriptworker_gpg_repo_url = "https://github.com/mozilla-releng/cot-gpg-keys.git"
