@@ -64,6 +64,7 @@ class balrog_scriptworker {
             user     => "${users::builder::username}",
             group    => "${users::builder::group}",
             packages => [
+                  "balrogclient==0.0.1",
                   "boto==2.41.0",
                   "cryptography==1.2.3",
                   "enum34==1.1.2",
