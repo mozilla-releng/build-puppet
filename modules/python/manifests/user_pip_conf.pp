@@ -19,9 +19,9 @@ define python::user_pip_conf($homedir='', $group='') {
     case $operatingsystem {
             windows: {
                 file {
-                    "$homedir_/.pip":
+                    "$homedir_/pip":
                         ensure => directory;
-                    "$homedir_/.pip/pip.conf":
+                    "$homedir_/pip/pip.ini":
                         content => template("python/user-pip-conf.erb");
                 }
             }
