@@ -1175,3 +1175,5 @@ node /beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $timezone = "UTC"
     include toplevel::server::beetmoverscriptworker
 }
+
+## Loaners
