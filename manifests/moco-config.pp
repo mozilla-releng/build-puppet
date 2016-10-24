@@ -454,10 +454,9 @@ class config inherits config::base {
     $beetmover_scriptworker_root = "/builds/beetmoverworker"
     $beetmover_scriptworker_beetmoverscript_dir = "/builds/beetmoverworker/beetmoverscript"
     $beetmover_scriptworker_beetmoverscript_repo_url = "https://github.com/mozilla-releng/beetmoverscript.git"
-    $beetmover_scriptworker_s3_bucket = secret("beetmover_scriptworker_s3_bucket")
-    $beetmover_scriptworker_s3_id = secret("beetmover_scriptworker_s3_id")
-    $beetmover_scriptworker_s3_key = secret("beetmover_scriptworker_s3_key")
-
+    $beetmover_scriptworker_s3_bucket = "net-mozaws-stage-delivery-firefox"
+    $beetmover_scriptworker_s3_id = secret("stage-beetmover-aws_access_key_id"),
+    $beetmover_scriptworker_s3_key = secret("stage-beetmover-aws_secret_access_key"),
 
     # Funsize Scheduler configuration
     $funsize_scheduler_root = "/builds/funsize"
