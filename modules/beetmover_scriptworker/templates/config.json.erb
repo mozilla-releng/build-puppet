@@ -1,7 +1,7 @@
 {
-    "provisioner_id": "<%= scope.lookupvar("config::beetmover_scriptworker_provisioner_id") %>",
-    "worker_group": "<%= scope.lookupvar("config::beetmover_scriptworker_worker_group") %>",
-    "worker_type": "<%= scope.lookupvar("config::beetmover_scriptworker_worker_type") %>",
+    "provisioner_id": "<%= @env_config["provisioner_id"] %>",
+    "worker_group": "<%= @env_config["worker_group"] %>",
+    "worker_type": "<%= @env_config["worker_type"] %>",
     "worker_id": "<%= @hostname %>",
 
     "work_dir": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/work",

@@ -4,7 +4,6 @@ class beetmover_scriptworker {
     include beetmover_scriptworker::settings
     include dirs::builds
     include packages::mozilla::python35
-    include packages::mozilla::git
     include users::builder
     include tweaks::swap_on_instance_storage
     include packages::gcc
@@ -58,17 +57,6 @@ class beetmover_scriptworker {
             ];
     }
 
-    git::repo {
-        "beetmoverscript-clone":
-            repo    => "${config::beetmover_scriptworker_beetmoverscript_repo_url}",
-            dst_dir => "${beetmover_scriptworker::settings::beetmoverscript_dir}",
-            user    => "${users::builder::username}",
-            require => [
-                Class["packages::mozilla::git"],
-                Python35::Virtualenv["${beetmover_scriptworker::settings::root}"]
-            ];
-    }
-
     file {
         "${beetmover_scriptworker::settings::root}/config.json":
             require     => Python35::Virtualenv["${beetmover_scriptworker::settings::root}"],
@@ -84,10 +72,12 @@ class beetmover_scriptworker {
             group       => "${users::builder::group}",
             content     => template("${module_name}/script_config.json.erb"),
             show_diff   => false;
+        # requirement as part of scriptworker pentest bug 1298199#c23
         '/root/certs.sh':
             ensure => absent;
     }
 
+    # requirement as part of scriptworker pentest bug 1298199#c23
     service {
         'rpcbind':
             enable => false;
