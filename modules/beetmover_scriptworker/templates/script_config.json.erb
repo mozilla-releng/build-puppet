@@ -10,8 +10,8 @@
     "s3": {
         "bucket": "<%= scope.lookupvar("config::beetmover_scriptworker_s3_bucket") %>",
         "credentials": {
-            "id": "<%= scope.function_secret(["beetmover_scriptworker_s3_id"]) %>",
-            "key": "<%= scope.function_secret(["beetmover_scriptworker_s3_key"]) %>"
+            "id": "<%= scope.function_secret(["stage-beetmover-aws_access_key_id"]) %>",
+            "key": "<%= scope.function_secret(["stage-beetmover-aws_secret_access_key"]) %>"
         }
     },
 
