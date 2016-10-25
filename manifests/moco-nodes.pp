@@ -1169,4 +1169,12 @@ node /balrogworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::balrogscriptworker
 }
 
+# Beetmover scriptworkers
+node /beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+    $aspects = [ 'maximum-security' ]
+    $beetmoverworker_env = "dev"
+    $timezone = "UTC"
+    include toplevel::server::beetmoverscriptworker
+}
+
 ## Loaners
