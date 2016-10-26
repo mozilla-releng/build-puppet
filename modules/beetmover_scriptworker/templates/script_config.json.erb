@@ -1,0 +1,20 @@
+{
+    "work_dir": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/work",
+    "artifact_dir": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/artifacts",
+
+    "template_files": {
+        "fennec_nightly_unsigned": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly_en_us_multi_unsigned.yml",
+        "fennec_nightly_signed": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly_en_us_multi_signed.yml"
+    },
+
+    "s3": {
+        "bucket": "<%= @env_config["beetmover_aws_s3_bucket"] %>",
+        "credentials": {
+            "id": "<%= @env_config["beetmover_aws_access_key_id"] %>",
+            "key": "<%= @env_config["beetmover_aws_secret_access_key"] %>"
+        }
+    },
+
+    "schema_file": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/data/beetmover_task_schema.json",
+    "verbose": <%= scope.lookupvar("config::beetmover_scriptworker_verbose_logging") %>
+}
