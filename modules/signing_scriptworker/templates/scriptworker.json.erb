@@ -11,6 +11,8 @@
     "git_key_repo_dir": "<%= scope["config::signing_scriptworker_root"] %>/gpg_key_repo",
     "base_gpg_home_dir": "<%= scope["config::signing_scriptworker_root"] %>/gpg",
     "gpg_home": "/home/<%= scope["users::signer::username"] %>/.gnupg",
+    "gpg_lockfile": "<%= scope["config::signing_scriptworker_root"] %>/.gpg_homedirs.lock",
+    "last_good_git_revision_file": "<%= scope["config::signing_scriptworker_root"] %>/.git_revision",
 
     "my_email": "<%= scope["config::signer_username"] %>@<%= @fqdn %>",
 

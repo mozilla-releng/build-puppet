@@ -36,7 +36,7 @@ class signing_scriptworker {
                   "python-gnupg==0.3.8",
                   "python-jose==1.2.0",
                   "requests==2.11.1",
-                  "scriptworker==0.8.2",
+                  "scriptworker==0.9.0a3",
                   "signingscript==0.6.0",
                   "signtool==2.0.3",
                   "six==1.10.0",
@@ -117,6 +117,12 @@ class signing_scriptworker {
             recurse     => true,
             recurselimit => 1,
             purge       => true;
+        "/etc/cron.d/scriptworker":
+            content     => template("signing_scriptworker/scriptworker.cron.erb");
+        "${signing_scriptworker::settings::root}/.git-pubkey-dir-checksum":
+            owner       => "${users::signer::username}",
+            group       => "${users::signer::group}",
+            notify  => Exec['create_gpg_homedirs'];
     }
 
     exec {
@@ -126,13 +132,18 @@ class signing_scriptworker {
                         File["${signing_scriptworker::settings::root}/scriptworker.json"],
                         File["${signing_scriptworker::settings::root}/cot_config.json"]],
             command => "${signing_scriptworker::settings::root}/bin/create_initial_gpg_homedirs ${signing_scriptworker::settings::root}/scriptworker.json ${signing_scriptworker::settings::root}/cot_config.json",
-            creates => "/home/${users::signer::username}/.gnupg/secring.gpg",
+            subscribe => File["${signing_scriptworker::settings::git_pubkey_dir}"],
             user    => "${users::signer::username}";
+        "${signing_scriptworker::settings::root}/.git-pubkey-dir-checksum":
+            path    => "/usr/local/bin/:/bin:/usr/sbin",
+            user    => "${users::signer::username}",
+            command => "find ${signing_scriptworker::settings::git_pubkey_dir} -type f | xargs md5sum | sort > ${signing_scriptworker::settings::root}/.git-pubkey-dir-checksum";
     }
 
     service {
         'rpcbind':
             enable => false;
     }
+
 
 }
