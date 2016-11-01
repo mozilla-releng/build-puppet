@@ -8,10 +8,19 @@
     },
 
     "s3": {
-        "bucket": "<%= @env_config["beetmover_aws_s3_bucket"] %>",
-        "credentials": {
-            "id": "<%= @env_config["beetmover_aws_access_key_id"] %>",
-            "key": "<%= @env_config["beetmover_aws_secret_access_key"] %>"
+        "firefox": {
+            "bucket": "<%= @env_config["beetmover_aws_s3_firefox_bucket"] %>",
+            "credentials": {
+                "id": "<%= @env_config["beetmover_aws_access_key_id"] %>",
+                "key": "<%= @env_config["beetmover_aws_secret_access_key"] %>"
+                }
+        },
+        "fennec": {
+            "bucket": "<%= @env_config["beetmover_aws_s3_archive_bucket"] %>",
+            "credentials": {
+                "id": "<%= @env_config["beetmover_aws_access_key_id"] %>",
+                "key": "<%= @env_config["beetmover_aws_secret_access_key"] %>"
+            }
         }
     },
 
