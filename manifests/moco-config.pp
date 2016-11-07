@@ -53,7 +53,6 @@ class config inherits config::base {
     $apt_repo_server = "puppetagain-apt.pvt.build.mozilla.org"
 
     $distinguished_puppetmaster = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $puppetmaster_public_mirror_hosts = [ "releng-puppet2.srv.releng.scl3.mozilla.com" ]
     $puppet_again_repo = "https://hg.mozilla.org/build/puppet/"
     $puppetmaster_extsyncs = {
         'slavealloc' => {

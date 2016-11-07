@@ -22,7 +22,6 @@ class config inherits config::base {
     $puppet_again_repo = "https://hg.mozilla.org/qa/puppet/"
 
     $puppetmaster_upstream_rsync_source = 'rsync://puppetagain.pub.build.mozilla.org/data/'
-    $puppetmaster_public_mirror_hosts = [ ]
     $puppetmaster_extsyncs = {
         'moco_ldap' => {
             'moco_ldap_uri' => 'ldap://ldap.db.scl3.mozilla.com/',

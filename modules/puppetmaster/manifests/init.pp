@@ -11,7 +11,6 @@ class puppetmaster {
     include puppetmaster::ssl
     include puppetmaster::dirs
     include puppetmaster::deploy
-    include puppetmaster::public_mirror
     include puppetmaster::hiera
     include puppetmaster::extsyncs
     include puppetmaster::foreman_facts
