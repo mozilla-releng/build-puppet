@@ -40,10 +40,6 @@ class config::base {
     # https://wiki.mozilla.org/index.php?title=ReleaseEngineering/PuppetAgain/Extsync
     $puppetmaster_extsyncs = {}
 
-    # A list of fqdns for puppetmasters that should serve a public mirror of
-    # the non-private parts of the puppetagain data.
-    $puppetmaster_public_mirror_hosts = []
-
     # The email address to which puppet-related mail should be sent
     $puppet_notif_email = "nobody@mozilla.com"
 
