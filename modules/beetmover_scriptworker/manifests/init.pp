@@ -49,7 +49,7 @@ class beetmover_scriptworker {
                   "jmespath==0.9.0",
                   "PyYAML==3.12",
                   "Jinja2==2.8",
-                  "beetmoverscript==0.0.5",
+                  "beetmoverscript==0.0.6",
                   "MarkupSafe==0.23",
                   "s3transfer==0.1.8",
                   "docutils==0.12",
