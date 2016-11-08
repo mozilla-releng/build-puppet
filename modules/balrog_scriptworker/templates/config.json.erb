@@ -23,6 +23,10 @@
     "task_script": ["<%= scope.lookupvar("config::balrog_scriptworker_root") %>/py27venv/bin/python",
                     "<%= scope.lookupvar("config::balrog_scriptworker_root") %>/balrogscript/bin/balrogworker.py",
                     "--taskdef", "<%= scope.lookupvar("config::balrog_scriptworker_root") %>/work/task.json",
+                    "--balrog-api-root", "<%= @env_config["balrog_api_root"] %>",
+                    "--balrog-username", "<%= @env_config["balrog_username"] %>",
+                    "--balrog-password", "<%= @env_config["balrog_password"] %>",
+                    "--disable-s3",
                     "--verbose"],
 
     "task_max_timeout": <%= scope.lookupvar("config::balrog_scriptworker_task_max_timeout") %>,

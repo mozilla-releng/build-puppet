@@ -435,6 +435,10 @@ class config inherits config::base {
             worker_type => "balrogworker-v1",
             taskcluster_client_id => secret("balrogworker_dev_taskcluster_client_id"),
             taskcluster_access_token => secret("balrogworker_dev_taskcluster_access_token"),
+            # TODO-question: switch to production creds here?
+            balrog_username => "stage-ffxbld",
+            balrog_password => secret("stage-ffxbld_ldap_password"),
+            balrog_api_root => "http://balrog/api",
         }
     }
 
