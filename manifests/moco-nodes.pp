@@ -1165,6 +1165,7 @@ node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
 # Balrog scriptworkers
 node /balrogworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
+    $balrogworker_env = "dev"
     $timezone = "UTC"
     include toplevel::server::balrogscriptworker
 }
