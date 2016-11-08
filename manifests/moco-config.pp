@@ -420,25 +420,23 @@ class config inherits config::base {
     $signing_scriptworker_gpg_repo_url = "https://github.com/mozilla-releng/cot-gpg-keys.git"
 
     # TC balrog scriptworkers
-    $balrog_scriptworker_provisioner_id = "scriptworker-prov-v1"
-    $balrog_scriptworker_worker_group = "balrogworker-v1"
-    $balrog_scriptworker_worker_type = "balrogworker-v1"
-    $balrog_scriptworker_taskcluster_client_id = secret("balrog_scriptworker_taskcluster_client_id")
-    $balrog_scriptworker_taskcluster_access_token = secret("balrog_scriptworker_taskcluster_access_token")
     $balrog_scriptworker_task_max_timeout = 1200
     $balrog_scriptworker_artifact_expiration_hours = 336
     $balrog_scriptworker_artifact_upload_timeout = 600
     $balrog_scriptworker_verbose_logging = false
-    $balrog_scriptworker_base = "/builds/balrog"
-    $balrog_scriptworker_root = "/builds/balrog/scriptworker"
-    $balrog_scriptworker_py27venv = "/builds/balrog/py27venv"
-    $balrog_scriptworker_py35venv = "/builds/balrog/py35venv"
-    $balrog_scriptworker_hg_tools_path = '/builds/balrog/balrogscript/tools'
+    $balrog_scriptworker_root = "/builds/balrogworker"
+    $balrog_scriptworker_git_balrogscript_repo = 'https://github.com/mozilla-releng/funsize-balrogworker.git'
     $balrog_scriptworker_hg_tools_repo = 'https://hg.mozilla.org/build/tools'
     $balrog_scriptworker_hg_tools_branch = 'default'
-    $balrog_scriptworker_git_balrogscript_path = '/builds/balrog/balrogscript'
-    $balrog_scriptworker_git_balrogscript_keys = '/builds/balrog/balrogscript/keys'
-    $balrog_scriptworker_git_balrogscript_repo = 'https://github.com/mozilla-releng/funsize-balrogworker.git'
+    $balrog_scriptworker_env_config = {
+        "dev" => {
+            provisioner_id => "scriptworker-prov-v1",
+            worker_group => "balrogworker-v1",
+            worker_type => "balrogworker-v1",
+            taskcluster_client_id => secret("balrogworker_dev_taskcluster_client_id"),
+            taskcluster_access_token => secret("balrogworker_dev_taskcluster_access_token"),
+        }
+    }
 
     # TC beetmover scriptworkers
     $beetmover_scriptworker_task_max_timeout = 2400
