@@ -9,10 +9,10 @@ class disableservices::common {
             service {
                 ['acpid', 'anacron', 'apmd', 'atd', 'autofs',
                 'avahi-daemon', 'avahi-dnsconfd', 'bluetooth',
-                'cups', 'cups-config-daemon', 'gpm', 'hidd', 'hplip', 'kudzu',
-                'mcstrans', 'mdmonitor', 'pcscd', 'restorecond', 'rpcgssd',
-                'rpcidmapd', 'sendmail', 'smartd', 'vncserver',
-                'yum-updatesd'] :
+                'cups', 'cups-config-daemon', 'gpm', 'hidd', 'hplip',
+                'kudzu', 'mcstrans', 'mdmonitor', 'pcscd',
+                'restorecond', 'rpcbind', 'rpcgssd', 'rpcidmapd',
+                'sendmail', 'smartd', 'vncserver', 'yum-updatesd'] :
                     enable => false,
                     ensure => stopped;
                 'cpuspeed' :
