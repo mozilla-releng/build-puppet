@@ -139,11 +139,4 @@ class signing_scriptworker {
             user    => "${users::signer::username}",
             command => "find ${signing_scriptworker::settings::git_pubkey_dir} -type f | xargs md5sum | sort > ${signing_scriptworker::settings::root}/.git-pubkey-dir-checksum";
     }
-
-    service {
-        'rpcbind':
-            enable => false;
-    }
-
-
 }
