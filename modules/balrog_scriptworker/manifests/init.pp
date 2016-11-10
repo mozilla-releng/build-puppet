@@ -124,9 +124,4 @@ class balrog_scriptworker {
             owner       => "${users::builder::username}",
             group       => "${users::builder::group}";
     }
-
-    service {
-        'rpcbind':
-            enable => false;
-    }
 }

@@ -76,10 +76,4 @@ class beetmover_scriptworker {
         '/root/certs.sh':
             ensure => absent;
     }
-
-    # requirement as part of scriptworker pentest bug 1298199#c23
-    service {
-        'rpcbind':
-            enable => false;
-    }
 }
