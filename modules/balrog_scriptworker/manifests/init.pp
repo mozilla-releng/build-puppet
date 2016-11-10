@@ -13,17 +13,10 @@ class balrog_scriptworker {
     include packages::make
     include packages::libffi
 
-    file {
-        ["${balrog_scriptworker::settings::base}",
-        "${balrog_scriptworker::settings::root}"]:
-            mode        => 700,
-            owner       => "${users::builder::username}",
-            group       => "${users::builder::group}",
-            ensure => 'directory';
-    }
+    $env_config = $config::balrog_scriptworker_env_config[$balrogworker_env]
 
     python35::virtualenv {
-        "${balrog_scriptworker::settings::py35venv}":
+        "${balrog_scriptworker::settings::root}":
             python3  => "${packages::mozilla::python35::python3}",
             require  => Class["packages::mozilla::python35"],
             user     => "${users::builder::username}",
@@ -48,7 +41,7 @@ class balrog_scriptworker {
                   "python-gnupg==0.3.8",
                   "python-jose==1.2.0",
                   "requests==2.11.1",
-                  "scriptworker==0.6.0",
+                  "scriptworker==0.7.2",
                   "signtool==2.0.3",
                   "six==1.10.0",
                   "slugid==1.0.7",
@@ -58,7 +51,7 @@ class balrog_scriptworker {
     }
 
     python::virtualenv {
-        "${balrog_scriptworker::settings::py27venv}":
+        "${balrog_scriptworker::settings::root}/py27venv":
             python   => "${packages::mozilla::python27::python}",
             require  => Class["packages::mozilla::python27"],
             user     => "${users::builder::username}",
@@ -78,49 +71,53 @@ class balrog_scriptworker {
     }
 
     git::repo {
-        "balrogscript-clone":
+        "balrogscript":
             repo    => "${balrog_scriptworker::settings::balrogscript_repo}",
-            dst_dir => "${balrog_scriptworker::settings::balrogscript_path}",
+            dst_dir => "${balrog_scriptworker::settings::root}/balrogscript",
             user    => "${users::builder::username}",
             require => [
                 Class["packages::mozilla::git"],
+                Python35::Virtualenv["${balrog_scriptworker::settings::root}"],
             ];
     }
 
     mercurial::repo {
-        "tools-clone":
+        "tools":
             hg_repo => "${balrog_scriptworker::settings::tools_repo}",
-            dst_dir => "${balrog_scriptworker::settings::tools_path}",
+            dst_dir => "${balrog_scriptworker::settings::root}/balrogscript/tools",
             user    => "${users::builder::username}",
             branch  => "${balrog_scriptworker::settings::tools_branch}",
             require => [
                 Class["packages::mozilla::py27_mercurial"],
+                Python35::Virtualenv["${balrog_scriptworker::settings::root}"],
+                Git::Repo["balrogscript"],
             ];
     }
 
     file {
         "${balrog_scriptworker::settings::root}/config.json":
-            require     => Python35::Virtualenv["${balrog_scriptworker::settings::py35venv}"],
+            require     => Python35::Virtualenv["${balrog_scriptworker::settings::root}"],
             mode        => 600,
             owner       => "${users::builder::username}",
             group       => "${users::builder::group}",
             content     => template("${module_name}/config.json.erb"),
             show_diff   => false;
+        # requirement as part of scriptworker pentest bug 1298199#c23
         '/root/certs.sh':
             ensure => absent;
-        "${balrog_scriptworker::settings::balrogscript_keys}/dep.pubkey":
+        "${balrog_scriptworker::settings::root}/balrogscript/keys/dep.pubkey":
             source => "puppet:///modules/balrog_scriptworker/dep.pubkey",
-            require     => Git::Repo["balrogscript-clone"],
+            require     => Git::Repo["balrogscript"],
             owner       => "${users::builder::username}",
             group       => "${users::builder::group}";
-        "${balrog_scriptworker::settings::balrogscript_keys}/nightly.pubkey":
+        "${balrog_scriptworker::settings::root}/balrogscript/keys/nightly.pubkey":
             source => "puppet:///modules/balrog_scriptworker/nightly.pubkey",
-            require     => Git::Repo["balrogscript-clone"],
+            require     => Git::Repo["balrogscript"],
             owner       => "${users::builder::username}",
             group       => "${users::builder::group}";
-        "${balrog_scriptworker::settings::balrogscript_keys}/release.pubkey":
+        "${balrog_scriptworker::settings::root}/balrogscript/keys/release.pubkey":
             source => "puppet:///modules/balrog_scriptworker/release.pubkey",
-            require     => Git::Repo["balrogscript-clone"],
+            require     => Git::Repo["balrogscript"],
             owner       => "${users::builder::username}",
             group       => "${users::builder::group}";
     }
