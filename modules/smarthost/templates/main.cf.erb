@@ -19,7 +19,8 @@ mydomain_fallback = localhost
 mail_owner = postfix
 setgid_group = postdrop
 <%- end -%>
-mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+mydestination = 
+inet_interfaces = loopback-only
 unknown_local_recipient_reject_code = 550
 <%-
 relayhost = scope.lookupvar('::config::relayhost')
