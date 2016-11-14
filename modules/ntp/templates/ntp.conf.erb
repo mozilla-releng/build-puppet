@@ -6,19 +6,18 @@
 ####  DO NOT EDIT MANUALLY
 
 tinker panic 0
-# Permit time synchronization with our time source, but do not
-# permit the source to query or modify the service on this system.
-restrict default kod nomodify notrap nopeer noquery
-restrict -6 default kod nomodify notrap nopeer noquery
+# only listen on localhost (both IPV4 and IPV6)
+interface ignore wildcard
+interface listen 127.0.0.1
+interface listen ::1
 
-# Permit all access over the loopback interface.  This could
-# be tightened as well, but to do so would effect some of
-# the administrative functions.
+# ignore all incoming connections by default (both IPV4 and IPV6)
+restrict default ignore
+restrict -6 default igrnore
+
+# make an exception for connections from localhost to allow debugging
 restrict 127.0.0.1
 restrict -6 ::1
-
-# Hosts on local network are less restricted.
-#restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap
 
 # Use public servers from the pool.ntp.org project.
 # Please consider joining the pool (http://www.pool.ntp.org/join.html).
