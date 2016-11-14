@@ -402,22 +402,9 @@ class config inherits config::base {
     $signingworker_exchange = "exchange/taskcluster-queue/v1/task-pending"
     $signingworker_worker_type = "signing-worker-v1"
 
-    # TC signing scriptworkers
-    $signing_scriptworker_provisioner_id = "scriptworker-prov-v1"
-    $signing_scriptworker_worker_group = "signing-linux-v1"
-    $signing_scriptworker_worker_type = "signing-linux-v1"
-    $signing_scriptworker_taskcluster_client_id = secret("signing_scriptworker_taskcluster_client_id")
-    $signing_scriptworker_taskcluster_access_token = secret("signing_scriptworker_taskcluster_access_token")
-    $signing_scriptworker_root = "/builds/scriptworker"
-    $signing_scriptworker_taskcluster_artifact_expiration_hours = 336
-    $signing_scriptworker_taskcluster_artifact_upload_timeout = 1200
-    $signing_scriptworker_task_max_timeout = 1200
-    $signing_scriptworker_artifact_expiration_hours = 336
-    $signing_scriptworker_artifact_upload_timeout = 600
-    $signing_scriptworker_verbose_logging = true
-    $signing_scriptworker_gpg_private_keys = hiera_hash('signing_scriptworker_gpg_private_keys')
-    $signing_scriptworker_gpg_public_keys = hiera_hash('signing_scriptworker_gpg_public_keys')
-    $signing_scriptworker_gpg_repo_url = "https://github.com/mozilla-releng/cot-gpg-keys.git"
+    # scriptworker
+    $scriptworker_gpg_private_keys = hiera_hash('scriptworker_gpg_private_keys')
+    $scriptworker_gpg_public_keys = hiera_hash('scriptworker_gpg_public_keys')
 
     # TC balrog scriptworkers
     $balrog_scriptworker_task_max_timeout = 1200

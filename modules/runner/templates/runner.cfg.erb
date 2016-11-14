@@ -5,8 +5,6 @@ sleep_time = 60
 halt_task = halt.bat
 <%- else -%>
 halt_task = halt.py
-; pre/post task hooks are used for logging task status
-task_hook = <%= scope.lookupvar('::runner::settings::task_hook') %>
 <% end -%>
 
 [buildbot]
