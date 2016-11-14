@@ -41,14 +41,6 @@ class runner {
             before  => $runner_service,
             content => template('runner/runner.cfg.erb'),
             show_diff => false;
-        "$runner::settings::task_hook":
-            before  => $runner_service,
-            mode    => $mode,
-            source  => 'puppet:///modules/runner/influxdb_hook.py';
-        "$runner::settings::influxcreds":
-            before  => $runner_service,
-            content  => template('runner/influxcreds.erb'),
-            show_diff => false;
     }
     case $::operatingsystem {
         'CentOS', 'Ubuntu': {
