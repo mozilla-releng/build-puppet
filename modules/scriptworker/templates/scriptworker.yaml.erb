@@ -1,0 +1,66 @@
+provisioner_id: <%= scope["scriptworker::instance::settings::provisioner_id"] %>
+worker_group: <%= @worker_group %>
+worker_type: <%= @worker_type %>
+worker_id: <%= @hostname %>
+
+credentials:
+    clientId: <%= @taskcluster_client_id %>
+    accessToken: <%= @taskcluster_access_token %>
+
+artifact_expiration_hours: <%= @artifact_expiration_hours %>
+artifact_upload_timeout: <%= @artifact_upload_timeout %>
+task_max_timeout: <%= @task_max_timeout %>
+task_script: ["<%= @task_script_executable %>", "<%= @task_script %>", "<%= @task_script_config %>"]
+verbose: <%= @verbose_logging %>
+
+sign_chain_of_trust: <%= @sign_chain_of_trust %>
+verify_chain_of_trust: <%= @verify_chain_of_trust %>
+verify_cot_signature: <%= @verify_cot_signature %>
+cot_job_type: <%= @cot_job_type %>
+
+log_dir: <%= @basedir %>/logs
+work_dir: <%= @basedir %>/work
+artifact_dir: <%= @basedir %>/artifacts
+task_log_dir: <%= @basedir %>/artifacts/public/logs
+base_gpg_home_dir: <%= @basedir %>/gpg
+gpg_lockfile: <%= @basedir %>/.gpg_homedirs.lock
+git_key_repo_dir: <%= @git_key_repo_dir %>
+git_key_repo_url: <%= scope["scriptworker::instance::settings::git_key_repo_url"] %>
+git_commit_signing_pubkey_dir: <%= @git_pubkey_dir %>
+last_good_git_revision_file: <%= @basedir %>/.git_revision
+
+gpg_home: /home/<%= @username %>/.gnupg
+pubkey_path: /home/<%= @username %>/pubkey
+privkey_path: /home/<%= @username %>/privkey
+
+my_email: <%= @username %>@<%= @fqdn %>
+
+# Chain of Trust settings
+gpg_homedirs:
+    docker-worker:
+        type: flat
+        ignore_suffixes:
+            - .md
+    generic-worker:
+        type: flat
+        ignore_suffixes:
+            - .md
+    scriptworker:
+        type: signed
+        ignore_suffixes:
+            - .md
+
+docker_image_allowlists:
+    decision:
+        - sha256:31035ed23eba3ede02b988be39027668d965b9fc45b74b932b2338a4e7936cf9
+        - sha256:7320c720c770e9f93df26f7da742db72b334b7ded77539fb240fc4a28363de5a
+        - sha256:9db282317340838f0015335d74ed56c4ee0dbad588be33e6999928a181548587
+    docker-image:
+        - sha256:74c5a18ce1768605ce9b1b5f009abac1ff11b55a007e2d03733cd6e95847c747
+        - sha256:d438d7818b6a47a0b1d49943ab12b5c504b65161806658e4c28f5f2aac821b9e
+
+scriptworker_worker_types:
+    - signing-linux-v1
+
+scriptworker_provisioners:
+    - scriptworker-prov-v1
