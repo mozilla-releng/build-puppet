@@ -441,10 +441,10 @@ class config inherits config::base {
             worker_type => "beetmoverworker-v1",
             taskcluster_client_id => secret("beetmoverworker_dev_taskcluster_client_id"),
             taskcluster_access_token => secret("beetmoverworker_dev_taskcluster_access_token"),
-            beetmover_aws_access_key_id => secret("stage-beetmover-aws_access_key_id"),
-            beetmover_aws_secret_access_key => secret("stage-beetmover-aws_secret_access_key"),
-            beetmover_aws_s3_firefox_bucket => "net-mozaws-stage-delivery-firefox",
-            beetmover_aws_s3_fennec_bucket => "net-mozaws-stage-delivery-archive",
+            beetmover_aws_access_key_id => secret("nightly-beetmover-aws_access_key_id"),
+            beetmover_aws_secret_access_key => secret("nightly-beetmover-aws_secret_access_key"),
+            beetmover_aws_s3_firefox_bucket => "net-mozaws-prod-delivery-firefox",
+            beetmover_aws_s3_fennec_bucket => "net-mozaws-prod-delivery-archive",
         }
     }
 
