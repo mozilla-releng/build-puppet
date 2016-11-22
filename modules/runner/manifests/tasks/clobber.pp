@@ -16,7 +16,7 @@ class runner::tasks::clobber($runlevel=3) {
             # Clobberer.py is needed before it is checkout for use by the clobber.bat
             exec {
                 "get_clobberer.py" :
-                    command => "C:\\mozilla-build\\wget\\wget.exe  hg.mozilla.org/build/tools/raw-file/tip/clobberer/clobberer.py",
+                    command => "C:\\mozilla-build\\wget\\wget.exe  https://hg.mozilla.org/build/tools/raw-file/default/clobberer/clobberer.py",
                     cwd     => "C:\\opt",
                     creates => "C:\\opt\\clobberer.py",
                     require => Class["packages::mozilla::mozilla_build"];
