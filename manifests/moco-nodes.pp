@@ -1178,4 +1178,12 @@ node /beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::beetmoverscriptworker
 }
 
+# Pushapk scriptworkers
+node /pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+    $aspects = [ 'maximum-security' ]
+    $pushapkworker_env = 'prod'
+    $timezone = 'UTC'
+    include toplevel::server::pushapkworker
+}
+
 ## Loaners

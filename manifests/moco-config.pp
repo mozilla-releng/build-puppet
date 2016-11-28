@@ -448,6 +448,57 @@ class config inherits config::base {
         }
     }
 
+    ## TC pushapk scriptworkers
+    $pushapk_scriptworker_root = '/builds/pushapkworker'
+    $pushapk_scriptworker_worker_config = "${pushapk_scriptworker_root}/config.json"
+    $pushapk_scriptworker_script_config = "${pushapk_scriptworker_root}/script_config.json"
+
+    $pushapk_scriptworker_jarsigner_keystore = "${pushapk_scriptworker_root}/mozilla-android-keystore"
+    $pushapk_scriptworker_jarsigner_nightly_certificate_alias = 'nightly'
+    $pushapk_scriptworker_jarsigner_release_certificate_alias = 'release'
+    $pushapk_scriptworker_taskcluster_artifact_expiration_hours = 336
+    $pushapk_scriptworker_taskcluster_artifact_upload_timeout = 1200
+    $pushapk_scriptworker_task_max_timeout = 1200
+    $pushapk_scriptworker_artifact_expiration_hours = 336
+    $pushapk_scriptworker_artifact_upload_timeout = 600
+    # TODO generate specific certificates for dev and prod
+    $pushapk_scriptworker_google_play_config = {
+      'aurora' => {
+        service_account => secret('pushapk_scriptworker_aurora_google_play_service_account'),
+        certificate => secret('pushapk_scriptworker_aurora_google_play_certificate'),
+        certificate_target_location => "${pushapk_scriptworker_root}/aurora.p12",
+      },
+      'beta' => {
+        service_account => secret('pushapk_scriptworker_beta_google_play_service_account'),
+        certificate => secret('pushapk_scriptworker_beta_google_play_certificate'),
+        certificate_target_location => "${pushapk_scriptworker_root}/beta.p12",
+      },
+      'release' => {
+        service_account => secret('pushapk_scriptworker_release_google_play_service_account'),
+        certificate => secret('pushapk_scriptworker_release_google_play_certificate'),
+        certificate_target_location => "${pushapk_scriptworker_root}/release.p12",
+      },
+    }
+    $pushapk_scriptworker_env_config = {
+      'dev' => {
+        provisioner_id => 'scriptworker-prov-v1',
+        worker_group => 'pushapk-v1-dev',
+        worker_type => 'pushapk-v1-dev',
+        worker_id => 'jlorenzo-dev',
+        verbose_logging => true,
+        taskcluster_client_id => secret('pushapk_scriptworker_taskcluster_client_id_dev'),
+        taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_dev'),
+      },
+      'prod' => {
+        provisioner_id => 'scriptworker-prov-v1',
+        worker_group => 'pushapk-v1',
+        worker_type => 'pushapk-v1',
+        verbose_logging => true,
+        taskcluster_client_id => secret('pushapk_scriptworker_taskcluster_client_id_prod'),
+        taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_prod'),
+      },
+    }
+
     # Funsize Scheduler configuration
     $funsize_scheduler_root = "/builds/funsize"
     $funsize_scheduler_balrog_username = "funsize"
