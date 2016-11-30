@@ -1,0 +1,3 @@
+/builds/scriptworker/logs/create_initial_gpg_homedirs.log
+/builds/scriptworker/logs/rebuild_gpg_homedirs.log
+/builds/scriptworker/logs/worker.log

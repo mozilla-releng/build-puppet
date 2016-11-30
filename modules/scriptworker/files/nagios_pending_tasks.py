@@ -1,0 +1,122 @@
+#!/usr/bin/env python
+
+"""
+Nagios report script to check the number of pending scriptworker tasks
+
+Will use the current worker type and provisionerId from the scriptworker
+configuration, and query the API to discover the number of pending tasks.
+
+
+Attributes:
+    STATUS_CODE (dict): a mapping of status strings to the exit codes nagios
+        requires
+    DEFAULT_WARNING (int): The default warning threshold, if none is given
+    DEFAULT_CRITICAL (int): The default critical alarm threshold, if none is
+        given
+
+"""
+import asyncio
+import aiohttp
+import sys
+import argparse
+
+
+from scriptworker.config import get_context_from_cmdln
+from scriptworker.utils import cleanup
+
+
+# Nagios plugin exit codes
+STATUS_CODE = {
+    'OK': 0,
+    'WARNING': 1,
+    'CRITICAL': 2,
+    'UNKNOWN': 3,
+}
+
+DEFAULT_WARNING = 5
+DEFAULT_CRITICAL = 10
+
+
+def nagios_message(status, message):
+    """Place a nagios-style message to stdout and exit."""
+    print("PENDING_TASKS {0} - {1}".format(status, message))
+    sys.exit(STATUS_CODE[status])
+
+
+def get_args():
+    """Process command-line arguments.
+
+    Arguments:
+        None
+
+    Returns:
+        a parsed arguments object
+    """
+    argp = argparse.ArgumentParser(description=__doc__)
+    argp.add_argument('-w', '--warning', type=int, default=DEFAULT_WARNING,
+                      help='warning threshhold for number of pending tasks')
+    argp.add_argument('-c', '--critical', type=int, default=DEFAULT_CRITICAL,
+                      help='critical threshhold for number of pending tasks')
+
+    return argp.parse_args()
+
+
+def query_pending_task_count():
+    """query_pending_task_count.
+
+    Query the API for the number of pending tasks, so we can
+    report to nagios
+    """
+    args = get_args()
+
+    context, credentials = get_context_from_cmdln(sys.argv[1:])
+    cleanup(context)
+
+    conn = aiohttp.TCPConnector(
+        limit=context.config['aiohttp_max_connections'])
+    loop = asyncio.get_event_loop()
+    with aiohttp.ClientSession(connector=conn) as session:
+        context.session = session
+        context.credentials = credentials
+
+        try:
+            result = loop.run_until_complete(
+                context.queue.pendingTasks(
+                    context.config['provisioner_id'],
+                    context.config['worker_type']
+                )
+            )
+
+        except Exception as excp:
+            nagios_message(
+                'UNKNOWN', 'Unable to query pending tasks: {0}'.format(excp))
+
+        template = '{pending}/{max} pending tasks for {provisioner}:{worker}'
+
+        if result['pendingTasks'] >= args.critical:
+            nagios_message(
+                'CRITICAL', template.format(
+                    pending=result['pendingTasks'],
+                    max=args.critical,
+                    provisioner=result['provisionerId'],
+                    worker=result['workerType']
+                )
+            )
+        elif result['pendingTasks'] >= args.warning:
+            nagios_message(
+                'WARNING', "{0}/{1} pending tasks".format(
+                    result['pendingTasks'],
+                    args.warning
+                )
+            )
+        else:
+            nagios_message(
+                'OK', "{0}/{1} pending tasks".format(
+                    result['pendingTasks'],
+                    args.critical
+                )
+            )
+
+
+if __name__ == '__main__':
+    query_pending_task_count()

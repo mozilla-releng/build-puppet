@@ -80,6 +80,20 @@ define scriptworker::instance(
             owner       => "${username}",
             group       => "${group}",
             show_diff   => false;
+        "${nrpe::base::plugins_dir}/nagios_file_age_check.py":
+            require     => Python35::Virtualenv["${basedir}"],
+            mode        => 750,
+            owner       => "${username}",
+            group       => "${group}",
+            source      => "puppet:///modules/scriptworker/nagios_file_age_check.py",
+            show_diff => false;
+        "${nrpe::base::plugins_dir}/nagios_pending_tasks.py":
+            require     => Python35::Virtualenv["${basedir}"],
+            mode        => 750,
+            owner       => "${username}",
+            group       => "${group}",
+            source      => "puppet:///modules/scriptworker/nagios_pending_tasks.py",
+            show_diff => false;
     }
 
     exec {
