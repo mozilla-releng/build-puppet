@@ -92,7 +92,7 @@ define scriptworker::instance(
             mode        => 750,
             owner       => "${username}",
             group       => "${group}",
-            source      => "puppet:///modules/scriptworker/nagios_pending_tasks.py",
+            content     => template("scriptworker/nagios_pending_tasks.py.erb"),
             show_diff => false;
     }
 

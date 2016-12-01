@@ -21,9 +21,7 @@ import sys
 import argparse
 
 
-from scriptworker.config import get_context_from_cmdln
-from scriptworker.utils import cleanup
-
+from scriptworker.context import Context
 
 # Nagios plugin exit codes
 STATUS_CODE = {
@@ -68,22 +66,25 @@ def query_pending_task_count():
     report to nagios
     """
     args = get_args()
-
-    context, credentials = get_context_from_cmdln(sys.argv[1:])
-    cleanup(context)
+    context = Context()
 
     conn = aiohttp.TCPConnector(
-        limit=context.config['aiohttp_max_connections'])
+        limit=5)
     loop = asyncio.get_event_loop()
+
+    credentials = {
+        "clientId": "<%= @taskcluster_client_id %>",
+        "accessToken": "<%= @taskcluster_access_token %>"
+    }
+
     with aiohttp.ClientSession(connector=conn) as session:
         context.session = session
-        context.credentials = credentials
-
+        context.credentials = credentials  # this creates a queue
         try:
             result = loop.run_until_complete(
                 context.queue.pendingTasks(
-                    context.config['provisioner_id'],
-                    context.config['worker_type']
+                    '<%= scope["scriptworker::instance::settings::provisioner_id"] %>',
+                    '<%= @worker_type %>'
                 )
             )
 
