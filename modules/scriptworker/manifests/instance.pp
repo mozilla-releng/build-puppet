@@ -64,11 +64,11 @@ define scriptworker::instance(
         # cron jobs to poll git + rebuild gpg homedirs
         "/etc/cron.d/scriptworker":
             content     => template("scriptworker/scriptworker.cron.erb");
-        # Notify create_gpg_homedirs if the pubkey dir changes
+        # Notify rebuild_gpg_homedirs if the pubkey dir changes
         "${basedir}/.git-pubkey-dir-checksum":
             owner       => "${username}",
             group       => "${group}",
-            notify  => Exec['create_gpg_homedirs'];
+            notify  => Exec['rebuild_gpg_homedirs'];
         "/home/${username}/pubkey":
             mode        => 644,
             content     => $config::scriptworker_gpg_public_keys[$fqdn],
@@ -98,11 +98,11 @@ define scriptworker::instance(
 
     exec {
         # create gpg homedirs on change
-        'create_gpg_homedirs':
+        'rebuild_gpg_homedirs':
             require => [Python35::Virtualenv["${basedir}"],
                         Git::Repo["scriptworker-${git_key_repo_dir}"],
                         File["${basedir}/scriptworker.yaml"]],
-            command => "${basedir}/bin/create_initial_gpg_homedirs ${basedir}/scriptworker.yaml",
+            command => "${basedir}/bin/rebuild_gpg_homedirs ${basedir}/scriptworker.yaml",
             subscribe => File["${git_pubkey_dir}"],
             user    => "${username}";
         # Create checksum file of git pubkeys
