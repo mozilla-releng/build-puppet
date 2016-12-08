@@ -40,8 +40,8 @@ class signing_scriptworker {
                   "python-jose==1.3.2",
                   "PyYAML==3.12",
                   "requests==2.11.1",
-                  "scriptworker==1.0.0b2",
-                  "signingscript==0.8.2",
+                  "scriptworker==1.0.0b3",
+                  "signingscript==0.9.0",
                   "signtool==2.0.3",
                   "six==1.10.0",
                   "slugid==1.0.7",
@@ -68,6 +68,11 @@ class signing_scriptworker {
             taskcluster_access_token => secret("signing_scriptworker_taskcluster_access_token");
     }
 
+    nrpe::custom {
+        "signingworker.cfg":
+            content => template("${module_name}/nagios.cfg.erb");
+    }
+
     file {
         "${signing_scriptworker::settings::root}/script_config.json":
             require     => Python35::Virtualenv["${signing_scriptworker::settings::root}"],
@@ -83,5 +88,17 @@ class signing_scriptworker {
             group       => "${users::signer::group}",
             content     => template("${module_name}/passwords.json.erb"),
             show_diff => false;
+        "${signing_scriptworker::settings::root}/file_age_check_optionals.txt":
+            mode        => 640,
+            owner       => "${users::signer::username}",
+            group       => "${users::signer::group}",
+            source      => "puppet:///modules/signing_scriptworker/file_age_check_optionals.txt",
+            show_diff   => true;
+        "${signing_scriptworker::settings::root}/file_age_check_required.txt":
+            mode        => 640,
+            owner       => "${users::signer::username}",
+            group       => "${users::signer::group}",
+            source      => "puppet:///modules/signing_scriptworker/file_age_check_required.txt",
+            show_diff   => true;
     }
 }
