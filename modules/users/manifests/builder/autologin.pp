@@ -85,4 +85,14 @@ class users::builder::autologin {
             fail("Don't know how to set up autologin on $::operatingsystem")
         }
     }
+
+    ##
+    # disable account-specific services
+
+    class {
+        'disableservices::user':
+            username => $users::builder::username,
+            group => $users::builder::group,
+            home => $users::builder::home;
+    }
 }
