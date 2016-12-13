@@ -5,9 +5,10 @@
 class packages::clamd {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['clamav'])
             package {
                 "clamd":
-                    ensure => latest;
+                    ensure => '0.99.2-1.el6';
             }
         }
         default: {
