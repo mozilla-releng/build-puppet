@@ -6,6 +6,15 @@
 
 # linux64 and OS X
 
+node /t-yosemite-r7-00[45][0-9]\.test\.releng\.scl3\.mozilla\.com/ {
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "dmitchell"
+    $aspects = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    $taskcluster = true
+    include toplevel::worker::releng::test::gpu
+}
+
 node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
     $aspects = [ 'low-security' ]
