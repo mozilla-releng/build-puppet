@@ -114,11 +114,14 @@ class packages::setup {
 
                 "python27-12":
                     url_path => "repos/yum/custom/mozilla-python2712/$architecture";
+
+                "clamav":
+                    url_path => "repos/yum/custom/clamav/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 48
+            $repoflag = 49
             file {
                 "/etc/.repo-flag":
                     content =>
