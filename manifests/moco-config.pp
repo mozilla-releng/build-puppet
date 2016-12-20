@@ -168,8 +168,8 @@ class config inherits config::base {
     $buildbot_mail_to = "release@mozilla.com"
     $master_json = "https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json"
 
-    $vmwaretools_version = "9.4.0-1280544"
-    $vmwaretools_md5 = "4a2d230828919048c0c3ae8420f8edfe"
+    $vmwaretools_version = "10.0.9-3917699"
+    $vmwaretools_md5 = "160979c6d9f5b0979d81b3b6c15d0b1a"
     # These need to be in "Foo <foo@bar.com>" style to work with release runner
     $releaserunner_notify_from = "Release Eng <release@mozilla.com>"
     $releaserunner_smtp_server = "localhost"
