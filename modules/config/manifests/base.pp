@@ -295,6 +295,8 @@ class config::base {
     $selfserve_agent_masters_json = $master_json
     # URL for branches.json
     $selfserve_agent_branches_json = ""
+    # URL for allthethings.json
+    $selfserve_agent_allthethings_json = ""
     # API URL for clobberer
     $selfserve_agent_clobberer_url = ""
     # carrot (rabbitmq) credentials

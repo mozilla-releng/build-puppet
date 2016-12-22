@@ -19,6 +19,9 @@ sendchange-master = <%= scope.lookupvar('::config::selfserve_agent_sendchange_ma
 [branches]
 url = <%=scope.lookupvar('::config::selfserve_agent_branches_json')%>
 
+[allthethings]
+url = <%=scope.lookupvar('::config::selfserve_agent_allthethings_json')%>
+
 [clobberer]
 url = <%=scope.lookupvar('::config::selfserve_agent_clobberer_url')%>
 auth = <%= scope.function_secret(["clobberer_token"])%>
