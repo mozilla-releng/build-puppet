@@ -381,7 +381,7 @@ class config inherits config::base {
             ],
         },
         "prod" => {
-            version => "1.5.23",
+            version => "1.5.22",
             client_id => secret("buildbot_bridge_prod_taskcluster_client_id"),
             access_token => secret("buildbot_bridge_prod_taskcluster_access_token"),
             dburi => secret("buildbot_bridge_prod_dburi"),
