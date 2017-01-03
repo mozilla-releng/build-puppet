@@ -1,7 +1,7 @@
 provisioner_id: <%= scope["scriptworker::instance::settings::provisioner_id"] %>
 worker_group: <%= @worker_group %>
 worker_type: <%= @worker_type %>
-worker_id: <%= @hostname %>
+worker_id: <%= scope["scriptworker::instance::settings::temp_worker_id"] %>
 
 credentials:
     clientId: <%= @taskcluster_client_id %>

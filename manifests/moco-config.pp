@@ -411,26 +411,6 @@ class config inherits config::base {
     $scriptworker_gpg_public_keys = hiera_hash('scriptworker_gpg_public_keys')
 
     # TC balrog scriptworkers
-    $balrog_scriptworker_task_max_timeout = 1200
-    $balrog_scriptworker_artifact_expiration_hours = 336
-    $balrog_scriptworker_artifact_upload_timeout = 600
-    $balrog_scriptworker_verbose_logging = false
-    $balrog_scriptworker_root = "/builds/balrogworker"
-    $balrog_scriptworker_git_balrogscript_repo = 'https://github.com/mozilla-releng/balrogscript.git'
-    $balrog_scriptworker_hg_tools_repo = 'https://hg.mozilla.org/build/tools'
-    $balrog_scriptworker_hg_tools_branch = 'default'
-    $balrog_scriptworker_env_config = {
-        "dev" => {
-            provisioner_id => "scriptworker-prov-v1",
-            worker_group => "balrogworker-v1",
-            worker_type => "balrogworker-v1",
-            taskcluster_client_id => secret("balrogworker_dev_taskcluster_client_id"),
-            taskcluster_access_token => secret("balrogworker_dev_taskcluster_access_token"),
-            balrog_username => "stage-ffxbld",
-            balrog_password => secret("stage-ffxbld_ldap_password"),
-            balrog_api_root => "https://balrog-admin.stage.mozaws.net/api",
-        }
-    }
 
     # TC beetmover scriptworkers
     $beetmover_scriptworker_task_max_timeout = 2400
