@@ -9,8 +9,8 @@ class balrog_scriptworker::settings {
 
     $env_config = {
         "dev" => {
-            worker_group => "balrogworker-v1",
-            worker_type => "balrogworker-v1",
+            worker_group => "test-dummy-workers",
+            worker_type => "dummy-worker-mtabara",
             taskcluster_client_id => secret("balrogworker_dev_taskcluster_client_id"),
             taskcluster_access_token => secret("balrogworker_dev_taskcluster_access_token"),
             balrog_username => "stage-ffxbld",
