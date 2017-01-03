@@ -11,3 +11,5 @@ syntax: regexp
 ^setup/base-image-centos6.sh
 ^setup/centos6-kickstart.cfg
 ^environment.conf
+# ignore IntelliJ editor metadata
+^\.idea/
