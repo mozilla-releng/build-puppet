@@ -404,6 +404,7 @@ class config inherits config::base {
     $signingworker_worker_type = "signing-worker-v1"
 
     # scriptworker
+    $scriptworker_root = "/builds/scriptworker"
     $scriptworker_gpg_private_keys = hiera_hash('scriptworker_gpg_private_keys')
     $scriptworker_gpg_public_keys = hiera_hash('scriptworker_gpg_public_keys')
 
@@ -450,7 +451,8 @@ class config inherits config::base {
     }
 
     ## TC pushapk scriptworkers
-    $pushapk_scriptworker_root = '/builds/pushapkworker'
+    $pushapk_scriptworker_old_root = '/builds/pushapkworker' # TODO Remove this line once bug 1321513 reaches production
+    $pushapk_scriptworker_root = $scriptworker_root
     $pushapk_scriptworker_worker_config = "${pushapk_scriptworker_root}/config.json"
     $pushapk_scriptworker_script_config = "${pushapk_scriptworker_root}/script_config.json"
 

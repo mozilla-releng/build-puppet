@@ -91,5 +91,10 @@ class pushapkworker {
 
         $google_play_config['release']['certificate_target_location']:
             content     => $google_play_config['release']['certificate'];
+
+        # TODO Remove the following statement line once bug 1321513 reaches production
+        $config::pushapk_scriptworker_old_root:
+            ensure      => absent,
+            force       => true;  # Needed to delete a folder
     }
 }
