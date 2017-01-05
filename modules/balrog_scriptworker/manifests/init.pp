@@ -71,7 +71,7 @@ class balrog_scriptworker {
                   "pycparser==2.14",
                   "requests==2.8.1",
                   "six==1.10.0",
-                  "balrogscript==0.0.1",
+                  "balrogscript==0.0.3",
             ];
     }
 
