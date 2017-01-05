@@ -13,10 +13,10 @@ class balrog_scriptworker::settings {
     $verbose_logging = true
 
     $env_config = {
-         "dev" => {
-               balrog_username => "stage-ffxbld",
-               balrog_password => secret("stage-ffxbld_ldap_password"),
-               balrog_api_root => "https://balrog-admin.stage.mozaws.net/api"
-         }
+        "dev" => {
+            balrog_username => "stage-ffxbld",
+            balrog_password => secret("stage-ffxbld_ldap_password"),
+            balrog_api_root => "https://balrog-admin.stage.mozaws.net/api"
+        }
     }
 }
