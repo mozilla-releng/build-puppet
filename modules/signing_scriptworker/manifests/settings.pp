@@ -1,5 +1,7 @@
 class signing_scriptworker::settings {
-    $root = "/builds/scriptworker"
+    include ::config
+
+    $root = $config::scriptworker_root
     $worker_group = "signing-linux-v1"
     $worker_type = "signing-linux-v1"
     $taskcluster_client_id = secret("signing_scriptworker_taskcluster_client_id")
