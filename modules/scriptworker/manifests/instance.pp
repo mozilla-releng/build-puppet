@@ -23,9 +23,10 @@ define scriptworker::instance(
     # This git repo has the various worker pubkeys
     git::repo {
         "scriptworker-${git_key_repo_dir}":
-            repo    => "${scriptworker::instance::settings::gpg_repo_url}",
+            repo    => "${scriptworker::instance::settings::git_key_repo_url}",
             dst_dir => $git_key_repo_dir,
-            user    => "${user}";
+            user    => "${username}",
+            require => Python35::Virtualenv["${basedir}"];
     }
 
     nrpe::custom {
@@ -60,7 +61,8 @@ define scriptworker::instance(
             source      => 'puppet:///modules/scriptworker/git_pubkeys',
             recurse     => true,
             recurselimit => 1,
-            purge       => true;
+            purge       => true,
+            require     => Python35::Virtualenv["${basedir}"];
         # cron jobs to poll git + rebuild gpg homedirs
         "/etc/cron.d/scriptworker":
             content     => template("scriptworker/scriptworker.cron.erb");
@@ -107,7 +109,8 @@ define scriptworker::instance(
             user    => "${username}";
         # Create checksum file of git pubkeys
         "${basedir}/.git-pubkey-dir-checksum":
-            path    => "/usr/local/bin/:/bin:/usr/sbin",
+            require => File["${git_pubkey_dir}"],
+            path    => "/usr/local/bin/:/bin:/usr/sbin:/usr/bin",
             user    => "${username}",
             command => "find ${git_pubkey_dir} -type f | xargs md5sum | sort > ${basedir}/.git-pubkey-dir-checksum";
     }
