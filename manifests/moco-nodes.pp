@@ -1206,4 +1206,3 @@ node "dhouse-1330169.srv.releng.scl3.mozilla.com" {
     $aspects = [ 'low-security' ]
     include toplevel::server
 }
-
