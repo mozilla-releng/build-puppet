@@ -1193,3 +1193,12 @@ node /pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 }
 
 ## Loaners
+node "dev-linux64-ec2-mtabara1.dev.releng.use1.mozilla.com" {
+    # the pins must come *before* the toplevel include
+    $aspects = [ 'low-security' ]
+    $balrogworker_env = "dev"
+    $slave_trustlevel = 'try'
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "mtabara"
+    include toplevel::server::beetmoverscriptworker
+}

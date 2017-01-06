@@ -431,24 +431,6 @@ class config inherits config::base {
     }
 
     # TC beetmover scriptworkers
-    $beetmover_scriptworker_task_max_timeout = 2400
-    $beetmover_scriptworker_artifact_expiration_hours = 336
-    $beetmover_scriptworker_artifact_upload_timeout = 600
-    $beetmover_scriptworker_verbose_logging = false
-    $beetmover_scriptworker_root = "/builds/beetmoverworker"
-    $beetmover_scriptworker_env_config = {
-        "dev" => {
-            provisioner_id => "scriptworker-prov-v1",
-            worker_group => "beetmoverworker-v1",
-            worker_type => "beetmoverworker-v1",
-            taskcluster_client_id => secret("beetmoverworker_dev_taskcluster_client_id"),
-            taskcluster_access_token => secret("beetmoverworker_dev_taskcluster_access_token"),
-            beetmover_aws_access_key_id => secret("nightly-beetmover-aws_access_key_id"),
-            beetmover_aws_secret_access_key => secret("nightly-beetmover-aws_secret_access_key"),
-            beetmover_aws_s3_firefox_bucket => "net-mozaws-prod-delivery-firefox",
-            beetmover_aws_s3_fennec_bucket => "net-mozaws-prod-delivery-archive",
-        }
-    }
 
     ## TC pushapk scriptworkers
     $pushapk_scriptworker_old_root = '/builds/pushapkworker' # TODO Remove this line once bug 1321513 reaches production
