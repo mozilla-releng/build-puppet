@@ -72,7 +72,7 @@ class beetmover_scriptworker {
             verbose_logging          => $beetmover_scriptworker::settings::verbose_logging,
             taskcluster_client_id    => "${beetmover_scriptworker::settings::taskcluster_client_id}",
             taskcluster_access_token => "${beetmover_scriptworker::settings::taskcluster_access_token}",
-     }
+    }
 
     file {
         "${beetmover_scriptworker::settings::root}/script_config.json":
