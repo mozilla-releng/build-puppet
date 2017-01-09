@@ -48,7 +48,6 @@ class beetmover_scriptworker {
                   "boto3==1.4.1",
                   "botocore==1.4.63",
                   "jmespath==0.9.0",
-                  "PyYAML==3.12",
                   "Jinja2==2.8",
                   "beetmoverscript==0.0.13",
                   "MarkupSafe==0.23",
