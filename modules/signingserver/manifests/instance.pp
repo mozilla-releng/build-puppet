@@ -6,7 +6,7 @@ define signingserver::instance(
         $listenaddr, $port, $code_tag,
         $token_secret, $token_secret0,
         $new_token_auth, $new_token_auth0,
-        $mar_key_name, $jar_key_name,
+        $mar_key_name, $mar_sha384_key_name, $jar_key_name,
         $formats, $mac_cert_subject_ou,
         $ssl_cert, $ssl_private_key,
         $signcode_timestamp="yes",
@@ -39,6 +39,7 @@ define signingserver::instance(
     $sha2signcode_keydir = "${secrets_dir}/sha2signcode"
     $gpg_homedir = "${secrets_dir}/gpg"
     $mar_keydir = "${secrets_dir}/mar"
+    $mar_sha384_keydir = "${secrets_dir}/mar-sha384"
     $jar_keystore = "${secrets_dir}/jar"
     $server_certdir = "${secrets_dir}/server"
     $emevoucher_key = "${secrets_dir}/emevouch.pem"
@@ -51,11 +52,13 @@ define signingserver::instance(
 
     # paths in packages
     $signmar = "/tools/signmar/bin/signmar"
+    $signmar_sha384 = "/tools/signmar-sha384/bin/signmar"
     $testfile_dir = "/tools/signing-test-files"
     $testfile_signcode = "${testfile_dir}/test.exe"
     $testfile_osslsigncode = "${testfile_dir}/test64.exe"
     $testfile_emevoucher = "${testfile_dir}/test.bin"
     $testfile_mar = "${testfile_dir}/test.mar"
+    $testfile_mar_sha384 = "${testfile_dir}/test.mar"
     $testfile_gpg = "${testfile_dir}/test.mar"
     $testfile_dmg = "${testfile_dir}/test.tar.gz"
     $testfile_jar = "${testfile_dir}/test.zip"
@@ -63,6 +66,7 @@ define signingserver::instance(
     # commands
     $signscript = "${basedir}/bin/python2.7 ${script_dir}/signscript.py -c ${basedir}/signscript.ini"
     $mar_cmd = "${signmar} -d ${basedir}/secrets/mar -n ${mar_key_name} -s"
+    $mar_sha384_cmd = "${signmar_sha384} -d ${basedir}/secrets/mar-sha384 -n ${mar_sha384_key_name} -s"
 
     # copy vars from config
     $tools_repo = $config::signing_tools_repo
@@ -139,6 +143,7 @@ define signingserver::instance(
           $sha2signcode_keydir,
           $gpg_homedir,
           $mar_keydir,
+          $mar_sha384_keydir,
           $dmg_keydir,
           $server_certdir]:
             ensure => directory,
