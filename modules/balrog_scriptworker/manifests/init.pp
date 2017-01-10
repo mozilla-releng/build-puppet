@@ -1,11 +1,9 @@
 class balrog_scriptworker {
-    include ::config
     include balrog_scriptworker::services
     include balrog_scriptworker::settings
     include dirs::builds
     include packages::mozilla::python35
     include packages::mozilla::python27
-    include packages::mozilla::git
     include packages::mozilla::py27_mercurial
     include users::builder
     include tweaks::swap_on_instance_storage
@@ -13,7 +11,7 @@ class balrog_scriptworker {
     include packages::make
     include packages::libffi
 
-    $env_config = $config::balrog_scriptworker_env_config[$balrogworker_env]
+    $env_config = $balrog_scriptworker::settings::env_config[$balrogworker_env]
 
     python35::virtualenv {
         "${balrog_scriptworker::settings::root}":
@@ -23,30 +21,33 @@ class balrog_scriptworker {
             group    => "${users::builder::group}",
             mode     => 700,
             packages => [
-                  "aiohttp==0.22.5",
+                  "aiohttp==1.1.2",
                   "arrow==0.8.0",
+                  "async-timeout==1.1.0",
                   "chardet==2.3.0",
                   "defusedxml==0.4.1",
                   "ecdsa==0.13",
-                  "frozendict==1.0",
-                  "future==0.15.2",
+                  "frozendict==1.2",
+                  "future==0.16.0",
                   "jsonschema==2.5.1",
                   "mohawk==0.3.3",
-                  "multidict==1.2.2",
+                  "multidict==2.1.2",
                   "pefile==2016.7.26",
                   "pexpect==4.2.1",
                   "ptyprocess==0.5.1",
                   "pycrypto==2.6.1",
-                  "python-dateutil==2.5.3",
-                  "python-gnupg==0.3.8",
-                  "python-jose==1.2.0",
+                  "python-dateutil==2.6.0",
+                  "python-gnupg==0.3.9",
+                  "python-jose==1.3.2",
+                  "PyYAML==3.12",
                   "requests==2.11.1",
-                  "scriptworker==0.7.2",
+                  "scriptworker==1.0.0b5",
                   "signtool==2.0.3",
                   "six==1.10.0",
                   "slugid==1.0.7",
                   "taskcluster==0.3.4",
                   "virtualenv==15.0.3",
+                  "yarl==0.7.0",
             ];
     }
 
@@ -58,67 +59,58 @@ class balrog_scriptworker {
             group    => "${users::builder::group}",
             packages => [
                   "balrogclient==0.0.1",
+                  "balrogscript==0.0.4",
                   "boto==2.41.0",
+                  "cffi==1.8.3",
                   "cryptography==1.2.3",
                   "enum34==1.1.2",
                   "idna==2.0",
                   "ipaddress==1.0.16",
+                  "jsonschema==2.4.0",
                   "mar==1.2",
                   "pyasn1==0.1.9",
+                  "pycparser==2.14",
                   "requests==2.8.1",
                   "six==1.10.0",
             ];
     }
 
-    git::repo {
-        "balrogscript":
-            repo    => "${balrog_scriptworker::settings::balrogscript_repo}",
-            dst_dir => "${balrog_scriptworker::settings::root}/balrogscript",
-            user    => "${users::builder::username}",
-            require => [
-                Class["packages::mozilla::git"],
-                Python35::Virtualenv["${balrog_scriptworker::settings::root}"],
-            ];
+    scriptworker::instance {
+        "${balrog_scriptworker::settings::root}":
+            basedir                  => "${balrog_scriptworker::settings::root}",
+            task_script_executable   => "${balrog_scriptworker::settings::task_script_executable}",
+            task_script              => "${balrog_scriptworker::settings::task_script}",
+            task_script_config       => "${balrog_scriptworker::settings::task_script_config}",
+            task_max_timeout         => $balrog_scriptworker::settings::task_max_timeout,
+            username                 => "${users::builder::username}",
+            group                    => "${users::builder::group}",
+            worker_group             => "${balrog_scriptworker::settings::worker_group}",
+            worker_type              => "${balrog_scriptworker::settings::worker_type}",
+            cot_job_type             => "balrog",
+            verbose_logging          => $balrog_scriptworker::settings::verbose_logging,
+            taskcluster_client_id    => "${balrog_scriptworker::settings::taskcluster_client_id}",
+            taskcluster_access_token => "${balrog_scriptworker::settings::taskcluster_access_token}",
     }
 
     mercurial::repo {
         "tools":
             hg_repo => "${balrog_scriptworker::settings::tools_repo}",
-            dst_dir => "${balrog_scriptworker::settings::root}/balrogscript/tools",
+            dst_dir => "${balrog_scriptworker::settings::root}/tools",
             user    => "${users::builder::username}",
             branch  => "${balrog_scriptworker::settings::tools_branch}",
             require => [
                 Class["packages::mozilla::py27_mercurial"],
                 Python35::Virtualenv["${balrog_scriptworker::settings::root}"],
-                Git::Repo["balrogscript"],
             ];
     }
 
     file {
-        "${balrog_scriptworker::settings::root}/config.json":
+        "${balrog_scriptworker::settings::root}/script_config.json":
             require     => Python35::Virtualenv["${balrog_scriptworker::settings::root}"],
             mode        => 600,
             owner       => "${users::builder::username}",
             group       => "${users::builder::group}",
-            content     => template("${module_name}/config.json.erb"),
-            show_diff   => false;
-        # requirement as part of scriptworker pentest bug 1298199#c23
-        '/root/certs.sh':
-            ensure => absent;
-        "${balrog_scriptworker::settings::root}/balrogscript/keys/dep.pubkey":
-            source => "puppet:///modules/balrog_scriptworker/dep.pubkey",
-            require     => Git::Repo["balrogscript"],
-            owner       => "${users::builder::username}",
-            group       => "${users::builder::group}";
-        "${balrog_scriptworker::settings::root}/balrogscript/keys/nightly.pubkey":
-            source => "puppet:///modules/balrog_scriptworker/nightly.pubkey",
-            require     => Git::Repo["balrogscript"],
-            owner       => "${users::builder::username}",
-            group       => "${users::builder::group}";
-        "${balrog_scriptworker::settings::root}/balrogscript/keys/release.pubkey":
-            source => "puppet:///modules/balrog_scriptworker/release.pubkey",
-            require     => Git::Repo["balrogscript"],
-            owner       => "${users::builder::username}",
-            group       => "${users::builder::group}";
+            content     => template("${module_name}/script_config.json.erb"),
+            show_diff   => true;
     }
 }
