@@ -10,7 +10,8 @@ pulse:
     user: "<%= scope.lookupvar("config::funsize_scheduler_pulse_username") %>"
     password: "<%= scope.function_secret(["funsize_scheduler_pulse_password"]) %>"
     queue: "<%= scope.lookupvar("config::funsize_scheduler_pulse_queue") %>"
-    exchange: "<%= scope.lookupvar("config::funsize_scheduler_pulse_exchange") %>"
+    bb_exchange: "<%= scope.lookupvar("config::funsize_scheduler_bb_pulse_exchange") %>"
+    tc_exchange: "<%= scope.lookupvar("config::funsize_scheduler_tc_pulse_exchange") %>"
 
 taskcluster:
     credentials:
