@@ -1,18 +1,24 @@
 {
-    "work_dir": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/work",
-    "artifact_dir": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/artifacts",
+    "work_dir": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/work",
+    "artifact_dir": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/artifacts",
+
+    "schema_file": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/data/beetmover_task_schema.json",
+
+    "verbose": <%= scope.lookupvar("beetmover_scriptworker::settings::verbose_logging") %>,
+    "dummy": false,
+    "disable_certs": false,
 
     "template_files": {
-        "fennec_nightly_unsigned": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly_en_us_multi_unsigned.yml",
-        "fennec_nightly_signed": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly_en_us_multi_signed.yml",
-        "fennec_nightly_repacks_unsigned": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly_repacks_unsigned.yml",
-        "fennec_nightly_repacks_signed": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly_repacks_signed.yml",
-        "firefox_nightly_unsigned": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly_en_us_unsigned.yml",
-        "fennecx86_nightly_unsigned": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennecx86_nightly_en_us_multi_unsigned.yml",
-        "fennecx86_nightly_signed": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennecx86_nightly_en_us_multi_signed.yml",
-        "firefox_nightly_signed": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly_en_us_signed.yml",
-        "firefox_nightly_repacks_unsigned": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly_repacks_unsigned.yml",
-        "firefox_nightly_repacks_signed": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly_repacks_signed.yml"
+        "fennec_nightly_unsigned": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly_en_us_multi_unsigned.yml",
+        "fennec_nightly_signed": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly_en_us_multi_signed.yml",
+        "fennec_nightly_repacks_unsigned": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly_repacks_unsigned.yml",
+        "fennec_nightly_repacks_signed": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly_repacks_signed.yml",
+        "firefox_nightly_unsigned": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly_en_us_unsigned.yml",
+        "fennecx86_nightly_unsigned": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennecx86_nightly_en_us_multi_unsigned.yml",
+        "fennecx86_nightly_signed": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennecx86_nightly_en_us_multi_signed.yml",
+        "firefox_nightly_signed": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly_en_us_signed.yml",
+        "firefox_nightly_repacks_unsigned": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly_repacks_unsigned.yml",
+        "firefox_nightly_repacks_signed": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly_repacks_signed.yml"
     },
 
     "s3": {
@@ -30,8 +36,5 @@
                 "key": "<%= @env_config["beetmover_aws_secret_access_key"] %>"
             }
         }
-    },
-
-    "schema_file": "<%= scope.lookupvar("config::beetmover_scriptworker_root") %>/lib/python3.5/site-packages/beetmoverscript/data/beetmover_task_schema.json",
-    "verbose": <%= scope.lookupvar("config::beetmover_scriptworker_verbose_logging") %>
+    }
 }

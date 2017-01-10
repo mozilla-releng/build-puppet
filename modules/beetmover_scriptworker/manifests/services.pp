@@ -5,9 +5,9 @@ class beetmover_scriptworker::services {
 
     supervisord::supervise {
         "beetmover_scriptworker":
-            command      => "${beetmover_scriptworker::settings::root}/bin/scriptworker ${beetmover_scriptworker::settings::root}/config.json",
+            command      => "${beetmover_scriptworker::settings::root}/bin/scriptworker ${beetmover_scriptworker::settings::root}/scriptworker.yaml",
             user         => $::config::builder_username,
-            require      => [ File["${beetmover_scriptworker::settings::root}/config.json"]],
+            require      => [ File["${beetmover_scriptworker::settings::root}/scriptworker.yaml"]],
             extra_config => template("${module_name}/supervisor_config.erb");
     }
     exec {
@@ -15,6 +15,6 @@ class beetmover_scriptworker::services {
             command     => "/usr/bin/supervisorctl restart beetmover_scriptworker",
             refreshonly => true,
             subscribe   => [Python35::Virtualenv["${beetmover_scriptworker::settings::root}"],
-                            File["${beetmover_scriptworker::settings::root}/config.json"]];
+                            File["${beetmover_scriptworker::settings::root}/scriptworker.yaml"]];
     }
 }
