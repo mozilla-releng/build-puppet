@@ -41,7 +41,7 @@ class balrog_scriptworker {
                   "python-jose==1.3.2",
                   "PyYAML==3.12",
                   "requests==2.11.1",
-                  "scriptworker==1.0.0b4",
+                  "scriptworker==1.0.0b5",
                   "signtool==2.0.3",
                   "six==1.10.0",
                   "slugid==1.0.7",
@@ -59,6 +59,7 @@ class balrog_scriptworker {
             group    => "${users::builder::group}",
             packages => [
                   "balrogclient==0.0.1",
+                  "balrogscript==0.0.4",
                   "boto==2.41.0",
                   "cffi==1.8.3",
                   "cryptography==1.2.3",
@@ -71,7 +72,6 @@ class balrog_scriptworker {
                   "pycparser==2.14",
                   "requests==2.8.1",
                   "six==1.10.0",
-                  "balrogscript==0.0.3",
             ];
     }
 
