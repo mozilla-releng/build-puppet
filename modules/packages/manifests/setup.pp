@@ -117,11 +117,14 @@ class packages::setup {
 
                 "clamav":
                     url_path => "repos/yum/custom/clamav/$architecture";
+
+                "security_update_1319455":
+                    url_path => "repos/yum/custom/security_update_1319455/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 49
+            $repoflag = 50
             file {
                 "/etc/.repo-flag":
                     content =>
