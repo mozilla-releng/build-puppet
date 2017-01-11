@@ -9,8 +9,8 @@ define scriptworker::instance(
     $taskcluster_client_id, $taskcluster_access_token,
     $task_max_timeout=1200, $artifact_expiration_hours=336,
     $artifact_upload_timeout=1200, $verbose_logging=false,
-    $sign_chain_of_trust=false, $verify_chain_of_trust=false,
-    $verify_cot_signature=false
+    $sign_chain_of_trust=true, $verify_chain_of_trust=true,
+    $verify_cot_signature=true
 ) {
     include scriptworker::instance::settings
     include packages::mozilla::git
@@ -112,6 +112,6 @@ define scriptworker::instance(
             require => File["${git_pubkey_dir}"],
             path    => "/usr/local/bin/:/bin:/usr/sbin:/usr/bin",
             user    => "${username}",
-            command => "find ${git_pubkey_dir} -type f | xargs md5sum | sort> ${basedir}/.git-pubkey-dir-checksum";
+            command => "find ${git_pubkey_dir} -type f | xargs md5sum | sort > ${basedir}/.git-pubkey-dir-checksum";
     }
 }
