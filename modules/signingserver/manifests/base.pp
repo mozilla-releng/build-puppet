@@ -22,6 +22,7 @@ class signingserver::base {
     # note that signmar installs different versions on different operating
     # systems; see signmar.pp for details.
     include packages::mozilla::signmar
+    include packages::mozilla::signmar_sha384
 
     $root = "/builds/signing"
 

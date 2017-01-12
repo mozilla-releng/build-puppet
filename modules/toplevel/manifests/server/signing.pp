@@ -20,7 +20,7 @@ class toplevel::server::signing inherits toplevel::server {
         moco: {
             $signing_formats = $operatingsystem ? {
                 Darwin => ["dmg"],
-                CentOS => ["gpg", "sha2signcode", "sha2signcodestub", "osslsigncode", "signcode", "mar", "jar", "emevoucher"]
+                CentOS => ["gpg", "sha2signcode", "sha2signcodestub", "osslsigncode", "signcode", "mar", "mar_sha384", "jar", "emevoucher"]
             }
             $concurrency = $::macosx_productversion_major ? {
                 10.9    => 2,
@@ -43,6 +43,7 @@ class toplevel::server::signing inherits toplevel::server {
                     new_token_auth => "${signing_server_username}:${signing_server_nightly_password}",
                     new_token_auth0=> "${signing_server_username}:${signing_server_nightly_password}",
                     mar_key_name   => "nightly1",
+                    mar_sha384_key_name   => "nightly1",
                     jar_key_name   => "nightly",
                     formats        => $signing_formats,
                     ssl_cert => $config::signing_server_ssl_certs[$hostname],
@@ -61,6 +62,7 @@ class toplevel::server::signing inherits toplevel::server {
                     new_token_auth => "${signing_server_username}:${signing_server_dep_password}",
                     new_token_auth0=> "${signing_server_username}:${signing_server_dep_password}",
                     mar_key_name   => "dep1",
+                    mar_sha384_key_name   => "dep1",
                     jar_key_name   => "nightly",
                     formats        => $signing_formats,
                     signcode_timestamp => "no",
@@ -81,6 +83,7 @@ class toplevel::server::signing inherits toplevel::server {
                     new_token_auth => "${signing_server_username}:${signing_server_release_password}",
                     new_token_auth0=> "${signing_server_username}:${moco_signing_server_repack_password}",
                     mar_key_name   => "rel1",
+                    mar_sha384_key_name   => "rel1",
                     jar_key_name   => "release",
                     formats        => $signing_formats,
                     ssl_cert => $config::signing_server_ssl_certs[$hostname],
@@ -91,7 +94,7 @@ class toplevel::server::signing inherits toplevel::server {
         relabs: {
             $signing_formats = $operatingsystem ? {
                 Darwin => ["gpg", "dmg", "mar"],
-                CentOS => ["gpg", "signcode", "mar", "jar"]
+                CentOS => ["gpg", "signcode", "mar", "mar_sha384", "jar"]
             }
 
             signingserver::instance {
@@ -105,6 +108,7 @@ class toplevel::server::signing inherits toplevel::server {
                     new_token_auth => "${signing_server_username}:${signing_server_dep_password}",
                     new_token_auth0=> "${signing_server_username}:${signing_server_dep_password}",
                     mar_key_name   => "relabs1",
+                    mar_sha384_key_name   => "relabs1",
                     jar_key_name   => "relabs",
                     formats        => $signing_formats,
                     ssl_cert => secret('relabs_signing_server_ssl_cert'),
