@@ -19,11 +19,6 @@ class signingserver::base {
     include packages::mozilla::signing_test_files
     include packages::gnupg
 
-    # note that signmar installs different versions on different operating
-    # systems; see signmar.pp for details.
-    include packages::mozilla::signmar
-    include packages::mozilla::signmar_sha384
-
     $root = "/builds/signing"
 
     case $::operatingsystem {
@@ -37,6 +32,8 @@ class signingserver::base {
             # Make is used for manual XPI hotfix signing.
             include packages::make
             include packages::mozilla::osslsigncode
+            include packages::mozilla::signmar
+            include packages::mozilla::signmar_sha384
 
             $compiler_req = Class['packages::gcc']
         }
