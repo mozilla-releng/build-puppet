@@ -17,6 +17,9 @@ class packages::security_updates {
             package {
                 "cups-libs":
                     ensure => "1.4.2-74.el6";
+
+                ["samba-client", "samba-common", "samba-winbind", "samba-winbind-clients"]:
+                    ensure => "3.6.23-36.el6_8";
             } -> Anchor['packages::security_updates::end']
         }
         Ubuntu: {
