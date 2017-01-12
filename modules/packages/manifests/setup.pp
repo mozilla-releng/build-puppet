@@ -120,11 +120,14 @@ class packages::setup {
 
                 "security_update_1319455":
                     url_path => "repos/yum/custom/security_update_1319455/$architecture";
+
+                "signmar":
+                    url_path => "repos/yum/custom/signmar/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 51
+            $repoflag = 52
             file {
                 "/etc/.repo-flag":
                     content =>
