@@ -6,8 +6,8 @@ class balrog_scriptworker::settings {
     $task_max_timeout = 1800
     $tools_repo = 'https://hg.mozilla.org/build/tools'
     $tools_branch = 'default'
-    $worker_group = "test-dummy-workers"
-    $worker_type = "dummy-worker-mtabara"
+    $worker_group = "balrogworker-v1"
+    $worker_type = "balrogworker-v1"
     $taskcluster_client_id = secret("balrogworker_dev_taskcluster_client_id")
     $taskcluster_access_token = secret("balrogworker_dev_taskcluster_access_token")
     $verbose_logging = true

@@ -5,8 +5,8 @@ class beetmover_scriptworker::settings {
     $task_script_config = "${root}/script_config.json"
     $task_max_timeout = 1800
 
-    $worker_group = "test-dummy-workers"
-    $worker_type = "dummy-worker-mtabara"
+    $worker_group = "beetmoverworker-v1"
+    $worker_type = "beetmoverworker-v1"
     $taskcluster_client_id = secret("beetmoverworker_dev_taskcluster_client_id")
     $taskcluster_access_token = secret("beetmoverworker_dev_taskcluster_access_token")
     $verbose_logging = true
