@@ -18,6 +18,9 @@ class packages::security_updates {
                 "cups-libs":
                     ensure => "1.4.2-74.el6";
 
+                 "nspr":
+                     ensure => "4.11.0-1.el6";
+
                 ["samba-client", "samba-common", "samba-winbind", "samba-winbind-clients"]:
                     ensure => "3.6.23-36.el6_8";
             } -> Anchor['packages::security_updates::end']
