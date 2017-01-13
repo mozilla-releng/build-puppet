@@ -41,7 +41,7 @@ class balrog_scriptworker {
                   "python-jose==1.3.2",
                   "PyYAML==3.12",
                   "requests==2.11.1",
-                  "scriptworker==1.0.0b5",
+                  "scriptworker==1.0.0b6",
                   "signtool==2.0.3",
                   "six==1.10.0",
                   "slugid==1.0.7",
