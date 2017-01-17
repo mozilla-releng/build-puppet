@@ -18,6 +18,9 @@ class packages::security_updates {
                 "cups-libs":
                     ensure => "1.4.2-74.el6";
 
+                ["libxml2", "libxml2-python"]:
+                    ensure => "2.7.6-21.el6";
+
                 "nspr":
                     ensure => "4.11.0-1.el6";
 
