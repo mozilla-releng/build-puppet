@@ -1,0 +1,16 @@
+{
+    "work_dir": "<%= scope.lookupvar("balrog_scriptworker::settings::root") %>/work",
+    "artifact_dir": "<%= scope.lookupvar("balrog_scriptworker::settings::root") %>/artifacts",
+
+    "schema_file": "<%= scope.lookupvar("balrog_scriptworker::settings::root") %>/py27venv/lib/python2.7/site-packages/balrogscript/data/balrog_task_schema.json",
+
+    "verbose": <%= scope.lookupvar("balrog_scriptworker::settings::verbose_logging") %>,
+    "dummy": false,
+    "disable_certs": false,
+
+    "api_root": "<%= @env_config["balrog_api_root"] %>",
+    "balrog_username": "<%= @env_config["balrog_username"] %>",
+    "balrog_password": "<%= @env_config["balrog_password"] %>",
+
+    "tools_location": "<%= scope.lookupvar("balrog_scriptworker::settings::root") %>/tools"
+}
