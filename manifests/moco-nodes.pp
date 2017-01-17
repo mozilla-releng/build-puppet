@@ -1171,7 +1171,9 @@ node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
 # Balrog scriptworkers
 node /balrogworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
-    $balrogworker_env = "dev"
+    $balrogworker_env = "prod"
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "mtabara"
     $timezone = "UTC"
     include toplevel::server::balrogscriptworker
 }
@@ -1179,7 +1181,9 @@ node /balrogworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 # Beetmover scriptworkers
 node /beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
-    $beetmoverworker_env = "dev"
+    $beetmoverworker_env = "prod"
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "mtabara"
     $timezone = "UTC"
     include toplevel::server::beetmoverscriptworker
 }
@@ -1193,8 +1197,6 @@ node /pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 }
 
 ## Loaners
-
-
 node "jwatkins-1330169.srv.releng.scl3.mozilla.com" {
     $aspects = [ 'low-security' ]
     include toplevel::server
@@ -1204,4 +1206,3 @@ node "dhouse-1330169.srv.releng.scl3.mozilla.com" {
     $aspects = [ 'low-security' ]
     include toplevel::server
 }
-
