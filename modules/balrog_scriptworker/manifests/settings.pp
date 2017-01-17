@@ -1,8 +1,27 @@
 class balrog_scriptworker::settings {
-    include ::config
+    $root = "/builds/scriptworker"
+    $task_script_executable = "${root}/py27venv/bin/python"
+    $task_script = "${root}/py27venv/bin/balrogscript"
+    $task_script_config = "${root}/script_config.json"
+    $task_max_timeout = 1800
+    $tools_repo = 'https://hg.mozilla.org/build/tools'
+    $tools_branch = 'default'
+    $worker_group = "balrogworker-v1"
+    $worker_type = "balrogworker-v1"
+    $taskcluster_client_id = secret("balrogworker_dev_taskcluster_client_id")
+    $taskcluster_access_token = secret("balrogworker_dev_taskcluster_access_token")
+    $verbose_logging = true
 
-    $root = $config::balrog_scriptworker_root
-    $balrogscript_repo = $config::balrog_scriptworker_git_balrogscript_repo
-    $tools_repo = $config::balrog_scriptworker_hg_tools_repo
-    $tools_branch = $config::balrog_scriptworker_hg_tools_branch
+    $env_config = {
+        "dev" => {
+            balrog_username => "stage-ffxbld",
+            balrog_password => secret("stage-ffxbld_ldap_password"),
+            balrog_api_root => "https://balrog-admin.stage.mozaws.net/api",
+        },
+        "prod" => {
+            balrog_username => "ffxbld",
+            balrog_password => secret("ffxbld_ldap_password"),
+            balrog_api_root => "https://aus4-admin.mozilla.org/api",
+        }
+    }
 }
