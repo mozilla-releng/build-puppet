@@ -14,9 +14,14 @@ class balrog_scriptworker::settings {
 
     $env_config = {
         "dev" => {
+            balrog_username => "stage-ffxbld",
+            balrog_password => secret("stage-ffxbld_ldap_password"),
+            balrog_api_root => "https://balrog-admin.stage.mozaws.net/api",
+        },
+        "prod" => {
             balrog_username => "ffxbld",
             balrog_password => secret("ffxbld_ldap_password"),
-            balrog_api_root => "https://aus4-admin.mozilla.org/api"
+            balrog_api_root => "https://aus4-admin.mozilla.org/api",
         }
     }
 }
