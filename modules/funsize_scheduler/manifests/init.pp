@@ -26,7 +26,7 @@ class funsize_scheduler {
                 "cryptography==1.7.1",
                 "ecdsa==0.10",
                 "enum34==1.0.4",
-                "funsize==0.68",
+                "funsize==0.69",
                 "idna==2.2",
                 "importlib==1.0.4",
                 "iniparse==0.3.1",
@@ -35,7 +35,8 @@ class funsize_scheduler {
                 "kombu==3.0.26",
                 "MarkupSafe==0.23",
                 "more_itertools==2.2",
-                "PGPy==0.4.0.post1",
+                # Actual package is PGPy 0.4.0.post1, but older `pip`s have issues with the name
+                "PGPy==0.4.0",
                 "PyHawk-with-a-single-extra-commit==0.1.5",
                 "PyYAML==3.10",
                 "pycparser==2.13",
