@@ -27,6 +27,7 @@ class funsize_scheduler {
                 "ecdsa==0.10",
                 "enum34==1.0.4",
                 "funsize==0.69",
+                "ndg_httpsclient==0.4.2",
                 "idna==2.2",
                 "importlib==1.0.4",
                 "iniparse==0.3.1",
@@ -38,7 +39,9 @@ class funsize_scheduler {
                 # Actual package is PGPy 0.4.0.post1, but older `pip`s have issues with the name
                 "PGPy==0.4.0",
                 "PyHawk-with-a-single-extra-commit==0.1.5",
+                "pyOpenSSL==16.2.0",
                 "PyYAML==3.10",
+                "pyasn1==0.1.9",
                 "pycparser==2.13",
                 "pycrypto==2.6.1",
                 "python-jose==0.5.2",
@@ -46,6 +49,7 @@ class funsize_scheduler {
                 # Taskcluster pins requests 2.4.3, so we need to de the same,
                 # even though we'd rather use a more up-to-date version.
                 "requests[security]==2.4.3",
+                "setuptools==33.1.1",
                 "singledispatch==3.4.0.3",
                 "six==1.9.0",
                 "slugid==1.0.6",
