@@ -59,7 +59,7 @@ class balrog_scriptworker {
             group    => "${users::builder::group}",
             packages => [
                   "balrogclient==0.0.1",
-                  "balrogscript==0.0.4",
+                  "balrogscript==0.0.5",
                   "boto==2.41.0",
                   "cffi==1.8.3",
                   "cryptography==1.2.3",
