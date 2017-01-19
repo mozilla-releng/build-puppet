@@ -51,18 +51,6 @@ node /d-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
     include toplevel::slave::releng::test
 }
 
-# windows 10 test hardware
-node /t-w1064.*\.wintest\.releng\.scl3\.mozilla\.com/ {
-    $aspects = [ 'low-security' ]
-    include toplevel::slave
-}
-
-# windows 10 test AWS instances
-node /(g|t)-w10.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
-    $aspects = [ 'low-security' ]
-    include toplevel::slave
-}
-
 ## builders
 
 # Windows
