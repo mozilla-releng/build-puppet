@@ -25,7 +25,7 @@ class toplevel::slave::releng inherits toplevel::slave {
         include tweaks::windows_network_opt_netsh
         include tweaks::windows_network_opt_registry
         include packages::mozilla::git
-        include packages::nsis3_0b1
+        include packages::nsis
         include packages::psutil
         include packages::mozilla::py27_virtualenv
         include packages::pywin32
