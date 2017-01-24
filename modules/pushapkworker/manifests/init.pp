@@ -1,10 +1,7 @@
 class pushapkworker {
-    include ::config
-    include pushapkworker::services
     include pushapkworker::settings
     include dirs::builds
     include packages::mozilla::python35
-    include users::builder
     include tweaks::swap_on_instance_storage
     include packages::gcc
     include packages::make
@@ -12,76 +9,93 @@ class pushapkworker {
     include pushapkworker::jarsigner_init
     include pushapkworker::mime_types
 
-    $env_config = $config::pushapk_scriptworker_env_config[$pushapkworker_env]
-    $google_play_config = $env_config['google_play_config']
-
     python35::virtualenv {
         $pushapkworker::settings::root:
             python3  => $packages::mozilla::python35::python3,
             require  => Class['packages::mozilla::python35'],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
+            user     => $pushapkworker::settings::user,
+            group    => $pushapkworker::settings::group,
             mode     => 700,
             packages => [
-                'aiohttp==1.0.2',
+                'aiohttp==1.1.2',
                 'arrow==0.8.0',
-                'async-timeout==1.0.0',
+                'async-timeout==1.1.0',
                 'cffi==1.8.3',
                 'chardet==2.3.0',
                 'cryptography==1.5.2',
                 'defusedxml==0.4.1',
-                'frozendict==1.0',
+                'frozendict==1.2',
                 'google-api-python-client==1.5.3',
                 'httplib2==0.9.2',
                 'idna==2.1',
                 'jsonschema==2.5.1',
                 'mohawk==0.3.3',
-                'mozapkpublisher==0.1.3',
+                'mozapkpublisher==0.1.5',
                 'multidict==2.1.2',
                 'oauth2client==3.0.0',
                 'pexpect==4.2.1',
                 'ptyprocess==0.5.1',
-                'pushapkscript==0.1.4',
+                'pushapkscript==0.2.0',
                 'pyasn1==0.1.9',
                 'pyasn1-modules==0.0.8',
                 'pycparser==2.14',
-                'pyOpenSSL==16.1.0',
+                'pyOpenSSL==16.2.0',
                 'python-dateutil==2.5.3',
                 'python-gnupg==0.3.9',
-                'requests==2.11.1',
+                'PyYAML==3.12',
+                'requests==2.12.4',
                 'rsa==3.4.2',
-                'scriptworker==0.7.2',
+                'scriptworker==1.0.0b7',
                 'simplejson==3.8.2',
                 'six==1.10.0',
                 'slugid==1.0.7',
                 'taskcluster==0.3.4',
                 'uritemplate==0.6',
-                'virtualenv==15.0.3'
+                'virtualenv==15.0.3',
+                'yarl==0.7.0',
             ];
     }
 
-    nrpe::custom {
-        'pushapkworker.cfg':
-            content => template("${module_name}/nagios.cfg.erb");
+    scriptworker::instance {
+        "${pushapkworker::settings::root}":
+            instance_name            => $module_name,
+            basedir                  => $pushapkworker::settings::root,
+            work_dir                 => $pushapkworker::settings::work_dir,
+
+            task_script              => $pushapkworker::settings::task_script,
+
+            username                 => $pushapkworker::settings::user,
+            group                    => $pushapkworker::settings::group,
+
+            taskcluster_client_id    => $pushapkworker::settings::taskcluster_client_id,
+            taskcluster_access_token => $pushapkworker::settings::taskcluster_access_token,
+            worker_group             => $pushapkworker::settings::worker_group,
+            worker_type              => $pushapkworker::settings::worker_type,
+
+            # TODO Enable one of the next 3 lines to turn on Chain of Trust (bug 1317783)
+            sign_chain_of_trust      => false,
+            verify_chain_of_trust    => false,
+            verify_cot_signature     => false,
+            cot_job_type             => 'pushapk',
+
+            verbose_logging          => $pushapkworker::settings::verbose_logging,
     }
 
     File {
         ensure      => present,
         mode        => 600,
-        owner       => $users::builder::username,
-        group       => $users::builder::group,
+        owner       => $pushapkworker::settings::user,
+        group       => $pushapkworker::settings::group,
         show_diff   => false,
     }
 
+    $google_play_config = $pushapkworker::settings::google_play_config
+
     file {
-        $config::pushapk_scriptworker_script_config:
+        $pushapkworker::settings::script_config:
             require     => Python35::Virtualenv[$pushapkworker::settings::root],
             content     => template("${module_name}/script_config.json.erb"),
             show_diff   => true;
-
-        $config::pushapk_scriptworker_worker_config:
-            require     => Python35::Virtualenv[$pushapkworker::settings::root],
-            content     => template("${module_name}/config.json.erb");
 
         $google_play_config['aurora']['certificate_target_location']:
             content     => $google_play_config['aurora']['certificate'];
@@ -91,10 +105,5 @@ class pushapkworker {
 
         $google_play_config['release']['certificate_target_location']:
             content     => $google_play_config['release']['certificate'];
-
-        # TODO Remove the following statement line once bug 1321513 reaches production
-        $config::pushapk_scriptworker_old_root:
-            ensure      => absent,
-            force       => true;  # Needed to delete a folder
     }
 }

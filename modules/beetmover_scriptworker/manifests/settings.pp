@@ -1,6 +1,5 @@
 class beetmover_scriptworker::settings {
     $root = "/builds/scriptworker"
-    $task_script_executable = "${root}/bin/python"
     $task_script = "${root}/bin/beetmoverscript"
     $task_script_config = "${root}/script_config.json"
     $task_max_timeout = 1800

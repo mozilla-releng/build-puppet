@@ -4,114 +4,112 @@
 # Handle installing Python virtualenvs containing Python packages.
 # https://wiki.mozilla.org/ReleaseEngineering/Puppet/Modules/python
 define scriptworker::instance(
-    $basedir, $task_script_executable, $task_script, $task_script_config,
-    $username, $group, $worker_group, $worker_type, $cot_job_type,
-    $taskcluster_client_id, $taskcluster_access_token,
-    $task_max_timeout=1200, $artifact_expiration_hours=336,
-    $artifact_upload_timeout=1200, $verbose_logging=false,
-    $sign_chain_of_trust=true, $verify_chain_of_trust=true,
-    $verify_cot_signature=true
+    $instance_name,
+    $basedir,
+    $work_dir = "${basedir}/work",
+
+    $script_worker_config = "${basedir}/scriptworker.yaml",
+    $task_script_executable = "${basedir}/bin/python",
+    $task_script,
+    $task_script_config = "${basedir}/script_config.json",
+
+    $username,
+    $group,
+
+    $taskcluster_client_id,
+    $taskcluster_access_token,
+    $worker_group,
+    $worker_type,
+    $worker_id = $hostname,
+    $task_max_timeout = 1200,
+    $artifact_expiration_hours = 336,
+    $artifact_upload_timeout = 1200,
+
+    $cot_job_type,
+    $sign_chain_of_trust = true,
+    $verify_chain_of_trust = true,
+    $verify_cot_signature = true,
+
+    $verbose_logging = false,
+
+    $restart_process_when_changed = undef,
 ) {
     include scriptworker::instance::settings
     include packages::mozilla::git
     include packages::mozilla::supervisor
 
-    # some constants
+    # These constants need to be filled in $script_worker_config, even though Chain of Trust is not enabled.
     $git_key_repo_dir = "${basedir}/gpg_key_repo/"
     $git_pubkey_dir = "${basedir}/git_pubkeys/"
 
-    # This git repo has the various worker pubkeys
-    git::repo {
-        "scriptworker-${git_key_repo_dir}":
-            repo    => "${scriptworker::instance::settings::git_key_repo_url}",
-            dst_dir => $git_key_repo_dir,
-            user    => "${username}",
-            require => Python35::Virtualenv["${basedir}"];
+    validate_taskcluster_identifier($worker_group)
+    validate_taskcluster_identifier($worker_type)
+    # Hostname may be longer than 22 characters. Getting an error is painful especially in dev environments.
+    # That's why we strip worker_id if the default value (aka hostname) is used.
+    if $worker_id == $hostname {
+      $sanitized_worker_id = regsubst($hostname, '^.*(.{22})$', '\1')
+      if $sanitized_worker_id != $worker_id {
+        notify {
+          "Hostname '${hostname}' too long! worker_id has been stripped to '${sanitized_worker_id}'":
+            loglevel => warning,
+        }
+      }
+    } else {
+      validate_taskcluster_identifier($worker_id)
+      $sanitized_worker_id = $worker_id
     }
 
-    nrpe::custom {
-        "scriptworker.cfg":
-            content => template("scriptworker/nagios.cfg.erb");
+    # XXX Workaround to have arrays as default values
+    if $restart_process_when_changed == undef {
+      $_restart_process_when_changed = [Python35::Virtualenv[$basedir], File[$task_script_config]]
+    } else {
+      $_restart_process_when_changed = $restart_process_when_changed
+    }
+
+
+    File {
+        ensure      => present,
+        mode        => 600,
+        owner       => $username,
+        group       => $group,
+        show_diff   => false,
     }
 
     file {
-        # scriptworker config
-        "${basedir}/scriptworker.yaml":
-            require     => Python35::Virtualenv["${basedir}"],
-            mode        => 600,
-            owner       => "${username}",
-            group       => "${group}",
-            content     => template("scriptworker/scriptworker.yaml.erb"),
-            show_diff   => false;
+        $script_worker_config:
+            require     => Python35::Virtualenv[$basedir],
+            content     => template("scriptworker/scriptworker.yaml.erb");
         # cleanup per bug 1298199
         '/root/certs.sh':
             ensure => absent;
-        # $username's gpg homedir: for git commit signature verification
-        "/home/${username}/.gnupg":
-            ensure      => directory,
-            mode        => 700,
-            owner       => "${username}",
-            group       => "${group}";
-        # these are the pubkeys that can sign git commits
-        "${git_pubkey_dir}":
-            ensure      => directory,
-            mode        => 700,
-            owner       => "${username}",
-            group       => "${group}",
-            source      => 'puppet:///modules/scriptworker/git_pubkeys',
-            recurse     => true,
-            recurselimit => 1,
-            purge       => true,
-            require     => Python35::Virtualenv["${basedir}"];
-        # cron jobs to poll git + rebuild gpg homedirs
-        "/etc/cron.d/scriptworker":
-            content     => template("scriptworker/scriptworker.cron.erb");
-        # Notify rebuild_gpg_homedirs if the pubkey dir changes
-        "${basedir}/.git-pubkey-dir-checksum":
-            owner       => "${username}",
-            group       => "${group}",
-            notify  => Exec['rebuild_gpg_homedirs'];
-        "/home/${username}/pubkey":
-            mode        => 644,
-            content     => $config::scriptworker_gpg_public_keys[$fqdn],
-            owner       => "${username}",
-            group       => "${group}";
-        "/home/${username}/privkey":
-            mode        => 600,
-            content     => $config::scriptworker_gpg_private_keys[$fqdn],
-            owner       => "${username}",
-            group       => "${group}",
-            show_diff   => false;
-        "${nrpe::base::plugins_dir}/nagios_file_age_check.py":
-            require     => Python35::Virtualenv["${basedir}"],
-            mode        => 750,
-            owner       => "${username}",
-            group       => "${group}",
-            source      => "puppet:///modules/scriptworker/nagios_file_age_check.py",
-            show_diff => false;
-        "${nrpe::base::plugins_dir}/nagios_pending_tasks.py":
-            require     => Python35::Virtualenv["${basedir}"],
-            mode        => 750,
-            owner       => "${username}",
-            group       => "${group}",
-            content     => template("scriptworker/nagios_pending_tasks.py.erb"),
-            show_diff => false;
     }
 
-    exec {
-        # create gpg homedirs on change
-        'rebuild_gpg_homedirs':
-            require => [Python35::Virtualenv["${basedir}"],
-                        Git::Repo["scriptworker-${git_key_repo_dir}"],
-                        File["${basedir}/scriptworker.yaml"]],
-            command => "${basedir}/bin/rebuild_gpg_homedirs ${basedir}/scriptworker.yaml",
-            subscribe => File["${git_pubkey_dir}"],
-            user    => "${username}";
-        # Create checksum file of git pubkeys
-        "${basedir}/.git-pubkey-dir-checksum":
-            require => File["${git_pubkey_dir}"],
-            path    => "/usr/local/bin/:/bin:/usr/sbin:/usr/bin",
-            user    => "${username}",
-            command => "find ${git_pubkey_dir} -type f | xargs md5sum | sort > ${basedir}/.git-pubkey-dir-checksum";
+    scriptworker::supervisord { $instance_name:
+        instance_name                => $instance_name,
+        basedir                      => $basedir,
+        script_worker_config         => $script_worker_config,
+        task_script_config           => $task_script_config,
+        username                     => $username,
+        restart_process_when_changed => $_restart_process_when_changed,
+    }
+
+    scriptworker::nagios { $instance_name:
+        basedir              => $basedir,
+    }
+
+    # Activate Chain Of Trust
+    if $sign_chain_of_trust or $verify_chain_of_trust or $verify_cot_signature {
+      scriptworker::chain_of_trust { $instance_name:
+        basedir          => $basedir,
+
+        git_key_repo_dir => $git_key_repo_dir,
+        git_key_repo_url => $scriptworker::instance::settings::git_key_repo_url,
+        git_pubkey_dir   => $git_pubkey_dir,
+
+        pubkey           => $config::scriptworker_gpg_public_keys[$fqdn],
+        privkey          => $config::scriptworker_gpg_private_keys[$fqdn],
+
+        username         => $username,
+      }
     }
 }

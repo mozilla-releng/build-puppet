@@ -1,5 +1,4 @@
 class balrog_scriptworker {
-    include balrog_scriptworker::services
     include balrog_scriptworker::settings
     include dirs::builds
     include packages::mozilla::python35
@@ -77,19 +76,26 @@ class balrog_scriptworker {
 
     scriptworker::instance {
         "${balrog_scriptworker::settings::root}":
-            basedir                  => "${balrog_scriptworker::settings::root}",
-            task_script_executable   => "${balrog_scriptworker::settings::task_script_executable}",
-            task_script              => "${balrog_scriptworker::settings::task_script}",
-            task_script_config       => "${balrog_scriptworker::settings::task_script_config}",
+            instance_name            => $module_name,
+            basedir                  => $balrog_scriptworker::settings::root,
+
+            task_script_executable   => $balrog_scriptworker::settings::task_script_executable,
+            task_script              => $balrog_scriptworker::settings::task_script,
+            task_script_config       => $balrog_scriptworker::settings::task_script_config,
+
+            username                 => $users::builder::username,
+            group                    => $users::builder::group,
+
+            taskcluster_client_id    => $balrog_scriptworker::settings::taskcluster_client_id,
+            taskcluster_access_token => $balrog_scriptworker::settings::taskcluster_access_token,
+            worker_group             => $balrog_scriptworker::settings::worker_group,
+            worker_type              => $balrog_scriptworker::settings::worker_type,
+
             task_max_timeout         => $balrog_scriptworker::settings::task_max_timeout,
-            username                 => "${users::builder::username}",
-            group                    => "${users::builder::group}",
-            worker_group             => "${balrog_scriptworker::settings::worker_group}",
-            worker_type              => "${balrog_scriptworker::settings::worker_type}",
+
             cot_job_type             => "balrog",
+
             verbose_logging          => $balrog_scriptworker::settings::verbose_logging,
-            taskcluster_client_id    => "${balrog_scriptworker::settings::taskcluster_client_id}",
-            taskcluster_access_token => "${balrog_scriptworker::settings::taskcluster_access_token}",
     }
 
     mercurial::repo {

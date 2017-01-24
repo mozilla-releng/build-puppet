@@ -1,7 +1,7 @@
 provisioner_id: <%= scope["scriptworker::instance::settings::provisioner_id"] %>
 worker_group: <%= @worker_group %>
 worker_type: <%= @worker_type %>
-worker_id: <%= @hostname %>
+worker_id: <%= @sanitized_worker_id %>
 
 credentials:
     clientId: <%= @taskcluster_client_id %>
@@ -19,7 +19,7 @@ verify_cot_signature: <%= @verify_cot_signature %>
 cot_job_type: <%= @cot_job_type %>
 
 log_dir: <%= @basedir %>/logs
-work_dir: <%= @basedir %>/work
+work_dir: <%= @work_dir %>
 artifact_dir: <%= @basedir %>/artifacts
 task_log_dir: <%= @basedir %>/artifacts/public/logs
 base_gpg_home_dir: <%= @basedir %>/gpg
