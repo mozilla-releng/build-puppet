@@ -228,12 +228,10 @@ node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server::aws_manager
 
     # Bug 1265758 - Add acccess to the following accounts to dev-master2
-    realize(Users::Person["ashiue"])
     realize(Users::Person["gchang"])
     realize(Users::Person["ihsiao"])
 
     users::buildduty::extra_authorized_key {
-        'ashiue': ;
         'gchang': ;
         'ihsiao': ;
     }
@@ -283,7 +281,6 @@ node "dev-master2.bb.releng.use1.mozilla.com" {
     # Bug 1265758 - Add acccess to the following accounts to dev-master2
     realize(Users::Person["pkewisch"])
     realize(Users::Person["sledru"])
-    realize(Users::Person["ashiue"])
     realize(Users::Person["gchang"])
     realize(Users::Person["ihsiao"])
     users::root::extra_authorized_key {
