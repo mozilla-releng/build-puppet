@@ -1,6 +1,5 @@
 class signing_scriptworker {
     include ::config
-    include signing_scriptworker::services
     include signing_scriptworker::settings
     include dirs::builds
     include packages::mozilla::python35
@@ -53,19 +52,24 @@ class signing_scriptworker {
 
     scriptworker::instance {
         "${signing_scriptworker::settings::root}":
-            basedir                  => "${signing_scriptworker::settings::root}",
-            task_script_executable   => "${signing_scriptworker::settings::task_script_executable}",
-            task_script              => "${signing_scriptworker::settings::task_script}",
-            task_script_config       => "${signing_scriptworker::settings::task_script_config}",
-            task_max_timeout         => $signing_scriptworker::settings::task_max_timeout,
-            username                 => "${users::signer::username}",
-            group                    => "${users::signer::group}",
-            worker_group             => "${signing_scriptworker::settings::worker_group}",
-            worker_type              => "${signing_scriptworker::settings::worker_type}",
-            cot_job_type             => "signing",
-            verbose_logging          => $verbose_logging,
+            instance_name            => $module_name,
+            basedir                  => $signing_scriptworker::settings::root,
+
+            task_script              => $signing_scriptworker::settings::task_script,
+            task_script_config       => $signing_scriptworker::settings::task_script_config,
+
+            username                 => $users::signer::username,
+            group                    => $users::signer::group,
+
             taskcluster_client_id    => secret("signing_scriptworker_taskcluster_client_id"),
-            taskcluster_access_token => secret("signing_scriptworker_taskcluster_access_token");
+            taskcluster_access_token => secret("signing_scriptworker_taskcluster_access_token"),
+            worker_group             => $signing_scriptworker::settings::worker_group,
+            worker_type              => $signing_scriptworker::settings::worker_type,
+            task_max_timeout         => 1800,
+
+            cot_job_type             => "signing",
+
+            verbose_logging          => $verbose_logging,
     }
 
     nrpe::custom {

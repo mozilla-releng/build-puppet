@@ -1,5 +1,4 @@
 class beetmover_scriptworker {
-    include beetmover_scriptworker::services
     include beetmover_scriptworker::settings
     include dirs::builds
     include packages::mozilla::python35
@@ -59,19 +58,25 @@ class beetmover_scriptworker {
 
     scriptworker::instance {
         "${beetmover_scriptworker::settings::root}":
-            basedir                  => "${beetmover_scriptworker::settings::root}",
-            task_script_executable   => "${beetmover_scriptworker::settings::task_script_executable}",
-            task_script              => "${beetmover_scriptworker::settings::task_script}",
-            task_script_config       => "${beetmover_scriptworker::settings::task_script_config}",
+            instance_name            => $module_name,
+            basedir                  => $beetmover_scriptworker::settings::root,
+
+            task_script              => $beetmover_scriptworker::settings::task_script,
+            task_script_config       => $beetmover_scriptworker::settings::task_script_config,
+
+            username                 => $users::builder::username,
+            group                    => $users::builder::group,
+
+            taskcluster_client_id    => $beetmover_scriptworker::settings::taskcluster_client_id,
+            taskcluster_access_token => $beetmover_scriptworker::settings::taskcluster_access_token,
+            worker_group             => $beetmover_scriptworker::settings::worker_group,
+            worker_type              => $beetmover_scriptworker::settings::worker_type,
+
             task_max_timeout         => $beetmover_scriptworker::settings::task_max_timeout,
-            username                 => "${users::builder::username}",
-            group                    => "${users::builder::group}",
-            worker_group             => "${beetmover_scriptworker::settings::worker_group}",
-            worker_type              => "${beetmover_scriptworker::settings::worker_type}",
+
             cot_job_type             => "beetmover",
+
             verbose_logging          => $beetmover_scriptworker::settings::verbose_logging,
-            taskcluster_client_id    => "${beetmover_scriptworker::settings::taskcluster_client_id}",
-            taskcluster_access_token => "${beetmover_scriptworker::settings::taskcluster_access_token}",
     }
 
     file {
