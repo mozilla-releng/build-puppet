@@ -8,7 +8,7 @@ class packages::snmp {
                 [ "net-snmp",
                   "net-snmp-utils",
                 ]:
-                    ensure => latest;
+                    ensure => '5.5-49.el6_5.1';
             }
         }
         Ubuntu: {

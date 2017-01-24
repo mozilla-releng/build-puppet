@@ -6,7 +6,7 @@ class packages::mysql {
         CentOS: {
             package {
                 "mysql":
-                    ensure => latest;
+                    ensure => '5.1.73-3.el6_5';
             }
         }
         Ubuntu: {

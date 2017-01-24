@@ -7,7 +7,7 @@ class packages::mysql_devel {
         CentOS: {
             package {
                 "mysql-devel":
-                    ensure => latest;
+                    ensure => '5.1.73-3.el6_5';
             }
         }
         default: {

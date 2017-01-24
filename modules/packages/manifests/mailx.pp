@@ -13,7 +13,7 @@ class packages::mailx {
         CentOS: {
             package {
                 "mailx":
-                    ensure => latest;
+                    ensure => '12.4-7.el6';
             }
         }
 

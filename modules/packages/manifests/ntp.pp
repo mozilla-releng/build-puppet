@@ -6,7 +6,7 @@ class packages::ntp {
         CentOS, Ubuntu: {
             package {
                 "ntp":
-                    ensure => latest;
+                    ensure => '4.2.6p5-1.el6.centos';
             }
         }
         Darwin: {
