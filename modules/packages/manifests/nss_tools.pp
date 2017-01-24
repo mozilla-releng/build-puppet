@@ -7,7 +7,7 @@ class packages::nss_tools {
         CentOS: {
             package {
                 "nss-tools":
-                    ensure => latest;
+                    ensure => '3.15.3-6.el6_5';
             }
         }
 

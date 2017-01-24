@@ -6,9 +6,9 @@ class packages::x_libs {
         CentOS: {
             package {
                 "libXt":
-                    ensure => latest;
+                    ensure => '1.1.3-1.el6';
                 "libXext":
-                    ensure => latest;
+                    ensure => '1.3.1-2.el6';
             }
         }
 

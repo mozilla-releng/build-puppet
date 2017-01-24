@@ -6,7 +6,7 @@ class packages::procmail {
         CentOS: {
             package {
                 "procmail":
-                    ensure => latest;
+                    ensure => '3.22-25.1.el6';
             }
         }
 

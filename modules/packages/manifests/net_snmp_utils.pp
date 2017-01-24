@@ -6,7 +6,7 @@ class packages::net_snmp_utils {
         CentOS: {
             package {
                 "net-snmp-utils":
-                    ensure => latest;
+                    ensure => '5.5-49.el6';
             }
         }
 
