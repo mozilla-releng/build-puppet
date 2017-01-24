@@ -3,10 +3,16 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::ntp {
     case $::operatingsystem {
-        CentOS, Ubuntu: {
+        CentOS: {
             package {
                 "ntp":
                     ensure => '4.2.6p5-1.el6.centos';
+            }
+        }
+        Ubuntu: {
+            package {
+                "ntp":
+                    ensure => latest;
             }
         }
         Darwin: {
