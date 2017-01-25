@@ -51,7 +51,7 @@ class funsize_scheduler {
                 "requests[security]==2.4.3",
                 "setuptools==33.1.1",
                 "singledispatch==3.4.0.3",
-                "six==1.9.0",
+                "six==1.10.0",
                 "slugid==1.0.6",
                 "taskcluster>=0.0.26",
                 "wsgiref==0.1.2",
