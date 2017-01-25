@@ -26,7 +26,7 @@ class funsize_scheduler {
                 "cryptography==1.7.1",
                 "ecdsa==0.10",
                 "enum34==1.0.4",
-                "funsize==0.70",
+                "funsize==0.71",
                 "ndg_httpsclient==0.4.2",
                 "idna==2.2",
                 "importlib==1.0.4",
@@ -44,7 +44,7 @@ class funsize_scheduler {
                 "pyasn1==0.1.9",
                 "pycparser==2.13",
                 "pycrypto==2.6.1",
-                "python-jose==0.5.2",
+                "python-jose==0.5.6",
                 "redo==1.4.1",
                 # Taskcluster pins requests 2.4.3, so we need to de the same,
                 # even though we'd rather use a more up-to-date version.
