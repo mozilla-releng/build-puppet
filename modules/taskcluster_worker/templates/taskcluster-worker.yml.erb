@@ -16,15 +16,23 @@ config:
   workerType:       gecko-t-osx-<%= @macos_version %>
   workerGroup:      macosx-tc-worker
   workerId:         <%= @hostname %>
-  engine:           macosx
+  engine:           native
   engines:
-    macosx:
-      createUser: true
-      sudo: true
-      userGroups: ['staff', 'everyone', 'localaccounts', '_developer', '_lpoperator', 'com.apple.sharepoint.group.1']
+    native:
+      groups: ['staff', 'everyone', 'localaccounts', '_developer', '_lpoperator', 'com.apple.sharepoint.group.1']
   logLevel:         info
   plugins:
-    disabled:       ['interactive']
+    disabled:       ['interactive', 'maxruntime']
+    env:
+      extra:
+        TMPDIR: '/var/tmp'
+        SHELL: '/bin/bash'
+        LANG: 'en_US.UTF-8'
+        LC_ALL: 'en_US.UTF-8'
+        XPC_FLAGS: '0x0'
+        XPC_SERVICE_NAME: '0'
+        IDLEIZER_DISABLE_SHUTDOWN: 'true'
+        PATH: {$env: PATH}
   pollingInterval:  10
   queueBaseUrl:     https://queue.taskcluster.net/v1
   reclaimOffset:    120
