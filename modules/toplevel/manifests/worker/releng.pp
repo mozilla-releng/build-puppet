@@ -13,15 +13,9 @@ class toplevel::worker::releng inherits toplevel::worker {
     # TODO: run mig agent on boot?
     include mig::agent::daemon
     include packages::mozilla::py27_virtualenv
+    include buildslave::install
 
     include taskcluster_worker
-
-    file { ['/tools', '/tools/buildbot/', '/tools/buildbot/bin']:
-        ensure => 'directory',
-    } -> file { '/tools/buildbot/bin/python':
-        ensure => 'link',
-        target => '/tools/python27/bin/python2.7',
-    }
 
     case $::kernel {
         'Linux': {
