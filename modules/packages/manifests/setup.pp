@@ -126,11 +126,14 @@ class packages::setup {
 
                 "signmar":
                     url_path => "repos/yum/custom/signmar/$architecture";
+
+                "nss":
+                    url_path => "repos/yum/custom/nss/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 62
+            $repoflag = 63
             file {
                 "/etc/.repo-flag":
                     content =>
