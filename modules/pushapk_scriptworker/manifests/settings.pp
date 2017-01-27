@@ -1,4 +1,4 @@
-class pushapkworker::settings {
+class pushapk_scriptworker::settings {
     include ::config
     include users::builder
 
@@ -55,7 +55,7 @@ class pushapkworker::settings {
       },
     }
 
-    $_env_config = $_env_configs[$pushapkworker_env]
+    $_env_config = $_env_configs[$pushapk_scriptworker_env]
     $schema_file = "${root}/lib/python3.5/site-packages/pushapkscript/data/pushapk_task_schema.json"
     $work_dir = "${root}/work"
     $script_config = "${root}/script_config.json"
