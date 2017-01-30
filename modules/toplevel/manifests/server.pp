@@ -23,6 +23,7 @@ class toplevel::server inherits toplevel::base {
     include packages::netcat
     include users::people
     include ::config
+    include packages::security_updates
 
     # create an infrasec account for vuln2bugs scanning
     realize(Users::Person["infrasec"])
