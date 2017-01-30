@@ -1,7 +1,7 @@
 {
-    "work_dir": "<%= scope['pushapkworker::settings::work_dir'] %>",
-    "schema_file": "<%= scope['pushapkworker::settings::schema_file'] %>",
-    "verbose": <%= scope['pushapkworker::settings::verbose_logging'] %>,
+    "work_dir": "<%= scope['pushapk_scriptworker::settings::work_dir'] %>",
+    "schema_file": "<%= scope['pushapk_scriptworker::settings::schema_file'] %>",
+    "verbose": <%= scope['pushapk_scriptworker::settings::verbose_logging'] %>,
 
     "google_play_accounts": {
         "aurora": {
@@ -18,10 +18,10 @@
         }
     },
 
-    "jarsigner_key_store": "<%= scope['pushapkworker::settings::jarsigner_keystore'] %>",
+    "jarsigner_key_store": "<%= scope['pushapk_scriptworker::settings::jarsigner_keystore'] %>",
     "jarsigner_certificate_aliases": {
-        "aurora": "<%= scope['pushapkworker::settings::jarsigner_nightly_certificate_alias'] %>",
-        "beta": "<%= scope['pushapkworker::settings::jarsigner_nightly_certificate_alias'] %>",
-        "release": "<%= scope['pushapkworker::settings::jarsigner_release_certificate_alias'] %>"
+        "aurora": "<%= scope['pushapk_scriptworker::settings::jarsigner_nightly_certificate_alias'] %>",
+        "beta": "<%= scope['pushapk_scriptworker::settings::jarsigner_nightly_certificate_alias'] %>",
+        "release": "<%= scope['pushapk_scriptworker::settings::jarsigner_release_certificate_alias'] %>"
     }
 }

@@ -1,4 +1,4 @@
-class pushapkworker::mime_types {
+class pushapk_scriptworker::mime_types {
 
     case $::operatingsystem {
         # This file is used by google-api-python-client to make sure it's pushing an APK. It relies on

@@ -1,9 +1,9 @@
-class pushapkworker::jarsigner_init {
+class pushapk_scriptworker::jarsigner_init {
     include ::config
     include packages::jdk17
 
-    $nightly = $pushapkworker::settings::jarsigner_nightly_certificate
-    $release = $pushapkworker::settings::jarsigner_release_certificate
+    $nightly = $pushapk_scriptworker::settings::jarsigner_nightly_certificate
+    $release = $pushapk_scriptworker::settings::jarsigner_release_certificate
 
     File {
       ensure      => 'present',
@@ -20,16 +20,16 @@ class pushapkworker::jarsigner_init {
 
     Java_ks {
       ensure       => latest,
-      target       => $pushapkworker::settings::jarsigner_keystore,
-      password     => $pushapkworker::settings::jarsigner_keystore_password,
+      target       => $pushapk_scriptworker::settings::jarsigner_keystore,
+      password     => $pushapk_scriptworker::settings::jarsigner_keystore_password,
       trustcacerts => true,
     }
 
     java_ks {
-        $pushapkworker::settings::jarsigner_nightly_certificate_alias:
+        $pushapk_scriptworker::settings::jarsigner_nightly_certificate_alias:
             certificate  => $nightly;
 
-        $pushapkworker::settings::jarsigner_release_certificate_alias:
+        $pushapk_scriptworker::settings::jarsigner_release_certificate_alias:
             certificate  => $release;
     }
 }

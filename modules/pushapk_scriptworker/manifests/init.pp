@@ -1,20 +1,20 @@
-class pushapkworker {
-    include pushapkworker::settings
+class pushapk_scriptworker {
+    include pushapk_scriptworker::settings
     include dirs::builds
     include packages::mozilla::python35
     include tweaks::swap_on_instance_storage
     include packages::gcc
     include packages::make
     include packages::libffi
-    include pushapkworker::jarsigner_init
-    include pushapkworker::mime_types
+    include pushapk_scriptworker::jarsigner_init
+    include pushapk_scriptworker::mime_types
 
     python35::virtualenv {
-        $pushapkworker::settings::root:
+        $pushapk_scriptworker::settings::root:
             python3  => $packages::mozilla::python35::python3,
             require  => Class['packages::mozilla::python35'],
-            user     => $pushapkworker::settings::user,
-            group    => $pushapkworker::settings::group,
+            user     => $pushapk_scriptworker::settings::user,
+            group    => $pushapk_scriptworker::settings::group,
             mode     => 700,
             packages => [
                 'aiohttp==1.1.2',
@@ -57,20 +57,20 @@ class pushapkworker {
     }
 
     scriptworker::instance {
-        "${pushapkworker::settings::root}":
+        "${pushapk_scriptworker::settings::root}":
             instance_name            => $module_name,
-            basedir                  => $pushapkworker::settings::root,
-            work_dir                 => $pushapkworker::settings::work_dir,
+            basedir                  => $pushapk_scriptworker::settings::root,
+            work_dir                 => $pushapk_scriptworker::settings::work_dir,
 
-            task_script              => $pushapkworker::settings::task_script,
+            task_script              => $pushapk_scriptworker::settings::task_script,
 
-            username                 => $pushapkworker::settings::user,
-            group                    => $pushapkworker::settings::group,
+            username                 => $pushapk_scriptworker::settings::user,
+            group                    => $pushapk_scriptworker::settings::group,
 
-            taskcluster_client_id    => $pushapkworker::settings::taskcluster_client_id,
-            taskcluster_access_token => $pushapkworker::settings::taskcluster_access_token,
-            worker_group             => $pushapkworker::settings::worker_group,
-            worker_type              => $pushapkworker::settings::worker_type,
+            taskcluster_client_id    => $pushapk_scriptworker::settings::taskcluster_client_id,
+            taskcluster_access_token => $pushapk_scriptworker::settings::taskcluster_access_token,
+            worker_group             => $pushapk_scriptworker::settings::worker_group,
+            worker_type              => $pushapk_scriptworker::settings::worker_type,
 
             # TODO Enable one of the next 3 lines to turn on Chain of Trust (bug 1317783)
             sign_chain_of_trust      => false,
@@ -78,22 +78,22 @@ class pushapkworker {
             verify_cot_signature     => false,
             cot_job_type             => 'pushapk',
 
-            verbose_logging          => $pushapkworker::settings::verbose_logging,
+            verbose_logging          => $pushapk_scriptworker::settings::verbose_logging,
     }
 
     File {
         ensure      => present,
         mode        => 600,
-        owner       => $pushapkworker::settings::user,
-        group       => $pushapkworker::settings::group,
+        owner       => $pushapk_scriptworker::settings::user,
+        group       => $pushapk_scriptworker::settings::group,
         show_diff   => false,
     }
 
-    $google_play_config = $pushapkworker::settings::google_play_config
+    $google_play_config = $pushapk_scriptworker::settings::google_play_config
 
     file {
-        $pushapkworker::settings::script_config:
-            require     => Python35::Virtualenv[$pushapkworker::settings::root],
+        $pushapk_scriptworker::settings::script_config:
+            require     => Python35::Virtualenv[$pushapk_scriptworker::settings::root],
             content     => template("${module_name}/script_config.json.erb"),
             show_diff   => true;
 

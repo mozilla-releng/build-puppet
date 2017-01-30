@@ -1172,9 +1172,9 @@ node /beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 # Pushapk scriptworkers
 node /pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
-    $pushapkworker_env = 'prod'
+    $pushapk_scriptworker_env = 'prod'
     $timezone = 'UTC'
-    include toplevel::server::pushapkworker
+    include toplevel::server::pushapkscriptworker
 }
 
 ## Loaners
@@ -1189,4 +1189,3 @@ node "dhouse-1330169.srv.releng.scl3.mozilla.com" {
     $aspects = [ 'low-security' ]
     include toplevel::server
 }
-
