@@ -30,6 +30,9 @@ class packages::security_updates {
                 "nspr":
                     ensure => "4.11.0-1.el6";
 
+                ["policycoreutils", "policycoreutils-python"]:
+                    ensure => "2.0.83-30.1.el6_8";
+
                 ["samba-client", "samba-common", "samba-winbind", "samba-winbind-clients"]:
                     ensure => "3.6.23-36.el6_8";
             } -> Anchor['packages::security_updates::end']
