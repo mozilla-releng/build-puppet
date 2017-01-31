@@ -4,9 +4,10 @@
 class packages::procmail {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['procmail'])
             package {
                 "procmail":
-                    ensure => '3.22-25.1.el6';
+                    ensure => '3.22-25.1.el6_5.1';
             }
         }
 

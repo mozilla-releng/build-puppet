@@ -109,6 +109,9 @@ class packages::setup {
                 "mozilla-mercurial":
                     url_path => "repos/yum/custom/mozilla-mercurial/$architecture";
 
+                "procmail":
+                    url_path => "repos/yum/custom/procmail/$architecture";
+
                 "python35":
                     url_path => "repos/yum/custom/mozilla-python35/$architecture";
 
@@ -127,7 +130,7 @@ class packages::setup {
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 57
+            $repoflag = 58
             file {
                 "/etc/.repo-flag":
                     content =>
