@@ -18,6 +18,12 @@ class packages::security_updates {
                 "cups-libs":
                     ensure => "1.4.2-74.el6";
 
+                "libpng":
+                    ensure => "1.2.49-2.el6_7";
+
+                "libtiff":
+                    ensure => "3.9.4-18.el6_8";
+
                 ["libxml2", "libxml2-python"]:
                     ensure => "2.7.6-21.el6";
 
@@ -33,6 +39,7 @@ class packages::security_updates {
         }
         Darwin: {
             # Do nothing yet
+            # "libpng": is defined for Darwin slaves in libpng.pp
         }
         Windows: {
             # Do nothing yet
