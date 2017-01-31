@@ -21,7 +21,6 @@ class toplevel::server inherits toplevel::base {
     include nrpe::check::puppet_freshness
     include packages::strace
     include packages::netcat
-    include packages::procmail
     include users::people
     include ::config
     include packages::security_updates
