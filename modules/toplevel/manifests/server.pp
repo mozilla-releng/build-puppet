@@ -44,6 +44,7 @@ class toplevel::server inherits toplevel::base {
                 'auditd':
                     host_type => 'server';
             }
+            include packages::procmail
         }
     }
 }
