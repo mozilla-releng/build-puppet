@@ -24,6 +24,9 @@ class packages::security_updates {
                 ["file", "file-libs"]:
                     ensure => "5.04-30.el6";
 
+                "flac":
+                    ensure => absent;
+
                 "libpng":
                     ensure => "1.2.49-2.el6_7";
 
