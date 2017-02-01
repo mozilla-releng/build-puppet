@@ -5,9 +5,13 @@
 class packages::nss_tools {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['nss'])
             package {
-                "nss-tools":
-                    ensure => '3.15.3-6.el6_5';
+                ["nss", "nss-sysinit", "nss-tools"]:
+                    ensure => "3.21.3-2.el6_8";
+
+                "nss-util":
+                    ensure => "3.21.3-1.el6_8";
             }
         }
 
