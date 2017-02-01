@@ -21,6 +21,9 @@ class packages::security_updates {
                 "expat":
                     ensure => "2.0.1-13.el6_8";
 
+                ["file", "file-libs"]:
+                    ensure => "5.04-30.el6";
+
                 "libpng":
                     ensure => "1.2.49-2.el6_7";
 
