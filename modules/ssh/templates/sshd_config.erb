@@ -10,7 +10,7 @@ AcceptEnv XMODIFIERS
 
 LogLevel VERBOSE
 
-<% if scope.lookupvar("::config::only_user_ssh") -%>
+<% if $only_user_ssh -%>
 PermitRootLogin no
 PasswordAuthentication no
 PermitEmptyPasswords no

@@ -22,7 +22,7 @@ class users::root::setup($home, $username, $group) {
     # set up SSH configuration
 
     Anchor['users::root::setup::begin'] ->
-    case $::config::only_user_ssh {
+    case $only_user_ssh {
         true: {
             ssh::userconfig {
                 $username:

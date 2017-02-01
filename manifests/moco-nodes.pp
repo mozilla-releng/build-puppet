@@ -135,6 +135,7 @@ node /mac-(v2-|)signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     # mac signing servers
     $aspects = [ 'maximum-security' ]
     $timezone = "GMT"
+    $only_user_ssh = true
     include toplevel::server::signing
 }
 
@@ -142,6 +143,7 @@ node /signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     # linux signing servers
     $aspects = [ 'maximum-security' ]
     $timezone = "UTC"
+    $only_user_ssh = true
     include toplevel::server::signing
 }
 
@@ -1143,6 +1145,7 @@ node /log-aggregator\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
 # Signing workers
 node /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
+    $only_user_ssh = true
     include toplevel::server::signingworker
 }
 
@@ -1150,6 +1153,7 @@ node /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
     $timezone = "UTC"
+    $only_user_ssh = true
     include toplevel::server::signingscriptworker
 }
 
@@ -1158,6 +1162,7 @@ node /balrogworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
     $balrogworker_env = "prod"
     $timezone = "UTC"
+    $only_user_ssh = true
     include toplevel::server::balrogscriptworker
 }
 
@@ -1166,6 +1171,7 @@ node /beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
     $beetmoverworker_env = "prod"
     $timezone = "UTC"
+    $only_user_ssh = true
     include toplevel::server::beetmoverscriptworker
 }
 
@@ -1174,6 +1180,7 @@ node /pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
     $pushapk_scriptworker_env = 'prod'
     $timezone = 'UTC'
+    $only_user_ssh = true
     include toplevel::server::pushapkscriptworker
 }
 
