@@ -42,6 +42,9 @@ class packages::security_updates {
                 "rpm":
                     ensure => "4.8.0-55.el6";
 
+                "openssh":
+                    ensure => "5.3p1-118.1.el6_8";
+
                 ["samba-client", "samba-common", "samba-winbind", "samba-winbind-clients"]:
                     ensure => "3.6.23-36.el6_8";
 
