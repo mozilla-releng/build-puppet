@@ -36,8 +36,18 @@ class packages::security_updates {
                 ["policycoreutils", "policycoreutils-python"]:
                     ensure => "2.0.83-30.1.el6_8";
 
+                "postgresql-libs":
+                    ensure => "8.4.20-6.el6";
+
+                "rpm":
+                    ensure => "4.8.0-55.el6";
+
                 ["samba-client", "samba-common", "samba-winbind", "samba-winbind-clients"]:
                     ensure => "3.6.23-36.el6_8";
+
+                "sqlite":
+                    ensure => "3.6.20-1.el6_7.2";
+
             } -> Anchor['packages::security_updates::end']
         }
         Ubuntu: {
