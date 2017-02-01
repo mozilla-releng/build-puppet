@@ -24,6 +24,9 @@ class packages::security_updates {
                 "libtiff":
                     ensure => "3.9.4-18.el6_8";
 
+                ["krb5-devel", "krb5-libs"]:
+                    ensure => "1.10.3-57.el6";
+
                 ["libxml2", "libxml2-python"]:
                     ensure => "2.7.6-21.el6";
 
