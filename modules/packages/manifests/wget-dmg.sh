@@ -41,7 +41,7 @@ if test -n "$DONT_USE_RPM_SOURCES"; then
     echo Copying $realname-$version.tar.gz into build environment
     cp ../wget-$version.tar.gz ./
 else
-    curl -L http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/noarch/wget-$version-$srpm_release.el6.src.rpm > wget-$version-$srpm_release.el6.src.rpm
+    curl -L http://puppet/data/repos/yum/releng/public/CentOS/6/noarch/wget-$version-$srpm_release.el6.src.rpm > wget-$version-$srpm_release.el6.src.rpm
     bsdtar -xf wget-$version-$srpm_release.el6.src.rpm
 fi
 ls
