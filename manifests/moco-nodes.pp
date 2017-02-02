@@ -151,11 +151,13 @@ node /signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
 
 node /releng-puppet\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
+    $only_user_ssh = true
     include toplevel::server::puppetmaster
 }
 
 node "releng-puppet2.srv.releng.scl3.mozilla.com" {
     $aspects = [ 'maximum-security' ]
+    $only_user_ssh = true
     include toplevel::server::puppetmaster
     class {
         'bacula_client':
@@ -277,6 +279,7 @@ node /.*packager\d+\.srv\.releng\.use1\.mozilla\.com/ {
 
 node "dev-master2.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     include toplevel::server::buildmaster::mozilla
 
     # Bug 975004 - Grant pkewisch access to dev-master1
@@ -297,6 +300,7 @@ node "dev-master2.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master01.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm01-tests1-linux32":
             http_port => 8201,
@@ -308,6 +312,7 @@ node "buildbot-master01.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master02.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm02-tests1-linux32":
             http_port => 8201,
@@ -319,6 +324,7 @@ node "buildbot-master02.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master03.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm03-tests1-linux32":
             http_port => 8201,
@@ -330,6 +336,7 @@ node "buildbot-master03.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master04.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm04-tests1-linux32":
             http_port => 8201,
@@ -341,6 +348,7 @@ node "buildbot-master04.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master05.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm05-tests1-linux32":
             http_port => 8201,
@@ -352,6 +360,7 @@ node "buildbot-master05.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master06.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm06-tests1-linux32":
             http_port => 8201,
@@ -363,6 +372,7 @@ node "buildbot-master06.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master07.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm07-tests1-linux32":
             http_port => 8201,
@@ -374,6 +384,7 @@ node "buildbot-master07.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master08.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm08-tests1-linux32":
             http_port => 8201,
@@ -385,6 +396,7 @@ node "buildbot-master08.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master51.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm51-tests1-linux64":
             http_port => 8201,
@@ -396,6 +408,7 @@ node "buildbot-master51.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master52.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm52-tests1-linux64":
             http_port => 8201,
@@ -407,6 +420,7 @@ node "buildbot-master52.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master53.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm53-tests1-linux64":
             http_port => 8201,
@@ -418,6 +432,7 @@ node "buildbot-master53.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master54.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm54-tests1-linux64":
             http_port => 8201,
@@ -429,6 +444,7 @@ node "buildbot-master54.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master67.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm67-tests1-linux64":
             http_port => 8201,
@@ -440,6 +456,7 @@ node "buildbot-master67.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master68.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm68-tests1-linux64":
             http_port => 8201,
@@ -451,6 +468,7 @@ node "buildbot-master68.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master69.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm69-tests1-windows":
             http_port => 8201,
@@ -462,6 +480,7 @@ node "buildbot-master69.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master70.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     $buildbot_bridge_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm70-build1":
@@ -476,6 +495,7 @@ node "buildbot-master70.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master71.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm71-build1":
             http_port => 8001,
@@ -488,6 +508,7 @@ node "buildbot-master71.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master72.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     $buildbot_bridge_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm72-build1":
@@ -502,6 +523,7 @@ node "buildbot-master72.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master73.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm73-build1":
             http_port => 8001,
@@ -514,6 +536,7 @@ node "buildbot-master73.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master74.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm74-build1":
             http_port => 8001,
@@ -527,6 +550,7 @@ node "buildbot-master74.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master75.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm75-try1":
             http_port => 8101,
@@ -538,6 +562,7 @@ node "buildbot-master75.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master76.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm76-try1":
             http_port => 8101,
@@ -549,6 +574,7 @@ node "buildbot-master76.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master77.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm77-build1":
             http_port => 8001,
@@ -560,6 +586,7 @@ node "buildbot-master77.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master78.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm78-try1":
             http_port => 8101,
@@ -571,6 +598,7 @@ node "buildbot-master78.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master79.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm79-try1":
             http_port => 8101,
@@ -582,6 +610,7 @@ node "buildbot-master79.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master81.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     $releaserunner_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm81-build_scheduler":
@@ -600,6 +629,7 @@ node "buildbot-master81.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master82.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     $buildbot_bridge_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm82-build1":
@@ -613,6 +643,7 @@ node "buildbot-master82.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master83.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     $releaserunner_env = "dev"
     buildmaster::buildbot_master::mozilla {
         "bm83-try1":
@@ -626,6 +657,7 @@ node "buildbot-master83.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master84.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     $buildbot_bridge_env = "dev"
     buildmaster::buildbot_master::mozilla {
         "bm84-build1":
@@ -639,6 +671,7 @@ node "buildbot-master84.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master85.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     $releaserunner_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm85-build1":
@@ -652,6 +685,7 @@ node "buildbot-master85.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master86.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm86-build1":
             http_port => 8001,
@@ -663,6 +697,7 @@ node "buildbot-master86.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master87.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm87-try1":
             http_port => 8101,
@@ -674,6 +709,7 @@ node "buildbot-master87.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master91.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm91-build1":
             http_port => 8001,
@@ -686,6 +722,7 @@ node "buildbot-master91.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master94.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm94-build1":
             http_port => 8001,
@@ -698,6 +735,7 @@ node "buildbot-master94.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master103.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm103-tests1-linux":
             http_port => 8201,
@@ -710,6 +748,7 @@ node "buildbot-master103.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master104.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm104-tests1-linux":
             http_port => 8201,
@@ -721,6 +760,7 @@ node "buildbot-master104.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master105.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm105-tests1-linux":
             http_port => 8201,
@@ -732,6 +772,7 @@ node "buildbot-master105.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master106.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm106-tests1-macosx":
             http_port => 8201,
@@ -743,6 +784,7 @@ node "buildbot-master106.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master107.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm107-tests1-macosx":
             http_port => 8201,
@@ -754,6 +796,7 @@ node "buildbot-master107.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master108.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm108-tests1-macosx":
             http_port => 8201,
@@ -765,6 +808,7 @@ node "buildbot-master108.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master109.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm109-tests1-windows":
             http_port => 8201,
@@ -776,6 +820,7 @@ node "buildbot-master109.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master110.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm110-tests1-windows":
             http_port => 8201,
@@ -787,6 +832,7 @@ node "buildbot-master110.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master111.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm111-tests1-windows":
             http_port => 8201,
@@ -798,6 +844,7 @@ node "buildbot-master111.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master112.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm112-tests1-windows":
             http_port => 8201,
@@ -809,6 +856,7 @@ node "buildbot-master112.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master113.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm113-tests1-linux64":
             http_port => 8201,
@@ -820,6 +868,7 @@ node "buildbot-master113.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master114.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm114-tests1-linux64":
             http_port => 8201,
@@ -831,6 +880,7 @@ node "buildbot-master114.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master115.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm115-tests1-linux64":
             http_port => 8201,
@@ -842,6 +892,7 @@ node "buildbot-master115.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master116.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm116-tests1-linux64":
             http_port => 8201,
@@ -853,6 +904,7 @@ node "buildbot-master116.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master117.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm117-tests1-linux64":
             http_port => 8201,
@@ -864,6 +916,7 @@ node "buildbot-master117.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master118.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm118-tests1-linux64":
             http_port => 8201,
@@ -875,6 +928,7 @@ node "buildbot-master118.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master119.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm119-tests1-windows":
             http_port => 8201,
@@ -886,6 +940,7 @@ node "buildbot-master119.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master120.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm120-tests1-linux64":
             http_port => 8201,
@@ -897,6 +952,7 @@ node "buildbot-master120.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master121.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm121-tests1-linux64":
             http_port => 8201,
@@ -908,6 +964,7 @@ node "buildbot-master121.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master122.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm122-tests1-linux64":
             http_port => 8201,
@@ -919,6 +976,7 @@ node "buildbot-master122.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master123.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm123-tests1-linux64":
             http_port => 8201,
@@ -930,6 +988,7 @@ node "buildbot-master123.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master124.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm124-tests1-linux64":
             http_port => 8201,
@@ -941,6 +1000,7 @@ node "buildbot-master124.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master125.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm125-tests1-linux64":
             http_port => 8201,
@@ -952,6 +1012,7 @@ node "buildbot-master125.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master126.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm126-tests1-windows":
             http_port => 8201,
@@ -963,6 +1024,7 @@ node "buildbot-master126.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master127.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm127-tests1-windows":
             http_port => 8201,
@@ -974,6 +1036,7 @@ node "buildbot-master127.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master128.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm128-tests1-windows":
             http_port => 8201,
@@ -985,6 +1048,7 @@ node "buildbot-master128.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master129.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm129-tests1-windows":
             http_port => 8201,
@@ -996,6 +1060,7 @@ node "buildbot-master129.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master130.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm130-tests1-linux64":
             http_port => 8201,
@@ -1007,6 +1072,7 @@ node "buildbot-master130.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master131.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm131-tests1-linux64":
             http_port => 8201,
@@ -1018,6 +1084,7 @@ node "buildbot-master131.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master132.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm132-tests1-macosx":
             http_port => 8201,
@@ -1029,6 +1096,7 @@ node "buildbot-master132.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master133.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm133-tests1-macosx":
             http_port => 8201,
@@ -1040,6 +1108,7 @@ node "buildbot-master133.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master134.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm134-tests1-macosx":
             http_port => 8201,
@@ -1051,6 +1120,7 @@ node "buildbot-master134.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master135.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm135-tests1-macosx":
             http_port => 8201,
@@ -1062,6 +1132,7 @@ node "buildbot-master135.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master136.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm136-tests1-macosx":
             http_port => 8201,
@@ -1073,6 +1144,7 @@ node "buildbot-master136.bb.releng.scl3.mozilla.com" {
 
 node "buildbot-master137.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm137-tests1-windows":
             http_port => 8201,
@@ -1084,6 +1156,7 @@ node "buildbot-master137.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master138.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm138-tests1-windows":
             http_port => 8201,
@@ -1095,6 +1168,7 @@ node "buildbot-master138.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master139.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm139-tests1-windows":
             http_port => 8201,
@@ -1106,6 +1180,7 @@ node "buildbot-master139.bb.releng.usw2.mozilla.com" {
 
 node "buildbot-master140.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm140-tests1-windows":
             http_port => 8201,
@@ -1116,6 +1191,7 @@ node "buildbot-master140.bb.releng.usw2.mozilla.com" {
 }
 node "buildbot-master141.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm141-tests1-linux32":
             http_port => 8201,
@@ -1127,6 +1203,7 @@ node "buildbot-master141.bb.releng.use1.mozilla.com" {
 
 node "buildbot-master142.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
+    $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm142-tests1-linux32":
             http_port => 8201,
