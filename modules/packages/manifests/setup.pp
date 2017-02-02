@@ -138,11 +138,14 @@ class packages::setup {
 
                 "ntp":
                     url_path => "repos/yum/custom/ntp/$architecture";
+
+                "snmp":
+                    url_path => "repos/yum/custom/snmp/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 68
+            $repoflag = 69
             file {
                 "/etc/.repo-flag":
                     content =>
