@@ -45,37 +45,37 @@ setup_yum_repos() {
     cat <<'EOF' >/etc/yum.repos.d/bootstrap.repo
 [centos-os]
 name=centos - os - $basearch
-baseurl=http://puppetagain.pub.build.mozilla.org/data/repos/yum/mirrors/centos/6/latest/os/$basearch
+baseurl=http://puppet/data/repos/yum/mirrors/centos/6/latest/os/$basearch
 enabled=1
 gpgcheck=0
 
 [centos-updates]
 name=centos - updates - $basearch
-baseurl=http://puppetagain.pub.build.mozilla.org/data/repos/yum/mirrors/centos/6/latest/updates/$basearch
+baseurl=http://puppet/data/repos/yum/mirrors/centos/6/latest/updates/$basearch
 enabled=1
 gpgcheck=0
 
 [releng]
 name=releng
-baseurl=http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/$basearch
+baseurl=http://puppet/data/repos/yum/releng/public/CentOS/6/$basearch
 enabled=1
 gpgcheck=0
 
 [releng-noarch]
 name=releng-noarch
-baseurl=http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/noarch
+baseurl=http://puppet/data/repos/yum/releng/public/CentOS/6/noarch
 enabled=1
 gpgcheck=0
 
 [puppet]
 name=puppet
-baseurl=http://puppetagain.pub.build.mozilla.org/data/repos/yum/mirrors/puppetlabs/el/6/products/$basearch
+baseurl=http://puppet/data/repos/yum/mirrors/puppetlabs/el/6/products/$basearch
 enabled=1
 gpgcheck=0
 
 [puppet-deps]
 name=puppet
-baseurl=http://puppetagain.pub.build.mozilla.org/data/repos/yum/mirrors/puppetlabs/el/6/dependencies/$basearch
+baseurl=http://puppet/data/repos/yum/mirrors/puppetlabs/el/6/dependencies/$basearch
 enabled=1
 gpgcheck=0
 EOF

@@ -7,7 +7,7 @@ install_data() {
     if ! /bin/rpm -q rsync >/dev/null 2>&1; then
         echo "rsync is not installed, although it's included in the Base group in CentOS"
         echo "please use 'yum' to install it with a full URL, perhaps based on"
-        echo "http://puppetagain.pub.build.mozilla.org/data/repos/yum/mirrors/centos/6/latest/os/"
+        echo "http://puppet/data/repos/yum/mirrors/centos/6/latest/os/"
         return 1
     fi
 

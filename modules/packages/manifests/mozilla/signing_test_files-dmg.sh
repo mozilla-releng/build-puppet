@@ -18,7 +18,7 @@ export PATH=`xcode-select -print-path`:/tools/packagemaker/bin:/usr/local/sbin:/
 version=1.0-1
 
 # download the corresponding srpm and extract it
-url=http://puppetagain.pub.build.mozilla.org/data/repos/yum/releng/public/CentOS/6/noarch/mozilla-signing-test-files-$version.src.rpm
+url=http://puppet/data/repos/yum/releng/public/CentOS/6/noarch/mozilla-signing-test-files-$version.src.rpm
 
 curl -v $url | bsdtar -xf -
 
