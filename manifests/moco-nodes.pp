@@ -287,10 +287,6 @@ node "dev-master2.bb.releng.use1.mozilla.com" {
     realize(Users::Person["sledru"])
     realize(Users::Person["gchang"])
     realize(Users::Person["ihsiao"])
-    users::root::extra_authorized_key {
-        'pkewisch': ;
-        'sledru': ;
-    }
     users::builder::extra_authorized_key {
         'pkewisch': ;
         'sledru': ;
