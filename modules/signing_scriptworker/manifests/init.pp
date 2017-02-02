@@ -7,9 +7,12 @@ class signing_scriptworker {
     include tweaks::swap_on_instance_storage
     include packages::gcc
     include packages::make
+    include packages::mozilla::android_sdk
 
     # because puppet barfs whenever I try to put it in settings.pp
     $verbose_logging = true
+    # See value defined in packages::mozilla::android_sdk
+    $zipalign_location = "/tools/android-sdk/build-tools/23.0.3/zipalign"
 
     python35::virtualenv {
         "${signing_scriptworker::settings::root}":
@@ -43,7 +46,7 @@ class signing_scriptworker {
                   "python-jose==1.3.2",
                   "requests==2.13.0",
                   "scriptworker==2.1.1",
-                  "signingscript==0.9.0",
+                  "signingscript==0.10.0",
                   "signtool==2.0.3",
                   "six==1.10.0",
                   "slugid==1.0.7",
