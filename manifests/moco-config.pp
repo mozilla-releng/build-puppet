@@ -147,9 +147,11 @@ class config inherits config::base {
         'bhearsum',
         'catlee',
         'coop',
+        'jlorenzo',
         'jwood',
         'nthomas',
         'raliiev',
+        'sfraser',
         'kmoir',
     ]
     $admin_users = $fqdn ? {
