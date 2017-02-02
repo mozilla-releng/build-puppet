@@ -30,6 +30,32 @@ class packages::security_updates {
                 ["libxml2", "libxml2-python"]:
                     ensure => "2.7.6-21.el6";
 
+                ["libX11", "libX11-common"]:
+                    ensure => "1.6.3-2.el6";
+                "libxcb":
+                    ensure => "1.11-2.el6";
+                "libXcursor":
+                    ensure => "1.1.14-2.1.el6";
+                "libXext":
+                    ensure => "1.3.3-1.el6";
+                "libXfixes":
+                    ensure => "5.0.1-2.1.el6";
+                "libXfont":
+                    ensure => "1.5.1-2.el6";
+                "libXi":
+                    ensure => "1.7.4-1.el6";
+                "libXinerama":
+                    ensure => "1.1.3-2.1.el6";
+                "libXrandr":
+                    ensure => "1.4.2-1.el6";
+                "libXrender":
+                    ensure => "0.9.8-2.1.el6";
+                "libXres":
+                    ensure => "1.0.7-2.1.el6";
+                # "libXtst" is set in packages::x_libs but that is not included anywhere
+                "libXtst":
+                    ensure => "1.2.2-2.1.el6";
+
                 "nspr":
                     ensure => "4.11.0-1.el6";
 
@@ -55,6 +81,7 @@ class packages::security_updates {
         }
         Ubuntu: {
             # Do nothing yet
+            # "libxcb": is defined in packages::libxcb1
         }
         Darwin: {
             # Do nothing yet
