@@ -132,11 +132,14 @@ class packages::setup {
 
                 "bind-utils":
                     url_path => "repos/yum/custom/bind-utils/$architecture";
+
+                "mailx":
+                    url_path => "repos/yum/custom/mailx/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 66
+            $repoflag = 67
             file {
                 "/etc/.repo-flag":
                     content =>
