@@ -68,6 +68,9 @@ class packages::security_updates {
                 "libXtst":
                     ensure => "1.2.2-2.1.el6";
 
+                "lzo":
+                    ensure => "2.03-3.1.el6_5.1";
+
                 "nspr":
                     ensure => "4.11.0-1.el6";
 
