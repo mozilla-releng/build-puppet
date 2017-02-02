@@ -5,8 +5,8 @@ class packages::nslookup {
     case $::operatingsystem {
         CentOS: {
             package {
-                "bind-utils":  #Provided by bind-utils
-                    ensure => latest;
+                ["bind-utils", "bind-libs"]:  #Provided by bind-utils
+                    ensure => "9.8.2-0.47.rc1.el6_8.4";
             }
         }
 

@@ -45,6 +45,7 @@ class toplevel::server inherits toplevel::base {
                     host_type => 'server';
             }
             include packages::procmail
+            include packages::nslookup
         }
     }
 }

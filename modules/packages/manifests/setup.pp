@@ -129,11 +129,14 @@ class packages::setup {
 
                 "nss":
                     url_path => "repos/yum/custom/nss/$architecture";
+
+                "bind-utils":
+                    url_path => "repos/yum/custom/bind-utils/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 63
+            $repoflag = 66
             file {
                 "/etc/.repo-flag":
                     content =>
