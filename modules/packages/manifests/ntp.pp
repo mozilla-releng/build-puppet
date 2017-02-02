@@ -4,9 +4,10 @@
 class packages::ntp {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['ntp'])
             package {
-                "ntp":
-                    ensure => '4.2.6p5-1.el6.centos';
+                ["ntp", "ntpdate"]: # ntp depends on ntpdate
+                    ensure => '4.2.6p5-10.el6.centos.1';
             }
         }
         Ubuntu: {
