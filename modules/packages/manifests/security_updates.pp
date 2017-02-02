@@ -27,6 +27,9 @@ class packages::security_updates {
                 "flac":
                     ensure => "1.2.1-7.el6_6";
 
+                "jasper-libs":
+                    ensure => "1.900.1-16.el6_6.3";
+
                 "libpng":
                     ensure => "1.2.49-2.el6_7";
 
