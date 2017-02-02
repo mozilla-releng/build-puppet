@@ -284,12 +284,10 @@ node "dev-master2.bb.releng.use1.mozilla.com" {
 
     # Bug 975004 - Grant pkewisch access to dev-master1
     # Bug 1265758 - Add acccess to the following accounts to dev-master2
-    realize(Users::Person["pkewisch"])
     realize(Users::Person["sledru"])
     realize(Users::Person["gchang"])
     realize(Users::Person["ihsiao"])
     users::builder::extra_authorized_key {
-        'pkewisch': ;
         'sledru': ;
     }
 }
