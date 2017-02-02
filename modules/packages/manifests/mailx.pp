@@ -11,9 +11,10 @@ class packages::mailx {
         }
 
         CentOS: {
+            realize(Packages::Yumrepo['mailx'])
             package {
                 "mailx":
-                    ensure => '12.4-7.el6';
+                    ensure => '12.4-8.el6_6';
             }
         }
 
