@@ -135,11 +135,14 @@ class packages::setup {
 
                 "mailx":
                     url_path => "repos/yum/custom/mailx/$architecture";
+
+                "ntp":
+                    url_path => "repos/yum/custom/ntp/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 67
+            $repoflag = 68
             file {
                 "/etc/.repo-flag":
                     content =>
