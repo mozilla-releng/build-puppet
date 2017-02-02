@@ -4,11 +4,13 @@
 class packages::snmp {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['snmp'])
             package {
                 [ "net-snmp",
                   "net-snmp-utils",
+                  "net-snmp-libs",
                 ]:
-                    ensure => '5.5-49.el6_5.1';
+                    ensure => '5.5-57.el6_8.1';
             }
         }
         Ubuntu: {
