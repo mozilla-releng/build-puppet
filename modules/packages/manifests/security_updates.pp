@@ -18,6 +18,9 @@ class packages::security_updates {
                 "cups-libs":
                     ensure => "1.4.2-74.el6";
 
+                "expat":
+                    ensure => "2.0.1-13.el6_8";
+
                 "libpng":
                     ensure => "1.2.49-2.el6_7";
 
