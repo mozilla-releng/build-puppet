@@ -71,6 +71,9 @@ class packages::security_updates {
                 "lzo":
                     ensure => "2.03-3.1.el6_5.1";
 
+                "mysql-libs":
+                    ensure => "5.1.73-7.el6";
+
                 "nspr":
                     ensure => "4.11.0-1.el6";
 
