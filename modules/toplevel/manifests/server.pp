@@ -46,6 +46,7 @@ class toplevel::server inherits toplevel::base {
             }
             include packages::procmail
             include packages::nslookup
+            include packages::nss_tools
             include packages::snmp
             include packages::wget
         }
