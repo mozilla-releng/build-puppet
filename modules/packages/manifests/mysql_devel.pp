@@ -5,9 +5,10 @@
 class packages::mysql_devel {
     case $operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['mysql'])
             package {
                 "mysql-devel":
-                    ensure => '5.1.73-3.el6_5';
+                    ensure => '5.1.73-8.el6_8';
             }
         }
         default: {
