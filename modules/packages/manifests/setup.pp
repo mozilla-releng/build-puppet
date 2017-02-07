@@ -141,11 +141,14 @@ class packages::setup {
 
                 "snmp":
                     url_path => "repos/yum/custom/snmp/$architecture";
+
+                "mysql":
+                    url_path => "repos/yum/custom/mysql/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 70
+            $repoflag = 72
             file {
                 "/etc/.repo-flag":
                     content =>
