@@ -53,8 +53,8 @@ cd $BUILD
 
 # get the sources from the SRPM and some local patches
 curl http://puppet/data/repos/yum/releng/public/CentOS/6/x86_64/mozilla-python27-$pyver.$pyrel-$srpm_release.el6.src.rpm | bsdtar -x
-curl -LO http://hg.mozilla.org/build/puppet/raw-file/tip/modules/packages/manifests/mozilla/python27-issue_13370-2.patch
-curl -LO http://hg.mozilla.org/build/puppet/raw-file/tip/modules/packages/manifests/mozilla/python27-issue1602133.patch
+curl -LO https://hg.mozilla.org/build/puppet/raw-file/tip/modules/packages/manifests/mozilla/python27-issue_13370-2.patch
+curl -LO https://hg.mozilla.org/build/puppet/raw-file/tip/modules/packages/manifests/mozilla/python27-issue1602133.patch
 
 # %prep
 tar -jxf Python-$pyver.$pyrel.tar.bz2
