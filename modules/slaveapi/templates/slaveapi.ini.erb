@@ -34,7 +34,7 @@ api_url = <%=@bugzilla_url%>
 username = <%= scope.lookupvar("::config::slaveapi_bugzilla_username") %>
 
 [devices]
-devices_json_url = http://hg.mozilla.org/build/tools/raw-file/default/buildfarm/mobile/devices.json
+devices_json_url = https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/mobile/devices.json
 
 [slaves]
 default_domain = <%= scope.lookupvar("::config::slaveapi_default_domain") %>
