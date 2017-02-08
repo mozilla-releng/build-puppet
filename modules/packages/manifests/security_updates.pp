@@ -34,7 +34,7 @@ class packages::security_updates {
                     ensure => "1.2.49-2.el6_7";
 
                 "libtiff":
-                    ensure => "3.9.4-18.el6_8";
+                    ensure => "3.9.4-21.el6_8";
 
                 ["krb5-devel", "krb5-libs"]:
                     ensure => "1.10.3-57.el6";
