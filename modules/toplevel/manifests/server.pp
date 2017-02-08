@@ -49,6 +49,7 @@ class toplevel::server inherits toplevel::base {
             include packages::nss_tools
             include packages::snmp
             include packages::wget
+            include packages::mysql_devel
         }
     }
 }
