@@ -316,18 +316,6 @@ node "buildbot-master02.bb.releng.use1.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master03.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm03-tests1-linux32":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux32";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
 node "buildbot-master04.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
     $only_user_ssh = true
@@ -345,42 +333,6 @@ node "buildbot-master05.bb.releng.usw2.mozilla.com" {
     $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm05-tests1-linux32":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux32";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master06.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm06-tests1-linux32":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux32";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master07.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm07-tests1-linux32":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux32";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master08.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm08-tests1-linux32":
             http_port => 8201,
             master_type => "tests",
             basedir => "tests1-linux32";
@@ -429,30 +381,6 @@ node "buildbot-master54.bb.releng.usw2.mozilla.com" {
     $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         "bm54-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master67.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm67-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master68.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm68-tests1-linux64":
             http_port => 8201,
             master_type => "tests",
             basedir => "tests1-linux64";
@@ -848,78 +776,6 @@ node "buildbot-master112.bb.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
 }
 
-node "buildbot-master113.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm113-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master114.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm114-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master115.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm115-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master116.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm116-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master117.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm117-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master118.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm118-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
 node "buildbot-master119.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
     $only_user_ssh = true
@@ -928,78 +784,6 @@ node "buildbot-master119.bb.releng.scl3.mozilla.com" {
             http_port => 8201,
             master_type => "tests",
             basedir => "tests1-windows";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master120.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm120-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master121.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm121-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master122.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm122-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master123.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm123-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master124.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm124-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master125.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm125-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
     }
     include toplevel::server::buildmaster::mozilla
 }
@@ -1048,30 +832,6 @@ node "buildbot-master129.bb.releng.usw2.mozilla.com" {
             http_port => 8201,
             master_type => "tests",
             basedir => "tests1-windows";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master130.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm130-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master131.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm131-tests1-linux64":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux64";
     }
     include toplevel::server::buildmaster::mozilla
 }
@@ -1180,29 +940,6 @@ node "buildbot-master140.bb.releng.usw2.mozilla.com" {
             http_port => 8201,
             master_type => "tests",
             basedir => "tests1-windows";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-node "buildbot-master141.bb.releng.use1.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm141-tests1-linux32":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux32";
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node "buildbot-master142.bb.releng.usw2.mozilla.com" {
-    $aspects = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        "bm142-tests1-linux32":
-            http_port => 8201,
-            master_type => "tests",
-            basedir => "tests1-linux32";
     }
     include toplevel::server::buildmaster::mozilla
 }
