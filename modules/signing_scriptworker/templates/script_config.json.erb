@@ -8,5 +8,6 @@
     "schema_file": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/lib/python3.5/site-packages/signingscript/data/signing_task_schema.json",
 
     "signtool": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/bin/signtool",
-    "verbose": <%= @verbose_logging %>
+    "verbose": <%= @verbose_logging %>,
+    "zipalign": "<%= @zipalign_location %>"
 }
