@@ -40,7 +40,7 @@ class packages::security_updates {
                     ensure => "1.10.3-57.el6";
 
                 ["libxml2", "libxml2-python"]:
-                    ensure => "2.7.6-21.el6";
+                    ensure => "2.7.6-21.el6_8.1";
 
                 ["libX11", "libX11-common"]:
                     ensure => "1.6.3-2.el6";
