@@ -69,6 +69,13 @@ class releaserunner {
             group   => "${users::builder::group}",
             content => template("releaserunner/release-runner.ini.erb"),
             show_diff => false;
+        "${releaserunner::settings::root}/release-runner.yml":
+            require => Python::Virtualenv["${releaserunner::settings::root}"],
+            mode    => 0600,
+            owner   => "${users::builder::username}",
+            group   => "${users::builder::group}",
+            content => template("releaserunner/release-runner.yml.erb"),
+            show_diff => false;
         "${users::builder::home}/.ssh/release-runner":
             mode      => 0600,
             owner     => "${users::builder::username}",
