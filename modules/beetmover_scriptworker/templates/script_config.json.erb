@@ -3,6 +3,9 @@
     "artifact_dir": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/artifacts",
     "aiohttp_max_connections": 10,
     "checksums_digests": ["sha512", "md5", "sha1", "sha256"],
+    "blobs_needing_prettynaming_contents": [
+        "target.test_packages.json"
+    ],
 
     "schema_file": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/data/beetmover_task_schema.json",
 
