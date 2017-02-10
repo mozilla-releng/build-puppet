@@ -6,7 +6,7 @@
 
 # linux64 and OS X
 
-node /t-yosemite-r7-00[45][0-9]\.test\.releng\.scl3\.mozilla\.com/ {
+node /t-yosemite-r7-004[0-9]\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include toplevel::worker::releng::test::gpu
