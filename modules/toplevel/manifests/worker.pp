@@ -16,7 +16,7 @@ class toplevel::worker inherits toplevel::base {
 
     case $::operatingsystem {
         'Darwin': {
-            include users::root::autologin
+            include users::builder::autologin
         }
 
         default: {
