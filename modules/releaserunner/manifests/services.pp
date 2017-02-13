@@ -8,9 +8,9 @@ class releaserunner::services {
 
     supervisord::supervise {
         "releaserunner":
-            command      => "${releaserunner::settings::tools_dst}/buildfarm/release/release-runner.sh ${releaserunner::settings::root} ${releaserunner::settings::logfile} ${releaserunner::settings::root}/release-runner.ini",
+            command      => "${releaserunner::settings::tools_dst}/buildfarm/release/release-runner.sh ${releaserunner::settings::root} ${releaserunner::settings::logfile} ${releaserunner::settings::root}/release-runner.yml",
             user         => $::config::builder_username,
-            require      => [ File["${releaserunner::settings::root}/release-runner.ini"],
+            require      => [ File["${releaserunner::settings::root}/release-runner.yml"],
                               Python::Virtualenv["${releaserunner::settings::root}"],
                               Mercurial::Repo["releaserunner-tools"]],
             extra_config => template("${module_name}/extra_config.erb")
