@@ -36,15 +36,15 @@ symlinks:
   thunderbird_production_config.py: "{buildbot_configs}/mozilla/thunderbird_localconfig.py"
 
 balrog:
-  username = <%= @env_config["balrog_username"] %>
-  password = <%= @env_config["balrog_password"] %>
+  username: <%= @env_config["balrog_username"] %>
+  password: <%= @env_config["balrog_password"] %>
 
 beetmover:
-  aws_access_key_id = <%= @env_config["beetmover_aws_access_key_id"] %>
-  aws_secret_access_key = <%= @env_config["beetmover_aws_secret_access_key"] %>
+  aws_access_key_id: <%= @env_config["beetmover_aws_access_key_id"] %>
+  aws_secret_access_key: <%= @env_config["beetmover_aws_secret_access_key"] %>
 
 signing:
-  pvt_key = <%= scope.lookupvar("config::releaserunner_root") %>/id_rsa
+  pvt_key: <%= scope.lookupvar("config::releaserunner_root") %>/id_rsa
   gpg_key_path: <%= scope.lookupvar('releaserunner::settings::tools_dst') %>/<%= @env_config["releaserunner_gpg_key_path"] %>
 
 
