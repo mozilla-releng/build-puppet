@@ -195,6 +195,25 @@ class config inherits config::base {
             releaserunner_buildbot_configs_branch => "default",
             releaserunner_buildbot_configs => "https://hg.mozilla.org/build/buildbot-configs",
             releaserunner_gpg_key_path => "scripts/release/KEY",
+            releaserunner_config_file => "release-runner.yml",
+        },
+        "prod-old" => {
+            ship_it_root => "https://ship-it.mozilla.org",
+            ship_it_username => secret("releaserunner_prod_ship_it_username"),
+            ship_it_password => secret("releaserunner_prod_ship_it_password"),
+            notify_to => "Release Notifications <release-automation-notifications@mozilla.com>",
+            notify_to_announce => "Release Co-ordination <release-drivers@mozilla.org>",
+            allowed_branches => "mozilla-beta,mozilla-release,mozilla-esr,comm-beta,comm-esr",
+            taskcluster_client_id => secret("releaserunner_prod_taskcluster_client_id"),
+            taskcluster_access_token => secret("releaserunner_prod_taskcluster_access_token"),
+            balrog_username => "ffxbld",
+            balrog_password => secret("ffxbld_ldap_password"),
+            beetmover_aws_access_key_id => secret("beetmover-aws_access_key_id"),
+            beetmover_aws_secret_access_key => secret("beetmover-aws_secret_access_key"),
+            releaserunner_buildbot_configs_branch => "production",
+            releaserunner_buildbot_configs => "https://hg.mozilla.org/build/buildbot-configs",
+            releaserunner_gpg_key_path => "scripts/release/KEY",
+            releaserunner_config_file => "release-runner.ini",
         },
         "prod" => {
             ship_it_root => "https://ship-it.mozilla.org",
@@ -212,6 +231,7 @@ class config inherits config::base {
             releaserunner_buildbot_configs_branch => "production",
             releaserunner_buildbot_configs => "https://hg.mozilla.org/build/buildbot-configs",
             releaserunner_gpg_key_path => "scripts/release/KEY",
+            releaserunner_config_file => "release-runner.yml",
         }
     }
 
