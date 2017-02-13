@@ -10,6 +10,15 @@ node /t-yosemite-r7-004[0-9]\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include toplevel::worker::releng::test::gpu
+
+    # Bug 1338557 - Please add pmoore public key to authorized_keys file of cltbld/root user of t-yosemite-r7-{0040..0049}
+    realize(Users::Person["pmoore"])
+    users::root::extra_authorized_key {
+        'pmoore': ;
+    }
+    users::builder::extra_authorized_key {
+        'pmoore': ;
+    }
 }
 
 node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
