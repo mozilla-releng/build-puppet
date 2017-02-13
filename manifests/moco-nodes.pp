@@ -533,7 +533,7 @@ node "buildbot-master79.bb.releng.usw2.mozilla.com" {
 node "buildbot-master81.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
     $only_user_ssh = true
-    $releaserunner_env = "prod"
+    $releaserunner_env = "prod-old"
     buildmaster::buildbot_master::mozilla {
         "bm81-build_scheduler":
             master_type => "scheduler",
