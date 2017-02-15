@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+ROOT=<%= @root %>
+REPO=<%= @mozharness_repo %>
+REVISION=<%= @mozharness_revision %>
+
+cd "${ROOT}" && curl --retry 4 ${REPO}/archive/${REVISION}.tar.gz/testing/mozharness | tar zxvf - --strip-components 2

@@ -436,4 +436,12 @@ class config inherits config::base {
     $funsize_scheduler_s3_bucket = "mozilla-nightly-updates"
     $funsize_scheduler_balrog_worker_api_root = "http://balrog/api"
     $funsize_scheduler_th_api_root = "https://treeherder.mozilla.org/api"
+
+    $l10n_bumper_env_config = {
+        "jamun" => {
+            mozharness_repo => "https://hg.mozilla.org/projects/jamun",
+            mozharness_revision => "92041f45f73a",
+            config_file => "l10n_bumper/mozilla-beta.py",
+        },
+    }
 }
