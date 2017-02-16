@@ -256,7 +256,6 @@ class config::base {
             ship_it_password => "",
             notify_to => "",
             notify_to_announce => "",
-            allowed_branches => "",
             taskcluster_client_id => "",
             taskcluster_access_token => "",
         },
@@ -266,7 +265,6 @@ class config::base {
             ship_it_password => "",
             notify_to => "",
             notify_to_announce => "",
-            allowed_branches => "",
             taskcluster_client_id => "",
             taskcluster_access_token => "",
         }

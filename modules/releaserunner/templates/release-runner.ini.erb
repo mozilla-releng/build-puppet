@@ -24,7 +24,6 @@ verbose: true
 sleeptime: 30
 ssh_username: <%= scope.lookupvar('config::releaserunner_ssh_username') %>
 ssh_key: <%= scope.lookupvar('users::builder::home') %>/.ssh/release-runner
-allowed_branches: <%= @env_config["allowed_branches"] %>
 docker_worker_key: <%= scope.lookupvar('releaserunner::settings::root') %>/docker-worker-pub.pem
 
 [taskcluster]
