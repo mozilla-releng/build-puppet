@@ -144,11 +144,14 @@ class packages::setup {
 
                 "mysql":
                     url_path => "repos/yum/custom/mysql/$architecture";
+
+                "jdk17":
+                    url_path => "repos/yum/custom/jdk17/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 74
+            $repoflag = 75
             file {
                 "/etc/.repo-flag":
                     content =>

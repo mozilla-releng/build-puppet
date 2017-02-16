@@ -10,10 +10,10 @@ class packages::jdk17 {
 
     case $::operatingsystem {
         CentOS: {
-            realize(Packages::Yumrepo['security_update_1319455'])
+            realize(Packages::Yumrepo['jdk17'])
             package {
                 ["java-1.7.0-openjdk", "java-1.7.0-openjdk-devel"]:
-                    ensure => "1.7.0.121-2.6.8.1.el6_8";
+                    ensure => "1.7.0.131-2.6.9.0.el6_8";
             }
         }
         default: {
