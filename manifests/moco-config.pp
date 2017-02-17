@@ -437,7 +437,7 @@ class config inherits config::base {
     $l10n_bumper_env_config = {
         "jamun" => {
             mozharness_repo => "https://hg.mozilla.org/projects/jamun",
-            mozharness_revision => "92041f45f73a",
+            mozharness_revision => "567633537959",
             config_file => "l10n_bumper/mozilla-beta.py",
         },
     }
