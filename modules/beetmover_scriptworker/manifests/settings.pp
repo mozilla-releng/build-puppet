@@ -12,7 +12,10 @@ class beetmover_scriptworker::settings {
 
     $env_config = {
         "dev" => {
-
+            beetmover_aws_access_key_id => secret("stage-beetmover-aws_access_key_id"),
+            beetmover_aws_secret_access_key => secret("stage-beetmover-aws_secret_access_key"),
+            beetmover_aws_s3_firefox_bucket => "net-mozaws-stage-delivery-firefox",
+            beetmover_aws_s3_fennec_bucket => "net-mozaws-stage-delivery-archive",
         },
         "prod" => {
             beetmover_aws_access_key_id => secret("nightly-beetmover-aws_access_key_id"),
