@@ -440,5 +440,20 @@ class config inherits config::base {
             mozharness_revision => "567633537959",
             config_file => "l10n_bumper/jamun.py",
         },
+        "mozilla-central" => {
+            mozharness_repo => "https://hg.mozilla.org/mozilla-central",
+            mozharness_revision => "d0462b0948e0",
+            config_file => "l10n_bumper/mozilla-central.py",
+        },
+        "mozilla-aurora" => {
+            mozharness_repo => "https://hg.mozilla.org/mozilla-central",
+            mozharness_revision => "d0462b0948e0",
+            config_file => "l10n_bumper/mozilla-aurora.py",
+        },
+        "mozilla-beta" => {
+            mozharness_repo => "https://hg.mozilla.org/mozilla-central",
+            mozharness_revision => "d0462b0948e0",
+            config_file => "l10n_bumper/mozilla-beta.py",
+        },
     }
 }

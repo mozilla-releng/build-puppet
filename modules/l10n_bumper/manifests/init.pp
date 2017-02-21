@@ -38,7 +38,6 @@ class l10n_bumper {
         "download_mozharness":
             require => File["${root}/download_mozharness.sh"],
             command => "${root}/download_mozharness.sh",
-            creates => "${root}/mozharness",
             user    => $::users::builder::username;
     }
 
