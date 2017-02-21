@@ -512,7 +512,7 @@ node "buildbot-master77.bb.releng.use1.mozilla.com" {
             master_type => "build",
             basedir => "build1";
     }
-    $l10n_bumper_env = "jamun"
+    $l10n_bumper_env = "mozilla-central"
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::l10n_bumper
 }
@@ -625,7 +625,9 @@ node "buildbot-master86.bb.releng.scl3.mozilla.com" {
             master_type => "build",
             basedir => "build1";
     }
+    $l10n_bumper_env = "mozilla-aurora"
     include toplevel::server::buildmaster::mozilla
+    include toplevel::mixin::l10n_bumper
 }
 
 node "buildbot-master87.bb.releng.scl3.mozilla.com" {
