@@ -25,7 +25,7 @@ class beetmover_scriptworker {
                   "appdirs==1.4.0",
                   "arrow==0.10.0",
                   "async-timeout==1.1.0",
-                  "beetmoverscript==0.2.2",
+                  "beetmoverscript==0.3.0b1",
                   "boto3==1.4.4",
                   "botocore==1.5.7",
                   "chardet==2.3.0",
