@@ -21,6 +21,20 @@ class packages::nodejs {
                     target => "/usr/bin/nodejs";
             }
         }
+        CentOS, RedHat: {
+            case $::operatingsystemmajrelease {
+                6: {
+                    realize(Packages::Yumrepo['nodesource'])
+                    package {
+                        "nodejs":
+                            ensure => "6.10.0-1nodesource.el6";
+                    }
+                }
+                default: {
+                    fail("cannot install on $::operatingsystem version $::operatingsystemmajrelease")
+                }
+            }
+        }
         Darwin: {
             packages::pkgdmg {
                 'nodejs':
