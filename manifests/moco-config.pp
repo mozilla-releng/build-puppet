@@ -351,7 +351,8 @@ class config inherits config::base {
     $obsolete_kernels = $operatingsystem ? {
         'CentOS' => $operatingsystemrelease ? {
             '6.2'   => [ '2.6.32-431.el6', '2.6.32-431.11.2.el6', '2.6.32-431.5.1.el6' ],
-            '6.5'   => [ '2.6.32-431.el6', '2.6.32-431.11.2.el6', '2.6.32-431.5.1.el6' ],
+            '6.5'   => [ '2.6.32-431.el6', '2.6.32-431.11.2.el6', '2.6.32-431.5.1.el6',
+                         '2.6.32-504.3.3.el6' ],
             default => [],
         },
         'Ubuntu' => $operatingsystemrelease ? {
