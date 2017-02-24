@@ -335,7 +335,7 @@ class config inherits config::base {
     $current_kernel = $operatingsystem ? {
         'CentOS' => $operatingsystemrelease ? {
             '6.2'   => '2.6.32-504.3.3.el6',
-            '6.5'   => '2.6.32-642.13.2.el6',
+            '6.5'   => '2.6.32-642.13.1.el6',
             default => undef,
         },
         'Ubuntu' => $operatingsystemrelease ? {
