@@ -51,9 +51,6 @@ class packages::setup {
 
             # repos that are only installed where required
             @packages::yumrepo {
-                "nodesource":
-                    url_path => "repos/yum/mirrors/nodesource/el/$majorver/$architecture";
-
                 "passenger":
                     url_path => "repos/yum/mirrors/passenger/rhel/$majorver/latest/$architecture";
 
