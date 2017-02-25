@@ -41,7 +41,7 @@ class buildmaster::queue {
                 Exec["install-tools"],
                 ],
             enable => true,
-            ensure => stopped;
+            ensure => running;
         "pulse_publisher":
             hasstatus => true,
             subscribe => [
