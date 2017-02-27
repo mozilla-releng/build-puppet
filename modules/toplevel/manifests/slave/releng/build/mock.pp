@@ -9,7 +9,7 @@ class toplevel::slave::releng::build::mock inherits toplevel::slave::releng::bui
     include packages::gdb
     # php and svn are needed to run the postrelease builder, bug 1062897
     include packages::php
-    include packages::subversion
+    # include packages::subversion  # "SVN/PHP based product details are now dead."
 
     if $::virtual == 'xenhvm' {
         # Bug 964880: make sure to enable swap on some instance types
