@@ -50,6 +50,7 @@ class toplevel::server inherits toplevel::base {
             include packages::snmp
             include packages::wget
             include packages::mysql_devel
+            include packages::subversion
         }
     }
 }

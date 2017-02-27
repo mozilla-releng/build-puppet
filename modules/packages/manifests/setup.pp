@@ -150,11 +150,14 @@ class packages::setup {
 
                 "jdk17":
                     url_path => "repos/yum/custom/jdk17/$architecture";
+
+                "subversion":
+                    url_path => "repos/yum/custom/subversion/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 76
+            $repoflag = 77
             file {
                 "/etc/.repo-flag":
                     content =>

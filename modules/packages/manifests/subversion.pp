@@ -4,9 +4,10 @@
 class packages::subversion {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['subversion'])
             package {
                 "subversion":
-                    ensure => latest;
+                    ensure => "1.6.11-15.el6_7";
             }
         }
         default: {
