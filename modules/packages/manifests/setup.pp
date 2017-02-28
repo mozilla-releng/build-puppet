@@ -153,6 +153,9 @@ class packages::setup {
 
                 "subversion":
                     url_path => "repos/yum/custom/subversion/$architecture";
+
+                "httpd":
+                    url_path => "repos/yum/custom/httpd/$architecture";
             }
 
             # to flush the metadata cache, increase this value by one (or
