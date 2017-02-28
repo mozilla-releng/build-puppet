@@ -4,9 +4,10 @@
 class packages::httpd {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['httpd'])
             package {
                 "httpd":
-                    ensure => latest;
+                    ensure => "2.2.15-56.el6.centos.3";
             }
         }
         Ubuntu: {
