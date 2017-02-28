@@ -192,7 +192,7 @@ class packages::setup {
             }
             # to flush the package index, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 38
+            $repoflag = 39
             file {
                 "/etc/.repo-flag":
                     content =>
@@ -283,6 +283,10 @@ class packages::setup {
                     components   => ["all"];
                 "git":
                     url_path     => "repos/apt/custom/git",
+                    distribution => "${lsbdistcodename}",
+                    components   => ["all"];
+                "libxcb":
+                    url_path     => "repos/apt/custom/libxcb",
                     distribution => "${lsbdistcodename}",
                     components   => ["all"];
             }

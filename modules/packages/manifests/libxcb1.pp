@@ -4,9 +4,10 @@
 class packages::libxcb1 {
     case $::operatingsystem {
         Ubuntu: {
+            realize(Packages::Aptrepo['libxcb'])
             package {
                 "libxcb1":
-                    ensure => "1.8.1-2ubuntu2.1mozilla1";
+                    ensure => "1.8.1-2ubuntu2.1mozilla2";
             }
         }
         default: {
