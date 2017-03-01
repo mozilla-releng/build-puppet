@@ -12,16 +12,36 @@ class beetmover_scriptworker::settings {
 
     $env_config = {
         "dev" => {
-            beetmover_aws_access_key_id => secret("stage-beetmover-aws_access_key_id"),
-            beetmover_aws_secret_access_key => secret("stage-beetmover-aws_secret_access_key"),
-            beetmover_aws_s3_firefox_bucket => "net-mozaws-stage-delivery-firefox",
-            beetmover_aws_s3_fennec_bucket => "net-mozaws-stage-delivery-archive",
+            nightly_beetmover_aws_access_key_id => secret("stage-beetmover-aws_access_key_id"),
+            nightly_beetmover_aws_secret_access_key => secret("stage-beetmover-aws_secret_access_key"),
+            nightly_beetmover_aws_s3_firefox_bucket => "net-mozaws-stage-delivery-firefox",
+            nightly_beetmover_aws_s3_fennec_bucket => "net-mozaws-stage-delivery-archive",
+
+            release_beetmover_aws_access_key_id => secret("stage-beetmover-aws_access_key_id"),
+            release_beetmover_aws_secret_access_key => secret("stage-beetmover-aws_secret_access_key"),
+            release_beetmover_aws_s3_firefox_bucket => "net-mozaws-stage-delivery-firefox",
+            release_beetmover_aws_s3_fennec_bucket => "net-mozaws-stage-delivery-archive",
+
+            dep_beetmover_aws_access_key_id => secret("stage-beetmover-aws_access_key_id"),
+            dep_beetmover_aws_secret_access_key => secret("stage-beetmover-aws_secret_access_key"),
+            dep_beetmover_aws_s3_firefox_bucket => "net-mozaws-stage-delivery-firefox",
+            dep_beetmover_aws_s3_fennec_bucket => "net-mozaws-stage-delivery-archive",
         },
         "prod" => {
-            beetmover_aws_access_key_id => secret("nightly-beetmover-aws_access_key_id"),
-            beetmover_aws_secret_access_key => secret("nightly-beetmover-aws_secret_access_key"),
-            beetmover_aws_s3_firefox_bucket => "net-mozaws-prod-delivery-firefox",
-            beetmover_aws_s3_fennec_bucket => "net-mozaws-prod-delivery-archive",
+            nightly_beetmover_aws_access_key_id => secret("nightly-beetmover-aws_access_key_id"),
+            nightly_beetmover_aws_secret_access_key => secret("nightly-beetmover-aws_secret_access_key"),
+            nightly_beetmover_aws_s3_firefox_bucket => "net-mozaws-prod-delivery-firefox",
+            nightly_beetmover_aws_s3_fennec_bucket => "net-mozaws-prod-delivery-archive",
+
+            release_beetmover_aws_access_key_id => secret("beetmover-aws_access_key_id"),
+            release_beetmover_aws_secret_access_key => secret("beetmover-aws_secret_access_key"),
+            release_beetmover_aws_s3_firefox_bucket => "net-mozaws-prod-delivery-firefox",
+            release_beetmover_aws_s3_fennec_bucket => "net-mozaws-prod-delivery-archive",
+
+            dep_beetmover_aws_access_key_id => secret("stage-beetmover-aws_access_key_id"),
+            dep_beetmover_aws_secret_access_key => secret("stage-beetmover-aws_secret_access_key"),
+            dep_beetmover_aws_s3_firefox_bucket => "net-mozaws-stage-delivery-firefox",
+            dep_beetmover_aws_s3_fennec_bucket => "net-mozaws-stage-delivery-archive",
         }
     }
 }
