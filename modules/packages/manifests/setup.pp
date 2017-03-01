@@ -222,14 +222,31 @@ class packages::setup {
                     source => "puppet:///modules/packages/apt.conf.mozilla";
             }
             packages::aptrepo {
-                "${lsbdistcodename}":
-                    url_path     => "repos/apt/ubuntu",
-                    distribution => "${lsbdistcodename}",
-                    components   => ["main", "restricted", "universe"];
-                "${lsbdistcodename}-security":
-                    url_path     => "repos/apt/ubuntu",
-                    distribution => "${lsbdistcodename}-security",
-                    components   => ["main", "restricted", "universe"];
+                case $::operatingsystemrelease {
+                    "16.04" : {
+                        "xenial":
+                            url_path     => "repos/apt/Ubuntu-16.04",
+                            distribution => "xenial",
+                            components   => ["main", "restricted", "universe"];
+                        "xenial-security":
+                            url_path     => "repos/apt/Ubuntu-16.04",
+                            distribution => "xenial-security",
+                            components   => ["main", "restricted", "universe"];
+                    }
+                    "14.04", "12.04" : {
+                        "${lsbdistcodename}":
+                            url_path     => "repos/apt/ubuntu",
+                            distribution => "${lsbdistcodename}",
+                            components   => ["main", "restricted", "universe"];
+                        "${lsbdistcodename}-security":
+                            url_path     => "repos/apt/ubuntu",
+                            distribution => "${lsbdistcodename}-security",
+                            components   => ["main", "restricted", "universe"];
+                    }
+                    default: {
+                        fail("Ubuntu $operatingsystemrelease is not supported");
+                    }
+                }
                 "releng":
                     url_path     => "repos/apt/releng",
                     distribution => "${lsbdistcodename}",
