@@ -38,7 +38,7 @@ class balrog_scriptworker {
                   "python-dateutil==2.6.0",
                   "python-gnupg==0.4.0",
                   "requests==2.13.0",
-                  "scriptworker==2.3.0",
+                  "scriptworker==2.4.0",
                   "six==1.10.0",
                   "slugid==1.0.7",
                   "taskcluster==1.0.2",
@@ -55,7 +55,7 @@ class balrog_scriptworker {
             group    => "${users::builder::group}",
             packages => [
                   "balrogclient==0.0.1",
-                  "balrogscript==0.0.5",
+                  "balrogscript==0.0.6",
                   "boto==2.41.0",
                   "cffi==1.8.3",
                   "cryptography==1.2.3",
