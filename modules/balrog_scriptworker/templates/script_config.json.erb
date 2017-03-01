@@ -8,48 +8,9 @@
     "dummy": false,
     "disable_certs": false,
 
-    "server_config": {
-        "nightly": {
-            "api_root": "<%= @env_config["balrog_api_root"] %>",
-            "balrog_username": "<%= @env_config["balrog_username"] %>",
-            "balrog_password": "<%= @env_config["balrog_password"] %>",
-            "allowed_channels": ["nightly"]
-        },
-        "aurora": {
-            "api_root": "<%= @env_config["balrog_api_root"] %>",
-            "balrog_username": "<%= @env_config["balrog_username"] %>",
-            "balrog_password": "<%= @env_config["balrog_password"] %>",
-            "allowed_channels": ["aurora"]
-        },
-        "beta": {
-            "api_root": "<%= @env_config["balrog_api_root"] %>",
-            "balrog_username": "<%= @env_config["balrog_username"] %>",
-            "balrog_password": "<%= @env_config["balrog_password"] %>",
-            "allowed_channels": ["beta", "beta-localtest", "beta-cdntest"]
-        },
-        "release": {
-            "api_root": "<%= @env_config["balrog_api_root"] %>",
-            "balrog_username": "<%= @env_config["balrog_username"] %>",
-            "balrog_password": "<%= @env_config["balrog_password"] %>",
-            "allowed_channels": ["release", "release-localtest", "release-cdntest"]
-        },
-        "esr": {
-            "api_root": "<%= @env_config["balrog_api_root"] %>",
-            "balrog_username": "<%= @env_config["balrog_username"] %>",
-            "balrog_password": "<%= @env_config["balrog_password"] %>",
-            "allowed_channels": ["esr", "esr-localtest", "esr-cdntest"]
-        },
-        "dep": {
-            "api_root": "",
-            "balrog_username": "",
-            "balrog_password": "",
-            "allowed_channels": [
-                "nightly", "aurora", "beta", "beta-localtest", "beta-cdntest",
-                "release", "release-localtest", "release-cdntest", "esr",
-                "esr-localtest", "esr-cdntest"
-            ]
-        }
-    },
+    "api_root": "<%= @env_config["balrog_api_root"] %>",
+    "balrog_username": "<%= @env_config["balrog_username"] %>",
+    "balrog_password": "<%= @env_config["balrog_password"] %>",
 
     "tools_location": "<%= scope.lookupvar("balrog_scriptworker::settings::root") %>/tools"
 }
