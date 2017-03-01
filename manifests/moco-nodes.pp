@@ -3,14 +3,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ## testers
-node "t-ubuntu16-ix-022.test.releng.scl3.mozilla.com" {
-    # host to test the upgrade to Ubuntu 16.04
-    $aspects = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $pin_puppet_env = "dcrisan"
-    include toplevel::slave::releng::test::gpu
-}
 
 # linux64 and OS X
 

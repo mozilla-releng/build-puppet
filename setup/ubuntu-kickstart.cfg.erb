@@ -24,8 +24,7 @@ reboot
 text
 #Install OS instead of upgrade
 install
-# noting the repo urls are unique to the the version of ubuntu.
-url --url http://repos/repos/apt/XXXX
+url --url http://repos/repos/apt/ubuntu
 #Clear the Master Boot Record
 zerombr yes
 #System bootloader configuration
@@ -50,8 +49,8 @@ preseed partman/confirm_nooverwrite boolean true
 # https://bugzilla.mozilla.org/show_bug.cgi?id=843847
 preseed apt-setup/services-select multiselect security
 preseed apt-setup/security_host string repos
-# noting the repo urls are unique to the the version of ubuntu.
-preseed apt-setup/security_path string /repos/apt/XXXX
+preseed apt-setup/security_path string /repos/apt/ubuntu
+
 #Package install information; groups here select packages by "task"
 %%packages
 @ minimal

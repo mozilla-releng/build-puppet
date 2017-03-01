@@ -3,10 +3,9 @@
   # file, You can obtain one at http://mozilla.org/MPL/2.0/. %>
 cat > /etc/apt/sources.list <<EOF
 # blow away any existing repositories and add our own
-# noting the repo urls are unique to the the version of ubuntu.
-deb http://repos/repos/apt/XXXX/ <%= @os_codename %> main restricted universe
-deb http://repos/repos/apt/XXXX/ <%= @os_codename %>-security main restricted universe
-deb http://repos/repos/apt/releng/ <%= @os_codename %> main
-deb http://repos/repos/apt/puppetlabs/ <%= @os_codename %> dependencies main
+deb http://repos/repos/apt/ubuntu/ precise main restricted universe
+deb http://repos/repos/apt/ubuntu/ precise-security main restricted universe
+deb http://repos/repos/apt/releng/ precise main
+deb http://repos/repos/apt/puppetlabs precise dependencies main
 EOF
 apt-get update || fail
