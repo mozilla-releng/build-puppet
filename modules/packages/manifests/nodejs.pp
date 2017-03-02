@@ -25,9 +25,22 @@ class packages::nodejs {
             case $::operatingsystemmajrelease {
                 6: {
                     realize(Packages::Yumrepo['nodesource'])
+                    realize(Packages::Yumrepo['devtools-2'])
                     package {
                         "nodejs":
                             ensure => "6.10.0-1nodesource.el6";
+                    }
+                    package {
+                        "mpfr":
+                            ensure => latest;
+                    }
+                    package {
+                        "devtoolset-2-gcc-c++":
+                            ensure => "4.8.2-15.el6";
+                    }
+                    package {
+                        "devtoolset-2-binutils":
+                            ensure => "2.23.52.0.1-10.el6";
                     }
                 }
                 default: {
