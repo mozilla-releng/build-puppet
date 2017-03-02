@@ -54,6 +54,9 @@ class packages::setup {
                 "nodesource":
                     url_path => "repos/yum/mirrors/nodesource/el/$majorver/$architecture";
 
+                "devtools-2":
+                    url_path => "repos/yum/mirrors/devtools-2/$majorver/$architecture/RPMS";
+
                 "passenger":
                     url_path => "repos/yum/mirrors/passenger/rhel/$majorver/latest/$architecture";
 
