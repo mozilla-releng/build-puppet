@@ -21,7 +21,7 @@
     "jarsigner_key_store": "<%= scope['pushapk_scriptworker::settings::jarsigner_keystore'] %>",
     "jarsigner_certificate_aliases": {
         "aurora": "<%= scope['pushapk_scriptworker::settings::jarsigner_nightly_certificate_alias'] %>",
-        "beta": "<%= scope['pushapk_scriptworker::settings::jarsigner_nightly_certificate_alias'] %>",
+        "beta": "<%= scope['pushapk_scriptworker::settings::jarsigner_release_certificate_alias'] %>",
         "release": "<%= scope['pushapk_scriptworker::settings::jarsigner_release_certificate_alias'] %>"
     }
 }
