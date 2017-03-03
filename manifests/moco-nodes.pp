@@ -318,7 +318,9 @@ node "buildbot-master01.bb.releng.use1.mozilla.com" {
             master_type => "tests",
             basedir => "tests1-linux32";
     }
+    $l10n_bumper_env = "mozilla-beta"
     include toplevel::server::buildmaster::mozilla
+    include toplevel::mixin::l10n_bumper
 }
 
 node "buildbot-master02.bb.releng.use1.mozilla.com" {
