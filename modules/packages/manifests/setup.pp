@@ -57,6 +57,9 @@ class packages::setup {
                 "devtools-2":
                     url_path => "repos/yum/mirrors/devtools-2/$majorver/$architecture/RPMS";
 
+                "taskcluster":
+                    url_path => "repos/yum/custom/taskcluster/$architecture";
+
                 "passenger":
                     url_path => "repos/yum/mirrors/passenger/rhel/$majorver/latest/$architecture";
 
