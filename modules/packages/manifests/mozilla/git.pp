@@ -40,6 +40,13 @@ class packages::mozilla::git {
                             ensure => '1:2.7.4-0ppa1~ubuntu14.04.1';
                     } -> Anchor['packages::mozilla::git::end']
                 }
+                16.04: {
+                    Anchor['packages::mozilla::git::begin'] ->
+                    package {
+                        "git":
+                            ensure => '1:2.7.4-0ubuntu1';
+                    } -> Anchor['packages::mozilla::git::end']
+                }
                 default: {
                     fail("Unrecognized Ubuntu version $::operatingsystemrelease")
                 }

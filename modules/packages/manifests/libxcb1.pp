@@ -4,10 +4,23 @@
 class packages::libxcb1 {
     case $::operatingsystem {
         Ubuntu: {
-            realize(Packages::Aptrepo['libxcb'])
-            package {
-                "libxcb1":
-                    ensure => "1.8.1-2ubuntu2.1mozilla2";
+            case $::operatingsystemrelease {
+                12.04: {
+                    realize(Packages::Aptrepo['libxcb'])
+                    package {
+                        "libxcb1":
+                            ensure => "1.8.1-2ubuntu2.1mozilla2";
+                    }
+                }
+                16.04: {
+                    package {
+                        "libxcb1":
+                            ensure => '1.11.1-1ubuntu1';
+                    }
+                }
+                default: {
+                    fail("Ubuntu $operatingsystemrelease is not supported")
+                }
             }
         }
         default: {

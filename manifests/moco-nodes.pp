@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ## testers
-node "t-ubuntu16-ix-022.test.releng.scl3.mozilla.com" {
+node "jwatkins-1330169.srv.releng.scl3.mozilla.com" {
     # host to test the upgrade to Ubuntu 16.04
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
@@ -1016,12 +1016,6 @@ node /pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 }
 
 ## Loaners
-
-
-node "jwatkins-1330169.srv.releng.scl3.mozilla.com" {
-    $aspects = [ 'low-security' ]
-    include toplevel::server
-}
 
 node "dhouse-1330169.srv.releng.scl3.mozilla.com" {
     $aspects = [ 'low-security' ]

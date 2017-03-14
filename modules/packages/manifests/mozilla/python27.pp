@@ -80,6 +80,22 @@ class packages::mozilla::python27 {
                                     target => "/usr/bin/python";
                             }
                         }
+                        16.04: {
+                            Anchor['packages::mozilla::python27::begin'] ->
+                            package {
+                                [ "python2.7", "python2.7-dev"]:
+                                    ensure => '2.7.12-1ubuntu0~16.04.1';
+                            } -> Anchor['packages::mozilla::python27::end']
+
+                            # Create symlinks for compatibility with other platforms
+                            file {
+                                ["/tools/python27", "/tools/python27/bin"]:
+                                    ensure => directory;
+                                [$python, "/usr/local/bin/python2.7"]:
+                                    ensure => link,
+                                    target => "/usr/bin/python";
+                            }
+                        }
                         default: {
                             fail("Cannot install on Ubuntu version $::operatingsystemrelease")
                         }

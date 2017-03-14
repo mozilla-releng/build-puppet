@@ -44,6 +44,10 @@ class packages::libc {
                 }
                 default: {
                     # default version is fine
+                    package {
+                        "libc6":
+                            ensure => present;
+                    }
                 }
             }
         }

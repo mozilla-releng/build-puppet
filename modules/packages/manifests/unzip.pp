@@ -10,9 +10,22 @@ class packages::unzip {
             }
         }
         Ubuntu: {
-            package {
-                "unzip":
-                    ensure => '6.0-4ubuntu1';
+            case $::operatingsystemrelease {
+                12.04: {
+                    package {
+                        "unzip":
+                            ensure => '6.0-4ubuntu1';
+                    }
+                }
+                16.04: {
+                    package {
+                        "unzip":
+                            ensure => '6.0-20ubuntu1';
+                    }
+                }
+                default: {
+                    fail("Ubuntu $operatingsystemrelease is not supported")
+                }
             }
         }
         Darwin: {

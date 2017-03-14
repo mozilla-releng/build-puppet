@@ -6,12 +6,33 @@
 class packages::ia32libs {
     case $::operatingsystem {
         Ubuntu: {
-            case $::hardwaremodel {
-                "x86_64": {
-                    package {
-                        "ia32-libs":
-                            ensure => latest;
+            case $::operatingsystemrelease {
+                12.04: {
+                    case $::hardwaremodel {
+                        "x86_64": {
+                            package {
+                                "ia32-libs":
+                                    ensure => latest;
+                            }
+                        }
                     }
+                }
+                16.04: {
+                    # In ubuntu 16.04, ia32-libs was replaced with lib32z1 lib32ncurses5
+                    # When I tried to install ia32-libs, I received the error:
+                    # However the following packages replace it:
+                    # lib32z1 lib32ncurses5
+                    case $::hardwaremodel {
+                        "x86_64": {
+                            package {
+                                "lib32ncurses5":
+                                    ensure => '6.0+20160213-1ubuntu1';
+                            }
+                        }
+                    }
+                }
+                default: {
+                    fail("Ubuntu $operatingsystemrelease is not supported")
                 }
             }
         }

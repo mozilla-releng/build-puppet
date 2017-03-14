@@ -29,6 +29,16 @@ class packages::collectd {
                             ensure => absent;
                     }
                 }
+                16.04: {
+                    package {
+                        ["collectd-core", "collectd", "libcollectdclient1", "collectd-utils"]:
+                            ensure => '5.5.1-1build2';
+                    }
+                    package {
+                        ["libcollectdclient-dev", "collectd-dbg", "collectd-dev"]:
+                            ensure => absent;
+                    }
+                }
                 default: {
                     fail("Unrecognized Ubuntu version $::operatingsystemrelease")
                 }

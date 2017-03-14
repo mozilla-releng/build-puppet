@@ -4,9 +4,22 @@
 class packages::bridge-utils {
     case $::operatingsystem {
         Ubuntu: {
-            package {
-                "bridge-utils":
-                    ensure => "1.5-2ubuntu6";
+            case $::operatingsystemrelease {
+                12.04: {
+                    package {
+                        "bridge-utils":
+                            ensure => "1.5-2ubuntu6";
+                    }
+                }
+                16.04: {
+                    package {
+                        "bridge-utils":
+                            ensure => '1.5-9ubuntu1';
+                    }
+                }
+                default: {
+                    fail("Ubuntu $operatingsystemrelease is not supported")
+                }
             }
         }
         default: {
