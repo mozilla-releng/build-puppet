@@ -4,13 +4,33 @@
 class packages::gstreamer {
     case $::operatingsystem {
         Ubuntu: {
-            package {
-                [ "gstreamer0.10-ffmpeg", "gstreamer0.10-plugins-base",
-                  "gstreamer0.10-plugins-good", "gstreamer0.10-plugins-ugly",
-                  # plugins-bad contains a libfaad-based AAC decoder that will make
-                  # tests succeed - see bug 912854
-                  "gstreamer0.10-plugins-bad"]:
-                    ensure => latest;
+            case $::operatingsystemrelease {
+                12.04: {
+                    package {
+                        [ "gstreamer0.10-ffmpeg", "gstreamer0.10-plugins-base",
+                          "gstreamer0.10-plugins-good", "gstreamer0.10-plugins-ugly",
+                        # plugins-bad contains a libfaad-based AAC decoder that will make
+                        # tests succeed - see bug 912854
+                          "gstreamer0.10-plugins-bad"]:
+                            ensure => latest;
+                    }
+                }
+                16.04: {
+                    package {
+                      # In ubuntu 16.04, gstreamer0.10-ffmpeg was replaced with gstreamer1.0-libav
+                        "gstreamer1.0-libav":
+                            ensure => '1.8.0-1';
+                        "gstreamer1.0-plugins-ugly":
+                            ensure => '1.8.0-1ubuntu1';
+                        ["gstreamer1.0-plugins-base","gstreamer1.0-plugins-bad"]:
+                            ensure => '1.8.2-1ubuntu0.2';
+                        "gstreamer1.0-plugins-good":
+                            ensure => '1.8.2-1ubuntu0.3';
+                    }
+                }
+                default: {
+                    fail("Ubuntu $operatingsystemrelease is not supported")
+                }
             }
         }
         default: {

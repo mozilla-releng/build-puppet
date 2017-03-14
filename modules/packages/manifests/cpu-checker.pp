@@ -4,9 +4,22 @@
 class packages::cpu-checker {
     case $::operatingsystem {
         Ubuntu: {
-            package {
-                "cpu-checker":
-                    ensure => "0.7-0ubuntu1";
+            case $::operatingsystemrelease {
+                12.04: {
+                    package {
+                        "cpu-checker":
+                            ensure => "0.7-0ubuntu1";
+                    }
+                }
+                16.04: {
+                    package {
+                        "cpu-checker":
+                            ensure => '0.7-0ubuntu7';
+                    }
+                }
+                default: {
+                    fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                }
             }
         }
         default: {

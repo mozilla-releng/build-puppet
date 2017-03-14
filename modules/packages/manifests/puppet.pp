@@ -26,11 +26,23 @@ class packages::puppet {
             }
         }
         Ubuntu: {
-            package {
-                ["puppet", "puppet-common"]:
-                    ensure => "$puppet_deb_version";
-                ["facter"]:
-                    ensure => "$facter_deb_version";
+            case $::operatingsystemrelease {
+                12.04, 14.04: {
+                    package {
+                        ["puppet", "puppet-common"]:
+                            ensure => "$puppet_deb_version";
+                        ["facter"]:
+                            ensure => "$facter_deb_version";
+                    }
+                }
+                16.04:  {
+                    package {
+                        ["puppet", "puppet-common"]:
+                            ensure => "3.8.5-2";
+                        ["facter"]:
+                            ensure => "2.4.6-1";
+                    }
+                }
             }
         }
         Darwin: {

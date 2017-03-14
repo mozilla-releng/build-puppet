@@ -4,9 +4,22 @@
 class packages::qemu-kvm {
     case $::operatingsystem {
         Ubuntu: {
-            package {
-                "qemu-kvm":
-                    ensure => "1.0+noroms-0ubuntu13";
+            case $::operatingsystemrelease {
+                12.04: {
+                    package {
+                        "qemu-kvm":
+                            ensure => "1.0+noroms-0ubuntu13";
+                    }
+                }
+                16.04: {
+                    package {
+                        "qemu-kvm":
+                            ensure => '1:2.5+dfsg-5ubuntu10.6';
+                    }
+                }
+                default: {
+                    fail("Ubuntu $operatingsystemrelease is not supported")
+                }
             }
         }
         default: {

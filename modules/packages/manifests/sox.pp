@@ -4,9 +4,23 @@
 class packages::sox {
     case $::operatingsystem {
         Ubuntu: {
-            package {
-                ["libsox-fmt-alsa", "libsox-fmt-base", "libsox1b", "sox"]:
-                    ensure => latest;
+            case $::operatingsystemrelease {
+                12.04: {
+                    package {
+                        ["libsox-fmt-alsa", "libsox-fmt-base", "libsox1b", "sox"]:
+                            ensure => latest;
+                    }
+                }
+                16.04: {
+                    package {
+                        ["libsox-fmt-alsa", "libsox-fmt-base", "libsox2", "sox"]:
+                            ensure => '14.4.1-5';
+                    }
+                }
+                default: {
+                    fail("Ubuntu $operatingsystemrelease is not supported")
+                }
+
             }
         }
         default: {

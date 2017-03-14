@@ -16,11 +16,25 @@ class packages::wget {
             } -> Anchor['packages::wget::end']
         }
         Ubuntu: {
-            Anchor['packages::wget::begin'] ->
-            package {
-                "wget":
-                    ensure => '1.13.4-2ubuntu1';
-            } -> Anchor['packages::wget::end']
+            case $::operatingsystemrelease {
+                12.04: {
+                    Anchor['packages::wget::begin'] ->
+                    package {
+                        "wget":
+                            ensure => '1.13.4-2ubuntu1';
+                    } -> Anchor['packages::wget::end']
+                }
+                16.04: {
+                    Anchor['packages::wget::begin'] ->
+                    package {
+                        "wget":
+                            ensure => '1.17.1-1ubuntu1.1';
+                    } -> Anchor['packages::wget::end']
+                }
+                default: {
+                    fail("Ubuntu $operatingsystemrelease is not supported")
+                }
+            }
         }
         Darwin: {
             Anchor['packages::wget::begin'] ->

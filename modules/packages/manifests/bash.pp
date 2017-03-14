@@ -33,18 +33,25 @@ class packages::bash {
         }
 
         Ubuntu: {
-            realize(Packages::Aptrepo['bash'])
             case $::operatingsystemrelease {
                 12.04: {
+                    realize(Packages::Aptrepo['bash'])
                     package {
                         "bash":
                             ensure => '4.2-2ubuntu2.5';
                     }
                 }
                 14.04: {
+                    realize(Packages::Aptrepo['bash'])
                     package {
                         "bash":
                             ensure => '4.3-7ubuntu1.4';
+                    }
+                }
+                16.04: {
+                    package {
+                        "bash":
+                            ensure => '4.3-14ubuntu1';
                     }
                 }
                 default: {
