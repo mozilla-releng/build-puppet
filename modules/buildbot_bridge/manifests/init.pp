@@ -37,6 +37,7 @@ class buildbot_bridge {
                 "PyYAML==3.10",
                 "jsonschema==2.4.0",
                 "slugid==1.0.6",
+                "statsd==3.2.1",
                 "bbb==${bbb_version}",
             ];
     }
