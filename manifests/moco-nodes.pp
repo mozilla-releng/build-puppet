@@ -422,7 +422,6 @@ node "buildbot-master69.bb.releng.use1.mozilla.com" {
 node "buildbot-master70.bb.releng.use1.mozilla.com" {
     $aspects = [ 'high-security' ]
     $only_user_ssh = true
-    $buildbot_bridge_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm70-build1":
             http_port => 8001,
@@ -431,7 +430,6 @@ node "buildbot-master70.bb.releng.use1.mozilla.com" {
     }
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::selfserve_agent
-    include toplevel::mixin::buildbot_bridge
 }
 
 node "buildbot-master71.bb.releng.use1.mozilla.com" {
@@ -629,6 +627,7 @@ node "buildbot-master85.bb.releng.scl3.mozilla.com" {
 node "buildbot-master86.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
     $only_user_ssh = true
+    $buildbot_bridge_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm86-build1":
             http_port => 8001,
@@ -638,6 +637,7 @@ node "buildbot-master86.bb.releng.scl3.mozilla.com" {
     $l10n_bumper_env = "mozilla-aurora"
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::l10n_bumper
+    include toplevel::mixin::buildbot_bridge
 }
 
 node "buildbot-master87.bb.releng.scl3.mozilla.com" {
