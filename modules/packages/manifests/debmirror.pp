@@ -8,7 +8,7 @@ class packages::debmirror {
             realize(Packages::Yumrepo['debian'])
             package {
                 "debmirror":
-                    ensure => latest;
+                    ensure => "2.14-3.el6";
             }
         }
 
