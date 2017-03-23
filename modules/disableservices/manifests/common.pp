@@ -22,30 +22,68 @@ class disableservices::common {
         Ubuntu: {
             # These packages are required by ubuntu-desktop, so we can't uninstall them.  Instead,
             # install but disable them.
-            $install_and_disable = [ 'cups', 'anacron', 'whoopsie', 'lightdm',
-                  'modemmanager', 'apport', 'acpid',
-                  'avahi-daemon', 'network-manager' ]
-            package {
-                $install_and_disable:
-                    ensure => latest;
-            }
-            service {
-                $install_and_disable:
-                    enable => false,
-                    ensure => stopped,
-                    require => Package[$install_and_disable];
-            }
+            case $::operatingsystemrelease {
+                12.04,14.04: {
+                    $install_and_disable = [ 'cups', 'anacron', 'whoopsie', 'lightdm',
+                        'modemmanager', 'apport', 'acpid',
+                        'avahi-daemon', 'network-manager' ]
+                    package {
+                        $install_and_disable:
+                            ensure => latest;
+                    }
+                    service {
+                        $install_and_disable:
+                            enable => false,
+                            ensure => stopped,
+                            require => Package[$install_and_disable];
+                    }
 
-            # this package and service have different names
-            package {
-                "bluez":
-                    ensure => latest;
-            }
-            service {
-                "bluetooth":
-                    enable => false,
-                    ensure => stopped,
-                    require => Package['bluez'];
+                    # this package and service have different names
+                    package {
+                        "bluez":
+                            ensure => latest;
+                    }
+                    service {
+                        "bluetooth":
+                            enable => false,
+                            ensure => stopped,
+                            require => Package['bluez'];
+                    }
+                }
+                16.04: {
+                    # For operatingsystem == ubuntu and operatingsystemmajrelease == 15.04, 15.10, 16.04, 16.10, The system management
+                    # is realized by systemd and not Upstart
+                    $install_and_disable = [ 'cups', 'anacron', 'whoopsie', 'lightdm',
+                        'modemmanager', 'apport', 'acpid',
+                        'avahi-daemon', 'network-manager' ]
+                    package {
+                        $install_and_disable:
+                            ensure => latest;
+                    }
+                    service {
+                        $install_and_disable:
+                            provider => 'systemd',
+                            enable   => false,
+                            ensure   => stopped,
+                            require  => Package[$install_and_disable];
+                    }
+
+                    # this package and service have different names
+                    package {
+                        "bluez":
+                            ensure => latest;
+                    }
+                    service {
+                        "bluetooth":
+                            provider => 'systemd',
+                            enable   => false,
+                            ensure   => stopped,
+                            require  => Package['bluez'];
+                    }
+                }
+                default: {
+                    fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                }
             }
         }
         Darwin : {

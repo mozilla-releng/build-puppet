@@ -6,12 +6,6 @@ class rsyslog {
 
     case $::operatingsystem {
         CentOS,Ubuntu: {
-            service {
-              "rsyslog":
-                require => Class["packages::rsyslog"],
-                ensure => running,
-                enable => true;
-            }
             file {
                 "/etc/rsyslog.conf":
                     ensure => present,
@@ -23,6 +17,25 @@ class rsyslog {
                     recurse => true,
                     purge => true,
                     force => true;
+            }
+            case $::operatingsystemrelease {
+                16.04: {
+                    service {
+                        "rsyslog":
+                            provider => 'systemd',
+                            require  => Class["packages::rsyslog"],
+                            ensure   => running,
+                            enable   => true;
+                    }
+                }
+                default: {
+                    service {
+                        "rsyslog":
+                            require => Class["packages::rsyslog"],
+                            ensure  => running,
+                            enable  => true;
+                    }
+                }
             }
         }
         default: {
