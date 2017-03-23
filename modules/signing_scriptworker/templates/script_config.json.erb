@@ -9,5 +9,7 @@
 
     "signtool": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/bin/signtool",
     "verbose": <%= @verbose_logging %>,
+    "dmg": "<%= @dmg_location %>",
+    "hfsplus": "<%= @hfsplus_location %>",
     "zipalign": "<%= @zipalign_location %>"
 }
