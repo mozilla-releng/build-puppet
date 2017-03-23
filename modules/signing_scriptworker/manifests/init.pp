@@ -13,6 +13,8 @@ class signing_scriptworker {
     $build_tools_version = '23.0.3'
     # See value defined in packages::mozilla::android_sdk
     $zipalign_location = "/tools/android-sdk/build-tools/$build_tools_version/zipalign"
+    $dmg_location = "${signing_scriptworker::settings::root}/dmg/dmg"
+    $hfsplus_location = "${signing_scriptworker::settings::root}/dmg/hfsplus"
 
     python35::virtualenv {
         "${signing_scriptworker::settings::root}":
@@ -110,6 +112,23 @@ class signing_scriptworker {
             group       => "${users::signer::group}",
             source      => "puppet:///modules/signing_scriptworker/file_age_check_required.txt",
             show_diff   => true;
+        "${signing_scriptworker::settings::root}/dmg":
+            ensure      => directory,
+            mode        => 755,
+            owner       => "${users::signer::username}",
+            group       => "${users::signer::group}";
+        "${dmg_location}":
+            mode        => 755,
+            owner       => "${users::signer::username}",
+            group       => "${users::signer::group}",
+            source      => "puppet:///modules/signing_scriptworker/dmg/dmg",
+            show_diff   => false;
+        "${hfsplus_location}":
+            mode        => 755,
+            owner       => "${users::signer::username}",
+            group       => "${users::signer::group}",
+            source      => "puppet:///modules/signing_scriptworker/dmg/hfsplus",
+            show_diff   => false;
     }
 
     packages::mozilla::android_sdk {
