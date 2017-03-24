@@ -30,7 +30,7 @@ class pushapk_scriptworker {
                 'idna==2.1',
                 'jsonschema==2.5.1',
                 'mohawk==0.3.3',
-                'mozapkpublisher==0.1.6',
+                'mozapkpublisher==0.2.0',
                 'multidict==2.1.2',
                 'oauth2client==3.0.0',
                 'pexpect==4.2.1',
