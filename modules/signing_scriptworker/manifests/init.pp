@@ -8,6 +8,8 @@ class signing_scriptworker {
     include packages::gcc
     include packages::make
 
+    $env_config = $signing_scriptworker::settings::env_config[$signing_scriptworker_env]
+
     # because puppet barfs whenever I try to put it in settings.pp
     $verbose_logging = true
     $build_tools_version = '23.0.3'
@@ -69,15 +71,19 @@ class signing_scriptworker {
             username                 => $users::signer::username,
             group                    => $users::signer::group,
 
-            taskcluster_client_id    => secret("signing_scriptworker_taskcluster_client_id"),
-            taskcluster_access_token => secret("signing_scriptworker_taskcluster_access_token"),
+            taskcluster_client_id    => $signing_scriptworker::settings::taskcluster_client_id,
+            taskcluster_access_token => $signing_scriptworker::settings::taskcluster_access_token,
             worker_group             => $signing_scriptworker::settings::worker_group,
-            worker_type              => $signing_scriptworker::settings::worker_type,
-            task_max_timeout         => 1800,
+            worker_type              => $env_config['worker_type'],
+            task_max_timeout         => $signing_scriptworker::settings::task_max_timeout,
 
             cot_job_type             => "signing",
 
-            verbose_logging          => $verbose_logging,
+            sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
+            verify_chain_of_trust    => $env_config["verify_chain_of_trust"],
+            verify_cot_signature     => $env_config["verify_cot_signature"],
+
+            verbose_logging          => $signing_scriptworker::settings::verbose
     }
 
     nrpe::custom {
@@ -98,7 +104,7 @@ class signing_scriptworker {
             mode        => 600,
             owner       => "${users::signer::username}",
             group       => "${users::signer::group}",
-            content     => template("${module_name}/passwords.json.erb"),
+            content     => template("${module_name}/${env_config['passwords_template']}"),
             show_diff => false;
         "${signing_scriptworker::settings::root}/file_age_check_optionals.txt":
             mode        => 640,
