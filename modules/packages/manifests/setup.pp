@@ -201,7 +201,7 @@ class packages::setup {
             }
             # to flush the package index, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 39
+            $repoflag = 40
             file {
                 "/etc/.repo-flag":
                     content =>
@@ -237,6 +237,10 @@ class packages::setup {
                         "xenial-security":
                             url_path     => "repos/apt/Ubuntu-16.04",
                             distribution => "xenial-security",
+                            components   => ["main", "restricted", "universe"];
+                        "xenial-updates":
+                            url_path     => "repos/apt/Ubuntu-16.04",
+                            distribution => "xenial-updates",
                             components   => ["main", "restricted", "universe"];
                     }
                 }
