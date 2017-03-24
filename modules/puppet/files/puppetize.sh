@@ -163,6 +163,10 @@ if $interactive; then
 fi
 
 run_puppet() {
+    # First ensure there are no lock files preventing puppet from running
+    # This is the default state for puppet on Ubuntu 16.04
+    /usr/bin/puppet agent --enable
+
     puppet_server="${PUPPET_SERVER:-puppet}"
     PUPPET_EXTRA_OPTIONS=${PUPPET_EXTRA_OPTIONS:-}
     echo $"Running puppet agent against server '$puppet_server'"
