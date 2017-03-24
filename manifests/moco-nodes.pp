@@ -983,6 +983,7 @@ node /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 # Signing scriptworkers
 node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
+    $signing_scriptworker_env = "prod"
     $timezone = "UTC"
     $only_user_ssh = true
     include toplevel::server::signingscriptworker
