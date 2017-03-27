@@ -27,7 +27,7 @@ class signing_scriptworker {
             mode     => 700,
             packages => [
                   "PyYAML==3.12",
-                  "aiohttp==2.0.2",
+                  "aiohttp==2.0.4",
                   "appdirs==1.4.3",
                   "arrow==0.10.0",
                   "async-timeout==1.2.0",
