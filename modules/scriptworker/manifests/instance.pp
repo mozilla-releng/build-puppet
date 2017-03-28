@@ -61,7 +61,7 @@ define scriptworker::instance(
 
     # XXX Workaround to have arrays as default values
     if $restart_process_when_changed == undef {
-      $_restart_process_when_changed = [Python35::Virtualenv[$basedir], File[$task_script_config]]
+      $_restart_process_when_changed = [Python35::Virtualenv[$basedir], File[$script_worker_config]]
     } else {
       $_restart_process_when_changed = $restart_process_when_changed
     }
