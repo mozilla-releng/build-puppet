@@ -5,7 +5,7 @@ class taskcluster_host_secrets {
     case $::operatingsystem {
         CentOS: {
             $taskcluster_access_token = secret('TC_HOST_SECRETS_ACCESS_TOKEN')
-            if ($taskcluster_access_token == "")
+            if ($taskcluster_access_token == "") {
                 fail("missing TC_HOST_SECRETS_ACCESS_TOKEN")
             }
             $datacentre = regsubst($fqdn, '.*\.([a-z0-9]*)\.mozilla\.com$', '\1')
