@@ -20,6 +20,5 @@ class puppetmaster::install {
     include packages::mozilla::py27_mercurial
 
     # taskcluster-host-secrets service
-    include packages::nodejs
-    include packages::taskcluster_host_secrets
+    include taskcluster_host_secrets
 }
