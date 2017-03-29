@@ -24,6 +24,9 @@ config:
   logLevel:         info
   plugins:
     disabled:       ['interactive', 'maxruntime']
+    reboot:
+      rebootAfter: 96 # hours
+      rebootCommand: ['/usr/bin/sudo', '/sbin/reboot']
     env:
       extra:
         TMPDIR: {$env: TMPDIR}
