@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-class toplevel::worker::releng::test inherits toplevel::worker::releng {
+class toplevel::worker::releng::taskcluster_worker::test inherits toplevel::worker::releng::taskcluster_worker {
     include talos
     include vnc
     include ntp::atboot

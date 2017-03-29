@@ -1,0 +1,35 @@
+<%# This Source Code Form is subject to the terms of the Mozilla Public
+<%# License, v. 2.0. If a copy of the MPL was not distributed with this
+<%# file, You can obtain one at http://mozilla.org/MPL/2.0/. -%>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>net.generic.worker</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/generic-worker</string>
+        <string>run</string>
+        <string>--config</string>
+        <string>/etc/generic-worker.config</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/cltbld</string>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>KeepAlive</key>
+    <dict>
+        <key>PathState</key>
+        <dict>
+            <!-- start if this file exists (the name is a legacy from buildbot days) -->
+            <key>/var/tmp/semaphore/run-buildbot</key>
+            <true/>
+        </dict>
+    </dict>
+    <key>StandardErrorPath</key>
+    <string>/var/tmp/generic-worker.err</string>
+    <key>StandardOutPath</key>
+    <string>/var/tmp/generic-worker.log</string>
+</dict>
+</plist>
