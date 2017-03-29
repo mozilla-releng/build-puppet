@@ -1,0 +1,42 @@
+{
+  "accessToken": "<%= @taskcluster_access_token %>",
+  "cachesDir": "/Users/cltbld/caches",
+  "certificate": "",
+  "checkForNewDeploymentEverySecs": 0,
+  "cleanUpTaskDirs": true,
+  "clientId": "<%= @taskcluster_client_id %>",
+  "deploymentId": "",
+  "downloadsDir": "/Users/cltbld/downloads",
+  "idleTimeoutSecs": 0,
+  "instanceId": "",
+  "instanceType": "",
+  "livelogCertificate": "/Users/cltbld/livelog.crt",
+  "livelogExecutable": "livelog",
+  "livelogGETPort": 60023,
+  "livelogKey": "/Users/cltbld/livelog.key",
+  "livelogPUTPort": 60022,
+  "livelogSecret": "<%= @livelog_secret %>",
+  "numberOfTasksToRun": 0,
+  "privateIP": "",
+  "provisionerId": "scl3-puppet",
+  "publicIP": "<%= @ipaddress %>",
+  "refreshURLsPrematurelySecs": 310,
+  "region": "",
+  "requiredDiskSpaceMegabytes": 10240,
+  "runAfterUserCreation": "",
+  "runTasksAsCurrentUser": true,
+  "shutdownMachineOnInternalError": false,
+  "shutdownMachineOnIdle": false,
+  "signingKeyLocation": "/Users/cltbld/generic-worker.openpgp.key",
+  "subdomain": "taskcluster-worker.net",
+  "tasksDir": "/Users/cltbld/tasks",
+  "workerGroup": "scl3",
+  "workerId": "<%= @hostname %>",
+  "workerType": "os-x-<%= @macos_version %>-gw",
+  "workerTypeMetadata": {
+    "config": {
+      "deploymentId": "",
+      "runTaskAsCurrentUser": true
+    }
+  }
+}

@@ -17,8 +17,6 @@ class toplevel::worker::releng inherits toplevel::worker {
     include packages::mozilla::py27_virtualenv
     include buildslave::install
 
-    include taskcluster_worker
-
     case $::kernel {
         'Linux': {
             # authorize aws-manager to reboot instances
