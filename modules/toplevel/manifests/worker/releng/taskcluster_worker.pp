@@ -4,7 +4,7 @@
 
 class toplevel::worker::releng::taskcluster_worker inherits toplevel::worker::releng {
 
-    include taskcluster_worker
+    include ::taskcluster_worker
 
     # ensure generic-worker is disabled, in case this machine previously ran it
     file {
