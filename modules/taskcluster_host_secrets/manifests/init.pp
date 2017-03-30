@@ -11,7 +11,7 @@ class taskcluster_host_secrets {
             $datacentre = regsubst($fqdn, '.*\.([a-z0-9]*)\.mozilla\.com$', '\1')
             $credentials_expiry = '4 days'
             $allowed_ips = '10.0.0.0/8'
-            $service_port = 8080
+            $service_port = 8020
 
             file { '/etc/host-secrets.conf':
                 ensure => present,
@@ -19,6 +19,11 @@ class taskcluster_host_secrets {
                 mode => 0644,
                 owner => root,
                 group => wheel,
+            }
+
+            file { '/usr/bin/host-secrets':
+                ensure => link,
+                target => '/opt/taskcluster-host-secrets/bin/start.sh'
             }
 
             # /etc/init.d/host-secrets is installed by the rpm package included above. source at:
