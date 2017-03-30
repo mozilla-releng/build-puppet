@@ -20,6 +20,14 @@ class taskcluster_host_secrets {
                 owner => root,
                 group => wheel,
             }
+
+            # /etc/init.d/host-secrets is installed by the rpm package included above. source at:
+            # https://github.com/taskcluster/taskcluster-host-secrets/blob/packaging/init.d.in
+
+            service { 'host-secrets':
+                ensure => running,
+                enable => true
+            }
         }
         default: {
             fail("cannot install on $::operatingsystem")

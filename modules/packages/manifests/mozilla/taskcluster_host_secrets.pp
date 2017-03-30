@@ -8,7 +8,7 @@ class packages::mozilla::taskcluster_host_secrets {
         'packages::mozilla::taskcluster_host_secrets::end': ;
     }
 
-    $version = '1.0.1-1.fc25'
+    $version = '1.0.2-1.fc25'
 
     # RPM packages are uploaded to the Puppet Yum repositories at:
     # /data/repos/yum/custom/taskcluster/x86_64/taskcluster-host-secrets-${version}.x86_64.rpm
