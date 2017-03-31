@@ -1,0 +1,21 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+# Init script for Xsession service
+
+[Unit]
+Description=Xsession service.
+# Start Xsession only after x11 or xvfb start
+After=<%= if @on_gpu == true then "x11.service" else "xvfb.service" end %>
+
+[Service]
+Type=forking
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+ExecStart=/bin/su - -c "DISPLAY=:0 /etc/X11/Xsession" <%= scope.lookupvar('::config::builder_username') %>
+
+[Install]
+WantedBy=multi-user.target

@@ -53,22 +53,6 @@ class gui(
             }
 
             file {
-                "/etc/init/x11.conf":
-                    content => template("${module_name}/x11.conf.erb"),
-                    notify => Service['x11'];
-
-                "/etc/init.d/x11":
-                    ensure  => link,
-                    target  => "/lib/init/upstart-job";
-
-                "/etc/init/xvfb.conf":
-                    content => template("${module_name}/xvfb.conf.erb"),
-                    notify => Service['xvfb'];
-
-                "/etc/init.d/xvfb":
-                    ensure  => link,
-                    target  => "/lib/init/upstart-job";
-
                 # Bug 1027345
                 # Auto-detection of X settings works fine, but it would be
                 # better to have all needed settings generated from the template.
@@ -98,31 +82,6 @@ class gui(
 
                 "/etc/xdg/autostart/deja-dup-monitor.desktop":
                     content => template("${module_name}/deja-dup-monitor.desktop");
-            }
-
-            # start x11 *or* xvfb, depending on whether we have a GPU or not
-            service {
-                'x11':
-                    ensure => $on_gpu ? { true => undef, default => stopped },
-                    enable => $on_gpu ? { true => true, default => false },
-                    require => File['/etc/init.d/x11'],
-                    notify => Service['Xsession'];
-
-                'xvfb':
-                    ensure => $on_gpu ? { true => stopped, default => undef },
-                    enable => $on_gpu ? { true => false, default => true },
-                    require => File['/etc/init.d/xvfb'],
-                    notify => Service['Xsession'];
-            }
-
-            file {
-                "/etc/init/Xsession.conf":
-                    content => template("${module_name}/Xsession.conf.erb"),
-                    notify => Service['Xsession'];
-
-                "/etc/init.d/Xsession":
-                    ensure  => link,
-                    target  => "/lib/init/upstart-job";
 
                 "${users::builder::home}/.xsessionrc":
                     content => "DESKTOP_SESSION=ubuntu\n",
@@ -138,12 +97,86 @@ class gui(
                     ensure => absent;
             }
 
-            service {
-                'Xsession':
-                    # we do not ensure this is running; the system will start
-                    # it after puppet is done
-                    enable => true,
-                    require => File['/etc/init.d/Xsession'];
+            case $::operatingsystemrelease {
+                12.04,14.04: {
+                    file {
+                        "/etc/init.d/x11":
+                            ensure  => link,
+                            target  => "/lib/init/upstart-job";
+                        "/etc/init.d/xvfb":
+                            ensure  => link,
+                            target  => "/lib/init/upstart-job";
+                        "/etc/init.d/Xsession":
+                            ensure  => link,
+                            target  => "/lib/init/upstart-job";
+                        "/etc/init/x11.conf":
+                            content => template("${module_name}/x11.conf.erb"),
+                            notify => Service['x11'];
+                        "/etc/init/xvfb.conf":
+                            content => template("${module_name}/xvfb.conf.erb"),
+                            notify => Service['xvfb'];
+                        "/etc/init/Xsession.conf":
+                            content => template("${module_name}/Xsession.conf.erb"),
+                            notify => Service['Xsession'];
+                    }
+
+                    # start x11 *or* xvfb, depending on whether we have a GPU or not
+                    service {
+                        'x11':
+                            ensure => $on_gpu ? { true => undef, default => stopped },
+                            enable => $on_gpu ? { true => true, default => false },
+                            require => File['/etc/init.d/x11'],
+                            notify => Service['Xsession'];
+
+                        'xvfb':
+                            ensure => $on_gpu ? { true => stopped, default => undef },
+                            enable => $on_gpu ? { true => false, default => true },
+                            require => File['/etc/init.d/xvfb'],
+                            notify => Service['Xsession'];
+                        'Xsession':
+                            # we do not ensure this is running; the system will start
+                            # it after puppet is done
+                            enable => true,
+                            require => File['/etc/init.d/Xsession'];
+                    }
+                }
+                16.04: {
+                    file {
+                        "/lib/systemd/system/x11.service":
+                            content => template("${module_name}/x11.service.erb"),
+                            notify => Service['x11'];
+                        "/lib/systemd/system/xvfb.service":
+                            content => template("${module_name}/xvfb.service.erb"),
+                            notify => Service['xvfb'];
+                        "/lib/systemd/system/Xsession.service":
+                            content => template("${module_name}/Xsession.service.erb"),
+                            notify => Service['Xsession'];
+                    }
+                    # start x11 *or* xvfb, depending on whether we have a GPU or not
+                    service {
+                        'x11':
+                            provider => 'systemd',
+                            ensure => $on_gpu ? { true => undef, default => stopped },
+                            enable => $on_gpu ? { true => true, default => false },
+                            require => File['/lib/systemd/system/x11.service'],
+                            notify => Service['Xsession'];
+                        'xvfb':
+                            provider => 'systemd',
+                            ensure => $on_gpu ? { true => stopped, default => undef },
+                            enable => $on_gpu ? { true => false, default => true },
+                            require => File['/lib/systemd/system/xvfb.service'],
+                            notify => Service['Xsession'];
+                        'Xsession':
+                            # we do not ensure this is running; the system will start
+                            # it after puppet is done
+                            provider => 'systemd',
+                            enable => true,
+                            require => File['/lib/systemd/system/Xsession.service'];
+                    }
+                }
+                default: {
+                    fail ("Cannot install on Ubuntu version $::operatingsystemrelease")
+                }
             }
         }
         default: {

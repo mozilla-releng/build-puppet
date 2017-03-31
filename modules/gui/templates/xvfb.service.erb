@@ -1,0 +1,22 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+# Init script for xvfb service
+
+[Unit]
+Description=Xvfb service
+After=puppet.service
+
+[Service]
+Type=forking
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+Environment=USER=<%= scope.lookupvar('::config::builder_username') %>
+User=<%= scope.lookupvar('::config::builder_username') %>
+ExecStart=/usr/bin/Xvfb :0 -nolisten tcp -screen 0 <%= @screen_width %>x<%= @screen_height %>x<%= if @screen_depth.to_i <= 24 then @screen_depth else 24 end %>
+
+[Install]
+WantedBy=multi-user.target
