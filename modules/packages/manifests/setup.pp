@@ -223,6 +223,13 @@ class packages::setup {
                 # Disable periodic apt operations from cron
                 "/etc/apt/apt.conf.d/10periodic":
                     content => "APT::Periodic::Enable \"0\";\n";
+                # Copy puppetmaster CA cert to a world readable location
+                "/etc/ssl/certs/ca.pem":
+                    ensure => present,
+                    owner  => 0,
+                    group  => 0,
+                    mode   => 644,
+                    source => "file:/var/lib/puppet/ssl/certs/ca.pem";
                 # Allow not signed packages until we sign them
                 "/etc/apt/apt.conf.d/99mozilla":
                     source => "puppet:///modules/packages/apt.conf.mozilla";
