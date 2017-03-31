@@ -35,20 +35,20 @@ class hardware {
     # OK, so it's not strictly "hardware", but stlil..
     if ($::virtual == "vmware") {
         if ($kernel == "Linux") {
-            if ($config::vmwaretools_version) {
-                class {
-                    'vmwaretools':
-                        version => $config::vmwaretools_version,
-                        archive_md5 => $config::vmwaretools_md5,
-                        archive_url => "http://${config::data_server}/repos/private/vmware";
-                }
-            }
 
             # kernels should use clocksource=pit to get proper timing info
             # and, of course, this is different between RHEL-based and Ubuntu
             # systems!
             case $operatingsystem {
                 CentOS: {
+                    if ($config::vmwaretools_version) {
+                        class {
+                            'vmwaretools':
+                                version => $config::vmwaretools_version,
+                                archive_md5 => $config::vmwaretools_md5,
+                                archive_url => "http://${config::data_server}/repos/private/vmware";
+                        }
+                    }
                     augeas {
                         "vmware-clocksource":
                             context => "/files/etc/grub.conf",
@@ -64,6 +64,24 @@ class hardware {
                             changes => [
                                 "set GRUB_CMDLINE_EXTRA clocksource=pit"
                             ];
+                    }
+                    case $::operatingsystemrelease {
+                        12.04,14.04: {
+                            if ($config::vmwaretools_version) {
+                                class {
+                                    'vmwaretools':
+                                        version => $config::vmwaretools_version,
+                                        archive_md5 => $config::vmwaretools_md5,
+                                        archive_url => "http://${config::data_server}/repos/private/vmware";
+                                }
+                            }
+                        }
+                        16.04: {
+                            class {'packages::open_vm_tools': }
+                        }
+                        default: {
+                            fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                        }
                     }
                 }
             }
