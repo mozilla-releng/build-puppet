@@ -6,6 +6,7 @@ class buildbot_bridge {
     include packages::gcc
     include packages::make
     include packages::mozilla::python27
+    include packages::mozilla::python35
     include packages::mysql_devel
     include users::builder
 
