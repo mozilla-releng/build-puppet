@@ -30,18 +30,41 @@ class runner::service {
             }
         }
         'Ubuntu': {
-            file {
-                "/etc/init/runner.conf":
-                    content => template("runner/runner.upstart.conf.erb");
-            }
-            service {
-                'runner':
-                    require   => [
-                        Python::Virtualenv[$runner::settings::root],
-                        File["/etc/init/runner.conf"],
-                    ],
-                    hasstatus => false,
-                    enable    => true;
+            case $::operatingsystemrelease {
+                12.04,14.04: {
+                    file {
+                        "/etc/init/runner.conf":
+                            content => template("runner/runner.upstart.conf.erb");
+                    }
+                    service {
+                        'runner':
+                            require   => [
+                                Python::Virtualenv[$runner::settings::root],
+                                File["/etc/init/runner.conf"],
+                            ],
+                            hasstatus => false,
+                            enable    => true;
+                    }
+                }
+                16.04: {
+                    file {
+                        "/lib/systemd/system/runner.service":
+                            content => template("runner/runner.service.erb");
+                    }
+                    service {
+                        'runner':
+                            provider  => 'systemd',
+                            require   => [
+                                Python::Virtualenv[$runner::settings::root],
+                                File["/lib/systemd/system/runner.service"],
+                            ],
+                            hasstatus => false,
+                            enable    => true;
+                    }
+                }
+                default: {
+                    fail("Ubuntu $operatingsystemrelease is not supported")
+                }
             }
         }
         'Darwin': {
