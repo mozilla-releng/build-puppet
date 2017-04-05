@@ -54,6 +54,7 @@ class balrog_scriptworker {
             user     => "${users::builder::username}",
             group    => "${users::builder::group}",
             packages => [
+                  "arrow==0.10.0",
                   "balrogclient==0.0.1",
                   "balrogscript==0.1.0",
                   "boto==2.41.0",
