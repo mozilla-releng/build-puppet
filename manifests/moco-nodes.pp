@@ -1039,3 +1039,13 @@ node "dhouse-1330169.srv.releng.scl3.mozilla.com" {
     $aspects = [ 'low-security' ]
     include toplevel::server
 }
+
+# See Bug 1343963
+node "moonshot-test3.test.releng.scl3.mozilla.com" {
+    $aspects = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "jwatkins"
+    include toplevel::base
+}
+
