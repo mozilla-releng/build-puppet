@@ -20,12 +20,12 @@ class packages::gstreamer {
                       # In ubuntu 16.04, gstreamer0.10-ffmpeg was replaced with gstreamer1.0-libav
                         "gstreamer1.0-libav":
                             ensure => '1.8.0-1';
-                        "gstreamer1.0-plugins-ugly":
-                            ensure => '1.8.0-1ubuntu1';
-                        ["gstreamer1.0-plugins-base","gstreamer1.0-plugins-bad"]:
-                            ensure => '1.8.2-1ubuntu0.2';
+                        ["gstreamer1.0-plugins-ugly","gstreamer1.0-plugins-base"]:
+                            ensure => '1.8.3-1ubuntu0.1';
+                        "gstreamer1.0-plugins-bad":
+                            ensure => '1.8.3-1ubuntu0.2';
                         "gstreamer1.0-plugins-good":
-                            ensure => '1.8.2-1ubuntu0.3';
+                            ensure => '1.8.3-1ubuntu0.3';
                     }
                 }
                 default: {

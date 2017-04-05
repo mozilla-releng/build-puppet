@@ -14,7 +14,7 @@ class packages::qemu-kvm {
                 16.04: {
                     package {
                         "qemu-kvm":
-                            ensure => '1:2.5+dfsg-5ubuntu10.6';
+                            ensure => '1:2.5+dfsg-5ubuntu10.9';
                     }
                 }
                 default: {
