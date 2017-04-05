@@ -70,15 +70,6 @@ class packages::mozilla::python27 {
                                 [ "python2.7", "python2.7-dev"]:
                                     ensure => '2.7.3-0ubuntu3';
                             } -> Anchor['packages::mozilla::python27::end']
-
-                            # Create symlinks for compatibility with other platforms
-                            file {
-                                ["/tools/python27", "/tools/python27/bin"]:
-                                    ensure => directory;
-                                [$python, "/usr/local/bin/python2.7"]:
-                                    ensure => link,
-                                    target => "/usr/bin/python";
-                            }
                         }
                         16.04: {
                             Anchor['packages::mozilla::python27::begin'] ->
@@ -86,19 +77,25 @@ class packages::mozilla::python27 {
                                 [ "python2.7", "python2.7-dev"]:
                                     ensure => '2.7.12-1ubuntu0~16.04.1';
                             } -> Anchor['packages::mozilla::python27::end']
-
-                            # Create symlinks for compatibility with other platforms
+                            # After Ubuntu 12.04, the _sysconfigdata_nd.py was moved from /usr/lib/python2.7 to /usr/lib/python2.7/plat-x86_64-linux-gnu/
+                            # I needed to create a symlink to this file in /usr/lib/python2.7 to install virtualenv
                             file {
-                                ["/tools/python27", "/tools/python27/bin"]:
-                                    ensure => directory;
-                                [$python, "/usr/local/bin/python2.7"]:
+                                "/usr/lib/python2.7/_sysconfigdata_nd.py":
                                     ensure => link,
-                                    target => "/usr/bin/python";
+                                    target => "/usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata_nd.py";
                             }
                         }
                         default: {
                             fail("Cannot install on Ubuntu version $::operatingsystemrelease")
                         }
+                    }
+                    # Create symlinks for compatibility with other platforms
+                    file {
+                        ["/tools/python27", "/tools/python27/bin"]:
+                            ensure => directory;
+                        [$python, "/usr/local/bin/python2.7"]:
+                            ensure => link,
+                            target => "/usr/bin/python";
                     }
                 }
                 Darwin: {
