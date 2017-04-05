@@ -67,6 +67,7 @@ class balrog_scriptworker {
                   "mar==1.2",
                   "pyasn1==0.1.9",
                   "pycparser==2.14",
+                  "python-dateutil==2.6.0",
                   "requests==2.8.1",
                   "six==1.10.0",
             ];
