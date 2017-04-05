@@ -14,9 +14,9 @@ node "jwatkins-1330169.srv.releng.scl3.mozilla.com" {
 
 # linux64 and OS X
 
-# bug 1349980: 9/10 available workers to use taskcluster-worker for now
-# see below for 1 worker definition that uses generic-worker
-node /t-yosemite-r7-004[0-8]\.test\.releng\.scl3\.mozilla\.com/ {
+# bug 1349980: 5/10 available workers to use taskcluster-worker for now
+# see below for generic-worker
+node /t-yosemite-r7-004[0-4]\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include toplevel::worker::releng::taskcluster_worker::test::gpu
@@ -30,8 +30,9 @@ node /t-yosemite-r7-004[0-8]\.test\.releng\.scl3\.mozilla\.com/ {
     }
 }
 
-# bug 1349980: only one worker to use generic-worker for now, until in-tree task generation working correctly
-node /t-yosemite-r7-0049\.test\.releng\.scl3\.mozilla\.com/ {
+# bug 1349980: 5/10 available workers to use generic-worker for now
+# see above for taskcluster-worker
+node /t-yosemite-r7-004[5-9]\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include toplevel::worker::releng::generic_worker::test::gpu
