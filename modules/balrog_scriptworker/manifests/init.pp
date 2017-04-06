@@ -26,6 +26,7 @@ class balrog_scriptworker {
                   "arrow==0.10.0",
                   "async-timeout==1.2.0",
                   "chardet==2.3.0",
+                  "construct==2.8.11",
                   "defusedxml==0.5.0",
                   "frozendict==1.2",
                   "jsonschema==2.6.0",
