@@ -64,7 +64,7 @@ class balrog_scriptworker {
                   "construct==2.8.11",
                   "cryptography==1.8.1",
                   "enum34==1.1.6",
-                  "functools32==3.2.3.post2",
+                  "functools32==3.2.3-2",
                   "idna==2.5",
                   "ipaddress==1.0.18",
                   "jsonschema==2.6.0",
