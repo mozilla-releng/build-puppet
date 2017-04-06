@@ -60,6 +60,7 @@ class balrog_scriptworker {
                   "balrogclient==0.0.1",
                   "balrogscript==0.1.0",
                   "cffi==1.10.0",
+                  "construct==2.8.11",
                   "cryptography==1.8.1",
                   "enum34==1.1.6",
                   "idna==2.5",
