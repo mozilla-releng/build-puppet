@@ -1045,7 +1045,7 @@ node "moonshot-test3.test.releng.scl3.mozilla.com" {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
     $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $pin_puppet_env = "jwatkins"
-    include toplevel::base
+    $pin_puppet_env = "dcrisan"
+    include toplevel::slave::releng::test::gpu
 }
 

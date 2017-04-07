@@ -87,6 +87,23 @@ class hardware {
             }
         }
     }
+    if ($::virtual == "xenhvm") {
+        case $::operatingsystem {
+            Ubuntu: {
+                case $::operatingsystemrelease {
+                    16.04: {
+                        class {'packages::xen_tools': }
+                    }
+                    default: {
+                        fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                    }
+                }
+            }
+            default: {
+                fail ("Operating system $::operatingsystem not suported")
+            }
+        }
+    }
     if ($::operatingsystem == "Windows") {
         include hardware::hddoff
         include hardware::highperformance
