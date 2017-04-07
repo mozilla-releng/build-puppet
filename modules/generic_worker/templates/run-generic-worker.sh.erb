@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# This is a wrapper script for calling generic worker, such that when the worker
+# exits, this script will reboot the machine. Note, in the worker config
+# (/etc/generic-worker.config) we set numberOfTasksToRun to 1 so that the worker
+# will exit after running a single task. This script is then responsible for
+# rebooting the machine.
+
+# First run the generic-worker, passing through any arguments handed to this
+# wrapper script...
+/usr/local/bin/generic-worker "$@"
+
+# Now reboot the machine immediately (time costs money)
+/usr/bin/sudo /sbin/reboot
+# Sleep to prevent this script from terminating naturally, and launchd restarting
+# it. Instead, the shutdown should cause this script to terminate (so it won't
+# really sleep for 2 mins). If shutdown doesn't kick in within 2 mins, it is sane
+# for this script to exit, and allow launchd to fire up the worker again.
+/bin/sleep 120
