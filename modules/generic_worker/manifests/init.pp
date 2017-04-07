@@ -15,6 +15,13 @@ class generic_worker {
                 owner => root,
                 group => wheel,
             }
+            file { '/usr/local/bin/run-generic-worker.sh':
+                ensure => present,
+                content => template('generic_worker/run-generic-worker.sh.erb'),
+                mode => 0755,
+                owner => root,
+                group => wheel,
+            }
             file { '/etc/generic-worker.config':
                 ensure => present,
                 content => template('generic_worker/generic-worker.config.erb'),
