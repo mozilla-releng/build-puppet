@@ -437,22 +437,22 @@ class config inherits config::base {
     $l10n_bumper_env_config = {
         "jamun" => {
             mozharness_repo => "https://hg.mozilla.org/projects/jamun",
-            mozharness_revision => "92fe8848d8b7",
+            mozharness_revision => "e1af5dd01c02",
             config_file => "l10n_bumper/jamun.py",
         },
         "mozilla-central" => {
             mozharness_repo => "https://hg.mozilla.org/mozilla-central",
-            mozharness_revision => "92fe8848d8b7",
+            mozharness_revision => "e1af5dd01c02",
             config_file => "l10n_bumper/mozilla-central.py",
         },
         "mozilla-aurora" => {
             mozharness_repo => "https://hg.mozilla.org/mozilla-central",
-            mozharness_revision => "92fe8848d8b7",
+            mozharness_revision => "e1af5dd01c02",
             config_file => "l10n_bumper/mozilla-aurora.py",
         },
         "mozilla-beta" => {
             mozharness_repo => "https://hg.mozilla.org/mozilla-central",
-            mozharness_revision => "92fe8848d8b7",
+            mozharness_revision => "e1af5dd01c02",
             config_file => "l10n_bumper/mozilla-beta.py",
         },
     }
