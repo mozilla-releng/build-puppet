@@ -9,7 +9,7 @@ class taskcluster_host_secrets {
                 fail("missing TC_HOST_SECRETS_ACCESS_TOKEN")
             }
             $credentials_expiry = '4 days'
-            $allowed_ips = '10.0.0.0/8'
+            $allowed_ips = '::ffff:10.0.0.0/8 10.0.0.0/8'
             $service_port = 8020
 
             file { '/etc/host-secrets.conf':
