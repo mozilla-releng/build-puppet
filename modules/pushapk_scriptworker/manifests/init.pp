@@ -35,7 +35,7 @@ class pushapk_scriptworker {
                 'oauth2client==3.0.0',
                 'pexpect==4.2.1',
                 'ptyprocess==0.5.1',
-                'pushapkscript==0.3.1',
+                'pushapkscript==0.3.2',
                 'pyasn1==0.1.9',
                 'pyasn1-modules==0.0.8',
                 'pycparser==2.14',
