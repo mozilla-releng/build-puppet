@@ -18,6 +18,7 @@ class taskcluster_host_secrets {
                 mode => 0644,
                 owner => root,
                 group => wheel,
+                notify => Service['host-secrets'],
             }
 
             file { '/usr/bin/host-secrets':
