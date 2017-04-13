@@ -10,7 +10,7 @@ Documentation=
 
 [Service]
 PIDFile=/var/run/runner.pid
-ExecStart=/usr/bin/nohup /opt/runner/bin/runner -v --syslog -n 30 -H -c /opt/runner/runner.conf /opt/runner/tasks.d
+ExecStart=/usr/bin/nohup /opt/runner/bin/runner -v --syslog -n 30 -H -c /opt/runner/runner.cfg /opt/runner/tasks.d
 
 [Install]
 WantedBy=multi-user.target
