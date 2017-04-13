@@ -9,13 +9,12 @@ Description=X11 service
 After=puppet.service
 
 [Service]
-Type=forking
 Restart=no
 TimeoutSec=5min
 IgnoreSIGPIPE=no
 KillMode=process
 GuessMainPID=no
-ExecStart=/usr/bin/startx
+ExecStart=/usr/bin/X :0 -nolisten tcp
 
 [Install]
 WantedBy=multi-user.target

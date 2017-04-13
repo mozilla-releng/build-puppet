@@ -10,7 +10,6 @@ Description=Xsession service.
 After=<%= if @on_gpu == true then "x11.service" else "xvfb.service" end %>
 
 [Service]
-Type=forking
 TimeoutSec=5min
 IgnoreSIGPIPE=no
 KillMode=process
