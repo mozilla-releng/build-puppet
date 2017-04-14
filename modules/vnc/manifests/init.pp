@@ -55,11 +55,6 @@ class vnc {
                 fail('No VNC password set')
             }
             file {
-                "/etc/init/x11vnc.conf":
-                    content => template("${module_name}/x11vnc.conf.erb");
-                "/etc/init.d/x11vnc":
-                    ensure  => link,
-                    target  => "/lib/init/upstart-job";
                 "$::users::builder::home/.vnc":
                     ensure => directory,
                     mode   => 0700,
@@ -74,6 +69,26 @@ class vnc {
                     group   => root,
                     content => secret("builder_pw_vnc_cleartext"),
                     show_diff => false;
+            }
+            case $::operatingsystemrelease {
+                12.04,14.04: {
+                    file {
+                        "/etc/init/x11vnc.conf":
+                            content => template("${module_name}/x11vnc.conf.erb");
+                        "/etc/init.d/x11vnc":
+                            ensure  => link,
+                            target  => "/lib/init/upstart-job";
+                    }
+                }
+                16.04: {
+                    file {
+                        "/lib/systemd/system/x11vnc.service":
+                            content => template("${module_name}/x11vnc.service.erb");
+                    }
+                }
+                default: {
+                    fail ("Ubuntu $::operatingsystemrelease is not suported")
+                }
             }
             # note that x11vnc isn't started automatically
         }
