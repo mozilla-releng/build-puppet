@@ -419,6 +419,28 @@ class config::base {
         }
     }
 
+    # Buildbot Bridge 2 configuration
+    $buildbot_bridge2_root = ""
+    $buildbot_bridge2_reflector_poll_interval = 60
+    $buildbot_bridge2_reflector_reclaim_threshold = 600
+
+    $buildbot_bridge2_env_config = {
+        "dev" => {
+            version               => "",
+            client_id             => "",
+            access_token          => "",
+            dburi                 => "",
+            selfserve_private_url => "",
+        },
+        "prod" => {
+            version               => "",
+            client_id             => "",
+            access_token          => "",
+            dburi                 => "",
+            selfserve_private_url => "",
+        }
+    }
+
     # TC signing workers
     $signingworker_tools_repo = "https://hg.mozilla.org/build/tools"
     $signingworker_tools_branch = "default"

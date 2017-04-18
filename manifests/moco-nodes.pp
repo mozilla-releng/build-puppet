@@ -466,6 +466,7 @@ node "buildbot-master72.bb.releng.usw2.mozilla.com" {
     $aspects = [ 'high-security' ]
     $only_user_ssh = true
     $buildbot_bridge_env = "prod"
+    $buildbot_bridge2_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm72-build1":
             http_port => 8001,
@@ -475,6 +476,7 @@ node "buildbot-master72.bb.releng.usw2.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::selfserve_agent
     include toplevel::mixin::buildbot_bridge
+    include toplevel::mixin::buildbot_bridge2
 }
 
 node "buildbot-master73.bb.releng.usw2.mozilla.com" {
@@ -589,6 +591,7 @@ node "buildbot-master82.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
     $only_user_ssh = true
     $buildbot_bridge_env = "prod"
+    $buildbot_bridge2_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm82-build1":
             http_port => 8001,
@@ -597,6 +600,7 @@ node "buildbot-master82.bb.releng.scl3.mozilla.com" {
     }
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::buildbot_bridge
+    include toplevel::mixin::buildbot_bridge2
 }
 
 node "buildbot-master83.bb.releng.scl3.mozilla.com" {
@@ -617,6 +621,7 @@ node "buildbot-master84.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
     $only_user_ssh = true
     $buildbot_bridge_env = "dev"
+    $buildbot_bridge2_env = "dev"
     buildmaster::buildbot_master::mozilla {
         "bm84-build1":
             http_port => 8001,
@@ -625,6 +630,7 @@ node "buildbot-master84.bb.releng.scl3.mozilla.com" {
     }
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::buildbot_bridge
+    include toplevel::mixin::buildbot_bridge2
 }
 
 node "buildbot-master85.bb.releng.scl3.mozilla.com" {
@@ -645,6 +651,7 @@ node "buildbot-master86.bb.releng.scl3.mozilla.com" {
     $aspects = [ 'high-security' ]
     $only_user_ssh = true
     $buildbot_bridge_env = "prod"
+    $buildbot_bridge2_env = "prod"
     buildmaster::buildbot_master::mozilla {
         "bm86-build1":
             http_port => 8001,
@@ -655,6 +662,7 @@ node "buildbot-master86.bb.releng.scl3.mozilla.com" {
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::l10n_bumper
     include toplevel::mixin::buildbot_bridge
+    include toplevel::mixin::buildbot_bridge2
 }
 
 node "buildbot-master87.bb.releng.scl3.mozilla.com" {
