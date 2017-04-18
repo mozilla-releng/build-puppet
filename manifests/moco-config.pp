@@ -414,6 +414,28 @@ class config inherits config::base {
         }
     }
 
+    # Buildbot Bridge 2 configuration
+    $buildbot_bridge2_root = "/builds/bbb2"
+    $buildbot_bridge2_reflector_poll_interval = 60
+    $buildbot_bridge2_reflector_reclaim_threshold = 600
+
+    $buildbot_bridge2_env_config = {
+        "dev" => {
+            version               => "2.0.0",
+            client_id             => secret("buildbot_bridge2_dev_taskcluster_client_id"),
+            access_token          => secret("buildbot_bridge2_dev_taskcluster_access_token"),
+            dburi                 => secret("buildbot_bridge2_dev_dburi"),
+            selfserve_private_url => "http://buildapi.pvt.build.mozilla.org/buildapi/self-serve",
+        },
+        "prod" => {
+            version               => "2.0.0",
+            client_id             => secret("buildbot_bridge2_prod_taskcluster_client_id"),
+            access_token          => secret("buildbot_bridge2_prod_taskcluster_access_token"),
+            dburi                 => secret("buildbot_bridge2_prod_dburi"),
+            selfserve_private_url => "http://buildapi.pvt.build.mozilla.org/buildapi/self-serve",
+        }
+    }
+
     # TC signing workers
     $signingworker_exchange = "exchange/taskcluster-queue/v1/task-pending"
     $signingworker_worker_type = "signing-worker-v1"
