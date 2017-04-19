@@ -2,37 +2,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-## testers
-node "jwatkins-1330169.srv.releng.scl3.mozilla.com" {
-    # host to test the upgrade to Ubuntu 16.04
-    $aspects = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $pin_puppet_env = "dcrisan"
-    include toplevel::slave::releng::test::gpu
-}
+## TaskCluster workers
 
-# linux64 and OS X
-
-# bug 1349980: 5/10 available workers to use taskcluster-worker for now
-# see below for generic-worker
-node /t-yosemite-r7-004[0-4]\.test\.releng\.scl3\.mozilla\.com/ {
-    $aspects = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include toplevel::worker::releng::taskcluster_worker::test::gpu
-
-    # Bug 1338557 - Add pmoore public key to authorized_keys file of cltbld/root user of t-yosemite-r7-{0040..0049}
-    users::root::extra_authorized_key {
-        'pmoore': ;
-    }
-    users::builder::extra_authorized_key {
-        'pmoore': ;
-    }
-}
-
-# bug 1349980: 5/10 available workers to use generic-worker for now
-# see above for taskcluster-worker
-node /t-yosemite-r7-004[5-9]\.test\.releng\.scl3\.mozilla\.com/ {
+# OS X
+node /t-yosemite-r7-004[0-9]\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include toplevel::worker::releng::generic_worker::test::gpu
@@ -46,6 +19,19 @@ node /t-yosemite-r7-004[5-9]\.test\.releng\.scl3\.mozilla\.com/ {
     }
 }
 
+## Buildbot testers
+
+# Personal
+node "jwatkins-1330169.srv.releng.scl3.mozilla.com" {
+    # host to test the upgrade to Ubuntu 16.04
+    $aspects = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "dcrisan"
+    include toplevel::slave::releng::test::gpu
+}
+
+# Linux
 node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
     $aspects = [ 'low-security' ]
@@ -54,7 +40,6 @@ node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
 }
 
 # AWS
-
 node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
     # tst-anything in any region of the test.releng mozilla zones
     $aspects = [ 'low-security' ]
@@ -85,7 +70,7 @@ node /d-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
     include toplevel::slave::releng::test
 }
 
-## builders
+## Buildbot builders
 
 # Windows
 node /b-2008.*\.(winbuild|build)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
@@ -123,7 +108,7 @@ node /bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com/ {
     include toplevel::slave::releng::build::standard
 }
 
-## try builders
+## Buildbot try builders
 
 # Windows
 node /(b|y|try)-2008-.*\.(try|wintry).releng.(use1|usw2|scl3).mozilla.com/ {
