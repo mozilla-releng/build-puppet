@@ -1,25 +1,27 @@
 class taskcluster_worker {
     include packages::mozilla::taskcluster_worker
+    include ::users::root
+    include ::users::builder
+
+    $taskcluster_client_id = secret('taskcluster_worker_client_id')
+    $taskcluster_access_token = hiera('taskcluster_worker_access_token')
+
+    file { '/etc/taskcluster-worker.yml':
+        ensure => present,
+        content => template('taskcluster_worker/taskcluster-worker.yml.erb'),
+        mode => 0644,
+        owner => $::users::root::username,
+        group => $::users::root::group
+    }
 
     case $::operatingsystem {
         Darwin: {
-            $macos_version = regsubst($::macosx_productversion_major, '\.', '-')
-            $taskcluster_client_id = secret('taskcluster_worker_client_id')
-            $taskcluster_access_token = hiera('taskcluster_worker_access_token')
-
             file { '/Library/LaunchAgents/net.taskcluster.worker.plist':
                 ensure => present,
                 content => template('taskcluster_worker/taskcluster-worker.plist.erb'),
                 mode => 0644,
-                owner => root,
-                group => wheel,
-            }
-            file { '/etc/taskcluster-worker.yml':
-                ensure => present,
-                content => template('taskcluster_worker/taskcluster-worker.yml.erb'),
-                mode => 0644,
-                owner => root,
-                group => wheel,
+                owner => $::users::root::username,
+                group => $::users::root::group
             }
             service { "net.taskcluster.worker":
                 require   => [
@@ -28,6 +30,21 @@ class taskcluster_worker {
                 enable    => true;
             }
         }
+
+        Ubuntu: {
+            file {
+                ["${::users::builder::home}/.config",
+                "${::users::builder::home}/.config/autostart"]:
+                    ensure => directory,
+                    owner  => $users::builder::username,
+                    group  => $users::builder::group;
+                "${::users::builder::home}/.config/autostart/gnome-terminal.desktop":
+                    content => template("taskcluster_worker/gnome-terminal.desktop.erb"),
+                    owner   => $users::builder::username,
+                    group   => $users::builder::group;
+            }
+        }
+
         default: {
             fail("cannot install on $::operatingsystem")
         }
