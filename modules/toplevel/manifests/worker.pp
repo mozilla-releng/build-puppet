@@ -14,13 +14,8 @@ class toplevel::worker inherits toplevel::base {
     include tweaks::dev_ptmx
     include tweaks::locale
 
-    case $::operatingsystem {
-        'Darwin': {
-            include users::builder::autologin
-        }
-
-        default: {
-            fail("worker not (yet) supported on ${::operatingsystem}")
-        }
+    # *all* Darwin and Windows workers need to autologin, not just testers
+    if ($::operatingsystem == "Darwin") or ($::operatingsystem == "Windows") {
+        include users::builder::autologin
     }
 }
