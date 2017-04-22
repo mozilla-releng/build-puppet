@@ -1000,7 +1000,18 @@ node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
 }
 
 # Balrog scriptworkers
-node /balrogworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+# Bug 1330276 - temporary pin usw2 machines to mtabara environment and
+# default use1 machines to production
+node /balrogworker-.*\.srv\.releng\.usw2\.mozilla\.com/ {
+    $aspects = [ 'maximum-security' ]
+    $balrogworker_env = "dev"
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "mtabara"
+    $timezone = "UTC"
+    include toplevel::server::balrogscriptworker
+}
+
+node /balrogworker-.*\.srv\.releng\.use1\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
     $balrogworker_env = "prod"
     $timezone = "UTC"
@@ -1009,7 +1020,18 @@ node /balrogworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 }
 
 # Beetmover scriptworkers
-node /beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+# Bug 1330276 - temporary pin usw2 machines to mtabara environment and
+# default use1 machines to production
+node /beetmoverworker-.*\.srv\.releng\.usw2\.mozilla\.com/ {
+    $aspects = [ 'maximum-security' ]
+    $beetmoverworker_env = "dev"
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "mtabara"
+    $timezone = "UTC"
+    include toplevel::server::beetmoverscriptworker
+}
+
+node /beetmoverworker-.*\.srv\.releng\.use1\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
     $beetmoverworker_env = "prod"
     $timezone = "UTC"
