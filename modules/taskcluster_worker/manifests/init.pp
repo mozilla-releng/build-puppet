@@ -2,10 +2,9 @@ class taskcluster_worker {
     include packages::mozilla::taskcluster_worker
     include ::users::root
     include ::users::builder
+    include ::config
 
-    $taskcluster_client_id = secret('taskcluster_worker_client_id')
-    $taskcluster_access_token = hiera('taskcluster_worker_access_token')
-
+    $puppet_servers = $::config::puppet_servers
     file { '/etc/taskcluster-worker.yml':
         ensure => present,
         content => template('taskcluster_worker/taskcluster-worker.yml.erb'),
