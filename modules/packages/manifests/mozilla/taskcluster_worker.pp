@@ -3,12 +3,14 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class packages::mozilla::taskcluster_worker {
+    include ::users::root
+
     anchor {
         'packages::mozilla::taskcluster_worker::begin': ;
         'packages::mozilla::taskcluster_worker::end': ;
     }
 
-    $version = '0.0.13'
+    $version = '0.1.0'
 
     # Binaries should be downloaded from
     # https://github.com/taskcluster/taskcluster-worker/releases/download/${version}/taskcluster-worker-${plat}
@@ -21,8 +23,17 @@ class packages::mozilla::taskcluster_worker {
                 '/usr/local/bin/taskcluster-worker':
                     source => "puppet:///repos/EXEs/taskcluster-worker-${version}-darwin-amd64",
                     mode => 0755,
-                    owner => root,
-                    group => wheel,
+                    owner => $::users::root::username,
+                    group => $::users::root::group,
+            }
+        }
+        Ubuntu, Fedora, CentOS: {
+            file {
+                '/usr/local/bin/taskcluster-worker':
+                    source => "puppet:///repos/EXEs/taskcluster-worker-${version}-linux-amd64",
+                    mode => 0755,
+                    owner => $::users::root::username,
+                    group => $::users::root::group,
             }
         }
         default: {

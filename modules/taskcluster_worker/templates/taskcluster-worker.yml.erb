@@ -3,30 +3,30 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 transforms:
   - env
+  - hostcredentials
   - secrets
 config:
-  capacity:         1
   credentials:
-    # Create a client with the scope:
-    # assume:project:taskcluster:worker-test-scopes
-    # secrets:get:project/taskcluster/taskcluster-worker/stateless-dns
-    clientId:       <%= @taskcluster_client_id %>
-    accessToken:    <%= @taskcluster_access_token %>
-  provisionerId:    tc-worker-provisioner
-  workerType:       gecko-t-osx-<%= @macos_version %>
-  workerGroup:      macosx-tc-worker
-  workerId:         <%= @hostname %>
+    $hostcredentials:
+<% @puppet_servers.uniq.each do |server| -%>
+    - http://<%= server %>:8020/v1/credentials
+<% end -%>
   engine:           native
   engines:
     native:
       createUser: false
-      groups: ['staff', 'everyone', 'localaccounts', '_developer', '_lpoperator', 'com.apple.sharepoint.group.1']
-  logLevel:         info
   plugins:
-    disabled:       ['interactive', 'maxruntime']
+    disabled: []
+    artifacts: {}
+    env: {}
+    livelog: {}
+    success: {}
     reboot:
-      rebootAfter: 96 # hours
+      maxLifeCycle: '96 hours'
+      allowTaskReboots: true
       rebootCommand: ['/usr/bin/sudo', '/sbin/reboot']
+<% if @operatingsystem == 'Darwin' -%>
+    # we probably don't need this!
     env:
       extra:
         TMPDIR: {$env: TMPDIR}
@@ -35,26 +35,39 @@ config:
         LC_ALL: 'en_US.UTF-8'
         XPC_FLAGS: '0x0'
         XPC_SERVICE_NAME: '0'
-        IDLEIZER_DISABLE_SHUTDOWN: 'true'
         PATH: "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-  pollingInterval:  10
+<% end -%>
   queueBaseUrl:     https://queue.taskcluster.net/v1
-  reclaimOffset:    120
+  worker:
+    provisionerId:    releng-hardware
+    workerType :      <%= @taskcluster_worker_type %>
+    workerGroup:      <%= @taskcluster_worker_group %>
+    workerId:         <%= @hostname %>
+    pollingInterval:  10
+    reclaimOffset:    120
+    minimumReclaimDelay: 30
+    concurrency: 1
   temporaryFolder:  /var/tmp/tc-worker-tmp
-  serverIp:           127.0.0.1
-  serverPort:         60000
-  tlsCertificiate:
-    $secret:  project/taskcluster/taskcluster-worker/stateless-dns
-    key:      certificate
-  tlsKey:
-    $secret:  project/taskcluster/taskcluster-worker/stateless-dns
-    key:      tlsKey
-  statelessDNSSecret:
-    $secret:  project/taskcluster/taskcluster-worker/stateless-dns
-    key:      secret
-  statelessDNSDomain:
-    $secret:  project/taskcluster/taskcluster-worker/stateless-dns
-    key:      domain
-  maxLifeCycle:       600
+  webHookServer:
+    # NOTE: stateless DNS won't work in a datacenter, but there's no better option yet.  It will at least start up.
+    provider: stateless-dns
+    serverIp:           127.0.0.1
+    serverPort:         60000
+    tlsCertificate:
+      $secret:  project/taskcluster/taskcluster-worker/stateless-dns
+      key:      certificate
+    tlsKey:
+      $secret:  project/taskcluster/taskcluster-worker/stateless-dns
+      key:      tlsKey
+    statelessDNSSecret:
+      $secret:  project/taskcluster/taskcluster-worker/stateless-dns
+      key:      secret
+    statelessDNSDomain:
+      $secret:  project/taskcluster/taskcluster-worker/stateless-dns
+      key:      domain
+    maxLifeCycle: 345600 # 96 hours
   minimumDiskSpace:   10000000  # 10 GB
   minimumMemory:      1000000   # 1 GB
+  monitor:
+    project: taskcluster-worker
+    logLevel: info

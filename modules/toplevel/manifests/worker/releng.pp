@@ -6,7 +6,7 @@ class toplevel::worker::releng inherits toplevel::worker {
     include instance_metadata
     include clean::appstate
 
-    # packages common to all slaves
+    # packages common to all workers
     include dirs::tools
     include packages::mozilla::python27
     include packages::mozilla::tooltool
@@ -14,8 +14,12 @@ class toplevel::worker::releng inherits toplevel::worker {
     include packages::mozilla::py27_mercurial
     # TODO: run mig agent on boot?
     include mig::agent::daemon
-    include packages::mozilla::py27_virtualenv
-    include buildslave::install
+
+    # not sure why these are required on Darwin..
+    if ($::operatingsystem == 'Darwin') {
+        include packages::mozilla::py27_virtualenv
+        include buildslave::install
+    }
 
     case $::kernel {
         'Linux': {
@@ -28,8 +32,25 @@ class toplevel::worker::releng inherits toplevel::worker {
 
     # ensure runner is actually disabled, in case this machine was once set up
     # to run buildbot (temporary)
-    file {
-        "/Library/LaunchAgents/com.mozilla.runner.plist":
-            ensure => absent,
+    case $::operatingsystem {
+        'Darwin': {
+            file {
+                "/Library/LaunchAgents/com.mozilla.runner.plist":
+                    ensure => absent,
+            }
+        }
+
+        'Ubuntu': {
+            service {
+                'runner':
+                    provider  => 'systemd',
+                    hasstatus => false,
+                    enable    => false;
+            }
+        }
+
+        default: {
+            fail("not (yet) supported on ${::operatingsystem}")
+        }
     }
 }
