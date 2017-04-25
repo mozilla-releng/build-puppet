@@ -4,5 +4,4 @@
 
 class toplevel::server::signingscriptworker inherits toplevel::server {
     include ::signing_scriptworker
-    include nrpe::check::signing_file_ages
 }
