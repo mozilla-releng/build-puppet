@@ -23,6 +23,10 @@ class config inherits config::base {
     # we use the sort_servers_by_group function to sort the list of servers, and then just use
     # the first as the primary server
     $grouped_puppet_servers = {
+        '.*\.releng\.mdc1\.mozilla\.com' => [
+            "releng-puppet1.srv.releng.mdc1.mozilla.com",
+            "releng-puppet2.srv.releng.mdc1.mozilla.com",
+        ],
         '.*\.releng\.scl3\.mozilla\.com' => [
            "releng-puppet1.srv.releng.scl3.mozilla.com",
            "releng-puppet2.srv.releng.scl3.mozilla.com",
@@ -41,6 +45,7 @@ class config inherits config::base {
     $data_server = $puppet_server
 
     $node_location = $fqdn? {
+        /.*\.mdc1\.mozilla\.com/ => 'in-house',
         /.*\.scl3\.mozilla\.com/ => 'in-house',
         /.*\.use1\.mozilla\.com/ => 'aws',
         /.*\.usw2\.mozilla\.com/ => 'aws',
