@@ -289,6 +289,7 @@ class config inherits config::base {
     # See https://github.com/mozilla/build-cloud-tools/pull/45
 
     $log_aggregator = $fqdn ? {
+        /.*\.mdc1\.mozilla\.com/ => 'log-aggregator.srv.releng.mdc1.mozilla.com',
         /.*\.scl3\.mozilla\.com/ => 'log-aggregator.srv.releng.scl3.mozilla.com',
         /.*\.use1\.mozilla\.com/ => 'log-aggregator.srv.releng.use1.mozilla.com',
         /.*\.usw2\.mozilla\.com/ => 'log-aggregator.srv.releng.usw2.mozilla.com',
@@ -297,7 +298,7 @@ class config inherits config::base {
 
     # we need to pick a logging port > 1024 for AWS to use the ELB
     $logging_port = $fqdn ? {
-        /.*\.scl3\.mozilla\.com/ => '514',
+        /.*\.(mdc1|scl3)\.mozilla\.com/ => '514',
         /.*\.(usw2|use1)\.mozilla\.com/ => '1514',
         default => '',
     }
