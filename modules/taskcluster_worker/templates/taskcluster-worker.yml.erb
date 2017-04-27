@@ -18,24 +18,25 @@ config:
   plugins:
     disabled: []
     artifacts: {}
-    env: {}
     livelog: {}
     success: {}
     reboot:
       maxLifeCycle: '96 hours'
       allowTaskReboots: true
       rebootCommand: ['/usr/bin/sudo', '/sbin/reboot']
-<% if @operatingsystem == 'Darwin' -%>
-    # we probably don't need this!
     env:
       extra:
+<% if @operatingsystem == 'Darwin' -%>
+        PATH: "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+        # we probably don't need the remainder
         TMPDIR: {$env: TMPDIR}
         SHELL: '/bin/bash'
         LANG: 'en_US.UTF-8'
         LC_ALL: 'en_US.UTF-8'
         XPC_FLAGS: '0x0'
         XPC_SERVICE_NAME: '0'
-        PATH: "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+<% else -%>
+        PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11
 <% end -%>
   queueBaseUrl:     https://queue.taskcluster.net/v1
   worker:
