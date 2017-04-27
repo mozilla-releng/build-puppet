@@ -281,7 +281,7 @@ class config inherits config::base {
     # cef server for auditd output
     $cef_syslog_server = $fqdn ? {
         /.*\.mdc1\.mozilla\.com/ => 'syslog1.private.mdc1.mozilla.com',
-        /.*\.(scl3|usw3|use1)\.mozilla\.com/ => 'syslog1.private.scl3.mozilla.com',
+        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'syslog1.private.scl3.mozilla.com',
         default => '',
     }
 
