@@ -6,9 +6,29 @@ class config inherits config::base {
     $org = "moco"
 
     $puppet_notif_email = "releng-puppet-mail@mozilla.com"
-    $puppet_server_reports = "tagmail,http"
-    $puppet_server_reporturl = "http://foreman.pvt.build.mozilla.org:3001/"
-    $puppet_server_facturl = "http://foreman.pvt.build.mozilla.org:3000/"
+
+    # what puppet report processors to use
+    # http temporarily disabled in mdc1 until relops sets up a local foreman
+    $puppet_server_reports = $fqdn ? {
+        /.*\.mdc1\.mozilla\.com/ => 'tagmail',
+        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'tagmail,http',
+        default => '',
+    }
+
+    # where to send http/https reports
+    $puppet_server_reporturl = $fqdn ? {
+        /.*\.mdc1\.mozilla\.com/ => '',
+        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'http://foreman.pvt.build.mozilla.org:3001/',
+        default => '',
+    }
+
+    # where to store puppet facts
+    # http temporarily disabled in mdc1 until relops sets up a local foreman
+    $puppet_server_facturl = $fqdn ? {
+        /.*\.mdc1\.mozilla\.com/ => '',
+        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'http://foreman.pvt.build.mozilla.org:3000/',
+       default => '',
+    }
 
     $builder_username = "cltbld"
     $install_google_api_key = true
