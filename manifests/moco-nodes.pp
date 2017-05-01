@@ -207,6 +207,17 @@ node "install.test.releng.scl3.mozilla.com" {
     }
 }
 
+node "install.test.releng.mdc1.mozilla.com" {
+    $aspects = [ "maximum-security" ]
+    include toplevel::server::deploystudio
+    #class {
+    #    'bacula_client':
+    #        cert => secret('install_test_releng_scl3_bacula_cert'),
+    #        key => secret('install_test_releng_scl3_bacula_key');
+    #}
+}
+
+
 ## casper imaging servers
 
 node /casper-fs-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
