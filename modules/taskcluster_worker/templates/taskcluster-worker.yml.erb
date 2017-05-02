@@ -37,6 +37,9 @@ config:
         XPC_SERVICE_NAME: '0'
 <% else -%>
         PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11
+        DISPLAY: {$env: DISPLAY}
+        XDG_SESSION_ID: {$env: XDG_SESSION_ID}
+        XDG_RUNTIME_DIR: {$env: XDG_RUNTIME_DIR}
 <% end -%>
   queueBaseUrl:     https://queue.taskcluster.net/v1
   worker:
