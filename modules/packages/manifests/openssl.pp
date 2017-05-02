@@ -21,11 +21,7 @@ class packages::openssl {
                     }
                 }
                 default: {
-                    warning("Unrecognized CentOS version $::operatingsystemrelease")
-                    package {
-                        ["openssl", "openssl-devel"]:
-                            ensure => present;
-                    }
+                    fail("CentOS $operatingsystemrelease is not supported")
                 }
             }
         }
@@ -57,11 +53,7 @@ class packages::openssl {
                     }
                 }
                 default: {
-                    warning("Unrecognized Ubuntu version $::operatingsystemrelease")
-                    package {
-                        ["openssl", "libssl1.0.0", "libssl-dev"]:
-                            ensure => present;
-                    }
+                    fail("Ubuntu $operatingsystemrelease is not supported")
                 }
             }
         }

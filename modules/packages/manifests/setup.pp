@@ -250,6 +250,11 @@ class packages::setup {
                             distribution => "xenial-updates",
                             components   => ["main", "restricted", "universe"];
                     }
+                    # Bug 1360050 - Remove appstreams from apt on Ubuntu 16.04
+                    file {
+                        "/etc/apt/apt.conf.d/50appstream":
+                            ensure => absent;
+                    }
                 }
                 "14.04", "12.04" : {
                     packages::aptrepo {
