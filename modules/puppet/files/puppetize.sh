@@ -59,6 +59,7 @@ done
 mkdir -p /var/lib/puppet/ssl/private_keys || exit 1
 mkdir -p /var/lib/puppet/ssl/certs || exit 1
 rm -f /var/lib/puppet/ssl/private_keys/$FQDN.pem || exit 1
+rm -f /var/lib/puppet/ssl/public_keys/$FQDN.pem || exit 1
 rm -f /var/lib/puppet/ssl/certs/$FQDN.pem || exit 1
 rm -f /var/lib/puppet/ssl/certs/ca.pem || exit 1
 
