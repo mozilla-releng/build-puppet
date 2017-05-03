@@ -22,8 +22,7 @@ class users::deploystudio::account($username, $group, $grouplist, $home, $uid) {
                             shell => "/bin/bash",
                             home => $home,
                             password => secret("deploystudio_pw_paddedsha1"),
-                            comment => "Deploystudio",
-                            notify => Exec['kill-deploystudio-keychain'];
+                            comment => "Deploystudio";
                     }
                     $user_req = User[$username]
                 }
@@ -38,8 +37,7 @@ class users::deploystudio::account($username, $group, $grouplist, $home, $uid) {
                             shell => "/bin/bash",
                             home => $home,
                             password => secret("deploystudio_pw_saltedsha512"),
-                            comment => "Deploystudio",
-                            notify => Exec['kill-deploystudio-keychain'];
+                            comment => "Deploystudio";
                     }
                     $user_req = User[$username]
                 }
@@ -55,21 +53,13 @@ class users::deploystudio::account($username, $group, $grouplist, $home, $uid) {
                             password => secret("deploystudio_pw_pbkdf2"),
                             salt => secret("deploystudio_pw_pbkdf2_salt"),
                             iterations => secret("deploystudio_pw_pbkdf2_iterations"),
-                            comment => "Deploystudio",
-                            notify => Exec['kill-deploystudio-keychain'];
+                            comment => "Deploystudio";
                     }
                     $user_req = User[$username]
                 }
                 default: {
                     fail("No support for creating users on OS X $macosx_productversion_major")
                 }
-            }
-            exec {
-                # whenever the user password changes, we need to delete the keychain, otherwise
-                # it will prompt on login
-                'kill-deploystudio-keychain':
-                    command => "/bin/rm -rf $home/Library/Keychains/login.keychain",
-                    refreshonly => true;
             }
             file {
                 $home:
