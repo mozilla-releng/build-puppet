@@ -32,7 +32,7 @@ node "jwatkins-1330169.srv.releng.scl3.mozilla.com" {
 }
 
 # Linux
-node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
+node /t.*-\d+\.test\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
