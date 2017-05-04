@@ -23,7 +23,9 @@ config:
     reboot:
       maxLifeCycle: '96 hours'
       allowTaskReboots: true
-      rebootCommand: ['/usr/bin/sudo', '/sbin/reboot']
+    maxruntime:
+      maxRunTime: '96 hours'
+      perTaskLimit: allow
     env:
       extra:
 <% if @operatingsystem == 'Darwin' -%>

@@ -3,8 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 [Desktop Entry]
 Type=Application
-# run the daemon, sending output to syslog and to the terminal
-Exec=gnome-terminal -x sh -c 'exec /usr/local/bin/taskcluster-worker daemon run /etc/taskcluster-worker.yml 2>&1 | logger -t taskcluster-worker -s'
+Exec=gnome-terminal -x /usr/local/bin/run-tc-worker.sh
 Hidden=false
 X-GNOME-Autostart-enabled=true
 Name=Taskcluster-Worker

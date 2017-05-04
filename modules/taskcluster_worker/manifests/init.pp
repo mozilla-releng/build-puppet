@@ -1,5 +1,6 @@
 class taskcluster_worker {
     include packages::mozilla::taskcluster_worker
+    include ::dirs::usr::local::bin
     include ::users::root
     include ::users::builder
     include ::config
@@ -37,6 +38,11 @@ class taskcluster_worker {
                     ensure => directory,
                     owner  => $users::builder::username,
                     group  => $users::builder::group;
+                "/usr/local/bin/run-tc-worker.sh":
+                    source => 'puppet:///modules/taskcluster_worker/run-tc-worker.sh',
+                    mode    => 0755,
+                    owner   => $users::root::username,
+                    group   => $users::root::group;
                 "${::users::builder::home}/.config/autostart/gnome-terminal.desktop":
                     content => template("taskcluster_worker/gnome-terminal.desktop.erb"),
                     owner   => $users::builder::username,
