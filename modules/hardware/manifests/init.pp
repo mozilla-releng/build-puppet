@@ -87,6 +87,17 @@ class hardware {
             }
         }
     }
+    if ($::virtual == "xenhvm") {
+        case $::operatingsystem {
+            Ubuntu: {
+                case $::operatingsystemrelease {
+                    16.04: {
+                        class {'packages::xe_guest_utilities': }
+                    }
+                }
+            }
+        }
+    }
     if ($::operatingsystem == "Windows") {
         include hardware::hddoff
         include hardware::highperformance
