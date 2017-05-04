@@ -14,7 +14,6 @@ class gui(
     include gui::appearance
 
     $nvidia_version = '361.42'
-    $gpu_bus_id = "PCI:01:00:0"
 
     # only use the nvidia drivers and settings if we're using a GPU, and are not
     # in virtualization mode
@@ -57,11 +56,6 @@ class gui(
                 # Auto-detection of X settings works fine, but it would be
                 # better to have all needed settings generated from the template.
                 # Special-casing NVidia GPUs for now.
-                "/etc/X11/xorg.conf":
-                    ensure => $use_nvidia ? { true => present, default => absent },
-                    content => template("${module_name}/xorg.conf.erb"),
-                    notify => Service['x11'];
-
                 "/etc/X11/Xwrapper.config":
                     content => template("${module_name}/Xwrapper.config.erb"),
                     notify => Service['x11'];
@@ -99,7 +93,12 @@ class gui(
 
             case $::operatingsystemrelease {
                 12.04,14.04: {
+                    $gpu_bus_id = "PCI:01:00:0"
                     file {
+                        "/etc/X11/xorg.conf":
+                            ensure => $use_nvidia ? { true => present, default => absent },
+                            content => template("${module_name}/xorg.conf.erb"),
+                            notify => Service['x11'];
                         "/etc/init.d/x11":
                             ensure  => link,
                             target  => "/lib/init/upstart-job";
@@ -141,7 +140,12 @@ class gui(
                     }
                 }
                 16.04: {
+                    $gpu_bus_id = "PCI:0:12:0"
                     file {
+                        "/etc/X11/xorg.conf":
+                            ensure => present,
+                            content => template("${module_name}/xorg.conf.u16.erb"),
+                            notify => Service['x11'];
                         "/lib/systemd/system/x11.service":
                             content => template("${module_name}/x11.service.erb"),
                             notify => Service['x11'];
