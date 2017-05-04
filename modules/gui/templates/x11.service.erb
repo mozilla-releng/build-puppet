@@ -14,7 +14,7 @@ TimeoutSec=5min
 IgnoreSIGPIPE=no
 KillMode=process
 GuessMainPID=no
-ExecStart=/usr/bin/X :0 -nolisten tcp
+ExecStart=/usr/bin/X :0 -nolisten tcp -config /etc/X11/xorg.conf
 
 [Install]
 WantedBy=multi-user.target

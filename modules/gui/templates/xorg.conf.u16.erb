@@ -1,0 +1,67 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+Section "ServerLayout"
+    Identifier     "Layout0"
+    Screen      0  "Screen0" 0 0
+    InputDevice    "Keyboard0" "CoreKeyboard"
+    InputDevice    "Mouse0" "CorePointer"
+EndSection
+
+Section "Files"
+EndSection
+
+Section "InputDevice"
+    Identifier     "Mouse0"
+    Driver         "mouse"
+    Option         "Protocol" "auto"
+    Option         "Device" "/dev/psaux"
+    Option         "Emulate3Buttons" "no"
+    Option         "ZAxisMapping" "4 5"
+EndSection
+
+Section "InputDevice"
+
+    # generated from default
+    Identifier     "Keyboard0"
+    Driver         "kbd"
+EndSection
+
+Section "Monitor"
+    Identifier     "Monitor0"
+    VendorName     "Unknown"
+    ModelName      "DFP-0"
+    HorizSync       28.0 - 55.0
+    VertRefresh     43.0 - 72.0
+EndSection
+
+Section "Device"
+    Identifier     "Card0"
+    Driver         "vesa"
+    VendorName     "Intel Corporation"
+    BoardName      "193a"
+
+    # point the driver to the correct chipset
+    BusId          "<%= @gpu_bus_id %>"
+
+    # since no screen is actually attached, tell the driver to
+    # pretend there's a flat-panel attached, with the given EDID
+    # data, and to use that.
+    Option         "ConnectedMonitor" "DFP-0"
+    Option         "CustomEDID" "DFP-0:/etc/X11/edid.bin"
+    Option         "IgnoreEDID" "false"
+    Option         "UseEDID" "true"
+
+    # This host doesn't run acpid, so no need to try
+    Option "ConnectToAcpid" "FALSE"
+EndSection
+Section "Screen"
+    Identifier     "Screen0"
+    Device         "Card00"
+    Monitor        "Monitor0"
+    SubSection "Display"
+        Modes   "1600x1200"
+        Depth   24
+    EndSubSection
+EndSection
