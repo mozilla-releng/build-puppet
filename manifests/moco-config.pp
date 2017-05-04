@@ -166,6 +166,7 @@ class config inherits config::base {
         'arr',
         'klibby',
         'jwatkins',
+        'dhouse',
 
         # ..and a few folks from releng
         'asasaki',
