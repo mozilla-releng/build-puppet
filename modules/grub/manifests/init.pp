@@ -20,6 +20,9 @@ class grub {
                 '14.04': {
                     # Do nothing; submenus are disabled in the defaults
                 }
+                '16.04': {
+                    # Do nothing; submenus are disabled in the defaults
+                }
                 default: {
                     fail("Grub module is not supported on ${operatingsystem}")
                 }

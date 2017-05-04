@@ -370,6 +370,7 @@ class config inherits config::base {
         'Ubuntu' => $operatingsystemrelease ? {
             '12.04' => '3.2.0.76.90',
             '14.04' => '3.13.0.45.52',
+            '16.04' => '4.4.0.66.70',
             default => undef,
         },
         default => undef,
