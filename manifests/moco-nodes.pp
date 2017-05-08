@@ -1051,7 +1051,7 @@ node "moonshot-test3.test.releng.scl3.mozilla.com" {
     $taskcluster_worker_type = 'gecko-t-linux-talos'
     $taskcluster_worker_group = 'moonshot-scl3'
     $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
-    $pin_puppet_env = "dmitchell"
+    $pin_puppet_env = "dcrisan"
     include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
