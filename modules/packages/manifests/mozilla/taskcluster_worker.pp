@@ -10,7 +10,7 @@ class packages::mozilla::taskcluster_worker {
         'packages::mozilla::taskcluster_worker::end': ;
     }
 
-    $version = '0.1.0'
+    $version = '0.1.1'
 
     # Binaries should be downloaded from
     # https://github.com/taskcluster/taskcluster-worker/releases/download/${version}/taskcluster-worker-${plat}
