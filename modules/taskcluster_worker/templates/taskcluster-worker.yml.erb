@@ -23,9 +23,15 @@ config:
     reboot:
       maxLifeCycle: '96 hours'
       allowTaskReboots: true
+    # tasks can never take more than 96 hours (but typically are limited by their own maxRunTime)
     maxruntime:
       maxRunTime: '96 hours'
       perTaskLimit: allow
+    watchdog: {}
+    logprefix:
+      hostname: <%= scope.lookupvar('::fqdn') %>
+      workerType: <%= @taskcluster_worker_type %>
+      workerGroup:  <%= @taskcluster_worker_group %>
     env:
       extra:
 <% if @operatingsystem == 'Darwin' -%>
