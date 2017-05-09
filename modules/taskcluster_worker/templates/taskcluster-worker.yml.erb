@@ -55,23 +55,7 @@ config:
     concurrency: 1
   temporaryFolder:  /var/tmp/tc-worker-tmp
   webHookServer:
-    # NOTE: stateless DNS won't work in a datacenter, but there's no better option yet.  It will at least start up.
-    provider: stateless-dns
-    serverIp:           127.0.0.1
-    serverPort:         60000
-    tlsCertificate:
-      $secret:  project/taskcluster/taskcluster-worker/stateless-dns
-      key:      certificate
-    tlsKey:
-      $secret:  project/taskcluster/taskcluster-worker/stateless-dns
-      key:      tlsKey
-    statelessDNSSecret:
-      $secret:  project/taskcluster/taskcluster-worker/stateless-dns
-      key:      secret
-    statelessDNSDomain:
-      $secret:  project/taskcluster/taskcluster-worker/stateless-dns
-      key:      domain
-    maxLifeCycle: 345600 # 96 hours
+    provider: localhost
   minimumDiskSpace:   10000000  # 10 GB
   minimumMemory:      1000000   # 1 GB
   monitor:
