@@ -158,7 +158,7 @@ node /mac-(v2-|)signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     include toplevel::server::signing
 }
 
-node /signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
+node /signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     # linux signing servers
     $aspects = [ 'maximum-security' ]
     $timezone = "UTC"
