@@ -93,10 +93,6 @@ define scriptworker::instance(
         restart_process_when_changed => $_restart_process_when_changed,
     }
 
-    scriptworker::nagios { $instance_name:
-        basedir              => $basedir,
-    }
-
     # Activate Chain Of Trust
     if $sign_chain_of_trust or $verify_chain_of_trust or $verify_cot_signature {
       scriptworker::chain_of_trust { $instance_name:
