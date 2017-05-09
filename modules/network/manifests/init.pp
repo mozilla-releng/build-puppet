@@ -30,22 +30,6 @@ class network {
         }
     }
 
-    # Bug 1355095 - Network configuration issue on Ubuntu 16.04 Xen VM
-    case $::operatingsystem {
-        Ubuntu: {
-            case $::operatingsystemrelease {
-                16.04: {
-                    if ($::virtual == "xenhvm") {
-                        file {
-                            "/etc/network/interfaces":
-                                content => template("network/ubuntu_interfaces.erb");
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     if ($::config::manage_ifcfg) {
         # ensure interface configuration is correct
         # (in particular, don't use peer NTP configuration, as that comes from puppet)
