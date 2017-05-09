@@ -7,6 +7,7 @@ class signing_scriptworker {
     include tweaks::swap_on_instance_storage
     include packages::gcc
     include packages::make
+    include nrpe::check::signing_file_ages
 
     $env_config = $signing_scriptworker::settings::env_config[$signing_scriptworker_env]
 
@@ -106,18 +107,6 @@ class signing_scriptworker {
             group       => "${users::signer::group}",
             content     => template("${module_name}/${env_config['passwords_template']}"),
             show_diff => false;
-        "${signing_scriptworker::settings::root}/file_age_check_optionals.txt":
-            mode        => 640,
-            owner       => "${users::signer::username}",
-            group       => "${users::signer::group}",
-            source      => "puppet:///modules/signing_scriptworker/file_age_check_optionals.txt",
-            show_diff   => true;
-        "${signing_scriptworker::settings::root}/file_age_check_required.txt":
-            mode        => 640,
-            owner       => "${users::signer::username}",
-            group       => "${users::signer::group}",
-            source      => "puppet:///modules/signing_scriptworker/file_age_check_required.txt",
-            show_diff   => true;
         "${signing_scriptworker::settings::root}/dmg":
             ensure      => directory,
             mode        => 755,
