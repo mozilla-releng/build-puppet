@@ -25,9 +25,6 @@ class toplevel::server inherits toplevel::base {
     include ::config
     include packages::security_updates
 
-    # create an infrasec account for vuln2bugs scanning
-    realize(Users::Person["infrasec"])
-
     if ($::config::enable_mig_agent) {
         case $::operatingsystem {
             # Darwin support is coming soon
