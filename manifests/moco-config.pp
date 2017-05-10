@@ -27,7 +27,7 @@ class config inherits config::base {
     $puppet_server_facturl = $fqdn ? {
         /.*\.mdc1\.mozilla\.com/ => '',
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'http://foreman.pvt.build.mozilla.org:3000/',
-       default => '',
+        default => '',
     }
 
     $builder_username = "cltbld"
@@ -65,10 +65,8 @@ class config inherits config::base {
     $data_server = $puppet_server
 
     $node_location = $fqdn? {
-        /.*\.mdc1\.mozilla\.com/ => 'in-house',
-        /.*\.scl3\.mozilla\.com/ => 'in-house',
-        /.*\.use1\.mozilla\.com/ => 'aws',
-        /.*\.usw2\.mozilla\.com/ => 'aws',
+        /.*\.(mdc1|mdc2|scl3)\.mozilla\.com/ => 'in-house',
+        /.*\.(use1|usw2)\.mozilla\.com/ => 'aws',
         default => 'unknown',
     }
 
@@ -104,12 +102,29 @@ class config inherits config::base {
     # with the 'low' level, and some others are flagged as 'high' or 'maximum'.
     $default_security_level = 'medium'
 
-    $nrpe_allowed_hosts = "127.0.0.1,10.26.75.30,10.26.75.64"
-    $ntp_servers = [ "ns1.private.releng.scl3.mozilla.com",
+    $nrpe_allowed_hosts = $fqdn? {
+        /.*\.mdc1\.mozilla\.com/ => "127.0.0.1",
+        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => "127.0.0.1,10.26.75.30,10.26.75.64",
+        default => "127.0.0.1,10.26.75.30,10.26.75.64",
+    }
+
+    $ntp_servers = $fqdn? {
+        /.*\.mdc1\.mozilla\.com/ => [ "infoblox1a.private.mdc1.mozilla.com" ],
+        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => [ "ns1.private.releng.scl3.mozilla.com",
                      "ns2.private.releng.scl3.mozilla.com",
                      "ns1.private.scl3.mozilla.com",
-                     "ns2.private.scl3.mozilla.com" ]
-    $relayhost = "[smtp.mail.scl3.mozilla.com]"
+                     "ns2.private.scl3.mozilla.com" ],
+        default => [ "ns1.private.releng.scl3.mozilla.com",
+                     "ns2.private.releng.scl3.mozilla.com",
+                     "ns1.private.scl3.mozilla.com",
+                     "ns2.private.scl3.mozilla.com" ],
+    }
+
+    $relayhost = $fqdn? {
+        /.*\.mdc1\.mozilla\.com/ => 'smtp.private.mdc1.mozilla.com',
+        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'smtp.mail.scl3.mozilla.com',
+        default => undef,
+    }
 
     $enable_mig_agent = true
 
@@ -395,8 +410,12 @@ class config inherits config::base {
     }
 
     # bacula configuration
+    $bacula_director = $fqdn? {
+        /.*\.mdc1\.mozilla\.com/ => 'bacula1.private.mdc1.mozilla.com',
+        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'bacula1.private.scl3.mozilla.com',
+        default => undef,
+    }
 
-    $bacula_director = 'bacula1.private.scl3.mozilla.com'
     $bacula_fd_port = 9102
     # this isn't actually secret, but it's long, so we stick it in hiera.
     $bacula_cacert = secret('bacula_ca_cert')
