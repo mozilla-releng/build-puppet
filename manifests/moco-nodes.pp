@@ -4,7 +4,7 @@
 
 ## TaskCluster workers
 
-# OS X and Linux
+# OS X in scl3
 node /t-yosemite-r7-004[0-9]\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
@@ -19,6 +19,7 @@ node /t-yosemite-r7-004[0-9]\.test\.releng\.scl3\.mozilla\.com/ {
     }
 }
 
+# Linux and OS X in mdc1
 node /t.*-\d+\.test\.releng\.mdc1\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
@@ -38,7 +39,7 @@ node "jwatkins-1330169.srv.releng.scl3.mozilla.com" {
     include toplevel::slave::releng::test::gpu
 }
 
-# Linux
+# Linux and OS X
 node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
     $aspects = [ 'low-security' ]
