@@ -4,7 +4,7 @@
 
 ## TaskCluster workers
 
-# OS X
+# OS X and Linux
 node /t-yosemite-r7-004[0-9]\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
@@ -19,6 +19,13 @@ node /t-yosemite-r7-004[0-9]\.test\.releng\.scl3\.mozilla\.com/ {
     }
 }
 
+node /t.*-\d+\.test\.releng\.mdc1\.mozilla\.com/ {
+    $aspects = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    include toplevel::worker::releng::generic_worker::test::gpu
+}
+
+
 ## Buildbot testers
 
 # Personal
@@ -32,7 +39,7 @@ node "jwatkins-1330169.srv.releng.scl3.mozilla.com" {
 }
 
 # Linux
-node /t.*-\d+\.test\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
