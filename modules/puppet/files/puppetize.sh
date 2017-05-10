@@ -19,12 +19,6 @@ case "$OS" in
     *) ROOT=/root ;;
 esac
 
-# wait for all networking services to become available.  This prevents a race condition with network availablity
-# use ipconfig waitall for darwin and do nothing for linux
-if [ ${OS} = "Darwin" ]; then
-	ipconfig waitall
-fi
-
 # determine interactivity based on the presence of a deploypass file
 [ -f $ROOT/deploypass ] && interactive=false || interactive=true
 
@@ -42,6 +36,77 @@ if [ -f $ROOT/deploypass ]; then
     deploypass=$(<$ROOT/deploypass)
 else
     $interactive || hang "No $ROOT/deploypass and not connected to a tty"
+fi
+
+# Return true is valid IP and not APIPA address
+function valid_ip()
+{
+    local IP=$1
+    local STAT=1
+    if [[ $IP =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+        OIFS=$IFS
+        IFS='.'
+        IP=($IP)
+        IFS=$OIFS
+        ( ! [[ ${IP[0]} -eq 169 && ${IP[1]} -eq 254 ]]) && \
+        (   [[ ${IP[0]} -le 255 && ${IP[1]} -le 255 && \
+               ${IP[2]} -le 255 && ${IP[3]} -le 255 ]])
+        STAT=$?
+    fi
+    return $STAT
+}
+
+# [Darwin only... for now]
+# Block until it is determined a valid IP has been assigned to the iface
+function block_on_network()
+{
+	while true; do
+        # Try to extract an IP from the net interface
+		IP=`ifconfig en0 | grep "inet "| awk '{print $2}'`
+		if valid_ip $IP; then
+			echo "Network connectivity check passed"
+			break
+		else
+			echo "Network connectivity failed; retry in 1 min"
+			sleep 60
+		fi
+	done
+}
+
+# [Darwin only]
+# Set various hostnames in the dynamic store on OSX
+function set_osx_names()
+{
+    local FQDN=
+    local LOOKUP=
+    local HOST=
+    IP=`ifconfig en0 | grep "inet "| awk '{print $2}'`
+    while true; do
+        LOOKUP=$(/usr/bin/host $IP)
+        if [ $? ]; then
+            FQDN=`echo $LOOKUP | awk '{print $5 $6}' | sed -e 's/\.$//'`
+            break
+        else
+            $interactive && exit 1
+            echo "Failed to lookup FQDN; re-trying after delay"
+            sleep 60
+        fi
+    done
+
+    echo "FQDN: $FQDN"
+
+    HOST=$(echo $FQDN | awk -F. '{print $1}')
+
+    scutil --set HostName $FQDN || exit 1
+    scutil --set ComputerName $HOST || exit 1
+    scutil --set LocalHostName $HOST || exit 1
+}
+
+# Wait for all networking to become available then lookup FQDN and set names in
+# systemconfig dynamic store. NOTE: ifconfig waitall is deprecated
+if [ "${OS}" = "Darwin" ]; then
+	block_on_network
+	set_osx_names
 fi
 
 while true; do
@@ -97,6 +162,11 @@ EOF
         break
     fi
 done
+
+# Ensure certs.sh is not empty
+if ! [[ -s ${ROOT}/certs.sh ]]; then
+    hang "${ROOT}/certs.sh is empty"
+fi
 
 # make sure the time is set correctly, or SSL will fail, badly.
 case "$OS" in
