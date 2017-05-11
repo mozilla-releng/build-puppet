@@ -27,7 +27,7 @@ SCRIPT="$BASE_DIR/tools/buildbot-helpers/command_runner.py"
 LOGFILE="$BASE_DIR/command_runner.log"
 LOCKFILE="/var/lock/subsys/command_runner"
 PIDFILE="$BASE_DIR/command_runner.pid"
-OPTIONS="-q /dev/shm/queue/commands -r 10 -t 60 -m 60 -j4 >> $LOGFILE"
+OPTIONS="-q /dev/shm/queue/commands -r 10 -t 60 -m 600 -j4 >> $LOGFILE"
 
 
 test -x "${SCRIPT}" || exit 0
