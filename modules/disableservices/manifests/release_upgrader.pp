@@ -5,10 +5,22 @@
 class disableservices::release_upgrader {
     case $::operatingsystem {
         Ubuntu: {
-            file {
-                # http://askubuntu.com/questions/515161/ubuntu-12-04-disable-release-notification-of-14-04-in-update-manager
-                "/etc/update-manager/release-upgrades":
-                    content => "[DEFAULT]\nPrompt=never\n";
+            case $::operatingsystemrelease {
+                12.04,14.04: {
+                    file {
+                        # http://askubuntu.com/questions/515161/ubuntu-12-04-disable-release-notification-of-14-04-in-update-manager
+                        "/etc/update-manager/release-upgrades":
+                            content => "[DEFAULT]\nPrompt=never\n";
+                    }
+                }
+                16.04: {
+                    package {'ubuntu-release-upgrader-core' :
+                        ensure => absent,
+                    }
+                }
+                default: {
+                    fail ("$::operatingsystemrelease is not supported")
+                }
             }
         }
         default: {
