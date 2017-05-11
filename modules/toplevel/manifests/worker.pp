@@ -16,6 +16,7 @@ class toplevel::worker inherits toplevel::base {
 
     # common packages
     include packages::curl
+    include packages::virtualenv
 
     # *all* Darwin and Windows workers need to autologin, not just testers
     if ($::operatingsystem == "Darwin") or ($::operatingsystem == "Windows") {
