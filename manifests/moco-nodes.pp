@@ -263,6 +263,12 @@ node /cruncher-aws\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
     include toplevel::server::cruncher
 }
 
+node /partner-repack-\d+\.srv\.releng\.mdc1\.mozilla\.com/ {
+    $aspects = [ 'maximum-security' ]
+    $only_user_ssh = true
+    include toplevel::server
+}
+
 # aws-manager
 
 node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
