@@ -28,7 +28,7 @@ class beetmover_scriptworker {
                   "beetmoverscript==0.5.2",
                   "boto3==1.4.4",
                   "botocore==1.5.48",
-                  "chardet==3.0.2",
+                  "chardet==2.3.0",
                   "defusedxml==0.5.0",
                   "docutils==0.13.1",
                   "frozendict==1.2",

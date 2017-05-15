@@ -23,7 +23,7 @@ class pushapk_scriptworker {
                 'asn1crypto==0.22.0',
                 'async-timeout==1.2.1',
                 'cffi==1.10.0',
-                'chardet==3.0.2',
+                'chardet==2.3.0',
                 'cryptography==1.8.1',
                 'defusedxml==0.5.0',
                 'frozendict==1.2',
