@@ -43,6 +43,7 @@ class pushapk_scriptworker {
                 'pyasn1-modules==0.0.8',
                 'pycparser==2.17',
                 'pyOpenSSL==17.0.0',
+                'pyparsing==2.2.0',
                 'python-dateutil==2.6.0',
                 'python-gnupg==0.4.0',
                 'PyYAML==3.12',
