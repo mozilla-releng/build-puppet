@@ -32,7 +32,7 @@ class signing_scriptworker {
                   "appdirs==1.4.3",
                   "arrow==0.10.0",
                   "async-timeout==1.2.1",
-                  "chardet==3.0.2",
+                  "chardet==2.3.0",
                   "defusedxml==0.5.0",
                   "ecdsa==0.13",
                   "frozendict==1.2",

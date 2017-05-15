@@ -25,7 +25,7 @@ class balrog_scriptworker {
                   "appdirs==1.4.3",
                   "arrow==0.10.0",
                   "async-timeout==1.2.1",
-                  "chardet==3.0.2",
+                  "chardet==2.3.0",
                   "defusedxml==0.5.0",
                   "frozendict==1.2",
                   "jsonschema==2.6.0",
