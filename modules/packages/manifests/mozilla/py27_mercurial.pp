@@ -13,7 +13,6 @@ class packages::mozilla::py27_mercurial {
     include mercurial::system_hgrc
     if ($::operatingsystem != Windows) {
         include mercurial::ext::bundleclone
-        include mercurial::ext::robustcheckout
     }
 
     case $::operatingsystem {
