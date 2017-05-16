@@ -48,7 +48,7 @@ class beetmover_scriptworker {
                   "scriptworker==4.0.0",
                   "six==1.10.0",
                   "slugid==1.0.7",
-                  "taskcluster==1.3.1",
+                  "taskcluster==1.3.2",
                   "virtualenv==15.1.0",
                   "yarl==0.10.2",
             ];
