@@ -1,5 +1,9 @@
 @echo off
 
+REM Ensure C:\builds and contents are in place
+:EC2Check
+IF not exist C:\ProgramData\builds\prep-spot.semaphore (GOTO EC2Check)
+
 <% if scope.lookupvar('::fqdn') =~ /.*\.releng\.(use1|usw2)\.mozilla\.com$/ -%>
 
 @ECHO %COMPUTERNAME% | find /I "GOLD"
@@ -71,6 +75,7 @@ cd "%USERPROFILE%"
 "C:\opt\runner\Scripts\runner.exe" -n 5 -H -c c:\opt\runner\runner.cfg c:\opt\runner\tasks.d 2> C:\opt\runner\runner.log
 
 echo "%date% %time% - runner.py finished"
+
 
 <% if scope.lookupvar('::fqdn') !~ /.*\.releng\.(use1|usw2)\.mozilla\.com$/ -%>
 REM Delete the puppet semaphore so that on reboot we don't think it's started
