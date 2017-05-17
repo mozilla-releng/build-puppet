@@ -14,11 +14,15 @@ class packages::virtualenv {
                             ensure => '15.0.1+ds-3ubuntu1';
                     }
                 }
-
                 default: {
                     fail("cannot install on $::operatingsystem $::operatingsystemrelease")
                 }
             }
+        }
+        Darwin: {
+            # On Darwin we use the puppetagain Python exclusively, so defer
+            # to its associated virtualenv
+            class {'packages::mozilla::py27_virtualenv': }
         }
         default: {
             fail("cannot install on $::operatingsystem")
