@@ -57,7 +57,7 @@ class balrog_scriptworker {
                   "appdirs==1.4.3",
                   "arrow==0.10.0",
                   "asn1crypto==0.22.0",
-                  "balrogclient==0.0.1",
+                  "balrogclient==0.0.2",
                   "balrogscript==0.1.0",
                   "cffi==1.10.0",
                   "click==6.7",
