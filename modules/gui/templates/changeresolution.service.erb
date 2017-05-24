@@ -1,0 +1,23 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+# Init script for changeresolution service
+
+[Unit]
+Description=Change resolution to 1600x1200.
+# Start changeresolution only after Xsession start
+Requires=Xsession.service
+After=Xsession.service
+
+[Service]
+Type=oneshot
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+# Waiting 10 seconds befor start the script (x11 and Xsession are not initialized instant)
+ExecStart=/bin/sleep 10 ; /bin/bash /usr/local/bin/changeresolution.sh
+
+[Install]
+WantedBy=multi-user.target

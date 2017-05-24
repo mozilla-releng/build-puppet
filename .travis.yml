@@ -12,6 +12,7 @@ script:
       --no-variables_not_enclosed-check --no-only_variable_string-check \
       --no-ensure_first_param-check --no-unquoted_file_mode-check \
       --no-variable_contains_dash-check --no-parameter_order-check \
+      --no-variable_is_lowercase-check --no-arrow_on_right_operand_line-check \
       --no-file_mode-check --no-nested_classes_or_defines \
       --no-quoted_booleans --no-puppet_url_without_modules \
       --no-selector_inside_resource --no-unquoted_resource_title \

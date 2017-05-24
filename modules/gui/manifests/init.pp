@@ -140,7 +140,7 @@ class gui(
                     }
                 }
                 16.04: {
-                    $gpu_bus_id = "PCI:0:12:0"
+                    $gpu_bus_id = "PCI:0:02:0"
                     file {
                         "/etc/X11/xorg.conf":
                             ensure => present,
@@ -155,6 +155,12 @@ class gui(
                         "/lib/systemd/system/Xsession.service":
                             content => template("${module_name}/Xsession.service.erb"),
                             notify => Service['Xsession'];
+                        "/lib/systemd/system/changeresolution.service":
+                            content => template("${module_name}/changeresolution.service.erb"),
+                            notify => Service['changeresolution'];
+                        "/usr/local/bin/changeresolution.sh":
+                            source => "puppet:///modules/gui/changeresolution.sh",
+                            notify => Service['changeresolution'];
                     }
                     # start x11 *or* xvfb, depending on whether we have a GPU or not
                     service {
@@ -176,6 +182,12 @@ class gui(
                             provider => 'systemd',
                             enable => true,
                             require => File['/lib/systemd/system/Xsession.service'];
+                        'changeresolution':
+                            # To force resolution to 1600x1200 for Intel driver, we will use a service to run some xrander
+                            # commands after the Xsession service will be started
+                            provider => 'systemd',
+                            enable => true,
+                            require => File['/lib/systemd/system/changeresolution.service'];
                     }
                 }
                 default: {
