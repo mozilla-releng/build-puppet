@@ -149,8 +149,7 @@ node /(dev|try)-.*\.(dev|try)\.releng\.(use1|usw2)\.mozilla.com/ {
 }
 
 # OS X
-node /bld-lion-r5-\d+.try.releng.scl3.mozilla.com/ {
-    # any bld-lion-r5-(digit) hosts in the scl3 try zone
+node /bld-(lion|yosemite)-r5-\d+.try.releng.scl3.mozilla.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build::standard
