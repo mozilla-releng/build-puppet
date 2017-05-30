@@ -9,7 +9,7 @@ define fw::port {
     firewall {
         "200 $name":
             proto => $proto,
-            port => $port,
+            dport => $port,
             action => accept;
     }
 }

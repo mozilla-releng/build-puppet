@@ -3,9 +3,9 @@ require 'spec_helper'
 describe 'Puppet::Util::Firewall' do
   let(:resource) {
     type = Puppet::Type.type(:firewall)
-    provider = stub 'provider'
-    provider.stubs(:name).returns(:iptables)
-    Puppet::Type::Firewall.stubs(:defaultprovider).returns(provider)
+    provider = double 'provider'
+    allow(provider).to receive(:name).and_return(:iptables)
+    allow(Puppet::Type::Firewall).to receive(:defaultprovider).and_return(provider)
     type.new({:name => '000 test foo'})
   }
 
@@ -13,16 +13,37 @@ describe 'Puppet::Util::Firewall' do
 
   describe '#host_to_ip' do
     subject { resource }
-    specify {
-      Resolv.expects(:getaddress).with('puppetlabs.com').returns('96.126.112.51')
-      subject.host_to_ip('puppetlabs.com').should == '96.126.112.51/32'
+    it {
+      expect(Resolv).to receive(:getaddress).with('puppetlabs.com').and_return('96.126.112.51')
+      expect(subject.host_to_ip('puppetlabs.com')).to eql '96.126.112.51/32'
     }
-    specify { subject.host_to_ip('96.126.112.51').should == '96.126.112.51/32' }
-    specify { subject.host_to_ip('96.126.112.51/32').should == '96.126.112.51/32' }
-    specify { subject.host_to_ip('2001:db8:85a3:0:0:8a2e:370:7334').should == '2001:db8:85a3::8a2e:370:7334/128' }
-    specify { subject.host_to_ip('2001:db8:1234::/48').should == '2001:db8:1234::/48' }
-    specify { subject.host_to_ip('0.0.0.0/0').should == nil }
-    specify { subject.host_to_ip('::/0').should == nil }
+    it { expect(subject.host_to_ip('96.126.112.51')).to eql '96.126.112.51/32' }
+    it { expect(subject.host_to_ip('96.126.112.51/32')).to eql '96.126.112.51/32' }
+    it { expect(subject.host_to_ip('2001:db8:85a3:0:0:8a2e:370:7334')).to eql '2001:db8:85a3::8a2e:370:7334/128' }
+    it { expect(subject.host_to_ip('2001:db8:1234::/48')).to eql '2001:db8:1234::/48' }
+    it { expect(subject.host_to_ip('0.0.0.0/0')).to eql nil }
+    it { expect(subject.host_to_ip('::/0')).to eql nil }
+  end
+
+  describe '#host_to_mask' do
+    subject { resource }
+    it {
+      expect(Resolv).to receive(:getaddress).at_least(:once).with('puppetlabs.com').and_return('96.126.112.51')
+      expect(subject.host_to_mask('puppetlabs.com')).to eql '96.126.112.51/32'
+      expect(subject.host_to_mask('!puppetlabs.com')).to eql '! 96.126.112.51/32'
+    }
+    it { expect(subject.host_to_mask('96.126.112.51')).to eql '96.126.112.51/32' }
+    it { expect(subject.host_to_mask('!96.126.112.51')).to eql '! 96.126.112.51/32' }
+    it { expect(subject.host_to_mask('96.126.112.51/32')).to eql '96.126.112.51/32' }
+    it { expect(subject.host_to_mask('! 96.126.112.51/32')).to eql '! 96.126.112.51/32' }
+    it { expect(subject.host_to_mask('2001:db8:85a3:0:0:8a2e:370:7334')).to eql '2001:db8:85a3::8a2e:370:7334/128' }
+    it { expect(subject.host_to_mask('!2001:db8:85a3:0:0:8a2e:370:7334')).to eql '! 2001:db8:85a3::8a2e:370:7334/128' }
+    it { expect(subject.host_to_mask('2001:db8:1234::/48')).to eql '2001:db8:1234::/48' }
+    it { expect(subject.host_to_mask('! 2001:db8:1234::/48')).to eql '! 2001:db8:1234::/48' }
+    it { expect(subject.host_to_mask('0.0.0.0/0')).to eql nil }
+    it { expect(subject.host_to_mask('!0.0.0.0/0')).to eql nil }
+    it { expect(subject.host_to_mask('::/0')).to eql nil }
+    it { expect(subject.host_to_mask('! ::/0')).to eql nil }
   end
 
   describe '#icmp_name_to_number' do
@@ -40,52 +61,54 @@ describe 'Puppet::Util::Firewall' do
     describe 'proto IPv4' do
       proto = 'inet'
       subject { resource }
-      specify { subject.icmp_name_to_number('echo-reply', proto).should == '0' }
-      specify { subject.icmp_name_to_number('destination-unreachable', proto).should == '3' }
-      specify { subject.icmp_name_to_number('source-quench', proto).should == '4' }
-      specify { subject.icmp_name_to_number('redirect', proto).should == '6' }
-      specify { subject.icmp_name_to_number('echo-request', proto).should == '8' }
-      specify { subject.icmp_name_to_number('router-advertisement', proto).should == '9' }
-      specify { subject.icmp_name_to_number('router-solicitation', proto).should == '10' }
-      specify { subject.icmp_name_to_number('time-exceeded', proto).should == '11' }
-      specify { subject.icmp_name_to_number('parameter-problem', proto).should == '12' }
-      specify { subject.icmp_name_to_number('timestamp-request', proto).should == '13' }
-      specify { subject.icmp_name_to_number('timestamp-reply', proto).should == '14' }
-      specify { subject.icmp_name_to_number('address-mask-request', proto).should == '17' }
-      specify { subject.icmp_name_to_number('address-mask-reply', proto).should == '18' }
+      it { expect(subject.icmp_name_to_number('echo-reply', proto)).to eql '0' }
+      it { expect(subject.icmp_name_to_number('destination-unreachable', proto)).to eql '3' }
+      it { expect(subject.icmp_name_to_number('source-quench', proto)).to eql '4' }
+      it { expect(subject.icmp_name_to_number('redirect', proto)).to eql '6' }
+      it { expect(subject.icmp_name_to_number('echo-request', proto)).to eql '8' }
+      it { expect(subject.icmp_name_to_number('router-advertisement', proto)).to eql '9' }
+      it { expect(subject.icmp_name_to_number('router-solicitation', proto)).to eql '10' }
+      it { expect(subject.icmp_name_to_number('time-exceeded', proto)).to eql '11' }
+      it { expect(subject.icmp_name_to_number('parameter-problem', proto)).to eql '12' }
+      it { expect(subject.icmp_name_to_number('timestamp-request', proto)).to eql '13' }
+      it { expect(subject.icmp_name_to_number('timestamp-reply', proto)).to eql '14' }
+      it { expect(subject.icmp_name_to_number('address-mask-request', proto)).to eql '17' }
+      it { expect(subject.icmp_name_to_number('address-mask-reply', proto)).to eql '18' }
     end
 
     describe 'proto IPv6' do
       proto = 'inet6'
       subject { resource }
-      specify { subject.icmp_name_to_number('destination-unreachable', proto).should == '1' }
-      specify { subject.icmp_name_to_number('time-exceeded', proto).should == '3' }
-      specify { subject.icmp_name_to_number('parameter-problem', proto).should == '4' }
-      specify { subject.icmp_name_to_number('echo-request', proto).should == '128' }
-      specify { subject.icmp_name_to_number('echo-reply', proto).should == '129' }
-      specify { subject.icmp_name_to_number('router-solicitation', proto).should == '133' }
-      specify { subject.icmp_name_to_number('router-advertisement', proto).should == '134' }
-      specify { subject.icmp_name_to_number('redirect', proto).should == '137' }
+      it { expect(subject.icmp_name_to_number('destination-unreachable', proto)).to eql '1' }
+      it { expect(subject.icmp_name_to_number('time-exceeded', proto)).to eql '3' }
+      it { expect(subject.icmp_name_to_number('parameter-problem', proto)).to eql '4' }
+      it { expect(subject.icmp_name_to_number('echo-request', proto)).to eql '128' }
+      it { expect(subject.icmp_name_to_number('echo-reply', proto)).to eql '129' }
+      it { expect(subject.icmp_name_to_number('router-solicitation', proto)).to eql '133' }
+      it { expect(subject.icmp_name_to_number('router-advertisement', proto)).to eql '134' }
+      it { expect(subject.icmp_name_to_number('neighbour-solicitation', proto)).to eql '135' }
+      it { expect(subject.icmp_name_to_number('neighbour-advertisement', proto)).to eql '136' }
+      it { expect(subject.icmp_name_to_number('redirect', proto)).to eql '137' }
     end
   end
 
   describe '#string_to_port' do
     subject { resource }
-    specify { subject.string_to_port('80','tcp').should == '80' }
-    specify { subject.string_to_port(80,'tcp').should == '80' }
-    specify { subject.string_to_port('http','tcp').should == '80' }
-    specify { subject.string_to_port('domain','udp').should == '53' }
+    it { expect(subject.string_to_port('80','tcp')).to eql '80' }
+    it { expect(subject.string_to_port(80,'tcp')).to eql '80' }
+    it { expect(subject.string_to_port('http','tcp')).to eql '80' }
+    it { expect(subject.string_to_port('domain','udp')).to eql '53' }
   end
 
   describe '#to_hex32' do
     subject { resource }
-    specify { subject.to_hex32('0').should == '0x0' }
-    specify { subject.to_hex32('0x32').should == '0x32' }
-    specify { subject.to_hex32('42').should == '0x2a' }
-    specify { subject.to_hex32('4294967295').should == '0xffffffff' }
-    specify { subject.to_hex32('4294967296').should == nil }
-    specify { subject.to_hex32('-1').should == nil }
-    specify { subject.to_hex32('bananas').should == nil }
+    it { expect(subject.to_hex32('0')).to eql '0x0' }
+    it { expect(subject.to_hex32('0x32')).to eql '0x32' }
+    it { expect(subject.to_hex32('42')).to eql '0x2a' }
+    it { expect(subject.to_hex32('4294967295')).to eql '0xffffffff' }
+    it { expect(subject.to_hex32('4294967296')).to eql nil }
+    it { expect(subject.to_hex32('-1')).to eql nil }
+    it { expect(subject.to_hex32('bananas')).to eql nil }
   end
 
   describe '#persist_iptables' do
@@ -95,43 +118,63 @@ describe 'Puppet::Util::Firewall' do
     describe 'when proto is IPv4' do
       let(:proto) { 'IPv4' }
 
-      it 'should exec for RedHat identified from osfamily' do
-        Facter.fact(:osfamily).stubs(:value).returns('RedHat')
-        Facter.fact(:operatingsystem).stubs(:value).returns('RedHat')
+      it 'is expected to exec /sbin/service if running RHEL 6 or earlier' do
+        allow(Facter.fact(:osfamily)).to receive(:value).and_return('RedHat')
+        allow(Facter.fact(:operatingsystem)).to receive(:value).and_return('RedHat')
+        allow(Facter.fact(:operatingsystemrelease)).to receive(:value).and_return('6')
 
-        subject.expects(:execute).with(%w{/sbin/service iptables save})
+        expect(subject).to receive(:execute).with(%w{/sbin/service iptables save})
         subject.persist_iptables(proto)
       end
 
-      it 'should exec for systemd if running Fedora 15 or greater' do
-        Facter.fact(:osfamily).stubs(:value).returns('RedHat')
-        Facter.fact(:operatingsystem).stubs(:value).returns('Fedora')
-        Facter.fact(:operatingsystemrelease).stubs(:value).returns('15')
+      it 'is expected to exec for systemd if running RHEL 7 or greater' do
+        allow(Facter.fact(:osfamily)).to receive(:value).and_return('RedHat')
+        allow(Facter.fact(:operatingsystem)).to receive(:value).and_return('RedHat')
+        allow(Facter.fact(:operatingsystemrelease)).to receive(:value).and_return('7')
 
-        subject.expects(:execute).with(%w{/usr/libexec/iptables.init save})
+        expect(subject).to receive(:execute).with(%w{/usr/libexec/iptables/iptables.init save})
         subject.persist_iptables(proto)
       end
 
-      it 'should exec for CentOS identified from operatingsystem' do
-        Facter.fact(:osfamily).stubs(:value).returns(nil)
-        Facter.fact(:operatingsystem).stubs(:value).returns('CentOS')
-        subject.expects(:execute).with(%w{/sbin/service iptables save})
+      it 'is expected to exec for systemd if running Fedora 15 or greater' do
+        allow(Facter.fact(:osfamily)).to receive(:value).and_return('RedHat')
+        allow(Facter.fact(:operatingsystem)).to receive(:value).and_return('Fedora')
+        allow(Facter.fact(:operatingsystemrelease)).to receive(:value).and_return('15')
+
+        expect(subject).to receive(:execute).with(%w{/usr/libexec/iptables/iptables.init save})
         subject.persist_iptables(proto)
       end
 
-      it 'should exec for Archlinux identified from osfamily' do
-        Facter.fact(:osfamily).stubs(:value).returns('Archlinux')
-        subject.expects(:execute).with(['/bin/sh', '-c', '/usr/sbin/iptables-save > /etc/iptables/iptables.rules'])
+      it 'is expected to exec for CentOS 6 identified from operatingsystem and operatingsystemrelease' do
+        allow(Facter.fact(:osfamily)).to receive(:value).and_return(nil)
+        allow(Facter.fact(:operatingsystem)).to receive(:value).and_return('CentOS')
+        allow(Facter.fact(:operatingsystemrelease)).to receive(:value).and_return('6.5')
+        expect(subject).to receive(:execute).with(%w{/sbin/service iptables save})
         subject.persist_iptables(proto)
       end
 
-      it 'should raise a warning when exec fails' do
-        Facter.fact(:osfamily).stubs(:value).returns('RedHat')
-        Facter.fact(:operatingsystem).stubs(:value).returns('RedHat')
+      it 'is expected to exec for CentOS 7 identified from operatingsystem and operatingsystemrelease' do
+        allow(Facter.fact(:osfamily)).to receive(:value).and_return(nil)
+        allow(Facter.fact(:operatingsystem)).to receive(:value).and_return('CentOS')
+        allow(Facter.fact(:operatingsystemrelease)).to receive(:value).and_return('7.0.1406')
+        expect(subject).to receive(:execute).with(%w{/usr/libexec/iptables/iptables.init save})
+        subject.persist_iptables(proto)
+      end
 
-        subject.expects(:execute).with(%w{/sbin/service iptables save}).
-          raises(Puppet::ExecutionFailure, 'some error')
-        subject.expects(:warning).with('Unable to persist firewall rules: some error')
+      it 'is expected to exec for Archlinux identified from osfamily' do
+        allow(Facter.fact(:osfamily)).to receive(:value).and_return('Archlinux')
+        expect(subject).to receive(:execute).with(['/bin/sh', '-c', '/usr/sbin/iptables-save > /etc/iptables/iptables.rules'])
+        subject.persist_iptables(proto)
+      end
+
+      it 'is expected to raise a warning when exec fails' do
+        allow(Facter.fact(:osfamily)).to receive(:value).and_return('RedHat')
+        allow(Facter.fact(:operatingsystem)).to receive(:value).and_return('RedHat')
+        allow(Facter.fact(:operatingsystemrelease)).to receive(:value).and_return('6')
+
+        expect(subject).to receive(:execute).with(%w{/sbin/service iptables save}).
+          and_raise(Puppet::ExecutionFailure, 'some error')
+        expect(subject).to receive(:warning).with('Unable to persist firewall rules: some error')
         subject.persist_iptables(proto)
       end
     end
@@ -139,25 +182,25 @@ describe 'Puppet::Util::Firewall' do
     describe 'when proto is IPv6' do
       let(:proto) { 'IPv6' }
 
-      it 'should exec for newer Ubuntu' do
-        Facter.fact(:osfamily).stubs(:value).returns(nil)
-        Facter.fact(:operatingsystem).stubs(:value).returns('Ubuntu')
-        Facter.fact(:iptables_persistent_version).stubs(:value).returns('0.5.3ubuntu2')
-        subject.expects(:execute).with(%w{/usr/sbin/service iptables-persistent save})
+      it 'is expected to exec for newer Ubuntu' do
+        allow(Facter.fact(:osfamily)).to receive(:value).and_return(nil)
+        allow(Facter.fact(:operatingsystem)).to receive(:value).and_return('Ubuntu')
+        allow(Facter.fact(:iptables_persistent_version)).to receive(:value).and_return('0.5.3ubuntu2')
+        expect(subject).to receive(:execute).with(%w{/usr/sbin/service iptables-persistent save})
         subject.persist_iptables(proto)
       end
 
-      it 'should not exec for older Ubuntu which does not support IPv6' do
-        Facter.fact(:osfamily).stubs(:value).returns(nil)
-        Facter.fact(:operatingsystem).stubs(:value).returns('Ubuntu')
-        Facter.fact(:iptables_persistent_version).stubs(:value).returns('0.0.20090701')
-        subject.expects(:execute).never
+      it 'is expected to not exec for older Ubuntu which does not support IPv6' do
+        allow(Facter.fact(:osfamily)).to receive(:value).and_return(nil)
+        allow(Facter.fact(:operatingsystem)).to receive(:value).and_return('Ubuntu')
+        allow(Facter.fact(:iptables_persistent_version)).to receive(:value).and_return('0.0.20090701')
+        expect(subject).to receive(:execute).never
         subject.persist_iptables(proto)
       end
 
-      it 'should not exec for Suse which is not supported' do
-        Facter.fact(:osfamily).stubs(:value).returns('Suse')
-        subject.expects(:execute).never
+      it 'is expected to not exec for Suse which is not supported' do
+        allow(Facter.fact(:osfamily)).to receive(:value).and_return('Suse')
+        expect(subject).to receive(:execute).never
         subject.persist_iptables(proto)
       end
     end
