@@ -38,7 +38,7 @@ class pushapk_scriptworker {
                 'packaging==16.8',
                 'pexpect==4.2.1',
                 'ptyprocess==0.5.1',
-                'pushapkscript==0.3.2',
+                'pushapkscript==0.3.3',
                 'pyasn1==0.2.3',
                 'pyasn1-modules==0.0.8',
                 'pycparser==2.17',
