@@ -11,11 +11,11 @@ class packages::iptables {
     case $::operatingsystem {
         CentOS: {
             exec { "install iptables":
-                command => "/bin/yum install iptables -y",
+                command => "/usr/bin/yum install iptables -y",
                 creates => "/sbin/iptables";
             }
             exec { "install ip6tables":
-                command => "/bin/yum install iptables-ipv6 -y",
+                command => "/usr/bin/yum install iptables-ipv6 -y",
                 creates => "/sbin/ip6tables";
             }
         }
