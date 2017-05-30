@@ -28,14 +28,14 @@ class fw::pre {
     firewall {
         '010 ssh for management':
             proto => 'tcp',
-            port => 22,
+            dport => 22,
             action => 'accept';
     }->
     firewall {
         '010 nrpe for monitoring':
             # note that NRPE does its own source-IP filtering
             proto => 'tcp',
-            port => 5666,
+            dport => 5666,
             action => 'accept';
     }
 }
