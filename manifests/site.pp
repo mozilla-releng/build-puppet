@@ -52,6 +52,13 @@ if ($::operatingsystem != "windows") {
 # The PuppetLabs firewall module is only supported on Linux
 case $operatingsystem {
     CentOS,Ubuntu: {
+        # Let's make sure iptables and iptables-ipv6 is installed on centos
+        # https://tickets.puppetlabs.com/browse/PUP-1963
+        # https://tickets.puppetlabs.com/browse/PUP-5874
+        if ($operatingsystem == 'CentOS') {
+            include packages::iptables
+        }
+
         # similarly, set up the firewall resource, but note that this does not activate
         # the firewall
         resources {
