@@ -157,7 +157,7 @@ node /bld-(lion|yosemite)-r5-\d+.try.releng.scl3.mozilla.com/ {
 
 ## signing servers
 
-node /mac-(v2-|)signing\d+\.srv\.releng\.scl3\.mozilla\.com/ {
+node /mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     # mac signing servers
     $aspects = [ 'maximum-security' ]
     $timezone = "GMT"
