@@ -38,7 +38,7 @@ class balrog_scriptworker {
                   "python-dateutil==2.6.0",
                   "python-gnupg==0.4.0",
                   "requests==2.14.2",
-                  "scriptworker==4.0.0",
+                  "scriptworker==4.1.0",
                   "six==1.10.0",
                   "slugid==1.0.7",
                   "taskcluster==1.3.2",
