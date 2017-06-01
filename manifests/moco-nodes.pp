@@ -1063,3 +1063,10 @@ node "moonshot-test3.test.releng.scl3.mozilla.com" {
     include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
+# Loaner for testing osx firewalling
+# See bug 1369566
+node "t-yosemite-r7-393.test.releng.mdc1.mozilla.com" {
+    $aspects = [ 'low-security' ]
+    $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
+    $pin_puppet_env = "jwatkins"
+}
