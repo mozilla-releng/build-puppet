@@ -173,6 +173,14 @@ node /signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     include toplevel::server::signing
 }
 
+node /depsign\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+    # linux dev signing servers
+    $aspects = [ 'maximum-security' ]
+    $timezone = "UTC"
+    $only_user_ssh = true
+    include toplevel::server::depsigning
+}
+
 ## puppetmasters
 
 node /releng-puppet\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
@@ -1015,6 +1023,14 @@ node /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
     $signing_scriptworker_env = "prod"
+    $timezone = "UTC"
+    $only_user_ssh = true
+    include toplevel::server::signingscriptworker
+}
+
+node /depsigning-worker-.*\.srv\.releng\..*\.mozilla\.com/ {
+    $aspects = [ 'maximum-security' ]
+    $signing_scriptworker_env = "dev"
     $timezone = "UTC"
     $only_user_ssh = true
     include toplevel::server::signingscriptworker
