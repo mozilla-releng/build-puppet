@@ -52,7 +52,7 @@ class signing_scriptworker {
                   "requests==2.14.2",
                   "scriptworker==4.1.1",
                   "signingscript==2.0.0",
-                  "signtool==3.0.0",
+                  "signtool==3.1.0",
                   "six==1.10.0",
                   "slugid==1.0.7",
                   "taskcluster==1.3.2",
