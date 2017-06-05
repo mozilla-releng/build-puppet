@@ -228,8 +228,8 @@ class config inherits config::base {
             notify_to_announce => "Release Notifications Dev <release-automation-notifications-dev@mozilla.com>",
             taskcluster_client_id => secret("releaserunner_dev_taskcluster_client_id"),
             taskcluster_access_token => secret("releaserunner_dev_taskcluster_access_token"),
-            balrog_username => "stage-ffxbld",
-            balrog_password => secret("stage-ffxbld_ldap_password"),
+            balrog_username => "balrog-stage-ffxbld",
+            balrog_password => secret("balrog-stage-ffxbld_ldap_password"),
             beetmover_aws_access_key_id => secret("stage-beetmover-aws_access_key_id"),
             beetmover_aws_secret_access_key => secret("stage-beetmover-aws_secret_access_key"),
             releaserunner_buildbot_configs_branch => "default",
@@ -245,8 +245,8 @@ class config inherits config::base {
             notify_to_announce => "Release Co-ordination <release-drivers@mozilla.org>",
             taskcluster_client_id => secret("releaserunner_prod_taskcluster_client_id"),
             taskcluster_access_token => secret("releaserunner_prod_taskcluster_access_token"),
-            balrog_username => "ffxbld",
-            balrog_password => secret("ffxbld_ldap_password"),
+            balrog_username => "balrog-ffxbld",
+            balrog_password => secret("balrog-ffxbld_ldap_password"),
             beetmover_aws_access_key_id => secret("beetmover-aws_access_key_id"),
             beetmover_aws_secret_access_key => secret("beetmover-aws_secret_access_key"),
             releaserunner_buildbot_configs_branch => "production",
@@ -262,8 +262,8 @@ class config inherits config::base {
             notify_to_announce => "Release Co-ordination <release-drivers@mozilla.org>",
             taskcluster_client_id => secret("releaserunner_prod_taskcluster_client_id"),
             taskcluster_access_token => secret("releaserunner_prod_taskcluster_access_token"),
-            balrog_username => "ffxbld",
-            balrog_password => secret("ffxbld_ldap_password"),
+            balrog_username => "balrog-ffxbld",
+            balrog_password => secret("balrog-ffxbld_ldap_password"),
             beetmover_aws_access_key_id => secret("beetmover-aws_access_key_id"),
             beetmover_aws_secret_access_key => secret("beetmover-aws_secret_access_key"),
             releaserunner_buildbot_configs_branch => "production",
@@ -499,7 +499,7 @@ class config inherits config::base {
 
     # Funsize Scheduler configuration
     $funsize_scheduler_root = "/builds/funsize"
-    $funsize_scheduler_balrog_username = "funsize"
+    $funsize_scheduler_balrog_username = "balrog-funsize"
     $funsize_scheduler_pulse_username = "funsize"
     $funsize_scheduler_pulse_queue = "scheduler"
     $funsize_scheduler_bb_pulse_exchange = "exchange/build"
