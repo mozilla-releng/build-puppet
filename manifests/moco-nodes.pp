@@ -23,7 +23,8 @@ node /t-yosemite-r7-004[0-9]\.test\.releng\.scl3\.mozilla\.com/ {
 node /t.*-\d+\.test\.releng\.mdc1\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
-    include toplevel::worker::releng::generic_worker::test::gpu
+    include toplevel::base
+    include generic_worker::disabled
 }
 
 
