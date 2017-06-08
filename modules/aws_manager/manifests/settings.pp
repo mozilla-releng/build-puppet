@@ -5,15 +5,15 @@
 class aws_manager::settings {
     include ::config
 
-    $root = $::config::aws_manager_root
-    $cloud_tools_dst = "${root}/cloud-tools"
-    $secrets_dir = "${root}/secrets"
+    $root                = $::config::aws_manager_root
+    $cloud_tools_dst     = "${root}/cloud-tools"
+    $secrets_dir         = "${root}/secrets"
     $cloudtrail_logs_dir = "${root}/cloudtrail_logs"
-    $events_dir= "${cloudtrail_logs_dir}/events"
+    $events_dir          = "${cloudtrail_logs_dir}/events"
 
     $distinguished_aws_manager = $config::distinguished_aws_manager
-    $cron_switch = $fqdn ? {
+    $cron_switch = $::fqdn ? {
         $distinguished_aws_manager => present,
-        default => absent,
+        default                    => absent,
     }
 }

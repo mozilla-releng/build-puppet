@@ -5,7 +5,7 @@
 class bacula_client::settings {
     include ::config
 
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             $servicename = 'bacula-fd'
             $confpath    = '/opt/bacula/etc'
@@ -23,7 +23,7 @@ class bacula_client::settings {
             $piddir      = '/private/var/run'
         }
         default: {
-            fail("Bacula is not supported on ${operatingsystem}")
+            fail("Bacula is not supported on ${::operatingsystem}")
         }
     }
 }

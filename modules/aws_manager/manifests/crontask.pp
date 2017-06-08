@@ -8,28 +8,28 @@ define aws_manager::crontask($ensure, $virtualenv_dir, $user, $cwd, $params='',
     include cron
     include ::config
 
-    $cronfile = "/etc/cron.d/aws_manager-$title.cron"
-    $cronscript = "${virtualenv_dir}/bin/aws_manager-$title.sh"
-    $lockdir = "${virtualenv_dir}"
-    $monitoring_cronfile = "/etc/cron.d/aws_manager-$title-monitor.cron"
-    $monitoring_cronscript = "${virtualenv_dir}/bin/aws_manager-$title-monitor.sh"
+    $cronfile              = "/etc/cron.d/aws_manager-${title}.cron"
+    $cronscript            = "${virtualenv_dir}/bin/aws_manager-${title}.sh"
+    $lockdir               = $virtualenv_dir
+    $monitoring_cronfile   = "/etc/cron.d/aws_manager-${title}-monitor.cron"
+    $monitoring_cronscript = "${virtualenv_dir}/bin/aws_manager-${title}-monitor.sh"
 
     case $ensure {
         present: {
             file {
                 $cronfile:
-                    content => "$minute $hour $monthday $month $weekday $user $cronscript 2>&1 | logger -t '$subject'\n";
+                    content => "${minute} ${hour} ${monthday} ${month} ${weekday} ${user} ${cronscript} 2>&1 | logger -t '${subject}'\n";
                 $cronscript:
                     content => template("${module_name}/crontask.erb"),
-                    mode => 0755;
+                    mode    => '0755';
             }
             if ($process_timeout > 0){
                 file {
                     $monitoring_cronfile:
-                        content => "$minute $hour $monthday $month $weekday $user $monitoring_cronscript 2>&1 | logger -t '$subject-monitor'\n";
+                        content => "${minute} ${hour} ${monthday} ${month} ${weekday} ${user} ${monitoring_cronscript} 2>&1 | logger -t '${subject}-monitor'\n";
                     $monitoring_cronscript:
                         content => template("${module_name}/kill_long_running.sh.erb"),
-                        mode => 0755;
+                        mode    => '0755';
                 }
             }
         }
