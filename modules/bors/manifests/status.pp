@@ -4,30 +4,30 @@
 
 define bors::status($owner, $group, $repo_owner, $repo, $status_location) {
     file {
-        "${status_location}":
-            owner => $owner,
-            group => $group,
-            mode => 755,
-            ensure => directory;
+        $status_location:
+            ensure => directory,
+            owner  => $owner,
+            group  => $group,
+            mode   => '0755';
         "${status_location}/bors.css":
-            owner => $owner,
-            group => $group,
-            mode => 644,
-            source => "puppet:///modules/bors/bors.css";
+            owner  => $owner,
+            group  => $group,
+            mode   => '0644',
+            source => 'puppet:///modules/bors/bors.css';
         "${status_location}/bors.html":
-            owner => $owner,
-            group => $group,
-            mode => 644,
-            source => "puppet:///modules/bors/bors.html";
+            owner  => $owner,
+            group  => $group,
+            mode   => '0644',
+            source => 'puppet:///modules/bors/bors.html';
         "${status_location}/bors-render.js":
-            owner => $owner,
-            group => $group,
-            mode => 644,
-            content => template("bors/bors-render.js.erb");
+            owner   => $owner,
+            group   => $group,
+            mode    => '0644',
+            content => template('bors/bors-render.js.erb');
         "${status_location}/dom-util.js":
-            owner => $owner,
-            group => $group,
-            mode => 644,
-            source => "puppet:///modules/bors/dom-util.js";
+            owner  => $owner,
+            group  => $group,
+            mode   => '0644',
+            source => 'puppet:///modules/bors/dom-util.js';
     }
 }
