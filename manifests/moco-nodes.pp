@@ -183,7 +183,15 @@ node /signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     include toplevel::server::signing
 }
 
-node /depsign\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+node /mac-depsigning\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+    # mac signing servers
+    $aspects = [ 'maximum-security' ]
+    $timezone = "GMT"
+    $only_user_ssh = true
+    include toplevel::server::depsigning
+}
+
+node /depsigning\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
     # linux dev signing servers
     $aspects = [ 'maximum-security' ]
     $timezone = "UTC"
