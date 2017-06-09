@@ -9,6 +9,3 @@ slavealloc_db_host='<%= scope.function_secret(["slaveallocdb_ro_hostname"])%>'
 slavealloc_db_name='<%= scope.function_secret(["slaveallocdb_ro_database"])%>'
 slavealloc_db_user='<%= scope.function_secret(["slaveallocdb_ro_username"])%>'
 slavealloc_db_pass='<%= scope.function_secret(["slaveallocdb_ro_password"])%>'
-
-# Bug 1367448 - support in existing tools to monitor state of hardware pools running tc
-postgres_tc_db_access='<%= scope.function_secret(["postgres_tc_db_access"])%>'
