@@ -166,14 +166,6 @@ node /bld-(lion|yosemite)-r5-\d+.try.releng.scl3.mozilla.com/ {
     include toplevel::slave::releng::build::standard
 }
 
-node "bld-yosemite-r5-002.try.releng.scl3.mozilla.com" {
-    $aspects = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    $pin_puppet_server = "releng-puppet2.try.releng.scl3.mozilla.com"
-    $pin_puppet_env = "jwatkins"
-    include toplevel::slave::releng::build::standard
-}
-
 ## signing servers
 
 node /mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
