@@ -159,9 +159,18 @@ node /bld-lion-r5-0[10-11]\.try\.releng\.scl3\.mozilla\.com/ {
     $pin_puppet_env = "aobreja"
     include toplevel::slave::releng::build::standard
 }
+
 node /bld-(lion|yosemite)-r5-\d+.try.releng.scl3.mozilla.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
+    include toplevel::slave::releng::build::standard
+}
+
+node "bld-yosemite-r5-002.try.releng.scl3.mozilla.com" {
+    $aspects = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    $pin_puppet_server = "releng-puppet2.try.releng.scl3.mozilla.com"
+    $pin_puppet_env = "jwatkins"
     include toplevel::slave::releng::build::standard
 }
 
