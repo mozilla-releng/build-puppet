@@ -69,7 +69,7 @@ class toplevel::server::signing inherits toplevel::server {
                     jar_digestalg       => 'SHA1',
                     jar_sigalg          => 'SHA1withRSA',
                     formats             => $signing_formats,
-                    signcode_timestamp  => "no",
+                    signcode_timestamp  => 'no',
                     ssl_cert            => $config::signing_server_ssl_certs[$hostname],
                     ssl_private_key     => $config::signing_server_ssl_private_keys[$hostname],
                     concurrency         => $concurrency;
