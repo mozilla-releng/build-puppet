@@ -127,6 +127,25 @@ class packages::xcode {
                     }
                 }
 
+                "6.1": {
+                    case $::macosx_productversion_major {
+                        10.10: {
+                            Anchor['packages::xcode::begin'] ->
+                            packages::pkgappdmg {
+                                "xcode-6.1":
+                                    version => '6.1',
+                                    private => true,
+                                    dmgname => "xcode-6.1.dmg";
+                            } ->
+                            shared::execonce { "xcode_license_agree":
+                                command => '/usr/bin/xcodebuild -license accept',
+                            } -> Anchor['packages::xcode::end']
+                        }
+                        default: {
+                            fail("cannot install XCode ${::config::xcode_version} ${macosx_productversion_major}")
+                        }
+                    }
+                }
                 default: {
                     fail("unknown XCode version ${::config::xcode_version}")
                 }

@@ -372,7 +372,10 @@ class config inherits config::base {
         10.7 => "4.1",
         10.8 => "5.1-cmdline",
         10.9 => "5.0-cmdline",
-        10.10 => "6.1-cmdline",
+        10.10 => $::fqdn ? {
+            /t-yosemite-r7-\d+\.test\.releng\.(scl3|mdc1)\.mozilla\.com/ => '6.1-cmdline',
+            default => "6.1",
+            },
         default => undef
     }
 
