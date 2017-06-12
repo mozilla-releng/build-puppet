@@ -17,31 +17,31 @@ class buildmaster::base {
     include buildmaster::settings
     include tweaks::tcp_keepalive
     service {
-        "buildbot":
-            require => File["/etc/init.d/buildbot"],
-            enable => true;
+        'buildbot':
+            require => File['/etc/init.d/buildbot'],
+            enable  => true;
     }
     file {
-        "${buildmaster::settings::lock_dir}":
+        $buildmaster::settings::lock_dir:
             ensure => directory,
-            owner => $users::builder::group,
-            group => $users::builder::username;
-        "/root/.my.cnf":
-            content => template("buildmaster/my.cnf.erb"),
-            mode => 600,
+            owner  => $users::builder::group,
+            group  => $users::builder::username;
+        '/root/.my.cnf':
+            content   => template('buildmaster/my.cnf.erb'),
+            mode      => '0600',
             show_diff => false;
-        "/etc/init.d/buildbot":
-            content => template("buildmaster/buildbot.initd.erb"),
-            mode => 755;
-        "/etc/default/buildbot.d/":
-            ensure => directory,
-            mode => 755,
+        '/etc/init.d/buildbot':
+            content => template('buildmaster/buildbot.initd.erb'),
+            mode    => '0755';
+        '/etc/default/buildbot.d/':
+            ensure  => directory,
+            mode    => '0755',
             recurse => true,
-            force => true;
+            force   => true;
     }
     nrpe::custom {
-        "buildbot.cfg":
-            content => template("buildmaster/buildbot.cfg.erb"),
+        'buildbot.cfg':
+            content => template('buildmaster/buildbot.cfg.erb'),
     }
 
     buildmaster::ssh_key {
