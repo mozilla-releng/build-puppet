@@ -7,12 +7,12 @@ class toplevel::slave::qa inherits toplevel::slave {
     include vnc
 
     class {
-        gui:
-            on_gpu => true,
-            screen_width => 1024,
+        'gui':
+            on_gpu        => true,
+            screen_width  => 1024,
             screen_height => 768,
-            screen_depth => 32,
-            refresh => 60;
+            screen_depth  => 32,
+            refresh       => 60;
     }
 
     if ($::config::enable_mig_agent) {

@@ -10,8 +10,8 @@ class toplevel::server::puppetmaster inherits toplevel::server {
     }
     assert {
       'puppetmaster-centos-6.5':
-        condition => $::operatingsystem == "CentOS"
-                        and $::operatingsystemrelease == "6.5";
+        condition => $::operatingsystem == 'CentOS'
+                        and $::operatingsystemrelease == '6.5';
     } ->
     class { '::puppetmaster': }
 }

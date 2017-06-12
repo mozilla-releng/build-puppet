@@ -8,7 +8,7 @@ class toplevel::worker::releng::generic_worker inherits toplevel::worker::releng
 
     # ensure taskcluster-worker is disabled, in case this machine previously ran it
     file {
-        "/Library/LaunchAgents/net.taskcluster.worker.plist":
+        '/Library/LaunchAgents/net.taskcluster.worker.plist':
             ensure => absent,
     }
 }

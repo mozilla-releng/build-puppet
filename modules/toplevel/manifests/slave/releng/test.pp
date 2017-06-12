@@ -18,7 +18,7 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
     }
 
     case $::operatingsystem {
-        "Ubuntu": {
+        'Ubuntu': {
             include runner::tasks::update_shared_repos
             include runner::tasks::checkout_tools
             include runner::tasks::restart_services
@@ -28,7 +28,7 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
                     required_space => 4;
             }
         }
-        "Darwin": {
+        'Darwin': {
             include runner::tasks::update_shared_repos
             include runner::tasks::checkout_tools
             include tweaks::disable_bonjour
@@ -37,7 +37,7 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
                     required_space => 4;
             }
         }
-        "Windows": {
+        'Windows': {
             include disableservices::disable_indexing
             include disableservices::disable_win_defend
             include disableservices::disable_win_driver_signing

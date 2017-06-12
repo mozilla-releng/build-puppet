@@ -16,12 +16,12 @@ class toplevel::worker::releng::generic_worker::test inherits toplevel::worker::
     }
 
     case $::operatingsystem {
-        "Ubuntu": {
+        'Ubuntu': {
         }
-        "Darwin": {
+        'Darwin': {
             include tweaks::disable_bonjour
         }
-        "Windows": {
+        'Windows': {
             include disableservices::disable_indexing
             include disableservices::disable_win_defend
             include disableservices::disable_win_driver_signing

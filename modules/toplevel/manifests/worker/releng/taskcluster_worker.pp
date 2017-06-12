@@ -6,10 +6,10 @@ class toplevel::worker::releng::taskcluster_worker inherits toplevel::worker::re
 
     include ::taskcluster_worker
 
-    if ($::operatingsystem == "Darwin") {
+    if ($::operatingsystem == 'Darwin') {
         # ensure generic-worker is disabled, in case this machine previously ran it
         file {
-            "/Library/LaunchAgents/net.generic.worker.plist":
+            '/Library/LaunchAgents/net.generic.worker.plist':
                 ensure => absent,
         }
     }
