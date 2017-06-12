@@ -18,90 +18,90 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
     include ::config
     include buildmaster::base
 
-    $master_group = "${users::builder::group}"
-    $master_user = "${users::builder::username}"
-    $master_basedir = "${buildmaster::settings::master_root}"
-    $master_name = "${name}"
-    $full_master_dir = "${master_basedir}/${basedir}"
-    $buildbot_configs_dir ="${full_master_dir}/buildbot-configs"
+    $master_group         = $users::builder::group
+    $master_user          = $users::builder::username
+    $master_basedir       = $buildmaster::settings::master_root
+    $master_name          = $name
+    $full_master_dir      = "${master_basedir}/${basedir}"
+    $buildbot_configs_dir = "${full_master_dir}/buildbot-configs"
 
     # Different types of masters require different BuildSlaves.py files
     $buildslaves_template = "BuildSlaves-${master_type}.py.erb"
 
     file {
         "${full_master_dir}/master/BuildSlaves.py":
-            require => Exec["setup-$basedir"],
-            owner => $master_user,
-            group => $master_group,
-            mode => 600,
-            content => template("buildmaster/${buildslaves_template}"),
+            require   => Exec["setup-${basedir}"],
+            owner     => $master_user,
+            group     => $master_group,
+            mode      => '0600',
+            content   => template("buildmaster/${buildslaves_template}"),
             show_diff => false;
-        "${full_master_dir}":
-            owner => $master_user,
-            group => $master_group,
-            ensure => "directory";
+        $full_master_dir:
+            ensure => 'directory',
+            owner  => $master_user,
+            group  => $master_group;
         "${full_master_dir}/master/passwords.py":
-            require => Exec["setup-${basedir}"],
-            owner => $master_user,
-            group => $master_group,
-            mode => 600,
-            content => template("buildmaster/passwords.py.erb"),
+            require   => Exec["setup-${basedir}"],
+            owner     => $master_user,
+            group     => $master_group,
+            mode      => '0600',
+            content   => template('buildmaster/passwords.py.erb'),
             show_diff => false;
         "${full_master_dir}/master/buildbot.tac":
             require => Exec["setup-${basedir}"],
-            mode => 0644,
-            owner => $master_user,
-            group => $master_group,
-            source => "puppet:///modules/buildmaster/buildbot.tac";
+            mode    => '0644',
+            owner   => $master_user,
+            group   => $master_group,
+            source  => 'puppet:///modules/buildmaster/buildbot.tac';
         "/etc/default/buildbot.d/${master_name}":
-            content => "${full_master_dir}",
+            content => $full_master_dir,
             require => Exec["setup-${basedir}"],
-            before => Nrpe::Custom["buildbot.cfg"];
+            before  => Nrpe::Custom['buildbot.cfg'];
         "/etc/cron.d/${master_name}":
             require => Exec["setup-${basedir}"],
-            mode => 600,
-            content => template("buildmaster/buildmaster-cron.erb");
+            mode    => '0600',
+            content => template('buildmaster/buildmaster-cron.erb');
     }
 
     # Scheduler masters don't need postrun.cfg
-    if ($master_type != "scheduler") {
+    if ($master_type != 'scheduler') {
         if ($http_port == undef) {
-            fail("Need to specify http_port for $master_name")
+            fail("Need to specify http_port for ${master_name}")
         }
 
         file {
             "${full_master_dir}/master/postrun.cfg":
-                require => Exec["setup-${basedir}"],
-                owner => $master_user,
-                group => $master_group,
-                mode => 600,
-                content => template("buildmaster/${buildmaster::settings::postrun_template}"),
+                require   => Exec["setup-${basedir}"],
+                owner     => $master_user,
+                group     => $master_group,
+                mode      => '0600',
+                content   => template("buildmaster/${buildmaster::settings::postrun_template}"),
                 show_diff => false;
-            "/usr/local/bin/buildmaster-retry_dead_queue.sh":
-                mode => 0755,
+            '/usr/local/bin/buildmaster-retry_dead_queue.sh':
+                mode    => '0755',
                 require => Exec["setup-${basedir}"],
-                source => "puppet:///modules/buildmaster/buildmaster-retry_dead_queue.sh";
-            "/etc/cron.d/buildmaster-retry_dead_queue":
-                mode    => 644,
+                source  => 'puppet:///modules/buildmaster/buildmaster-retry_dead_queue.sh';
+            '/etc/cron.d/buildmaster-retry_dead_queue':
+                mode    => '0644',
                 require => Exec["setup-${basedir}"],
-                content => template("buildmaster/buildmaster-retry_dead_queue.erb");
+                content => template('buildmaster/buildmaster-retry_dead_queue.erb');
         }
     }
 
     mercurial::repo {
         "clone-buildbot-${master_name}":
-            hg_repo => "${config::buildbot_configs_hg_repo}",
-            dst_dir => "${buildbot_configs_dir}",
-            user    => "${users::builder::username}",
-            branch  => "${config::buildbot_configs_branch}";
+            hg_repo => $config::buildbot_configs_hg_repo,
+            dst_dir => $buildbot_configs_dir,
+            user    => $users::builder::username,
+            branch  => $config::buildbot_configs_branch;
     }
 
     exec {
         "setup-${basedir}":
-            require => [
+            require   => [
                 Mercurial::Repo["clone-buildbot-${master_name}"],
-                File["${full_master_dir}"],
-                Class["packages::mozilla::py27_virtualenv"],
+                File[$full_master_dir],
+                Class['packages::mozilla::py27_virtualenv'],
             ],
             command   => "/usr/bin/make -f Makefile.setup all BASEDIR=${full_master_dir} \
                             MASTER_NAME=${master_name} \
@@ -109,7 +109,7 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
                             PYTHON=${::packages::mozilla::python27::python} \
                             HG=${::packages::mozilla::py27_mercurial::mercurial} \
                             MASTERS_JSON=${config::master_json} \
-                            USER=$master_user \
+                            USER=${master_user} \
                             BUILDBOTCUSTOM_BRANCH=${config::buildbotcustom_branch} \
                             BUILDBOTCONFIGS_BRANCH=${config::buildbot_configs_branch} \
                             TOOLS_REPO=${config::buildbot_tools_hg_repo}",
@@ -117,6 +117,6 @@ define buildmaster::buildbot_master::mozilla($basedir, $master_type, $http_port=
             user      => $master_user,
             group     => $master_group,
             logoutput => on_failure,
-            cwd       => "${buildbot_configs_dir}";
+            cwd       => $buildbot_configs_dir;
     }
 }

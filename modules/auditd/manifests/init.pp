@@ -16,11 +16,11 @@ class auditd($host_type) {
         'slave': { }
         'server': { }
         default: {
-            fail("Invalid auditd host_type $host_type")
+            fail("Invalid auditd host_type ${host_type}")
         }
     }
 
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS: {
             # rsyslog's upstream default config logs all the auditd stuff
             # to 'messages', which is super-noisy.  The puppet module filters
@@ -29,30 +29,30 @@ class auditd($host_type) {
 
             service {
                 'auditd':
-                    ensure => running,
-                    enable => true,
+                    ensure    => running,
+                    enable    => true,
                     subscribe => $packages,
                     hasstatus => true;
             }
 
             file {
                 '/etc/audit/auditd.conf':
-                    ensure => file,
+                    ensure  => file,
                     require => $packages,
-                    notify => Service['auditd'],
-                    owner => "root",
-                    group => "root",
-                    mode => '0600',
-                    source => "puppet:///modules/auditd/auditd.conf";
+                    notify  => Service['auditd'],
+                    owner   => 'root',
+                    group   => 'root',
+                    mode    => '0600',
+                    source  => 'puppet:///modules/auditd/auditd.conf';
 
                 '/etc/audisp/audispd.conf':
-                    ensure => file,
+                    ensure  => file,
                     require => $packages,
-                    notify => Service['auditd'],
-                    owner => "root",
-                    group => "root",
-                    mode => '0600',
-                    source => "puppet:///modules/auditd/audispd.conf";
+                    notify  => Service['auditd'],
+                    owner   => 'root',
+                    group   => 'root',
+                    mode    => '0600',
+                    source  => 'puppet:///modules/auditd/audispd.conf';
 
                 '/etc/audisp/plugins.d/syslog.conf':
                     ensure  => file,
@@ -61,7 +61,7 @@ class auditd($host_type) {
                     owner   => root,
                     group   => root,
                     mode    => '0600',
-                    source  => "puppet:///modules/auditd/syslog.conf";
+                    source  => 'puppet:///modules/auditd/syslog.conf';
 
                 '/var/log/audit':
                     ensure => directory,
@@ -70,14 +70,14 @@ class auditd($host_type) {
                     mode   => '0700';
 
                 '/etc/audit/audit.rules':
-                    ensure => file,
+                    ensure  => file,
                     require => $packages,
-                    notify => Service['auditd'],
-                    owner => "root",
-                    group => "root",
-                    mode => '0600',
+                    notify  => Service['auditd'],
+                    owner   => 'root',
+                    group   => 'root',
+                    mode    => '0600',
                     # this can  use $host_type to decide which rules to apply
-                    content => template("auditd/audit.rules.erb");
+                    content => template('auditd/audit.rules.erb');
             }
         }
     }

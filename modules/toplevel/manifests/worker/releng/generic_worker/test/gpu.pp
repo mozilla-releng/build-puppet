@@ -4,11 +4,11 @@
 
 class toplevel::worker::releng::generic_worker::test::gpu inherits toplevel::worker::releng::generic_worker::test {
     class {
-        gui:
-            on_gpu => true,
-            screen_width => 1600,
+        'gui':
+            on_gpu        => true,
+            screen_width  => 1600,
             screen_height => 1200,
-            screen_depth => 32,
-            refresh => 60;
+            screen_depth  => 32,
+            refresh       => 60;
     }
 }

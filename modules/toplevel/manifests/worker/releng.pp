@@ -35,7 +35,7 @@ class toplevel::worker::releng inherits toplevel::worker {
     case $::operatingsystem {
         'Darwin': {
             file {
-                "/Library/LaunchAgents/com.mozilla.runner.plist":
+                '/Library/LaunchAgents/com.mozilla.runner.plist':
                     ensure => absent,
             }
         }

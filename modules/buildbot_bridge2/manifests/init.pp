@@ -1,3 +1,6 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class buildbot_bridge2 {
     include ::config
     include buildbot_bridge2::services
@@ -6,15 +9,15 @@ class buildbot_bridge2 {
     include dirs::builds
     include users::builder
 
-    $bbb_version = $::buildbot_bridge2::settings::env_config["version"]
+    $bbb_version = $::buildbot_bridge2::settings::env_config['version']
 
     python35::virtualenv {
-        "${buildbot_bridge2::settings::root}":
-            python3  => "${packages::mozilla::python35::python3}",
+        $buildbot_bridge2::settings::root:
+            python3  => $packages::mozilla::python35::python3,
             require  => Class['packages::mozilla::python35'],
-            user     => "${users::builder::username}",
-            group    => "${users::builder::group}",
-            mode     => 700,
+            user     => $users::builder::username,
+            group    => $users::builder::group,
+            mode     => '0700',
             packages => [
                 "bbb==${bbb_version}",
                 'aiohttp==1.3.5',

@@ -31,8 +31,8 @@ class toplevel::base {
     include packages::bash
 
     class { 'web_proxy':
-        host => $::config::web_proxy_host,
-        port => $::config::web_proxy_port,
+        host       => $::config::web_proxy_host,
+        port       => $::config::web_proxy_port,
         exceptions => $::config::web_proxy_exceptions
     }
 
@@ -51,7 +51,7 @@ class toplevel::base {
         include packages::libc
     }
 
-    if $kernel == Linux {
+    if $::kernel == Linux {
         include packages::kernel
         include tweaks::tcp_challenge_ack_limit
     }

@@ -15,36 +15,36 @@ class buildmaster::db_maintenance {
     $db_maintenance_dir = "${buildmaster::settings::master_root}/db_maint"
 
     mercurial::repo {
-        "buildmaster::db_maintenance::tools":
+        'buildmaster::db_maintenance::tools':
             require => File[$db_maintenance_dir],
-            hg_repo => "${config::buildbot_tools_hg_repo}",
+            hg_repo => $config::buildbot_tools_hg_repo,
             dst_dir => "${db_maintenance_dir}/tools",
-            user    => "${users::builder::username}",
-            branch  => "default";
+            user    => $users::builder::username,
+            branch  => 'default';
     }
 
     python::virtualenv {
-        "$db_maintenance_dir":
-            python  => "${packages::mozilla::python27::python}",
-            require => Class['packages::mozilla::python27'],
-            user    => "${users::builder::username}",
-            group   => "${users::builder::group}",
+        $db_maintenance_dir:
+            python   => $packages::mozilla::python27::python,
+            require  => Class['packages::mozilla::python27'],
+            user     => $users::builder::username,
+            group    => $users::builder::group,
             packages => [
-                "SQLAlchemy==0.7.9",
-                "MySQL-python==1.2.3",
+                'SQLAlchemy==0.7.9',
+                'MySQL-python==1.2.3',
             ];
     }
 
     file {
-        "/etc/cron.d/buildbot_db_maintenance":
-            require => [Python::Virtualenv[$db_maintenance_dir], Mercurial::Repo["buildmaster::db_maintenance::tools"]],
-            mode    => 600,
-            content => template("buildmaster/buildmaster-db-maintenance.erb");
-        "$db_maintenance_dir/config.ini":
-            owner   => "${users::builder::username}",
-            group   => "${users::builder::group}",
-            mode    => 600,
-            content => template("buildmaster/buildmaster-db-maintenance-config.erb"),
+        '/etc/cron.d/buildbot_db_maintenance':
+            require => [Python::Virtualenv[$db_maintenance_dir], Mercurial::Repo['buildmaster::db_maintenance::tools']],
+            mode    => '0600',
+            content => template('buildmaster/buildmaster-db-maintenance.erb');
+        "${db_maintenance_dir}/config.ini":
+            owner     => $users::builder::username,
+            group     => $users::builder::group,
+            mode      => '0600',
+            content   => template('buildmaster/buildmaster-db-maintenance-config.erb'),
             show_diff => false;
     }
 }

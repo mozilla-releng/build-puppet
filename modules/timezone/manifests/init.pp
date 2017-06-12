@@ -12,43 +12,43 @@ class timezone {
                 $timezone = 'US/Pacific'
             }
             file {
-                "/etc/localtime":
-                    mode => 644,
-                    owner => root,
-                    group => $users::root::group,
-                    content => file("/usr/share/zoneinfo/$timezone"),
-                    force => true,
+                '/etc/localtime':
+                    mode    => '0644',
+                    owner   => root,
+                    group   => $users::root::group,
+                    content => file("/usr/share/zoneinfo/${timezone}"),
+                    force   => true,
                     require => Class['packages::tzdata'],
-                    notify => Exec['/usr/sbin/tzdata-update'];
-                "/etc/sysconfig/clock":
-                    mode => 644,
-                    owner => root,
-                    group => $users::root::group,
-                    content => "ZONE=\"$timezone\"",
-                    force => true,
+                    notify  => Exec['/usr/sbin/tzdata-update'];
+                '/etc/sysconfig/clock':
+                    mode    => '0644',
+                    owner   => root,
+                    group   => $users::root::group,
+                    content => "ZONE=\'${timezone}\'",
+                    force   => true,
                     require => Class['packages::tzdata'],
-                    notify => Exec['/usr/sbin/tzdata-update'];
+                    notify  => Exec['/usr/sbin/tzdata-update'];
             }
             exec {
-                "/usr/sbin/tzdata-update":
+                '/usr/sbin/tzdata-update':
                     refreshonly => true;
             }
         }
         Ubuntu: {
             include packages::tzdata
             file {
-                "/etc/timezone":
-                    mode => 644,
-                    owner => root,
-                    group => $users::root::group,
+                '/etc/timezone':
+                    mode    => '0644',
+                    owner   => root,
+                    group   => $users::root::group,
                     content => "America/Los_Angeles\n",
-                    force => true,
+                    force   => true,
                     require => Class['packages::tzdata'];
             }
             exec {
-                "dpkg-reconfigure-tzdata":
-                    command     => "/usr/sbin/dpkg-reconfigure -f noninteractive tzdata",
-                    subscribe   => File["/etc/timezone"],
+                'dpkg-reconfigure-tzdata':
+                    command     => '/usr/sbin/dpkg-reconfigure -f noninteractive tzdata',
+                    subscribe   => File['/etc/timezone'],
                     refreshonly => true;
             }
         }
@@ -58,8 +58,8 @@ class timezone {
                 $timezone = 'America/Los_Angeles'
             }
             osxutils::systemsetup {
-                timezone:
-                    setting => "$timezone";
+                'timezone':
+                    setting => $timezone;
             }
         }
         Windows: {

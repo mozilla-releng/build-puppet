@@ -9,16 +9,16 @@ class toplevel::server::slaveapi inherits toplevel::server {
         condition => $::security::high;
     }
 
-    if (has_aspect("dev")) {
-        $slaveapi_title = "dev"
+    if (has_aspect('dev')) {
+        $slaveapi_title = 'dev'
     }
     else {
-        $slaveapi_title = "prod"
+        $slaveapi_title = 'prod'
     }
 
     slaveapi::instance {
-        "${slaveapi_title}":
-            listenaddr  => "0.0.0.0",
-            port        => "8080";
+        $slaveapi_title:
+            listenaddr => '0.0.0.0',
+            port       => '8080';
     }
 }

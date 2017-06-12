@@ -4,22 +4,22 @@
 class bouncer_check {
     include packages::mozilla::python27
     include dirs::tools
-    $venv_root = "/tools/nagios-tools"
+    $venv_root = '/tools/nagios-tools'
 
     python::virtualenv {
-        "${venv_root}":
-            python   => "${packages::mozilla::python27::python}",
+        $venv_root:
+            python   => $packages::mozilla::python27::python,
             require  => Class['packages::mozilla::python27'],
             packages => [
-                "argparse==1.2.1",
-                "nagios-tools==0.4",
-                "nagiosplugin==1.1",
-                "wsgiref==0.1.2",
+                'argparse==1.2.1',
+                'nagios-tools==0.4',
+                'nagiosplugin==1.1',
+                'wsgiref==0.1.2',
             ];
     }
     nrpe::check {
         'check_bouncer':
             cfg     => "${venv_root}/bin/check_bouncer",
-            require => Python::Virtualenv["${venv_root}"];
+            require => Python::Virtualenv[$venv_root];
     }
 }

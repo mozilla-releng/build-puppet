@@ -3,22 +3,22 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class web_proxy::gui {
-    case $operatingsystem {
+    case $::operatingsystem {
         Darwin: {
             include ::dirs::usr::local::bin
             file {
-                "/usr/local/bin/setproxy.sh" :
-                    ensure => present,
-                    owner => "$users::root::username",
-                    group => "$users::root::group",
-                    mode => 0755,
+                '/usr/local/bin/setproxy.sh' :
+                    ensure  => present,
+                    owner   => $users::root::username,
+                    group   => $users::root::group,
+                    mode    => '0755',
                     content => template("${module_name}/gui_darwin.erb"),
-                    notify => Exec["set-proxy-gui"] ;
+                    notify  => Exec['set-proxy-gui'] ;
             }
 
             exec {
-                "set-proxy-gui" :
-                    command => "/usr/local/bin/setproxy.sh",
+                'set-proxy-gui' :
+                    command     => '/usr/local/bin/setproxy.sh',
                     refreshonly => true;
             }
         }

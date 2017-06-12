@@ -14,80 +14,80 @@ class vnc {
             osxutils::defaults {
                 # kickstart -configure -allowAccessFor -allUsers
                 ARD_AllLocalUsers:
-                    domain => "/Library/Preferences/com.apple.RemoteManagement",
-                    key => "ARD_AllLocalUsers",
-                    value => "1";
+                    domain => '/Library/Preferences/com.apple.RemoteManagement',
+                    key    => 'ARD_AllLocalUsers',
+                    value  => '1';
                 # kickstart -configure -privs -all -access -on
                 # (this doesn't work; see https://bugzilla.mozilla.org/show_bug.cgi?id=733534#c8)
             }
-            case $macosx_productversion_major {
+            case $::macosx_productversion_major {
                 '10.6': {
                     # on Snow Leopard, the launchd service is not listed in
                     # launchctl list, but it watches this file
                     file {
                         '/etc/ScreenSharing.launchd':
                             content => 'enabled',
-                            owner => root,
-                            group => wheel,
-                            mode => 0644;
+                            owner   => root,
+                            group   => wheel,
+                            mode    => '0644';
                     }
                 }
                 default: {
                     service {
                         # kickstart -activate
                         'com.apple.screensharing':
-                            enable => true,
                             ensure => running,
+                            enable => true,
                     }
                 }
             }
 
-            $kickstart = "/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart"
+            $kickstart = '/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart'
             exec {
                 #allow builder user to connect via screensharing
-                "enable-remote-builduser-access":
-                  command => "$kickstart -configure -allowAccessFor -specifiedUsers; $kickstart -activate -configure -access -on -users $::users::builder::username -privs -all -restart -agent -menu",
+                'enable-remote-builduser-access':
+                  command     => "${kickstart} -configure -allowAccessFor -specifiedUsers; ${kickstart} -activate -configure -access -on -users ${::users::builder::username} -privs -all -restart -agent -menu",
                   refreshonly => true;
             }
         }
         Ubuntu: {
-            if (secret("builder_pw_vnc_cleartext") == '') {
+            if (secret('builder_pw_vnc_cleartext') == '') {
                 fail('No VNC password set')
             }
             file {
-                "$::users::builder::home/.vnc":
+                "${::users::builder::home}/.vnc":
                     ensure => directory,
-                    mode   => 0700,
+                    mode   => '0700',
                     owner  => $::users::builder::username,
                     group  => $::users::builder::group;
-                "$::users::builder::home/.vnc/passwd":
+                "${::users::builder::home}/.vnc/passwd":
                     ensure => absent;
-                "/etc/vnc_passwdfile":
-                    ensure  => file,
-                    mode    => 0600,
-                    owner   => root,
-                    group   => root,
-                    content => secret("builder_pw_vnc_cleartext"),
+                '/etc/vnc_passwdfile':
+                    ensure    => file,
+                    mode      => '0600',
+                    owner     => root,
+                    group     => root,
+                    content   => secret('builder_pw_vnc_cleartext'),
                     show_diff => false;
             }
             case $::operatingsystemrelease {
                 12.04,14.04: {
                     file {
-                        "/etc/init/x11vnc.conf":
+                        '/etc/init/x11vnc.conf':
                             content => template("${module_name}/x11vnc.conf.erb");
-                        "/etc/init.d/x11vnc":
-                            ensure  => link,
-                            target  => "/lib/init/upstart-job";
+                        '/etc/init.d/x11vnc':
+                            ensure => link,
+                            target => '/lib/init/upstart-job';
                     }
                 }
                 16.04: {
                     file {
-                        "/lib/systemd/system/x11vnc.service":
+                        '/lib/systemd/system/x11vnc.service':
                             content => template("${module_name}/x11vnc.service.erb");
                     }
                 }
                 default: {
-                    fail ("Ubuntu $::operatingsystemrelease is not suported")
+                    fail ("Ubuntu ${::operatingsystemrelease} is not suported")
                 }
             }
             # note that x11vnc isn't started automatically
@@ -97,7 +97,7 @@ class vnc {
             include vnc::ultravnc_ini
         }
         default: {
-            fail("Cannot set up VNC on this platform")
+            fail('Cannot set up VNC on this platform')
         }
     }
 }

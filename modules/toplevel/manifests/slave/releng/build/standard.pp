@@ -6,7 +6,7 @@ class toplevel::slave::releng::build::standard inherits toplevel::slave::releng:
     include ::config
     include users::builder
 
-    if ($::operatingsystem == "Darwin") {
+    if ($::operatingsystem == 'Darwin') {
         include packages::xcode
         include packages::yasm
         include packages::autoconf
@@ -25,9 +25,9 @@ class toplevel::slave::releng::build::standard inherits toplevel::slave::releng:
             'vnc':
                 ;
             'screenresolution':
-                width => 1024,
-                height => 768,
-                depth => 32,
+                width   => 1024,
+                height  => 768,
+                depth   => 32,
                 refresh => 60;
         }
     }

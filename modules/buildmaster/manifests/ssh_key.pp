@@ -7,9 +7,9 @@ define buildmaster::ssh_key {
 
     ssh::user_privkey {
         $key_name:
-            home => $::users::builder::home,
+            home     => $::users::builder::home,
             username => $::users::builder::username,
-            group => $::users::builder::group,
-            key => hiera("buildmaster_ssh_key_${key_name}");
+            group    => $::users::builder::group,
+            key      => hiera("buildmaster_ssh_key_${key_name}");
     }
 }

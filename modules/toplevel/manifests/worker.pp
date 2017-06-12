@@ -19,7 +19,7 @@ class toplevel::worker inherits toplevel::base {
     include packages::virtualenv
 
     # *all* Darwin and Windows workers need to autologin, not just testers
-    if ($::operatingsystem == "Darwin") or ($::operatingsystem == "Windows") {
+    if ($::operatingsystem == 'Darwin') or ($::operatingsystem == 'Windows') {
         include users::builder::autologin
     }
 }

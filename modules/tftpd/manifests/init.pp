@@ -9,22 +9,22 @@ class tftpd {
         CentOS: {
 
             service {
-                "xinetd":
-                    require => Class["packages::xinetd"],
+                'xinetd':
                     ensure  => running,
-                    enable => true;
+                    require => Class['packages::xinetd'],
+                    enable  => true;
             }
 
             file {
-                "/etc/xinetd.d/tftp":
+                '/etc/xinetd.d/tftp':
                     ensure => file,
-                    source => "puppet:///modules/tftpd/tftp",
-                    notify => Service["xinetd"];
-                "/var/lib/tftpboot":
+                    source => 'puppet:///modules/tftpd/tftp',
+                    notify => Service['xinetd'];
+                '/var/lib/tftpboot':
                     ensure => directory;
-                "/tftpboot":
+                '/tftpboot':
                     ensure => link,
-                    target => "/var/lib/tftpboot";
+                    target => '/var/lib/tftpboot';
             }
         }
         default: {
