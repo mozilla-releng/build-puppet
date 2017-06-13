@@ -187,6 +187,12 @@ node /bld-(lion|yosemite)-r5-\d+.try.releng.scl3.mozilla.com/ {
     include toplevel::slave::releng::build::standard
 }
 
+node /y-yosemite-r5-\d+.try.releng.scl3.mozilla.com/ {
+    $aspects = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    include toplevel::slave::releng::build::standard
+}
+
 ## signing servers
 
 node /mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
