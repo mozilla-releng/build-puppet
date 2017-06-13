@@ -8,6 +8,7 @@
     "schema_file": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/lib/python3.5/site-packages/signingscript/data/signing_task_schema.json",
 
     "signtool": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/bin/signtool",
+    "token_duration_seconds": 1800,
     "verbose": <%= @verbose_logging %>,
     "dmg": "<%= @dmg_location %>",
     "hfsplus": "<%= @hfsplus_location %>",
