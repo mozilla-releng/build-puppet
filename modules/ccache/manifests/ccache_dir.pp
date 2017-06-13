@@ -8,29 +8,29 @@ define ccache::ccache_dir($owner, $group, $maxsize, $mode=0755) {
 
     # for the moment, the Darwin DMG puts things in funny places
     $ccache = $::operatingsystem ? {
-        Darwin => "/usr/local/bin/ccache",
-        default => "/usr/bin/ccache",
+        Darwin  => '/usr/local/bin/ccache',
+        default => '/usr/bin/ccache',
     }
 
     file {
         $ccache_dir:
             ensure => directory,
-            owner => $owner,
-            group => $group,
-            mode => $mode;
-        "$ccache_dir/.puppet-maxsize":
-            content => "$maxsize",
-            notify => Exec["ccache-maxsize-$ccache_dir"];
+            owner  => $owner,
+            group  => $group,
+            mode   => $mode;
+        "${ccache_dir}/.puppet-maxsize":
+            content => $maxsize,
+            notify  => Exec["ccache-maxsize-${ccache_dir}"];
     }
 
     exec {
-        "ccache-maxsize-$ccache_dir":
-            require => [File[$ccache_dir], Class["packages::mozilla::ccache"]],
+        "ccache-maxsize-${ccache_dir}":
+            require     => [File[$ccache_dir], Class['packages::mozilla::ccache']],
             refreshonly => true,
-            command => "$ccache -M$maxsize",
+            command     => "${ccache} -M${maxsize}",
             environment => [
-                "CCACHE_DIR=$ccache_dir",
+                "CCACHE_DIR=${ccache_dir}",
                 ],
-            user => $owner;
+            user        => $owner;
     }
 }
