@@ -5,13 +5,13 @@ class buildslave::startup::runner {
     case $::operatingsystem {
         'CentOS': {
             file {
-                "/etc/init.d/buildbot":
+                '/etc/init.d/buildbot':
                     ensure => absent,
                     notify => Exec['bb-service-delete'];
             }
             exec {
                 'bb-service-delete':
-                    command => "/bin/find /etc/rc.d -type l -name '*buildbot' | /usr/bin/xargs /bin/rm",
+                    command     => "/bin/find /etc/rc.d -type l -name '*buildbot' | /usr/bin/xargs /bin/rm",
                     refreshonly => true;
             }
         }
@@ -28,7 +28,7 @@ class buildslave::startup::runner {
             # This is strictly a cleanup measure for moving off of the old
             # launchd startup.
             file {
-                "/Library/LaunchAgents/com.mozilla.buildslave.plist":
+                '/Library/LaunchAgents/com.mozilla.buildslave.plist':
                     ensure => absent;
             }
         }

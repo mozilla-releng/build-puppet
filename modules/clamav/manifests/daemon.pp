@@ -6,9 +6,9 @@ class clamav::daemon {
     include packages::clamd
 
     service {
-        "clamd":
-            require => Class["packages::clamd"],
+        'clamd':
             ensure  => running,
+            require => Class['packages::clamd'],
             enable  => true;
     }
 }

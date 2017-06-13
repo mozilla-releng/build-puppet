@@ -3,5 +3,5 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class buildduty_tools {
     include buildduty_tools::install
-    include buildduty_tools::buildduty-tools
+    include buildduty_tools::builddutytools
 }

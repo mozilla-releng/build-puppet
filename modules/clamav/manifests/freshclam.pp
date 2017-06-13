@@ -6,22 +6,22 @@ class clamav::freshclam {
     include packages::clamd
 
     file {
-        "/etc/freshclam.conf":
-            source => "puppet:///modules/$module_name/freshclam.conf";
-        "/etc/init.d/freshclam":
-            mode   => 0755,
-            source => "puppet:///modules/$module_name/freshclam.init";
+        '/etc/freshclam.conf':
+            source => "puppet:///modules/${module_name}/freshclam.conf";
+        '/etc/init.d/freshclam':
+            mode   => '0755',
+            source => "puppet:///modules/${module_name}/freshclam.init";
     }
     exec {
         # Run freshclam after clamd is installed to refresh the initial database
-        "/usr/bin/freshclam":
+        '/usr/bin/freshclam':
             refreshonly => true,
-            require     => File["/etc/freshclam.conf"],
-            subscribe   => Class["packages::clamd"];
+            require     => File['/etc/freshclam.conf'],
+            subscribe   => Class['packages::clamd'];
     }
     service {
-        "freshclam":
-            require => File["/etc/init.d/freshclam"],
+        'freshclam':
+            require => File['/etc/init.d/freshclam'],
             enable  => true;
     }
 }

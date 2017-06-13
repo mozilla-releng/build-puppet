@@ -15,8 +15,8 @@ class buildslave::startup::windows {
             include instance_metadata
             file {
                 'c:/programdata/puppetagain/start-buildbot.bat':
-                    content  => template("${module_name}/EC2_start-buildbot.bat.erb"),
-                    require  => Class[instance_metadata];
+                    content => template("${module_name}/EC2_start-buildbot.bat.erb"),
+                    require => Class[instance_metadata];
             }
         }
         default: {
@@ -31,14 +31,14 @@ class buildslave::startup::windows {
     # XML file needs to exported from the task scheduler gui. Also note when using the XML import be aware of machine specific values such as name will need to be replaced with a variable.
     # Hence the need for the template.
     file {
-        "c:/programdata/puppetagain/start-buildbot.xml":
-            content => template("buildslave/start-buildbot.xml.erb");
+        'c:/programdata/puppetagain/start-buildbot.xml':
+            content => template('buildslave/start-buildbot.xml.erb');
     }
     # Importing the XML file using schtasks
     # Refrence http://technet.microsoft.com/en-us/library/cc725744.aspx and http://technet.microsoft.com/en-us/library/cc722156.aspx
     $schtasks = 'C:\Windows\system32\schtasks.exe'
-    shared::execonce { "startbuildbot":
-        command => "$schtasks /Create /XML c:\\programdata\\puppetagain\\start-buildbot.xml /tn StartBuildbot",
+    shared::execonce { 'startbuildbot':
+        command => "${schtasks} /Create /XML c:\\programdata\\puppetagain\\start-buildbot.xml /tn StartBuildbot",
         require => File['c:/programdata/puppetagain/start-buildbot.xml'],
     }
 }
