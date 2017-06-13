@@ -8,7 +8,7 @@
 
 # First run the generic-worker, passing through any arguments handed to this
 # wrapper script...
-/usr/local/bin/generic-worker "$@" 2>&1 | logger -t taskcluster-worker -s
+/usr/local/bin/generic-worker "$@" 2>&1 | logger -t generic-worker -s
 
 # Now reboot the machine immediately (time costs money)
 /usr/bin/sudo /sbin/reboot
