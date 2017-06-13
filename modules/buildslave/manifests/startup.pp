@@ -18,29 +18,29 @@ class buildslave::startup {
         Windows: {
                 file {
                     'C:/programdata/puppetagain/runslave.py':
-                        source  => "puppet:///modules/buildslave/runslave.py";
+                        source  => 'puppet:///modules/buildslave/runslave.py';
             }
         }
         default: {
             include dirs::usr::local::bin
             file {
-                "/usr/local/bin/runslave.py":
-                    source => "puppet:///modules/buildslave/runslave.py",
-                    owner  => "root",
-                    group => $users::root::group,
-                    mode => 755;
+                '/usr/local/bin/runslave.py':
+                    source => 'puppet:///modules/buildslave/runslave.py',
+                    owner  => 'root',
+                    group  => $users::root::group,
+                    mode   => '0755';
             }
         }
     }
     # select an implementation class based on operating system
     $startuptype = $::operatingsystem ? {
-        CentOS      => "runner",
-        Darwin      => "runner",
-        Ubuntu      => "runner",
-        Windows     => "runner",
+        CentOS      => 'runner',
+        Darwin      => 'runner',
+        Ubuntu      => 'runner',
+        Windows     => 'runner',
     }
     Anchor['buildslave::startup::begin'] ->
     class {
-        "buildslave::startup::$startuptype":
+        "buildslave::startup::${startuptype}":
     } -> Anchor['buildslave::startup::end']
 }
