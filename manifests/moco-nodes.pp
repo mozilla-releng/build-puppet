@@ -4,23 +4,8 @@
 
 ## TaskCluster workers
 
-# OS X in scl3
-node /t-yosemite-r7-004[0-9]\.test\.releng\.scl3\.mozilla\.com/ {
-    $aspects = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include toplevel::worker::releng::generic_worker::test::gpu
-
-    # Bug 1338557 - Add pmoore public key to authorized_keys file of cltbld/root user of t-yosemite-r7-{0040..0049}
-    users::root::extra_authorized_key {
-        'pmoore': ;
-    }
-    users::builder::extra_authorized_key {
-        'pmoore': ;
-    }
-}
-
-#OS X batch#3 10 machines(adding yosemite-r7-(0060-0069)) migrate in taskcluster- Bug 1364924
-node /t-yosemite-r7-00[3,5-6]\d\.test\.releng\.scl3\.mozilla\.com/ {
+#OS X batch#4 10 machines(adding yosemite-r7-(0040-0049)) migrate in taskcluster- Bug 1364924
+node /t-yosemite-r7-00[3-6]\d\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include toplevel::worker::releng::generic_worker::test::gpu
