@@ -4,8 +4,8 @@
 
 ## TaskCluster workers
 
-#OS X batch#6 10 machines(adding yosemite-r7-(0080-0089)) migrate in taskcluster- Bug 1364924
-node /t-yosemite-r7-00[3-8]\d\.test\.releng\.scl3\.mozilla\.com/ {
+#OS X batch#7 10 machines(adding yosemite-r7-(0090-0099)) migrate in taskcluster- Bug 1364924
+node /t-yosemite-r7-00[3-9]\d\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include toplevel::worker::releng::generic_worker::test::gpu
