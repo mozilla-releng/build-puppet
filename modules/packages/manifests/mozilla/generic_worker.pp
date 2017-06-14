@@ -8,7 +8,7 @@ class packages::mozilla::generic_worker {
         'packages::mozilla::generic_worker::end': ;
     }
 
-    $tag = 'v8.1.1'
+    $tag = 'v8.5.0'
 
     # Binaries should be downloaded from
     # https://github.com/taskcluster/generic-worker/releases/download/${tag}/generic-worker-${os}-${arch}
