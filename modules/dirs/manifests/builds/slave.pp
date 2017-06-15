@@ -10,18 +10,18 @@ class dirs::builds::slave {
                 # XXX on windows it's named differently :(
                 # Best fix: switch to c:/builds/slave on windows
                 # Other fix: create dirs::builds::moz2_slave and use that in puppet
-                "C:/builds/moz2_slave":
+                'C:/builds/moz2_slave':
                     ensure => directory;
             }
         }
         default: {
             include users::builder
             file {
-                    "/builds/slave" :
+                '/builds/slave' :
                     ensure => directory,
-                    owner => "$users::builder::username",
-                    group => "$users::builder::group",
-                    mode => 0755;
+                    owner  => $users::builder::username,
+                    group  => $users::builder::group,
+                    mode   => '0755';
             }
         }
     }

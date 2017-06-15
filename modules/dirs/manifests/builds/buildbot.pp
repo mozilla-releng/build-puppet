@@ -9,17 +9,17 @@ class dirs::builds::buildbot {
         case $::operatingsystem {
             windows: {
                 file {
-                    "C:/builds/buildbot":
+                    'C:/builds/buildbot':
                         ensure => directory;
                 }
             }
         default: {
             file {
-                "/builds/buildbot" :
+                '/builds/buildbot' :
                     ensure => directory,
-                    owner => "$users::builder::username",
-                    group => "$users::builder::group",
-                    mode => 0755;
+                    owner  => $users::builder::username,
+                    group  => $users::builder::group,
+                    mode   => '0755';
             }
         }
     }

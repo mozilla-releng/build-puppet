@@ -84,7 +84,7 @@ class talos {
         }
         Windows: {
 
-        include dirs::slave::talos-data::talos
+        include dirs::slave::talos_data::talos
         include packages::httpd
 
             file {

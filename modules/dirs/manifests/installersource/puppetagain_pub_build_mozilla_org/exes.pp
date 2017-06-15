@@ -4,7 +4,7 @@
 class dirs::installersource::puppetagain_pub_build_mozilla_org::exes {
     include dirs::installersource::puppetagain_pub_build_mozilla_org
     file {
-        "$env_systemdrive/installersource/puppetagain.pub.build.mozilla.org/EXEs":
+        "${::env_systemdrive}/installersource/puppetagain.pub.build.mozilla.org/EXEs":
             ensure => directory,
     }
 }

@@ -8,17 +8,17 @@ class dirs::builds::tooltool_cache {
     case $::operatingsystem {
         windows: {
             file {
-                "C:/builds/tooltool_cache":
+                'C:/builds/tooltool_cache':
                     ensure => directory;
             }
         }
         default: {
             file {
-                "/builds/tooltool_cache":
+                '/builds/tooltool_cache':
                     ensure => directory,
-                    owner => "$users::builder::username",
-                    group => "$users::builder::group",
-                    mode => 0755;
+                    owner  => $users::builder::username,
+                    group  => $users::builder::group,
+                    mode   => '0755';
             }
         }
     }

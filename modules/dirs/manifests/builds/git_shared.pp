@@ -8,17 +8,17 @@ class dirs::builds::git_shared {
     case $::operatingsystem {
         windows: {
             file {
-                "C:/builds/git-shared":
+                'C:/builds/git-shared':
                     ensure => directory;
             }
         }
         default: {
             file {
-                "/builds/git-shared":
+                '/builds/git-shared':
                     ensure => directory,
-                    owner => "$users::builder::username",
-                    group => "$users::builder::group",
-                mode => 0755;
+                    owner  => $users::builder::username,
+                    group  => $users::builder::group,
+                    mode   => '0755';
             }
         }
     }

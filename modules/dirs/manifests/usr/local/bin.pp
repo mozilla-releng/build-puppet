@@ -6,10 +6,10 @@ class dirs::usr::local::bin {
     include users::root
 
     file {
-        "/usr/local/bin":
+        '/usr/local/bin':
             ensure => directory,
-            owner => "root",
-            group => "$users::root::group",
-            mode => 755;
+            owner  => 'root',
+            group  => $users::root::group,
+            mode   => '0755';
     }
 }

@@ -5,12 +5,12 @@ class dirs::slave {
     case $::operatingsystem {
         windows: {
             file {
-                "c:/slave" :
+                'c:/slave' :
                     ensure => directory,
             }
         }
         default: {
-            fail("No C:/slave dir on this platform")
+            fail('No C:/slave dir on this platform')
         }
     }
 }

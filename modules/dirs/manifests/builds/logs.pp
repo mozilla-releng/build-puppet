@@ -9,17 +9,17 @@ class dirs::builds::logs {
     case $::operatingsystem {
         windows: {
             file {
-                "C:/builds/logs":
+                'C:/builds/logs':
                     ensure => directory;
             }
         }
         default: {
             file {
-                "/builds/logs" :
+                '/builds/logs' :
                     ensure => directory,
-                    owner => "root",
-                    group => "$users::root::group",
-                    mode => 0755;
+                    owner  => 'root',
+                    group  => '$users::root::group',
+                    mode   => '0755';
             }
         }
     }

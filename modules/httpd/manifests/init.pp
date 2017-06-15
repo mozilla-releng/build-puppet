@@ -58,7 +58,7 @@ class httpd {
         }
         Windows: {
 
-        include dirs::slave::talos-data::talos
+        include dirs::slave::talos_data::talos
 
             # Return set to 1. Installation on the service exits with 1 but installs.
             # The installation dislikes "Order allow,deny" @ line 41 in the conf file
@@ -68,7 +68,7 @@ class httpd {
             exec {
                 "install_apache_service":
                     command     => '"C:\Program Files\Apache Software Foundation\Apache2.2\bin\httpd.exe" -k install',
-                    require     => Class[dirs::slave::talos-data::talos],
+                    require     => Class[dirs::slave::talos_data::talos],
                     subscribe   => Packages::Pkgmsi["Apache HTTP Server 2.2.22"],
                     returns     => 1,
                     refreshonly => true;

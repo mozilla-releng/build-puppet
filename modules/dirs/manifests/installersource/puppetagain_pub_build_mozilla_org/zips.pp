@@ -4,7 +4,7 @@
 class dirs::installersource::puppetagain_pub_build_mozilla_org::zips {
     include dirs::installersource::puppetagain_pub_build_mozilla_org
     file {
-        "$env_systemdrive/installersource/puppetagain.pub.build.mozilla.org/ZIPs":
+        "${::env_systemdrive}/installersource/puppetagain.pub.build.mozilla.org/ZIPs":
             ensure => directory,
     }
 }

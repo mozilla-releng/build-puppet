@@ -5,15 +5,15 @@ class dirs::builds {
     case $::operatingsystem {
         windows: {
             file {
-                "C:/builds/":
+                'C:/builds/':
                     ensure => directory;
             }
         }
         default: {
             file {
-                "/builds/":
+                '/builds/':
                     ensure => directory,
-                    mode => 0755;
+                    mode   => '0755';
             }
         }
     }

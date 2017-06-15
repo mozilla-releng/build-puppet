@@ -4,9 +4,9 @@
 class dirs::etc {
     case $::operatingsystem {
         windows: {
-            $dir = "c:/etc"
+            $dir = 'c:/etc'
             file {
-                "c:/etc":
+                'c:/etc':
                     ensure => directory,
             }
         }
@@ -14,7 +14,7 @@ class dirs::etc {
             # everywhere else, we assume /etc exists; to do otherwise
             # introduces a lot of tricky depenency cycles due to configuration
             # files autorequiring /etc
-            $dir = "/etc"
+            $dir = '/etc'
         }
     }
 }

@@ -6,13 +6,13 @@ class dirs::tools {
     # Creating a Windows tool directory so it is available as we work towards a more parallel directory structure with posix 
         Windows: {
             file {
-                "C:/tools":
+                'C:/tools':
                     ensure => directory;
             }
         }
         default: {
             file {
-                "/tools":
+                '/tools':
                     ensure => directory;
             }
         }
