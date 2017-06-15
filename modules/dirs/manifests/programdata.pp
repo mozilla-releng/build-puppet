@@ -5,12 +5,12 @@ class dirs::programdata {
     case $::operatingsystem {
         windows: {
             file {
-                "c:/programdata" :
+                'c:/programdata' :
                     ensure => directory,
             }
         }
         default: {
-            fail("No programdata dir on this platform")
+            fail('No programdata dir on this platform')
         }
     }
 }

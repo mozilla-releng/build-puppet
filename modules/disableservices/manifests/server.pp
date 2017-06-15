@@ -8,8 +8,8 @@ class disableservices::server inherits disableservices::common {
             service {
                 # coreaudiod
                 'com.apple.audio.coreaudiod':
-                    enable => false,
                     ensure => stopped,
+                    enable => false,
             }
         }
     }

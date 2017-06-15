@@ -9,7 +9,7 @@ define collectd::util::config_gen ($arg_array) {
             ensure  => present,
             mode    => '0644',
             notify  => Service[$collectd::settings::servicename],
-            content => template("collectd/collectd.d/plugin_config.erb");
+            content => template('collectd/collectd.d/plugin_config.erb');
     }
 }
 

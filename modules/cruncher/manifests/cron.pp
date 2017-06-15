@@ -6,14 +6,14 @@ class cruncher::cron {
     include packages::mozilla::py27_mercurial
 
     file {
-        "/etc/cron.d/slave_health":
-            mode => 644,
-            content => template("cruncher/slave_health_cron.erb");
-        "/etc/cron.d/reportor":
-            mode => 644,
-            content => template("cruncher/reportor_cron.erb");
-        "/etc/cron.d/allthethings":
-            mode => 644,
-            content => template("cruncher/allthethings_cron.erb");
+        '/etc/cron.d/slave_health':
+            mode    => '0644',
+            content => template('cruncher/slave_health_cron.erb');
+        '/etc/cron.d/reportor':
+            mode    => '0644',
+            content => template('cruncher/reportor_cron.erb');
+        '/etc/cron.d/allthethings':
+            mode    => '0644',
+            content => template('cruncher/allthethings_cron.erb');
     }
 }

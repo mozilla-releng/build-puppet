@@ -8,7 +8,7 @@
 
 class disableservices::disable_win_defend {
     registry::value { 'DisableRemovableDriveScanning':
-        key    => 'HKLM\SOFTWARE\Microsoft\Windows Defender\Scan',
-        data   => '1',
+        key  => 'HKLM\SOFTWARE\Microsoft\Windows Defender\Scan',
+        data => '1',
     }
 }

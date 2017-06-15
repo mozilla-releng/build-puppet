@@ -21,7 +21,7 @@ class collectd {
                 recurse => true,
                 purge   => true,
                 force   => true,
-                mode    => 0644,
+                mode    => '0644',
                 notify  => Service[$collectd::settings::servicename],
                 require => Class['packages::collectd'];
         }
@@ -29,9 +29,9 @@ class collectd {
         if $collectd::settings::servicescript {
             file {
               "${collectd::settings::servicepath}/${collectd::settings::servicescript}":
-                ensure => present,
-                source => "puppet:///modules/collectd/${collectd::settings::servicescript}",
-                notify => Service[$collectd::settings::servicename],
+                ensure  => present,
+                source  => "puppet:///modules/collectd/${collectd::settings::servicescript}",
+                notify  => Service[$collectd::settings::servicename],
                 require => Class['packages::collectd'];
             }
         }
@@ -42,7 +42,7 @@ class collectd {
                 enable     => true,
                 hasstatus  => true,
                 hasrestart => true,
-                require => Class['packages::collectd'];
+                require    => Class['packages::collectd'];
         }
     }
 }

@@ -9,17 +9,17 @@ class dirs::builds::bors {
     case $::operatingsystem {
         windows: {
             file {
-                "C:/builds/bors":
+                'C:/builds/bors':
                     ensure => directory;
             }
         }
         default: {
             file {
-                "/builds/bors" :
+                '/builds/bors' :
                     ensure => directory,
-                    owner => "$users::builder::username",
-                    group => "$users::builder::group",
-                    mode => 0755;
+                    owner  => $users::builder::username,
+                    group  => $users::builder::group,
+                    mode   => '0755';
             }
         }
     }

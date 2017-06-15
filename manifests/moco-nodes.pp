@@ -4,8 +4,8 @@
 
 ## TaskCluster workers
 
-#OS X batch#15 10 machines(adding yosemite-r7-(0180-0189)) migrate in taskcluster- Bug 1364924
-node /t-yosemite-r7-0(0[^0-2]\d|1[0-8]\d)\.test\.releng\.scl3\.mozilla\.com/ {
+#OS X batch#16 10 machines(adding yosemite-r7-(0190-0199)) migrate in taskcluster- Bug 1364924
+node /t-yosemite-r7-0(0[^0-2]\d|1\d+)\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include toplevel::worker::releng::generic_worker::test::gpu
@@ -267,26 +267,6 @@ node "install.test.releng.mdc1.mozilla.com" {
     #        cert => secret('install_test_releng_scl3_bacula_cert'),
     #        key => secret('install_test_releng_scl3_bacula_key');
     #}
-}
-
-
-## casper imaging servers
-
-node /casper-fs-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
-    # casper fileserver
-    $aspects = [ "low-security" ]
-    include toplevel::server
-    include casper::fileserver
-}
-
-node /casper-jss-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
-    $aspects = [ "low-security" ]
-    include toplevel::server
-}
-
-node /casper-netboot-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
-    $aspects = [ "low-security" ]
-    include toplevel::server
 }
 
 ## Misc servers

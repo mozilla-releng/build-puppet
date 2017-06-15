@@ -5,8 +5,8 @@
 #Disable Windows reporting service
 
 class disableservices::winreport {
-    if ($env_os_version != 2008) {
-        service {"WerSvc":
+    if ($::env_os_version != 2008) {
+        service {'WerSvc':
             enable => false,
         }
     }

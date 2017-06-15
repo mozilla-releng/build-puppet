@@ -5,7 +5,7 @@ class disableservices::notification_daemon {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "notification-daemon":
+                'notification-daemon':
                     ensure => absent;
             }
         }

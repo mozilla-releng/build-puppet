@@ -3,8 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class dirs::usr::local {
     file {
-        "/usr/local":
+        '/usr/local':
             ensure => directory,
-            mode => 0755;
+            mode   => '0755';
     }
 }

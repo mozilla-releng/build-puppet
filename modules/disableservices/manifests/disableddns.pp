@@ -6,8 +6,8 @@
 
 class  disableservices::disableddns {
     registry::value { 'DisableDynamicUpdate':
-        key    => 'HKLM\SOFTWARE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters',
-        type   => dword,
-        data   => '00000001',
+        key  => 'HKLM\SOFTWARE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters',
+        type => dword,
+        data => '00000001',
     }
 }

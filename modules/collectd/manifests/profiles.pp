@@ -22,7 +22,7 @@ class collectd::profiles {
         # may not be compatible with certain operation systems
         # We also define any os specific generic plugins
 
-        case $operatingsystem {
+        case $::operatingsystem {
             'CentOS', 'Ubuntu': {
                 $os_generic_plugins = []
                 include collectd::plugins::cpu

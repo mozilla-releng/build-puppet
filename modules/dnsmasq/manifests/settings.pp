@@ -12,7 +12,7 @@ class dnsmasq::settings {
             $conf             = '/etc/dnsmasq.conf'
         }
         default: {
-            fail("$title is not supported in $operatingsystem")
+            fail("${title} is not supported in ${::operatingsystem}")
         }
     }
 

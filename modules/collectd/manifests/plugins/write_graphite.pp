@@ -16,7 +16,7 @@ class collectd::plugins::write_graphite ( $nodes ) {
             ensure  => present,
             mode    => '0644',
             notify  => Service[$collectd::settings::servicename],
-            content => template("collectd/collectd.d/write_graphite.conf.erb");
+            content => template('collectd/collectd.d/write_graphite.conf.erb');
     }
 
 }

@@ -9,16 +9,16 @@ class cron {
         CentOS: {
             service {
                 'crond':
-                    ensure => 'running',
-                    enable => 'true',
+                    ensure  => 'running',
+                    enable  => true,
                     require => Class['packages::crond'];
             }
         }
         Ubuntu: {
             service {
                 'cron':
-                    ensure => 'running',
-                    enable => 'true',
+                    ensure  => 'running',
+                    enable  => true,
                     require => Class['packages::crond'];
             }
         }
@@ -27,7 +27,7 @@ class cron {
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }

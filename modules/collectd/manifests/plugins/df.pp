@@ -12,14 +12,14 @@ class collectd::plugins::df {
 
     case $::operatingsystem {
         'CentOS', 'Ubuntu': {
-            $args = [ "ReportReserved false",
-                      "ReportInodes false", ]
+            $args = [ 'ReportReserved false',
+                      'ReportInodes false', ]
         }
         'Darwin': {
             $args = [ 'MountPoint "/"',
                       'MountPoint "/Volumes/Build"',
-                      "ReportReserved false",
-                      "ReportInodes false", ]
+                      'ReportReserved false',
+                      'ReportInodes false', ]
         }
         default: {fail("Collectd plugin ${title} is not supported with ${::operatingsystem}")}
     }

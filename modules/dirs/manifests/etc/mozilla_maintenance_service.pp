@@ -6,7 +6,7 @@ class dirs::etc::mozilla_maintenance_service {
     include dirs::etc
 
     file {
-        "c:/etc/mozilla_maintenance_service":
+        'c:/etc/mozilla_maintenance_service':
             ensure => directory,
     }
 }

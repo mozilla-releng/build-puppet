@@ -5,12 +5,12 @@ class dirs::programdata::puppetagain {
     case $::operatingsystem {
         windows: {
             file {
-                "c:/programdata/puppetagain" :
+                'c:/programdata/puppetagain' :
                     ensure => directory,
             }
         }
         default: {
-            fail("No programdata/puppetagain dir on this platform")
+            fail('No programdata/puppetagain dir on this platform')
         }
     }
 }

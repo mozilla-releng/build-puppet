@@ -12,7 +12,7 @@ class collectd::plugins::vmem {
 
     case $::operatingsystem {
         'CentOS', 'Ubuntu': {
-            $args = [ "Verbose true", ]
+            $args = [ 'Verbose true', ]
         }
         default: {fail("Collectd plugin ${title} is not supported with ${::operatingsystem}")}
     }

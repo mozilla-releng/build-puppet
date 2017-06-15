@@ -7,7 +7,7 @@ class cleanslate::settings {
             $root = '/opt/cleanslate'
         }
         'Windows': {
-            $root = "C:\\opt\\cleanslate"
+            $root = 'C:\opt\cleanslate'
         }
         default: {
             fail("Unsupported OS ${::operatingsystem}")

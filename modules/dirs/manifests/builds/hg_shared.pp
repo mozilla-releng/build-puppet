@@ -8,17 +8,17 @@ class dirs::builds::hg_shared {
     case $::operatingsystem {
         windows: {
             file {
-                "C:/builds/hg-shared":
+                'C:/builds/hg-shared':
                     ensure => directory;
             }
         }
         default:{
             file {
-                "/builds/hg-shared":
+                '/builds/hg-shared':
                     ensure => directory,
-                    owner => "$users::builder::username",
-                    group => "$users::builder::group",
-                    mode => 0755;
+                    owner  => $users::builder::username,
+                    group  => $users::builder::group,
+                    mode   => '0755';
             }
         }
     }

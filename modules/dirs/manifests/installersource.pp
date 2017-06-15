@@ -4,7 +4,7 @@
 class dirs::installersource {
 
     file {
-        "$env_systemdrive/installersource" :
+        "${::env_systemdrive}/installersource" :
             ensure => directory,
     }
 }
