@@ -4,7 +4,7 @@
 
 #Disable harddrive timeout. Refer to http://technet.microsoft.com/en-us/library/cc748940%28v=ws.10%29.aspx
 class hardware::hddoff {
-    shared::execonce { "hddoff":
+    shared::execonce { 'hddoff':
         command => '"C:\Windows\System32\powercfg.exe" /change disk-timeout-ac 0'
     }
 }

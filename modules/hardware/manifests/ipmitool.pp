@@ -15,10 +15,10 @@ class hardware::ipmitool {
     } -> Anchor['hardware::ipmitool::end']
 
     # and the kernel modules to support it..
-    if ($kernel == "Linux") {
+    if ($::kernel == 'Linux') {
         Anchor['hardware::ipmitool::begin'] ->
         kernelmodule {
-            "ipmi_devintf": ;
+            'ipmi_devintf': ;
         } -> Anchor['hardware::ipmitool::end']
     }
 }
