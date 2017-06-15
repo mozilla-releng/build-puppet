@@ -10,7 +10,7 @@ class fw::post {
     # Deny, deny, deny
     firewall {
         '999 drop all':
-            proto   => 'all',
-            action  => 'drop',
+            proto  => 'all',
+            action => 'drop',
     }
 }
