@@ -5,15 +5,15 @@ define grub::defaults($kern=0) {
     include grub
     include needs_reboot
 
-    case $operatingsystem {
+    case $::operatingsystem {
         'Ubuntu': {
-            if $::ec2_instance_id != "" {
+            if $::ec2_instance_id != '' {
                 # Provide menu.lst for ec2 instances which use legacy grub
                 file {
                     '/boot/grub/menu.lst':
-                        ensure => present,
-                        content => template("grub/ubuntu-menu.lst.erb"),
-                        notify => Exec['reboot_semaphore'];
+                        ensure  => present,
+                        content => template('grub/ubuntu-menu.lst.erb'),
+                        notify  => Exec['reboot_semaphore'];
                 }
             }
             else {
@@ -21,25 +21,25 @@ define grub::defaults($kern=0) {
                 file {
                     '/etc/default/grub':
                         ensure  => present,
-                        content => template("grub/defaults.erb"),
+                        content => template('grub/defaults.erb'),
                         notify  => Exec['reboot_semaphore'];
                 } ~>
                 exec { 'update-grub':
-                    command => '/usr/sbin/update-grub',
+                    command     => '/usr/sbin/update-grub',
                     subscribe   => File['/etc/default/grub'],
                     refreshonly => true,
-                    require => Class [ 'grub' ];
+                    require     => Class [ 'grub' ];
                 }
             }
         }
         'CentOS': {
             file { '/boot/grub/grub.conf':
-                mode  => 600,
-                audit => content,
+                mode   => '0600',
+                audit  => content,
                 notify => Exec['reboot_semaphore'];
             } ~>
             exec { 'grubby':
-                command => "/sbin/grubby --set-default=/boot/vmlinuz-${kern}",
+                command     => "/sbin/grubby --set-default=/boot/vmlinuz-${kern}",
                 refreshonly => true,
             }
         }

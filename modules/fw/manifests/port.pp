@@ -4,12 +4,12 @@
 
 define fw::port {
     $proto = regsubst($name, '^([a-z]*)/([0-9]*)$', '\1')
-    $port = regsubst($name, '^([a-z]*)/([0-9]*)$', '\2')
+    $port  = regsubst($name, '^([a-z]*)/([0-9]*)$', '\2')
 
     firewall {
-        "200 $name":
-            proto => $proto,
-            dport => $port,
+        "200 ${name}":
+            proto  => $proto,
+            dport  => $port,
             action => accept;
     }
 }

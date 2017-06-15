@@ -4,7 +4,7 @@
 
 class fw {
     # compatibility check..
-    case $operatingsystem {
+    case $::operatingsystem {
         CentOS, Ubuntu: {
             # ok!
         }

@@ -9,8 +9,8 @@ define git::repo($repo, $dst_dir, $user) {
             require => Class['packages::mozilla::git'],
             command => "git clone ${repo} ${dst_dir}",
             creates => "${dst_dir}/.git",
-            path => "/usr/local/bin:/usr/bin:/bin",
-            cwd  => "/",
-            user => $user;
+            path    => '/usr/local/bin:/usr/bin:/bin',
+            cwd     => '/',
+            user    => $user;
     }
 }

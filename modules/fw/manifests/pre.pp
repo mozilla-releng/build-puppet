@@ -10,32 +10,32 @@ class fw::pre {
     # Allow a few things globally
     firewall {
         '000 accept related and established flows':
-            proto => 'all',
-            state => ['RELATED', 'ESTABLISHED'],
+            proto  => 'all',
+            state  => ['RELATED', 'ESTABLISHED'],
             action => 'accept',
     }->
     firewall {
         '001 all icmp':
-            proto => 'icmp',
+            proto  => 'icmp',
             action => 'accept';
     }->
     firewall {
         '002 local traffic':
-            proto => 'all',
+            proto   => 'all',
             iniface => 'lo',
-            action => 'accept';
+            action  => 'accept';
     }->
     firewall {
         '010 ssh for management':
-            proto => 'tcp',
-            dport => 22,
+            proto  => 'tcp',
+            dport  => 22,
             action => 'accept';
     }->
     firewall {
         '010 nrpe for monitoring':
             # note that NRPE does its own source-IP filtering
-            proto => 'tcp',
-            dport => 5666,
+            proto  => 'tcp',
+            dport  => 5666,
             action => 'accept';
     }
 }

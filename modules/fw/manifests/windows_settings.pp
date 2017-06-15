@@ -7,13 +7,13 @@
 class fw::windows_settings {
     # Ping allowance is based on icmp settings
     # Allow ping
-    shared::execonce { "AllowPing":
+    shared::execonce { 'AllowPing':
         command =>'"C:\Windows\System32\netsh.exe" firewall set icmpsetting 8'
     }
 
     # The following allows remote desktop group access through the firewall.
     # Allow rdp
-    shared::execonce { "AllowRDP":
+    shared::execonce { 'AllowRDP':
         command =>'"C:\Windows\System32\netsh.exe" advfirewall firewall set rule group="Remote Desktop" new enable=yes'
     }
 }

@@ -5,64 +5,64 @@ class hardware {
     include config
 
     # SeaMicro nodes can start up with incorrect time - see bug 789064
-    if ($::manufacturer == "SeaMicro" and $::productname == "SM10000-XE") {
+    if ($::manufacturer == 'SeaMicro' and $::productname == 'SM10000-XE') {
         # only known to work on CentOS so far, although it should work on any Linux
-        if ($::operatingsystem == "CentOS") {
+        if ($::operatingsystem == 'CentOS') {
             file {
-                "/etc/e2fsck.conf":
-                    source => "puppet:///modules/hardware/seamicro-e2fsck.conf";
+                '/etc/e2fsck.conf':
+                    source => 'puppet:///modules/hardware/seamicro-e2fsck.conf';
             }
         }
     }
 
     # Nodes running IPMI-compliant hardware should install OpenIPMI
-    if (($::manufacturer == "HP" and $::productname =~ /ProLiant/) or
-        ($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIL") or # ix700C
-        ($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIT")) { # ix21x4
-        if ($kernel == "Linux") {
+    if (($::manufacturer == 'HP' and $::productname =~ /ProLiant/) or
+        ($::boardmanufacturer == 'Supermicro' and $::boardproductname == 'X8SIL') or # ix700C
+        ($::boardmanufacturer == 'Supermicro' and $::boardproductname == 'X8SIT')) { # ix21x4
+        if ($::kernel == 'Linux') {
             include hardware::ipmitool
         }
     }
 
-    if (($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIL") or # ix700C
-        ($::boardmanufacturer == "Supermicro" and $::boardproductname == "X8SIT")) { # ix21x4
-        if ($kernel == "Linux") {
+    if (($::boardmanufacturer == 'Supermicro' and $::boardproductname == 'X8SIL') or # ix700C
+        ($::boardmanufacturer == 'Supermicro' and $::boardproductname == 'X8SIT')) { # ix21x4
+        if ($::kernel == 'Linux') {
         # disable some broken NIC features
             include tweaks::i82574l_aspm
         }
     }
 
     # OK, so it's not strictly "hardware", but stlil..
-    if ($::virtual == "vmware") {
-        if ($kernel == "Linux") {
+    if ($::virtual == 'vmware') {
+        if ($::kernel == 'Linux') {
 
             # kernels should use clocksource=pit to get proper timing info
             # and, of course, this is different between RHEL-based and Ubuntu
             # systems!
-            case $operatingsystem {
+            case $::operatingsystem {
                 CentOS: {
                     if ($config::vmwaretools_version) {
                         class {
                             'vmwaretools':
-                                version => $config::vmwaretools_version,
+                                version     => $config::vmwaretools_version,
                                 archive_md5 => $config::vmwaretools_md5,
                                 archive_url => "http://${config::data_server}/repos/private/vmware";
                         }
                     }
                     augeas {
-                        "vmware-clocksource":
-                            context => "/files/etc/grub.conf",
+                        'vmware-clocksource':
+                            context => '/files/etc/grub.conf',
                             changes => [
-                                "set title[1]/kernel/clocksource pit",
+                                'set title[1]/kernel/clocksource pit',
                             ];
                     }
                 }
                 Ubuntu: {
                     augeas {
-                        "vmware-clocksource":
-                            context => "/files/etc/default/grub",
+                        'vmware-clocksource':
+                            context => '/files/etc/default/grub',
                             changes => [
-                                "set GRUB_CMDLINE_EXTRA clocksource=pit"
+                                'set GRUB_CMDLINE_EXTRA clocksource=pit'
                             ];
                     }
                     case $::operatingsystemrelease {
@@ -70,7 +70,7 @@ class hardware {
                             if ($config::vmwaretools_version) {
                                 class {
                                     'vmwaretools':
-                                        version => $config::vmwaretools_version,
+                                        version     => $config::vmwaretools_version,
                                         archive_md5 => $config::vmwaretools_md5,
                                         archive_url => "http://${config::data_server}/repos/private/vmware";
                                 }
@@ -80,14 +80,14 @@ class hardware {
                             class {'packages::open_vm_tools': }
                         }
                         default: {
-                            fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                            fail("Unrecognized Ubuntu version ${::operatingsystemrelease}")
                         }
                     }
                 }
             }
         }
     }
-    if ($::virtual == "xenhvm") {
+    if ($::virtual == 'xenhvm') {
         case $::operatingsystem {
             Ubuntu: {
                 case $::operatingsystemrelease {
@@ -98,7 +98,7 @@ class hardware {
             }
         }
     }
-    if ($::operatingsystem == "Windows") {
+    if ($::operatingsystem == 'Windows') {
         include hardware::hddoff
         include hardware::highperformance
     }
