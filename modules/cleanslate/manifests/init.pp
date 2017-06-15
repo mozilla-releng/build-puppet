@@ -6,12 +6,12 @@ class cleanslate {
     include dirs::opt
     include cleanslate::settings
     include packages::mozilla::python27
-    $tmp_cleanstate =  $operatingsystem ? {
-        windows => "C:\\etc\\cleanstate",
-        default => "/var/tmp/cleanslate"
+    $tmp_cleanstate =  $::operatingsystem ? {
+        windows => 'C:\etc\cleanstate',
+        default => '/var/tmp/cleanslate'
     }
     file {
-        "$tmp_cleanstate":
+        $tmp_cleanstate:
             # old cleanslate files shouldn't persist between reboots
             ensure => absent;
     }
