@@ -1,3 +1,7 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 class generic_worker {
     include packages::mozilla::generic_worker
 
@@ -9,35 +13,35 @@ class generic_worker {
             $livelog_secret = hiera('livelog_secret')
 
             file { '/Library/LaunchAgents/net.generic.worker.plist':
-                ensure => present,
+                ensure  => present,
                 content => template('generic_worker/generic-worker.plist.erb'),
-                mode => 0644,
-                owner => root,
-                group => wheel,
+                mode    => '0644',
+                owner   => root,
+                group   => wheel,
             }
             file { '/usr/local/bin/run-generic-worker.sh':
-                ensure => present,
+                ensure  => present,
                 content => template('generic_worker/run-generic-worker.sh.erb'),
-                mode => 0755,
-                owner => root,
-                group => wheel,
+                mode    => '0755',
+                owner   => root,
+                group   => wheel,
             }
             file { '/etc/generic-worker.config':
-                ensure => present,
+                ensure  => present,
                 content => template('generic_worker/generic-worker.config.erb'),
-                mode => 0644,
-                owner => root,
-                group => wheel,
+                mode    => '0644',
+                owner   => root,
+                group   => wheel,
             }
-            service { "net.generic.worker":
-                require   => [
-                    File["/Library/LaunchAgents/net.generic.worker.plist"],
+            service { 'net.generic.worker':
+                require => [
+                    File['/Library/LaunchAgents/net.generic.worker.plist'],
                 ],
-                enable    => true;
+                enable  => true;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }
