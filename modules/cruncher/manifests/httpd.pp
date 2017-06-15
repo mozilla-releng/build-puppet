@@ -9,15 +9,15 @@ class cruncher::httpd {
         CentOS: {
             # Create RootDir
             file {
-                "/var/www/html/builds/":
+                '/var/www/html/builds/':
                     ensure => directory,
-                    owner  => "${users::buildduty::username}",
-                    group => "${users::buildduty::group}";
+                    owner  => $users::buildduty::username,
+                    group  => $users::buildduty::group;
             }
 
             httpd::config {
-                "cruncher.conf":
-                    content => template("cruncher/cruncher.conf.erb");
+                'cruncher.conf':
+                    content => template('cruncher/cruncher.conf.erb');
             }
 
             # add a dependency between resources not defined here
@@ -30,7 +30,7 @@ class cruncher::httpd {
         }
 
         default: {
-            fail("cruncher::httpd support missing for $::operatingsystem")
+            fail("cruncher::httpd support missing for ${::operatingsystem}")
         }
     }
 }
