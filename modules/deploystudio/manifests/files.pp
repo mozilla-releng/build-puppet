@@ -7,28 +7,28 @@ class deploystudio::files {
     $files_dir = "${deploystudio::settings::deploy_dir}/Files"
 
     # Make sure deploypass is set in hiera
-    if secret('deploy_password') == "" {
-        fail("missing deploy_password")
+    if secret('deploy_password') == '' {
+        fail('missing deploy_password')
     }
     $deploy_password = secret('deploy_password')
 
     file {
-        "${files_dir}":
+        $files_dir:
             ensure => directory;
     } ->
     file {
         "${files_dir}/puppetize.sh":
             ensure => present,
-            source => "puppet:///modules/puppet/puppetize.sh";
+            source => 'puppet:///modules/puppet/puppetize.sh';
 
         "${files_dir}/org.mozilla.puppetize.plist":
             ensure => present,
-            source => "puppet:///modules/puppet/org.mozilla.puppetize.plist";
+            source => 'puppet:///modules/puppet/org.mozilla.puppetize.plist';
 
         "${files_dir}/deploypass":
-            ensure => present,
+            ensure    => present,
             show_diff => false,
-            content => "${deploy_password}\n";
+            content   => "${deploy_password}\n";
     }
 }
 
