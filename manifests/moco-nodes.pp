@@ -269,26 +269,6 @@ node "install.test.releng.mdc1.mozilla.com" {
     #}
 }
 
-
-## casper imaging servers
-
-node /casper-fs-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
-    # casper fileserver
-    $aspects = [ "low-security" ]
-    include toplevel::server
-    include casper::fileserver
-}
-
-node /casper-jss-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
-    $aspects = [ "low-security" ]
-    include toplevel::server
-}
-
-node /casper-netboot-\d+\.srv\.releng\.scl3\.mozilla\.com/ {
-    $aspects = [ "low-security" ]
-    include toplevel::server
-}
-
 ## Misc servers
 
 node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
@@ -421,7 +401,7 @@ node "buildbot-master05.bb.releng.usw2.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
         "bm05-tests1-linux32":
             http_port => 8201,
-            master_type => "tests",
+            master_type => "tests",http://clujcapitala.ro/
             basedir => "tests1-linux32";
     }
     include toplevel::server::buildmaster::mozilla
