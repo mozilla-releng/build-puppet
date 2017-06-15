@@ -7,28 +7,28 @@
 
 class disableservices::disableupdates {
     registry::value { 'NoActiveDesktop':
-        key    => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
-        type   => dword,
-        data   => '00000001',
+        key  => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
+        type => dword,
+        data => '00000001',
     }
     registry::value { 'NoActiveDesktopChanges':
-        key    => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
-        type   => dword,
-        data   => '00000001',
+        key  => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
+        type => dword,
+        data => '00000001',
     }
     registry::value { 'ForceActiveDesktopOn':
-        key    => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
-        type   => dword,
-        data   => '00000000',
+        key  => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
+        type => dword,
+        data => '00000000',
     }
     registry::value { 'ShowSuperHidden':
-        key    => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
-        type   => dword,
-        data   => '00000001',
+        key  => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
+        type => dword,
+        data => '00000001',
     }
     registry::value { 'NoWindowsUpdate':
-        key    => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
-        type   => dword,
-        data   => '00000001',
+        key  => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer',
+        type => dword,
+        data => '00000001',
     }
 }

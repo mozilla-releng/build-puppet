@@ -21,8 +21,8 @@ class disableservices::slave inherits disableservices::common {
                             'org.clamav.freshclam-init',
                             'org.clamav.freshclam',
                         ]:
-                            enable => false,
                             ensure => stopped,
+                            enable => false,
                     }
                 }
             }

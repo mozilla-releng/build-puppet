@@ -13,8 +13,8 @@ class disableservices::common {
                 'kudzu', 'mcstrans', 'mdmonitor', 'pcscd',
                 'restorecond', 'rpcbind', 'rpcgssd', 'rpcidmapd',
                 'sendmail', 'smartd', 'vncserver', 'yum-updatesd'] :
-                    enable => false,
-                    ensure => stopped;
+                    ensure => stopped,
+                    enable => false;
                 'cpuspeed' :
                     enable => false;
             }
@@ -33,20 +33,20 @@ class disableservices::common {
                     }
                     service {
                         $install_and_disable:
-                            enable => false,
-                            ensure => stopped,
+                            ensure  => stopped,
+                            enable  => false,
                             require => Package[$install_and_disable];
                     }
 
                     # this package and service have different names
                     package {
-                        "bluez":
+                        'bluez':
                             ensure => latest;
                     }
                     service {
-                        "bluetooth":
-                            enable => false,
-                            ensure => stopped,
+                        'bluetooth':
+                            ensure  => stopped,
+                            enable  => false,
                             require => Package['bluez'];
                     }
                 }
@@ -62,27 +62,27 @@ class disableservices::common {
                     }
                     service {
                         $install_and_disable:
+                            ensure   => stopped,
                             provider => 'systemd',
                             enable   => false,
-                            ensure   => stopped,
                             require  => Package[$install_and_disable];
                     }
 
                     # this package and service have different names
                     package {
-                        "bluez":
+                        'bluez':
                             ensure => latest;
                     }
                     service {
-                        "bluetooth":
+                        'bluetooth':
+                            ensure   => stopped,
                             provider => 'systemd',
                             enable   => false,
-                            ensure   => stopped,
                             require  => Package['bluez'];
                     }
                 }
                 default: {
-                    fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                    fail("Unrecognized Ubuntu version ${::operatingsystemrelease}")
                 }
             }
         }
@@ -90,8 +90,8 @@ class disableservices::common {
             service {
                 # bluetooth keyboard prompt
                 'com.apple.blued':
-                    enable => false,
                     ensure => stopped,
+                    enable => false,
             }
             case $::macosx_productversion_major {
                 # 10.6 doesn't seem to have a way to disable software update, but later versions do
@@ -102,8 +102,8 @@ class disableservices::common {
                             'com.apple.softwareupdatecheck.initial',
                             'com.apple.softwareupdatecheck.periodic',
                         ]:
-                            enable => false,
                             ensure => stopped,
+                            enable => false,
                     }
                 }
                 10.9, 10.10: {
@@ -118,50 +118,50 @@ class disableservices::common {
                             'com.apple.metadata.mds.scan',
                             'com.apple.metadata.mds.spindump',
                         ]:
-                            enable => false,
                             ensure => stopped,
+                            enable => false,
                     }
                 }
             }
             exec {
-                "disable-indexing" :
-                    command => "/usr/bin/mdutil -a -i off",
+                'disable-indexing' :
+                    command     => '/usr/bin/mdutil -a -i off',
                     refreshonly => true ;
-                "remove-index" :
-                    command => "/usr/bin/mdutil -a -E",
+                'remove-index' :
+                    command     => '/usr/bin/mdutil -a -E',
                     refreshonly => true ;
-                "disable-panic-reporting":
-                    command => "/bin/launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportPanic.plist",
-                    onlyif => "/bin/launchctl list | /usr/bin/grep -q 'com.apple.ReportPanic$'";
-                "disable-panic-reporting-service":
-                    command => "/bin/launchctl unload -w /System/Library/LaunchDaemons/com.apple.ReportPanicService.plist",
-                    onlyif => "/bin/launchctl list | /usr/bin/grep -q 'com.apple.ReportPanicService$'";
+                'disable-panic-reporting':
+                    command => '/bin/launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportPanic.plist',
+                    onlyif  => "/bin/launchctl list | /usr/bin/grep -q 'com.apple.ReportPanic$'";
+                'disable-panic-reporting-service':
+                    command => '/bin/launchctl unload -w /System/Library/LaunchDaemons/com.apple.ReportPanicService.plist',
+                    onlyif  => "/bin/launchctl list | /usr/bin/grep -q 'com.apple.ReportPanicService$'";
             }
             osxutils::defaults {
             # set the global preference to not start bluetooth mouse assistant
             'disable-bluetooth-mouse':
-                domain => "/Library/Preferences/com.apple.Bluetooth",
-                key => "BluetoothAutoSeekPointingDevice",
-                value => "0";
+                domain => '/Library/Preferences/com.apple.Bluetooth',
+                key    => 'BluetoothAutoSeekPointingDevice',
+                value  => '0';
             }
             osxutils::defaults {
             # set the global preference to not start bluetooth keyboard assistant
                 'disable-bluetooth-keyboard':
-                    domain => "/Library/Preferences/com.apple.Bluetooth",
-                    key => "BluetoothAutoSeekKeyboard",
-                    value => "0";
+                    domain => '/Library/Preferences/com.apple.Bluetooth',
+                    key    => 'BluetoothAutoSeekKeyboard',
+                    value  => '0';
             }
             osxutils::defaults {
                 # set the global preference to not restart apps open before reboot
                 'disable-relaunch-apps':
-                    domain => "/Library/Preferences/com.apple.loginwindow",
-                    key => "LoginwindowLaunchesRelaunchApps",
-                    value => "0";
+                    domain => '/Library/Preferences/com.apple.loginwindow',
+                    key    => 'LoginwindowLaunchesRelaunchApps',
+                    value  => '0';
             }
             file {
-                "/var/lib/puppet/.indexing-disabled" :
-                    content => "indexing-disabled",
-                    notify => Exec["disable-indexing", "remove-index"] ;
+                '/var/lib/puppet/.indexing-disabled' :
+                    content => 'indexing-disabled',
+                    notify  => Exec['disable-indexing', 'remove-index'] ;
             }
         }
         Windows: {

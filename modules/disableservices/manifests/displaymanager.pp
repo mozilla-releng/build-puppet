@@ -8,7 +8,7 @@ class disableservices::displaymanager {
         Ubuntu: {
             file {
                 # removing the following file disables display manager start
-                "/etc/X11/default-display-manager":
+                '/etc/X11/default-display-manager':
                     ensure => absent,
                     force  => true;
             }
@@ -17,7 +17,7 @@ class disableservices::displaymanager {
             # N/A
         }
         default: {
-            fail("Cant disable DM on $::operatingsystem")
+            fail("Cant disable DM on ${::operatingsystem}")
         }
     }
 }

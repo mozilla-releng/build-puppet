@@ -7,8 +7,8 @@ class disableservices::iptables {
     case $::operatingsystem {
         CentOS: {
             service { ['iptables','ip6tables']:
-                enable => false,
                 ensure => stopped,
+                enable => false,
             }
         }
     }

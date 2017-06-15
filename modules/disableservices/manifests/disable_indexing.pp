@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class disableservices::disable_indexing {
-    service {"Wsearch":
+    service {'Wsearch':
         ensure => stopped,
         enable => false,
     }

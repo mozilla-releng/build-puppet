@@ -9,7 +9,7 @@ class disableservices::release_upgrader {
                 12.04,14.04: {
                     file {
                         # http://askubuntu.com/questions/515161/ubuntu-12-04-disable-release-notification-of-14-04-in-update-manager
-                        "/etc/update-manager/release-upgrades":
+                        '/etc/update-manager/release-upgrades':
                             content => "[DEFAULT]\nPrompt=never\n";
                     }
                 }
@@ -19,12 +19,12 @@ class disableservices::release_upgrader {
                     }
                 }
                 default: {
-                    fail ("$::operatingsystemrelease is not supported")
+                    fail ("${::operatingsystemrelease} is not supported")
                 }
             }
         }
         default: {
-            notice("Don't know how to disable release ugprader on $::operatingsystem.")
+            notice("Don't know how to disable release ugprader on ${::operatingsystem}.")
         }
     }
 }

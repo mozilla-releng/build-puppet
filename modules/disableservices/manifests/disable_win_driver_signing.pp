@@ -5,7 +5,7 @@
 class disableservices::disable_win_driver_signing {
 
     registry::value { 'BehaviorOnFailedVerify':
-        key    => 'HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Driver Signing',
-        data   => '0',
+        key  => 'HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Driver Signing',
+        data => '0',
     }
 }
