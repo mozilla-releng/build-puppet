@@ -401,7 +401,7 @@ node "buildbot-master05.bb.releng.usw2.mozilla.com" {
     buildmaster::buildbot_master::mozilla {
         "bm05-tests1-linux32":
             http_port => 8201,
-            master_type => "tests",http://clujcapitala.ro/
+            master_type => "tests",
             basedir => "tests1-linux32";
     }
     include toplevel::server::buildmaster::mozilla
