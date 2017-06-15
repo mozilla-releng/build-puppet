@@ -11,23 +11,6 @@ class pushapk_scriptworker::settings {
         verbose_logging => true,
         taskcluster_client_id => secret('pushapk_scriptworker_taskcluster_client_id_dev'),
         taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_dev'),
-        google_play_config => {
-          'aurora' => {
-            service_account => secret('pushapk_scriptworker_aurora_google_play_service_account_dev'),
-            certificate => secret('pushapk_scriptworker_aurora_google_play_certificate_dev'),
-            certificate_target_location => "${root}/aurora.p12",
-          },
-          'beta' => {
-            service_account => secret('pushapk_scriptworker_beta_google_play_service_account_dev'),
-            certificate => secret('pushapk_scriptworker_beta_google_play_certificate_dev'),
-            certificate_target_location => "${root}/beta.p12",
-          },
-          'release' => {
-            service_account => secret('pushapk_scriptworker_release_google_play_service_account_dev'),
-            certificate => secret('pushapk_scriptworker_release_google_play_certificate_dev'),
-            certificate_target_location => "${root}/release.p12",
-          },
-        },
       },
       'prod' => {
         worker_group => 'pushapk-v1',
@@ -35,23 +18,6 @@ class pushapk_scriptworker::settings {
         verbose_logging => true,
         taskcluster_client_id => secret('pushapk_scriptworker_taskcluster_client_id_prod'),
         taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_prod'),
-        google_play_config => {
-          'aurora' => {
-            service_account => secret('pushapk_scriptworker_aurora_google_play_service_account_prod'),
-            certificate => secret('pushapk_scriptworker_aurora_google_play_certificate_prod'),
-            certificate_target_location => "${root}/aurora.p12",
-          },
-          'beta' => {
-            service_account => secret('pushapk_scriptworker_beta_google_play_service_account_prod'),
-            certificate => secret('pushapk_scriptworker_beta_google_play_certificate_prod'),
-            certificate_target_location => "${root}/beta.p12",
-          },
-          'release' => {
-            service_account => secret('pushapk_scriptworker_release_google_play_service_account_prod'),
-            certificate => secret('pushapk_scriptworker_release_google_play_certificate_prod'),
-            certificate_target_location => "${root}/release.p12",
-          },
-        },
       },
     }
 
@@ -69,7 +35,25 @@ class pushapk_scriptworker::settings {
     $worker_group = $_env_config['worker_group']
     $worker_type = $_env_config['worker_type']
 
-    $google_play_config = $_env_config['google_play_config']
+    $_google_play_all_accounts = hiera_hash('pushapk_scriptworker_google_play_accounts')
+    $_google_play_accounts = $_google_play_all_accounts[$fqdn]
+    $google_play_config = {
+      'aurora' => {
+        service_account => $_google_play_accounts['aurora']['service_account'],
+        certificate => $_google_play_accounts['aurora']['certificate'],
+        certificate_target_location => "${root}/aurora.p12",
+      },
+      'beta' => {
+        service_account => $_google_play_accounts['beta']['service_account'],
+        certificate => $_google_play_accounts['beta']['certificate'],
+        certificate_target_location => "${root}/beta.p12",
+      },
+      'release' => {
+        service_account => $_google_play_accounts['release']['service_account'],
+        certificate => $_google_play_accounts['release']['certificate'],
+        certificate_target_location => "${root}/release.p12",
+      },
+    }
 
     $jarsigner_keystore = "${root}/mozilla-android-keystore"
     $jarsigner_keystore_password = secret('pushapk_scriptworker_jarsigner_keystore_password')
