@@ -12,7 +12,7 @@ class collectd::settings {
         $collectd_enabled = true
     }
 
-    $syslog_level = "info"
+    $syslog_level         = 'info'
     $global_poll_interval = 300
 
     # WriteQueueLimitHigh and WriteQueueLimitLow are set equal so metrics are not
@@ -43,7 +43,7 @@ class collectd::settings {
             $servicescript    = 'org.collectd.collectd.plist'
         }
         default: {
-            fail("This OS is not supported for collectd")
+            fail('This OS is not supported for collectd')
         }
     }
 }

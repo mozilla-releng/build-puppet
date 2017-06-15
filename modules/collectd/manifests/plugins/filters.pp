@@ -14,7 +14,7 @@ class collectd::plugins::filters ( $write_chains ) {
             ensure  => present,
             mode    => '0644',
             notify  => Service[$collectd::settings::servicename],
-            content => template("collectd/collectd.d/filters.conf.erb");
+            content => template('collectd/collectd.d/filters.conf.erb');
     }
 
 }
