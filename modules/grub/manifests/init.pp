@@ -3,18 +3,18 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class grub {
 
-    case $operatingsystem {
+    case $::operatingsystem {
         'CentOS': {
             # Nothing to do; CentOS isn't broken
         }
         'Ubuntu': {
-            case $operatingsystemrelease {
+            case $::operatingsystemrelease {
                 '12.04': {
                     # disable submenuis in grub
                     file { '/etc/grub.d/10_linux':
                         ensure => present,
-                        mode   => 755,
-                        source => "puppet:///modules/grub/10_linux";
+                        mode   => '0755',
+                        source => 'puppet:///modules/grub/10_linux';
                     }
                 }
                 '14.04': {
@@ -24,12 +24,12 @@ class grub {
                     # Do nothing; submenus are disabled in the defaults
                 }
                 default: {
-                    fail("Grub module is not supported on ${operatingsystem}")
+                    fail("Grub module is not supported on ${::operatingsystemrelease}")
                 }
             }
         }
         default: {
-            fail("Grub module is not supported on ${operatingsystem}")
+            fail("Grub module is not supported on ${::operatingsystem}")
         }
     }
 
