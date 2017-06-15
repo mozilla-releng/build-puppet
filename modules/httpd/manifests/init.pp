@@ -15,45 +15,45 @@ class httpd {
                     # 10.7 *server* includes a whole mess of stuff we don't want, so we
                     # install a plist that doesn't specify -D MACOSXSERVER.
                     file {
-                        "/System/Library/LaunchDaemons/org.apache.httpd.plist":
+                        '/System/Library/LaunchDaemons/org.apache.httpd.plist':
                             source => "puppet:///modules/${module_name}/org.apache.httpd.plist";
                     }
                 }
             }
             service {
                 'httpd':
-                    name => 'org.apache.httpd',
-                    require => Class["packages::httpd"],
-                    enable => true,
-                    ensure => running ;
+                    ensure  => running,
+                    name    => 'org.apache.httpd',
+                    require => Class['packages::httpd'],
+                    enable  => true;
             }
         }
         CentOS: {
             service {
                 'httpd' :
-                    name => 'httpd',
-                    require => Class["packages::httpd"],
-                    enable => true,
+                    ensure     => running,
+                    name       => 'httpd',
+                    require    => Class['packages::httpd'],
+                    enable     => true,
                     hasrestart => true,
-                    hasstatus =>true,
-                    ensure => running,
+                    hasstatus  => true,
                     # automatically restart when openssl is upgraded
-                    subscribe => Package['openssl'];
+                    subscribe  => Package['openssl'];
             }
         }
         Ubuntu: {
             service {
                 'httpd':
-                    name => 'apache2',
-                    require => Class["packages::httpd"],
-                    enable => true,
-                    ensure => running;
+                    ensure  => running,
+                    name    => 'apache2',
+                    require => Class['packages::httpd'],
+                    enable  => true;
             }
             file {
                 # Bug 861200. Remove default vhost config
-                "/etc/apache2/sites-enabled/000-default":
-                    notify => Service["httpd"],
-                    ensure => absent;
+                '/etc/apache2/sites-enabled/000-default':
+                    ensure => absent,
+                    notify => Service['httpd'];
             }
         }
         Windows: {
@@ -66,21 +66,21 @@ class httpd {
             # This will be followed up in Bug 1270302
 
             exec {
-                "install_apache_service":
+                'install_apache_service':
                     command     => '"C:\Program Files\Apache Software Foundation\Apache2.2\bin\httpd.exe" -k install',
                     require     => Class[dirs::slave::talos_data::talos],
-                    subscribe   => Packages::Pkgmsi["Apache HTTP Server 2.2.22"],
+                    subscribe   => Packages::Pkgmsi['Apache HTTP Server 2.2.22'],
                     returns     => 1,
                     refreshonly => true;
             }
             service {
-                "Apache2.2":
-                    enable    => true,
-                    require   => Packages::Pkgmsi["Apache HTTP Server 2.2.22"];
+                'Apache2.2':
+                    enable  => true,
+                    require => Packages::Pkgmsi['Apache HTTP Server 2.2.22'];
             }
         }
         default: {
-            fail("Don't know how to set up httpd on $::operatingsystem")
+            fail("Don't know how to set up httpd on ${::operatingsystem}")
         }
     }
 }

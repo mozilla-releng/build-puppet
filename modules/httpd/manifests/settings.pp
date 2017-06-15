@@ -6,19 +6,19 @@ class httpd::settings {
     include users::root
     $group = $users::root::group
     $owner = $users::root::username
-    $mode = "644"
+    $mode = '0644'
     case $::operatingsystem {
         CentOS: {
-            $conf_d_dir = "/etc/httpd/conf.d"
+            $conf_d_dir = '/etc/httpd/conf.d'
         }
         Ubuntu: {
-            $conf_d_dir = "/etc/apache2/sites-enabled"
+            $conf_d_dir = '/etc/apache2/sites-enabled'
         }
         Darwin: {
-            $conf_d_dir = "/etc/apache2/other"
+            $conf_d_dir = '/etc/apache2/other'
         }
         default: {
-            fail("Don't know how to set up Apache on $::operatingsystem")
+            fail("Don't know how to set up Apache on ${::operatingsystem}")
         }
     }
 }

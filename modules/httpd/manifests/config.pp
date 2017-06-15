@@ -6,7 +6,7 @@ define httpd::config($content='', $ensure='present') {
     include packages::httpd
     include httpd::settings
 
-    $file = "${httpd::settings::conf_d_dir}/$title"
+    $file = "${httpd::settings::conf_d_dir}/${title}"
 
     if ($ensure == 'absent') {
         file {
@@ -19,18 +19,18 @@ define httpd::config($content='', $ensure='present') {
             Darwin, CentOS, Ubuntu: {
                 file {
                     $file:
-                        require => Class['packages::httpd'],
-                        notify => Service['httpd'],
-                        mode => "$httpd::settings::mode",
-                        owner => "$httpd::settings::owner",
-                        group => "$httpd::settings::group",
-                        content => $content,
+                        require   => Class['packages::httpd'],
+                        notify    => Service['httpd'],
+                        mode      => $httpd::settings::mode,
+                        owner     => $httpd::settings::owner,
+                        group     => $httpd::settings::group,
+                        content   => $content,
                         # don't show the diff, since sometimes httpd configs contain passwords
                         show_diff => false;
                 }
             }
             default: {
-                fail("Don't know how to set up httpd::config on $::operatingsystem")
+                fail("Don't know how to set up httpd::config on ${::operatingsystem}")
             }
         }
     }
