@@ -109,7 +109,7 @@ class config inherits config::base {
     }
 
     $ntp_servers = $fqdn? {
-        /.*\.mdc1\.mozilla\.com/ => [ "infoblox1a.private.mdc1.mozilla.com" ],
+        /.*\.mdc1\.mozilla\.com/ => [ "infoblox1.private.mdc1.mozilla.com" ],
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => [ "ns1.private.releng.scl3.mozilla.com",
                      "ns2.private.releng.scl3.mozilla.com",
                      "ns1.private.scl3.mozilla.com",
