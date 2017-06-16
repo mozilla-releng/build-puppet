@@ -1028,9 +1028,9 @@ node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::signingscriptworker
 }
 
-node /depsigning-worker-.*\.srv\.releng\..*\.mozilla\.com/ {
+node /depsigning-worker.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects = [ 'maximum-security' ]
-    $signing_scriptworker_env = "dev"
+    $signing_scriptworker_env = "dep"
     $timezone = "UTC"
     $only_user_ssh = true
     include toplevel::server::signingscriptworker

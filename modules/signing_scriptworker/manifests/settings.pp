@@ -13,7 +13,14 @@ class signing_scriptworker::settings {
     $env_config = {
         "dev" => {
             worker_type => "signing-linux-dev",
-            passwords_template => "dev-passwords.json.erb",
+            passwords_template => "dep-passwords.json.erb",
+            sign_chain_of_trust => false,
+            verify_chain_of_trust => false,
+            verify_cot_signature => false
+        },
+        "dep" => {
+            worker_type => "depsigning",
+            passwords_template => "dep-passwords.json.erb",
             sign_chain_of_trust => false,
             verify_chain_of_trust => false,
             verify_cot_signature => false
