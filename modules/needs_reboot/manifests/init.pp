@@ -4,51 +4,53 @@
 class needs_reboot {
     include needs_reboot::motd
 
+    $command = $::operatingsystem ? {
+                windows => 'type nul > C:/REBOOT_AFTER_PUPPET',
+                default => 'touch /REBOOT_AFTER_PUPPET',
+            }
+
     exec {
         # ask the puppet startup script to reboot
-        "reboot_semaphore":
-            command => $::operatingsystem ? {
-                windows => "type nul > C:/REBOOT_AFTER_PUPPET",
-                default => "touch /REBOOT_AFTER_PUPPET",
-            },
-            path => ['/bin/', '/usr/bin/'],
+        'reboot_semaphore':
+            command     => $command,
+            path        => ['/bin/', '/usr/bin/'],
             refreshonly => true;
     }
 
     case $::operatingsystem {
         CentOS: {
             file {
-                "/etc/init.d/rm_reboot":
-                    mode   => 0755,
-                    source => "puppet:///modules/needs_reboot/rm_reboot.init.d",
+                '/etc/init.d/rm_reboot':
+                    mode   => '0755',
+                    source => 'puppet:///modules/needs_reboot/rm_reboot.init.d',
                     notify => Exec['chkconfig_rm_reboot'];
             }
-            exec { "chkconfig_rm_reboot":
-                command => "/sbin/chkconfig --add rm_reboot",
+            exec { 'chkconfig_rm_reboot':
+                command     => '/sbin/chkconfig --add rm_reboot',
                 refreshonly => true;
             }
         }
         Ubuntu: {
             file {
-                "/etc/init/rm_reboot.conf":
-                    mode => 0644,
-                    source => "puppet:///modules/needs_reboot/rm_reboot.upstart.conf";
-                "/etc/init.d/rm_reboot":
+                '/etc/init/rm_reboot.conf':
+                    mode   => '0644',
+                    source => 'puppet:///modules/needs_reboot/rm_reboot.upstart.conf';
+                '/etc/init.d/rm_reboot':
                     ensure => link,
                     force  => true,
-                    target => "/lib/init/upstart-job";
+                    target => '/lib/init/upstart-job';
             }
         }
         Darwin: {
-            file { "/Library/LaunchDaemons/com.mozilla.rm_reboot.plist":
-                mode  => 0644,
-                owner => root,
-                group => wheel,
-                source => "puppet:///modules/needs_reboot/rm_reboot.plist";
+            file { '/Library/LaunchDaemons/com.mozilla.rm_reboot.plist':
+                mode   => '0644',
+                owner  => root,
+                group  => wheel,
+                source => 'puppet:///modules/needs_reboot/rm_reboot.plist';
             }
         }
         Windows: {
-            windowsutils::startup_tasks { "rm_reboot_semaphore":
+            windowsutils::startup_tasks { 'rm_reboot_semaphore':
                 ensure  => present,
                 command => 'cmd.exe /c if exist C:\REBOOT_AFTER_PUPPET del /F /Q C:\REBOOT_AFTER_PUPPET';
             }
