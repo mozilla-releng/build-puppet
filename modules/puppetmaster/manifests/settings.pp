@@ -5,32 +5,32 @@
 class puppetmaster::settings {
     include ::config
 
-    $data_root = "/data"
-    $puppetmaster_root = "/var/lib/puppetmaster"
-    $puppetsync_home = "/var/lib/puppetsync-home"
-    $deploy_dir = "/var/lib/puppetmaster/deploy"
+    $data_root         = '/data'
+    $puppetmaster_root = '/var/lib/puppetmaster'
+    $puppetsync_home   = '/var/lib/puppetsync-home'
+    $deploy_dir        = '/var/lib/puppetmaster/deploy'
 
     # how often to check and update the puppet manifests and files
     $puppet_check_interval_mins = 5
-    $puppet_check_splay_secs = 200
+    $puppet_check_splay_secs    = 200
 
     # copy some useful values from config to this module
-    $all_masters = $::config::puppet_servers
-    $distinguished_master = $::config::distinguished_puppetmaster
+    $all_masters           = $::config::puppet_servers
+    $distinguished_master  = $::config::distinguished_puppetmaster
     $upstream_rsync_source = $::config::puppetmaster_upstream_rsync_source
-    $upstream_rsync_args = $::config::puppetmaster_upstream_rsync_args
-    $manifests_repo = $::config::puppet_again_repo
+    $upstream_rsync_args   = $::config::puppetmaster_upstream_rsync_args
+    $manifests_repo        = $::config::puppet_again_repo
 
     # puppet environments will be created for these users
-    $users = $::config::admin_users
+    $users                 = $::config::admin_users
 
-    if ($distinguished_master == "") {
-        fail("distinguished_puppetmaster config is not specified")
+    if ($distinguished_master == '') {
+        fail('distinguished_puppetmaster config is not specified')
     }
 
     # true if this is the distinguished master
-    $is_distinguished = $fqdn ? {
+    $is_distinguished = $::fqdn ? {
         $distinguished_master => true,
-        default => false
+        default               => false
     }
 }

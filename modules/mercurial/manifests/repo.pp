@@ -1,7 +1,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-define mercurial::repo($hg_repo, $dst_dir, $user, $branch="", $rev="") {
+define mercurial::repo($hg_repo, $dst_dir, $user, $branch='', $rev='') {
     include packages::mozilla::py27_mercurial
 
     if ($branch == '' and $rev == '') {

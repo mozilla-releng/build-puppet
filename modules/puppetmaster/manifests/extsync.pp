@@ -8,7 +8,7 @@ define puppetmaster::extsync($ensure) {
 
     # call out to a class named after the extsync, with the parameters provided
     # in the config.
-    create_resources("class", {
-        "puppetmaster::extsync::$extsync" => merge({ensure => $ensure}, $params),
+    create_resources('class', {
+        "puppetmaster::extsync::${extsync}" => merge({ensure => $ensure}, $params),
     })
 }

@@ -5,9 +5,9 @@
 class puppetmaster::extsync::slavealloc($ensure, $slavealloc_api_url) {
     include packages::pyyaml
     puppetmaster::extsync_crontask {
-        "slavealloc":
-            ensure => $ensure,
-            minute => "*/10",
+        'slavealloc':
+            ensure            => $ensure,
+            minute            => '*/10',
             generation_script => template("${module_name}/extsync/slavealloc.erb");
     }
 }
