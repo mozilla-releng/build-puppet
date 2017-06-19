@@ -18,12 +18,12 @@ class mercurial::system_hgrc {
     file {
         $mercurial::settings::hgrc_parentdirs:
             ensure => directory,
-            owner => $owner,
-            group => $group;
+            owner  => $owner,
+            group  => $group;
     }
 
     mercurial::hgrc {
-        "$mercurial::settings::hgrc":
+        $mercurial::settings::hgrc:
             owner => $owner,
             group => $group;
     }

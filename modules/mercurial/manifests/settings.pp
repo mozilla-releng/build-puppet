@@ -4,18 +4,18 @@
 class mercurial::settings {
     case $::operatingsystem {
         CentOS, Ubuntu, Darwin: {
-            $hgext_dir = "/usr/local/lib/hgext"
-            $hgrc = "/etc/mercurial/hgrc"
-            $hgrc_parentdirs = ["/etc/mercurial"]
+            $hgext_dir       = '/usr/local/lib/hgext'
+            $hgrc            = '/etc/mercurial/hgrc'
+            $hgrc_parentdirs = ['/etc/mercurial']
         }
         # Setting up for future use and to prevent failures
         Windows: {
-            $hgext_dir = "C:\\mozilla-build\\hg\\"
-            $hgrc = "C:\\mozilla-build\\hg\\mercurial.ini"
+            $hgext_dir       = "C:\\mozilla-build\hg\\"
+            $hgrc            = "C:\\mozilla-build\\hg\\mercurial.ini"
             $hgrc_parentdirs = ["C:\\mozilla-build\\hg"]
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }

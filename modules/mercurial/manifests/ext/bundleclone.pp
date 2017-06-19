@@ -5,15 +5,15 @@ class mercurial::ext::bundleclone {
     include mercurial::ext::common
 
     file {
-        "$mercurial::settings::hgext_dir/bundleclone.py":
-            source => "puppet:///modules/mercurial/bundleclone.py";
+        "${mercurial::settings::hgext_dir}/bundleclone.py":
+            source => 'puppet:///modules/mercurial/bundleclone.py';
     }
     if ($::operatingsystem == Windows) {
         acl {
-            "$mercurial::settings::hgext_dir/bundleclone.py":
-                purge => true,
+            "${mercurial::settings::hgext_dir}/bundleclone.py":
+                purge                      => true,
                 inherit_parent_permissions => false,
-                permissions => [
+                permissions                => [
                     { identity => 'root', rights => ['full'] },
                     { identity => 'SYSTEM', rights => ['full'] },
                     { identity => 'cltbld', rights => ['full'] },

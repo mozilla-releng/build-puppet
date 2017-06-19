@@ -8,18 +8,18 @@ define mercurial::repo($hg_repo, $dst_dir, $user, $branch="", $rev="") {
         fail('Must specify one of rev or branch')
     }
     $branch_arg = $branch ? {
-        '' => '',
+        ''      => '',
         default => "-b ${branch}"
     }
     $rev_arg = $rev ? {
-        '' => '',
+        ''      => '',
         default => "-r ${rev}"
     }
     exec {
         "clone-${dst_dir}":
             require => Class['packages::mozilla::py27_mercurial'],
             command => "${::packages::mozilla::py27_mercurial::mercurial} clone ${branch_arg} ${rev_arg} ${hg_repo} ${dst_dir}",
-            creates => "${dst_dir}",
-            user => $user;
+            creates => $dst_dir,
+            user =   > $user;
     }
 }
