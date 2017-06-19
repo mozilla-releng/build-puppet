@@ -5,7 +5,7 @@
 class motd::settings {
     include dirs::etc
     $motd_file = $::operatingsystem ? {
-        Windows => "c:/etc/MOTD.txt",
+        Windows => 'c:/etc/MOTD.txt',
         default => '/etc/motd',
     }
 }

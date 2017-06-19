@@ -6,19 +6,19 @@ class motd::base {
     include concat::setup
 
     $group = $::operatingsystem ? {
-        Darwin => wheel,
+        Darwin  => wheel,
         default => root
     }
     concat {
         $motd::settings::motd_file:
             owner => root,
             group => $group,
-            mode => filemode(0644);
+            mode  => '0644';
     }
     # need at least one fragment, or concat will fail:
     concat::fragment {
-        base-motd:
-            target => $motd::settings::motd_file,
+        'base-motd':
+            target  => $motd::settings::motd_file,
             content => "Unauthorized access prohibited\n"
     }
 }
