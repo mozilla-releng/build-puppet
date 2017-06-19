@@ -8,24 +8,24 @@ class powermanagement::setup {
         Darwin : {
             osxutils::systemsetup {
                 sleep :
-                    setting => "Never" ;
+                    setting => 'Never' ;
 
                 restartpowerfailure :
-                    setting => "on" ;
+                    setting => 'on' ;
 
                 wakeonnetworkaccess :
-                    setting => "on" ;
+                    setting => 'on' ;
 
                 allowpowerbuttontosleepcomputer :
-                    setting => "off" ;
+                    setting => 'off' ;
             }
             case $::macosx_productversion_major {
                 # 10.6 doesn't support this option
                 '10.6': {}
                 default: {
                     osxutils::systemsetup {
-                        restartfreeze:
-                            setting => "on";
+                        'restartfreeze':
+                            setting => 'on';
                     }
                 }
             }
@@ -37,7 +37,7 @@ class powermanagement::setup {
             # TODO-WIN: this is currently managed through GPO.
         }
         default : {
-            fail(" cannot install on $::operatingsystem")
+            fail(" cannot install on ${::operatingsystem}")
         }
     }
 }
