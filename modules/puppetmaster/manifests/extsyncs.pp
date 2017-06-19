@@ -9,8 +9,8 @@ class puppetmaster::extsyncs {
 
     puppetmaster::extsync {
         $extsyncs:
-            ensure => $puppetmaster::settings::is_distinguished? {
-                true => 'present',
+            ensure => $puppetmaster::settings::is_distinguished ? {
+                true    => 'present',
                 default => 'absent'
             };
     }

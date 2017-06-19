@@ -8,17 +8,17 @@ class puppetmaster::extsync::moco_ldap($ensure, $moco_ldap_uri, $moco_ldap_root,
     include packages::python_ldap
 
     # the shell script snippet below runs this python script
-    $py_script = "/usr/local/sbin/extsync-moco_ldap.py"
+    $py_script = '/usr/local/sbin/extsync-moco_ldap.py'
     file {
         $py_script:
             show_diff => false,
-            content => template("${module_name}/extsync/moco_ldap.py.erb");
+            content   => template("${module_name}/extsync/moco_ldap.py.erb");
     }
 
     puppetmaster::extsync_crontask {
-        "moco_ldap":
-            ensure => $ensure,
-            minute => "5",
+        'moco_ldap':
+            ensure            => $ensure,
+            minute            => '5',
             generation_script => "python ${py_script} > \${OUTPUT}";
     }
 }

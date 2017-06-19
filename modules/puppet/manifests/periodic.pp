@@ -16,34 +16,34 @@ class puppet::periodic {
                 # Mozilla IT.  There is enough splay here to avoid killing the master
                 # (configured in the crontask).  Note that files in /etc/cron.d must not
                 # have a '.' in the filename
-                "/etc/cron.d/puppetcheck":
-                    content => template("puppet/puppetcheck.cron.erb");
-                "/etc/cron.d/puppetcheck.cron":
+                '/etc/cron.d/puppetcheck':
+                    content => template('puppet/puppetcheck.cron.erb');
+                '/etc/cron.d/puppetcheck.cron':
                     ensure => absent;
             }
         }
         Darwin: {
             # Launchd substitutes for crond on Darwin.  This runs a shell snippet
             # which adds some splay so that we don't kill the master every half-hour
-            $svc_plist = "/Library/LaunchDaemons/com.mozilla.puppet.plist"
+            $svc_plist = '/Library/LaunchDaemons/com.mozilla.puppet.plist'
             file {
                 $svc_plist:
-                    owner => root,
-                    group => wheel,
-                    mode => 0644,
-                    source => "puppet:///modules/puppet/puppet-periodic.plist";
-                "/usr/local/bin/run-puppet.sh":
+                    owner  => root,
+                    group  => wheel,
+                    mode   => '0644',
+                    source => 'puppet:///modules/puppet/puppet-periodic.plist';
+                '/usr/local/bin/run-puppet.sh':
                     ensure => absent;
             }
             service {
-                "com.mozilla.puppet":
-                    enable => "true",
-                    ensure => "running",
+                'com.mozilla.puppet':
+                    ensure  => 'running',
+                    enable  => true,
                     require => File[$svc_plist];
             }
         }
         default: {
-            fail("puppet::periodic support missing for $::operatingsystem")
+            fail("puppet::periodic support missing for ${::operatingsystem}")
         }
     }
 }

@@ -11,51 +11,51 @@ class puppetmaster::puppetsync_user {
             user {
                 'puppetsync':
                     managehome => true,
-                    home => $homedir,
-                    password => '*', # unlock the account without setting a password
-                    comment => "synchronizes data beteween puppet masters";
+                    home       => $homedir,
+                    password   => '*', # unlock the account without setting a password
+                    comment    => 'synchronizes data beteween puppet masters';
             }
         }
         default: {
-            fai("No support for $::operatingsystem")
+            fai("No support for ${::operatingsystem}")
         }
     }
 
     # set up the puppetsync homedir and its SSH config
     file {
-        "${homedir}":
-            ensure => directory,
-            owner => puppetsync,
-            group => puppetsync,
-            mode => "0700",
-            purge => true,
+        $homedir:
+            ensure  => directory,
+            owner   => puppetsync,
+            group   => puppetsync,
+            mode    => '0700',
+            purge   => true,
             recurse => true,
-            force => true,
+            force   => true,
             require => User['puppetsync'];
         "${homedir}/.ssh":
-            owner => puppetsync,
-            group => puppetsync,
-            mode => "0700",
-            ensure => directory;
+            ensure => directory,
+            owner  => puppetsync,
+            group  => puppetsync,
+            mode   => '0700';
         "${homedir}/.ssh/known_hosts":
             ensure => absent;
         "${homedir}/.ssh/config":
             content => template("${module_name}/puppetsync_ssh_config.erb"),
-            owner => puppetsync,
-            group => puppetsync,
-            mode => "0600";
+            owner   => puppetsync,
+            group   => puppetsync,
+            mode    => '0600';
     }
 
     # the keys are kept outside of ~puppetsync where the master can access them
-    $privkey = "/var/lib/puppet/.puppetsync_rsa"
-    $pubkey = "/var/lib/puppet/.puppetsync_rsa.pub"
+    $privkey = '/var/lib/puppet/.puppetsync_rsa'
+    $pubkey  = '/var/lib/puppet/.puppetsync_rsa.pub'
 
     if ($::puppetmaster::settings::is_distinguished) {
         exec {
             'create-puppetsync-private-key':
-                command => "/usr/bin/ssh-keygen -f $privkey -N ''",
+                command   => "/usr/bin/ssh-keygen -f ${privkey} -N ''",
                 logoutput => true,
-                creates => $privkey;
+                creates   => $privkey;
         }
 
         $puppetsync_pubkey = file($pubkey)
@@ -63,9 +63,9 @@ class puppetmaster::puppetsync_user {
         file {
             "${homedir}/.ssh/authorized_keys":
                 content => template("${module_name}/puppetsync_authorized_keys.erb"),
-                owner => puppetsync,
-                group => puppetsync,
-                mode => "0600";
+                owner   => puppetsync,
+                group   => puppetsync,
+                mode    => '0600';
         }
         # (authorized_keys will be removed by recurse => true on non-distinguished masters)
     } else {
@@ -73,10 +73,10 @@ class puppetmaster::puppetsync_user {
         file {
             # the copy of the key that's actually used
             "${homedir}/.ssh/puppetsync_rsa":
-                owner => puppetsync,
-                group => puppetsync,
-                mode => "0600",
-                content => file($privkey),
+                owner     => puppetsync,
+                group     => puppetsync,
+                mode      => '0600',
+                content   => file($privkey),
                 show_diff => false;
         }
     }
@@ -84,15 +84,15 @@ class puppetmaster::puppetsync_user {
     file {
         # and everyone gets copies to share among the masters
         $privkey:
-            owner => puppet,
-            group => puppet,
-            mode => "0600",
-            content => file($privkey),
+            owner     => puppet,
+            group     => puppet,
+            mode      => '0600',
+            content   => file($privkey),
             show_diff => false;
         $pubkey:
-            owner => puppet,
-            group => puppet,
-            mode => "0600",
+            owner   => puppet,
+            group   => puppet,
+            mode    => '0600',
             content => file($pubkey);
     }
 }

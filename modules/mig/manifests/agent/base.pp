@@ -26,33 +26,33 @@ class mig::agent::base(
             file {
                 '/etc/mig/':
                     ensure => 'directory',
-                    owner => 'root',
-                    mode => 755,
+                    owner  => 'root',
+                    mode   => '0755',
                     before => [ Class['packages::mozilla::mig_agent'] ];
                 '/etc/mig/mig-agent.cfg':
-                    content => template('mig/mig-agent.cfg.erb'),
+                    content   => template('mig/mig-agent.cfg.erb'),
                     show_diff => false,
-                    owner => 'root',
-                    mode => 600,
-                    before => [ Class['packages::mozilla::mig_agent'] ];
+                    owner     => 'root',
+                    mode      => '0600',
+                    before    => [ Class['packages::mozilla::mig_agent'] ];
                 '/etc/mig/ca.crt':
-                    content => template('mig/ca.crt.erb'),
+                    content   => template('mig/ca.crt.erb'),
                     show_diff => false,
-                    owner => 'root',
-                    mode => 600,
-                    before => [ Class['packages::mozilla::mig_agent'] ];
+                    owner     => 'root',
+                    mode      => '0600',
+                    before    => [ Class['packages::mozilla::mig_agent'] ];
                 '/etc/mig/agent.crt':
-                    content => template('mig/agent.crt.erb'),
+                    content   => template('mig/agent.crt.erb'),
                     show_diff => false,
-                    owner => 'root',
-                    mode => 600,
-                    before => [ Class['packages::mozilla::mig_agent'] ];
+                    owner     => 'root',
+                    mode      => '0600',
+                    before    => [ Class['packages::mozilla::mig_agent'] ];
                 '/etc/mig/agent.key':
-                    content => template('mig/agent.key.erb'),
+                    content   => template('mig/agent.key.erb'),
                     show_diff => false,
-                    owner => 'root',
-                    mode => 600,
-                    before => [ Class['packages::mozilla::mig_agent'] ];
+                    owner     => 'root',
+                    mode      => '0600',
+                    before    => [ Class['packages::mozilla::mig_agent'] ];
             }
         }
         default: {

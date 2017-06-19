@@ -12,25 +12,25 @@ class puppetmaster::hiera {
     $puppetmaster_extsyncs = $::config::puppetmaster_extsyncs
 
     file {
-        "/etc/puppet/hiera.yaml":
-            content => template("puppetmaster/hiera.yaml.erb"),
+        '/etc/puppet/hiera.yaml':
+            content => template('puppetmaster/hiera.yaml.erb'),
             require => Class['packages::mozilla::hiera_eyaml'], # otherwise httpd won't see it
-            notify => Service['httpd'];
+            notify  => Service['httpd'];
         # include a symlink so the 'hiera' command line tool finds the same config
-        "/etc/hiera.yaml":
+        '/etc/hiera.yaml':
             ensure => symlink,
-            target => "/etc/puppet/hiera.yaml";
+            target => '/etc/puppet/hiera.yaml';
 
-        [ "/etc/hiera", "/etc/hiera/keys", "/etc/hiera/environments" ]:
+        [ '/etc/hiera', '/etc/hiera/keys', '/etc/hiera/environments' ]:
             ensure => directory,
-            owner => puppet,
-            group => puppetsync,
-            mode => 0750;
+            owner  => puppet,
+            group  => puppetsync,
+            mode   => '0750';
     }
 
     file {
         # this is the old crontask for extlookup-based secrets
-        "/etc/cron.d/rsync-extlookup":
+        '/etc/cron.d/rsync-extlookup':
             ensure => absent;
     }
 

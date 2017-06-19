@@ -7,11 +7,11 @@ class mercurial::ext::common {
 
     $owner = $::operatingsystem ? {
         Windows => undef,
-        default => "root"
+        default => 'root'
     }
     $mode = $::operatingsystem ? {
         Windows => undef,
-        default => "0755"
+        default => '0755'
     }
     file {
         $mercurial::settings::hgext_dir:

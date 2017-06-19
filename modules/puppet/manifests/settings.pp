@@ -6,11 +6,11 @@ class puppet::settings {
 
     $conf = $::operatingsystem ? {
         Windows => 'c:/ProgramData/PuppetLabs/puppet/etc/puppet.conf',
-        default => "/etc/puppet/puppet.conf",
+        default => '/etc/puppet/puppet.conf',
     }
 
-    if ($pin_puppet_server != '') {
-        $puppet_server = $pin_puppet_server
+    if ($::pin_puppet_server != '') {
+        $puppet_server  = $pin_puppet_server
         $puppet_servers = [ $pin_puppet_server ]
     } else {
         $puppet_server = $::config::puppet_server

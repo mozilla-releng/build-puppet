@@ -5,17 +5,17 @@ define puppetmaster::extsync_crontask($generation_script, $ensure,
     $hour='*', $minute='*', $month='*', $monthday='*', $weekday='*') {
     include cron
 
-    $cronfile = "/etc/cron.d/extsync-$title.cron"
-    $cronscript = "/usr/local/sbin/extsync-$title"
+    $cronfile   = "/etc/cron.d/extsync-${title}.cron"
+    $cronscript = "/usr/local/sbin/extsync-${title}"
 
     case $ensure {
         present: {
             file {
                 $cronfile:
-                    content => "$minute $hour $monthday $month $weekday root /bin/bash $cronscript 2>&1 | logger -t extsync_$title\n";
+                    content => "${minute} ${hour} ${monthday} ${month} ${weekday} root /bin/bash ${cronscript} 2>&1 | logger -t extsync_${title}\n";
                 $cronscript:
                     content => template("${module_name}/extsync_crontask.sh.erb"),
-                    mode => 0755;
+                    mode    => '0755';
             }
         }
         absent: {

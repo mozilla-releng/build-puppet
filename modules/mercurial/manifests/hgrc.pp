@@ -6,9 +6,9 @@ define mercurial::hgrc($path=$title, $owner, $group)  {
 
     file {
         $path:
-            mode => filemode(0644),
-            owner => $owner,
-            group => $group,
-            content => template("mercurial/hgrc.erb");
+            mode    => '0644',
+            owner   => $owner,
+            group   => $group,
+            content => template('mercurial/hgrc.erb');
     }
 }

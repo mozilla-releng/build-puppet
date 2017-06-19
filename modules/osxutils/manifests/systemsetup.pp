@@ -3,14 +3,14 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 define osxutils::systemsetup ($option = $title,$setting = '') {
 
-    $cmd = "/usr/sbin/systemsetup"
+    $cmd = '/usr/sbin/systemsetup'
 
     if ($option != undef) and ($setting != undef) {
         exec {
-            "osx_systemsetup -set$title $setting" :
-                command => "${cmd} -set$title $setting",
-                unless =>
-                    "$cmd -get$title | awk -F \": \" \'{print \$2}\' | grep -i ${setting}",
+            "osx_systemsetup -set${title} ${setting}" :
+                command => "${cmd} -set${title} ${setting}",
+                unless  =>
+                    "${cmd} -get${title} | awk -F \": \" \'{print \$2}\' | grep -i ${setting}",
         }
     }
 }

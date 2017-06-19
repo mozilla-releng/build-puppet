@@ -9,19 +9,19 @@ class nginx {
         Ubuntu: {
             service {
                 'nginx':
-                    enable => true,
-                    ensure => running,
+                    ensure     => running,
+                    enable     => true,
                     hasrestart => true,
                     hasstatus  => true,
-                    require => Class["packages::nginx"];
+                    require    => Class['packages::nginx'];
             }
             file {
-                "/etc/nginx/sites-enabled/default":
+                '/etc/nginx/sites-enabled/default':
                     ensure => absent;
             }
         }
         default: {
-            fail("Don't know how to set up nginx on $::operatingsystem")
+            fail("Don't know how to set up nginx on ${::operatingsystem}")
         }
     }
 }

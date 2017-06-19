@@ -13,18 +13,18 @@ class puppetmaster::deploy {
 
     file {
         $puppetmaster::settings::deploy_dir:
-            ensure => directory,
+            ensure  => directory,
             recurse => true,
-            force => true;
+            force   => true;
         "${puppetmaster::settings::deploy_dir}/cgi-bin":
             ensure => directory,
-            mode   => 0750,
+            mode   => '0750',
             owner  => root,
             group  => apache;
         "${puppetmaster::settings::deploy_dir}/cgi-bin/getcert.cgi":
-            mode => 0750,
-            owner => root,
-            group => apache,
+            mode    => '0750',
+            owner   => root,
+            group   => apache,
             require => Class['packages::httpd'],
             content => template("${module_name}/getcert.cgi.erb");
     }
@@ -32,8 +32,8 @@ class puppetmaster::deploy {
     # getcert.cgi uses sudo to run deployment_getcert.sh
     sudoers::custom {
         'getcert':
-            user => 'apache',
-            runas => 'root',
+            user    => 'apache',
+            runas   => 'root',
             command => $deployment_getcert_sh;
     }
 }

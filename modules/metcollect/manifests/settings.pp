@@ -5,9 +5,9 @@
 class metcollect::settings {
     include ::config
 
-    $exe_path = $env_processor_architecture ? {
-        x86     => "C:\\Program Files\\metcollect",
-        default => "C:\\Program Files (x86)\\metcollect",
+    $exe_path = $::env_processor_architecture ? {
+        x86     => 'C:\Program Files\metcollect',
+        default => 'C:\Program Files (x86)\metcollect',
     }
     $interval = 300
     $write = $::config::collectd_write

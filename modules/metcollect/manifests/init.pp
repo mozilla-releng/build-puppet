@@ -15,12 +15,12 @@ class metcollect {
 
         file { "${exe_path}\\metcollect.ini":
             ensure  => present,
-            content => template("metcollect/metcollect.ini.erb"),
+            content => template('metcollect/metcollect.ini.erb'),
             notify  => Service['metcollect'],
             require => Class['packages::metcollect'];
         }
 
-        service { metcollect:
+        service { 'metcollect':
             ensure  => running,
             enable  => true,
             require => Class['packages::metcollect'];

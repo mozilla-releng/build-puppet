@@ -14,14 +14,14 @@ class network {
     case $::operatingsystem {
         CentOS: {
             file {
-                "/etc/sysconfig/network":
-                    content => "NETWORKING=yes\nHOSTNAME=$fqdn\n",
-                    notify => Exec['run-hostname-centos'];
+                '/etc/sysconfig/network':
+                    content => "NETWORKING=yes\nHOSTNAME=${::fqdn}\n",
+                    notify  => Exec['run-hostname-centos'];
             }
 
             exec {
-                "run-hostname-centos":
-                    command => "/bin/hostname $fqdn",
+                'run-hostname-centos':
+                    command     => "/bin/hostname ${::fqdn}",
                     refreshonly => true;
             }
         }
@@ -36,8 +36,8 @@ class network {
         case $::operatingsystem {
             CentOS: {
                 file {
-                    "/etc/sysconfig/network-scripts/ifcfg-eth0":
-                        content => template("network/centos6-ifcfg-eth0.erb");
+                    '/etc/sysconfig/network-scripts/ifcfg-eth0':
+                        content => template('network/centos6-ifcfg-eth0.erb');
                 }
             }
             Darwin: {
@@ -55,17 +55,17 @@ class network {
             # Some of our systems seem to lack en1, either due to hardware or software issues.
             # Usually a hard power cycle will fix this, but since the goal is to disable wireless,
             # we can count "no en1" as a success condition.
-            if ($::macaddress_en1 != "") {
+            if ($::macaddress_en1 != '') {
                 exec {
-                    "disable-wifi":
-                        command => "/usr/sbin/networksetup -setairportpower en1 off",
-                        unless => "/usr/sbin/networksetup -getairportpower en1 | egrep 'Off'";
+                    'disable-wifi':
+                        command => '/usr/sbin/networksetup -setairportpower en1 off',
+                        unless  => "/usr/sbin/networksetup -getairportpower en1 | egrep 'Off'";
                 }
             }
             # This file is a byproduct of the previous code which disabled multicast mdns discovery
             # it has been updated and moved to modules/tweaks/manifests/disable_bonjour.pp
             if $::macosx_productversion =~ /10\.10\.[4-9]/ {
-                file { "/System/Library/LaunchDaemons/com.apple.discoveryd.plist":
+                file { '/System/Library/LaunchDaemons/com.apple.discoveryd.plist':
                     ensure => absent;
                 }
             }

@@ -6,27 +6,27 @@ define pkgbuilder::base_cow {
     include packages::cowbuilder
 
     # extract distribution and arch from the resource name
-    $re = '^([a-z]+)-([a-z0-9_]+)$'
+    $re           = '^([a-z]+)-([a-z0-9_]+)$'
     $distribution = regsubst($name, $re, '\1')
-    $arch = regsubst($name, $re, '\2')
+    $arch         = regsubst($name, $re, '\2')
     if ($distribution == $name) {
-        fail("invalid pkgbuilder::base_cow name '$name'")
+        fail("invalid pkgbuilder::base_cow name '${name}'")
     }
 
-    $basepath = "/var/cache/pbuilder/${distribution}-${arch}"
+    $basepath     = "/var/cache/pbuilder/${distribution}-${arch}"
 
     exec {
         "setup-cowbuilder-${distribution}-${arch}":
-            command => "/usr/sbin/cowbuilder --create --distribution ${distribution} --architecture ${arch} --basepath ${basepath}",
-            creates => $basepath,
+            command   => "/usr/sbin/cowbuilder --create --distribution ${distribution} --architecture ${arch} --basepath ${basepath}",
+            creates   => $basepath,
             logoutput => true,
-            require => Class['packages::cowbuilder'];
+            require   => Class['packages::cowbuilder'];
         "update-cowbuilder-${distribution}-${arch}":
-            command => "/usr/sbin/cowbuilder --update --distribution ${distribution} --architecture ${arch} --basepath ${basepath}",
+            command     => "/usr/sbin/cowbuilder --update --distribution ${distribution} --architecture ${arch} --basepath ${basepath}",
             refreshonly => true,
-            logoutput => true,
-            subscribe => File['/etc/pbuilderrc'],
-            require => [
+            logoutput   => true,
+            subscribe   => File['/etc/pbuilderrc'],
+            require     => [
                 Class['packages::cowbuilder'],
                 Exec["setup-cowbuilder-${distribution}-${arch}"],
             ];

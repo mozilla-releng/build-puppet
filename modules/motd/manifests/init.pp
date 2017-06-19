@@ -7,8 +7,8 @@ define motd($content, $order=10) {
 
     concat::fragment {
         $name:
-            target => $motd::settings::motd_file,
+            target  => $motd::settings::motd_file,
             content => $content,
-            order => $order;
+            order   => $order;
     }
 }

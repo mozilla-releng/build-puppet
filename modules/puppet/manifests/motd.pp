@@ -11,14 +11,14 @@ class puppet::motd {
 
     if ($pin_puppet_env != '') {
         motd {
-            pinned-puppet-env:
-                content => "NOTE: puppet environment pinned to '$pin_puppet_env'\n";
+            'pinned-puppet-env':
+                content => "NOTE: puppet environment pinned to '${pin_puppet_env}'\n";
         }
     }
     if ($pin_puppet_server != '') {
         motd {
-            pinned-puppet-server:
-                content => "NOTE: puppet server pinned to '$pin_puppet_server'\n";
+            'pinned-puppet-server':
+                content => "NOTE: puppet server pinned to '${pin_puppet_server}'\n";
         }
     }
 }

@@ -7,17 +7,17 @@ class puppet::config {
 
     $puppet_server = $::puppet::settings::puppet_server
     # copy the node-scope variable locally
-    $pinned_env = $pin_puppet_env
-    $conf  = $puppet::settings::conf
+    $pinned_env    = $pin_puppet_env
+    $conf          = $::puppet::settings::conf
 
     concat {
         $conf:
-            mode => filemode(0644);
+            mode => '0644';
     }
 
-    concat::fragment { "top_conf":
+    concat::fragment { 'top_conf':
         target  => $conf,
-        content => template("puppet/puppet.conf.erb"),
+        content => template('puppet/puppet.conf.erb'),
         order   => 01,
     }
 }

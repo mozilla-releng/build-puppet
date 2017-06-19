@@ -8,12 +8,12 @@ class puppetmaster::dirs {
     file {
         $puppetmaster::settings::data_root:
             ensure => directory,
-            owner => puppetsync,
-            group => puppetsync;
+            owner  => puppetsync,
+            group  => puppetsync;
         $puppetmaster::settings::puppetmaster_root:
-            ensure => directory,
-            owner => puppet,
-            group => puppet,
+            ensure  => directory,
+            owner   => puppet,
+            group   => puppet,
             require => Class['puppetmaster::install'];
     }
 }

@@ -10,12 +10,12 @@ define puppetmaster::environment {
     file {
         "/etc/puppet/environments/${username}":
             ensure => directory,
-            mode   => 0755,
+            mode   => '0755',
             owner  => $username,
             group  => $username;
         "/etc/puppet/environments/${username}/environment.conf":
             ensure => present,  # users can edit this without changes being overwritten
-            mode   => 0644,
+            mode   => '0644',
             owner  => $username,
             group  => $username,
             source => 'puppet:///modules/puppetmaster/user_environment.conf';

@@ -10,21 +10,21 @@ class log_aggregator {
     include packages::rsyslog_gnutls
 
     file {
-        "/var/spool/rsyslog":
+        '/var/spool/rsyslog':
             ensure => directory;
-        "/etc/papertrail-bundle.pem":
-            mode => '0644',
+        '/etc/papertrail-bundle.pem':
+            mode   => '0644',
             source => 'puppet:///modules/log_aggregator/etc/papertrail-bundle.pem';
-        "/etc/security/limits.conf":
-            mode => '0644',
+        '/etc/security/limits.conf':
+            mode   => '0644',
             source => 'puppet:///modules/log_aggregator/etc/limits.conf';
     }
 
     $cef_syslog_server = $::config::cef_syslog_server
-    $logging_port = $::config::logging_port
+    $logging_port      = $::config::logging_port
 
     rsyslog::config {
-        "00-papertrail" :
+        '00-papertrail' :
             # note: diffs will not be shown
             contents => template("${module_name}/papertrail.conf.erb");
     }
