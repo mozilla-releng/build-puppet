@@ -39,6 +39,7 @@ class signingserver::base {
         }
         Darwin: {
             include packages::xcode
+            include packages::libevent
 
             $compiler_req = Class['packages::xcode']
 
