@@ -12,35 +12,35 @@ class ntp::daemon {
         CentOS, Ubuntu: {
             include ntp::atboot
             file {
-                "/etc/ntp.conf" :
-                    content => template("ntp/ntp.conf.erb"),
-                    mode => 644,
-                    owner => root,
-                    group => $users::root::group;
+                '/etc/ntp.conf' :
+                    content => template('ntp/ntp.conf.erb'),
+                    mode    => '0644',
+                    owner   => root,
+                    group   => $users::root::group;
             }
-            $service = $operatingsystem ? { CentOS => 'ntpd', Ubuntu => 'ntp' }
+            $service = $::operatingsystem ? { CentOS => 'ntpd', Ubuntu => 'ntp' }
             service {
                 $service:
-                    subscribe => File["/etc/ntp.conf"],
-                    enable => true,
-                    hasstatus => true,
-                    ensure => running;
+                    ensure    => running,
+                    subscribe => File['/etc/ntp.conf'],
+                    enable    => true,
+                    hasstatus => true;
             }
         }
         Darwin: {
             include ntp::atboot
             file {
-                "/etc/ntp.conf" :
-                    content => template("ntp/ntp-darwin.conf.erb"),
-                    mode => 644,
-                    owner => root,
-                    group => $users::root::group;
+                '/etc/ntp.conf' :
+                    content => template('ntp/ntp-darwin.conf.erb'),
+                    mode    => '0644',
+                    owner   => root,
+                    group   => $users::root::group;
             }
             service {
                 'org.ntp.ntpd':
-                    subscribe => File["/etc/ntp.conf"],
-                    enable => true,
-                    ensure => running;
+                    ensure    => running,
+                    subscribe => File['/etc/ntp.conf'],
+                    enable    => true;
             }
             # OS X Mavericks' NTP support is broken:
             #  - http://www.atmythoughts.com/living-in-a-tech-family-blog/2014/2/28/what-time-is-it
@@ -53,7 +53,7 @@ class ntp::daemon {
             cron {
                 'whack-apple-ntpd':
                     command => '/usr/bin/killall ntpd',
-                    minute => 0;
+                    minute  => 0;
             }
         }
         Windows: {

@@ -10,8 +10,8 @@ class ntp::atboot {
         CentOS, Darwin: {
             include packages::ntp
             service {
-                "ntpdate":
-                    enable => true,
+                'ntpdate':
+                    enable    => true,
                     hasstatus => false;
             }
         }
@@ -19,8 +19,8 @@ class ntp::atboot {
             include packages::ntpdate
             # ntpdate is run by if-up
             file {
-                "/etc/default/ntpdate":
-                    content => template("ntp/ntpdate.default.erb");
+                '/etc/default/ntpdate':
+                    content => template('ntp/ntpdate.default.erb');
             }
         }
         Windows: {
@@ -29,7 +29,7 @@ class ntp::atboot {
             }
         }
         default: {
-            fail("cannot instantiate on $::operatingsystem")
+            fail("cannot instantiate on ${::operatingsystem}")
         }
     }
 }

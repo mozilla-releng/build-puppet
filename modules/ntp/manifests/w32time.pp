@@ -9,21 +9,21 @@ class ntp::w32time ($daemon = true) {
 
     # Determine if w32time should run continuously
     if $daemon {
-        $type = "NTP"
-        $service_ensure = "running"
+        $type           = 'NTP'
+        $service_ensure = 'running'
     } else {
-        $type = "NoSync"
-        $service_ensure = "stopped"
+        $type           = 'NoSync'
+        $service_ensure = 'stopped'
     }
 
-    $ntp_servers = $config::ntp_servers
+    $ntp_servers        = $config::ntp_servers
 
     # NtpServer registy data must be formatted to indicate client mode
     # see https://technet.microsoft.com/en-us/library/Cc773263%28v=WS.10%29.aspx
-    $fmt_servers_str = join(suffix($ntp_servers, ",0x8"), " ")
+    $fmt_servers_str    = join(suffix($ntp_servers, ',0x8'), ' ')
 
     # Select a single server for ntpdate
-    $sntp_server = $ntp_servers[0]
+    $sntp_server        = $ntp_servers[0]
 
     # Disable the default windows time sync task
     windowsutils::startup_tasks { '\Microsoft\Windows\Time Synchronization\SynchronizeTime':
@@ -43,16 +43,16 @@ class ntp::w32time ($daemon = true) {
         ensure => present,
         type   => string,
         data   => $type,
-        notify => Service["W32Time"],
+        notify => Service['W32Time'],
     }
     registry_value { 'HKLM\System\CurrentControlSet\Services\W32Time\Parameters\NtpServer':
         ensure => present,
         type   => string,
         data   => $fmt_servers_str,
-        notify => Service["W32Time"],
+        notify => Service['W32Time'],
     }
     service { 'W32Time':
-        enable => $daemon,
         ensure => $service_ensure,
+        enable => $daemon,
     }
 }
