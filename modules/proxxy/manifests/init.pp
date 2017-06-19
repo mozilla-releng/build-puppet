@@ -9,26 +9,26 @@ class proxxy {
     file {
         $proxxy::settings::cache_dir:
             ensure => directory,
-            owner => 'www-data',
-            group => 'root',
-            mode => 700,
+            owner  => 'www-data',
+            group  => 'root',
+            mode   => '0700',
             before => Service['nginx'];
 
         $proxxy::settings::nginx_conf:
             content => template('proxxy/nginx.conf.erb'),
-            owner => 'root',
-            group => 'root',
-            mode => 644,
-            notify => Service['nginx'],
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            notify  => Service['nginx'],
             require => Class['packages::nginx'];
 
         $proxxy::settings::nginx_vhosts_conf:
-            content => template('proxxy/nginx-vhosts.conf.erb'),
-            owner => 'root',
-            group => 'root',
-            mode => 600,
+            content   => template('proxxy/nginx-vhosts.conf.erb'),
+            owner     => 'root',
+            group     => 'root',
+            mode      => '0600',
             show_diff => false, # may contain HTTP basic auth credentials
-            notify => Service['nginx'],
-            require => Class['packages::nginx'];
+            notify    => Service['nginx'],
+            require   => Class['packages::nginx'];
     }
 }
