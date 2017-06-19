@@ -10,7 +10,7 @@ class mercurial::settings {
         }
         # Setting up for future use and to prevent failures
         Windows: {
-            $hgext_dir       = "C:\\mozilla-build\hg\\"
+            $hgext_dir       = "C:\\mozilla-build\\hg\\"
             $hgrc            = "C:\\mozilla-build\\hg\\mercurial.ini"
             $hgrc_parentdirs = ["C:\\mozilla-build\\hg"]
         }
