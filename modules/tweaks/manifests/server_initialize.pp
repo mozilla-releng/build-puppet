@@ -6,8 +6,8 @@
 class tweaks::server_initialize {
     # data 1 = enable  data 0 = disabled
     registry::value { 'DoNotOpenInitialConfigurationTasksAtLogon':
-        key    => 'HKLM\SOFTWARE\Microsoft\ServerManager\Oobe',
-        type   => dword,
-        data   => '1',
+        key  => 'HKLM\SOFTWARE\Microsoft\ServerManager\Oobe',
+        type => dword,
+        data => '1',
     }
 }

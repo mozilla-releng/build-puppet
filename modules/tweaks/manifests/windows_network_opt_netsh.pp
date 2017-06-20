@@ -11,101 +11,101 @@ class tweaks::windows_network_opt_netsh {
     include dirs::etc
 
     $netsh_log   = "C:\\ProgramData\\PuppetLabs\\puppet\\var\\log\\netsh_error.log"
-    $set_netsh   = 'set netcmd=C:\windows\System32\netsh.exe'
+    $set_netsh   = "set netcmd=C:\windows\System32\netsh.exe"
     $run_netsh   = "\n %netcmd%\n"
-    $failed      = " failed with  exit code %errorlevel% "
-    $ErrorCheck  = "If %errorlevel% neq 0 echo %netcmd%$failed>>$netsh_log\n"
+    $failed      = ' failed with  exit code %errorlevel% '
+    $errorcheck  = "If %errorlevel% neq 0 echo %netcmd%${failed}>>${netsh_log}\n"
     # This is a hack to move forward in getting toplevel::slave::releng support for Windows 7
     # This will be re-addressed with bug 1247707
-    $QuotedLAC   = $env_os_version ? {
+    $quotedlac   = $::env_os_version ? {
         2008 =>  '"Local Area Connection"',
         w732 =>  '"Local Area Connection 2"',
     }
-    # $QuotedLAC_2 = '"Local Area Connection 2"'
-    $NetTwBat    = "c:\\etc\\network_tweak.bat"
+    # $quotedlac_2 = ''Local Area Connection 2''
+    $nettwbat    = 'c:\etc\network_tweak.bat'
 
-    case $env_os_version {
+    case $::env_os_version {
         2008, w732: {
-            concat { "$NetTwBat":
+            concat { '$nettwbat':
             }
-            concat::fragment  { "network_tweak_bat_header" :
-                target  => "$NetTwBat",
-                content => template("tweaks/network_tweak.bat.erb"),
+            concat::fragment  { 'network_tweak_bat_header' :
+                target  => $nettwbat,
+                content => template('tweaks/network_tweak.bat.erb'),
                 order   => 01,
             }
-            concat::fragment { "global_netdma" :
-                target  => "$NetTwBat",
-                content => "$set_netsh int tcp set global netdma=enabled$run_netsh $ErrorCheck",
+            concat::fragment { 'global_netdma' :
+                target  => $nettwbat,
+                content => "${set_netsh} int tcp set global netdma=enabled${run_netsh} ${errorcheck}",
                 order   => 02,
             }
-            concat::fragment  { "global_congestionprovider" :
-                target  => "$NetTwBat",
-                content => "$set_netsh int tcp set global congestionprovider=ctcp$run_netsh $ErrorCheck",
+            concat::fragment  { 'global_congestionprovider' :
+                target  => $nettwbat,
+                content => "${set_netsh} int tcp set global congestionprovider=ctcp${run_netsh} ${errorcheck}",
                 order   => 04,
             }
-            concat::fragment { "global_ecncapability" :
-                target  => "$NetTwBat",
-                content => "$set_netsh int tcp set global ecncapability=disabled$run_netsh $ErrorCheck",
+            concat::fragment { 'global_ecncapability' :
+                target  => $nettwbat,
+                content => "${set_netsh} int tcp set global ecncapability=disabled${run_netsh} ${errorcheck}",
                 order   => 05
             }
-            concat::fragment { "heuristics" :
-                target  => "$NetTwBat",
-                content => "$set_netsh int tcp set heuristics disabled$run_netsh $ErrorCheck",
+            concat::fragment { 'heuristics' :
+                target  => $nettwbat,
+                content => "${set_netsh} int tcp set heuristics disabled${run_netsh} ${errorcheck}",
                 order   => 06,
             }
-            concat::fragment { "local_area_mtu" :
-                target  => "$NetTwBat",
-                content => "$set_netsh int ipv4 set subinterface $QuotedLAC mtu=1500 store=persistent$run_netsh $ErrorCheck",
+            concat::fragment { 'local_area_mtu' :
+                target  => $nettwbat,
+                content => "${set_netsh} int ipv4 set subinterface ${quotedlac} mtu=1500 store=persistent${run_netsh} ${errorcheck}",
                 order   => 07,
             }
-            concat::fragment { "global autotuning" :
-                target  => "$NetTwBat",
-                content => "$set_netsh int tcp set global autotuning=normal$run_netsh $ErrorCheck",
+            concat::fragment { 'global autotuning' :
+                target  => $nettwbat,
+                content => "${set_netsh} int tcp set global autotuning=normal${run_netsh} ${errorcheck}",
                 order   => 09,
             }
             case $::fqdn {
                 /.*\.releng\.(use1|usw2)\.mozilla\.com$/: {
-                    concat::fragment { "global_rss" :
-                        target  => "$NetTwBat",
-                        content => "$set_netsh int tcp set global rss=enabled$run_netsh $ErrorCheck",
+                    concat::fragment { 'global_rss' :
+                        target  => $nettwbat,
+                        content => "${set_netsh} int tcp set global rss=enabled${run_netsh} ${errorcheck}",
                         order   => 10,
                     }
-                    concat::fragment { "chimney" :
-                        target  => "$NetTwBat",
-                        content => "$set_netsh int tcp set global chimney=disabled$run_netsh $ErrorCheck",
+                    concat::fragment { 'chimney' :
+                        target  => $nettwbat,
+                        content => "${set_netsh} int tcp set global chimney=disabled${run_netsh} ${errorcheck}",
                         order   => 11,
                     }
-                    concat::fragment { "global_dca" :
-                        target  => "$NetTwBat",
-                        content => "$set_netsh int tcp set global dca=disabled$run_netsh $ErrorCheck",
+                    concat::fragment { 'global_dca' :
+                        target  => $nettwbat,
+                        content => "${set_netsh} int tcp set global dca=disabled${run_netsh} ${errorcheck}",
                         order   => 12,
                     }
                 }
                 default: {
-                    concat::fragment { "global_dca" :
-                        target  => "$NetTwBat",
-                        content => "$set_netsh int tcp set global dca=enabled$run_netsh $ErrorCheck",
+                    concat::fragment { 'global_dca' :
+                        target  => $nettwbat,
+                        content => "${set_netsh} int tcp set global dca=enabled${run_netsh} ${errorcheck}",
                         order   => 10,
                     }
                 }
             }
             file {'C:/programdata/puppetagain/SchTsk_netsh.xml':
-                content => template("tweaks/SchTsk_netsh.xml.erb"),
+                content => template('tweaks/SchTsk_netsh.xml.erb'),
             }
             # Set up the schedule task
-            exec { "SchTsk_netsh":
+            exec { 'SchTsk_netsh':
                 command     => '"C:\Windows\system32\schtasks.exe" /Create  /XML "C:/programdata/puppetagain/SchTsk_netsh.xml" /TN SchTsk_netsh',
-                subscribe   => Concat["$NetTwBat"],
+                subscribe   => Concat[$nettwbat],
                 require     => File['C:/programdata/puppetagain/SchTsk_netsh.xml'],
                 refreshonly => true,
             }
             # Execute schedule task
-            exec { "network_tweak_bat" :
-                command      => '"C:\Windows\system32\schtasks.exe" /Run /TN SchTsk_netsh',
-                require      => [Concat::Fragment["global_dca"],
-                                Exec["SchTsk_netsh"]
+            exec { 'network_tweak_bat' :
+                command     => '"C:\Windows\system32\schtasks.exe" /Run /TN SchTsk_netsh',
+                require     => [Concat::Fragment['global_dca'],
+                                Exec['SchTsk_netsh']
                                 ],
-                subscribe   => Concat["$NetTwBat"],
+                subscribe   => Concat[$nettwbat],
                 refreshonly => true,
                 tries       => 3;
             }
@@ -114,18 +114,18 @@ class tweaks::windows_network_opt_netsh {
             # It's existence means at least one failure occurred
             # See the log file itself to view failures
             file {'C:/etc/netsh_check.bat':
-                content => template("tweaks/netsh_check.bat.erb"),
-                require     => Class[dirs::etc],
+                content => template('tweaks/netsh_check.bat.erb'),
+                require => Class[dirs::etc],
             }
-            exec { "netsh_error_check" :
-                command     => "C:/etc/netsh_check.bat",
+            exec { 'netsh_error_check' :
+                command     => 'C:/etc/netsh_check.bat',
                 returns     => 1,
-                subscribe   => Exec["network_tweak_bat"],
+                subscribe   => Exec['network_tweak_bat'],
                 refreshonly => true,
             }
         }
         default: {
-            fail("Network optimization has not been configured for this platform")
+            fail('Network optimization has not been configured for this platform')
         }
     }
 }

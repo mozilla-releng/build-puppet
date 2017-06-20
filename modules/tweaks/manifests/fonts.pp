@@ -9,10 +9,10 @@ class tweaks::fonts {
     case $::operatingsystem {
         Ubuntu: {
             file {
-                "$::users::builder::home/.fonts.conf":
+                "${::users::builder::home}/.fonts.conf":
                     owner  => $::users::builder::username,
                     group  => $::users::builder::group,
-                    source => "puppet:///modules/tweaks/fonts.conf";
+                    source => 'puppet:///modules/tweaks/fonts.conf';
             }
         }
     }

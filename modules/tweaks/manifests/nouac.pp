@@ -6,8 +6,8 @@ class tweaks::nouac {
     #Disables User Access Control Challenge
     # data 1 = enable  data 0 = disabled
     registry::value { 'EnableLUA':
-        key    => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System',
-        type   => dword,
-        data   => '0',
+        key  => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System',
+        type => dword,
+        data => '0',
     }
 }

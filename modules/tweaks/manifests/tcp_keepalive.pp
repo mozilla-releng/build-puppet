@@ -27,7 +27,7 @@ class tweaks::tcp_keepalive {
             }
         }
         default: {
-            notice("Don't know how to set keepalive time on $::operatingsystem")
+            notice("Don't know how to set keepalive time on ${::operatingsystem}")
         }
     }
 }

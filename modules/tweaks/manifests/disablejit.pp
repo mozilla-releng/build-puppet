@@ -7,7 +7,7 @@
 # env_os_version is created during the MDT install to have a variable that directly reflects the OS version
 
 class tweaks::disablejit {
-    case $env_os_version {
+    case $::env_os_version {
         2008: {
             registry_value { 'HKLM\SOFTWARE\Microsoft\.NETFramework\DbgManagedDebugger':
                 ensure => absent,
@@ -23,7 +23,7 @@ class tweaks::disablejit {
             }
         }
         default: {
-            fail("Not configured to disable Just-In-Time debugging for this OS version")
+            fail('Not configured to disable Just-In-Time debugging for this OS version')
         }
     }
 }

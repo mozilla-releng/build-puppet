@@ -20,8 +20,7 @@ class tweaks::tcp_challenge_ack_limit {
             }
         }
         default: {
-            notice("Don't know how to set tcp_challenge_ack_limit on $::operatingsystem")
+            notice("Don't know how to set tcp_challenge_ack_limit on ${::operatingsystem}")
         }
     }
 }
-

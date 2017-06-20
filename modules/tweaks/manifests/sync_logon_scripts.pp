@@ -7,8 +7,8 @@ class tweaks::sync_logon_scripts {
     # Run logon scripts synchronously
     # data 1 = enable  data 0 = disabled
     registry::value { 'RunLogonScriptSync':
-        key    => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System',
-        type   => dword,
-        data   => '1',
+        key  => 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System',
+        type => dword,
+        data => '1',
     }
 }

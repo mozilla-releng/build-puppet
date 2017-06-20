@@ -8,13 +8,13 @@ class tweaks::disable_desktop_interruption {
 
     $hkey_user_desktop = '"HKCU\Control Panel\Desktop"'
     $hkey_user_advance = '"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"'
-    $reg_add_desktop   = "reg add $hkey_user_desktop /v"
-    $reg_add_advance   = "reg add $hkey_user_advance /v"
-    $reg_options       = "/t REG_SZ /d 0 /f"
-    $script_dir        = "C:\\programdata\\puppetagain"
-    $script_file_dir   = "C:/programdata/puppetagain"
-    $schtask           = "C:\\Windows\\system32\\schtasks.exe"
-    $tn_flag           = "/TN disable_desktop_interrupt"
+    $reg_add_desktop   = "reg add ${hkey_user_desktop} /v"
+    $reg_add_advance   = "reg add ${hkey_user_advance} /v"
+    $reg_options       = '/t REG_SZ /d 0 /f'
+    $script_dir        = 'C:\programdata\puppetagain'
+    $script_file_dir   = 'C:/programdata/puppetagain'
+    $schtask           = 'C:\Windows\system32\schtasks.exe'
+    $tn_flag           = '/TN disable_desktop_interrupt'
     $builder_username  = $users::builder::username
 
     # The tray.reg file covers the disabling of a wide range of notifications
@@ -28,24 +28,24 @@ class tweaks::disable_desktop_interruption {
     # The disable_desktop_interrupt.bat will also apply the tray.reg file and will delete the the schedule task that runs it
 
     file {
-        "$script_file_dir/tray.reg" :
+        "${script_file_dir}/tray.reg" :
             source  => 'puppet:///modules/tweaks/tray.reg',
-            require => Class["dirs::programdata::puppetagain"];
+            require => Class['dirs::programdata::puppetagain'];
     }
     file {
-        "$script_file_dir/disable_desktop_interrupt.bat" :
+        "${script_file_dir}/disable_desktop_interrupt.bat" :
             content => template("${module_name}/disable_desktop_interrupt.bat.erb"),
-            require => Class["dirs::programdata::puppetagain"];
+            require => Class['dirs::programdata::puppetagain'];
     }
     file {
-        "$script_file_dir/disable_desktop_interrupt.xml" :
+        "${script_file_dir}/disable_desktop_interrupt.xml" :
             content => template("${module_name}/disable_desktop_interrupt.xml.erb"),
-            require => Class["dirs::programdata::puppetagain"];
+            require => Class['dirs::programdata::puppetagain'];
     }
     exec {
-        "disable_desktop_interrupt_schtask":
-            command     => "$schtask /Create /XML  $script_dir\\disable_desktop_interrupt.xml /TN disable_desktop_interrupt",
-            subscribe   => File["$script_file_dir/disable_desktop_interrupt.bat"],
+        'disable_desktop_interrupt_schtask':
+            command     => "${schtask} /Create /XML  ${script_dir}\\disable_desktop_interrupt.xml /TN disable_desktop_interrupt",
+            subscribe   => File["${script_file_dir}/disable_desktop_interrupt.bat"],
             refreshonly => true;
     }
 }
