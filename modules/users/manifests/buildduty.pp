@@ -14,22 +14,22 @@ class users::buildduty {
 
     $username = $::config::buildduty_username
     $group = $username
-    $home = "/home/$username"
+    $home = "/home/${username}"
 
     # account happens in the users stage, and is not included in the anchor
     class {
         'users::buildduty::account':
-            stage => users,
+            stage    => users,
             username => $username,
-            group => $group,
-            home => $home;
+            group    => $group,
+            home     => $home;
     }
 
     Anchor['users::buildduty::begin'] ->
     class {
         'users::buildduty::setup':
             username => $username,
-            group => $group,
-            home => $home;
+            group    => $group,
+            home     => $home;
     } -> Anchor['users::buildduty::end']
 }

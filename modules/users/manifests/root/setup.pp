@@ -15,31 +15,31 @@ class users::root::setup($home, $username, $group) {
     python::user_pip_conf {
         $username:
             homedir => $home,
-            group => $group;
+            group   => $group;
     } -> Anchor['users::root::setup::end']
 
     ##
     # set up SSH configuration
 
     Anchor['users::root::setup::begin'] ->
-    case $only_user_ssh {
+    case $::only_user_ssh {
         true: {
             ssh::userconfig {
                 $username:
-                    home => $home,
-                    group => $group,
-                    cleartext_password => secret('root_pw_cleartext'),
-                    authorized_keys => [],  # nobody is authorized
+                    home                          => $home,
+                    group                         => $group,
+                    cleartext_password            => secret('root_pw_cleartext'),
+                    authorized_keys               => [],  # nobody is authorized
                     authorized_keys_allows_extras => false,
             }
         }
         default: {
             ssh::userconfig {
                 $username:
-                    home => $home,
-                    group => $group,
-                    cleartext_password => secret('root_pw_cleartext'),
-                    authorized_keys => $::config::admin_users,
+                    home                          => $home,
+                    group                         => $group,
+                    cleartext_password            => secret('root_pw_cleartext'),
+                    authorized_keys               => $::config::admin_users,
                     authorized_keys_allows_extras => true,
             }
         }
@@ -50,10 +50,10 @@ class users::root::setup($home, $username, $group) {
     if ($::operatingsystem == Ubuntu) {
         # patch out /root/.bashrc to not reset $PS1; $PS1 is set in users::global
         file {
-            "$home/.bashrc":
-                owner => $username,
-                group => $group,
-                source => "puppet:///modules/users/ubuntu-root-bashrc";
+            "${home}/.bashrc":
+                owner  => $username,
+                group  => $group,
+                source => 'puppet:///modules/users/ubuntu-root-bashrc';
         }
     }
 }

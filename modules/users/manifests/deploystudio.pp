@@ -14,38 +14,38 @@ class users::deploystudio {
 
     $username = $::config::deploystudio_username
     if ! $username or $username == '' {
-        fail("Deploystudio username is not defined or empty")
+        fail('Deploystudio username is not defined or empty')
     }
 
     # uid must be specified >500 for the user to be visable in the fileshare gui
     # https://tickets.puppetlabs.com/browse/PUP-3833
     $uid = $config::deploystudio_uid
     if $uid < 500 {
-        fail("Deploystudio user UID must be set above 500")
+        fail('Deploystudio user UID must be set above 500')
     }
 
     #files are owned by staff group on macosx
     $group =  'staff'
 
     # calculate the proper homedir
-    $home =  "/Users/$username"
+    $home =  "/Users/${username}"
 
     # account happens in the users stage, and is not included in the anchor
     class {
         'users::deploystudio::account':
-            stage => users,
-            username => $username,
-            group => $group,
+            stage     => users,
+            username  => $username,
+            group     => $group,
             grouplist => [],
-            home => $home,
-            uid => $uid;
+            home      => $home,
+            uid       => $uid;
     }
 
     Anchor['users::deploystudio::begin'] ->
     class {
         'users::deploystudio::setup':
             username => $username,
-            group => $group,
-            home => $home;
+            group    => $group,
+            home     => $home;
     } -> Anchor['users::deploystudio::end']
 }

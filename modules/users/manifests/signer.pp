@@ -24,25 +24,25 @@ class users::signer {
 
     # calculate the proper homedir
     $home = $::operatingsystem ? {
-        Darwin => "/Users/$username",
-        default => "/home/$username"
+        Darwin  => "/Users/${username}",
+        default => "/home/${username}"
     }
 
     # account happens in the users stage, and is not included in the anchor
     class {
         'users::signer::account':
-            stage => users,
-            username => $username,
-            group => $group,
+            stage     => users,
+            username  => $username,
+            group     => $group,
             grouplist => [],
-            home => $home;
+            home      => $home;
     }
 
     Anchor['users::signer::begin'] ->
     class {
         'users::signer::setup':
             username => $username,
-            group => $group,
-            home => $home;
+            group    => $group,
+            home     => $home;
     } -> Anchor['users::signer::end']
 }

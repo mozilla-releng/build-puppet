@@ -8,40 +8,40 @@ class users::syncbld {
     include config
 
     $username = 'syncbld'
-    $group =    'syncbld'
-    $home = "/home/$username"
+    $group    = 'syncbld'
+    $home     = "/home/${username}"
 
     case $::operatingsystem {
         CentOS, Ubuntu: {
             user {
                 $username:
-                password => secret("buildduty_pw_hash"),
-                shell => "/bin/bash",
+                password   => secret('buildduty_pw_hash'),
+                shell      => '/bin/bash',
                 managehome => true,
-                comment => "syncbld";
+                comment    => 'syncbld';
             }
         }
         default: {
-            fail("users::syncbld: $::operatingsystem not suported")
+            fail("users::syncbld: ${::operatingsystem} not suported")
         }
     }
 
     file {
-        "$home/.ssh":
-            mode => 0700,
-            ensure => directory,
-            owner => $username,
-            group => $group,
+        "${home}/.ssh":
+            ensure  => directory,
+            mode    => '0700',
+            owner   => $username,
+            group   => $group,
             require => [
-                User["$username"],
+                User['$username'],
             ];
-        "$home/.ssh/authorized_keys":
-            mode => 0600,
-            owner => $username,
-            group => $group,
-            content => template("cruncher/syncbld_authorized_keys.erb"),
+        "${home}/.ssh/authorized_keys":
+            mode    => '0600',
+            owner   => $username,
+            group   => $group,
+            content => template('cruncher/syncbld_authorized_keys.erb'),
             require => [
-                File["$home/.ssh"],
+                File["${home}/.ssh"],
             ];
     }
 }

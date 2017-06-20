@@ -26,24 +26,24 @@ class users::root {
     $home = $::operatingsystem ? {
         Darwin => '/var/root',
         # $rlocalpath is set by the winrootlp.rb in the shared module
-        Windows => $rlocalpath,
+        Windows => $::rlocalpath,
         default => '/root'
     }
 
     # account happens in the users stage, and is not included in the anchor
     class {
         'users::root::account':
-            stage => users,
+            stage    => users,
             username => $username,
-            group => $group,
-            home => $home;
+            group    => $group,
+            home     => $home;
     }
 
     Anchor['users::root::begin'] ->
     class {
         'users::root::setup':
             username => $username,
-            group => $group,
-            home => $home;
+            group    => $group,
+            home     => $home;
     } -> Anchor['users::root::end']
 }

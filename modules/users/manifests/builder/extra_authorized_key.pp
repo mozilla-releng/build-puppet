@@ -8,9 +8,9 @@ define users::builder::extra_authorized_key($from='', $command='') {
     ssh::extra_authorized_key {
         "builder-${key}":
             username => $users::builder::username,
-            key => $key,
-            home => $users::builder::home,
-            from => $from,
-            command => $command;
+            key      => $key,
+            home     => $users::builder::home,
+            from     => $from,
+            command  => $command;
     }
 }

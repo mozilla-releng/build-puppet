@@ -8,18 +8,18 @@ class users::builder::autologin {
         Darwin: {
             file {
                 # this file contains a lightly obscured copy of the password
-                "/etc/kcpassword":
-                    content => base64decode(secret("builder_pw_kcpassword_base64")),
-                    owner => root,
-                    group => wheel,
-                    mode => 600,
+                '/etc/kcpassword':
+                    content   => base64decode(secret('builder_pw_kcpassword_base64')),
+                    owner     => root,
+                    group     => wheel,
+                    mode      => '0600',
                     show_diff => false;
             }
             osxutils::defaults {
-                autoLoginUser:
-                    domain => "/Library/Preferences/com.apple.loginwindow",
-                    key => 'autoLoginUser',
-                    value => $::users::builder::username;
+                'autoLoginUser':
+                    domain => '/Library/Preferences/com.apple.loginwindow',
+                    key    => 'autoLoginUser',
+                    value  => $::users::builder::username;
             }
         }
         Ubuntu: {
@@ -33,30 +33,30 @@ class users::builder::autologin {
 
             # In Windows autologin is setup through registry settings
             registry::value { 'AutoAdminLogon':
-                key    => "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
-                data   => '1',
+                key  => 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon',
+                data => '1',
             }
             registry::value { 'DefaultDomainName':
-                key    => "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
-                data   => '.',
+                key  => 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon',
+                data => '.',
             }
             registry::value { 'DefaultPassword':
-                key    => "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
-                data   => secret("builder_pw_cleartext"),
+                key  => 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon',
+                data => secret('builder_pw_cleartext'),
             }
             registry::value { 'DefaultUserName':
-                key    => "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
-                data   => "$config::builder_username",
+                key  => 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon',
+                data => $config::builder_username,
             }
             registry::value { 'AutoLogonCount':
-                key    => "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinLogon",
-                type   => dword,
-                data   => '100000',
+                key  => 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon',
+                type => dword,
+                data => '100000',
             }
             # Enables Clean Desktop Exp. feature. See http://technet.microsoft.com/en-us/library/jj205467.aspx.
-            case $env_os_version {
+            case $::env_os_version {
                 2008: {
-                    shared::execonce { "desktop_exp":
+                    shared::execonce { 'desktop_exp':
                         command  => 'Import-Module Servermanager; Add-WindowsFeature Desktop-Experience ',
                         provider => powershell,
                     }
@@ -72,17 +72,17 @@ class users::builder::autologin {
             # XML file needs to exported from the task scheduler gui. Also note when using the XML import be aware of machine specific values such as name will need to be replaced with a variable.
             # Hence the need for the template.
             file {'C:/programdata/puppetagain/Update_Logon_Count.xml':
-                content => template("users/Update_Logon_Count.xml.erb"),
+                content => template('users/Update_Logon_Count.xml.erb'),
             }
             # Importing the XML file using schtasks
             # Refrence http://technet.microsoft.com/en-us/library/cc725744.aspx and http://technet.microsoft.com/en-us/library/cc722156.aspx
-            shared::execonce { "Update_Logon_Count":
-                command =>'"C:\Windows\system32\schtasks.exe" /Create  /XML "C:/programdata/puppetagain/Update_Logon_Count.xml" /tn Update_Logon_Count.xml',
+            shared::execonce { 'Update_Logon_Count':
+                command => '"C:\Windows\system32\schtasks.exe" /Create  /XML "C:/programdata/puppetagain/Update_Logon_Count.xml" /tn Update_Logon_Count.xml',
                 require => File['C:/programdata/puppetagain/Update_Logon_Count.xml'];
             }
         }
         default: {
-            fail("Don't know how to set up autologin on $::operatingsystem")
+            fail("Don't know how to set up autologin on ${::operatingsystem}")
         }
     }
 
@@ -92,7 +92,7 @@ class users::builder::autologin {
     class {
         'disableservices::user':
             username => $users::builder::username,
-            group => $users::builder::group,
-            home => $users::builder::home;
+            group    => $users::builder::group,
+            home     => $users::builder::home;
     }
 }

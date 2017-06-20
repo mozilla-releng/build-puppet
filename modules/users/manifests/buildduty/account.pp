@@ -16,20 +16,20 @@ class users::buildduty::account($username, $group, $home) {
 
     case $::operatingsystem {
         CentOS, Ubuntu: {
-            if (secret("buildduty_pw_hash") == '') {
+            if (secret('buildduty_pw_hash') == '') {
                 fail('No buildduty password hash set')
             }
 
             user {
                 $username:
-                    password => secret("buildduty_pw_hash"),
-                    shell => "/bin/bash",
+                    password   => secret('buildduty_pw_hash'),
+                    shell      => '/bin/bash',
                     managehome => true,
-                    comment => "Buildduty";
+                    comment    => 'Buildduty';
             }
         }
         default: {
-            fail("users::buildduty::account: $::operatingsystem not suported")
+            fail("users::buildduty::account: ${::operatingsystem} not suported")
         }
     }
 }

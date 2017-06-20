@@ -9,81 +9,81 @@ class users::root::account($username, $group, $home) {
 
     case $::operatingsystem {
         CentOS, Ubuntu: {
-            if (secret("root_pw_hash") == '') {
+            if (secret('root_pw_hash') == '') {
                 fail('No root password hash set')
             }
 
             user {
-                "root":
-                    password => secret("root_pw_hash");
+                'root':
+                    password => secret('root_pw_hash');
             }
         }
         Windows: {
             # Windows Puppet only verifies that root user is present and sets password
             user {
-                root:
-                    ensure => present,
+                'root':
+                    ensure     => present,
                     forcelocal => true,
-                    password => secret("root_pw_cleartext");
+                    password   => secret('root_pw_cleartext');
             }
         }
         Darwin: {
             # use our custom type and provider, based on http://projects.puppetlabs.com/issues/12833
             case $::macosx_productversion_major {
                 '10.6': {
-                    if (secret("root_pw_paddedsha1") == '') {
+                    if (secret('root_pw_paddedsha1') == '') {
                         fail('No root password paddedsha1 set')
                     }
 
                     darwinuser {
                         $username:
-                            home => $home,
-                            password => secret("root_pw_paddedsha1");
+                            home     => $home,
+                            password => secret('root_pw_paddedsha1');
                     }
                     $user_req = Darwinuser[$username]
                 }
                 '10.7': {
-                    if (secret("root_pw_saltedsha512") == '') {
+                    if (secret('root_pw_saltedsha512') == '') {
                         fail('No root password saltedsha512 set')
                     }
 
                     darwinuser {
                         $username:
-                            home => $home,
-                            password => secret("root_pw_saltedsha512");
+                            home     => $home,
+                            password => secret('root_pw_saltedsha512');
                     }
                     $user_req = Darwinuser[$username]
                 }
                 '10.8': {
-                    if (secret("root_pw_pbkdf2") == '' or secret("root_pw_pbkdf2_salt") == '') {
+                    if (secret('root_pw_pbkdf2') == '' or secret('root_pw_pbkdf2_salt') == '') {
                         fail('No root password pbkdf2 set')
                     }
 
                     darwinuser {
                         $username:
-                            home => $home,
-                            password => secret("root_pw_pbkdf2"),
-                            salt => secret("root_pw_pbkdf2_salt"),
-                            iterations => secret("root_pw_pbkdf2_iterations");
+                            home       => $home,
+                            password   => secret('root_pw_pbkdf2'),
+                            salt       => secret('root_pw_pbkdf2_salt'),
+                            iterations => secret('root_pw_pbkdf2_iterations');
                     }
                     $user_req = Darwinuser[$username]
                 }
                 '10.9','10.10': {
-                    if (secret("root_pw_pbkdf2") == '' or secret("root_pw_pbkdf2_salt") == '') {
+                    if (secret('root_pw_pbkdf2') == '' or secret('root_pw_pbkdf2_salt') == '') {
                         fail('No root password pbkdf2 set')
                     }
 
                     user {
                         $username:
-                            home => $home,
-                            password => secret("root_pw_pbkdf2"),
-                            salt => secret("root_pw_pbkdf2_salt"),
-                            iterations => secret("root_pw_pbkdf2_iterations");
+                            home       => $home,
+                            password   => secret('root_pw_pbkdf2'),
+                            salt       => secret('root_pw_pbkdf2_salt'),
+                            iterations => secret('root_pw_pbkdf2_iterations');
                     }
                     $user_req = User[$username]
                 }
                 default: {
-                    fail("No support for creating users on OS X $macosx_productversion_major")
+                    fail("No support for creating users on OS X ${::macosx_productversion_major}")
                 }
             }
             file {
@@ -91,12 +91,12 @@ class users::root::account($username, $group, $home) {
                 # creation with the automatic dependency on $home for files in
                 # that directory
                 $home:
-                    ensure => directory,
+                    ensure  => directory,
                     require => $user_req;
             }
         }
         default: {
-            fail("cannot manage root account on $::operatingsystem")
+            fail("cannot manage root account on ${::operatingsystem}")
         }
     }
 }

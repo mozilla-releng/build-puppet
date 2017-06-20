@@ -8,9 +8,9 @@ define users::buildduty::extra_authorized_key($from='', $command='') {
     ssh::extra_authorized_key {
         "buildduty-${key}":
             username => $users::buildduty::username,
-            key => $key,
-            home => $users::buildduty::home,
-            from => $from,
-            command => $command;
+            key      => $key,
+            home     => $users::buildduty::home,
+            from     => $from,
+            command  => $command;
     }
 }

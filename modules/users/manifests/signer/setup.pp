@@ -14,7 +14,7 @@ class users::signer::setup($home, $username, $group) {
     python::user_pip_conf {
         $username:
             homedir => $home,
-            group => $group;
+            group   => $group;
     } -> Anchor['users::signer::setup::end']
 
     ##
@@ -23,9 +23,9 @@ class users::signer::setup($home, $username, $group) {
     Anchor['users::signer::setup::begin'] ->
     ssh::userconfig {
         $username:
-            home => $home,
-            group => $group,
-            authorized_keys => [], # nobody is authorized
+            home                          => $home,
+            group                         => $group,
+            authorized_keys               => [], # nobody is authorized
             authorized_keys_allows_extras => false;
     } -> Anchor['users::signer::setup::end']
 }
