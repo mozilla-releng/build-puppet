@@ -13,27 +13,27 @@ class users::homeclean {
     # undesirable access to data.
 
     $homebase = $::operatingsystem ? {
-        Darwin => "/Users",
-        default => "/home"
+        Darwin => '/Users',
+        default => '/home'
     }
 
     file {
         "${homebase}/archive":
             ensure => directory,
-            owner => root,
-            mode => '0700';
+            owner  => root,
+            mode   => '0700';
 
-        "/usr/local/bin/homeclean.sh":
-            mode => '0755',
+        '/usr/local/bin/homeclean.sh':
+            mode    => '0755',
             content => template("${module_name}/homeclean.sh.erb");
     }
 
     cron {
-        "homeclean":
-            user => root,
-            command => "/usr/local/bin/homeclean.sh 2>&1 | logger -t homeclean.sh",
-            hour => 3,
-            minute => 0,
+        'homeclean':
+            user        => root,
+            command     => '/usr/local/bin/homeclean.sh 2>&1 | logger -t homeclean.sh',
+            hour        => 3,
+            minute      => 0,
             environment => "MAILTO=${::config::puppet_notif_email}";
     }
 }

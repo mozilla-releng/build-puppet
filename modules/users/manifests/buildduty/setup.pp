@@ -14,7 +14,7 @@ class users::buildduty::setup($home, $username, $group) {
     python::user_pip_conf {
         $username:
             homedir => $home,
-            group => $group;
+            group   => $group;
     } -> Anchor['users::buildduty::setup::end']
 
     ##
@@ -23,35 +23,35 @@ class users::buildduty::setup($home, $username, $group) {
     Anchor['users::buildduty::setup::begin'] ->
     ssh::userconfig {
         $username:
-            home => $home,
-            group => $group,
-            authorized_keys => $::config::admin_users,
+            home                          => $home,
+            group                         => $group,
+            authorized_keys               => $::config::admin_users,
             authorized_keys_allows_extras => true,
-            config => template("users/buildduty-ssh-config.erb");
+            config                        => template('users/buildduty-ssh-config.erb');
     } -> Anchor['users::buildduty::setup::end']
 
     ##
     # Manage some configuration files
     file {
-        "$home/.gitconfig":
-            mode => 0644,
-            owner => $username,
-            group => $group,
-            source => "puppet:///modules/users/gitconfig";
-        "$home/.bashrc":
-            mode => 0644,
-            owner => $username,
-            group => $group,
+        "${home}/.gitconfig":
+            mode   => '0644',
+            owner  => $username,
+            group  => $group,
+            source => 'puppet:///modules/users/gitconfig';
+        "${home}/.bashrc":
+            mode    => '0644',
+            owner   => $username,
+            group   => $group,
             content => template("${module_name}/buildduty-bashrc.erb");
-        "$home/.vimrc":
-            mode => 0644,
-            owner => $username,
-            group => $group,
-            source => "puppet:///modules/users/vimrc";
-        "$home/.screenrc":
-            mode => 0644,
-            owner => $username,
-            group => $group,
-            source => "puppet:///modules/users/screenrc";
+        "${home}/.vimrc":
+            mode   => '0644',
+            owner  => $username,
+            group  => $group,
+            source => 'puppet:///modules/users/vimrc';
+        "${home}/.screenrc":
+            mode   => '0644',
+            owner  => $username,
+            group  => $group,
+            source => 'puppet:///modules/users/screenrc';
     }
 }

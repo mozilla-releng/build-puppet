@@ -5,7 +5,7 @@
 class tweaks::shutdown_tracker {
     #Disables Shutdown Tracker
     registry::value { 'ShutdownReasonOn':
-        key    => 'HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Reliability',
-        data   => '0',
+        key  => 'HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Reliability',
+        data => '0',
     }
 }

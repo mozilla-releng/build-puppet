@@ -8,19 +8,19 @@
 class tweaks::ntfs_options {
     #Set ntfs options
     registry::value { 'DumpType':
-        key    => 'HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps',
-        data   => '1',
+        key  => 'HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps',
+        data => '1',
     }
     registry::value { 'NtfsDisable8dot3NameCreation':
-        key    => 'HKLM\SYSTEM\CurrentControlSet\Control\FileSystem',
-        data   => '1',
+        key  => 'HKLM\SYSTEM\CurrentControlSet\Control\FileSystem',
+        data => '1',
     }
     registry::value { 'NtfsDisableLastAccessUpdate':
-        key    => 'HKLM\SYSTEM\CurrentControlSet\Control\FileSystem',
-        data   => '1',
+        key  => 'HKLM\SYSTEM\CurrentControlSet\Control\FileSystem',
+        data => '1',
     }
     registry::value { 'NtfsMemoryUsage':
-        key    => 'HKLM\SYSTEM\CurrentControlSet\Control\FileSystem',
-        data   => '2',
+        key  => 'HKLM\SYSTEM\CurrentControlSet\Control\FileSystem',
+        data => '2',
     }
 }

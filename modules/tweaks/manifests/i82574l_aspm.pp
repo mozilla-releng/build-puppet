@@ -14,11 +14,11 @@ class tweaks::i82574l_aspm {
             exec {
                 'setpci-aspm-off':
                     command => '/sbin/setpci -d 8086:10d3 CAP_EXP+10.b=40',
-                    unless => '/usr/bin/test -z "`/sbin/setpci -d 8086:10d3 CAP_EXP+10.b | grep -v ^40$`"';
+                    unless  => '/usr/bin/test -z "`/sbin/setpci -d 8086:10d3 CAP_EXP+10.b | grep -v ^40$`"';
             }
         }
         default: {
-            notice("Don't know how to disable ASPM on $::kernel")
+            notice("Don't know how to disable ASPM on ${::kernel}")
         }
     }
 }

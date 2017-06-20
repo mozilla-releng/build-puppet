@@ -2,14 +2,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-define users::person($shell="/bin/bash") {
+define users::person($shell='/bin/bash') {
     $username = $title
     $home = $::operatingsystem ? {
-        Darwin => "/Users/$username",
-        default => "/home/$username"
+        Darwin  => "/Users/${username}",
+        default => "/home/${username}"
     }
     $group = $::operatingsystem ? {
-        Darwin => 'staff',
+        Darwin  => 'staff',
         default => $username
     }
 
@@ -18,9 +18,9 @@ define users::person($shell="/bin/bash") {
             user {
                 $username:
                     password => '*', # invalid password, but not locked
-                    shell => $shell,
-                    home => $home,
-                    comment => "Created by Puppet";
+                    shell    => $shell,
+                    home     => $home,
+                    comment  => 'Created by Puppet';
             }
         }
         Darwin: {
@@ -28,18 +28,18 @@ define users::person($shell="/bin/bash") {
                 10.6, 10.7, 10.8: {
                     darwinuser {
                         $username:
-                            gid => $group,
-                            shell => $shell,
-                            home => $home,
+                            gid     => $group,
+                            shell   => $shell,
+                            home    => $home,
                             comment => $username;
                     }
                 }
                 default: {
                     user {
                         $username:
-                            gid => $group,
-                            shell => $shell,
-                            home => $home,
+                            gid     => $group,
+                            shell   => $shell,
+                            home    => $home,
                             comment => $username;
                     }
                 }
@@ -47,12 +47,26 @@ define users::person($shell="/bin/bash") {
         }
     }
 
+    # You should not intermingle conditionals with resource declarations. When using conditionals for data assignment,
+    # you should separate conditional code from the resource declarations
+    $macosmajorver = $::macosx_productversion_major ? {
+        10.6    => [ Darwinuser[$username] ],
+        10.7    => [ Darwinuser[$username] ],
+        10.8    => [ Darwinuser[$username] ],
+        default => [ User[$username] ],
+    }
+
+    $user_resource_ref = $::operatingsystem ? {
+        Darwin  => $macosmajorver,
+        default => []
+    }
+
     # setup homedir
     file {
         $home:
-            source => [
-                "puppet:///modules/users/people/$username",
-                "puppet:///modules/users/people/skel"
+            source  => [
+                "puppet:///modules/users/people/${username}",
+                'puppet:///modules/users/people/skel'
             ],
             # note: purge is not enabled, and recurse => remote only
             # recurses on the master, so this doesn't make puppet look
@@ -60,26 +74,18 @@ define users::person($shell="/bin/bash") {
             recurse => remote,
             # remove things ssh won't like, but otherwise take the perms from
             # the files as they are.
-            mode => 'g-w,o-rwx',
-            owner => $username,
-            group => $group,
-            require => $::operatingsystem ? {
-                Darwin => $::macosx_productversion_major ? {
-                    10.6 => [ Darwinuser[$username] ],
-                    10.7 => [ Darwinuser[$username] ],
-                    10.8 => [ Darwinuser[$username] ],
-                    default => [ User[$username] ],
-                },
-                default => []
-            };
+            mode    => 'g-w,o-rwx',
+            owner   => $username,
+            group   => $group,
+            require => $user_resource_ref,
     }
 
     # set up SSH
     ssh::userconfig {
         $username:
-            home => $home,
-            group => $group,
+            home               => $home,
+            group              => $group,
             manage_known_hosts => false,
-            authorized_keys => [ $username ];
+            authorized_keys    => [ $username ];
     }
 }

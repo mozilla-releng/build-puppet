@@ -13,9 +13,9 @@ class users::deploystudio::setup($home, $username, $group) {
     Anchor['users::deploystudio::setup::begin'] ->
     ssh::userconfig {
         $username:
-            home => $home,
-            group => $group,
-            authorized_keys => [], # deploystudio uses password only
+            home                          => $home,
+            group                         => $group,
+            authorized_keys               => [], # deploystudio uses password only
             authorized_keys_allows_extras => false;
     } -> Anchor['users::deploystudio::setup::end']
 

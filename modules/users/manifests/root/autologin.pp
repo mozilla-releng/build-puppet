@@ -8,25 +8,25 @@ class users::root::autologin {
         Darwin: {
             file {
                 # this file contains a lightly obscured copy of the password
-                "/etc/kcpassword":
-                    content => base64decode(secret("root_pw_kcpassword_base64")),
-                    owner => root,
-                    group => wheel,
-                    mode => 600,
+                '/etc/kcpassword':
+                    content   => base64decode(secret('root_pw_kcpassword_base64')),
+                    owner     => root,
+                    group     => wheel,
+                    mode      => '0600',
                     show_diff => false;
             }
             osxutils::defaults {
-                autoLoginUser:
-                    domain => "/Library/Preferences/com.apple.loginwindow",
-                    key => 'autoLoginUser',
-                    value => $::users::root::username;
+                'autoLoginUser':
+                    domain => '/Library/Preferences/com.apple.loginwindow',
+                    key    => 'autoLoginUser',
+                    value  => $::users::root::username;
             }
         }
         Ubuntu: {
             # Managed by xvfb/Xsession
         }
         default: {
-            fail("Don't know how to set up autologin on $::operatingsystem")
+            fail("Don't know how to set up autologin on ${::operatingsystem}")
         }
     }
 
@@ -36,7 +36,7 @@ class users::root::autologin {
     class {
         'disableservices::user':
             username => $users::root::username,
-            group => $users::root::group,
-            home => $users::root::home;
+            group    => $users::root::group,
+            home     => $users::root::home;
     }
 }

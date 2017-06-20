@@ -7,13 +7,13 @@ class tweaks::dev_ptmx {
     # will ensure it's correct.  This seems applicable for all Linux versions,
     # although it has not been tested on Ubuntu.
 
-    case $kernel {
+    case $::kernel {
         Linux: {
             file {
-                "/dev/ptmx":
-                    mode => 666,
-                    owner => "root",
-                    group => "tty";
+                '/dev/ptmx':
+                    mode  => '0666',
+                    owner => 'root',
+                    group => 'tty';
             }
         }
     }

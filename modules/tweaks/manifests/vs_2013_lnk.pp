@@ -15,12 +15,12 @@ class tweaks::vs_2013_lnk {
     file {
         'C:/Program Files (x86)/Microsoft Visual Studio 10.0/VC/bin/cvtres.exe' :
             ensure => file,
-            source => "puppet:///repos/private/EXEs/cvtres.exe";
+            source => 'puppet:///repos/private/EXEs/cvtres.exe';
     }
     file {
         'C:/Program Files (x86)/Microsoft Visual Studio 10.0/VC/bin/amd64/cvtres.exe' :
             ensure => file,
-            source => "puppet:///repos/private/EXEs/cvtres.exe";
+            source => 'puppet:///repos/private/EXEs/cvtres.exe';
     }
 
 }

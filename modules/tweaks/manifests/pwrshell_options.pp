@@ -4,7 +4,7 @@
 
 class tweaks::pwrshell_options {
     #Set powershell option to allow all poershell scripts to be ran. Refer to http://technet.microsoft.com/en-us/library/ee176961.aspx.
-    shared::execonce { "pwrshellopt":
+    shared::execonce { 'pwrshellopt':
         command => '"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -noprofile Set-ExecutionPolicy Unrestricted',
     }
 }

@@ -14,7 +14,7 @@ class users::builder::setup($home, $username, $group) {
     python::user_pip_conf {
         $username:
             homedir => $home,
-            group => $group;
+            group   => $group;
     } -> Anchor['users::builder::setup::end']
 
     ##
@@ -23,22 +23,22 @@ class users::builder::setup($home, $username, $group) {
     Anchor['users::builder::setup::begin'] ->
     ssh::userconfig {
         $username:
-            home => $home,
-            group => $group,
-            authorized_keys => $::config::admin_users,
+            home                          => $home,
+            group                         => $group,
+            authorized_keys               => $::config::admin_users,
             authorized_keys_allows_extras => true,
-            cleartext_password => secret('builder_pw_cleartext'),
-            config => template("users/builder-ssh-config.erb");
+            cleartext_password            => secret('builder_pw_cleartext'),
+            config                        => template('users/builder-ssh-config.erb');
     } -> Anchor['users::builder::setup::end']
 
     ##
     # Manage some configuration files
     case $::operatingsystem {
         Windows: {
-            case $env_os_version {
+            case $::env_os_version {
                 2008: {
                     mercurial::hgrc {
-                        "$home/.hgrc":
+                        "${home}/.hgrc":
                             owner => $username,
                             group => $group;
                     }
@@ -50,7 +50,7 @@ class users::builder::setup($home, $username, $group) {
         }
         default: {
             mercurial::hgrc {
-                "$home/.hgrc":
+                "${home}/.hgrc":
                     owner => $username,
                     group => $group;
             }
@@ -58,25 +58,25 @@ class users::builder::setup($home, $username, $group) {
     }
 
     file {
-        "$home/.gitconfig":
-            mode => filemode(0644),
-            owner => $username,
-            group => $group,
-            source => "puppet:///modules/users/gitconfig";
-        "$home/.bashrc":
-            mode => filemode(0644),
-            owner => $username,
-            group => $group,
+        "${home}/.gitconfig":
+            mode   => '0644',
+            owner  => $username,
+            group  => $group,
+            source => 'puppet:///modules/users/gitconfig';
+        "${home}/.bashrc":
+            mode    => '0644',
+            owner   => $username,
+            group   => $group,
             content => template("${module_name}/builder-bashrc.erb");
-        "$home/.vimrc":
-            mode => filemode(0644),
-            owner => $username,
-            group => $group,
-            source => "puppet:///modules/users/vimrc";
-        "$home/.screenrc":
-            mode => filemode(0644),
-            owner => $username,
-            group => $group,
-            source => "puppet:///modules/users/screenrc";
+        "${home}/.vimrc":
+            mode   => '0644',
+            owner  => $username,
+            group  => $group,
+            source => 'puppet:///modules/users/vimrc';
+        "${home}/.screenrc":
+            mode   => '0644',
+            owner  => $username,
+            group  => $group,
+            source => 'puppet:///modules/users/screenrc';
     }
 }

@@ -6,18 +6,18 @@ class tweaks::resolvconf {
     case $::operatingsystem {
         Ubuntu: {
             file {
-                ["/etc/resolvconf/resolv.conf.d/tail", "/etc/resolvconf/resolv.conf.d/original"]:
+                ['/etc/resolvconf/resolv.conf.d/tail', '/etc/resolvconf/resolv.conf.d/original']:
                     ensure => absent,
-                    notify => Exec["resolvconf-update"];
+                    notify => Exec['resolvconf-update'];
             }
             exec {
-                "resolvconf-update":
-                    command     => "/sbin/resolvconf -u",
+                'resolvconf-update':
+                    command     => '/sbin/resolvconf -u',
                     refreshonly => true;
             }
         }
         default: {
-            notice("Don't know how to tweak resolvconf on $::operatingsystem.")
+            notice("Don't know how to tweak resolvconf on ${::operatingsystem}.")
         }
     }
 }

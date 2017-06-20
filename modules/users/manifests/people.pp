@@ -19,7 +19,7 @@ class users::people {
 
     # and give the admins sudo access
     sudoers::customfile {
-        "admin_users":
+        'admin_users':
             content => template("${module_name}/admin_users.erb");
     }
 }

@@ -94,7 +94,7 @@ define scriptworker::instance(
     }
 
     # Activate Chain Of Trust
-    if $sign_chain_of_trust or $verify_chain_of_trust or $verify_cot_signature {
+    if $sign_chain_of_trust or $verify_cot_signature {
       scriptworker::chain_of_trust { $instance_name:
         basedir          => $basedir,
 

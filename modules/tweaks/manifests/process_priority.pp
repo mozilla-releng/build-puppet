@@ -5,8 +5,8 @@
 class tweaks::process_priority {
     # Set the priority for foreground process.
     registry::value { 'Win32PrioritySeparation':
-        key    => 'HKLM\SOFTWARE\ControlSet001\Control\PriorityControl',
-        type   => dword,
-        data   => '26',
+        key  => 'HKLM\SOFTWARE\ControlSet001\Control\PriorityControl',
+        type => dword,
+        data => '26',
     }
 }
