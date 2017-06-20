@@ -73,8 +73,8 @@ class signing_scriptworker {
             username                 => $users::signer::username,
             group                    => $users::signer::group,
 
-            taskcluster_client_id    => $signing_scriptworker::settings::taskcluster_client_id,
-            taskcluster_access_token => $signing_scriptworker::settings::taskcluster_access_token,
+            taskcluster_client_id    => $env_config['taskcluster_client_id'],
+            taskcluster_access_token => $env_config['taskcluster_access_token'],
             worker_group             => $signing_scriptworker::settings::worker_group,
             worker_type              => $env_config['worker_type'],
             task_max_timeout         => $signing_scriptworker::settings::task_max_timeout,
