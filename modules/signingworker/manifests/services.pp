@@ -18,6 +18,7 @@ class signingworker::services {
             refreshonly => true,
             subscribe   => [Python::Virtualenv["${signingworker::settings::root}"],
                             File["${signingworker::settings::root}/config.json"],
+                            File["${signingworker::settings::root}/id_rsa.pub"],
                             File["${signingworker::settings::root}/passwords.json"]];
     }
 }
