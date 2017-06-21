@@ -7,7 +7,7 @@ class fw::roles::puppetmaster_sync_from_all_puppetmasters {
 
     fw::rules { 'allow_puppetmaster_sync':
         sources => [ $::fw::networks::non_distingushed_puppetmasters,
-                     $::fw::networks::distingushed_puppetmaster ],
+                    $::fw::networks::distingushed_puppetmaster ],
         app     => 'ssh'
     }
 }
