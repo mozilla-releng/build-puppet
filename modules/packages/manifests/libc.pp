@@ -10,14 +10,14 @@ class packages::libc {
                     realize(Packages::Yumrepo['glibc'])
                     package {
                         'glibc':
-                            ensure => "2.12-1.166.el6_7.7";
+                            ensure => '2.12-1.166.el6_7.7';
                     }
                 }
                 6.2: {
                     # still vulnerable - Bug 1126428
                 }
                 default: {
-                    fail("unsupported CentOS version $::operatingsystemrelease")
+                    fail("Unsupported CentOS version ${::operatingsystemrelease}")
                 }
             }
         }
@@ -31,21 +31,21 @@ class packages::libc {
                 12.04: {
                     realize(Packages::Aptrepo['eglibc'])
                     package {
-                        "libc6":
+                        'libc6':
                             ensure => '2.15-0ubuntu10.13';
                     }
                 }
                 14.04: {
                     realize(Packages::Aptrepo['eglibc'])
                     package {
-                        "libc6":
+                        'libc6':
                             ensure => '2.19-0ubuntu6.7';
                     }
                 }
                 default: {
                     # default version is fine
                     package {
-                        "libc6":
+                        'libc6':
                             ensure => present;
                     }
                 }
@@ -53,7 +53,7 @@ class packages::libc {
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

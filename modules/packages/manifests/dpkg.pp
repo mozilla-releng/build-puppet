@@ -7,18 +7,18 @@ class packages::dpkg {
         CentOS: {
             realize(Packages::Yumrepo['debian'])
             package {
-                ["dpkg", "dpkg-devel"]:
+                ['dpkg', 'dpkg-devel']:
                     ensure => latest;
             }
         }
         Ubuntu: {
             package {
-                ["dpkg", "dpkg-dev"]:
+                ['dpkg', 'dpkg-dev']:
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

@@ -17,23 +17,23 @@ class packages::mozilla::screenresolution {
             case $::macosx_productversion_major {
                 '10.6','10.7': {
                     packages::pkgdmg {
-                        screenresolution:
-                            version => "1.5";
+                        'screenresolution':
+                            version => '1.5';
                     }
                 }
                 '10.8','10.9','10.10': {
                     packages::pkgdmg {
-                        screenresolution:
-                            version => "1.6";
+                        'screenresolution':
+                            version => '1.6';
                     }
                 }
                 default: {
-                    fail("no build of screenresolution known to work on this OS X version")
+                    fail('No build of screenresolution known to work on this OS X version')
                 }
             }
         }
         default : {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     } -> Anchor['packages::mozilla::screenresolution::end']
 }

@@ -8,32 +8,32 @@ class nrpe::service {
         Ubuntu: {
             include packages::nrpe
             service {
-                "nagios-nrpe-server":
-                    enable => "true",
-                    ensure => "running",
+                'nagios-nrpe-server':
+                    ensure  => running,
+                    enable  => true,
                     require => Class['packages::nrpe'];
             }
         }
         CentOS: {
             include packages::nrpe
             service {
-                "nrpe":
-                    enable => "true",
-                    ensure => "running",
+                'nrpe':
+                    ensure  => running,
+                    enable  => true,
                     require => Class['packages::nrpe'];
             }
         }
         Darwin: {
             include packages::nrpe
-            $svc_plist = "/Library/LaunchDaemons/org.nagios.nrpe.plist"
+            $svc_plist = '/Library/LaunchDaemons/org.nagios.nrpe.plist'
             file {
                 $svc_plist:
                     content => template("${module_name}/nrpe.plist.erb");
             }
             service {
-                "org.nagios.nrpe":
-                    enable => "true",
-                    ensure => "running",
+                'org.nagios.nrpe':
+                    ensure  => running,
+                    enable  => true,
                     require => [
                         Class['packages::nrpe'],
                         File[$svc_plist],
@@ -42,15 +42,15 @@ class nrpe::service {
         }
         Windows: {
             include packages::nsclient_plus_plus
-            service {"NSClientpp":
+            service {'NSClientpp':
                 ensure    => running,
                 enable    => true,
-                require   => Class[ "packages::nsclient_plus_plus"],
+                require   => Class[ 'packages::nsclient_plus_plus'],
                 subscribe => Concat['c:\program files\nsclient++\nsc.ini'],
             }
         }
         default: {
-            fail("Don't know how to enable nrpe on $::operatingsystem")
+            fail("Don't know how to enable nrpe on ${::operatingsystem}")
         }
     }
 }

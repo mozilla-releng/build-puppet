@@ -7,12 +7,12 @@ class packages::mysql_devel {
         CentOS: {
             realize(Packages::Yumrepo['mysql'])
             package {
-                "mysql-devel":
+                'mysql-devel':
                     ensure => '5.1.73-8.el6_8';
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

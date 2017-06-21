@@ -5,7 +5,7 @@ class packages::mailx {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "heirloom-mailx":
+                'heirloom-mailx':
                     ensure => latest;
             }
         }
@@ -13,7 +13,7 @@ class packages::mailx {
         CentOS: {
             realize(Packages::Yumrepo['mailx'])
             package {
-                "mailx":
+                'mailx':
                     ensure => '12.4-8.el6_6';
             }
         }
@@ -23,7 +23,7 @@ class packages::mailx {
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

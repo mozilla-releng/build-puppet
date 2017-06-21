@@ -5,13 +5,13 @@ class packages::alsa {
     case $::operatingsystem {
         CentOS: {
             package {
-                "alsa-lib":
+                'alsa-lib':
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }

@@ -15,7 +15,7 @@ class packages::metcollect {
 
                 "${exe_path}\\metcollect.exe":
                     ensure => present,
-                    source => "puppet:///repos/EXEs/metcollect.exe";
+                    source => 'puppet:///repos/EXEs/metcollect.exe';
             }~>
             # Enabling diskperf raw stat is required for disk_io data
             exec { enabled_diskperf:
@@ -30,7 +30,7 @@ class packages::metcollect {
             }
         }
         default: {
-            fail("Metcollect cannot be installed on $::operatingsystem")
+            fail("Metcollect cannot be installed on ${::operatingsystem}")
         }
     }
 }

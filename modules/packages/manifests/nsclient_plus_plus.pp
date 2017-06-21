@@ -3,8 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::nsclient_plus_plus{
     # source http://nsclient.org/nscp/downloads
-    packages::pkgmsi { "NSClient++ (x64)":
-        msi             => "NSClient++-0.3.9-x64.msi",
+    packages::pkgmsi { 'NSClient++ (x64)':
+        msi             => 'NSClient++-0.3.9-x64.msi',
         install_options => ['/QUIET'];
     }
 }

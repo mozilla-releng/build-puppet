@@ -5,7 +5,7 @@ class packages::unzip {
     case $::operatingsystem {
         CentOS: {
             package {
-                "unzip":
+                'unzip':
                     ensure => latest;
             }
         }
@@ -13,32 +13,32 @@ class packages::unzip {
             case $::operatingsystemrelease {
                 12.04: {
                     package {
-                        "unzip":
+                        'unzip':
                             ensure => '6.0-4ubuntu1';
                     }
                 }
                 16.04: {
                     package {
-                        "unzip":
+                        'unzip':
                             ensure => '6.0-20ubuntu1';
                     }
                 }
                 default: {
-                    fail("Ubuntu $operatingsystemrelease is not supported")
+                    fail("Ubuntu ${::operatingsystemrelease} is not supported")
                 }
             }
         }
         Darwin: {
             packages::pkgdmg {
                 'unzip':
-                    version => '6.0',
+                    version             => '6.0',
                     os_version_specific => false,
-                    private => false;
+                    private             => false;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

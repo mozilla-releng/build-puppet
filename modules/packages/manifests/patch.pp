@@ -5,7 +5,7 @@ class packages::patch {
     case $::operatingsystem {
         CentOS: {
             package {
-                "patch":
+                'patch':
                     ensure => latest;
             }
         }
@@ -16,7 +16,7 @@ class packages::patch {
             #TODO add windows support https://bugzilla.mozilla.org/show_bug.cgi?id=1113324
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

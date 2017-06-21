@@ -11,21 +11,21 @@ class packages::yasm {
         Darwin: {
             Anchor['packages::yasm::begin'] ->
             packages::pkgdmg {
-                yasm:
-                    version => "1.3.0";
+                'yasm':
+                    version => '1.3.0';
             } -> Anchor['packages::yasm::end']
         }
         Windows: {
             include packages::mozilla::mozilla_build
             file {
-                "C:/mozilla-build/yasm/yasm.exe":
+                'C:/mozilla-build/yasm/yasm.exe':
                     ensure  => file,
-                    source  => "puppet:///repos/EXEs/yasm-1.3.0-win64.exe",
-                    require => Exec["remove_old_yasm"],
+                    source  => 'puppet:///repos/EXEs/yasm-1.3.0-win64.exe',
+                    require => Exec['remove_old_yasm'],
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

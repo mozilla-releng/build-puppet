@@ -19,21 +19,21 @@ define packages::pkgappdmg(
     }
 
     $p = $private ? {
-        true => "/private",
-        false => ""
+        true  => '/private',
+        false => ''
     }
 
     $v = $os_version_specific ? {
-        true => "/${macosx_productversion_major}",
-        false => ""
+        true  => "/${::macosx_productversion_major}",
+        false => ''
     }
 
-    $source = "https://${::config::data_server}/repos${p}/DMGs${v}/$filename"
+    $source = "https://${::config::data_server}/repos${p}/DMGs${v}/${filename}"
 
     package {
         $filename:
+            ensure   => installed,
             provider => appdmg,
-            ensure => installed,
-            source => $source;
+            source   => $source;
     }
 }

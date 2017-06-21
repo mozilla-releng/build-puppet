@@ -16,20 +16,20 @@ class packages::mozilla::python35 {
             # just need any old Python3, they are symlinked from /tools/python3.
             Anchor['packages::mozilla::python35::begin'] ->
             file {
-                "/tools/python3":
+                '/tools/python3':
                     ensure => link,
-                    target => "/tools/python35";
+                    target => '/tools/python35';
             } -> Anchor['packages::mozilla::python35::end']
 
             realize(Packages::Yumrepo['python35'])
             Anchor['packages::mozilla::python35::begin'] ->
             package {
-                "mozilla-python35":
+                'mozilla-python35':
                     ensure => '3.5.2-1.el6';
             } -> Anchor['packages::mozilla::python35::end']
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 

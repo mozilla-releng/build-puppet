@@ -22,22 +22,22 @@ class packages::mozilla::taskcluster_worker {
             file {
                 '/usr/local/bin/taskcluster-worker':
                     source => "puppet:///repos/EXEs/taskcluster-worker-${version}-darwin-amd64",
-                    mode => 0755,
-                    owner => $::users::root::username,
-                    group => $::users::root::group,
+                    mode   => '0755',
+                    owner  => $::users::root::username,
+                    group  => $::users::root::group,
             }
         }
         Ubuntu, Fedora, CentOS: {
             file {
                 '/usr/local/bin/taskcluster-worker':
                     source => "puppet:///repos/EXEs/taskcluster-worker-${version}-linux-amd64",
-                    mode => 0755,
-                    owner => $::users::root::username,
-                    group => $::users::root::group,
+                    mode   => '0755',
+                    owner  => $::users::root::username,
+                    group  => $::users::root::group,
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     } -> Anchor['packages::mozilla::taskcluster_worker::end']
 }

@@ -5,12 +5,12 @@ class packages::gnome_settings_daemon {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "gnome-settings-daemon":
+                'gnome-settings-daemon':
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

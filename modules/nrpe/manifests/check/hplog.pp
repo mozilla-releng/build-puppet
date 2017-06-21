@@ -7,7 +7,7 @@ class nrpe::check::hplog {
 
     nrpe::check {
         'check_hplog':
-            cfg => "$plugins_dir/check_hplog -t l";
+            cfg => "${plugins_dir}/check_hplog -t l";
     }
 
     nrpe::plugin {
@@ -16,8 +16,8 @@ class nrpe::check::hplog {
 
     sudoers::custom {
         'check_hplog':
-            user => 'nagios',
-            runas => 'root',
-            command => "/sbin/hplog";
+            user    => 'nagios',
+            runas   => 'root',
+            command => '/sbin/hplog';
     }
 }

@@ -7,11 +7,11 @@ class packages::collectd {
         CentOS: {
             realize(Packages::Yumrepo['collectd'])
             package {
-                "collectd":
+                'collectd':
                     ensure => '5.5.0-1.el6';
-                "collectd-disk":
+                'collectd-disk':
                     ensure => '5.5.0-1.el6';
-                "libcollectdclient":
+                'libcollectdclient':
                     ensure => '5.5.0-1.el6';
             }
         }
@@ -21,26 +21,26 @@ class packages::collectd {
                 12.04, 14.04: {
                     realize(Packages::Aptrepo['collectd'])
                     package {
-                        ["collectd-core", "collectd", "libcollectdclient1", "collectd-utils"]:
+                        ['collectd-core', 'collectd', 'libcollectdclient1', 'collectd-utils']:
                             ensure => '5.5.0-1mozilla1';
                     }
                     package {
-                        ["libcollectdclient-dev", "collectd-dbg", "collectd-dev"]:
+                        ['libcollectdclient-dev', 'collectd-dbg', 'collectd-dev']:
                             ensure => absent;
                     }
                 }
                 16.04: {
                     package {
-                        ["collectd-core", "collectd", "libcollectdclient1", "collectd-utils"]:
+                        ['collectd-core', 'collectd', 'libcollectdclient1', 'collectd-utils']:
                             ensure => '5.5.1-1build2';
                     }
                     package {
-                        ["libcollectdclient-dev", "collectd-dbg", "collectd-dev"]:
+                        ['libcollectdclient-dev', 'collectd-dbg', 'collectd-dev']:
                             ensure => absent;
                     }
                 }
                 default: {
-                    fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                    fail("Unrecognized Ubuntu version ${::operatingsystemrelease}")
                 }
             }
         }
@@ -48,14 +48,14 @@ class packages::collectd {
         Darwin: {
             packages::pkgdmg {
                 'collectd':
-                    version => '5.5.0-1',
+                    version             => '5.5.0-1',
                     os_version_specific => true,
-                    private => false;
+                    private             => false;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

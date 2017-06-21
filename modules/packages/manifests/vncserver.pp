@@ -5,7 +5,7 @@ class packages::vncserver {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "x11vnc":
+                'x11vnc':
                     ensure => latest;
             }
         }
@@ -13,7 +13,7 @@ class packages::vncserver {
             # VNC is installed by default
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

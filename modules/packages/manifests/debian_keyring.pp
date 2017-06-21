@@ -5,12 +5,12 @@ class packages::debian_keyring {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "debian-keyring":
+                'debian-keyring':
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

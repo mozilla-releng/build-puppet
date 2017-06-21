@@ -5,11 +5,11 @@ class packages::mozilla::retry {
     case $::operatingsystem {
         Darwin,CentOS: {
             file  {
-                "/usr/local/bin/retry.py":
-                    source => "puppet:///modules/packages/retry.py",
-                    owner => "$users::root::username",
-                    group => "$users::root::group",
-                    mode => 0755;
+                '/usr/local/bin/retry.py':
+                    source => 'puppet:///modules/packages/retry.py',
+                    owner  => $users::root::username,
+                    group  => $users::root::group,
+                    mode   => '0755';
             }
         }
         Windows: {

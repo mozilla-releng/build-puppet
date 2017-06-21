@@ -6,13 +6,13 @@ class packages::ntp {
         CentOS: {
             realize(Packages::Yumrepo['ntp'])
             package {
-                ["ntp", "ntpdate"]: # ntp depends on ntpdate
+                ['ntp', 'ntpdate']: # ntp depends on ntpdate
                     ensure => '4.2.6p5-10.el6.centos.1';
             }
         }
         Ubuntu: {
             package {
-                "ntp":
+                'ntp':
                     ensure => latest;
             }
         }
@@ -23,7 +23,7 @@ class packages::ntp {
             # Windows includes the Windows Time Service
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

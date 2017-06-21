@@ -6,19 +6,19 @@ class packages::rsyslog {
         CentOS: {
             realize(Packages::Yumrepo['rsyslog'])
             package {
-                "rsyslog":
-                    ensure => "latest";
+                'rsyslog':
+                    ensure => latest;
             }
         }
         Ubuntu: {
             package {
-                "rsyslog":
-                    ensure => "latest";
+                'rsyslog':
+                    ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

@@ -5,7 +5,7 @@ class packages::tzdata {
     case $::operatingsystem {
         CentOS, Ubuntu: {
             package {
-                "tzdata":
+                'tzdata':
                     ensure => latest;
             }
         }
@@ -13,7 +13,7 @@ class packages::tzdata {
             # not needed
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

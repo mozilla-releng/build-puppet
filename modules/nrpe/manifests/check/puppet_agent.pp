@@ -7,10 +7,10 @@ class nrpe::check::puppet_agent {
 
     nrpe::check {
         'check_puppet_agent':
-            cfg => "$plugins_dir/check_puppet_agent -w \$ARG1\$ -c \$ARG2\$";
+            cfg => "${plugins_dir}/check_puppet_agent -w \$ARG1\$ -c \$ARG2\$";
     }
 
     nrpe::plugin {
-        "check_puppet_agent": ;
+        'check_puppet_agent': ;
     }
 }

@@ -7,15 +7,15 @@
 class packages::virtualenv {
     case $::operatingsystem {
         Ubuntu: {
-            case $operatingsystemrelease {
+            case $::operatingsystemrelease {
                 16.04: {
                     package {
-                        "python-virtualenv":
+                        'python-virtualenv':
                             ensure => '15.0.1+ds-3ubuntu1';
                     }
                 }
                 default: {
-                    fail("cannot install on $::operatingsystem $::operatingsystemrelease")
+                    fail("Cannot install on ${::operatingsystem} ${::operatingsystemrelease}")
                 }
             }
         }
@@ -25,7 +25,7 @@ class packages::virtualenv {
             class {'packages::mozilla::py27_virtualenv': }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

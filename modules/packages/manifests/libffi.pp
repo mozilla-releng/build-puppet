@@ -6,13 +6,13 @@ class packages::libffi {
     case $::operatingsystem {
         CentOS: {
             package {
-                ["libffi", "libffi-devel"]:
+                ['libffi', 'libffi-devel']:
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

@@ -1,29 +1,29 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-class packages::cpu-checker {
+class packages::qemu_kvm {
     case $::operatingsystem {
         Ubuntu: {
             case $::operatingsystemrelease {
                 12.04: {
                     package {
-                        "cpu-checker":
-                            ensure => "0.7-0ubuntu1";
+                        'qemu-kvm':
+                            ensure => '1.0+noroms-0ubuntu13';
                     }
                 }
                 16.04: {
                     package {
-                        "cpu-checker":
-                            ensure => '0.7-0ubuntu7';
+                        'qemu-kvm':
+                            ensure => '1:2.5+dfsg-5ubuntu10.9';
                     }
                 }
                 default: {
-                    fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                    fail("Ubuntu ${::operatingsystemrelease} is not supported")
                 }
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

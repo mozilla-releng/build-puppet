@@ -1,3 +1,7 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 class pushapk_scriptworker {
     include pushapk_scriptworker::settings
     include dirs::builds
@@ -59,7 +63,7 @@ class pushapk_scriptworker {
     }
 
     scriptworker::instance {
-        "${pushapk_scriptworker::settings::root}":
+        $pushapk_scriptworker::settings::root:
             instance_name            => $module_name,
             basedir                  => $pushapk_scriptworker::settings::root,
             work_dir                 => $pushapk_scriptworker::settings::work_dir,
@@ -81,7 +85,7 @@ class pushapk_scriptworker {
 
     File {
         ensure      => present,
-        mode        => 600,
+        mode        => '0600',
         owner       => $pushapk_scriptworker::settings::user,
         group       => $pushapk_scriptworker::settings::group,
         show_diff   => false,
@@ -91,9 +95,9 @@ class pushapk_scriptworker {
 
     file {
         $pushapk_scriptworker::settings::script_config:
-            require     => Python35::Virtualenv[$pushapk_scriptworker::settings::root],
-            content     => template("${module_name}/script_config.json.erb"),
-            show_diff   => true;
+            require   => Python35::Virtualenv[$pushapk_scriptworker::settings::root],
+            content   => template("${module_name}/script_config.json.erb"),
+            show_diff => true;
 
         $google_play_config['aurora']['certificate_target_location']:
             content     => $google_play_config['aurora']['certificate'];

@@ -7,11 +7,11 @@ define nrpe::plugin {
     include nrpe::settings
 
     file {
-        "$nrpe::settings::plugins_dir/$title":
-            owner => $::users::root::username,
-            group => $::users::root::group,
-            mode => 0755,
+        "${nrpe::settings::plugins_dir}/${title}":
+            owner   => $::users::root::username,
+            group   => $::users::root::group,
+            mode    => '0755',
             require => Class['nrpe::base'],
-            source => "puppet:///modules/nrpe/$title";
+            source  => "puppet:///modules/nrpe/${title}";
     }
 }

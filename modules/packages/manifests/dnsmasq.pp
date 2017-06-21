@@ -6,13 +6,13 @@ class packages::dnsmasq {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                [ "dnsmasq", "dnsmasq-utils" ]:
+                [ 'dnsmasq', 'dnsmasq-utils' ]:
                     ensure => latest,
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

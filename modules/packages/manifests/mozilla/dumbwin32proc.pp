@@ -6,8 +6,8 @@ class packages::mozilla::dumbwin32proc {
     include  buildslave::install
 
     file {
-        "C:/mozilla-build/buildbotve/Lib/site-packages/twisted/internet/_dumbwin32proc.py":
-            source  => "puppet:///modules/packages/_dumbwin32proc.py",
-            require => Class["buildslave::install"];
+        'C:/mozilla-build/buildbotve/Lib/site-packages/twisted/internet/_dumbwin32proc.py':
+            source  => 'puppet:///modules/packages/_dumbwin32proc.py',
+            require => Class['buildslave::install'];
     }
 }

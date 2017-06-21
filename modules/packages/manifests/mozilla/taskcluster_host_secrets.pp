@@ -20,17 +20,17 @@ class packages::mozilla::taskcluster_host_secrets {
                 6: {
                     realize(Packages::Yumrepo['taskcluster'])
                     package {
-                        "taskcluster-host-secrets":
-                            ensure => "$version";
+                        'taskcluster-host-secrets':
+                            ensure => $version;
                     }
                 }
                 default: {
-                    fail("cannot install on $::operatingsystem version $::operatingsystemmajrelease")
+                    fail("Cannot install on ${::operatingsystem} version ${::operatingsystemmajrelease}")
                 }
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     } -> Anchor['packages::mozilla::taskcluster_host_secrets::end']
 }

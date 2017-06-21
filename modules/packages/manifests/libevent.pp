@@ -6,20 +6,20 @@ class packages::libevent {
     case $::operatingsystem {
         CentOS: {
             package {
-                ["libevent", "libevent-devel"]:
+                ['libevent', 'libevent-devel']:
                     ensure => latest;
             }
         }
 
         Darwin: {
             packages::pkgdmg {
-                libevent:
-                    version => "2.0.21-stable";
+                'libevent':
+                    version => '2.0.21-stable';
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

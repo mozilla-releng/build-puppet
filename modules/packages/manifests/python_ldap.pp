@@ -6,13 +6,13 @@ class packages::python_ldap {
     case $::operatingsystem {
         CentOS: {
             package {
-                "python-ldap":
+                'python-ldap':
                     ensure => present;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

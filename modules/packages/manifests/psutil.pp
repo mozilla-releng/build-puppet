@@ -8,8 +8,8 @@
 # Ref. https://bugzilla.mozilla.org/show_bug.cgi?id=918992
 
 class packages::psutil {
-    packages::pkgzip {"psutil.zip":
-        zip => "psutil.zip",
+    packages::pkgzip {'psutil.zip':
+        zip        => 'psutil.zip',
         target_dir => 'C:\mozilla-build\sitepackages';
     }
 }

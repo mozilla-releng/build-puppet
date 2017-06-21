@@ -5,13 +5,13 @@ class packages::net_snmp_utils {
     case $::operatingsystem {
         CentOS: {
             package {
-                "net-snmp-utils":
+                'net-snmp-utils':
                     ensure => '5.5-49.el6';
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

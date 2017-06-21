@@ -6,13 +6,13 @@ class packages::mono {
     case $::operatingsystem {
         CentOS: {
             package {
-                ["mono-core", "mono-devel"]:
+                ['mono-core', 'mono-devel']:
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

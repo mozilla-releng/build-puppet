@@ -7,6 +7,6 @@ class nrpe::check::ntp_peer {
 
     nrpe::check {
         'check_ntp_peer':
-            cfg => "$plugins_dir/check_ntp_peer -H localhost -w \$ARG1\$ -c \$ARG2\$";
+            cfg => "${plugins_dir}/check_ntp_peer -H localhost -w \$ARG1\$ -c \$ARG2\$";
     }
 }

@@ -5,19 +5,19 @@ class packages::mysql {
     case $::operatingsystem {
         CentOS: {
             package {
-                "mysql":
+                'mysql':
                     ensure => '5.1.73-3.el6_5';
             }
         }
         Ubuntu: {
             package {
-                "mysql-client":
+                'mysql-client':
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

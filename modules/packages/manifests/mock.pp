@@ -5,12 +5,12 @@ class packages::mock {
     case $::operatingsystem {
         CentOS: {
             package {
-                "mock":
+                'mock':
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

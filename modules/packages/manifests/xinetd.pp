@@ -5,13 +5,13 @@ class packages::xinetd {
     case $::operatingsystem {
         CentOS: {
             package {
-                "xinetd":
+                'xinetd':
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

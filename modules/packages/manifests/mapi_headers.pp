@@ -8,8 +8,8 @@
 # Hence using the the etracted archive file
 
 class packages::mapi_headers {
-    packages::pkgzip {"mapiheader.zip":
-        zip => "mapiheader.zip",
+    packages::pkgzip {'mapiheader.zip':
+        zip        => 'mapiheader.zip',
         target_dir => '"C:\Office 2010 Developer Resources\Outlook 2010 MAPI Headers"';
     }
 }

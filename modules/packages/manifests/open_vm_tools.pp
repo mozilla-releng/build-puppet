@@ -13,7 +13,7 @@ class packages::open_vm_tools {
                     }
                 }
                 default: {
-                    fail("Ubuntu $operatingsystemrelease is not supported")
+                    fail("Ubuntu ${::operatingsystemrelease} is not supported")
                 }
             }
         }

@@ -5,11 +5,11 @@ class nrpe::check::mysql {
     include nrpe::settings
     $plugins_dir = $nrpe::settings::plugins_dir
 
-    $hostname = secret("buildbot_schedulerdb_hostname")
-    $username = secret("buildbot_schedulerdb_username")
-    $password = secret("buildbot_schedulerdb_password")
+    $hostname = secret('buildbot_schedulerdb_hostname')
+    $username = secret('buildbot_schedulerdb_username')
+    $password = secret('buildbot_schedulerdb_password')
     nrpe::check {
         'check_mysql':
-            cfg => "${plugins_dir}/check_mysql -H $hostname -u $username -p $password";
+            cfg => "${plugins_dir}/check_mysql -H ${hostname} -u ${username} -p ${password}";
     }
 }

@@ -13,7 +13,7 @@ class packages::xe_guest_utilities {
                     }
                 }
                 default: {
-                    fail("Ubuntu $operatingsystemrelease is not supported")
+                    fail("Ubuntu ${::operatingsystemrelease} is not supported")
                 }
             }
         }

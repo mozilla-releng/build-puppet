@@ -7,13 +7,13 @@ class packages::audisp_cef {
         CentOS: {
             realize(Packages::Yumrepo['auditd'])
             package {
-                "audisp-cef":
-                    ensure => "1.3-1";
+                'audisp-cef':
+                    ensure => '1.3-1';
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }

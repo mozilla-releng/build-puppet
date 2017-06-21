@@ -7,12 +7,12 @@ class packages::clamd {
         CentOS: {
             realize(Packages::Yumrepo['clamav'])
             package {
-                "clamd":
+                'clamd':
                     ensure => '0.99.2-1.el6';
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }

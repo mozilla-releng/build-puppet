@@ -11,7 +11,7 @@ class packages::wget {
         CentOS: {
             Anchor['packages::wget::begin'] ->
             package {
-                "wget":
+                'wget':
                     ensure => '1.15-2.el6';  # hand-compiled; see .spec
             } -> Anchor['packages::wget::end']
         }
@@ -20,27 +20,27 @@ class packages::wget {
                 12.04: {
                     Anchor['packages::wget::begin'] ->
                     package {
-                        "wget":
+                        'wget':
                             ensure => '1.13.4-2ubuntu1';
                     } -> Anchor['packages::wget::end']
                 }
                 16.04: {
                     Anchor['packages::wget::begin'] ->
                     package {
-                        "wget":
+                        'wget':
                             ensure => '1.17.1-1ubuntu1.1';
                     } -> Anchor['packages::wget::end']
                 }
                 default: {
-                    fail("Ubuntu $operatingsystemrelease is not supported")
+                    fail("Ubuntu ${::operatingsystemrelease} is not supported")
                 }
             }
         }
         Darwin: {
             Anchor['packages::wget::begin'] ->
             packages::pkgdmg {
-                wget:
-                    version => "1.15-2";
+                'wget':
+                    version => '1.15-2';
             } -> Anchor['packages::wget::end']
         }
         Windows: {
@@ -49,21 +49,21 @@ class packages::wget {
             Anchor['packages::wget::begin'] ->
             Class['packages::mozilla::mozilla_build'] ->
             packages::pkgzip {
-                "wget-1.16.3-win32.zip":
-                    zip => "wget-1.16.3-win32.zip",
-                    target_dir => "$packages::mozilla::mozilla_build::moz_bld_dir/wget",
-                    subscribe => Exec["MozillaBuildSetup-$packages::mozilla::mozilla_build::version"];
+                'wget-1.16.3-win32.zip':
+                    zip        => 'wget-1.16.3-win32.zip',
+                    target_dir => "${packages::mozilla::mozilla_build::moz_bld_dir}/wget",
+                    subscribe  => Exec["MozillaBuildSetup-${packages::mozilla::mozilla_build::version}"];
             } ->
             file {
-                "$packages::mozilla::mozilla_build::moz_bld_dir/msys/etc/ca-bundle.crt":
-                    ensure => file,
-                    source  => "puppet:///modules/packages/wget/ca-bundle.crt",
-                    subscribe => Exec["MozillaBuildSetup-$packages::mozilla::mozilla_build::version"];
+                "${packages::mozilla::mozilla_build::moz_bld_dir}/msys/etc/ca-bundle.crt":
+                    ensure    => file,
+                    source    => 'puppet:///modules/packages/wget/ca-bundle.crt',
+                    subscribe => Exec["MozillaBuildSetup-${packages::mozilla::mozilla_build::version}"];
             }
             -> Anchor['packages::wget::end']
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

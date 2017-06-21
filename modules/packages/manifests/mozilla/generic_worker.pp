@@ -20,13 +20,13 @@ class packages::mozilla::generic_worker {
             file {
                 '/usr/local/bin/generic-worker':
                     source => "puppet:///repos/EXEs/generic-worker-${tag}-darwin-amd64",
-                    mode => 0755,
-                    owner => root,
-                    group => wheel,
+                    mode   => '0755',
+                    owner  => root,
+                    group  => wheel,
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     } -> Anchor['packages::mozilla::generic_worker::end']
 }

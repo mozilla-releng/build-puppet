@@ -15,13 +15,13 @@ class packages::system_git {
         CentOS, Ubuntu: {
             Anchor['packages::system_git::begin'] ->
             package {
-                "git":
+                'git':
                     ensure => latest;
             } -> Anchor['packages::system_git::end']
         }
         default: {
             # on Darwin, this comes with XCode, but by default there is no git installed.
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

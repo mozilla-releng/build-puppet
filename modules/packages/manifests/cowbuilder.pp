@@ -6,12 +6,12 @@ class packages::cowbuilder {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "cowbuilder":
+                'cowbuilder':
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }

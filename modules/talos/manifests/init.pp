@@ -41,9 +41,9 @@ class talos {
                 # We only run Android x86 emulator kvm jobs on
                 # 64-bit host machines
                 "x86_64": {
-                    include packages::cpu-checker
-                    include packages::qemu-kvm
-                    include packages::bridge-utils
+                    include packages::cpu_checker
+                    include packages::qemu_kvm
+                    include packages::bridge_utils
                 }
             }
         }

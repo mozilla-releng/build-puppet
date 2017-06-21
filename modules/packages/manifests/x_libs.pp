@@ -5,15 +5,15 @@ class packages::x_libs {
     case $::operatingsystem {
         CentOS: {
             package {
-                "libXt":
+                'libXt':
                     ensure => '1.1.3-1.el6';
-                "libXext":
+                'libXext':
                     ensure => '1.3.1-2.el6';
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

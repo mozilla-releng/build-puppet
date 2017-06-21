@@ -6,13 +6,13 @@ class packages::createrepo {
     case $::operatingsystem {
         CentOS: {
             package {
-                "createrepo":
+                'createrepo':
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

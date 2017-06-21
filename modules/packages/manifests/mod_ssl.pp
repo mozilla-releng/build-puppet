@@ -5,12 +5,12 @@ class packages::mod_ssl {
     case $::operatingsystem {
         CentOS: {
             package {
-                "mod_ssl":
+                'mod_ssl':
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

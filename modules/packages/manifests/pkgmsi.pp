@@ -7,19 +7,19 @@ define packages::pkgmsi($package=$title, $msi, $private=false, $install_options=
     $installersource_posix = 'c:/InstallerSource/puppetagain.pub.build.mozilla.org'
     $installersource_win = 'c:\InstallerSource\puppetagain.pub.build.mozilla.org'
     $p = $private ? {
-        true => "/private",
-        false => ""
+        true  => '/private',
+        false => ''
     }
     file {
-            "$installersource_posix/MSIs/$msi":
-                source   => "puppet:///repos$p/MSIs/$msi",
-                require  => Class["dirs::installersource::puppetagain_pub_build_mozilla_org::msis"],
+            "${installersource_posix}/MSIs/${msi}":
+                source  => "puppet:///repos${p}/MSIs/${msi}",
+                require => Class['dirs::installersource::puppetagain_pub_build_mozilla_org::msis'],
     }
     package {
             $package:
-                ensure => installed,
+                ensure   => installed,
                 provider => windows,
-                source => "$installersource_win\\MSIs\\$msi",
-                require => File["$installersource_posix/MSIs/$msi"];
+                source   => "${installersource_win}\\MSIs\\${msi}",
+                require  => File["${installersource_posix}/MSIs/${msi}"];
     }
 }

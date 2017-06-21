@@ -8,13 +8,13 @@ class packages::linux_desktop {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "ubuntu-desktop":
+                'ubuntu-desktop':
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

@@ -7,12 +7,12 @@ class packages::mozilla::git_remote_hg {
     case $::operatingsystem {
         CentOS: {
             package {
-                "git-remote-hg":
+                'git-remote-hg':
                     ensure => absent;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

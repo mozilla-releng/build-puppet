@@ -5,12 +5,12 @@ class packages::llvm {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "llvm-dev":
+                'llvm-dev':
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

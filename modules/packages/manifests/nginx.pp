@@ -7,13 +7,13 @@ class packages::nginx {
         Ubuntu: {
             realize(Packages::Aptrepo['nginx-development'])
             package {
-                [ "nginx" ]:
+                [ 'nginx' ]:
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

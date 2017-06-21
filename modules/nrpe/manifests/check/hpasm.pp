@@ -7,7 +7,7 @@ class nrpe::check::hpasm {
 
     nrpe::check {
         'check_hpasm':
-            cfg => "$plugins_dir/check_hpasm -t 20";
+            cfg => "${plugins_dir}/check_hpasm -t 20";
     }
 
     nrpe::plugin {
@@ -16,8 +16,8 @@ class nrpe::check::hpasm {
 
     sudoers::custom {
         'check_hpasm':
-            user => 'nagios',
-            runas => 'root',
-            command => "/sbin/hpasmcli";
+            user    => 'nagios',
+            runas   => 'root',
+            command => '/sbin/hpasmcli';
     }
 }

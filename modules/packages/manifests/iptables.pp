@@ -10,17 +10,17 @@ class packages::iptables {
     # https://tickets.puppetlabs.com/browse/PUP-5874
     case $::operatingsystem {
         CentOS: {
-            exec { "install iptables":
-                command => "/usr/bin/yum install iptables -y",
-                creates => "/sbin/iptables";
+            exec { 'install iptables':
+                command => '/usr/bin/yum install iptables -y',
+                creates => '/sbin/iptables';
             }
-            exec { "install ip6tables":
-                command => "/usr/bin/yum install iptables-ipv6 -y",
-                creates => "/sbin/ip6tables";
+            exec { 'install ip6tables':
+                command => '/usr/bin/yum install iptables-ipv6 -y',
+                creates => '/sbin/ip6tables';
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

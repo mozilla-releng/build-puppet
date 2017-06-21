@@ -5,7 +5,7 @@ class packages::screen {
     case $::operatingsystem {
         CentOS, Ubuntu: {
             package {
-                "screen":
+                'screen':
                     ensure => latest;
             }
         }
@@ -13,10 +13,10 @@ class packages::screen {
             # installed by default
         }
         Windows: {
-            fail("Screen is not supportable on Windows")
+            fail('Screen is not supportable on Windows')
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

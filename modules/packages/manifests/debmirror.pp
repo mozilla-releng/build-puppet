@@ -7,13 +7,13 @@ class packages::debmirror {
         CentOS: {
             realize(Packages::Yumrepo['debian'])
             package {
-                "debmirror":
-                    ensure => "2.14-3.el6";
+                'debmirror':
+                    ensure => '2.14-3.el6';
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }
