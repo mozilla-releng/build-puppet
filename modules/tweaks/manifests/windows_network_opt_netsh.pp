@@ -11,7 +11,7 @@ class tweaks::windows_network_opt_netsh {
     include dirs::etc
 
     $netsh_log   = "C:\\ProgramData\\PuppetLabs\\puppet\\var\\log\\netsh_error.log"
-    $set_netsh   = "set netcmd=C:\windows\System32\netsh.exe"
+    $set_netsh   = 'set netcmd=C:\windows\System32\netsh.exe'
     $run_netsh   = "\n %netcmd%\n"
     $failed      = ' failed with  exit code %errorlevel% '
     $errorcheck  = "If %errorlevel% neq 0 echo %netcmd%${failed}>>${netsh_log}\n"
@@ -26,7 +26,7 @@ class tweaks::windows_network_opt_netsh {
 
     case $::env_os_version {
         2008, w732: {
-            concat { '$nettwbat':
+            concat { $nettwbat:
             }
             concat::fragment  { 'network_tweak_bat_header' :
                 target  => $nettwbat,
