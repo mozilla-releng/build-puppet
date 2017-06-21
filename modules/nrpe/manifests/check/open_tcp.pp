@@ -7,7 +7,7 @@ class nrpe::check::open_tcp {
 
     nrpe::check {
         'check_open_tcp':
-            cfg => "$plugins_dir/check_open_tcp -w \$ARG1\$ -c \$ARG2\$ -p \$ARG3\$";
+            cfg => "${plugins_dir}/check_open_tcp -w \$ARG1\$ -c \$ARG2\$ -p \$ARG3\$";
     }
 
     nrpe::plugin {
@@ -16,8 +16,8 @@ class nrpe::check::open_tcp {
 
     sudoers::custom {
         'check_open_tcp':
-            user => 'nagios',
-            runas => 'root',
-            command => "/usr/sbin/lsof";
+            user    => 'nagios',
+            runas   => 'root',
+            command => '/usr/sbin/lsof';
     }
 }

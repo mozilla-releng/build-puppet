@@ -7,6 +7,6 @@ class nrpe::check::swap {
 
     nrpe::check {
         'check_swap':
-            cfg => "$plugins_dir/check_swap -w \$ARG1\$ -c \$ARG2\$";
+            cfg => "${plugins_dir}/check_swap -w \$ARG1\$ -c \$ARG2\$";
     }
 }

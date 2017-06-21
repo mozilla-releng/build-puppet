@@ -7,17 +7,17 @@ class nrpe::check::puppet_freshness {
 
     nrpe::check {
         'check_puppet_freshness':
-            cfg => "sudo $plugins_dir/check_puppet_freshness -t \$ARG1\$";
+            cfg => "sudo ${plugins_dir}/check_puppet_freshness -t \$ARG1\$";
     }
 
     nrpe::plugin {
-        "check_puppet_freshness": ;
+        'check_puppet_freshness': ;
     }
 
     sudoers::custom {
         'check_puppet_freshness':
-            user => 'nagios',
-            runas => 'root',
-            command => "$plugins_dir/check_puppet_freshness";
+            user    => 'nagios',
+            runas   => 'root',
+            command => "${plugins_dir}/check_puppet_freshness";
     }
 }

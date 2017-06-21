@@ -8,6 +8,6 @@ class nrpe::check::check_stop_idle {
 
     nrpe::check {
         'check_stop_idle':
-            cfg => "$plugins_dir/check_file_age -w 600 -c 1800 -f ${aws_manager::settings::root}/aws_stop_idle.log";
+            cfg => "${plugins_dir}/check_file_age -w 600 -c 1800 -f ${aws_manager::settings::root}/aws_stop_idle.log";
     }
 }

@@ -7,6 +7,6 @@ class nrpe::check::ntp_time {
 
     nrpe::check {
         'check_ntp_time':
-            cfg => "$plugins_dir/check_ntp_time -H \$ARG1\$ -w \$ARG2\$ -c \$ARG3\$";
+            cfg => "${plugins_dir}/check_ntp_time -H \$ARG1\$ -w \$ARG2\$ -c \$ARG3\$";
     }
 }

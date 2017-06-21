@@ -7,6 +7,6 @@ class nrpe::check::child_procs_regex {
 
     nrpe::check {
         'check_child_procs_regex':
-            cfg => "$plugins_dir/check_procs -c \$ARG3\$:\$ARG4\$ --ereg-argument-array=\$ARG1\$ -p \$ARG2\$";
+            cfg => "${plugins_dir}/check_procs -c \$ARG3\$:\$ARG4\$ --ereg-argument-array=\$ARG1\$ -p \$ARG2\$";
     }
 }

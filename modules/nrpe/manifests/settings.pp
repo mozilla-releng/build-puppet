@@ -6,10 +6,10 @@ class nrpe::settings {
 
     case $::operatingsystem {
         Darwin: {
-            $plugins_dir = "/usr/local/libexec"
+            $plugins_dir = '/usr/local/libexec'
         }
         Ubuntu: {
-            $plugins_dir = "/usr/lib/nagios/plugins"
+            $plugins_dir = '/usr/lib/nagios/plugins'
         }
         default: {
             $plugins_dir = "/usr/${::shared::lib_arch_dir}/nagios/plugins"

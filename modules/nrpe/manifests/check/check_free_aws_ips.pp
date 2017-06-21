@@ -7,17 +7,17 @@ class nrpe::check::check_free_aws_ips {
 
     nrpe::check {
         'check_free_aws_ips':
-            cfg => "$plugins_dir/check_free_aws_ips";
+            cfg => "${plugins_dir}/check_free_aws_ips";
     }
 
     nrpe::plugin {
-        "check_free_aws_ips": ;
+        'check_free_aws_ips': ;
     }
 
     sudoers::custom {
         'check_open_tcp':
-            user => 'nagios',
-            runas => 'buildduty',
-            command => "/builds/aws_manager/bin/python /builds/aws_manager/cloud-tools/scripts/aws_check_subnets.py -r us-east-1 -r us-west-2 -s test -s try -s build"
+            user    => 'nagios',
+            runas   => 'buildduty',
+            command => '/builds/aws_manager/bin/python /builds/aws_manager/cloud-tools/scripts/aws_check_subnets.py -r us-east-1 -r us-west-2 -s test -s try -s build'
     }
 }

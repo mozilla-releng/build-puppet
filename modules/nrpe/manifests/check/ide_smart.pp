@@ -7,13 +7,13 @@ class nrpe::check::ide_smart {
 
     nrpe::check {
         'check_ide_smart':
-            cfg => "sudo $plugins_dir/check_ide_smart -n -d \$ARG1\$";
+            cfg => "sudo ${plugins_dir}/check_ide_smart -n -d \$ARG1\$";
     }
 
     sudoers::custom {
         'check_ide_smart':
-            user => 'nagios',
-            runas => 'root',
-            command => "$plugins_dir/check_ide_smart";
+            user    => 'nagios',
+            runas   => 'root',
+            command => "${plugins_dir}/check_ide_smart";
     }
 }

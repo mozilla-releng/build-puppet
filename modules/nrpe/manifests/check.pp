@@ -9,19 +9,19 @@ define nrpe::check($cfg=undef, $nsclient_cfg=undef) {
 
     case $::operatingsystem {
         Windows: {
-            concat::fragment { "nsc_ini_check":
-                target   => 'c:\program files\nsclient++\nsc.ini',
-                content  => $nsclient_cfg,
-                order    => '02',
+            concat::fragment { 'nsc_ini_check':
+                target  => 'c:\program files\nsclient++\nsc.ini',
+                content => $nsclient_cfg,
+                order   => '02',
             }
         }
         default: {
             file {
-                "${nrpe::settings::nrpe_etcdir}/nrpe.d/$title.cfg":
-                owner => $::users::root::username,
-                group => $::users::root::group,
-                notify => Class['nrpe::service'],
-                content => "command[$title]=$cfg\n";
+                "${nrpe::settings::nrpe_etcdir}/nrpe.d/${title}.cfg":
+                    owner   => $::users::root::username,
+                    group   => $::users::root::group,
+                    notify  => Class['nrpe::service'],
+                    content => "command[${title}]=${cfg}\n";
             }
         }
     }

@@ -7,7 +7,7 @@ class nrpe::check::puppetmaster_certs {
 
     nrpe::check {
         'check_puppetmaster_certs':
-            cfg => "$plugins_dir/check_puppetmaster_certs";
+            cfg => "${plugins_dir}/check_puppetmaster_certs";
     }
 
     nrpe::plugin {

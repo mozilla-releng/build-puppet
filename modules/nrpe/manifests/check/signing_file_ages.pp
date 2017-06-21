@@ -7,19 +7,19 @@ class nrpe::check::signing_file_ages {
 
     nrpe::check {
         'check_signing_file_age':
-            cfg => "sudo -u cltsign $plugins_dir/check_file_age -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
+            cfg => "sudo -u cltsign ${plugins_dir}/check_file_age -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
         'check_signing_file_age_ok_if_missing':
-            cfg => "sudo -u cltsign $plugins_dir/check_file_age -m -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
+            cfg => "sudo -u cltsign ${plugins_dir}/check_file_age -m -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
     }
 
     nrpe::plugin {
-        "check_file_age": ;
+        'check_file_age': ;
     }
 
     sudoers::custom {
         'check_file_age':
-            user => 'nagios',
-            runas => 'cltsign',
-            command => "$plugins_dir/check_file_age";
+            user    => 'nagios',
+            runas   => 'cltsign',
+            command => "${plugins_dir}/check_file_age";
     }
 }
