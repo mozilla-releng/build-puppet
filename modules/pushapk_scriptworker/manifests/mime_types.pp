@@ -1,3 +1,7 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 class pushapk_scriptworker::mime_types {
 
     case $::operatingsystem {
@@ -6,8 +10,8 @@ class pushapk_scriptworker::mime_types {
         # we're on. Without it, google-api-python-client refuses to handle files.
         CentOS: {
             file { '/etc/mime.types':
-                mode        => '0644',
-                content     => 'application/vnd.android.package-archive     apk',
+                mode    => '0644',
+                content => 'application/vnd.android.package-archive     apk',
             }
         }
         default: {
