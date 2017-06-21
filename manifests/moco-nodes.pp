@@ -32,7 +32,7 @@ node "jwatkins-1330169.srv.releng.scl3.mozilla.com" {
     $slave_trustlevel = 'try'
     $pin_puppet_server = "releng-puppet2.srv.releng.scl3.mozilla.com"
     $pin_puppet_env = "jwatkins"
-    include toplevel::slave::releng::test::gpu
+    include toplevel::base
 }
 
 # Linux and OS X
