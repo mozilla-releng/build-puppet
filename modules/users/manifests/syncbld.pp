@@ -33,7 +33,7 @@ class users::syncbld {
             owner   => $username,
             group   => $group,
             require => [
-                User['$username'],
+                User[$username],
             ];
         "${home}/.ssh/authorized_keys":
             mode    => '0600',
