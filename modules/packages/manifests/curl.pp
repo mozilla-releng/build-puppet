@@ -5,13 +5,13 @@ class packages::curl {
     case $::operatingsystem {
         CentOS: {
             package {
-                "curl":
+                'curl':
                     ensure => '7.19.7-37.el6_4';
             }
         }
         Ubuntu: {
             package {
-                "curl":
+                'curl':
                     ensure => '7.47.0-1ubuntu2.2';
             }
         }
@@ -19,7 +19,7 @@ class packages::curl {
             # curl is installed with base install image
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

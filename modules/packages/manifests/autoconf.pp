@@ -11,12 +11,12 @@ class packages::autoconf {
         Darwin: {
             Anchor['packages::autoconf::begin'] ->
             packages::pkgdmg {
-                autoconf:
-                    version => "2.13";
+                'autoconf':
+                    version => '2.13';
             } -> Anchor['packages::autoconf::end']
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }

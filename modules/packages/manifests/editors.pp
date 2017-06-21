@@ -5,15 +5,15 @@ class packages::editors {
     case $::operatingsystem {
         CentOS: {
             package {
-                "nano":
+                'nano':
                     ensure => latest;
-                "vim-minimal":
+                'vim-minimal':
                     ensure => latest;
             }
         }
         Ubuntu: {
             package {
-                ["nano", "vim"]:
+                ['nano', 'vim']:
                     ensure => latest;
             }
         }
@@ -27,7 +27,7 @@ class packages::editors {
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }

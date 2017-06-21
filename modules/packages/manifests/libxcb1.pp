@@ -8,23 +8,23 @@ class packages::libxcb1 {
                 12.04: {
                     realize(Packages::Aptrepo['libxcb'])
                     package {
-                        "libxcb1":
-                            ensure => "1.8.1-2ubuntu2.1mozilla2";
+                        'libxcb1':
+                            ensure => '1.8.1-2ubuntu2.1mozilla2';
                     }
                 }
                 16.04: {
                     package {
-                        "libxcb1":
+                        'libxcb1':
                             ensure => '1.11.1-1ubuntu1';
                     }
                 }
                 default: {
-                    fail("Ubuntu $operatingsystemrelease is not supported")
+                    fail("Ubuntu ${::operatingsystemrelease} is not supported")
                 }
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

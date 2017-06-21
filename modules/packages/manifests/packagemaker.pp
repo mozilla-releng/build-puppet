@@ -15,19 +15,19 @@ class packages::packagemaker {
                     # corresponding shell script in the directory containing this
                     # manifest file.  This version seems to work on 10.6 - 10.9.
                     packages::pkgdmg {
-                        "packagemaker":
-                            version => "4.4",
+                        'packagemaker':
+                            version             => '4.4',
                             os_version_specific => false,
-                            private => true;
+                            private             => true;
                     }
                 }
                 default: {
-                    fail("cannot install on OS X $macosx_productversion_major")
+                    fail("Cannot install on OS X ${::macosx_productversion_major}")
                 }
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

@@ -7,32 +7,32 @@
 
 class packages::win7sdk {
     packages::pkgzip {
-        "win7sdk_zip":
-            zip        => "win7sdk.zip",
+        'win7sdk_zip':
+            zip        => 'win7sdk.zip',
             private    => true,
             target_dir => '"c:\InstallerSource\puppetagain.pub.build.mozilla.org\zips\win7sdk"';
     }
     exec {
-        "7sdk_setup_exe":
+        '7sdk_setup_exe':
             command     => "C:\\installersource\\puppetagain.pub.build.mozilla.org\\ZIPs\\win7sdk\\GRMSDK_EN_DVD\\setup.exe /quiet /params:ADDLOCAL=ALL",
-            subscribe   => Packages::Pkgzip["win7sdk_zip"],
+            subscribe   => Packages::Pkgzip['win7sdk_zip'],
             refreshonly => true;
     }
     package {
-        "Microsoft Windows Performance Toolkit":
+        'Microsoft Windows Performance Toolkit':
             ensure          => installed,
             source          => 'C:\Program Files\Microsoft SDKs\Windows\v7.1\Redist\Windows Performance Toolkit\wpt_x86.msi',
             install_options => [{'MSI_TARGETDIR' => "C:\\perftools\\"}, {'WPFPERFDIR' => 'C:\perftools\WPF Performance Suite'}, {'ARPINSTALLLOCATION' => 'C:\perftools'}, {'ADDLOCAL' => 'ALL'}],
-            require         => Exec["7sdk_setup_exe"];
+            require         => Exec['7sdk_setup_exe'];
     }
     # No need to keep files around
     # No concerns of re-installs because of the semaphore in the puppetagain directory the for the pkgzip package
     file {
-        "C:/installersource/puppetagain.pub.build.mozilla.org/ZIPs/win7sdk":
+        'C:/installersource/puppetagain.pub.build.mozilla.org/ZIPs/win7sdk':
             ensure  => absent,
             purge   => true,
             recurse => true,
             force   => true,
-            require => Package["Microsoft Windows Performance Toolkit"];
+            require => Package['Microsoft Windows Performance Toolkit'];
     }
 }

@@ -13,7 +13,7 @@ class packages::bacula_enterprise_client {
 
             package {
                 'bacula-enterprise-client':
-                    ensure => "8.2.6-1.el6";
+                    ensure => '8.2.6-1.el6';
                 'bacula-common':
                     ensure => absent;
                 'bacula-client':
@@ -24,15 +24,15 @@ class packages::bacula_enterprise_client {
         Darwin: {
             packages::pkgdmg {
                 'bacula-enterprise-client':
-                    version => '8.0.7',
-                    private => true,
+                    version             => '8.0.7',
+                    private             => true,
                     os_version_specific => false,
-                    dmgname => "Bacula_Enterprise_File_Daemon_8.4.0.dmg";
+                    dmgname             => 'Bacula_Enterprise_File_Daemon_8.4.0.dmg';
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }

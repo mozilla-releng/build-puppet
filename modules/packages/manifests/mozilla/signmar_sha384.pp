@@ -11,7 +11,7 @@ class packages::mozilla::signmar_sha384 {
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

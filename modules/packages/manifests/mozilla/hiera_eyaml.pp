@@ -6,12 +6,12 @@ class packages::mozilla::hiera_eyaml {
         CentOS: {
             package {
                 # this gem requires rubygem-trollop and rubygem-highline
-                "rubygem-hiera-eyaml":
+                'rubygem-hiera-eyaml':
                     ensure => '2.0.0-1';
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

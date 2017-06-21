@@ -6,22 +6,22 @@ class packages::rsyslog_gnutls {
         CentOS: {
             realize(Packages::Yumrepo['rsyslog'])
             package {
-                "rsyslog-gnutls":
-                    ensure => latest,
+                'rsyslog-gnutls':
+                    ensure  => latest,
                     require => Class['packages::rsyslog'];
             }
         }
 
         Ubuntu: {
             package {
-                "rsyslog-gnutls":
-                    ensure => latest,
+                'rsyslog-gnutls':
+                    ensure  => latest,
                     require => Class['packages::rsyslog'];
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

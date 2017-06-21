@@ -10,18 +10,19 @@ class packages::jdk16 {
 
     case $::operatingsystem {
         CentOS: {
+            $osrelease = $::operatingsystemrelease ? {
+                6.2 => '1.6.0.0-1.43.1.10.6.el6_2',
+                6.5 => '1.6.0.41-1.13.13.1.el6_8'
+            }
             package {
                 # the precise version here isn't terribly important, at least for signing servers,
                 # as long as it's 1.6.
                 ['java-1.6.0-openjdk', 'java-1.6.0-openjdk-devel']:
-                    ensure => $operatingsystemrelease ? {
-                        6.2 => '1.6.0.0-1.43.1.10.6.el6_2',
-                        6.5 => '1.6.0.41-1.13.13.1.el6_8'
-                    };
+                    ensure => $osrelease;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 

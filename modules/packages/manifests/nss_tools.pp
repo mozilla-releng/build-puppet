@@ -7,16 +7,16 @@ class packages::nss_tools {
         CentOS: {
             realize(Packages::Yumrepo['nss'])
             package {
-                ["nss", "nss-sysinit", "nss-tools"]:
-                    ensure => "3.21.3-2.el6_8";
+                ['nss', 'nss-sysinit', 'nss-tools']:
+                    ensure => '3.21.3-2.el6_8';
 
                 "nss-util":
-                    ensure => "3.21.3-1.el6_8";
+                    ensure => '3.21.3-1.el6_8';
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

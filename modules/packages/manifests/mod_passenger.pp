@@ -8,12 +8,12 @@ class packages::mod_passenger {
             # can cause 404's for puppet file URLs, which can cause recursive
             # file{..} resources to suddenly delete everything.
             package {
-                "mod_passenger":
-                    ensure => "3.0.12-1.el6";
+                'mod_passenger':
+                    ensure => '3.0.12-1.el6';
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

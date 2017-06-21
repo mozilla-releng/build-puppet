@@ -12,18 +12,18 @@ class packages::mozilla::python26 {
     case $::operatingsystem {
         CentOS: {
             package {
-                "mozilla-python26":
+                'mozilla-python26':
                     ensure => '2.6.7-5.el6';
             }
         }
         Darwin: {
             packages::pkgdmg {
-                python26:
-                    version => "2.6.7-1";
+                'python26':
+                    version => '2.6.7-1';
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     } -> Anchor['packages::mozilla::python26::end']
 }

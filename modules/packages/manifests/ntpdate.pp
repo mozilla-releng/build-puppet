@@ -5,7 +5,7 @@ class packages::ntpdate {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "ntpdate":
+                'ntpdate':
                     ensure => latest;
             }
         }
@@ -15,13 +15,13 @@ class packages::ntpdate {
         Windows: {
             include packages::openssl
             packages::pkgzip {
-                "ntpdate-4.2.6p3-RC8-win32.zip":
-                    zip => "ntpdate-4.2.6p3-RC8-win32.zip",
+                'ntpdate-4.2.6p3-RC8-win32.zip':
+                    zip        => 'ntpdate-4.2.6p3-RC8-win32.zip',
                     target_dir => '"C:\Program Files (x86)"';
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

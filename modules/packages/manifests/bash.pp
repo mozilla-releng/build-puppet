@@ -15,20 +15,20 @@ class packages::bash {
                 6: {
                     realize(Packages::Yumrepo['bash'])
                     package {
-                        "bash":
-                            ensure => "4.1.2-15.el6_5.2";
+                        'bash':
+                            ensure => '4.1.2-15.el6_5.2';
                     }
                 }
                 default: {
-                    fail("Unrecognized CentOS version $::operatingsystemrelease")
+                    fail("Unrecognized CentOS version ${::operatingsystemrelease}")
                 }
             }
         }
         Darwin: {
             packages::pkgdmg {
-                bash:
+                'bash':
                     os_version_specific => false,
-                    version => "3.2-moz3";
+                    version             => '3.2-moz3';
             }
         }
 
@@ -37,25 +37,25 @@ class packages::bash {
                 12.04: {
                     realize(Packages::Aptrepo['bash'])
                     package {
-                        "bash":
+                        'bash':
                             ensure => '4.2-2ubuntu2.5';
                     }
                 }
                 14.04: {
                     realize(Packages::Aptrepo['bash'])
                     package {
-                        "bash":
+                        'bash':
                             ensure => '4.3-7ubuntu1.4';
                     }
                 }
                 16.04: {
                     package {
-                        "bash":
+                        'bash':
                             ensure => '4.3-14ubuntu1';
                     }
                 }
                 default: {
-                    fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                    fail("Unrecognized Ubuntu version ${::operatingsystemrelease}")
                 }
             }
         }
@@ -69,7 +69,7 @@ class packages::bash {
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }

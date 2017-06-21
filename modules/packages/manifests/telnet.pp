@@ -5,13 +5,13 @@ class packages::telnet {
     case $::operatingsystem {
         CentOS: {
             package {
-                "telnet":
+                'telnet':
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

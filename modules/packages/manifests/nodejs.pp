@@ -9,36 +9,36 @@ class packages::nodejs {
                     package {
                     # This package is a recompiled version of
                     # https://launchpad.net/~chris-lea/+archive/node.js/+packages
-                        "nodejs":
+                        'nodejs':
                             ensure => '0.10.21-1chl1~precise1';
                     # and it includes node.1.gz which conflicts with nodejs-legacy,
                     # despite not including /usr/bin/node
-                        "nodejs-legacy":
+                        'nodejs-legacy':
                             ensure => absent,
                             before => Package['nodejs'];
                     }
                     file {
-                        "/usr/bin/node":
+                        '/usr/bin/node':
                             ensure => link,
-                            target => "/usr/bin/nodejs";
+                            target => '/usr/bin/nodejs';
                     }
                 }
                 16.04:  {
                     package {
-                        "nodejs":
+                        'nodejs':
                             ensure => latest;
-                        "nodejs-legacy":
+                        'nodejs-legacy':
                             ensure => absent,
                             before => Package['nodejs'];
                     }
                     file {
-                        "/usr/bin/node":
+                        '/usr/bin/node':
                             ensure => link,
-                            target => "/usr/bin/nodejs";
+                            target => '/usr/bin/nodejs';
                     }
                 }
                 default: {
-                    fail("Ubuntu $operatingsystemrelease is not supported")
+                    fail("Ubuntu ${::operatingsystemrelease} is not supported")
                 }
             }
         }
@@ -48,37 +48,37 @@ class packages::nodejs {
                     realize(Packages::Yumrepo['nodesource'])
                     realize(Packages::Yumrepo['devtools-2'])
                     package {
-                        "nodejs":
-                            ensure => "6.10.0-1nodesource.el6";
+                        'nodejs':
+                            ensure => '6.10.0-1nodesource.el6';
                     }
                     package {
-                        "mpfr":
+                        'mpfr':
                             ensure => latest;
                     }
                     package {
-                        "devtoolset-2-gcc-c++":
-                            ensure => "4.8.2-15.el6";
+                        'devtoolset-2-gcc-c++':
+                            ensure => '4.8.2-15.el6';
                     }
                     package {
-                        "devtoolset-2-binutils":
-                            ensure => "2.23.52.0.1-10.el6";
+                        'devtoolset-2-binutils':
+                            ensure => '2.23.52.0.1-10.el6';
                     }
                 }
                 default: {
-                    fail("cannot install on $::operatingsystem version $::operatingsystemmajrelease")
+                    fail("Cannot install on ${::operatingsystem} version ${::operatingsystemmajrelease}")
                 }
             }
         }
         Darwin: {
             packages::pkgdmg {
                 'nodejs':
-                    version => '0.10.21',
+                    version             => '0.10.21',
                     os_version_specific => false,
-                    private => false;
+                    private             => false;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

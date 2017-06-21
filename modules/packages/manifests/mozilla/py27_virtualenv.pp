@@ -14,24 +14,24 @@ class packages::mozilla::py27_virtualenv {
         CentOS: {
             Anchor['packages::mozilla::py27_virtualenv::begin'] ->
             package {
-                "mozilla-python27-virtualenv":
-                    ensure => '1.7.1.2-2.el6',
+                'mozilla-python27-virtualenv':
+                    ensure  => '1.7.1.2-2.el6',
                     require => Class['packages::mozilla::python27'];
             } -> Anchor['packages::mozilla::py27_virtualenv::end']
         }
         Darwin: {
             Anchor['packages::mozilla::py27_virtualenv::begin'] ->
             packages::pkgdmg {
-                python27-virtualenv:
+                'python27-virtualenv':
                     os_version_specific => false,
-                    version => "1.7.1.2-1";
+                    version             => '1.7.1.2-1';
             } -> Anchor['packages::mozilla::py27_virtualenv::end']
         }
         Windows: {
             #TODO: add windows support https://bugzilla.mozilla.org/show_bug.cgi?id=1113324
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

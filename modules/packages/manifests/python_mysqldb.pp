@@ -2,15 +2,15 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-class packages::python-mysqldb {
+class packages::python_mysqldb {
     case $::operatingsystem {
         Ubuntu: {
-            package { "python-mysqldb":
+            package { 'python-mysqldb':
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

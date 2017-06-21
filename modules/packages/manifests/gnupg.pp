@@ -6,7 +6,7 @@ class packages::gnupg {
     case $::operatingsystem {
         CentOS: {
             package {
-                "gnupg2":
+                'gnupg2':
                     ensure => latest;
             }
         }
@@ -17,9 +17,9 @@ class packages::gnupg {
             # install similarly
             packages::pkgdmg {
                 GPGTools:
-                    version => "20111224",
+                    version             => '20111224',
                     os_version_specific => false,
-                    before => File['/Library/LaunchAgents/org.gpgtools.macgpg2.gpg-agent.plist.plist'];
+                    before              => File['/Library/LaunchAgents/org.gpgtools.macgpg2.gpg-agent.plist.plist'];
             }
 
             # and, this file is bogus and causes warnings:
@@ -30,7 +30,7 @@ class packages::gnupg {
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

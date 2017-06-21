@@ -5,19 +5,19 @@ class packages::mozilla::ccache {
     case $::operatingsystem {
         CentOS: {
             package {
-                "ccache":
+                'ccache':
                     ensure => '3.1.9-3moz0';
             }
         }
         Darwin: {
             packages::pkgdmg {
-                ccache:
-                    version => "3.1.7";
+                'ccache':
+                    version => '3.1.7';
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

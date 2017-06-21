@@ -5,7 +5,7 @@ class packages::sudo {
     case $::operatingsystem {
         CentOS, Ubuntu : {
             package {
-                "sudo" :
+                'sudo' :
                     ensure => latest ;
             }
         }
@@ -14,7 +14,7 @@ class packages::sudo {
 
         }
         default : {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

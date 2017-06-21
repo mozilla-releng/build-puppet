@@ -5,12 +5,12 @@ class packages::php {
     case $::operatingsystem {
         CentOS: {
             package {
-                "php-cli":
+                'php-cli':
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

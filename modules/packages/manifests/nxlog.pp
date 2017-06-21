@@ -7,7 +7,7 @@ class packages::nxlog{
         Windows: {
             packages::pkgmsi {
                 'NXLOG-CE':
-                    msi => 'nxlog-ce-2.8.1248.msi',
+                    msi             => 'nxlog-ce-2.8.1248.msi',
                     install_options => [ '/quiet' ];
             }
         }

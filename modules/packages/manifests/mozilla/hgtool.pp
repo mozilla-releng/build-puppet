@@ -6,11 +6,11 @@ class packages::mozilla::hgtool {
     case $::operatingsystem {
         Darwin,CentOS,Ubuntu: {
             file  {
-                "/usr/local/bin/hgtool.py":
-                    source => "puppet:///modules/packages/hgtool.py",
-                    owner => "$users::root::username",
-                    group => "$users::root::group",
-                    mode => 0755;
+                '/usr/local/bin/hgtool.py':
+                    source => 'puppet:///modules/packages/hgtool.py',
+                    owner  => $users::root::username,
+                    group  => $users::root::group,
+                    mode   => '0755';
             }
         }
         Windows: {

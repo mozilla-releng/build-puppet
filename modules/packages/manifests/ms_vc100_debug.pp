@@ -5,8 +5,8 @@ class packages::ms_vc100_debug {
 
     # Package source:
     packages::pkgmsi {
-        "Microsoft_VC100_DebugCRT_x86":
-            msi             => "Microsoft_VC100_DebugCRT_x86.msi",
+        'Microsoft_VC100_DebugCRT_x86':
+            msi             => 'Microsoft_VC100_DebugCRT_x86.msi',
             private         => true,
             install_options => ['/qb'];
     }

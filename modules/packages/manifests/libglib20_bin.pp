@@ -5,13 +5,13 @@ class packages::libglib20_bin {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "libglib2.0-bin":
+                'libglib2.0-bin':
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

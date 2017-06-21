@@ -10,13 +10,13 @@ class packages::puppetserver {
     case $::operatingsystem {
         CentOS: {
             package {
-                "puppet-server":
-                    require => Class["packages::puppet"],
-                    ensure => $packages::puppet::puppet_rpm_version;
+                'puppet-server':
+                    ensure  => $packages::puppet::puppet_rpm_version,
+                    require => Class['packages::puppet'];
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

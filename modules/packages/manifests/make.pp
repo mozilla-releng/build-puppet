@@ -6,12 +6,12 @@ class packages::make {
     case $operatingsystem {
         CentOS: {
             package {
-                "make":
+                'make':
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

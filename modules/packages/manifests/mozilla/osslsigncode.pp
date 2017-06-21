@@ -7,13 +7,13 @@ class packages::mozilla::osslsigncode {
         CentOS: {
             realize(Packages::Yumrepo['osslsigncode'])
             package {
-                "osslsigncode":
+                'osslsigncode':
                     ensure => "1.7.1-1.el6";
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

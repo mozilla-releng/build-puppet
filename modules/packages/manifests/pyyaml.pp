@@ -5,14 +5,14 @@ class packages::pyyaml {
     case $::operatingsystem {
         CentOS: {
             package {
-                "PyYAML":
-                    ensure => "3.09-5.el6";
+                'PyYAML':
+                    ensure => '3.09-5.el6';
             }
         }
 
         Ubuntu: {
             package {
-                "python-yaml":
+                'python-yaml':
                     ensure => present;
             }
         }
@@ -20,21 +20,21 @@ class packages::pyyaml {
             include buildslave::install
 
             packages::pkgzip {
-                "PyYAML-3.11.zip":
-                    require    => Class["buildslave::install"],
-                    zip        => "PyYAML-3.11.zip",
+                'PyYAML-3.11.zip':
+                    require    => Class['buildslave::install'],
+                    zip        => 'PyYAML-3.11.zip',
                     target_dir => '"C:\Mozilla-Build\"';
             }
             exec {
-                "pyyaml_setup":
-                    require => Packages::Pkgzip["PyYAML-3.11.zip"],
+                'pyyaml_setup':
+                    require => Packages::Pkgzip['PyYAML-3.11.zip'],
                     command => "C:\\mozilla-build\\buildbotve\\Scripts\\python.exe C:\\mozilla-build\\PyYAML-3.11\\setup.py install",
                     cwd     => "C:\\mozilla-build\\PyYAML-3.11",
                     creates => "C:\\mozilla-build\\buildbotve\\Lib\\site-packages\\PyYAML-3.11-py2.7.egg-info";
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

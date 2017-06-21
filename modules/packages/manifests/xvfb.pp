@@ -5,15 +5,15 @@ class packages::xvfb {
     case $::operatingsystem {
         CentOS: {
             package {
-                "xorg-x11-server-Xvfb":
+                'xorg-x11-server-Xvfb':
                     ensure => latest;
-                "xorg-x11-xauth":
+                'xorg-x11-xauth':
                     ensure => latest;
             }
         }
         Ubuntu: {
             package {
-                ["xauth", "xvfb"]:
+                ['xauth', 'xvfb']:
                     ensure => latest;
             }
         }
@@ -21,7 +21,7 @@ class packages::xvfb {
             # N/A
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

@@ -5,7 +5,7 @@ class packages::strace {
     case $::operatingsystem {
         CentOS, Ubuntu: {
             package {
-                "strace":
+                'strace':
                     ensure => latest;
             }
         }
@@ -13,7 +13,7 @@ class packages::strace {
             #dtrace is installed with base install image
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

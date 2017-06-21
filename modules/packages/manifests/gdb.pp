@@ -5,13 +5,13 @@ class packages::gdb {
     case $::operatingsystem {
         CentOS: {
             package {
-                "gdb":
+                'gdb':
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

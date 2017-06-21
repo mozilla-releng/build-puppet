@@ -6,13 +6,13 @@ class packages::procmail {
         CentOS: {
             realize(Packages::Yumrepo['procmail'])
             package {
-                "procmail":
+                'procmail':
                     ensure => '3.22-25.1.el6_5.1';
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

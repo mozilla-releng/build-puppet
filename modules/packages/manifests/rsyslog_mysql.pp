@@ -7,14 +7,14 @@ class packages::rsyslog_mysql {
         CentOS: {
             realize(Packages::Yumrepo['rsyslog'])
             package {
-                "rsyslog-mysql":
-                    ensure => "latest",
+                'rsyslog-mysql':
+                    ensure  => 'latest',
                     require => Class['packages::rsyslog'];
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

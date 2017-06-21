@@ -5,12 +5,12 @@ class packages::xrestop {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "xrestop":
+                'xrestop':
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

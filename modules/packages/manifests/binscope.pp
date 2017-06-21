@@ -3,8 +3,8 @@
 #file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::binscope{
     packages::pkgmsi {
-        "SDL BinScope":
-            msi => "BinScopeSetup.msi",
+        'SDL BinScope':
+            msi             => 'BinScopeSetup.msi',
             install_options => ['/QUIET'];
     }
 }

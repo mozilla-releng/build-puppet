@@ -11,12 +11,12 @@ class packages::upx {
         Darwin: {
             Anchor['packages::upx::begin'] ->
             packages::pkgdmg {
-                upx:
-                    version => "3.05";
+                'upx':
+                    version => '3.05';
             } -> Anchor['packages::upx::end']
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

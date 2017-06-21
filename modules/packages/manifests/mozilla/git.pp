@@ -12,13 +12,13 @@ class packages::mozilla::git {
             realize(Packages::Yumrepo['git'])
             Anchor['packages::mozilla::git::begin'] ->
             package {
-                "git":
+                'git':
                     ensure => '2.7.4-moz1.el6';
-                "perl-Git":
+                'perl-Git':
                     ensure => '2.7.4-moz1.el6';
-                "perl-Error":
+                'perl-Error':
                     ensure => present;
-                "mozilla-git":
+                'mozilla-git':
                     ensure => absent;
             } -> Anchor['packages::mozilla::git::end']
         }
@@ -28,7 +28,7 @@ class packages::mozilla::git {
                     realize(Packages::Aptrepo['git'])
                     Anchor['packages::mozilla::git::begin'] ->
                     package {
-                        "git":
+                        'git':
                             ensure => '1:2.7.4-0ppa1~ubuntu12.04.1';
                     } -> Anchor['packages::mozilla::git::end']
                 }
@@ -36,19 +36,19 @@ class packages::mozilla::git {
                     realize(Packages::Aptrepo['git'])
                     Anchor['packages::mozilla::git::begin'] ->
                     package {
-                        "git":
+                        'git':
                             ensure => '1:2.7.4-0ppa1~ubuntu14.04.1';
                     } -> Anchor['packages::mozilla::git::end']
                 }
                 16.04: {
                     Anchor['packages::mozilla::git::begin'] ->
                     package {
-                        "git":
+                        'git':
                             ensure => '1:2.7.4-0ubuntu1';
                     } -> Anchor['packages::mozilla::git::end']
                 }
                 default: {
-                    fail("Unrecognized Ubuntu version $::operatingsystemrelease")
+                    fail("Unrecognized Ubuntu version ${::operatingsystemrelease}")
                 }
             }
         }
@@ -57,10 +57,10 @@ class packages::mozilla::git {
                 10.6, 10.10: {
                     Anchor['packages::mozilla::git::begin'] ->
                     packages::pkgdmg {
-                        "git":
+                        'git':
                             os_version_specific => true,
-                            private => false,
-                            version => "2.7.4-2";
+                            private             => false,
+                            version             => '2.7.4-2';
                     } -> Anchor['packages::mozilla::git::end']
                 }
                 10.7: {
@@ -69,14 +69,14 @@ class packages::mozilla::git {
                     # See bug 1257633
                     Anchor['packages::mozilla::git::begin'] ->
                     packages::pkgdmg {
-                        "git":
+                        'git':
                             os_version_specific => true,
-                            private => false,
-                            version => "2.7.4-3";
+                            private             => false,
+                            version             => '2.7.4-3';
                     } -> Anchor['packages::mozilla::git::end']
                 }
                 default: {
-                    fail("Cannot install on OS X $macosx_productversion_major")
+                    fail("Cannot install on OS X ${::macosx_productversion_major}")
                 }
             }
         }
@@ -84,25 +84,25 @@ class packages::mozilla::git {
 
             include dirs::etc
 
-            $git_exe  = "Git-2.7.4-32-bit.exe"
+            $git_exe  = 'Git-2.7.4-32-bit.exe'
             $inst_dir = "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\"
-            $inst_cmd = "$inst_dir$git_exe"
+            $inst_cmd = "${inst_dir}${git_exe}"
 
             file {
-                "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/$git_exe":
+                "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/${git_exe}":
                     ensure  => file,
-                    source  => "puppet:///repos/EXEs/$git_exe",
-                    require => Class["dirs::installersource::puppetagain_pub_build_mozilla_org::exes"];
+                    source  => "puppet:///repos/EXEs/${git_exe}",
+                    require => Class['dirs::installersource::puppetagain_pub_build_mozilla_org::exes'];
             }
             exec {
-                "$git_exe":
-                    command => "$inst_cmd  /VERYSILENT /DIR=C:\\mozilla-build\\Git",
-                    creates => "C:\\mozilla-build\\git\\unins001.exe",
-                    require => File["C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/$git_exe"],
+                $git_exe:
+                    command => "${inst_cmd}  /VERYSILENT /DIR=C:\\mozilla-build\\Git",
+                    creates => 'C:\mozilla-build\git\unins001.exe',
+                    require => File["C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/${git_exe}"],
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

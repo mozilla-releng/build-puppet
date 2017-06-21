@@ -10,7 +10,7 @@ class packages::p7zip {
     case $::operatingsystem {
         CentOS: {
             package {
-                "p7zip":
+                'p7zip':
                     ensure => latest;
             }
         }
@@ -19,11 +19,11 @@ class packages::p7zip {
             packages::pkgdmg {
                 'p7zip':
                     # this DMG came from the old releng puppet.  Its provenance is unknown.
-                    version => "9.20.1";
+                    version => '9.20.1';
             } -> Anchor['packages::p7zip::end']
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

@@ -11,7 +11,7 @@ class packages::mozilla::signmar {
         CentOS: {
             Anchor['packages::mozilla::signmar::begin'] ->
             package {
-                "signmar":
+                'signmar':
                     # 19.0 is what was installed on the old systems
                     ensure => '19.0-2.el6';
             } -> Anchor['packages::mozilla::signmar::end']
@@ -19,15 +19,15 @@ class packages::mozilla::signmar {
         Darwin: {
             Anchor['packages::mozilla::signmar::begin'] ->
             packages::pkgdmg {
-                signmar:
+                'signmar':
                     # the old systems had 14.0 or something like that,
                     # which we couldn't build.  19.0 didn't work, but
                     # 23.0 did.
-                    version => "23.0";
+                    version => '23.0';
             } -> Anchor['packages::mozilla::signmar::end']
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

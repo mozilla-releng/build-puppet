@@ -5,13 +5,13 @@ class packages::netcat {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "netcat":
+                'netcat':
                     ensure => latest;
             }
         }
         CentOS: {
             package {
-                "nc":
+                'nc':
                     ensure => latest;
             }
         }
@@ -19,7 +19,7 @@ class packages::netcat {
             # nc is installed with base install image
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

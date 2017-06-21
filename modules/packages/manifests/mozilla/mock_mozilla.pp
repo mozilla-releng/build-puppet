@@ -6,12 +6,12 @@ class packages::mozilla::mock_mozilla {
         CentOS: {
             realize(Packages::Yumrepo['mock_mozilla'])
             package {
-                "mock_mozilla":
+                'mock_mozilla':
                     ensure => '1.0.3-1.el6';
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

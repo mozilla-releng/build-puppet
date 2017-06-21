@@ -6,21 +6,21 @@ class packages::snmp {
         CentOS: {
             realize(Packages::Yumrepo['snmp'])
             package {
-                [ "net-snmp",
-                  "net-snmp-utils",
-                  "net-snmp-libs",
+                [ 'net-snmp',
+                  'net-snmp-utils',
+                  'net-snmp-libs',
                 ]:
                     ensure => '5.5-57.el6_8.1';
             }
         }
         Ubuntu: {
             package {
-                "snmp":
+                'snmp':
                     ensure => latest;
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

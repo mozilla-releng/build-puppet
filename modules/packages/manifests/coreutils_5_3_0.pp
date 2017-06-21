@@ -6,15 +6,15 @@ class packages::coreutils_5_3_0 {
     include dirs::installersource::puppetagain_pub_build_mozilla_org::exes
 
     file {
-        "C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/coreutils-5.3.0.exe":
+        'C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/coreutils-5.3.0.exe':
             ensure  => file,
-            source  => "puppet:///repos/EXEs/coreutils-5.3.0.exe",
-            require => Class["dirs::installersource::puppetagain_pub_build_mozilla_org::exes"];
+            source  => 'puppet:///repos/EXEs/coreutils-5.3.0.exe',
+            require => Class['dirs::installersource::puppetagain_pub_build_mozilla_org::exes'];
     }
     exec {
-        "install_coreutils":
+        'install_coreutils':
             command => "C:\\installersource\\puppetagain.pub.build.mozilla.org\\EXEs\\coreutils-5.3.0.exe  /silent /norestart",
             creates => "C:\\Program Files\\GnuWin32\\uninstall",
-            require => File["C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/coreutils-5.3.0.exe"],
+            require => File['C:/installersource/puppetagain.pub.build.mozilla.org/EXEs/coreutils-5.3.0.exe'],
     }
 }

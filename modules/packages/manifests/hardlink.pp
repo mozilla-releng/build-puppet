@@ -6,13 +6,13 @@ class packages::hardlink {
     case $::operatingsystem {
         CentOS: {
             package {
-                "hardlink":
+                'hardlink':
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

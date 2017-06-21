@@ -5,7 +5,7 @@ class packages::postfix {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "postfix":
+                'postfix':
                     ensure => latest;
             }
         }
@@ -26,18 +26,18 @@ class packages::postfix {
             } ->
             exec {
                 'switch-ssmtp-postfix':
-                    onlyif => '/bin/rpm -qi ssmtp',
+                    onlyif  => '/bin/rpm -qi ssmtp',
                     command => '/usr/bin/yum -y shell < /root/switch-ssmtp-postfix';
             } ~>
             exec {
-                "update-mta-alternatives":
-                    command     => "/usr/sbin/alternatives --auto mta",
+                'update-mta-alternatives':
+                    command     => '/usr/sbin/alternatives --auto mta',
                     refreshonly => true;
             }
 
             # let Puppet take care of updating
             package {
-                "postfix":
+                'postfix':
                     ensure => latest;
             }
         }
@@ -47,7 +47,7 @@ class packages::postfix {
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

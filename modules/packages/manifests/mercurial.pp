@@ -5,18 +5,18 @@ class packages::mercurial {
     case $::operatingsystem {
         CentOS: {
             package {
-                "mercurial":
-                    ensure => "1.4-3.el6";
+                'mercurial':
+                    ensure => '1.4-3.el6';
             }
         }
         Ubuntu: {
             package {
-                ["mercurial", "mercurial-common"]:
-                    ensure => "2.5.4-0mozilla1";
+                ['mercurial', 'mercurial-common']:
+                    ensure => '2.5.4-0mozilla1';
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

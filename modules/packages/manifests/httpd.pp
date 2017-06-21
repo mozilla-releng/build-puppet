@@ -6,13 +6,13 @@ class packages::httpd {
         CentOS: {
             realize(Packages::Yumrepo['httpd'])
             package {
-                "httpd":
-                    ensure => "2.2.15-56.el6.centos.3";
+                'httpd':
+                    ensure => '2.2.15-56.el6.centos.3';
             }
         }
         Ubuntu: {
             package {
-                "apache2":
+                'apache2':
                     ensure => latest;
             }
         }
@@ -23,15 +23,15 @@ class packages::httpd {
         Windows: {
             # Package source: https://archive.apache.org/dist/httpd/binaries/win32/
             packages::pkgmsi {
-                "Apache HTTP Server 2.2.22":
-                    msi             => "httpd-2.2.22-win32-x86-no_ssl.msi",
+                'Apache HTTP Server 2.2.22':
+                    msi             => 'httpd-2.2.22-win32-x86-no_ssl.msi',
                     private         => true,
                     install_options => ['/qb'];
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

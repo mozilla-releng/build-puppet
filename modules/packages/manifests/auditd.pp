@@ -6,17 +6,17 @@ class packages::auditd {
     case $::operatingsystem {
         CentOS: {
             package {
-                "audit":
+                'audit':
                     ensure => latest;
             } ->
             package {
-                ["audit-libs-python", "audispd-plugins"]:
+                ['audit-libs-python', 'audispd-plugins']:
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("cannot install on ${::operatingsystem}")
         }
     }
 }

@@ -11,12 +11,12 @@ class packages::libpng {
         Darwin: {
             Anchor['packages::libpng::begin'] ->
             packages::pkgdmg {
-                libpng:
-                    version => "1.6.2";
+                'libpng':
+                    version => '1.6.2';
             } -> Anchor['packages::libpng::end']
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

@@ -5,13 +5,13 @@ class packages::rsync {
     case $::operatingsystem {
         CentOS: {
             package {
-                "rsync":
+                'rsync':
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

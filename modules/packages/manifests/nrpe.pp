@@ -5,21 +5,21 @@ class packages::nrpe {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                "nagios-nrpe-server":
-                    ensure => latest,
+                'nagios-nrpe-server':
+                    ensure          => latest,
                     install_options => [ '--no-install-recommends' ];
-                "nagios-plugins":
-                    ensure => latest,
+                'nagios-plugins':
+                    ensure          => latest,
                     install_options => [ '--no-install-recommends' ];
             }
         }
         CentOS: {
             package {
-                "nrpe":
+                'nrpe':
                     ensure => latest;
-                "nagios-plugins-nrpe":
+                'nagios-plugins-nrpe':
                     ensure => latest;
-                "nagios-plugins-all":
+                'nagios-plugins-all':
                     ensure => latest;
             }
         }
@@ -27,13 +27,13 @@ class packages::nrpe {
             packages::pkgdmg {
                 # this DMG contains both nrpe and the plugins, and creates
                 # the user/group, but does not install the service.
-                nrpe:
-                    version => "2.14-moz1";
+                'nrpe':
+                    version => '2.14-moz1';
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

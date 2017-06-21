@@ -6,12 +6,12 @@ class packages::subversion {
         CentOS: {
             realize(Packages::Yumrepo['subversion'])
             package {
-                "subversion":
-                    ensure => "1.6.11-15.el6_7";
+                'subversion':
+                    ensure => '1.6.11-15.el6_7';
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

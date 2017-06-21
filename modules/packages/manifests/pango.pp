@@ -5,13 +5,13 @@ class packages::pango {
     case $::operatingsystem {
         CentOS: {
             package {
-                "pango":
+                'pango':
                     ensure => latest;
             }
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

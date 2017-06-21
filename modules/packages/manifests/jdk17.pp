@@ -12,12 +12,12 @@ class packages::jdk17 {
         CentOS: {
             realize(Packages::Yumrepo['jdk17'])
             package {
-                ["java-1.7.0-openjdk", "java-1.7.0-openjdk-devel"]:
-                    ensure => "1.7.0.131-2.6.9.0.el6_8";
+                ['java-1.7.0-openjdk', 'java-1.7.0-openjdk-devel']:
+                    ensure => '1.7.0.131-2.6.9.0.el6_8';
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 

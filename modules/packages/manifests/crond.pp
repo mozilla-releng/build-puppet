@@ -5,14 +5,14 @@ class packages::crond {
     case $::operatingsystem {
         CentOS: {
             package {
-                "cronie":
+                'cronie':
                     ensure => latest;
             }
         }
 
         Ubuntu: {
             package {
-                "cron":
+                'cron':
                     ensure => latest;
             }
         }
@@ -22,7 +22,7 @@ class packages::crond {
         }
 
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

@@ -5,12 +5,12 @@
 #Source http://www.uvnc.com/
 class packages::ultravnc{
 
-    $vnc_msi = $hardwaremodel ? {
-        i686    => "UltraVnc_10962_x86.msi",
-        default => "UltraVnc_10962_x64.msi",
+    $vnc_msi = $::hardwaremodel ? {
+        i686    => 'UltraVnc_10962_x86.msi',
+        default => 'UltraVnc_10962_x64.msi',
     }
-    packages::pkgmsi {"UltraVnc":
-        msi => "$vnc_msi",
+    packages::pkgmsi {'UltraVnc':
+        msi             => $vnc_msi,
         install_options => ['/QUIET'];
     }
 }
