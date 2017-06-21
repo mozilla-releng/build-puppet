@@ -9,7 +9,7 @@ class puppet::settings {
         default => '/etc/puppet/puppet.conf',
     }
 
-    if ($::pin_puppet_server != '') {
+    if ($pin_puppet_server != '') {
         $puppet_server  = $pin_puppet_server
         $puppet_servers = [ $pin_puppet_server ]
     } else {
