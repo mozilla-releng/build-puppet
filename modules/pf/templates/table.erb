@@ -1,0 +1,7 @@
+# Table <%= @name %>
+table <<%= @name %>> persist { \
+    <% @cidr_array.sort.each do |i| -%>
+    <%= i %> \
+    <% end -%>
+}
+
