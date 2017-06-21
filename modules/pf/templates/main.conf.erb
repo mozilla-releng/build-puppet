@@ -1,0 +1,22 @@
+
+# Do not packet filter anything on loopback device
+set skip on lo0
+
+# Setup antispoofing
+antispoof quick for <%= @iface %>
+
+# Set default rule of deny all both in and out
+block all
+
+# Make an exception for all outgoing packets
+pass out all
+
+# Allow all icmp packets
+pass in quick inet proto icmp all icmp-type echoreq
+
+# Include tables
+include "<%= @pf_dir -%>/tables.conf"
+
+# Include rules
+include "<%= @pf_dir -%>/rules.conf"
+
