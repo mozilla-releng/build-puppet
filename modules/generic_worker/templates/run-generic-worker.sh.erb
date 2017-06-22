@@ -6,6 +6,10 @@
 # will exit after running a single task. This script is then responsible for
 # rebooting the machine.
 
+# If this file exists when the worker starts up, and its content is equal
+# to numberOfTasksToRun, the worker won't exit and machine won't reboot.
+rm -f tasks-resolved-count.txt
+
 # First run the generic-worker, passing through any arguments handed to this
 # wrapper script...
 /usr/local/bin/generic-worker "$@" 2>&1 | logger -t generic-worker -s
