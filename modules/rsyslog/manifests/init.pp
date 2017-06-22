@@ -7,39 +7,39 @@ class rsyslog {
     case $::operatingsystem {
         CentOS,Ubuntu: {
             file {
-                "/etc/rsyslog.conf":
+                '/etc/rsyslog.conf':
                     ensure => present,
-                    source => "puppet:///modules/rsyslog/rsyslog.conf",
-                    notify => Service["rsyslog"];
-                "/etc/rsyslog.d/":
-                    ensure => directory,
-                    notify => Service["rsyslog"],
+                    source => 'puppet:///modules/rsyslog/rsyslog.conf',
+                    notify => Service['rsyslog'];
+                '/etc/rsyslog.d/':
+                    ensure  => directory,
+                    notify  => Service['rsyslog'],
                     recurse => true,
-                    purge => true,
-                    force => true;
+                    purge   => true,
+                    force   => true;
             }
             case $::operatingsystemrelease {
                 16.04: {
                     service {
-                        "rsyslog":
-                            provider => 'systemd',
-                            require  => Class["packages::rsyslog"],
+                        'rsyslog':
                             ensure   => running,
+                            provider => 'systemd',
+                            require  => Class['packages::rsyslog'],
                             enable   => true;
                     }
                 }
                 default: {
                     service {
-                        "rsyslog":
-                            require => Class["packages::rsyslog"],
+                        'rsyslog':
                             ensure  => running,
+                            require => Class['packages::rsyslog'],
                             enable  => true;
                     }
                 }
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 

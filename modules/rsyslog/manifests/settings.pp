@@ -6,5 +6,5 @@ class rsyslog::settings {
     include users::root
     $group = $users::root::group
     $owner = $users::root::username
-    $mode = "644"
+    $mode = '0644'
 }
