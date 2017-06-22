@@ -306,12 +306,25 @@ class config inherits config::base {
 
     $buildmaster_ssh_keys              = [ 'ffxbld_rsa', 'tbirdbld_dsa', 'trybld_dsa' ]
 
-    $collectd_write                    = {
-        graphite_nodes => {
-            'graphite-relay.private.scl3.mozilla.com' => {
-                'port' => '2003', 'prefix' => 'hosts.',
-            },
-        },
+    case $::fqdn {
+        /.*\.mdc1\.mozilla\.com/: {
+                $collectd_write = {
+                    graphite_nodes => {
+                        'graphite1.private.mdc1.mozilla.com' => {
+                            'port' => '2003', 'prefix' => 'hosts.',
+                        },
+                    },
+                }
+        }
+        /.*\.scl3\.mozilla\.com/: {
+                $collectd_write                    = {
+                    graphite_nodes => {
+                        'graphite-relay.private.scl3.mozilla.com' => {
+                            'port' => '2003', 'prefix' => 'hosts.',
+                        },
+                    },
+                }
+        }
     }
 
     #### start configuration information for rsyslog logging
