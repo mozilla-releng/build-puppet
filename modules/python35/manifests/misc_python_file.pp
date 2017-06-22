@@ -12,11 +12,11 @@ define python35::misc_python_file {
     $filename = $title
 
     file {
-        "${python35::virtualenv::settings::misc_python_dir}/$filename":
-            source => "${python35::virtualenv::settings::packages_dir_source}/$filename",
-            backup => false,
+        "${python35::virtualenv::settings::misc_python_dir}/${filename}":
+            source  => "${python35::virtualenv::settings::packages_dir_source}/${filename}",
+            backup  => false,
             require => [
-                File["${python35::virtualenv::settings::misc_python_dir}"],
+                File[$python35::virtualenv::settings::misc_python_dir],
             ];
     }
 }

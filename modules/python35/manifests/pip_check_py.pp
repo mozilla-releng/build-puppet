@@ -12,11 +12,11 @@ class python35::pip_check_py {
     $file = "${python35::virtualenv::settings::misc_python_dir}/pip-check.py"
 
     file {
-        "$file":
-            source => "puppet:///modules/python35/pip-check.py",
-            owner => root,
-            group => $::users::root::group,
-            mode => filemode(0644),
-            require => Class["python35::misc_python_dir"];
+        $file:
+            source  => 'puppet:///modules/python35/pip-check.py',
+            owner   => root,
+            group   => $::users::root::group,
+            mode    => '0644',
+            require => Class['python35::misc_python_dir'];
     }
 }
