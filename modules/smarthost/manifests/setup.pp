@@ -6,23 +6,23 @@ class smarthost::setup {
     include ::config
 
     file {
-        "/etc/postfix/main.cf":
-            mode => 0644,
-            ensure => present,
-            content => template("smarthost/main.cf.erb"),
-            require => Class["smarthost::install"],
-            notify => Class["smarthost::daemon"];
-        "/etc/aliases":
-            content => template("smarthost/aliases.erb"),
-            owner => root,
-            group => $users::root::group,
+        '/etc/postfix/main.cf':
+            ensure  => present,
+            mode    => '0644',
+            content => template('smarthost/main.cf.erb'),
             require => Class['smarthost::install'],
-            notify => Exec['newaliases'];
+            notify  => Class['smarthost::daemon'];
+        '/etc/aliases':
+            content => template('smarthost/aliases.erb'),
+            owner   => root,
+            group   => $users::root::group,
+            require => Class['smarthost::install'],
+            notify  => Exec['newaliases'];
     }
 
     exec {
         'newaliases':
-            command => "/usr/bin/newaliases",
+            command     => '/usr/bin/newaliases',
             refreshonly => true;
     }
 }
