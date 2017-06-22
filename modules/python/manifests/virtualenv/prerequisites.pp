@@ -13,7 +13,7 @@ class python::virtualenv::prerequisites {
 
     Anchor['python::virtualenv::prerequisites::begin'] ->
     python::misc_python_file {
-        "virtualenv.py": ;
+        'virtualenv.py': ;
     } -> Anchor['python::virtualenv::prerequisites::end']
 
     # these two need to be in the same dir as virtualenv.py, or it will
@@ -24,6 +24,6 @@ class python::virtualenv::prerequisites {
     } -> Anchor['python::virtualenv::prerequisites::end']
     Anchor['python::virtualenv::prerequisites::begin'] ->
     python::misc_python_file {
-        "distribute-0.6.24.tar.gz": ; # the virtualenv.py above looks for this version
+        'distribute-0.6.24.tar.gz': ; # the virtualenv.py above looks for this version
     } -> Anchor['python::virtualenv::prerequisites::end']
 }

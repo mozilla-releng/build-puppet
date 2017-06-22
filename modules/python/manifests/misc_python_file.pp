@@ -12,11 +12,11 @@ define python::misc_python_file {
     $filename = $title
 
     file {
-        "${python::virtualenv::settings::misc_python_dir}/$filename":
-            source => "${python::virtualenv::settings::packages_dir_source}/$filename",
-            backup => false,
+        "${python::virtualenv::settings::misc_python_dir}/${filename}":
+            source  => "${python::virtualenv::settings::packages_dir_source}/${filename}",
+            backup  => false,
             require => [
-                File["${python::virtualenv::settings::misc_python_dir}"],
+                File[$python::virtualenv::settings::misc_python_dir],
             ];
     }
 }
