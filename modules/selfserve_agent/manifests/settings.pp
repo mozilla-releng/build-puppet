@@ -5,7 +5,7 @@
 class selfserve_agent::settings {
     include ::config
 
-    $root = $::config::selfserve_agent_root
+    $root         = $::config::selfserve_agent_root
     $buildapi_dst = "${root}/buildapi"
-    $logfile = "${root}/agent.log"
+    $logfile      = "${root}/agent.log"
 }
