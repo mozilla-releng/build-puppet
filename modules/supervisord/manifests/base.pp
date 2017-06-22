@@ -6,29 +6,29 @@ class supervisord::base {
     include packages::mozilla::supervisor
 
     file {
-        "/etc/supervisord.conf":
-            source => "puppet:///modules/supervisord/supervisord.conf";
+        '/etc/supervisord.conf':
+            source => 'puppet:///modules/supervisord/supervisord.conf';
 
-        "/etc/supervisord.d/":
-            notify => Service["supervisord"],
-            ensure => directory,
+        '/etc/supervisord.d/':
+            ensure  => directory,
+            notify  => Service['supervisord'],
             recurse => true,
-            purge => true;
-        "/etc/supervisord.conf.d/":
+            purge   => true;
+        '/etc/supervisord.conf.d/':
+            ensure  => absent,
             recurse => true,
-            force => true,
-            ensure => absent;
+            force   => true;
 
     }
 
     service {
-        "supervisord":
+        'supervisord':
+            ensure  => running,
             require => [
-                Class["packages::mozilla::supervisor"],
-                File["/etc/supervisord.conf"],
+                Class['packages::mozilla::supervisor'],
+                File['/etc/supervisord.conf'],
             ],
-            restart => "/usr/bin/supervisorctl reload",
-            enable => true,
-            ensure => running;
+            restart => '/usr/bin/supervisorctl reload',
+            enable  => true;
     }
 }
