@@ -17,11 +17,11 @@ class runner::tasks::purge_builds($runlevel=1, $required_space=10) {
                     content  => template("${module_name}/tasks/purge_builds.bat.erb");
             }
             exec {
-                "get_purge_builds.py" :
+                'get_purge_builds.py' :
                     command => "C:\\mozilla-build\\wget\\wget.exe  https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/purge_builds.py",
                     cwd     => "C:\\opt\\runner",
                     creates => "C:\\opt\\runner\\purge_builds.py",
-                    require => Class["packages::mozilla::mozilla_build"];
+                    require => Class['packages::mozilla::mozilla_build'];
             }
         }
         default: {

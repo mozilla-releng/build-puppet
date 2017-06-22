@@ -18,6 +18,6 @@ class runner::tasks::checkout_tools($runlevel=0) {
                 Class['packages::mozilla::hgtool'],
                 File['/tools/checkouts'],
             ],
-            content  => template("${module_name}/tasks/checkout_tools.erb");
+            content => template("${module_name}/tasks/checkout_tools.erb");
     }
 }
