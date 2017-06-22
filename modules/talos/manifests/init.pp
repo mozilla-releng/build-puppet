@@ -7,7 +7,7 @@ class talos {
     include dirs::builds::slave
     include users::builder
     include talos::settings
-    if ($::operatingsystem != Windows) {
+    if ($::operatingsystem != 'Windows') {
         include packages::xvfb
         include packages::nodejs
     }
@@ -31,16 +31,16 @@ class talos {
             include packages::system_git
 
             kernelmodule {
-                "snd_aloop":
-                    packages => ["libasound2"];
-                "v4l2loopback":
-                    packages => ["v4l2loopback-dkms"];
+                'snd_aloop':
+                    packages => ['libasound2'];
+                'v4l2loopback':
+                    packages => ['v4l2loopback-dkms'];
             }
 
             case $::hardwaremodel {
                 # We only run Android x86 emulator kvm jobs on
                 # 64-bit host machines
-                "x86_64": {
+                'x86_64': {
                     include packages::cpu_checker
                     include packages::qemu_kvm
                     include packages::bridge_utils
@@ -65,21 +65,21 @@ class talos {
     case $::operatingsystem {
         Darwin, CentOS, Ubuntu: {
             file {
-                [ "/builds/slave/talos-data",
+                [ '/builds/slave/talos-data',
                   $talos::settings::apachedocumentroot]:
                     ensure => directory,
-                    owner => "$users::builder::username",
-                    group => "$users::builder::group",
-                    mode => 0755;
+                    owner  => $users::builder::username,
+                    group  => $users::builder::group,
+                    mode   => '0755';
             }
             file {
-                "/builds/talos-slave":
+                '/builds/talos-slave':
                     ensure => absent,
-                    force => true;
+                    force  => true;
             }
             httpd::config {
-                "talos.conf":
-                    content => template("talos/talos-httpd.conf.erb") ;
+                'talos.conf':
+                    content => template('talos/talos-httpd.conf.erb');
             }
         }
         Windows: {
@@ -88,10 +88,10 @@ class talos {
         include packages::httpd
 
             file {
-                "C:/Program Files/Apache Software Foundation/Apache2.2/conf/httpd.conf":
-                    content => template("talos/talos-httpd.conf.erb"),
-                    require => Packages::Pkgmsi["Apache HTTP Server 2.2.22"],
-                    notify  => Service["Apache2.2"];
+                'C:/Program Files/Apache Software Foundation/Apache2.2/conf/httpd.conf':
+                    content => template('talos/talos-httpd.conf.erb'),
+                    require => Packages::Pkgmsi['Apache HTTP Server 2.2.22'],
+                    notify  => Service['Apache2.2'];
             }
         }
     }
