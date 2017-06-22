@@ -3,8 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 define sudoers::custom($user, $runas, $command) {
     sudoers::customfile {
-        "$title":
-            content => "$user ALL=($runas) NOPASSWD: $command\n";
+        $title:
+            content => "${user} ALL=(${runas}) NOPASSWD: ${command}\n";
     }
 }
 

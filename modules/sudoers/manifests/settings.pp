@@ -6,13 +6,13 @@ class sudoers::settings {
     include users::root
     $group = $users::root::group
     $owner = $users::root::username
-    $mode = "440"
+    $mode  = '0440'
     case $::operatingsystem {
         CentOS: {
-            $rebootpath = "/usr/bin/reboot"
+            $rebootpath = '/usr/bin/reboot'
         }
         Darwin, Ubuntu: {
-            $rebootpath = "/sbin/reboot"
+            $rebootpath = '/sbin/reboot'
         }
     }
 }

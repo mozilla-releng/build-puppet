@@ -8,8 +8,8 @@ define sudoers::customfile($content) {
     #In Windows this is handled by GPO
     if $::operatingsystem != 'Windows' {
         concat::fragment {
-            "10-$title":
-                target => "/etc/sudoers",
+            "10-${title}":
+                target  => '/etc/sudoers',
                 content => $content;
         }
     }

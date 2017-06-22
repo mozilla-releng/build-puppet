@@ -8,22 +8,22 @@ class sudoers {
         # TODO-WIN: this should be replaced with an equivalent on windows
         include packages::sudo
         concat {
-            "/etc/sudoers" :
+            '/etc/sudoers' :
                 require => Class['packages::sudo'],
-                mode => "$sudoers::settings::mode",
-                owner => "$sudoers::settings::owner",
-                group => "$sudoers::settings::group",
+                mode    => $sudoers::settings::mode,
+                owner   => $sudoers::settings::owner,
+                group   => $sudoers::settings::group,
         }
         concat::fragment {
             '00-base':
-                target => "/etc/sudoers",
+                target  => '/etc/sudoers',
                 content => template("${module_name}/sudoers-base.erb");
         }
 
         file {
-            "/etc/sudoers.d" :
-                force => true,
-                ensure => absent ;
+            '/etc/sudoers.d' :
+                ensure => absent,
+                force  => true;
         }
     }
 }
