@@ -5,8 +5,8 @@
 class security::motd {
     include ::security
     motd {
-        "security-level":
+        'security-level':
             content => "This host is set to follow security level \"${::security::level}\"\n",
-            order => 01;
+            order   => 01;
     }
 }

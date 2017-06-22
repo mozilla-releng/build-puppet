@@ -11,44 +11,44 @@ class security {
     #
     # The available levels are "low", "medium", "high", and "maximum". Default is "medium".
 
-    if (has_aspect("low-security")) {
-        $level = "low"
+    if (has_aspect('low-security')) {
+        $level = 'low'
     }
-    elsif (has_aspect("high-security")) {
-        $level = "high"
+    elsif (has_aspect('high-security')) {
+        $level = 'high'
     }
-    elsif (has_aspect("maximum-security")) {
-        $level = "maximum"
+    elsif (has_aspect('maximum-security')) {
+        $level = 'maximum'
     }
     else {
-        $level = "medium"
+        $level = 'medium'
     }
 
     # the following booleans can help determine if a host is at the given level
     # or above.
     case $level {
         low: {
-            $low = true
-            $medium = false
-            $high = false
+            $low     = true
+            $medium  = false
+            $high    = false
             $maximum = false
         }
         medium: {
-            $low = true
-            $medium = true
-            $high = false
+            $low     = true
+            $medium  = true
+            $high    = false
             $maximum = false
         }
         high: {
-            $low = true
-            $medium = true
-            $high = true
+            $low     = true
+            $medium  = true
+            $high    = true
             $maximum = false
         }
         maximum: {
-            $low = true
-            $medium = true
-            $high = true
+            $low     = true
+            $medium  = true
+            $high    = true
             $maximum = true
         }
     }
