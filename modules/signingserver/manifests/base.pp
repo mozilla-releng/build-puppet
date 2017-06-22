@@ -19,7 +19,7 @@ class signingserver::base {
     include packages::mozilla::signing_test_files
     include packages::gnupg
 
-    $root = "/builds/signing"
+    $root = '/builds/signing'
 
     case $::operatingsystem {
         CentOS: {
@@ -45,14 +45,14 @@ class signingserver::base {
 
             file {
                 "${root}/DeveloperIDCA.cer":
-                    source => "puppet:///modules/signingserver/DeveloperIDCA.cer";
+                    source => 'puppet:///modules/signingserver/DeveloperIDCA.cer';
             }
 
             exec {
-                "install-developer-id-root":
+                'install-developer-id-root':
                     command => "/usr/bin/security add-trusted-cert -r trustAsRoot -k /Library/Keychains/System.keychain ${root}/DeveloperIDCA.cer",
                     require => File["${root}/DeveloperIDCA.cer"],
-                    unless => "/usr/bin/security dump-keychain /Library/Keychains/System.keychain | /usr/bin/grep 'Developer ID Certification'",
+                    unless  => "/usr/bin/security dump-keychain /Library/Keychains/System.keychain | /usr/bin/grep 'Developer ID Certification'",
                     # This command returns an error despite actually importing
                     # the certificate correctly.
                     # For posterity, the error returned is "SecTrustSettingsSetTrustSettings: The authorization was denied since no user interaction was possible.".
@@ -65,15 +65,15 @@ class signingserver::base {
         # instances are stored with locked-down perms
         $root:
             ensure => directory,
-            owner => $users::signer::username,
-            group => $users::signer::group,
-            mode => '0700';
+            owner  => $users::signer::username,
+            group  => $users::signer::group,
+            mode   => '0700';
     }
 
     motd {
-        "signing":
+        'signing':
             content => "\nONLY START SIGNING SERVERS AS cltsign\n\nThis signing server hosts the following instances:\n",
-            order => 90;
+            order   => 90;
     }
 
     # NOTE: on CentOS, packages::jdk16 installs jarsigner in the default PATH
