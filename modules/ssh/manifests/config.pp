@@ -10,7 +10,7 @@ class ssh::config {
     case $::operatingsystem {
         CentOS: {
             # enable sftp sybsystem on CentOS
-            $sftp_line = "Subsystem sftp /usr/libexec/openssh/sftp-server"
+            $sftp_line = 'Subsystem sftp /usr/libexec/openssh/sftp-server'
         }
     }
 
@@ -18,9 +18,9 @@ class ssh::config {
         Windows: {
             include packages::kts
 
-            $publickey_logon_ini = "C:/Program Files/KTS/publickey_logon.ini"
-            $rsakey_ky = "C:/Program Files/KTS/rsakey.ky"
-            $kts_ini = "C:/Program Files/KTS/kts.ini"
+            $publickey_logon_ini = 'C:/Program Files/KTS/publickey_logon.ini'
+            $rsakey_ky           = 'C:/Program Files/KTS/rsakey.ky'
+            $kts_ini             = 'C:/Program Files/KTS/kts.ini'
 
             file {
                 $ssh::settings::genkey_dir:
@@ -29,27 +29,27 @@ class ssh::config {
 
             # install kts.ini
             file {
-                "C:/Program Files/KTS/kts.ini":
-                    content => template("${module_name}/kts.ini.erb"),
+                'C:/Program Files/KTS/kts.ini':
+                    content   => template("${module_name}/kts.ini.erb"),
                     show_diff => false,
-                    notify => Service['KTS'],
+                    notify    => Service['KTS'],
             }
 
             # generate a server key for KTS
             exec {
-                "RSAkey":
+                'RSAkey':
                     command => '"C:\Program Files\KTS\daemon.exe" -rsakey',
-                    require => Class["packages::kts"],
-                    notify => Service['KTS'],
+                    require => Class['packages::kts'],
+                    notify  => Service['KTS'],
                     creates => $rsakey_ky;
             }
 
             # install the logon batch file which will share the MOTD file
             file {
-                "C:/Program Files/KTS/Scripts/allusers.bat":
-                    source => "puppet:///modules/ssh/allusers.bat",
+                'C:/Program Files/KTS/Scripts/allusers.bat':
+                    source  => 'puppet:///modules/ssh/allusers.bat',
                     replace => true,
-                    require => Class["packages::kts"];
+                    require => Class['packages::kts'];
             }
 
             # regenerate publickey_logon_ini; this is connected to everything
@@ -58,31 +58,31 @@ class ssh::config {
             # Files\KTS\*.pass (from users::{root,builder,etc.}
             file {
                 "${::ssh::settings::genkey_dir}/genkeys.rb":
-                    source => "puppet:///modules/ssh/genkeys.rb",
+                    source  => 'puppet:///modules/ssh/genkeys.rb',
                     require => Class['packages::kts'];
             }
             exec {
                 'generate-kts-publickey-logon-ini':
-                    command => "\"${::ruby_interpreter}\" genkeys.rb -o ../publickey_logon.ini",
-                    cwd => $ssh::settings::genkey_dir,
-                    require => File["${::ssh::settings::genkey_dir}/genkeys.rb"],
+                    command     => "\"${::ruby_interpreter}\" genkeys.rb -o ../publickey_logon.ini",
+                    cwd         => $ssh::settings::genkey_dir,
+                    require     => File["${::ssh::settings::genkey_dir}/genkeys.rb"],
                     refreshonly => true,
-                    logoutput => true;
+                    logoutput   => true;
             }
 
             # finally, ensure that all of the files with passwords in them are
             # readable only by SYSTEM and root (and in particular, not the builder)
             acl {
                 [$publickey_logon_ini, $ssh::settings::genkey_dir, $rsakey_ky, $kts_ini]:
-                    purge => true,
+                    purge                      => true,
                     inherit_parent_permissions => false,
-                    require =>[Exec['generate-kts-publickey-logon-ini'],
-                                    File[$ssh::settings::genkey_dir],
-                                    Exec[ "RSAkey"],
-                                    File[$kts_ini],
-                              ],
-                    permissions => [
-                        { identity => 'root', rights => ['full'] },
+                    require                    => [ Exec['generate-kts-publickey-logon-ini'],
+                                                    File[$ssh::settings::genkey_dir],
+                                                    Exec[ 'RSAkey'],
+                                                    File[$kts_ini],
+                                                  ],
+                    permissions                => [
+                        { identity => 'root', rights   => ['full'] },
                         { identity => 'SYSTEM', rights => ['full'] },
                     ];
             }
@@ -91,20 +91,20 @@ class ssh::config {
         default: {
             file {
                 $ssh::settings::ssh_config:
-                    owner => $users::root::username,
-                    group => $users::root::group,
-                    mode => 0644,
+                    owner   => $users::root::username,
+                    group   => $users::root::group,
+                    mode    => '0644',
                     content => template("${module_name}/ssh_config.erb");
                 $ssh::settings::sshd_config:
-                    owner => $::users::root::username,
-                    group => $::users::root::group,
-                    mode => 0644,
-                    notify => Class['ssh::service'], # restart daemon if necessary
+                    owner   => $::users::root::username,
+                    group   => $::users::root::group,
+                    mode    => '0644',
+                    notify  => Class['ssh::service'], # restart daemon if necessary
                     content => template("${module_name}/sshd_config.erb");
                 $ssh::settings::known_hosts:
-                    owner => $::users::root::username,
-                    group => $::users::root::group,
-                    mode => 0644,
+                    owner   => $::users::root::username,
+                    group   => $::users::root::group,
+                    mode    => '0644',
                     content => template("${module_name}/known_hosts.erb");
             }
         }

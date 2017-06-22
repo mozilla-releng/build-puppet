@@ -5,9 +5,9 @@ class ssh::service {
     case $::operatingsystem {
         CentOS : {
             service {
-                "sshd":
-                    enable => "true",
-                    ensure => "running";
+                'sshd':
+                    ensure => 'running',
+                    enable => true;
             }
         }
         Windows : {
@@ -15,16 +15,16 @@ class ssh::service {
 
             # this installs the service which puppet subsequently manages
             shared::execonce {
-                "Install-SSH-service":
+                'Install-SSH-service':
                     command => '"C:\Program Files\KTS\daemon.exe" -install',
-                    require => Class["packages::kts"];
+                    require => Class['packages::kts'];
             }
             service {
-                "KTS":
-                    ensure => running,
-                    enable => true,
-                    require => [Shared::Execonce["Install-SSH-service"],
-                                    Class["ssh::config"]
+                'KTS':
+                    ensure  => running,
+                    enable  => true,
+                    require => [Shared::Execonce['Install-SSH-service'],
+                                    Class['ssh::config']
                                 ];
             }
         }
@@ -34,10 +34,10 @@ class ssh::service {
                 # Using -w will enable the service for future boots, this
                 # command does tick the box for remote-login in the Sharing
                 # prefpane (survives reboot)
-                "turn-on-ssh" :
+                'turn-on-ssh' :
                     command =>
-                    "/bin/launchctl load -w /System/Library/LaunchDaemons/ssh.plist",
-                    unless =>
+                    '/bin/launchctl load -w /System/Library/LaunchDaemons/ssh.plist',
+                    unless  =>
                     "/usr/sbin/netstat -na | /usr/bin/grep -q 'tcp4.*\\*.22.*LISTEN'";
             }
 
