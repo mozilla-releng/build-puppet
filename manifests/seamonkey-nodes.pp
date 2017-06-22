@@ -4,18 +4,18 @@
 
 ## puppetmasters
 
-node "sea-puppet.community.scl3.mozilla.com" {
+node 'sea-puppet.community.scl3.mozilla.com' {
     include toplevel::server::puppetmaster
 }
 
 ## buildbot masters
 
-node "sea-master1.community.scl3.mozilla.com" {
+node 'sea-master1.community.scl3.mozilla.com' {
     buildmaster::buildbot_master::mozilla {
-        "bm01-universal":
-            http_port => 8010,
-            master_type => "build",
-            basedir => "master01";
+        'bm01-universal':
+            http_port   => 8010,
+            master_type => 'build',
+            basedir     => 'master01';
     }
     include toplevel::server::buildmaster::seamonkey
 }
