@@ -2,18 +2,18 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-class slave_secrets($ensure=present, $slave_type) {
+class slave_secrets($slave_type, $ensure=present) {
 
     include dirs::etc
 
     # check that the node-level variable is set
     if ($slave_trustlevel == '') {
-        fail("No slave_trustlevel is set for this host; add that to your node definition")
+        fail('No slave_trustlevel is set for this host; add that to your node definition')
     }
 
     # compare the existing trustlevel to the specified; if they're not the same, we're in trouble
-    if ($existing_slave_trustlevel != '' and $existing_slave_trustlevel != $slave_trustlevel) {
-        fail("This host used to have trust level ${existing_slave_trustlevel}, and cannot be changed to ${slave_trustlevel} without a reimage")
+    if ($::existing_slave_trustlevel != '' and $::existing_slave_trustlevel != $slave_trustlevel) {
+        fail("This host used to have trust level ${::existing_slave_trustlevel}, and cannot be changed to ${slave_trustlevel} without a reimage")
     }
 
     # set the on-disk trust level if it's not already defined
@@ -26,7 +26,7 @@ class slave_secrets($ensure=present, $slave_type) {
         $trustlevel_file:
             content => $slave_trustlevel,
             replace => false,
-            mode => filemode(0500),
+            mode    => '0500',
             require => Class[dirs::etc],
     }
 

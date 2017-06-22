@@ -9,7 +9,7 @@ class slave_secrets::crash_stats_api_token($ensure=present) {
 
     $crash_stats_api_token = $::operatingsystem ? {
         windows => 'C:/builds/crash-stats-api.token',
-        default => "/builds/crash-stats-api.token"
+        default => '/builds/crash-stats-api.token'
     }
 
     if ($ensure == 'present' and $config::install_crash_stats_api_token) {
@@ -17,14 +17,14 @@ class slave_secrets::crash_stats_api_token($ensure=present) {
             Windows: {
                 file {
                     $crash_stats_api_token:
-                        content => secret("crash_stats_api_token"),
+                        content   => secret('crash_stats_api_token'),
                         show_diff => false;
                 }
                 acl {
                     $crash_stats_api_token:
-                        purge => true,
+                        purge                      => true,
                         inherit_parent_permissions => false,
-                        permissions => [
+                        permissions                => [
                             { identity => 'root', rights => ['full'] },
                             { identity => 'SYSTEM', rights => ['full'] },
                             { identity => 'cltbld', rights => ['full'] },
@@ -34,10 +34,10 @@ class slave_secrets::crash_stats_api_token($ensure=present) {
             default: {
                 file {
                     $crash_stats_api_token:
-                        content => secret("crash_stats_api_token"),
-                        owner  => $::users::builder::username,
-                        group  => $::users::builder::group,
-                        mode    => 0600,
+                        content   => secret('crash_stats_api_token'),
+                        owner     => $::users::builder::username,
+                        group     => $::users::builder::group,
+                        mode      => '0600',
                         show_diff => false;
                 }
             }

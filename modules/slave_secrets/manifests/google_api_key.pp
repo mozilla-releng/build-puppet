@@ -12,14 +12,14 @@ class slave_secrets::google_api_key($ensure=present) {
 
     if ($ensure == 'present' and $config::install_google_api_key) {
         file {
-            "$gapi_file":
-                content => secret("google_api_key"),
-                mode    => 0644,
+            $gapi_file:
+                content   => secret('google_api_key'),
+                mode      => '0644',
                 show_diff => false;
         }
     } else {
         file {
-            "$gapi_file":
+            $gapi_file:
                 ensure => absent;
         }
     }

@@ -9,7 +9,7 @@ class slave_secrets::google_oauth_api_key($ensure=present) {
 
     $google_oauth_api_key = $::operatingsystem ? {
         windows => 'C:/builds/google-oauth-api.key',
-        default => "/builds/google-oauth-api.key"
+        default => '/builds/google-oauth-api.key'
     }
 
     if ($ensure == 'present' and $config::install_google_oauth_api_key) {
@@ -17,15 +17,15 @@ class slave_secrets::google_oauth_api_key($ensure=present) {
             Windows: {
                 file {
                     'C:/builds/google-oauth-api.key':
-                        content => secret("google_oauth_api_key"),
+                        content   => secret('google_oauth_api_key'),
                         show_diff => false;
                 }
                 acl {
                     'C:/builds/google-oauth-api.key':
-                        purge => true,
+                        purge                      => true,
                         inherit_parent_permissions => false,
-                        permissions => [
-                            { identity => 'root', rights => ['full'] },
+                        permissions                => [
+                            { identity => 'root', rights   => ['full'] },
                             { identity => 'SYSTEM', rights => ['full'] },
                             { identity => 'cltbld', rights => ['full'] },
                         ];
@@ -34,10 +34,10 @@ class slave_secrets::google_oauth_api_key($ensure=present) {
             default: {
                 file {
                     $google_oauth_api_key:
-                        content => secret("google_oauth_api_key"),
-                        owner  => $::users::builder::username,
-                        group  => $::users::builder::group,
-                        mode    => 0600,
+                        content   => secret('google_oauth_api_key'),
+                        owner     => $::users::builder::username,
+                        group     => $::users::builder::group,
+                        mode      => '0600',
                         show_diff => false;
                 }
             }

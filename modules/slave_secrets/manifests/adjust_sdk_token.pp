@@ -7,13 +7,13 @@ class slave_secrets::adjust_sdk_token($ensure=present) {
     include users::builder
     include dirs::builds
 
-    $adjust_sdk_token = $::operatingsystem ? {
+    $adjust_sdk_token      = $::operatingsystem ? {
         windows => 'C:/builds/adjust-sdk.token',
-        default => "/builds/adjust-sdk.token"
+        default => '/builds/adjust-sdk.token'
     }
     $adjust_sdk_beta_token = $::operatingsystem ? {
         windows => 'C:/builds/adjust-sdk-beta.token',
-        default => "/builds/adjust-sdk-beta.token"
+        default => '/builds/adjust-sdk-beta.token'
     }
 
 
@@ -24,16 +24,16 @@ class slave_secrets::adjust_sdk_token($ensure=present) {
             CentOS: {
                 file {
                     $adjust_sdk_token:
-                        content => secret("adjust_sdk_token"),
-                        owner  => $::users::builder::username,
-                        group  => $::users::builder::group,
-                        mode    => 0600,
+                        content   => secret('adjust_sdk_token'),
+                        owner     => $::users::builder::username,
+                        group     => $::users::builder::group,
+                        mode      => '0600',
                         show_diff => false;
                     $adjust_sdk_beta_token:
-                        content => secret("adjust_sdk_beta_token"),
-                        owner  => $::users::builder::username,
-                        group  => $::users::builder::group,
-                        mode    => 0600,
+                        content   => secret('adjust_sdk_beta_token'),
+                        owner     => $::users::builder::username,
+                        group     => $::users::builder::group,
+                        mode      => '0600',
                         show_diff => false;
                 }
             }

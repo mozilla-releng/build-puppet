@@ -12,14 +12,14 @@ class slave_secrets::relengapi_token($ensure=present) {
 
     if ($ensure == 'present' and $config::install_relengapi_token) {
         file {
-            "$token_file":
-                content => secret("slave_relengapi_token"),
-                mode    => 0644,
+            $token_file:
+                content   => secret('slave_relengapi_token'),
+                mode      => '0644',
                 show_diff => false;
         }
     } else {
         file {
-            "$token_file":
+            $token_file:
                 ensure => absent;
         }
     }
