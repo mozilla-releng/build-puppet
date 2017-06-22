@@ -9,11 +9,11 @@ class smarthost::install {
 
     Anchor['smarthost::install::begin'] ->
     class {
-        packages::postfix: ;
+        'packages::postfix': ;
     } -> Anchor['smarthost::install::end']
 
     Anchor['smarthost::install::begin'] ->
     class {
-        packages::mailx: ;
+        'packages::mailx': ;
     } -> Anchor['smarthost::install::end']
 }

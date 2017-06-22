@@ -17,7 +17,7 @@ class runner::service {
                     # resetpriorities tells chkconfig to update the
                     # symlinks in rcX.d with the values from the service's
                     # init.d script
-                    command => '/sbin/chkconfig runner resetpriorities',
+                    command     => '/sbin/chkconfig runner resetpriorities',
                     refreshonly => true;
             }
             service {
@@ -33,14 +33,14 @@ class runner::service {
             case $::operatingsystemrelease {
                 12.04,14.04: {
                     file {
-                        "/etc/init/runner.conf":
-                            content => template("runner/runner.upstart.conf.erb");
+                        '/etc/init/runner.conf':
+                            content => template('runner/runner.upstart.conf.erb');
                     }
                     service {
                         'runner':
                             require   => [
                                 Python::Virtualenv[$runner::settings::root],
-                                File["/etc/init/runner.conf"],
+                                File['/etc/init/runner.conf'],
                             ],
                             hasstatus => false,
                             enable    => true;
@@ -48,38 +48,38 @@ class runner::service {
                 }
                 16.04: {
                     file {
-                        "/lib/systemd/system/runner.service":
-                            content => template("runner/runner.service.erb");
+                        '/lib/systemd/system/runner.service':
+                            content => template('runner/runner.service.erb');
                     }
                     service {
                         'runner':
                             provider  => 'systemd',
                             require   => [
                                 Python::Virtualenv[$runner::settings::root],
-                                File["/lib/systemd/system/runner.service"],
+                                File['/lib/systemd/system/runner.service'],
                             ],
                             hasstatus => false,
                             enable    => true;
                     }
                 }
                 default: {
-                    fail("Ubuntu $operatingsystemrelease is not supported")
+                    fail("Ubuntu ${::operatingsystemrelease} is not supported")
                 }
             }
         }
         'Darwin': {
             file {
-                "/Library/LaunchAgents/com.mozilla.runner.plist":
-                    owner => root,
-                    group => wheel,
-                    mode => 0644,
-                    content => template("runner/runner.plist.erb");
+                '/Library/LaunchAgents/com.mozilla.runner.plist':
+                    owner   => root,
+                    group   => wheel,
+                    mode    => '0644',
+                    content => template('runner/runner.plist.erb');
             }
             service {
-                "runner":
+                'runner':
                     require   => [
                         Python::Virtualenv[$runner::settings::root],
-                        File["/Library/LaunchAgents/com.mozilla.runner.plist"],
+                        File['/Library/LaunchAgents/com.mozilla.runner.plist'],
                     ],
                     hasstatus => false,
                     enable    => true;
@@ -95,22 +95,22 @@ class runner::service {
             # Batch file to start buildbot
             file {
                 'c:/programdata/puppetagain/start-runner.bat':
-                    content  => template("runner/start-runner.bat.erb");
+                    content  => template('runner/start-runner.bat.erb');
             }
             # XML file to set up a schedule task to launch runner on builder log in.
             # XML file needs to exported from the task scheduler gui. Also note when
             # using the XML import be aware of machine specific values such as name will
             # need to be replaced with a variable. Hence the need for the template.
             file {
-                "c:/programdata/puppetagain/start-runner.xml":
-                    content => template("runner/start-runner.xml.erb");
+                'c:/programdata/puppetagain/start-runner.xml':
+                    content => template('runner/start-runner.xml.erb');
             }
             # Importing the XML file using schtasks
             # Refrence http://technet.microsoft.com/en-us/library/cc725744.aspx and http://technet.microsoft.com/en-us/library/cc722156.aspx
-            $schtasks = 'C:\Windows\system32\schtasks.exe'
-            exec { "startrunner":
-                command => "$schtasks /Create /XML c:\\programdata\\puppetagain\\start-runner.xml /tn StartRunner",
-                require => File['c:/programdata/puppetagain/start-runner.xml'],
+            $schtasks         = 'C:\Windows\system32\schtasks.exe'
+            exec { 'startrunner':
+                command     => "${schtasks} /Create /XML c:\\programdata\\puppetagain\\start-runner.xml /tn StartRunner",
+                require     => File['c:/programdata/puppetagain/start-runner.xml'],
                 refreshonly => true,
                 subscribe   => File['c:/programdata/puppetagain/start-runner.bat'],
             }

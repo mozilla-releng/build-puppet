@@ -18,20 +18,20 @@ class slaveapi::base {
 
     $compiler_req = Class['packages::gcc']
 
-    $root = "/builds/slaveapi"
+    $root         = '/builds/slaveapi'
 
     file {
         # instances are stored with locked-down perms
         $root:
             ensure => directory,
-            owner => $users::builder::username,
-            group => $users::builder::group,
-            mode => 700;
+            owner  => $users::builder::username,
+            group  => $users::builder::group,
+            mode   => '0700';
     }
 
     motd {
-        "slaveapi":
+        'slaveapi':
             content => "The following slaveapi instances are hosted here:\n",
-            order => 90;
+            order   => 90;
     }
 }

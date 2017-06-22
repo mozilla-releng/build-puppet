@@ -10,7 +10,7 @@ class python::misc_python_dir {
         include dirs::tools # assuming this dir is under /tools
     }
     file {
-        "${python::virtualenv::settings::misc_python_dir}":
+        $python::virtualenv::settings::misc_python_dir:
             ensure => directory;
     }
 }

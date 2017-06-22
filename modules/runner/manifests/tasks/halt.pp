@@ -8,13 +8,13 @@ class runner::tasks::halt() {
     case $::operatingsystem {
         'Windows': {
             runner::task {
-                "halt.bat":
-                    source => "puppet:///modules/runner/tasks/halt.bat";
+                'halt.bat':
+                    source => 'puppet:///modules/runner/tasks/halt.bat';
             }
         }
         default: {
             runner::task {
-                "halt.py":
+                'halt.py':
                     content  => template("${module_name}/tasks/halt.py.erb");
             }
         }

@@ -5,7 +5,7 @@
 class releaserunner::settings {
     include ::config
 
-    $root = $config::releaserunner_root
+    $root      = $config::releaserunner_root
     $tools_dst = "${root}/tools"
-    $logfile = "${root}/release-runner.log"
+    $logfile   = "${root}/release-runner.log"
 }

@@ -4,51 +4,51 @@
 
 define shared::execonce(
   $command,
-  $cwd=undef,
-  $environment=undef,
-  $group=undef,
-  $logoutput=undef,
-  $onlyif=undef,
-  $path=undef,
-  $provider=undef,
-  $refresh=undef,
-  $refreshonly=undef,
-  $returns=undef,
-  $timeout=undef,
-  $tries=undef,
-  $try_sleep=undef,
-  $umask=undef,
-  $unless=undef,
-  $user=undef,
+  $cwd         = undef,
+  $environment = undef,
+  $group       = undef,
+  $logoutput   = undef,
+  $onlyif      = undef,
+  $path        = undef,
+  $provider    = undef,
+  $refresh     = undef,
+  $refreshonly = undef,
+  $returns     = undef,
+  $timeout     = undef,
+  $tries       = undef,
+  $try_sleep   = undef,
+  $umask       = undef,
+  $unless      = undef,
+  $user        = undef,
 ) {
     include shared::execonce::base
     $semaphore = "${shared::execonce::base::semaphore_dir}/${title}.semaphore"
 
     exec {
         $title:
-            command => $command,
-            cwd => $cwd,
+            command     => $command,
+            cwd         => $cwd,
             environment => $environment,
-            group => $group,
-            logoutput => $logoutput,
-            onlyif => $onlyif,
-            path => $path,
-            provider => $provider,
-            refresh => $refresh,
+            group       => $group,
+            logoutput   => $logoutput,
+            onlyif      => $onlyif,
+            path        => $path,
+            provider    => $provider,
+            refresh     => $refresh,
             refreshonly => $refreshonly,
-            returns => $returns,
-            timeout => $timeout,
-            tries => $tries,
-            try_sleep => $try__sleep,
-            umask => $umask,
-            unless => $unless,
-            user => $user,
-            creates => $semaphore;
+            returns     => $returns,
+            timeout     => $timeout,
+            tries       => $tries,
+            try_sleep   => $try__sleep,
+            umask       => $umask,
+            unless      => $unless,
+            user        => $user,
+            creates     => $semaphore;
     }
 
     file {
         $semaphore:
-            ensure => present,
+            ensure  => present,
             require => Exec[$title];
     }
 }

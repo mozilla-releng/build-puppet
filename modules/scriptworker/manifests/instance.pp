@@ -6,13 +6,7 @@
 define scriptworker::instance(
     $instance_name,
     $basedir,
-    $work_dir = "${basedir}/work",
-
-    $script_worker_config = "${basedir}/scriptworker.yaml",
-    $task_script_executable = "${basedir}/bin/python",
     $task_script,
-    $task_script_config = "${basedir}/script_config.json",
-
     $username,
     $group,
 
@@ -20,17 +14,23 @@ define scriptworker::instance(
     $taskcluster_access_token,
     $worker_group,
     $worker_type,
-    $worker_id = $hostname,
-    $task_max_timeout = 1200,
-    $artifact_expiration_hours = 336,
-    $artifact_upload_timeout = 1200,
-
     $cot_job_type,
-    $sign_chain_of_trust = true,
-    $verify_chain_of_trust = true,
-    $verify_cot_signature = true,
 
-    $verbose_logging = false,
+    $work_dir                     = "${basedir}/work",
+    $script_worker_config         = "${basedir}/scriptworker.yaml",
+    $task_script_executable       = "${basedir}/bin/python",
+    $task_script_config           = "${basedir}/script_config.json",
+
+    $worker_id                    = $hostname,
+    $task_max_timeout             = 1200,
+    $artifact_expiration_hours    = 336,
+    $artifact_upload_timeout      = 1200,
+
+    $sign_chain_of_trust          = true,
+    $verify_chain_of_trust        = true,
+    $verify_cot_signature         = true,
+
+    $verbose_logging              = false,
 
     $restart_process_when_changed = undef,
 ) {
@@ -40,7 +40,7 @@ define scriptworker::instance(
 
     # These constants need to be filled in $script_worker_config, even though Chain of Trust is not enabled.
     $git_key_repo_dir = "${basedir}/gpg_key_repo/"
-    $git_pubkey_dir = "${basedir}/git_pubkeys/"
+    $git_pubkey_dir   = "${basedir}/git_pubkeys/"
 
     validate_taskcluster_identifier($worker_group)
     validate_taskcluster_identifier($worker_type)
@@ -69,7 +69,7 @@ define scriptworker::instance(
 
     File {
         ensure      => present,
-        mode        => 600,
+        mode        => '0600',
         owner       => $username,
         group       => $group,
         show_diff   => false,
@@ -77,8 +77,8 @@ define scriptworker::instance(
 
     file {
         $script_worker_config:
-            require     => Python35::Virtualenv[$basedir],
-            content     => template("scriptworker/scriptworker.yaml.erb");
+            require => Python35::Virtualenv[$basedir],
+            content => template('scriptworker/scriptworker.yaml.erb');
         # cleanup per bug 1298199
         '/root/certs.sh':
             ensure => absent;

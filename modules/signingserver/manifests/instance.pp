@@ -10,8 +10,8 @@ define signingserver::instance(
         $jar_key_name, $jar_digestalg, $jar_sigalg,
         $formats, $mac_cert_subject_ou,
         $ssl_cert, $ssl_private_key,
-        $signcode_timestamp="yes",
-        $concurrency=4) {
+        $signcode_timestamp = 'yes',
+        $concurrency        = 4) {
     include config
     include signingserver::base
     include users::signer
@@ -25,80 +25,80 @@ define signingserver::instance(
     $basedir = "${signingserver::base::root}/${title}"
 
     motd {
-        "signing-$title":
+        "signing-${title}":
             content => "* port ${port} in ${basedir}\n",
-            order => 91;
+            order   => 91;
     }
 
     # and that has lots of subdirectories
-    $script_dir = "${basedir}/tools/release/signing"
-    $signed_dir = "${basedir}/signed-files"
-    $unsigned_dir = "${basedir}/unsigned-files"
+    $script_dir            = "${basedir}/tools/release/signing"
+    $signed_dir            = "${basedir}/signed-files"
+    $unsigned_dir          = "${basedir}/unsigned-files"
 
-    $secrets_dir = "${basedir}/secrets"
-    $signcode_keydir = "${secrets_dir}/signcode"
-    $sha2signcode_keydir = "${secrets_dir}/sha2signcode"
-    $gpg_homedir = "${secrets_dir}/gpg"
-    $mar_keydir = "${secrets_dir}/mar"
-    $mar_sha384_keydir = "${secrets_dir}/mar-sha384"
-    $jar_keystore = "${secrets_dir}/jar"
-    $server_certdir = "${secrets_dir}/server"
-    $emevoucher_key = "${secrets_dir}/emevouch.pem"
-    $emevoucher_chain = "${secrets_dir}/emechain.pem"
+    $secrets_dir           = "${basedir}/secrets"
+    $signcode_keydir       = "${secrets_dir}/signcode"
+    $sha2signcode_keydir   = "${secrets_dir}/sha2signcode"
+    $gpg_homedir           = "${secrets_dir}/gpg"
+    $mar_keydir            = "${secrets_dir}/mar"
+    $mar_sha384_keydir     = "${secrets_dir}/mar-sha384"
+    $jar_keystore          = "${secrets_dir}/jar"
+    $server_certdir        = "${secrets_dir}/server"
+    $emevoucher_key        = "${secrets_dir}/emevouch.pem"
+    $emevoucher_chain      = "${secrets_dir}/emechain.pem"
 
-    $dmg_keydir = "${secrets_dir}/dmg"
-    $dmg_keychain = "${dmg_keydir}/signing.keychain"
+    $dmg_keydir            = "${secrets_dir}/dmg"
+    $dmg_keychain          = "${dmg_keydir}/signing.keychain"
     $full_private_ssl_cert = "${server_certdir}/signing.server.key"
-    $full_public_ssl_cert = "${server_certdir}/signing.server.cert"
+    $full_public_ssl_cert  = "${server_certdir}/signing.server.cert"
 
     # paths in packages
-    $signmar = "/tools/signmar/bin/signmar"
-    $signmar_sha384 = "/tools/signmar-sha384/bin/signmar"
-    $testfile_dir = "/tools/signing-test-files"
-    $testfile_signcode = "${testfile_dir}/test.exe"
+    $signmar               = '/tools/signmar/bin/signmar'
+    $signmar_sha384        = '/tools/signmar-sha384/bin/signmar'
+    $testfile_dir          = '/tools/signing-test-files'
+    $testfile_signcode     = "${testfile_dir}/test.exe"
     $testfile_osslsigncode = "${testfile_dir}/test64.exe"
-    $testfile_emevoucher = "${testfile_dir}/test.bin"
-    $testfile_mar = "${testfile_dir}/test.mar"
-    $testfile_mar_sha384 = "${testfile_dir}/test.mar"
-    $testfile_gpg = "${testfile_dir}/test.mar"
-    $testfile_dmg = "${testfile_dir}/test.tar.gz"
-    $testfile_jar = "${testfile_dir}/test.zip"
+    $testfile_emevoucher   = "${testfile_dir}/test.bin"
+    $testfile_mar          = "${testfile_dir}/test.mar"
+    $testfile_mar_sha384   = "${testfile_dir}/test.mar"
+    $testfile_gpg          = "${testfile_dir}/test.mar"
+    $testfile_dmg          = "${testfile_dir}/test.tar.gz"
+    $testfile_jar          = "${testfile_dir}/test.zip"
 
     # commands
-    $signscript = "${basedir}/bin/python2.7 ${script_dir}/signscript.py -c ${basedir}/signscript.ini"
-    $mar_cmd = "${signmar} -d ${basedir}/secrets/mar -n ${mar_key_name} -s"
-    $mar_sha384_cmd = "${signmar_sha384} -d ${basedir}/secrets/mar-sha384 -n ${mar_sha384_key_name} -s"
+    $signscript            = "${basedir}/bin/python2.7 ${script_dir}/signscript.py -c ${basedir}/signscript.ini"
+    $mar_cmd               = "${signmar} -d ${basedir}/secrets/mar -n ${mar_key_name} -s"
+    $mar_sha384_cmd        = "${signmar_sha384} -d ${basedir}/secrets/mar-sha384 -n ${mar_sha384_key_name} -s"
 
     # copy vars from config
-    $tools_repo = $config::signing_tools_repo
-    $mac_id = $config::signing_mac_id
-    $allowed_ips = $config::signing_allowed_ips
+    $tools_repo            = $config::signing_tools_repo
+    $mac_id                = $config::signing_mac_id
+    $allowed_ips           = $config::signing_allowed_ips
     $new_token_allowed_ips = $config::signing_new_token_allowed_ips
 
-    $user = $users::signer::username
-    $group = $users::signer::group
+    $user                  = $users::signer::username
+    $group                 = $users::signer::group
 
     if ($mac_id == '') {
-        fail("config::signing_mac_id is not set")
+        fail('Config::signing_mac_id is not set')
     }
 
     # OS X does not yet support firewall manipulation
     if $::operatingsystem != 'Darwin' {
         fw::port {
-            "tcp/$port": ;
+            "tcp/${port}": ;
         }
     }
 
     python::virtualenv {
         $basedir:
-            python => $packages::mozilla::python27::python,
-            require => [
+            python   => $packages::mozilla::python27::python,
+            require  => [
                 Class['packages::mozilla::python27'],
                 Class['packages::libevent'],
                 $signingserver::base::compiler_req, # for compiled extensions
             ],
-            user => $user,
-            group => $group,
+            user     => $user,
+            group    => $group,
             packages => [
                 'gevent==0.13.6',
                 'WebOb==1.0.8',
@@ -116,22 +116,22 @@ define signingserver::instance(
             require => Python::Virtualenv[$basedir],
             hg_repo => $tools_repo,
             dst_dir => "${basedir}/tools",
-            user => $user,
-            rev => $code_tag;
+            user    => $user,
+            rev     => $code_tag;
     }
 
-    if "${ssl_cert}" == "" {
-        fail("missing ssl_cert")
+    if $ssl_cert == '' {
+        fail('missing ssl_cert')
     }
-    if "${ssl_private_key}" == "" {
-        fail("missing ssl_private_key")
+    if $ssl_private_key == '' {
+        fail('missing ssl_private_key')
     }
 
     if $::operatingsystem == 'Darwin' {
         sudoers::custom {
             "${basedir}/tools/release/signing/signing_wrapper.sh":
-                user => $user,
-                runas => 'root',
+                user    => $user,
+                runas   => 'root',
                 command => "${basedir}/tools/release/signing/signing_wrapper.sh";
         }
     }
@@ -147,45 +147,45 @@ define signingserver::instance(
           $mar_sha384_keydir,
           $dmg_keydir,
           $server_certdir]:
-            ensure => directory,
-            owner => $user,
-            group => $group,
+            ensure  => directory,
+            owner   => $user,
+            group   => $group,
             require => Python::Virtualenv[$basedir];
         "${basedir}/signing.ini":
-            content => template("signingserver/signing.ini.erb"),
-            owner => $user,
-            group => $group,
-            notify => Exec["$title-reload-signing-server"],
-            require => Python::Virtualenv[$basedir],
+            content   => template('signingserver/signing.ini.erb'),
+            owner     => $user,
+            group     => $group,
+            notify    => Exec["${title}-reload-signing-server"],
+            require   => Python::Virtualenv[$basedir],
             show_diff => false;
         "${basedir}/signscript.ini":
-            content => template("signingserver/signscript.ini.erb"),
-            owner => $user,
-            group => $group,
-            notify => Exec["$title-reload-signing-server"],
-            require => Python::Virtualenv[$basedir],
+            content   => template('signingserver/signscript.ini.erb'),
+            owner     => $user,
+            group     => $group,
+            notify    => Exec["${title}-reload-signing-server"],
+            require   => Python::Virtualenv[$basedir],
             show_diff => false;
 
         $full_private_ssl_cert:
-            content => "${ssl_private_key}",
-            owner => $user,
-            group => $group,
+            content   => $ssl_private_key,
+            owner     => $user,
+            group     => $group,
             show_diff => false,
-            mode => 600;
+            mode      => '0600';
 
         $full_public_ssl_cert:
-            content => "${ssl_cert}",
-            owner => $user,
-            group => $group;
+            content => $ssl_cert,
+            owner   => $user,
+            group   => $group;
     }
 
     # The actual signing process is started by hand by users, who must then
     # enter a passphrase or two.  This script restarts it as necessary.
     exec {
-        "$title-reload-signing-server":
-            command => "${basedir}/bin/python tools/release/signing/signing-server.py -l signing.log -d signing.ini --reload",
-            cwd => $basedir,
-            onlyif => "/bin/sh -c 'test -e ${basedir}/signing.pid'",
+        "${title}-reload-signing-server":
+            command     => "${basedir}/bin/python tools/release/signing/signing-server.py -l signing.log -d signing.ini --reload",
+            cwd         => $basedir,
+            onlyif      => "/bin/sh -c 'test -e ${basedir}/signing.pid'",
             refreshonly => true;
     }
 }

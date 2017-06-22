@@ -7,28 +7,28 @@ class slave_secrets::ceph_config($ensure=present) {
     include users::builder
 
     if ($ensure == 'present' and $config::install_ceph_cfg) {
-        if ($config::node_location == 'in-house' and $slave_trustlevel == 'try') {
-            $boto_content = template("$module_name/try_dot_boto.erb")
-        } elsif ($config::node_location == 'aws') {
-            $boto_content = template("$module_name/aws_dot_boto.erb")
+        if ($::config::node_location == 'in-house' and $slave_trustlevel == 'try') {
+            $boto_content = template("${module_name}/try_dot_boto.erb")
+        } elsif ($::config::node_location == 'aws') {
+            $boto_content = template("${module_name}/aws_dot_boto.erb")
         } else {
             # We need an empty .boto in this case because buildbot will copy it
             # into the mock environment regardless, and fails if the file is
             # not present.
-            $boto_content = ""
+            $boto_content = ''
         }
         case $::operatingsystem {
             Windows: {
                 file {
                     "${users::builder::home}/.boto":
-                        content => $boto_content,
+                        content   => $boto_content,
                         show_diff => false;
                 }
                 acl {
                     "${users::builder::home}/.boto":
-                        purge => true,
+                        purge                      => true,
                         inherit_parent_permissions => false,
-                        permissions => [
+                        permissions                => [
                             { identity => 'root', rights => ['full'] },
                             { identity => 'SYSTEM', rights => ['full'] },
                             { identity => 'cltbld', rights => ['full'] },
@@ -38,9 +38,9 @@ class slave_secrets::ceph_config($ensure=present) {
             default: {
                 file {
                     "${users::builder::home}/.boto":
-                        mode      => 0600,
-                        owner     => "${users::builder::username}",
-                        group     => "${users::builder::group}",
+                        mode      => '0600',
+                        owner     => $users::builder::username,
+                        group     => $users::builder::group,
                         show_diff => false,
                         content   => $boto_content,
                 }

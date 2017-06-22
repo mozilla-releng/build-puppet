@@ -12,9 +12,9 @@ define shellprofile::file(
     include users::root
 
     file { "${::shellprofile::settings::profile_puppet_d}/${filename}.sh":
-        owner => $users::root::username,
-        group => $users::root::group,
+        ensure  => $ensure,
+        owner   => $users::root::username,
+        group   => $users::root::group,
         content => "${content}\n",
-        ensure => $ensure
     }
 }

@@ -4,12 +4,12 @@
 # (private)
 class python35::virtualenv::settings {
     # the root package directory into which all Python package tarballs are copied
-    $misc_python_dir = $::operatingsystem ? {
+    $misc_python_dir     = $::operatingsystem ? {
         windows => 'c:\mozilla-build',
-        default => "/tools/misc-python35",
+        default => '/tools/misc-python35',
     }
     # the puppet URL for the python/packages-3.5 downloads
-    $packages_dir_source = "puppet:///python/packages-3.5"
+    $packages_dir_source = 'puppet:///python/packages-3.5'
 
-    $pip_version = "8.1.1"
+    $pip_version         = '8.1.1'
 }

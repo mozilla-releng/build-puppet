@@ -11,15 +11,15 @@ define python::virtualenv::package($user) {
     include users::root
 
     # extract the virtualenv and tarball from the title
-    $virtualenv = regsubst($title, "\\|\\|.*$", "")
-    $pkg = regsubst($title, "^.*\\|\\|", "")
+    $virtualenv   = regsubst($title, '\|\|.*$', '')
+    $pkg          = regsubst($title, '^.*\|\|', '')
 
     $pip_check_py = $python::pip_check_py::file
     # give a --find-links option for each data server, so pip will search them all.
-    $data_server = $config::data_server
+    $data_server  = $config::data_server
     $data_servers = $config::data_servers
 
-    $pip_options = inline_template("--no-deps --no-index <%
+    $pip_options  = inline_template("--no-deps --no-index <%
 servers = [ @data_server ] + Array(@data_servers)
 servers.uniq.each do |mirror_server| -%> --find-links=http://<%= mirror_server %>/python/packages <%
 end
@@ -28,32 +28,32 @@ end
         $home_dir = $::users::root::home
     } else {
         $home_dir = $::operatingsystem ? {
-            Darwin => "/Users/$user",
-            default => "/home/$user"
+            Darwin  => "/Users/${user}",
+            default => "/home/${user}"
         }
     }
-    $ve_bin_dir = $operatingsystem ? {
+    $ve_bin_dir = $::operatingsystem ? {
         windows => "${virtualenv}\\Scripts\\",
         default => "${virtualenv}/bin/",
     }
-    $exe = $operatingsystem ? {
-        windows => ".exe",
-        default => ""
+    $exe = $::operatingsystem ? {
+        windows => '.exe',
+        default => ''
     }
     exec {
         # point pip at the package directory so that it can select the best option
-        "pip $title":
-            name => "${ve_bin_dir}pip${exe} install $pip_options $pkg",
-            logoutput => on_failure,
-            onlyif => "${ve_bin_dir}python${exe} $pip_check_py $pkg",
-            user => $user,
+        "pip ${title}":
+            name        => "${ve_bin_dir}pip${exe} install ${pip_options} ${pkg}",
+            logoutput   => on_failure,
+            onlyif      => "${ve_bin_dir}python${exe} ${pip_check_py} ${pkg}",
+            user        => $user,
             environment => [
-                "HOME=$home_dir",
-                "PIP_CONFIG_FILE=/dev/null" # because sudo will sometimes lead pip to ~administrator/.pip
+                "HOME=${home_dir}",
+                'PIP_CONFIG_FILE=/dev/null' # because sudo will sometimes lead pip to ~administrator/.pip
             ],
-            require => [
+            require     => [
                 Class['python::pip_check_py'],
-                Exec["virtualenv $virtualenv"],
+                Exec["virtualenv ${virtualenv}"],
                 Class['users::root'], # for pip.conf
             ];
     }

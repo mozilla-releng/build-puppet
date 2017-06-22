@@ -12,6 +12,6 @@ class runner::tasks::cleanslate_task($runlevel=1) {
                 Class['cleanslate'],
                 Class['buildslave::install']
             ],
-            content  => template("${module_name}/tasks/cleanslate.erb");
+            content => template("${module_name}/tasks/cleanslate.erb");
     }
 }

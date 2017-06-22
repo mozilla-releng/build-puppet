@@ -4,37 +4,37 @@
 define python::user_pip_conf($homedir='', $group='') {
     include config
 
-    $user = $title
-    $homedir_ = $homedir ? {
-        '' => "/home/$user",
+    $user                     = $title
+    $homedir_                 = $homedir ? {
+        ''      => "/home/${user}",
         default => $homedir,
     }
-    $group_ = $group ? {
-        '' => $user,
+    $group_   = $group ? {
+        ''      => $user,
         default => $group,
     }
 
     # for the template
     $user_python_repositories = $config::user_python_repositories
-    case $operatingsystem {
+    case $::operatingsystem {
             windows: {
                 file {
-                    "$homedir_/.pip":
+                    "${homedir_}/.pip":
                         ensure => directory;
-                    "$homedir_/.pip/pip.conf":
-                        content => template("python/user-pip-conf.erb");
+                    "${homedir_}/.pip/pip.conf":
+                        content => template('python/user-pip-conf.erb');
                 }
             }
             default: {
                 file {
-                    "$homedir_/.pip":
+                    "${homedir_}/.pip":
                         ensure => directory,
-                        owner => $user,
-                        group => $group_;
-                    "$homedir_/.pip/pip.conf":
-                        content => template("python/user-pip-conf.erb"),
-                        owner => $user,
-                        group => $group_;
+                        owner  => $user,
+                        group  => $group_;
+                    "${homedir_}/.pip/pip.conf":
+                        content => template('python/user-pip-conf.erb'),
+                        owner   => $user,
+                        group   => $group_;
                     }
             }
     }

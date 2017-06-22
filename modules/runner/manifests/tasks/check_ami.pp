@@ -11,7 +11,7 @@ class runner::tasks::check_ami($runlevel=0) {
         'Windows': {
             runner::task {
                 "${runlevel}-check_ami.bat":
-                    source => "puppet:///modules/runner/tasks/check_ami.bat";
+                    source => 'puppet:///modules/runner/tasks/check_ami.bat';
             }
             file {
                 "C:/opt/runner/check_ami.py" :

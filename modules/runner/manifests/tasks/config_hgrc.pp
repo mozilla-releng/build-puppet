@@ -8,12 +8,12 @@ class runner::tasks::config_hgrc($runlevel=0) {
 
     # Since runner runs as builder_user on OS X and as root on Linux, but config_hgrc must
     # run as root, we need to use sudo on OS X.
-    if $operatingsystem == "darwin" {
+    if $::operatingsystem == 'darwin' {
         include users::builder
         sudoers::custom {
             'config_hgrc-from-runner':
-                user => $users::builder::username,
-                runas => 'root',
+                user    => $users::builder::username,
+                runas   => 'root',
                 command => "${runner::settings::taskdir}/${runlevel}-config_hgrc";
         }
     }

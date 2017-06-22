@@ -4,16 +4,16 @@
 define ssh::extra_authorized_key($username, $key, $home, $from='', $command='') {
     include ssh::settings
 
-    $authorized_keys = $operatingsystem ? {
+    $authorized_keys = $::operatingsystem ? {
         windows => "${ssh::settings::genkey_dir}/${username}.keys",
         default => "${home}/.ssh/authorized_keys",
     }
 
     concat::fragment {
-        "${name}":
-            target => $authorized_keys,
-            content => template("ssh/extra_authorized_key.erb"),
-            notify => $ssh::settings::notify_on_key_change;
+        $name:
+            target  => $authorized_keys,
+            content => template('ssh/extra_authorized_key.erb'),
+            notify  => $ssh::settings::notify_on_key_change;
     }
 }
 

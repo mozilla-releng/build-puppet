@@ -5,19 +5,19 @@
 class runner::settings {
     case $::operatingsystem {
         'CentOS', 'Ubuntu': {
-            $runner_path = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
+            $runner_path = '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games'
         }
         'Darwin': {
-            $runner_path = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11"
+            $runner_path = '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11'
         }
         'Windows': {
             include buildslave
             include buildslave::install
             include packages::mozilla::python27
 
-            $runner_path = "C:\\opt\\runner"
+            $runner_path     = "C:\\opt\\runner"
             $runner_env_path = "${path};${runner_path};C:\\mozilla-build\\buildbotve;${::packages::mozilla::python27::pythondir};C:\\mozilla-build\\msys\\mingw\\bin;C:\\mozilla-build\\msys\\bin;C:\\mozilla-build\\msys\\local\\bin;.:/usr/local/bin"
-            $python = "${::packages::mozilla::python27::python}"
+            $python          = $::packages::mozilla::python27::python
         }
         default: {
             fail("Unsupported OS ${::operatingsystem}")
@@ -28,9 +28,9 @@ class runner::settings {
             $root = "C:\\opt\\runner"
         }
         default: {
-            $root = "/opt/runner"
+            $root = '/opt/runner'
         }
     }
-    $taskdir = "${root}/tasks.d"
+    $taskdir   = "${root}/tasks.d"
     $configdir = "${root}/config.d"
 }

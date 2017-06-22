@@ -41,7 +41,7 @@ class slave_secrets::ssh_keys($slave_type) {
                                     $keyset = $prod_core_keyset
                                 }
                                 default: {
-                                    fail("unknown slave_trustlevel ${slave_trustlevel}")
+                                    fail("Unknown slave_trustlevel ${slave_trustlevel}")
                                 }
                             }
                         }

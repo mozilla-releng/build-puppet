@@ -15,19 +15,19 @@ define rsyslog::config ($file = $title, $contents = '', $need_mysql=false) {
 
             if ($file != undef) and ($contents != undef) {
                 file {
-                    "/etc/rsyslog.d/$file.conf":
-                        notify => Service['rsyslog'],
-                        mode => "$rsyslog::settings::mode",
-                        owner => "$rsyslog::settings::owner",
-                        group => "$rsyslog::settings::group",
-                        content => $contents,
+                    "/etc/rsyslog.d/${file}.conf":
+                        notify    => Service['rsyslog'],
+                        mode      => $rsyslog::settings::mode,
+                        owner     => $rsyslog::settings::owner,
+                        group     => $rsyslog::settings::group,
+                        content   => $contents,
                         # rsyslog configs can contain passwords..
                         show_diff => false;
                 }
             }
         }
         default: {
-            fail("cannot install on $::operatingsystem")
+            fail("Cannot install on ${::operatingsystem}")
         }
     }
 }

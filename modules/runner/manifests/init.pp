@@ -12,12 +12,12 @@ class runner {
         include packages::mozilla::mozilla_build
     }
 
-    $runner_service = $operatingsystem ? {
+    $runner_service = $::operatingsystem ? {
         windows => Exec['startrunner'],
         default => Service['runner'],
     }
     # When Puppet sets the mode on Windows it causes ACL permissions to be stripped rendering the file unusable
-    $mode  = $operatingsystem ? {
+    $mode  = $::operatingsystem ? {
         windows => undef,
         default => '0755',
     }
@@ -38,15 +38,15 @@ class runner {
             recurse => true,
             purge   => true;
         "${runner::settings::root}/runner.cfg":
-            before  => $runner_service,
-            content => template('runner/runner.cfg.erb'),
+            before    => $runner_service,
+            content   => template('runner/runner.cfg.erb'),
             show_diff => false;
     }
     case $::operatingsystem {
         'CentOS', 'Ubuntu': {
             file {
                 '/etc/logrotate.d/runner':
-                    mode => '0644',
+                    mode    => '0644',
                     content => template('runner/runner.logrotate.erb');
             }
         }

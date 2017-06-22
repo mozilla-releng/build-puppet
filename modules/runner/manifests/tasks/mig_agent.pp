@@ -7,13 +7,13 @@ class runner::tasks::mig_agent($runlevel=1) {
 
     # Since runner runs as builder_user on OS X and as root on Linux, but mig must
     # run as root, we need to use sudo on OS X.
-    if $operatingsystem == "darwin" {
+    if $::operatingsystem == 'darwin' {
         include users::builder
         sudoers::custom {
             'mig-agent-from-runner':
-                user => $users::builder::username,
-                runas => 'root',
-                command => "/usr/local/bin/mig-agent";
+                user    => $users::builder::username,
+                runas   => 'root',
+                command => '/usr/local/bin/mig-agent';
         }
 
     }

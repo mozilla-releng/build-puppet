@@ -6,22 +6,22 @@ class shellprofile::base {
     include users::root
 
     file {
-        "${::shellprofile::settings::profile_d}":
+        $::shellprofile::settings::profile_d:
             ensure => directory,
-            owner => $users::root::username,
-            group => $users::root::group;
-        "${::shellprofile::settings::profile_puppet_d}":
-            owner => $users::root::username,
-            group => $users::root::group,
-            ensure => directory,
-            purge => true,
+            owner  => $users::root::username,
+            group  => $users::root::group;
+        $::shellprofile::settings::profile_puppet_d:
+            ensure  => directory,
+            owner   => $users::root::username,
+            group   => $users::root::group,
+            purge   => true,
             recurse => true,
-            force => true;
+            force   => true;
         "${::shellprofile::settings::profile_d}/puppetdir.sh":
-            owner => $users::root::username,
-            group => $users::root::group,
-            mode => 0755,
-            content => template("shellprofile/puppetdir.sh.erb");
+            owner   => $users::root::username,
+            group   => $users::root::group,
+            mode    => '0755',
+            content => template('shellprofile/puppetdir.sh.erb');
     }
 
     case ($::operatingsystem) {
@@ -34,15 +34,15 @@ class shellprofile::base {
         Darwin: {
             file {
                 # patch /etc/profile to run /etc/profile.d/*.sh
-                "/etc/profile":
-                    source => "puppet:///modules/shellprofile/darwin-profile";
+                '/etc/profile':
+                    source => 'puppet:///modules/shellprofile/darwin-profile';
             }
         }
         Windows: {
             # TODO: add support for profile.d on Windows
         }
         default: {
-            fail("don't know how to setup profile.d on this operating system")
+            fail("Don't know how to setup profile.d on this operating system")
         }
     }
 }

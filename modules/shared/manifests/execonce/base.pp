@@ -8,7 +8,7 @@ class shared::execonce::base {
             # puppet's $libdir gets blown away on every agent run,
             # so we use our own subdirectory (and create it)
             include dirs::programdata::puppetagain
-            $semaphore_dir = "C:/programdata/puppetagain/semaphores"
+            $semaphore_dir = 'C:/programdata/puppetagain/semaphores'
             file {
                 $semaphore_dir:
                     ensure => directory;
@@ -16,7 +16,7 @@ class shared::execonce::base {
         }
         default: {
             # On POSIX, this directory survives from run to run of the agent.
-            $semaphore_dir = "/var/lib/puppet"
+            $semaphore_dir = '/var/lib/puppet'
         }
     }
 }

@@ -8,16 +8,16 @@ class smarthost {
     }
     Anchor['smarthost::begin'] ->
     class {
-        smarthost::install: ;
+        'smarthost::install': ;
     } -> Anchor['smarthost::end']
 
     Anchor['smarthost::begin'] ->
     class {
-        smarthost::setup: ;
+        'smarthost::setup': ;
     } -> Anchor['smarthost::end']
 
     Anchor['smarthost::begin'] ->
     class {
-        smarthost::daemon: ;
+        'smarthost::daemon': ;
     } -> Anchor['smarthost::end']
 }

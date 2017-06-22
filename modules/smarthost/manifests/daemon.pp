@@ -5,12 +5,12 @@ class smarthost::daemon {
     case $::operatingsystem {
         CentOS, Ubuntu: {
             service {
-                "postfix":
-                    ensure => running,
-                    hasstatus => true,
+                'postfix':
+                    ensure     => running,
+                    hasstatus  => true,
                     hasrestart => true,
-                    enable => true,
-                    require => Class["smarthost::setup"],
+                    enable     => true,
+                    require    => Class['smarthost::setup'],
             }
         }
 
@@ -23,7 +23,7 @@ class smarthost::daemon {
             }
         }
         default: {
-            fail("Don't know how to run the smarthost service on $::operatingsystem")
+            fail("Don't know how to run the smarthost service on ${::operatingsystem}")
         }
     }
 }

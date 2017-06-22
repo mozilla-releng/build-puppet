@@ -10,14 +10,14 @@ class rdp::enable_rdp {
         data => '0';
     }
     registry::value { 'UserAuthentication':
-        key    => 'HKLM\system\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp',
-        type   => dword,
-        data   => '0';
+        key  => 'HKLM\system\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp',
+        type => dword,
+        data => '0';
     }
     # The service resource will throw errors when attempting to restart the services below hence falling back to the exec resource 
     # Ref: https://bugzilla.mozilla.org/show_bug.cgi?id=1149726
     exec {
-        "SessionEnv" :
+        'SessionEnv' :
         command     => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe restart-service -name SessionEnv" -force',
         subscribe   => [Registry::Value['fDenyTSConnections'],
                         Registry::Value['UserAuthentication']
@@ -26,7 +26,7 @@ class rdp::enable_rdp {
     }
     # Restarting Termservice will also restart the UmRdpService service
     exec {
-        "TermService" :
+        'TermService' :
         command     => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe restart-service -name termservice -force"',
         subscribe   => [Registry::Value['fDenyTSConnections'],
                         Registry::Value['UserAuthentication']

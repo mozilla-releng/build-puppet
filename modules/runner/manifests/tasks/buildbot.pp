@@ -8,8 +8,8 @@ class runner::tasks::buildbot($runlevel=4) {
 
     $buildslave_cmd = '/tools/buildbot/bin/buildslave'
     $buildbot_python = '/tools/buildbot/bin/python'
-    $runslave_py = $operatingsystem ? {
-        Windows => "C:/programdata/puppetagain/runslave.py",
+    $runslave_py = $::operatingsystem ? {
+        Windows => 'C:/programdata/puppetagain/runslave.py',
         default => '/usr/local/bin/runslave.py',
     }
     case $::operatingsystem {
@@ -25,7 +25,7 @@ class runner::tasks::buildbot($runlevel=4) {
             runner::task {
                 "${runlevel}-buildbot.bat":
                     require => Class['buildslave::install'],
-                    source => "puppet:///modules/runner/tasks/buildbot.bat";
+                    source  => 'puppet:///modules/runner/tasks/buildbot.bat';
             }
         }
         default: {
@@ -38,6 +38,6 @@ class runner::tasks::buildbot($runlevel=4) {
                 File[$runslave_py],
                 Class['buildslave::install']
             ],
-            content  => template("${module_name}/tasks/buildbot.py.erb");
+            content => template("${module_name}/tasks/buildbot.py.erb");
     }
 }

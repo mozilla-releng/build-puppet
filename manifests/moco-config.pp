@@ -3,9 +3,9 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class config inherits config::base {
-    $org                = 'moco'
+    $org                   = 'moco'
 
-    $puppet_notif_email = 'releng-puppet-mail@mozilla.com'
+    $puppet_notif_email    = 'releng-puppet-mail@mozilla.com'
 
     # what puppet report processors to use
     # http temporarily disabled in mdc1 until relops sets up a local foreman
@@ -42,7 +42,7 @@ class config inherits config::base {
 
     # we use the sort_servers_by_group function to sort the list of servers, and then just use
     # the first as the primary server
-    $grouped_puppet_servers = {
+    $grouped_puppet_servers          = {
         '.*\.releng\.mdc1\.mozilla\.com' => [
             'releng-puppet1.srv.releng.mdc1.mozilla.com',
             'releng-puppet2.srv.releng.mdc1.mozilla.com',
@@ -64,7 +64,7 @@ class config inherits config::base {
     $data_servers   = $puppet_servers
     $data_server    = $puppet_server
 
-    $node_location = $::fqdn? {
+    $node_location  = $::fqdn? {
         /.*\.(mdc1|mdc2|scl3)\.mozilla\.com/ => 'in-house',
         /.*\.(use1|usw2)\.mozilla\.com/      => 'aws',
         default => 'unknown',
@@ -98,31 +98,31 @@ class config inherits config::base {
     # connection
     $puppetmaster_cert_extra_names = [$apt_repo_server]
 
-    $user_python_repositories = [ 'http://pypi.pvt.build.mozilla.org/pub', 'http://pypi.pub.build.mozilla.org/pub' ]
+    $user_python_repositories      = [ 'http://pypi.pvt.build.mozilla.org/pub', 'http://pypi.pub.build.mozilla.org/pub' ]
 
     # Releng hosts are 'medium' by default.  Slaves are specifically overridden
     # with the 'low' level, and some others are flagged as 'high' or 'maximum'.
-    $default_security_level   = 'medium'
+    $default_security_level        = 'medium'
 
-    $nrpe_allowed_hosts       = $::fqdn? {
+    $nrpe_allowed_hosts            = $::fqdn? {
         /.*\.mdc1\.mozilla\.com/             => '127.0.0.1,10.49.75.30',
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => '127.0.0.1,10.26.75.30,10.26.75.64',
         default                              => '127.0.0.1,10.26.75.30,10.26.75.64',
     }
 
-    $ntp_servers = $fqdn? {
-        /.*\.mdc1\.mozilla\.com/ => [ "infoblox1.private.mdc1.mozilla.com" ],
-        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => [ "ns1.private.releng.scl3.mozilla.com",
-                     "ns2.private.releng.scl3.mozilla.com",
-                     "ns1.private.scl3.mozilla.com",
-                     "ns2.private.scl3.mozilla.com" ],
-        default => [ "ns1.private.releng.scl3.mozilla.com",
-                     "ns2.private.releng.scl3.mozilla.com",
-                     "ns1.private.scl3.mozilla.com",
-                     "ns2.private.scl3.mozilla.com" ],
+    $ntp_servers                   = $::fqdn? {
+        /.*\.mdc1\.mozilla\.com/             => [ 'infoblox1.private.mdc1.mozilla.com' ],
+        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => [ 'ns1.private.releng.scl3.mozilla.com',
+                                                  'ns2.private.releng.scl3.mozilla.com',
+                                                  'ns1.private.scl3.mozilla.com',
+                                                  'ns2.private.scl3.mozilla.com' ],
+        default                              => [ 'ns1.private.releng.scl3.mozilla.com',
+                                                  'ns2.private.releng.scl3.mozilla.com',
+                                                  'ns1.private.scl3.mozilla.com',
+                                                  'ns2.private.scl3.mozilla.com' ],
     }
 
-    $relayhost                = $::fqdn? {
+    $relayhost                     = $::fqdn? {
         /.*\.mdc1\.mozilla\.com/             => 'smtp1.private.mdc1.mozilla.com',
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'smtp.mail.scl3.mozilla.com',
         default                              => undef,
@@ -306,12 +306,25 @@ class config inherits config::base {
 
     $buildmaster_ssh_keys              = [ 'ffxbld_rsa', 'tbirdbld_dsa', 'trybld_dsa' ]
 
-    $collectd_write                    = {
-        graphite_nodes => {
-            'graphite-relay.private.scl3.mozilla.com' => {
-                'port' => '2003', 'prefix' => 'hosts.',
-            },
-        },
+    case $::fqdn {
+        /.*\.mdc1\.mozilla\.com/: {
+                $collectd_write = {
+                    graphite_nodes => {
+                        'graphite1.private.mdc1.mozilla.com' => {
+                            'port' => '2003', 'prefix' => 'hosts.',
+                        },
+                    },
+                }
+        }
+        /.*\.scl3\.mozilla\.com/: {
+                $collectd_write                    = {
+                    graphite_nodes => {
+                        'graphite-relay.private.scl3.mozilla.com' => {
+                            'port' => '2003', 'prefix' => 'hosts.',
+                        },
+                    },
+                }
+        }
     }
 
     #### start configuration information for rsyslog logging
@@ -512,15 +525,15 @@ class config inherits config::base {
     $funsize_scheduler_th_api_root            = 'https://treeherder.mozilla.org/api'
 
     $l10n_bumper_env_config = {
-        'jamun'           => {
-            mozharness_repo => 'https://hg.mozilla.org/projects/jamun',
+        'jamun'                 => {
+            mozharness_repo     => 'https://hg.mozilla.org/projects/jamun',
             mozharness_revision => 'e1af5dd01c02',
-            config_file => 'l10n_bumper/jamun.py',
+            config_file         => 'l10n_bumper/jamun.py',
         },
         'mozilla-central' => {
-            mozharness_repo => 'https://hg.mozilla.org/mozilla-central',
+            mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
             mozharness_revision => 'e1af5dd01c02',
-            config_file => 'l10n_bumper/mozilla-central.py',
+            config_file         => 'l10n_bumper/mozilla-central.py',
         },
         'mozilla-aurora'  => {
             mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
