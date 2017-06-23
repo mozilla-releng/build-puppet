@@ -26,7 +26,7 @@ class slave_secrets($slave_type, $ensure=present) {
         $trustlevel_file:
             content => $slave_trustlevel,
             replace => false,
-            mode    => '0500',
+            mode    => filemode(0500),
             require => Class[dirs::etc],
     }
 

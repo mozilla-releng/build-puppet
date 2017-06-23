@@ -39,7 +39,7 @@ define ssh::userconfig($home='', $config='', $group='', $cleartext_password='',
     file {
         "${home_}/.ssh":
             ensure  => directory,
-            mode    => '0700',
+            mode    => filemode(0700),
             owner   => $owner_,
             group   => $group_,
             purge   => true,
@@ -59,7 +59,7 @@ define ssh::userconfig($home='', $config='', $group='', $cleartext_password='',
             $authorized_keys_file:
                 owner  => $owner_,
                 group  => $group_,
-                mode   => '0600',
+                mode   => filemode(0600),
                 notify => $ssh::settings::notify_on_key_change;
         }
         concat::fragment {
@@ -74,7 +74,7 @@ define ssh::userconfig($home='', $config='', $group='', $cleartext_password='',
             $authorized_keys_file:
                 owner   => $owner_,
                 group   => $group_,
-                mode    => '0600',
+                mode    => filemode(0600),
                 content => template('ssh/ssh_authorized_keys.erb'),
                 notify  => $ssh::settings::notify_on_key_change;
         }
@@ -85,7 +85,7 @@ define ssh::userconfig($home='', $config='', $group='', $cleartext_password='',
             "${home_}/.ssh/config":
                 owner   => $owner_,
                 group   => $group_,
-                mode    => '0600',
+                mode    => filemode(0600),
                 content => $config;
         }
     } else {
@@ -95,7 +95,7 @@ define ssh::userconfig($home='', $config='', $group='', $cleartext_password='',
                 ensure => present,
                 owner  => $owner_,
                 group  => $group_,
-                mode   => '0600';
+                mode   => filemode(0600);
         }
     }
 
@@ -105,7 +105,7 @@ define ssh::userconfig($home='', $config='', $group='', $cleartext_password='',
             "${home_}/.ssh/known_hosts":
                 owner   => $owner_,
                 group   => $group_,
-                mode    => '0600',
+                mode    => filemode(0600),
                 content => template("${module_name}/known_hosts.erb");
         }
     }

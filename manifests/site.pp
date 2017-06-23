@@ -13,7 +13,7 @@ case $::operatingsystem {
         File {
             owner              => root,
             backup             => false,
-            mode               => '0644',
+            mode               => filemode(0644),
             source_permissions => ignore,
         }
     }
@@ -21,7 +21,7 @@ case $::operatingsystem {
         File {
             owner  => 0,
             group  => 0,
-            mode   => '0644',
+            mode   => filemode(0644),
             backup => false,
         }
     }
