@@ -23,7 +23,7 @@ class puppetmaster::foreman_facts {
                 $crontask:
                     content => template("${module_name}/foreman_facts.cron.erb");
                 $script:
-                    mode    => '0755',
+                    mode    => filemode(0755),
                     content => template("${module_name}/foreman_facts.rb.erb");
             }
         }

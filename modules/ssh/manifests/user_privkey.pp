@@ -8,7 +8,7 @@ define ssh::user_privkey($home, $username, $group, $key) {
     file {
         "${home}/.ssh/${key_name}":
             ensure    => file,
-            mode      => '0600',
+            mode      => filemode(0600),
             owner     => $username,
             group     => $group,
             content   => $key,

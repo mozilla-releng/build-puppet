@@ -13,7 +13,7 @@ class motd::base {
         $motd::settings::motd_file:
             owner => root,
             group => $group,
-            mode  => '0644';
+            mode  => filemode(0644);
     }
     # need at least one fragment, or concat will fail:
     concat::fragment {

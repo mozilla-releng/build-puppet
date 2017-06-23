@@ -12,7 +12,7 @@ class puppet::config {
 
     concat {
         $conf:
-            mode => '0644';
+            mode => filemode(0644);
     }
 
     concat::fragment { 'top_conf':

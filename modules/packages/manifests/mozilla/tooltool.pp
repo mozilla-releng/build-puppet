@@ -14,7 +14,7 @@ class packages::mozilla::tooltool {
 
     file {
         $filename:
-            mode    => '0755',
+            mode    => filemode(0755),
             content => template('packages/tooltool.py');
     }
 

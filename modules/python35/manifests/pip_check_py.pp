@@ -16,7 +16,7 @@ class python35::pip_check_py {
             source  => 'puppet:///modules/python35/pip-check.py',
             owner   => root,
             group   => $::users::root::group,
-            mode    => '0644',
+            mode    => filemode(0644),
             require => Class['python35::misc_python_dir'];
     }
 }

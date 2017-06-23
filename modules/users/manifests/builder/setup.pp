@@ -59,22 +59,22 @@ class users::builder::setup($home, $username, $group) {
 
     file {
         "${home}/.gitconfig":
-            mode   => '0644',
+            mode   => filemode(0644),
             owner  => $username,
             group  => $group,
             source => 'puppet:///modules/users/gitconfig';
         "${home}/.bashrc":
-            mode    => '0644',
+            mode    => filemode(0644),
             owner   => $username,
             group   => $group,
             content => template("${module_name}/builder-bashrc.erb");
         "${home}/.vimrc":
-            mode   => '0644',
+            mode   => filemode(0644),
             owner  => $username,
             group  => $group,
             source => 'puppet:///modules/users/vimrc';
         "${home}/.screenrc":
-            mode   => '0644',
+            mode   => filemode(0644),
             owner  => $username,
             group  => $group,
             source => 'puppet:///modules/users/screenrc';
