@@ -37,6 +37,5 @@ define nrpe::plugin {
                 }
             }
         }
-     }
-
+    }
 }
