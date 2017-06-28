@@ -1,0 +1,37 @@
+[duo]
+; Duo integration key
+ikey=<%= @ikey %>
+
+; Duo secret key
+skey=<%= @skey %>
+
+; Duo API host
+host=<%= @host %>
+
+; Fallback local IP
+fallback_local_ip=<%= @fallback_local_ip %>
+
+; Failure mode
+failmode=<%= @failmode %>
+
+; Push info
+pushinfo=<%= @pushinfo %>
+
+; Auto push
+autopush=<%= @autopush %>
+
+; Prompts
+prompts=<%= @prompts %>
+
+; Accept environment factor
+accept_env_factor=<%= @accept_env_factor %>
+<% if @group != '' -%>
+
+    ; Group restriction
+    groups=<%= @group %>
+<% end -%>
+<% if @http_proxy != '' -%>
+
+    ; HTTP proxy
+    http_proxy=<%= @http_proxy %>
+<% end -%>

@@ -32,7 +32,9 @@ node 'jwatkins-1330169.srv.releng.scl3.mozilla.com' {
     $slave_trustlevel  = 'try'
     $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
     $pin_puppet_env    = 'jwatkins'
-    include toplevel::base
+    $duo_enabled       = true
+    include toplevel::server
+    include duo
 }
 
 # Linux and OS X
@@ -1089,9 +1091,8 @@ node 't-yosemite-r7-393.test.releng.mdc1.mozilla.com' {
 }
 
 # See Bug 1375500
-
-
 node 'releng-puppet-test1.srv.releng.scl3.mozilla.com' {
     $aspects = [ 'low-security' ]
     include toplevel::server
 }
+

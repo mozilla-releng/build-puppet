@@ -89,6 +89,12 @@ class ssh::config {
         }
 
         default: {
+            # Duo MFA requires special sshd configuration
+            $sshd_config_content = $duo_enabled ? {
+                true    => template("${module_name}/sshd_config_duo.erb"),
+                default => template("${module_name}/sshd_config.erb")
+            }
+
             file {
                 $ssh::settings::ssh_config:
                     owner   => $users::root::username,
@@ -100,7 +106,7 @@ class ssh::config {
                     group   => $::users::root::group,
                     mode    => '0644',
                     notify  => Class['ssh::service'], # restart daemon if necessary
-                    content => template("${module_name}/sshd_config.erb");
+                    content => $sshd_config_content;
                 $ssh::settings::known_hosts:
                     owner   => $::users::root::username,
                     group   => $::users::root::group,

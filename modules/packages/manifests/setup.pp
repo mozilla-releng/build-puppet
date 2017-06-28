@@ -162,11 +162,17 @@ class packages::setup {
 
                 'httpd':
                     url_path => "repos/yum/custom/httpd/${::architecture}";
+
+                'openssh':
+                    url_path => "repos/yum/custom/openssh/${::architecture}";
+
+                'duo_unix':
+                    url_path => "repos/yum/custom/duo_unix/${::architecture}";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 85
+            $repoflag = 87
             file {
                 '/etc/.repo-flag':
                     content =>

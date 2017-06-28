@@ -1,0 +1,28 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# Accept locale-related environment variables
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+AcceptEnv XMODIFIERS
+
+LogLevel VERBOSE
+
+# Do not allow root logins
+PermitRootLogin no
+
+# Do not allow password auth
+PasswordAuthentication no
+
+# Required for Duo MFA
+AuthenticationMethods publickey,keyboard-interactive
+PubkeyAuthentication yes
+ChallengeResponseAuthentication yes
+UsePAM yes
+UseDns no
+
+<% if @sftp_line %>
+<%= @sftp_line %>
+<% end %>
