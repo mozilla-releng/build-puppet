@@ -1087,3 +1087,11 @@ node 't-yosemite-r7-393.test.releng.mdc1.mozilla.com' {
     $pin_puppet_env    = 'jwatkins'
     include toplevel::base
 }
+
+# See Bug 1375500
+
+
+node 'releng-puppet-test1.srv.releng.scl3.mozilla.com' {
+    $aspects = [ 'low-security' ]
+    include toplevel::server
+}
