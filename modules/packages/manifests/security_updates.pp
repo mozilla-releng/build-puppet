@@ -83,16 +83,21 @@ class packages::security_updates {
                 'rpm':
                     ensure => '4.8.0-55.el6';
 
-                'openssh':
-                    ensure => '5.3p1-118.1.el6_8';
-
                 ['samba-client', 'samba-common', 'samba-winbind', 'samba-winbind-clients']:
                     ensure => '3.6.23-36.el6_8';
 
                 'sqlite':
                     ensure => '3.6.20-1.el6_7.2';
 
-            } -> Anchor['packages::security_updates::end']
+            }-> Anchor['packages::security_updates::end']
+            # If this is a duo enabled host, openssh is handled in  openssh.pp
+            if ! $duo_enabled {
+                Anchor['packages::security_updates::begin'] ->
+                package {
+                'openssh':
+                    ensure => '5.3p1-118.1.el6_8';
+                }-> Anchor['packages::security_updates::end']
+            }
         }
         Ubuntu: {
             # Do nothing yet
