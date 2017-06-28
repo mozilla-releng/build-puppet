@@ -7,7 +7,7 @@ class nrpe::check::check_pending_scriptworker_tasks {
 
     nrpe::check {
         'check_pending_scriptworker_tasks':
-            cfg => "sudo $plugins_dir/check_pending_scriptworker_tasks -w 5 -c 10";
+            cfg => "sudo $plugins_dir/check_pending_scriptworker_tasks -w \$ARG1\$ -c \$ARG2\$";
     }
 
     nrpe::plugin {
