@@ -174,6 +174,13 @@ class config inherits config::base {
     $signing_server_ssl_private_keys = hiera_hash('signing_server_ssl_private_keys')
     $signing_server_ssl_certs        = hiera_hash('signing_server_ssl_certs')
 
+    $jumphostlist = [
+        # a few folks from relops..
+        'arr',
+        'klibby',
+        'jwatkins',
+        'dhouse',
+    ]
 
     # a few users from each team as the 'short list' of people with access
     $shortlist = [
@@ -196,6 +203,7 @@ class config inherits config::base {
         'kmoir',
     ]
     $admin_users                     = $::fqdn ? {
+        /^rejh\d\.srv\.releng\.(mdc1|scl3)\.mozilla.com/  => $jumphostlist,
         # signing machines have a very limited access list
         /^(mac-)?(v2-)?signing\d\..*/                     => $shortlist,
         /^signing-linux-\d\..*/                           => $shortlist,

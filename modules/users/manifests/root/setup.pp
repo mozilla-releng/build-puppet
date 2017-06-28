@@ -21,29 +21,28 @@ class users::root::setup($home, $username, $group) {
     ##
     # set up SSH configuration
 
-    Anchor['users::root::setup::begin'] ->
-    case $::only_user_ssh {
-        true: {
-            ssh::userconfig {
-                $username:
-                    home                          => $home,
-                    group                         => $group,
-                    cleartext_password            => secret('root_pw_cleartext'),
-                    authorized_keys               => [],  # nobody is authorized
-                    authorized_keys_allows_extras => false,
-            }
-        }
-        default: {
-            ssh::userconfig {
-                $username:
-                    home                          => $home,
-                    group                         => $group,
-                    cleartext_password            => secret('root_pw_cleartext'),
-                    authorized_keys               => $::config::admin_users,
-                    authorized_keys_allows_extras => true,
-            }
-        }
-    } -> Anchor['users::root::setup::end']
+    if $only_user_ssh {
+        Anchor['users::root::setup::begin'] ->
+        ssh::userconfig {
+            $username:
+                home                          => $home,
+                group                         => $group,
+                cleartext_password            => secret('root_pw_cleartext'),
+                authorized_keys               => [],  # nobody is authorized
+                authorized_keys_allows_extras => false,
+        } -> Anchor['users::root::setup::end']
+    }
+    else {
+        Anchor['users::root::setup::begin'] ->
+        ssh::userconfig {
+            $username:
+                home                          => $home,
+                group                         => $group,
+                cleartext_password            => secret('root_pw_cleartext'),
+                authorized_keys               => $::config::admin_users,
+                authorized_keys_allows_extras => true,
+        } -> Anchor['users::root::setup::end']
+    }
 
     ##
     # Manage some configuration files
