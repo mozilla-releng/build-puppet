@@ -261,6 +261,7 @@ node /rejh\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'GMT'
     $only_user_ssh = true
+    $duo_enabled   = true
     include toplevel::jumphost
 }
 
