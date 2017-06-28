@@ -32,6 +32,8 @@ class toplevel::jumphost {
     include cron
     include disableservices::server
 
+    include duo
+
     include users::root
     include sudoers
     include users::global
