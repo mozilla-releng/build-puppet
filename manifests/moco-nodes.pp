@@ -254,6 +254,16 @@ node 'install.test.releng.mdc1.mozilla.com' {
     #}
 }
 
+## Jump hosts
+
+node /rejh\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+    # jump host servers
+    $aspects       = [ 'maximum-security' ]
+    $timezone      = 'GMT'
+    $only_user_ssh = true
+    include toplevel::jumphost
+}
+
 ## Misc servers
 
 node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
