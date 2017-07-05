@@ -7,18 +7,12 @@ class ntp::atboot {
     $ntpservers = $config::ntp_servers
 
     case $::operatingsystem {
-        CentOS: {
+        CentOS, Darwin: {
             include packages::ntp
             service {
                 'ntpdate':
                     enable    => true,
                     hasstatus => false;
-            }
-        }
-        Darwin: {
-            file {
-                '/Library/LaunchDaemons/org.mozilla.ntpdate.plist':
-                    content => template('ntp/ntpdate.plist.erb');
             }
         }
         Ubuntu: {
