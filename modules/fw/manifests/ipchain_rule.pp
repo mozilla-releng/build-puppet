@@ -13,8 +13,8 @@ define fw::ipchain_rule {
     # Generate a single ipchains rule
     firewall {
         "200 ${name}":
-            proto => $proto,
-            dport => $dport,
+            proto  => $proto,
+            dport  => $dport,
             source => $source,
             action => accept;
     }

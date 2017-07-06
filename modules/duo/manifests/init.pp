@@ -14,15 +14,15 @@ class duo {
     }
 
     if (secret('duo_ikey') == '' or secret('duo_skey') == '' or secret('duo_host') == '') {
-        fail("Missing duo secrets")
+        fail('Missing duo secrets')
     }
 
     class { 'duo::duo_unix':
-        enabled    => $_duo_enabled,
-        ikey       => secret('duo_ikey'),
-        skey       => secret('duo_skey'),
-        host       => secret('duo_host'),
-        pushinfo   => 'yes',
+        enabled  => $_duo_enabled,
+        ikey     => secret('duo_ikey'),
+        skey     => secret('duo_skey'),
+        host     => secret('duo_host'),
+        pushinfo => 'yes',
     }
 
 }

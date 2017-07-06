@@ -447,7 +447,7 @@ class config::base {
     $signingworker_root            = '/builds/signingworker'
     $signingworker_pulse_host      = 'pulse.mozilla.org'
     $signingworker_pulse_port      = 5671
-    $signingworker_verbose_logging = "true"
+    $signingworker_verbose_logging = 'true'
     $signingworker_exchange        = ''
     $signingworker_worker_type     = ''
     $signingworker_balrog_api_root = 'https://aus4-admin.mozilla.org/api'

@@ -67,7 +67,9 @@ class gui(
                 # Bug 859867: prevent nvidia drivers to use sched_yield(),
                 # what makes compiz use 100% CPU
                 '/etc/X11/Xsession.d/98nvidia':
-                    ensure  => $use_nvidia ? { true => present, default => absent },
+                    ensure  => $use_nvidia ? {
+                                    true    => present,
+                                    default => absent },
                     content => "export __GL_YIELD=NOTHING\n",
                     notify  => Service['x11'];
 
@@ -96,7 +98,9 @@ class gui(
                     $gpu_bus_id = 'PCI:01:00:0'
                     file {
                         '/etc/X11/xorg.conf':
-                            ensure  => $use_nvidia ? { true => present, default => absent },
+                            ensure  => $use_nvidia ? {
+                                            true    => present,
+                                            default => absent },
                             content => template("${module_name}/xorg.conf.erb"),
                             notify  => Service['x11'];
                         '/etc/init.d/x11':
@@ -122,14 +126,22 @@ class gui(
                     # start x11 *or* xvfb, depending on whether we have a GPU or not
                     service {
                         'x11':
-                            ensure  => $on_gpu ? { true => undef, default => stopped },
-                            enable  => $on_gpu ? { true => true, default => false },
+                            ensure  => $on_gpu ? {
+                                          true    => undef,
+                                          default => stopped },
+                            enable  => $on_gpu ? {
+                                          true    => true,
+                                          default => false },
                             require => File['/etc/init.d/x11'],
                             notify  => Service['Xsession'];
 
                         'xvfb':
-                            ensure  => $on_gpu ? { true => stopped, default => undef },
-                            enable  => $on_gpu ? { true => false, default => true },
+                            ensure  => $on_gpu ? {
+                                          true    => stopped,
+                                          default => undef },
+                            enable  => $on_gpu ? {
+                                          true    => false,
+                                          default => true },
                             require => File['/etc/init.d/xvfb'],
                             notify  => Service['Xsession'];
                         'Xsession':
@@ -165,15 +177,23 @@ class gui(
                     # start x11 *or* xvfb, depending on whether we have a GPU or not
                     service {
                         'x11':
+                            ensure   => $on_gpu ? {
+                                            true    => undef,
+                                            default => stopped },
                             provider => 'systemd',
-                            ensure   => $on_gpu ? { true => undef, default => stopped },
-                            enable   => $on_gpu ? { true => true, default => false },
+                            enable   => $on_gpu ? {
+                                            true    => true,
+                                            default => false },
                             require  => File['/lib/systemd/system/x11.service'],
                             notify   => Service['Xsession'];
                         'xvfb':
+                            ensure   => $on_gpu ? {
+                                            true    => stopped,
+                                            default => undef },
                             provider => 'systemd',
-                            ensure   => $on_gpu ? { true => stopped, default => undef },
-                            enable   => $on_gpu ? { true => false, default => true },
+                            enable   => $on_gpu ? {
+                                            true    => false,
+                                            default => true },
                             require  => File['/lib/systemd/system/xvfb.service'],
                             notify   => Service['Xsession'];
                         'Xsession':

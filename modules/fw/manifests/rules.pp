@@ -18,9 +18,9 @@ define fw::rules ( $sources, $app ) {
         }
         'Darwin': {
             fw::pf_rule { $name:
-                sources  => $sources_uniq,
-                proto    => $proto,
-                port     => $port,
+                sources => $sources_uniq,
+                proto   => $proto,
+                port    => $port,
             }
         }
         Default: {

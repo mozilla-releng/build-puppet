@@ -7,18 +7,18 @@ class nrpe::check::check_pending_scriptworker_tasks {
 
     nrpe::check {
         'check_pending_scriptworker_tasks':
-            cfg => "sudo $plugins_dir/check_pending_scriptworker_tasks -w \$ARG1\$ -c \$ARG2\$";
+            cfg => "sudo ${plugins_dir}/check_pending_scriptworker_tasks -w \$ARG1\$ -c \$ARG2\$";
     }
 
     nrpe::plugin {
-        "check_pending_scriptworker_tasks.erb": ;
+        'check_pending_scriptworker_tasks.erb': ;
     }
 
     sudoers::custom {
         'check_pending_scriptworker_tasks':
-            user => 'nagios',
-            runas => 'root',
-            command => "$plugins_dir/check_pending_scriptworker_tasks";
+            user    => 'nagios',
+            runas   => 'root',
+            command => "${plugins_dir}/check_pending_scriptworker_tasks";
     }
 }
 

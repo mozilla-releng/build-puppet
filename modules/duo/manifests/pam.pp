@@ -38,8 +38,8 @@ class duo::pam (
                 "set ${p}/101/control required",
                 "set ${p}/101/module pam_deny.so",
             ],
-            onlyif => "match ${aug_match} size == 0",
-            notify => Class['ssh::service'],
+            onlyif  => "match ${aug_match} size == 0",
+            notify  => Class['ssh::service'],
         }
     } else {
         augeas { 'Disable Duo PAM Configuration' :
@@ -51,8 +51,8 @@ class duo::pam (
                 "rm ${p}/3",
                 "rm ${p}/4",
             ],
-            onlyif => "match ${aug_match} size != 0",
-            notify => Class['ssh::service'],
+            onlyif  => "match ${aug_match} size != 0",
+            notify  => Class['ssh::service'],
         }
     }
 }

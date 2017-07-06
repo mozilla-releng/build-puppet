@@ -1,3 +1,6 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
 define pf::rule (
         $action    = undef,
         $direction = undef,
@@ -31,7 +34,7 @@ define pf::rule (
     if $state { $_state = " ${state}" } else { $_state = '' }
 
     concat::fragment { "rule_${name}":
-        target => "${::pf::pf_dir}/rules.conf",
+        target  => "${::pf::pf_dir}/rules.conf",
         content => template('pf/rule.erb'),
     }
 }
