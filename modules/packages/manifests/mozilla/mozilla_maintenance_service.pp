@@ -17,8 +17,8 @@ class packages::mozilla::mozilla_maintenance_service {
     $issuer_0         = '"issuer"="Thawte Code Signing CA - G2"'
     $issuer_1         = '"issuer"="Mozilla Fake CA"'
     $issuer_2         = '"DigiCert SHA2 Assured ID Code Signing CA"'
-    $programName      = '"programName"=""'
-    $publisherLink    = '"publisherLink"=""'
+    $programname      = '"programName"=""'
+    $publisherlink    = '"publisherLink"=""'
 
     # Original source http://runtime-binaris.pvt.build.mozilla.org
     packages::pkgzip {
