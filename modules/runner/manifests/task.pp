@@ -16,13 +16,23 @@ define runner::task($content=undef, $source=undef) {
     if ($::operatingsystem == Windows) {
         acl {
             "${runner::settings::taskdir}/${title}":
-                purge => true,
+                purge                      => true,
                 inherit_parent_permissions => false,
-                permissions => [
-                    { identity => 'root', rights => ['full'] },
-                    { identity => 'cltbld', rights => ['full'] },
-                    { identity => 'SYSTEM', rights => ['full'] },
-                    { identity => 'EVERYONE', rights => ['read'] },
+                # indentation of => is not properly aligned in hash within array: The solution was provided on comment 2
+                # https://github.com/rodjek/puppet-lint/issues/333
+                permissions                => [
+                    {
+                      identity => 'root',
+                      rights   => ['full'] },
+                    {
+                      identity => 'cltbld',
+                      rights   => ['full'] },
+                    {
+                      identity => 'SYSTEM',
+                      rights   => ['full'] },
+                    {
+                      identity => 'EVERYONE',
+                      rights   => ['read'] },
                 ];
         }
     }

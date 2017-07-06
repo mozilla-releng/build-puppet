@@ -24,10 +24,18 @@ class slave_secrets::crash_stats_api_token($ensure=present) {
                     $crash_stats_api_token:
                         purge                      => true,
                         inherit_parent_permissions => false,
+                        # indentation of => is not properly aligned in hash within array: The solution was provided on comment 2
+                        # https://github.com/rodjek/puppet-lint/issues/333
                         permissions                => [
-                            { identity => 'root', rights => ['full'] },
-                            { identity => 'SYSTEM', rights => ['full'] },
-                            { identity => 'cltbld', rights => ['full'] },
+                            {
+                              identity => 'root',
+                              rights   => ['full'] },
+                            {
+                              identity => 'SYSTEM',
+                              rights   => ['full'] },
+                            {
+                              identity => 'cltbld',
+                              rights   => ['full'] },
                         ];
                 }
             }

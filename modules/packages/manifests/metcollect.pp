@@ -18,12 +18,12 @@ class packages::metcollect {
                     source => 'puppet:///repos/EXEs/metcollect.exe';
             }~>
             # Enabling diskperf raw stat is required for disk_io data
-            exec { enabled_diskperf:
+            exec { 'enabled_diskperf':
                 command     => 'diskperf -Y',
                 path        => "C:\\Windows\\System32",
                 refreshonly => true,
             }~>
-            exec { install_servcie:
+            exec { 'install_servcie':
                 command     => 'metcollect.exe --startup auto install',
                 path        => $exe_path,
                 refreshonly => true,
