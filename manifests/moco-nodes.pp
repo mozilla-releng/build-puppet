@@ -791,17 +791,6 @@ node 'buildbot-master107.bb.releng.scl3.mozilla.com' {
     include toplevel::server::buildmaster::mozilla
 }
 
-node 'buildbot-master108.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm108-tests1-macosx':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-macosx';
-    }
-    include toplevel::server::buildmaster::mozilla
-}
 
 node 'buildbot-master109.bb.releng.scl3.mozilla.com' {
     $aspects       = [ 'high-security' ]
@@ -907,66 +896,6 @@ node 'buildbot-master129.bb.releng.usw2.mozilla.com' {
             http_port   => 8201,
             master_type => 'tests',
             basedir     => 'tests1-windows';
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master132.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm132-tests1-macosx':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-macosx';
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master133.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm133-tests1-macosx':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-macosx';
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master134.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm134-tests1-macosx':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-macosx';
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master135.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm135-tests1-macosx':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-macosx';
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master136.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm136-tests1-macosx':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-macosx';
     }
     include toplevel::server::buildmaster::mozilla
 }
