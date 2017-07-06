@@ -39,6 +39,7 @@ define signingserver::instance(
     $signcode_keydir       = "${secrets_dir}/signcode"
     $sha2signcode_keydir   = "${secrets_dir}/sha2signcode"
     $gpg_homedir           = "${secrets_dir}/gpg"
+    $gpg2017_homedir       = "${secrets_dir}/gpg2017"
     $mar_keydir            = "${secrets_dir}/mar"
     $mar_sha384_keydir     = "${secrets_dir}/mar-sha384"
     $jar_keystore          = "${secrets_dir}/jar"
@@ -61,6 +62,7 @@ define signingserver::instance(
     $testfile_mar          = "${testfile_dir}/test.mar"
     $testfile_mar_sha384   = "${testfile_dir}/test.mar"
     $testfile_gpg          = "${testfile_dir}/test.mar"
+    $testfile_gpg2017      = "${testfile_dir}/test.mar"
     $testfile_dmg          = "${testfile_dir}/test.tar.gz"
     $testfile_jar          = "${testfile_dir}/test.zip"
 
@@ -143,6 +145,7 @@ define signingserver::instance(
           $signcode_keydir,
           $sha2signcode_keydir,
           $gpg_homedir,
+          $gpg2017_homedir,
           $mar_keydir,
           $mar_sha384_keydir,
           $dmg_keydir,
