@@ -106,8 +106,8 @@ class config inherits config::base {
 
     $nrpe_allowed_hosts            = $::fqdn? {
         /.*\.mdc1\.mozilla\.com/             => '127.0.0.1,10.49.75.30',
-        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => '127.0.0.1,10.26.75.30,10.26.75.64',
-        default                              => '127.0.0.1,10.26.75.30,10.26.75.64',
+        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => '127.0.0.1,10.26.75.30',
+        default                              => '127.0.0.1,10.26.75.30',
     }
 
     $ntp_servers                   = $::fqdn? {
