@@ -1005,6 +1005,15 @@ node /pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::pushapkscriptworker
 }
 
+# Transparency scriptworkers
+node /binarytransparencyworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+    $aspects = [ 'maximum-security' ]
+    $transparencyworker_env = "dev"
+    $timezone = "UTC"
+    $only_user_ssh = true
+    include toplevel::server::transparencyscriptworker
+}
+
 ## Loaners
 
 node 'dhouse-1330169.srv.releng.scl3.mozilla.com' {

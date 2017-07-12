@@ -168,11 +168,14 @@ class packages::setup {
 
                 'duo_unix':
                     url_path => "repos/yum/custom/duo_unix/${::architecture}";
+
+                'lego':
+                    url_path => "repos/yum/custom/lego/${::architecture}";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 87
+            $repoflag = 88
             file {
                 '/etc/.repo-flag':
                     content =>
