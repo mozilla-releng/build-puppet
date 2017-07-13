@@ -10,7 +10,6 @@ class signing_scriptworker {
     include tweaks::swap_on_instance_storage
     include packages::gcc
     include packages::make
-    include nrpe::check::signing_file_ages
 
     $env_config          = $signing_scriptworker::settings::env_config[$signing_scriptworker_env]
 
@@ -53,7 +52,7 @@ class signing_scriptworker {
                   'python-gnupg==0.4.0',
                   'python-jose==1.3.2',
                   'requests==2.18.1',
-                  'scriptworker==4.1.2',
+                  'scriptworker==4.1.3',
                   'signingscript==2.0.0',
                   'signtool==3.1.2',
                   'six==1.10.0',
@@ -89,11 +88,6 @@ class signing_scriptworker {
             verify_cot_signature     => $env_config["verify_cot_signature"],
 
             verbose_logging          => $signing_scriptworker::settings::verbose
-    }
-
-    nrpe::custom {
-        'signingworker.cfg':
-            content => template("${module_name}/nagios.cfg.erb");
     }
 
     file {

@@ -37,7 +37,6 @@ define scriptworker::instance(
     include scriptworker::instance::settings
     include packages::mozilla::git
     include packages::mozilla::supervisor
-    include nrpe::check::check_pending_scriptworker_tasks
 
     # These constants need to be filled in $script_worker_config, even though Chain of Trust is not enabled.
     $git_key_repo_dir = "${basedir}/gpg_key_repo/"
@@ -83,6 +82,10 @@ define scriptworker::instance(
         # cleanup per bug 1298199
         '/root/certs.sh':
             ensure => absent;
+    }
+
+    scriptworker::nagios { $instance_name:
+        username => $username,
     }
 
     scriptworker::supervisord { $instance_name:
