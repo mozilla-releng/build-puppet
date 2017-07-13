@@ -1,0 +1,10 @@
+{
+    "task_json": "<%= scope.lookupvar("transparency_scriptworker::settings::root") %>/work/task.json",
+
+    "work_dir": "<%= scope.lookupvar("transparency_scriptworker::settings::root") %>/work",
+    "public_artifact_dir": "<%= scope.lookupvar("transparency_scriptworker::settings::root") %>/artifacts/public",
+
+    "lego-path": "<%= scope.lookupvar("transparency_scriptworker::settings::lego_path") %>",
+
+    "verbose": <%= scope.lookupvar("transparency_scriptworker::settings::verbose_logging") %>
+}
