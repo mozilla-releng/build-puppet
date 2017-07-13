@@ -14,12 +14,6 @@ define scriptworker::nagios(
             cfg => "sudo -u $username ${plugins_dir}/check_file_age -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
         'check_scriptworker_file_age_ok_if_missing':
             cfg => "sudo -u $username ${plugins_dir}/check_file_age -m -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
-
-        # deprecated; here for backwards compatibility. remove when it-puppet no longer references
-        'check_signing_file_age':
-            cfg => "sudo -u $username ${plugins_dir}/check_file_age -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
-        'check_signing_file_age_ok_if_missing':
-            cfg => "sudo -u $username ${plugins_dir}/check_file_age -m -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
     }
 
     file {
