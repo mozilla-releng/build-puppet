@@ -35,52 +35,6 @@ class users::signer::account($username, $group, $grouplist, $home) {
             # relevant fixes.
             # NOTE: this user is *not* an Administrator.  All admin-level access is granted via sudoers.
             case $::macosx_productversion_major {
-                '10.6': {
-                    if (secret('signer_pw_paddedsha1') == '') {
-                        fail('No signer password paddedsha1 set')
-                    }
-                    darwinuser {
-                        $username:
-                            gid      => $group,
-                            shell    => '/bin/bash',
-                            home     => $home,
-                            password => secret('signer_pw_paddedsha1'),
-                            comment  => 'Builder',
-                            notify   => Exec['kill-signer-keychain'];
-                    }
-                    $user_req = Darwinuser[$username]
-                }
-                '10.7': {
-                    if (secret('signer_pw_saltedsha512') == '') {
-                        fail('No signer password saltedsha512 set')
-                    }
-                    darwinuser {
-                        $username:
-                            gid      => $group,
-                            shell    => '/bin/bash',
-                            home     => $home,
-                            password => secret('signer_pw_saltedsha512'),
-                            comment  => 'Builder',
-                            notify   => Exec['kill-signer-keychain'];
-                    }
-                    $user_req = Darwinuser[$username]
-                }
-                '10.8': {
-                    if (secret('signer_pw_pbkdf2') == '' or secret('signer_pw_pbkdf2_salt') == '') {
-                        fail('No signer password pbkdf2 set')
-                    }
-                    darwinuser {
-                        $username:
-                            shell      => '/bin/bash',
-                            home       => $home,
-                            password   => secret('signer_pw_pbkdf2'),
-                            salt       => secret('signer_pw_pbkdf2_salt'),
-                            iterations => secret('signer_pw_pbkdf2_iterations'),
-                            comment    => 'Builder',
-                            notify     => Exec['kill-signer-keychain'];
-                    }
-                    $user_req = Darwinuser[$username]
-                }
                 '10.9','10.10': {
                     if (secret('signer_pw_pbkdf2') == '' or secret('signer_pw_pbkdf2_salt') == '') {
                         fail('No signer password pbkdf2 set')
