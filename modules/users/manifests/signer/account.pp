@@ -59,7 +59,7 @@ class users::signer::account($username, $group, $grouplist, $home) {
                 # whenever the user password changes, we need to delete the keychain, otherwise
                 # it will prompt on login
                 'kill-signer-keychain':
-                    command     => '/bin/rm -rf $home/Library/Keychains/login.keychain',
+                    command     => "/bin/rm -rf ${home}/Library/Keychains/login.keychain",
                     refreshonly => true;
             }
             file {
