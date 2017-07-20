@@ -18,7 +18,7 @@ class dirs::builds::logs {
                 '/builds/logs' :
                     ensure => directory,
                     owner  => 'root',
-                    group  => '$users::root::group',
+                    group  => $users::root::group,
                     mode   => '0755';
             }
         }
