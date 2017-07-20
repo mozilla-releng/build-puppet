@@ -102,7 +102,7 @@ class users::builder::account($username, $group, $grouplist, $home) {
                 # it will prompt on login
                 'kill-builder-keychain':
                     command     => "/bin/rm -rf ${home}/Library/Keychains/login.keychain",
-                    notify      => Exec['reboot_semaphore'].
+                    notify      => Exec['reboot_semaphore'],
                     refreshonly => true;
             }
             file {
