@@ -62,7 +62,7 @@ class packages::puppet {
             # unaffected, but Snow Leopard is affected.  When
             # https://tickets.puppetlabs.com/browse/PUP-2616 is fixed, this
             # should no longer be necessary
-            if ($::macosx_productversion_major == '10.8' or $::macosx_productversion_major == '10.6') {
+            if ($::macosx_productversion_major == '10.8') {
                 Anchor['packages::puppet::begin'] ->
                 packages::pkgdmg {
                     'json_pure':

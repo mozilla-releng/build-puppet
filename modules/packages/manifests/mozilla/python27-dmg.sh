@@ -25,7 +25,6 @@ srpm_release=1  # use whatever version of the SRPM is on the server
 ffi_option=--without-system-ffi
 shared_option=--enable-shared
 case "$(sw_vers -productVersion)" in
-    10.6) ;;  # ?? lost to the sands of time
     10.7) ;;  # ?? lost to the sands of time
     10.8) ;;  # ?? lost to the sands of time
     10.9) ;;  # ?? lost to the sands of time

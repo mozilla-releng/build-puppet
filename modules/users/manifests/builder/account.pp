@@ -44,21 +44,6 @@ class users::builder::account($username, $group, $grouplist, $home) {
             # relevant fixes.
             # NOTE: this user is *not* an Administrator.  All admin-level access is granted via sudoers.
             case $::macosx_productversion_major {
-                '10.6': {
-                    if (secret('builder_pw_paddedsha1') == '') {
-                        fail('No builder password paddedsha1 set')
-                    }
-                    darwinuser {
-                        $username:
-                            gid      => $group,
-                            shell    => '/bin/bash',
-                            home     => $home,
-                            password => secret('builder_pw_paddedsha1'),
-                            comment  => 'Builder',
-                            notify   => Exec['kill-builder-keychain'];
-                    }
-                    $user_req = Darwinuser[$username]
-                }
                 '10.7': {
                     if (secret('builder_pw_saltedsha512') == '') {
                         fail('No builder password saltedsha512 set')

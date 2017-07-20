@@ -11,21 +11,6 @@ class users::deploystudio::account($username, $group, $grouplist, $home, $uid) {
         Darwin: {
             # NOTE: this user is *not* an Administrator.  All admin-level access is granted via sudoers.
             case $::macosx_productversion_major {
-                '10.6': {
-                    if (secret('deploystudio_pw_paddedsha1') == '') {
-                        fail('No deploystudio password paddedsha1 set')
-                    }
-                    user {
-                        $username:
-                            uid      => $uid,
-                            gid      => $group,
-                            shell    => '/bin/bash',
-                            home     => $home,
-                            password => secret('deploystudio_pw_paddedsha1'),
-                            comment  => 'Deploystudio';
-                    }
-                    $user_req = User[$username]
-                }
                 '10.7': {
                     if (secret('deploystudio_pw_saltedsha512') == '') {
                         fail('No deploystudio password saltedsha512 set')

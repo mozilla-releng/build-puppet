@@ -5,7 +5,7 @@ class packages::packagemaker {
     case $operatingsystem {
         Darwin: {
             case $macosx_productversion_major {
-                10.6, 10.7, 10.8, 10.9: {
+                10.7, 10.8, 10.9: {
                     # This is a re-packaged version of PackageMaker from the "Late July
                     # 2012" Auxiliary Developer Tools.  Thanks for the detailed version
                     # number, Apple.  The download is named
@@ -13,7 +13,7 @@ class packages::packagemaker {
                     # corresponds to Xcode 4.4.  To reproduce, download from
                     # https://developer.apple.com/downloads/index.action and run the
                     # corresponding shell script in the directory containing this
-                    # manifest file.  This version seems to work on 10.6 - 10.9.
+                    # manifest file.  This version seems to work on 10.7 - 10.9.
                     packages::pkgdmg {
                         'packagemaker':
                             version             => '4.4',

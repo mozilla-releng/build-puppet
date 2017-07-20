@@ -10,10 +10,6 @@ srpm_release=2
 
 pod2man_broken=false
 case "$(sw_vers -productVersion)" in
-    10.6*) 
-       USE_PACKAGEMAKER="1";
-       DONT_USE_RPM_SOURCES=1
-       ;;  # ?? lost to the sands of time
     10.7) ;;  # ?? lost to the sands of time
     10.8) ;;  # ?? lost to the sands of time
     10.9) ;;  # ?? lost to the sands of time

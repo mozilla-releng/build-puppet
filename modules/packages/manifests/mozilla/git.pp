@@ -54,7 +54,7 @@ class packages::mozilla::git {
         }
         Darwin: {
             case $::macosx_productversion_major {
-                10.6, 10.10: {
+                10.10: {
                     Anchor['packages::mozilla::git::begin'] ->
                     packages::pkgdmg {
                         'git':

@@ -18,7 +18,7 @@ class users::global {
     # proper system operation.
     if ($::operatingsystem == 'Darwin') {
         case $::macosx_productversion_major {
-            10.6,10.7,10.8: {
+            10.7,10.8: {
                 darwinuser {
                     'administrator':
                         ensure => absent;

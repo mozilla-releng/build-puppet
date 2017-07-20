@@ -25,7 +25,7 @@ define users::person($shell='/bin/bash') {
         }
         Darwin: {
             case $::macosx_productversion_major {
-                10.6, 10.7, 10.8: {
+                10.7, 10.8: {
                     darwinuser {
                         $username:
                             gid     => $group,
@@ -50,7 +50,6 @@ define users::person($shell='/bin/bash') {
     # You should not intermingle conditionals with resource declarations. When using conditionals for data assignment,
     # you should separate conditional code from the resource declarations
     $macosmajorver = $::macosx_productversion_major ? {
-        10.6    => [ Darwinuser[$username] ],
         10.7    => [ Darwinuser[$username] ],
         10.8    => [ Darwinuser[$username] ],
         default => [ User[$username] ],

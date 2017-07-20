@@ -390,7 +390,6 @@ class config inherits config::base {
     $deploystudio_dir              = '/Deploy'
 
     $xcode_version = $::macosx_productversion_major ? {
-        10.6    => '4.2',
         10.7    => '4.1',
         10.8    => '5.1-cmdline',
         10.9    => '5.0-cmdline',

@@ -21,10 +21,6 @@ srpm_release=1
 # ensure the same build environment (you can change this if necessary, just test carefully)
 
 case "$(sw_vers -productVersion)" in
-    10.6)
-        USE_PACKAGEMAKER=1
-        DONT_USE_RPM_SOURCES=1
-        ;;  # ?? lost to the sands of time
     10.7) ;;  # ?? lost to the sands of time
     10.8) ;;  # ?? lost to the sands of time
     10.9) ;;  # ?? lost to the sands of time

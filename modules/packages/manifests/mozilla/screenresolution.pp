@@ -15,7 +15,7 @@ class packages::mozilla::screenresolution {
         Darwin : {
             # different versions work for different OS X versions, yuck
             case $::macosx_productversion_major {
-                '10.6','10.7': {
+                '10.7': {
                     packages::pkgdmg {
                         'screenresolution':
                             version => '1.5';

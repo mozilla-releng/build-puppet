@@ -30,18 +30,6 @@ class users::root::account($username, $group, $home) {
         Darwin: {
             # use our custom type and provider, based on http://projects.puppetlabs.com/issues/12833
             case $::macosx_productversion_major {
-                '10.6': {
-                    if (secret('root_pw_paddedsha1') == '') {
-                        fail('No root password paddedsha1 set')
-                    }
-
-                    darwinuser {
-                        $username:
-                            home     => $home,
-                            password => secret('root_pw_paddedsha1');
-                    }
-                    $user_req = Darwinuser[$username]
-                }
                 '10.7': {
                     if (secret('root_pw_saltedsha512') == '') {
                         fail('No root password saltedsha512 set')

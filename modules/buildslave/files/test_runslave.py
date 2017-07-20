@@ -185,7 +185,6 @@ class BuildbotTac(unittest.TestCase):
         'talos-r3-fed-NN' : '/home/cltbld/talos-slave',
         'talos-r3-fed64-NN' : '/home/cltbld/talos-slave',
         'talos-r3-leopard-NN' : '/Users/cltbld/talos-slave',
-        'talos-r3-snow-NN' : '/Users/cltbld/talos-slave',
         'talos-r3-w7-NN' : 'c:\\talos-slave',
         'talos-r3-xp-NN' : 'c:\\talos-slave',
         'try-linux-slaveNN' : '/builds/slave',
