@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class users::builder::account($username, $group, $grouplist, $home) {
     include ::config
+    include needs_reboot
 
     ##
     # sanity checks
@@ -88,7 +89,7 @@ class users::builder::account($username, $group, $grouplist, $home) {
                             iterations => secret('builder_pw_pbkdf2_iterations'),
                             comment    => 'Builder',
                             groups     => $grouplist,
-                            notify     => Exec['kill-builder-keychain'];
+                            notify     => Exec['kill-builder-keychain','reboot_semaphore'];
                     }
                     $user_req = User[$username]
                 }
@@ -101,6 +102,7 @@ class users::builder::account($username, $group, $grouplist, $home) {
                 # it will prompt on login
                 'kill-builder-keychain':
                     command     => "/bin/rm -rf ${home}/Library/Keychains/login.keychain",
+                    notify      => Exec['reboot_semaphore'],
                     refreshonly => true;
             }
             file {
