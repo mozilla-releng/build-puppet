@@ -6,7 +6,7 @@ class toplevel::slave::releng::test inherits toplevel::slave::releng {
     include talos
     include vnc
     include users::builder::autologin
-    include ntp::daemon
+    include ntp::atboot
     include runner::tasks::cleanup
     include dirs::builds::hg_shared
     include dirs::builds::git_shared

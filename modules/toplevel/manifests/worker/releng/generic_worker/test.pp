@@ -5,7 +5,7 @@
 class toplevel::worker::releng::generic_worker::test inherits toplevel::worker::releng::generic_worker {
     include talos
     include vnc
-    include ntp::daemon
+    include ntp::atboot
     include dirs::builds::hg_shared
     include dirs::builds::git_shared
     include dirs::builds::tooltool_cache
