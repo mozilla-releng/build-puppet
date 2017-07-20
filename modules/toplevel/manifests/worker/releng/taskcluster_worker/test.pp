@@ -5,7 +5,7 @@
 class toplevel::worker::releng::taskcluster_worker::test inherits toplevel::worker::releng::taskcluster_worker {
     include talos
     include vnc
-    include ntp::atboot
+    include ntp::daemon
     include dirs::builds::hg_shared
     include dirs::builds::git_shared
     include dirs::builds::tooltool_cache
