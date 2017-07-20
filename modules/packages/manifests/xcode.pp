@@ -32,30 +32,6 @@ class packages::xcode {
                     } -> Anchor['packages::xcode::end']
                 }
 
-                '4.2': {
-                    case $::macosx_productversion_major {
-                        '10.6': { # Xcode-4.2
-                            # This is based on the download of Xcode-4.2 for snow
-                            # leopard, which required (requires?) a paid dev account.
-                            # Mount it:
-                            #   hdiutil attach foo.dmg
-                            # and then strip the certs using the script in the same dir
-                            # as this .pp file:
-                            #   xcode-remove-certs.sh
-                            Anchor['packages::xcode::begin'] ->
-                            packages::pkgdmg {
-                                'xcode':
-                                    version => '4.2',
-                                    dmgname => 'xcode-with-certs-stripped-4.2.dmg',
-                                    private => true;
-                            } -> Anchor['packages::xcode::end']
-                        }
-                        default: {
-                            fail("cannot install XCode ${::config::xcode_version} ${::macosx_productversion_major}")
-                        }
-                    }
-                }
-
                 '5.1-cmdline': {
                     case $::macosx_productversion_major {
                         10.8: {

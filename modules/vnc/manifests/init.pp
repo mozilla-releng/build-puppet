@@ -20,27 +20,6 @@ class vnc {
                 # kickstart -configure -privs -all -access -on
                 # (this doesn't work; see https://bugzilla.mozilla.org/show_bug.cgi?id=733534#c8)
             }
-            case $::macosx_productversion_major {
-                '10.6': {
-                    # on Snow Leopard, the launchd service is not listed in
-                    # launchctl list, but it watches this file
-                    file {
-                        '/etc/ScreenSharing.launchd':
-                            content => 'enabled',
-                            owner   => root,
-                            group   => wheel,
-                            mode    => '0644';
-                    }
-                }
-                default: {
-                    service {
-                        # kickstart -activate
-                        'com.apple.screensharing':
-                            ensure => running,
-                            enable => true,
-                    }
-                }
-            }
 
             $kickstart = '/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart'
             exec {

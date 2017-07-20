@@ -10,7 +10,7 @@ class screenresolution($width, $height, $depth, $refresh) {
 
             # the version of screenresolution that works on 10.7 and below doesn't support refresh rates
             case $::macosx_productversion_major {
-                10.6,10.7: {
+                10.7: {
                     $resolution = "${width}x${height}x${depth}"
                 }
                 10.8,10.9: {
