@@ -28,7 +28,7 @@ class beetmover_scriptworker {
                   'aiohttp==2.1.0',
                   'arrow==0.10.0',
                   'async-timeout==1.2.1',
-                  'beetmoverscript==0.5.12',
+                  'beetmoverscript==0.5.13',
                   'boto3==1.4.4',
                   'botocore==1.5.68',
                   'certifi==2017.4.17',
