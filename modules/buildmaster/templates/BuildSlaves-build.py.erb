@@ -27,18 +27,14 @@ SlavePasswords = {
 tuxedoUsername = """<%=scope.function_secret(["tuxedo_username"])%>"""
 tuxedoPassword = """<%=scope.function_secret(["tuxedo_password"])%>"""
 balrog_credentials = {
-    'ffxbld': """<%= scope.function_secret(["ffxbld_ldap_password"])%>""",
-    'stage-ffxbld': """<%= scope.function_secret(["stage-ffxbld_ldap_password"])%>""",
-    'tbirdbld': """<%= scope.function_secret(["tbirdbld_ldap_password"])%>""",
-    'stage-tbirdbld': """<%= scope.function_secret(["stage-tbirdbld_ldap_password"])%>""",
     'balrog-ffxbld': """<%= scope.function_secret(["balrog-ffxbld_ldap_password"])%>""",
     'balrog-stage-ffxbld': """<%= scope.function_secret(["balrog-stage-ffxbld_ldap_password"])%>""",
     'balrog-tbirdbld': """<%= scope.function_secret(["balrog-tbirdbld_ldap_password"])%>""",
     'balrog-stage-tbirdbld': """<%= scope.function_secret(["balrog-stage-tbirdbld_ldap_password"])%>""",
 }
 ship_it_credentials = {
-    'ffxbld': """<%= scope.function_secret(["releaserunner_prod_ship_it_password"])%>""",
-    'stage-ffxbld': """<%= scope.function_secret(["releaserunner_dev_ship_it_password"])%>""",
+    'ship_it-ffxbld': """<%= scope.function_secret(["releaserunner_prod_ship_it_password"])%>""",
+    'ship_it-stage-ffxbld': """<%= scope.function_secret(["releaserunner_dev_ship_it_password"])%>""",
 }
 blobber_username = """<%=scope.function_secret(["blobber_username"])%>"""
 blobber_password = """<%=scope.function_secret(["blobber_password"])%>"""
