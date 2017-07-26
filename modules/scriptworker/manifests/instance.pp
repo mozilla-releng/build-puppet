@@ -22,7 +22,7 @@ define scriptworker::instance(
     $task_script_config           = "${basedir}/script_config.json",
 
     $worker_id                    = $hostname,
-    $task_max_timeout             = 1200,
+    $task_max_timeout             = 3600,
     $artifact_expiration_hours    = 336,
     $artifact_upload_timeout      = 1200,
 
