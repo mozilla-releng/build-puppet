@@ -33,8 +33,8 @@ balrog_credentials = {
     'balrog-stage-tbirdbld': """<%= scope.function_secret(["balrog-stage-tbirdbld_ldap_password"])%>""",
 }
 ship_it_credentials = {
-    'ffxbld': """<%= scope.function_secret(["releaserunner_prod_ship_it_password"])%>""",
-    'stage-ffxbld': """<%= scope.function_secret(["releaserunner_dev_ship_it_password"])%>""",
+    'ship_it-ffxbld': """<%= scope.function_secret(["releaserunner_prod_ship_it_password"])%>""",
+    'ship_it-stage-ffxbld': """<%= scope.function_secret(["releaserunner_dev_ship_it_password"])%>""",
 }
 blobber_username = """<%=scope.function_secret(["blobber_username"])%>"""
 blobber_password = """<%=scope.function_secret(["blobber_password"])%>"""
