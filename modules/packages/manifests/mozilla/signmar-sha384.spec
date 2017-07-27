@@ -7,16 +7,13 @@
 
 Summary:        signmar tool from Firefox (SHA384)
 Name:           signmar-sha384
-Version:        53.0a1
+Version:        56.0a1
 Release:        1%{?dist}
 URL:            http://www.mozilla.org/projects/firefox/
 License:        MPLv2.0
 Group:          mozilla
+# The initial source tarball was generated off of Oak on 2017-07-26, using ce51bb04ff35
 Source0:        https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/%{realname}-%{version}.source.tar.xz
-# The following patch has to be applied explicitly, because we need to deploy
-# signmar changes to the signing servers before we can land it to
-# mozilla-central
-Patch0:         signmar-sha384.diff
 
 BuildRequires: zip yasm patchelf freetype-devel libpng-devel libXrender-devel
 BuildRequires: autoconf213 libXext-devel libXinerama-devel libXi-devel libXrandr-devel
@@ -28,9 +25,8 @@ This is the signmar tool (SHA384 version), used to sign Mozilla Archives.
 
 %prep
 %setup -q -n %{realname}-%{version}
-%patch0 -p1
 # Fetch required GCC, rustc, GTK3
-taskcluster/docker/recipes/tooltool.py fetch --unpack -m browser/config/tooltool-manifests/linux64/releng.manifest
+python/mozbuild/mozbuild/action/tooltool.py fetch --unpack -m browser/config/tooltool-manifests/linux64/releng.manifest
 
 # HACK: to make the build work properly, I had to copy gtk3/usr/local contents
 # to /usr/local, because the pc files use absolute references to the headers

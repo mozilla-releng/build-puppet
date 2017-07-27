@@ -7,7 +7,7 @@ class packages::mozilla::signmar_sha384 {
             realize(Packages::Yumrepo['signmar'])
             package {
                 'signmar-sha384':
-                    ensure => '53.0a1-1.el6';
+                    ensure => '56.0a1-1.el6';
             }
         }
         default: {
