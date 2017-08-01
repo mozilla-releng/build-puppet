@@ -4,6 +4,7 @@
 
 class fw::apps {
     $app_proto_port = { 'ssh'    => { proto => 'tcp', port  => '22' },
+                        'vnc'    => { proto => 'tcp', port  => '5900' },
                         'http'   => { proto => 'tcp', port  => '80' },
                         'https'  => { proto => 'tcp', port  => '443' },
                         'puppet' => { proto => 'tcp', port  => '8140' },

@@ -5,7 +5,8 @@
 define fw::pf_rule (
     $sources,
     $proto,
-    $port
+    $port,
+    $log = false
 )
 {
 
@@ -20,7 +21,7 @@ define fw::pf_rule (
     pf::rule { $name:
         action    => 'pass',
         direction => 'in',
-        log       => false,
+        log       => $log,
         quick     => true,
         interface => 'en0',
         af        => 'inet',

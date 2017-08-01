@@ -5,8 +5,12 @@ set skip on lo0
 # Setup antispoofing
 antispoof quick for <%= @iface %>
 
-# Set default rule of deny all both in and out
+# Set default rule which can be overridden by the nodescope var $fw_allow_all
+<% if @fw_allow_all -%>
+pass all
+<% else -%>
 block all
+<% end -%>
 
 # Make an exception for all outgoing packets
 pass out all

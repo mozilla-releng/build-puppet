@@ -2,7 +2,12 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-define fw::ipchain_rule {
+define fw::ipchain_rule (
+
+    $log = false,
+
+)
+{
     include fw::pre
     include fw::post
 
@@ -17,6 +22,18 @@ define fw::ipchain_rule {
             dport  => $dport,
             source => $source,
             action => accept;
+    }
+
+    # If $log is true, we add a matching log rule in addition to the actually rule
+    if $log {
+        firewall {
+            "005 ${name}-logging":
+                proto  => $proto,
+                dport  => $dport,
+                source => $source,
+                log_prefix => "IPTABLES: ",
+                jump   => 'LOG';
+        }
     }
 }
 

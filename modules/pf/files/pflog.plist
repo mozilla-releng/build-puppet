@@ -5,20 +5,15 @@
         <key>Disabled</key>
         <false/>
         <key>Label</key>
-        <string>org.mozilla.pf</string>
+        <string>pflog</string>
         <key>ProgramArguments</key>
-        <array>
-                <string>sh</string>
-                <string>-c</string>
-                <string>/sbin/pfctl -e -f /etc/pf.conf</string>
-        </array>
+                <array>
+                        <string>/usr/local/bin/pflog.sh</string>
+                </array>
         <key>RunAtLoad</key>
         <true/>
         <key>KeepAlive</key>
-        <false/>
-        <key>LaunchOnlyOnce</key>
         <true/>
-        <key>WorkingDirectory</key>
-        <string>/var/run</string>
 </dict>
 </plist>
+
