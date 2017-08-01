@@ -7,10 +7,20 @@ class fw::post {
         before => undef,
     }
 
-    # Deny, deny, deny
-    firewall {
-        '999 drop all':
-            proto  => 'all',
-            action => 'drop',
+    # We can override the default deny policy by setting the node def $fw_allow_all true
+    if $fw_allow_all {
+        # Accept, accept, accept
+        firewall {
+            '999 accept all':
+                proto  => 'all',
+                action => 'accept',
+        }
+    } else {
+        # Deny, deny, deny
+        firewall {
+            '999 drop all':
+                proto  => 'all',
+                action => 'drop',
+        }
     }
 }

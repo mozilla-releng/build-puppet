@@ -45,12 +45,21 @@ class pf {
         ensure => present,
         source => 'puppet:///modules/pf/org.mozilla.pf.plist',
     }
+    file { '/Library/LaunchDaemons/pflog.plist':
+        ensure => present,
+        source => 'puppet:///modules/pf/pflog.plist',
+    }
+    file { '/usr/local/bin/pflog.sh':
+        ensure => present,
+        mode   => '0755',
+        source => 'puppet:///modules/pf/pflog.sh',
+    }
     exec { 'update_pf':
         command     => "${pfctl} -nf ${pf_entry} && ${pfctl} -f ${pf_entry}",
         refreshonly => true,
-    }~>
+    }
     exec { 'enable_pf':
         command     => "${pfctl} -e",
-        refreshonly => true,
+        onlyif      => '/bin/test `pfctl -sa| grep "Status" | awk \'/Status:/ {print $2}\'` != "Enabled"',
     }
 }
