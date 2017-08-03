@@ -59,14 +59,20 @@ class pf {
         ensure => present,
         source => 'puppet:///modules/pf/org.mozilla.pf.plist',
     }
-    file { '/Library/LaunchDaemons/pflog.plist':
+    file { '/Library/LaunchDaemons/org.mozilla.pflog.plist':
         ensure => present,
-        source => 'puppet:///modules/pf/pflog.plist',
+        source => 'puppet:///modules/pf/org.mozilla.pflog.plist',
+        notify => Service['org.mozilla.pflog'],
     }
     file { '/usr/local/bin/pflog.sh':
         ensure => present,
         mode   => '0755',
         source => 'puppet:///modules/pf/pflog.sh',
+        notify => Service['org.mozilla.pflog'],
+    }
+    service { 'org.mozilla.pflog':
+        ensure => running,
+        enable => true,
     }
     exec { 'update_pf':
         command     => "${pfctl} -nf ${pf_entry} && ${pfctl} -f ${pf_entry}",
