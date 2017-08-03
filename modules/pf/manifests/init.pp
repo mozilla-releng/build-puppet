@@ -3,6 +3,19 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class pf {
 
+    # The default /etc/pf.conf differs between major osx version
+    case $::macosx_productversion_major {
+        '10.7': {
+            $osx_ver = 'lion'
+        }
+        '10.10': {
+            $osx_ver = 'yosemite'
+        }
+        default: {
+            fail("OSX ${::macosx_productversion_major} is not supported")
+        }
+    }
+
     # Default ethernet interface
     $iface    = 'en0'
     $pf_dir   = '/etc/pf.mozilla.anchors'
@@ -39,7 +52,8 @@ class pf {
         ensure => present,
         owner  => 'root',
         group  => '0',
-        source => 'puppet:///modules/pf/pf.conf',
+        notify => Exec['update_pf'],
+        source => "puppet:///modules/pf/pf.conf.${osx_ver}",
     }
     file { '/Library/LaunchDaemons/org.mozilla.pf.plist':
         ensure => present,
