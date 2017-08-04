@@ -289,7 +289,7 @@ node /partner-repack-\d+\.srv\.releng\.mdc1\.mozilla\.com/ {
     $aspects       = [ 'maximum-security' ]
     $only_user_ssh = true
     $fw_allow_all  = true
-    include fw::profiles::partner-repack
+    include fw::profiles::partner_repack
     include toplevel::server
 }
 
