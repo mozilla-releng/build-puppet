@@ -91,11 +91,48 @@ define signingserver::instance(
         fail('Config::signing_mac_id is not set')
     }
 
-    # OS X does not yet support firewall manipulation
+    # OS X does not yet support firewall manipulation and cannot build cryptography
     if $::operatingsystem != 'Darwin' {
         fw::port {
             "tcp/${port}": ;
         }
+        # If you edit this, edit the mac virtualenv_packages below!
+        $virtualenv_packages = [
+            'gevent==0.13.6',
+            'WebOb==1.0.8',
+            'poster==0.8.1',
+            'IPy==0.75',
+            'greenlet==0.3.1',
+            'redis==2.4.5',
+            'flufl.lock==2.2',
+            'pexpect==2.4',
+            # widevine: osx can't build cryptography and doesn't need these!
+            'argparse==1.4.0',
+            'setuptools==33.1.1',
+            'six==1.10.0',
+            'enum34==1.1.6',
+            'ipaddress==1.0.18',
+            'asn1crypto==0.22.0',
+            'cffi==1.10.0',
+            'cryptography==2.0.2',
+            'macholib==1.8',
+            'altgraph==0.14',
+            'idna==2.5',
+            'pycparser==2.17',
+            'wsgiref==0.1.2',
+        ]
+    } else {
+        # If you edit this, edit the linux virtualenv_packages above!
+        $virtualenv_packages = [
+            'gevent==0.13.6',
+            'WebOb==1.0.8',
+            'poster==0.8.1',
+            'IPy==0.75',
+            'greenlet==0.3.1',
+            'redis==2.4.5',
+            'flufl.lock==2.2',
+            'pexpect==2.4',
+        ]
     }
 
     python::virtualenv {
@@ -108,30 +145,7 @@ define signingserver::instance(
             ],
             user     => $user,
             group    => $group,
-            packages => [
-                'gevent==0.13.6',
-                'WebOb==1.0.8',
-                'poster==0.8.1',
-                'IPy==0.75',
-                'greenlet==0.3.1',
-                'redis==2.4.5',
-                'flufl.lock==2.2',
-                'pexpect==2.4',
-                # widevine
-                'argparse==1.4.0',
-                'setuptools==33.1.1',
-                'six==1.10.0',
-                'enum34==1.1.6',
-                'ipaddress==1.0.18',
-                'asn1crypto==0.22.0',
-                'cffi==1.10.0',
-                'cryptography==2.0.2',
-                'macholib==1.8',
-                'altgraph==0.14',
-                'idna==2.5',
-                'pycparser==2.17',
-                'wsgiref==0.1.2',
-            ];
+            packages => $virtualenv_packages;
     }
 
     mercurial::repo {
