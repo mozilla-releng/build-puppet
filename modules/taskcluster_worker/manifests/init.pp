@@ -8,6 +8,7 @@ class taskcluster_worker {
     include ::users::builder
     include ::config
 
+    $taskcluster_worker_group = regsubst($::servername, '.*\.releng\.(.+)\.mozilla\..*', '\1')
     $puppet_servers = $::config::puppet_servers
     file { '/etc/taskcluster-worker.yml':
         ensure  => present,
