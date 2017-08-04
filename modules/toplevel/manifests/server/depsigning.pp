@@ -13,7 +13,7 @@ class toplevel::server::depsigning inherits toplevel::server {
         moco: {
             $signing_formats = $::operatingsystem ? {
                 Darwin => ['dmg'],
-                CentOS => ['gpg', 'sha2signcode', 'sha2signcodestub', 'osslsigncode', 'signcode', 'mar', 'mar_sha384', 'jar', 'emevoucher']
+                CentOS => ['gpg', 'sha2signcode', 'sha2signcodestub', 'osslsigncode', 'signcode', 'mar', 'mar_sha384', 'jar', 'emevoucher', 'widevine', 'widevine_blessed']
             }
             $concurrency = $::macosx_productversion_major ? {
                 10.9    => 6,

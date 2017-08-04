@@ -31,6 +31,11 @@ class signingserver::base {
             include packages::gcc
             # Make is used for manual XPI hotfix signing.
             include packages::make
+            # For cryptography (widevine)
+            include packages::libffi
+            include packages::python_devel
+            include packages::redhat_rpm_config
+            # For moz pkgs
             include packages::mozilla::osslsigncode
             include packages::mozilla::signmar
             include packages::mozilla::signmar_sha384
