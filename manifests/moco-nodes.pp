@@ -11,9 +11,6 @@ node /t-yosemite-r7-0(0[^0-2]\d|[1-2]\d+|3[0-9]\d)\.test\.releng\.scl3\.mozilla\
     include toplevel::worker::releng::generic_worker::test::gpu
 }
 
-
-
-
 # Linux and OS X in mdc1
 node /t.*-\d+\.test\.releng\.mdc1\.mozilla\.com/ {
     $aspects          = [ 'low-security' ]
