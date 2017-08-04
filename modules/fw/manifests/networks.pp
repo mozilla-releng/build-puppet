@@ -50,6 +50,17 @@ class fw::networks {
 
     # Jumphosts
 
+    # SCL3 Jumphosts
+    $scl3_rejh = [ '10.26.48.19', '10.26.48.20' ]   # rejhi[1,2].srv.releng.scl3.mozilla.com
+
+    # MDC1 Jumphosts
+    $mdc1_rejh = [ '10.49.48.100', '10.49.48.101' ] # rejhi[1,2].srv.releng.mdc1.mozilla.com
+
+    # ALL Jumphosts
+    $rejh      = [ $scl3_rejh,  $mdc1_rejh ]
+
+
+
     # Infra VPN Network Endpoints (CIDR blocks of IPs given to vpn clients)
 
     # Infra SCL3 Jumphost (ssh.mozilla.com)
