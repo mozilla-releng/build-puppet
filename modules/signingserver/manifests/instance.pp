@@ -50,6 +50,12 @@ define signingserver::instance(
     $dmg_keychain          = "${dmg_keydir}/signing.keychain"
     $full_private_ssl_cert = "${server_certdir}/signing.server.key"
     $full_public_ssl_cert  = "${server_certdir}/signing.server.cert"
+    $widevine_keydir       = "${secrets_dir}/widevine"
+    $widevine_key          = "${widevine_keydir}/key.pem"
+    $widevine_cert         = "${widevine_keydir}/cert.der"
+    $widevine_dir          = "${basedir}/scripts"
+    $widevine_signer       = "${widevine_dir}/widevine_signer.py"
+    $widevine_checker      = "${widevine_dir}/widevine_checker.py"
 
     # paths in packages
     $signmar               = '/tools/signmar/bin/signmar'
@@ -63,11 +69,14 @@ define signingserver::instance(
     $testfile_gpg          = "${testfile_dir}/test.mar"
     $testfile_dmg          = "${testfile_dir}/test.tar.gz"
     $testfile_jar          = "${testfile_dir}/test.zip"
+    $testfile_widevine     = "${testfile_dir}/test.tar.gz"
+    $testfile_widevine_blessed = "${testfile_dir}/test.exe"
 
     # commands
     $signscript            = "${basedir}/bin/python2.7 ${script_dir}/signscript.py -c ${basedir}/signscript.ini"
     $mar_cmd               = "${signmar} -d ${basedir}/secrets/mar -n ${mar_key_name} -s"
     $mar_sha384_cmd        = "${signmar_sha384} -d ${basedir}/secrets/mar-sha384 -n ${mar_sha384_key_name} -s"
+    $widevine_cmd          = "${basedir}/bin/python2.7 ${widevine_dir}/widevine_signer.py --private_key %(widevine_key)s --certificate %(widevine_cert)s --input %(input)s --output_file %(output)s --flags %(blessed)s --prompt_passphrase"
 
     # copy vars from config
     $tools_repo            = $config::signing_tools_repo
@@ -108,6 +117,20 @@ define signingserver::instance(
                 'redis==2.4.5',
                 'flufl.lock==2.2',
                 'pexpect==2.4',
+                # widevine
+                'argparse==1.4.0',
+                'setuptools==33.1.1',
+                'six==1.10.0',
+                'enum34==1.1.6',
+                'ipaddress==1.0.18',
+                'asn1crypto==0.22.0',
+                'cffi==1.10.0',
+                'cryptography==2.0.2',
+                'macholib==1.8',
+                'altgraph==0.14',
+                'idna==2.5',
+                'pycparser==2.17',
+                'wsgiref==0.1.2',
             ];
     }
 
@@ -146,7 +169,9 @@ define signingserver::instance(
           $mar_keydir,
           $mar_sha384_keydir,
           $dmg_keydir,
-          $server_certdir]:
+          $server_certdir,
+          $widevine_keydir,
+          $widevine_dir]:
             ensure  => directory,
             owner   => $user,
             group   => $group,
@@ -164,6 +189,18 @@ define signingserver::instance(
             group     => $group,
             notify    => Exec["${title}-reload-signing-server"],
             require   => Python::Virtualenv[$basedir],
+            show_diff => false;
+        "${widevine_signer}":
+            content   => secret('widevine_signer'),
+            owner     => $user,
+            group     => $group,
+            mode      => 0755,
+            show_diff => false;
+        "${widevine_checker}":
+            content   => secret('widevine_checker'),
+            owner     => $user,
+            group     => $group,
+            mode      => 0755,
             show_diff => false;
 
         $full_private_ssl_cert:
