@@ -18,7 +18,7 @@ class signing_scriptworker::settings {
             taskcluster_access_token => secret('dev_signing_scriptworker_taskcluster_access_token'),
             passwords_template       => 'dep-passwords.json.erb',
             sign_chain_of_trust      => false,
-            verify_chain_of_trust    => false,
+            verify_chain_of_trust    => true,
             verify_cot_signature     => false
         },
         'dep' => {
