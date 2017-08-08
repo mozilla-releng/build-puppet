@@ -1,2 +1,2 @@
 MAILTO="<%=@mailto%>"
-@monthly <%=@owner%> (cd <%=@basedir%> && <%=@python%> mozharness/scripts/l10n_bumper.py -c <%=@config_file%> >/dev/null 2>&1)
+@hourly <%=@owner%> (cd <%=@basedir%> && <%=@python%> mozharness/scripts/l10n_bumper.py -c <%=@config_file%> >/dev/null 2>&1)
