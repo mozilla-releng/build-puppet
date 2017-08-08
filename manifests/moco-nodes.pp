@@ -965,7 +965,7 @@ node /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 }
 
 # Signing scriptworkers
-node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
+node /signing-linux-\d*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects                  = [ 'maximum-security' ]
     $signing_scriptworker_env = 'prod'
     $timezone                 = 'UTC'
@@ -976,6 +976,14 @@ node /signing-linux-.*\.srv\.releng\..*\.mozilla\.com/ {
 node /depsigning-worker.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects                  = [ 'maximum-security' ]
     $signing_scriptworker_env = 'dep'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::signingscriptworker
+}
+
+node /signing-linux-dev.*\.releng\..*\.mozilla\.com/ {
+    $aspects                  = [ 'maximum-security' ]
+    $signing_scriptworker_env = 'dev'
     $timezone                 = 'UTC'
     $only_user_ssh            = true
     include toplevel::server::signingscriptworker
