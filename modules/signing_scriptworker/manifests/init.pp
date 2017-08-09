@@ -51,7 +51,7 @@ class signing_scriptworker {
                   'python-jose==1.3.2',
                   'requests==2.18.1',
                   'scriptworker==4.1.3',
-                  'signingscript==3.0.1',
+                  'signingscript==3.0.2',
                   'signtool==3.1.4',
                   'six==1.10.0',
                   'slugid==1.0.7',
