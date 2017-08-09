@@ -59,6 +59,9 @@ class fw::networks {
     # ALL Jumphosts
     $rejh      = [ $scl3_rejh,  $mdc1_rejh ]
 
+    # Nagios hosts
+    $nagios = [ '10.26.75.30/32',  # nagios1.private.releng.scl3.mozilla.com
+                '10.49.75.30/32' ] # nagios1.private.releng.mdc1.mozilla.com.
 
 
     # Infra VPN Network Endpoints (CIDR blocks of IPs given to vpn clients)
