@@ -205,6 +205,8 @@ node /depsigning\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
 node /releng-puppet\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
     $aspects       = [ 'maximum-security' ]
     $only_user_ssh = true
+    $fw_allow_all  = true
+    include fw::profiles::puppetmasters
     include toplevel::server::puppetmaster
 }
 
@@ -243,6 +245,8 @@ node 'install.test.releng.scl3.mozilla.com' {
 
 node 'install.test.releng.mdc1.mozilla.com' {
     $aspects = [ 'maximum-security' ]
+    $fw_allow_all = true
+    include fw::profiles::deploystudio
     include toplevel::server::deploystudio
     #class {
     #    'bacula_client':
@@ -259,6 +263,8 @@ node /rejh\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     $timezone      = 'GMT'
     $only_user_ssh = true
     $duo_enabled   = true
+    $fw_allow_all  = true
+    include fw::profiles::rejh
     include toplevel::jumphost
 }
 
