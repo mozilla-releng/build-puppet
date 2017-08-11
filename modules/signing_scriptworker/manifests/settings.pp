@@ -5,7 +5,7 @@ class signing_scriptworker::settings {
     include ::config
 
     $root               = $config::scriptworker_root
-    $task_max_timeout   = 1800
+    $task_max_timeout   = 3600
     $task_script        = "${root}/bin/signingscript"
     $task_script_config = "${root}/script_config.json"
     $verbose            = true
