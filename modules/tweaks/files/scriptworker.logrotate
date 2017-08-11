@@ -1,0 +1,9 @@
+/builds/scriptworker/logs/*.log {
+       missingok
+       weekly
+       notifempty
+       compress
+       copytruncate
+       create
+       rotate 10
+}
