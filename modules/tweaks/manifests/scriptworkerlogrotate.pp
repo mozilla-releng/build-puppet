@@ -6,10 +6,9 @@ class tweaks::scriptworkerlogrotate {
     case $::operatingsystem {
         CentOS: {
             # Bug 1389512 beetmover/scriptworker machines are not zipping logs when they rotate them
-            file {
-                '/etc/logrotate.d/scriptworker':
-                 source  => 'puppet:///modules/tweaks/scriptworker.logrotate',
-                 ensure => present;
+            file { '/etc/logrotate.d/scriptworker':
+               source  => 'puppet:///modules/tweaks/scriptworker.logrotate',
+               ensure => present;
             }
         }
         default: {
