@@ -14,6 +14,7 @@ class toplevel::slave::releng inherits toplevel::slave {
     include packages::mozilla::tooltool
     include packages::wget
     include packages::mozilla::py27_mercurial
+    include packages::mozilla::py27_virtualenv
 
     if ($::operatingsystem == Windows) {
         include tweaks::memory_paging
@@ -27,7 +28,6 @@ class toplevel::slave::releng inherits toplevel::slave {
         include packages::mozilla::git
         include packages::nsis
         include packages::psutil
-        include packages::mozilla::py27_virtualenv
         include packages::pywin32
         include packages::mapi_headers
         include packages::yasm
