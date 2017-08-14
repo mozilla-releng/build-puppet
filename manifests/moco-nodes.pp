@@ -173,6 +173,7 @@ node /mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'GMT'
     $only_user_ssh = true
+    # include fw::profiles::mac_signing
     include toplevel::server::signing
 }
 
@@ -181,6 +182,7 @@ node /signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'UTC'
     $only_user_ssh = true
+    include fw::profiles::signing
     include toplevel::server::signing
 }
 
@@ -189,6 +191,7 @@ node /mac-depsigning\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'GMT'
     $only_user_ssh = true
+    # include fw::profiles::mac_depsigning
     include toplevel::server::depsigning
 }
 
