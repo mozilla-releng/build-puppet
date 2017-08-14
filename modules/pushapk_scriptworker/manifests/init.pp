@@ -12,7 +12,6 @@ class pushapk_scriptworker {
     include packages::libffi
     include pushapk_scriptworker::jarsigner_init
     include pushapk_scriptworker::mime_types
-    include tweaks::scriptworkerlogrotate
 
     python35::virtualenv {
         $pushapk_scriptworker::settings::root:
