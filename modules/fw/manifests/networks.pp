@@ -17,25 +17,56 @@ class fw::networks {
     $usw2_releng = [ '10.132.0.0/16' ]
 
     # SCL3 Network CIDRs
-    $bb_scl3      = [ '10.26.68.0/24' ] # *.bb.releng.scl3.mozilla.com
-    $build_scl3   = [ '10.26.52.0/22' ] # *.build.releng.scl3.mozilla.com
-    $inband_scl3  = [ '10.26.16.0/22' ] # *.inband.releng.scl3.mozilla.com
-    $srv_scl3     = [ '10.26.48.0/22' ] # *.srv.releng.scl3.mozilla.com
-    $test_scl3    = [ '10.26.56.0/22' ] # *.test.releng.scl3.mozilla.com
-    $try_scl3     = [ '10.26.64.0/22' ] # *.try.releng.scl3.mozilla.com
-    $wintest_scl3 = [ '10.26.40.0/22' ] # *.wintest.releng.scl3.mozilla.com
+    $bb_scl3       = [ '10.26.68.0/24' ] # *.bb.releng.scl3.mozilla.com
+    $build_scl3    = [ '10.26.52.0/22' ] # *.build.releng.scl3.mozilla.com
+    $inband_scl3   = [ '10.26.16.0/22' ] # *.inband.releng.scl3.mozilla.com
+    $srv_scl3      = [ '10.26.48.0/22' ] # *.srv.releng.scl3.mozilla.com
+    $test_scl3     = [ '10.26.56.0/22' ] # *.test.releng.scl3.mozilla.com
+    $try_scl3      = [ '10.26.64.0/22' ] # *.try.releng.scl3.mozilla.com
+    $wintest_scl3  = [ '10.26.40.0/22' ] # *.wintest.releng.scl3.mozilla.com
+    $winbuild_scl3 = [ '10.26.36.0/22' ] # *.winbuild.releng.scl3.mozilla.com
+    $wintry_scl3   = [ '10.26.44.0/22' ] # *.wintry.releng.scl3.mozilla.com
+
+    # MDC1 Releng Network CIDRs
+    $ops_mdc1     = [ '10.49.8.0/21' ] # *.ops.releng.mdc1.mozilla.com
+    $inband_mdc1  = [ '10.49.16.0/22' ] # *.inband.releng.mdc1.mozilla.com
+    $wintest_mdc1 = [ '10.49.40.0/22' ] # *.wintest.releng.mdc1.mozilla.com
+    $srv_mdc1     = [ '10.49.48.0/24' ] # *.srv.releng.mdc1.mozilla.com
+    $test_mdc1    = [ '10.49.56.0/22' ] # *.test.releng.mdc1.mozilla.com
+    $private_mdc1 = [ '10.49.75.0/24' ] # *.private.releng.mdc1.mozilla.com
+    $relabs_mdc1  = [ '10.49.78.0/24' ] # *.relabs.releng.mdc1.mozilla.com
+
+    # AWS Networks; See https://github.com/mozilla-releng/build-cloud-tools/blob/master/configs/subnets.yml
 
     # USE1 Network CIDRs
-    $bb_use1 = [ '10.134.68.0/22' ] # *.bb.releng.use1.mozilla.com
+    $use1_test    = [ '10.134.40.0/21', '10.134.56.0/22', '10.134.60.0/22', '10.134.156.0/22' ]
+    $use1_build   = [ '10.134.52.0/22', '10.134.164.0/24' ]
+    $use1_srv     = [ '10.134.48.0/22' ]
+    $use1_try     = [ '10.134.64.0/22', '10.134.165.0/24' ]
+    $use1_bb      = [ '10.134.68.0/26', '10.134.68.64/26', '10.134.68.128/26', '10.134.68.192/26' ]
+    $use1_signing = [ '10.134.30.0/24' ]
 
     # USW2 Network CIDRs
-    $bb_usw2 = [ '10.132.68.0/22' ] # *.bb.releng.use1.mozilla.com
+    $usw2_test    = [ '10.132.40.0/21', '10.132.56.0/22', '10.132.60.0/22', '10.132.156.0/22' ]
+    $usw2_build   = [ '10.132.52.0/22' ]
+    $usw2_srv     = [ '10.132.48.0/22' ]
+    $usw2_try     = [ '10.132.64.0/22' ]
+    $usw2_bb      = [ '10.132.68.0/26', '10.132.68.64/26', '10.132.68.128/26', '10.132.68.192/26' ]
+    $usw2_signing = [ '10.132.30.0/24' ]
 
     #
     # Logical groups of hosts
     #
 
+    # All releng subnets
     $all_releng = [ $scl3_releng, $mdc1_releng, $mdc2_releng, $use1_releng, $usw2_releng ]
+
+    # All buildbot subnets
+    $all_bb = [ $bb_scl3, $use1_bb, $usw2_bb ]
+
+    $all_build = [ $build_scl3, $use1_build, $usw2_build ]
+    $all_try   = [ $try_scl3, $use1_try, $usw2_try ]
+
 
     $non_distingushed_puppetmasters = [ '10.26.48.45/32',  # releng-puppet1.srv.releng.scl3.mozilla.com
                                         '10.134.48.16/32', # releng-puppet1.srv.releng.use1.mozilla.com
@@ -63,6 +94,69 @@ class fw::networks {
     $nagios = [ '10.26.75.30/32',  # nagios1.private.releng.scl3.mozilla.com
                 '10.49.75.30/32' ] # nagios1.private.releng.mdc1.mozilla.com.
 
+    # Partner-repack
+    $mdc1_partner_repack = [ '10.49.48.16/32' ]
+    $scl3_partner_repack = [ '10.26.48.41/32' ]
+    $all_partner_repack = [ $mdc1_partner_repack, $scl3_partner_repack ]
+
+    # NOTE: The signing server application also limits by IP
+    # See $signing_allowed_ips in moco-config.pp
+
+    # Dep signing workers
+    $use1_dep_signing_workers = [ '10.134.30.231/32',  # depsigning-worker1.srv.releng.use1.mozilla.com
+                                  '10.134.30.38/32',   # depsigning-worker3.srv.releng.use1.mozilla.com
+                                  '10.134.30.130/32',  # depsigning-worker5.srv.releng.use1.mozilla.com
+                                  '10.134.30.254/32',  # depsigning-worker7.srv.releng.use1.mozilla.com
+                                  '10.134.30.159/32',  # depsigning-worker9.srv.releng.use1.mozilla.com
+                                  '10.134.30.164/32',  # depsigning-worker11.srv.releng.use1.mozilla.com
+                                  '10.134.30.103/32',  # depsigning-worker13.srv.releng.use1.mozilla.com
+                                  '10.134.30.78/32' ]  # depsigning-worker15.srv.releng.use1.mozilla.com
+
+    $usw2_dep_signing_workers = [ '10.132.30.55/32',   # depsigning-worker2.srv.releng.usw2.mozilla.com
+                                  '10.132.30.242/32',  # depsigning-worker4.srv.releng.usw2.mozilla.com
+                                  '10.132.30.139/32',  # depsigning-worker6.srv.releng.usw2.mozilla.com
+                                  '10.132.30.117/32',  # depsigning-worker8.srv.releng.usw2.mozilla.com
+                                  '10.132.30.112/32',  # depsigning-worker10.srv.releng.usw2.mozilla.com
+                                  '10.132.30.250/32',  # depsigning-worker12.srv.releng.usw2.mozilla.com
+                                  '10.132.30.90/32',   # depsigning-worker14.srv.releng.usw2.mozilla.com
+                                  '10.132.30.135/32' ] # depsigning-worker16.srv.releng.usw2.mozilla.com
+
+    $all_dep_signing_workers = [ $use1_dep_signing_workers, $usw2_dep_signing_workers ]
+
+    # Signing linux workers
+    $use1_signing_linux_workers = [ '10.134.30.12/32',   # signing-linux-1.srv.releng.use1.mozilla.com
+                                    '10.134.30.125/32',  # signing-linux-3.srv.releng.use1.mozilla.com
+                                    '10.134.30.97/32',   # signing-linux-5.srv.releng.use1.mozilla.com
+                                    '10.134.30.39/32',   # signing-linux-7.srv.releng.use1.mozilla.com
+                                    '10.134.30.180/32',  # signing-linux-9.srv.releng.use1.mozilla.com
+                                    '10.134.30.119/32' ] # signing-linux-11.srv.releng.use1.mozilla.com
+
+    $usw2_signing_linux_workers = [ '10.132.30.46/32',   # signing-linux-2.srv.releng.usw2.mozilla.com
+                                    '10.132.30.82/32',   # signing-linux-4.srv.releng.usw2.mozilla.com
+                                    '10.132.30.182/32',  # signing-linux-6.srv.releng.usw2.mozilla.com
+                                    '10.132.30.219/32',  # signing-linux-8.srv.releng.usw2.mozilla.com
+                                    '10.132.30.166/32',  # signing-linux-10.srv.releng.usw2.mozilla.com
+                                    '10.132.30.43/32' ]  # signing-linux-12.srv.releng.usw2.mozilla.com
+
+    $all_signing_linux_workers = [ $use1_signing_linux_workers, $usw2_signing_linux_workers ]
+
+    # Dev linux signing workers
+    $dev_signing_linux_workers = [ '10.134.30.207/32' ] # signing-linux-dev1.srv.releng.use1.mozilla.com
+
+
+    # Funsize signing workers
+    $use1_signing_workers =   [ '10.134.30.10/32',   # signingworker-1.srv.releng.use1.mozilla.com
+                                '10.134.30.11/32',   # signingworker-3.srv.releng.use1.mozilla.com
+                                '10.134.30.74/32',   # signingworker-5.srv.releng.use1.mozilla.com
+                                '10.134.30.137/32' ] # signingworker-6.srv.releng.use1.mozilla.com
+
+    $usw2_signing_workers =   [ '10.132.30.10/32',   # signingworker-2.srv.releng.usw2.mozilla.com
+                                '10.132.30.11/32',   # signingworker-4.srv.releng.usw2.mozilla.com
+                                '10.132.30.64/32',   # signingworker-7.srv.releng.usw2.mozilla.com
+                                '10.132.30.49/32' ]  # signingworker-8.srv.releng.usw2.mozilla.com
+
+
+    $all_signing_workers = [ $use1_signing_workers, $usw2_signing_workers ]
 
     # Infra VPN Network Endpoints (CIDR blocks of IPs given to vpn clients)
 

@@ -132,36 +132,37 @@ class config inherits config::base {
     $signer_username                 = 'cltsign'
     $signing_tools_repo              = 'https://hg.mozilla.org/build/tools'
     $signing_mac_id                  = 'Mozilla'
+
+    # NOTE: signing is also limited by a host level firewall
+    # See modules/fw/manifests/networks.pp
     $signing_allowed_ips             = [
-        '10.26.36.0/22',
-        '10.26.40.0/22',
+        '10.26.36.0/22',   # winbuild.releng.scl3 (vlan 236)
+        '10.26.40.0/22',   # wintest.releng.scl3 (vlan 240)
         '10.134.68.32/32', # dev-master2
         '10.26.48.41/32',  # partner-repack1
-        '10.26.44.0/22',
-        '10.26.52.0/22',
-        '10.26.64.0/22',
-        '10.132.52.0/22',
-        '10.132.64.0/22',
-        '10.134.52.0/22',
-        '10.134.64.0/22',
-        '10.134.164.0/24',
-        '10.134.165.0/24',
-        # entire BB VLANs
-        '10.26.68.0/24',
-        '10.132.68.0/24',
-        '10.134.68.0/24',
-        '10.132.30.0/24',
-        '10.134.30.0/24',
+        '10.26.44.0/22',   # wintry.releng.scl3 (vlan 244)
+        '10.26.52.0/22',   # build.releng.scl3 (vlan 252)
+        '10.26.64.0/22',   # try.releng.scl3 (vlan 264)
+        '10.132.52.0/22',  # build.releng.usw2
+        '10.132.64.0/22',  # try.releng.usw2
+        '10.134.52.0/22',  # build.releng.use1
+        '10.134.64.0/22',  # try.releng.use1
+        '10.134.164.0/24', # build.releng.use1
+        '10.134.165.0/24', # try.releng.use1
+        '10.26.68.0/24',   # bb.releng.scl3
+        '10.132.68.0/24',  # bb.releng.usw2
+        '10.134.68.0/24',  # bb.releng.use1
+        '10.132.30.0/24',  # srv.releng.usw2 (signing)
+        '10.134.30.0/24',  # srv.releng.use1 (signing)
     ]
     $signing_new_token_allowed_ips   = [
         '10.134.68.32/32', # dev-master2
         '10.26.48.41/32',  # partner-repack1
-        # entire BB VLANs
-        '10.26.68.0/24',
-        '10.132.68.0/24',
-        '10.134.68.0/24',
-        '10.132.30.0/24',
-        '10.134.30.0/24',
+        '10.26.68.0/24',   # bb.releng.scl3
+        '10.132.68.0/24',  # bb.releng.usw2
+        '10.134.68.0/24',  # bb.releng.use1
+        '10.132.30.0/24',  # srv.releng.usw2 (signing)
+        '10.134.30.0/24',  # srv.releng.use1 (signing)
     ]
 
     $extra_user_ssh_keys             = {

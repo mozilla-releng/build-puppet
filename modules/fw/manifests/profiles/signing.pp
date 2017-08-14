@@ -5,11 +5,12 @@
 class fw::profiles::signing {
 
     case $::fqdn {
-        /.*\.mdc1\.mozilla\.com/: {
+        /.*\.(scl3|mdc1)\.mozilla\.com/: {
             include ::fw::roles::ssh_from_anywhere_logging
-            include ::fw::roles::dep_signing_from_anywhere
-            include ::fw::roles::rel_signing_from_anywhere
-            include ::fw::roles::nightly_signing_from_anywhere
+            include ::fw::roles::nrpe_from_nagios
+            include ::fw::roles::dep_signing_from_linux
+            include ::fw::roles::rel_signing_from_linux
+            include ::fw::roles::nightly_signing_from_linux
         }
         default:{
             # Silently skip other DCs

@@ -91,11 +91,8 @@ define signingserver::instance(
         fail('Config::signing_mac_id is not set')
     }
 
-    # OS X does not yet support firewall manipulation and cannot build cryptography
+    # OSX cannot build cryptography
     if $::operatingsystem != 'Darwin' {
-        fw::port {
-            "tcp/${port}": ;
-        }
         # If you edit this, edit the mac virtualenv_packages below!
         $virtualenv_packages = [
             'gevent==0.13.6',
