@@ -12,6 +12,7 @@ class transparency_scriptworker {
     include packages::gcc
     include packages::make
     include packages::libffi
+    include tweaks::scriptworkerlogrotate
 
     $env_config = $transparency_scriptworker::settings::env_config[$transparencyworker_env]
 
