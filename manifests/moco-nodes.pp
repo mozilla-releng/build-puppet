@@ -168,7 +168,7 @@ node /y-yosemite-r5-\d+.try.releng.scl3.mozilla.com/ {
 
 ## signing servers
 
-node /mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+node /^mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     # mac signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'GMT'
@@ -177,7 +177,7 @@ node /mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     include toplevel::server::signing
 }
 
-node /signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+node /^signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     # linux signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'UTC'
@@ -186,7 +186,7 @@ node /signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     include toplevel::server::signing
 }
 
-node /mac-depsigning\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+node /^mac-depsigning\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     # mac signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'GMT'
@@ -195,7 +195,7 @@ node /mac-depsigning\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     include toplevel::server::depsigning
 }
 
-node /depsigning\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
+node /^depsigning\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
     # linux dev signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'UTC'
