@@ -10,7 +10,6 @@ class signing_scriptworker {
     include tweaks::swap_on_instance_storage
     include packages::gcc
     include packages::make
-    include tweaks::scriptworkerlogrotate
 
     $env_config          = $signing_scriptworker::settings::env_config[$signing_scriptworker_env]
 

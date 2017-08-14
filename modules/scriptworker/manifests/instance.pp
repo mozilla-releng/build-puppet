@@ -37,6 +37,7 @@ define scriptworker::instance(
     include scriptworker::instance::settings
     include packages::mozilla::git
     include packages::mozilla::supervisor
+    include tweaks::scriptworkerlogrotate
 
     # These constants need to be filled in $script_worker_config, even though Chain of Trust is not enabled.
     $git_key_repo_dir = "${basedir}/gpg_key_repo/"
