@@ -11,6 +11,8 @@ class beetmover_scriptworker {
     include packages::gcc
     include packages::make
     include packages::libffi
+    include tweaks::scriptworkerlogrotate
+    include tweaks::scriptworkerlogrotate
 
     $env_config = $beetmover_scriptworker::settings::env_config[$beetmoverworker_env]
 
