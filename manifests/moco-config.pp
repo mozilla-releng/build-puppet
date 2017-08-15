@@ -136,8 +136,6 @@ class config inherits config::base {
     # NOTE: signing is also limited by a host level firewall
     # See modules/fw/manifests/networks.pp
     $signing_allowed_ips             = [
-        '10.26.36.0/22',   # winbuild.releng.scl3 (vlan 236)
-        '10.26.40.0/22',   # wintest.releng.scl3 (vlan 240)
         '10.134.68.32/32', # dev-master2
         '10.26.48.41/32',  # partner-repack1
         '10.26.44.0/22',   # wintry.releng.scl3 (vlan 244)
