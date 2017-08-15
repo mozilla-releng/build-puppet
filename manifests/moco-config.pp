@@ -175,12 +175,15 @@ class config inherits config::base {
     $signing_server_ssl_private_keys = hiera_hash('signing_server_ssl_private_keys')
     $signing_server_ssl_certs        = hiera_hash('signing_server_ssl_certs')
 
-    $jumphostlist = [
+    $jumphost_admin_users = [
         # a few folks from relops..
         'arr',
         'klibby',
         'jwatkins',
         'dhouse',
+        'mcornmesser',
+        'qfortier',
+        'rthijssen',
     ]
 
     # a few users from each team as the 'short list' of people with access
@@ -203,8 +206,9 @@ class config inherits config::base {
         'sfraser',
         'kmoir',
     ]
+
     $admin_users                     = $::fqdn ? {
-        /^rejh\d\.srv\.releng\.(mdc1|scl3)\.mozilla.com/  => $jumphostlist,
+        /^rejh\d\.srv\.releng\.(mdc1|scl3)\.mozilla.com/  => $jumphost_admin_users,
         # signing machines have a very limited access list
         /^(mac-)?(v2-)?signing\d\..*/                     => $shortlist,
         /^signing-linux-\d\..*/                           => $shortlist,
@@ -212,6 +216,15 @@ class config inherits config::base {
         default                                           => hiera('ldap_admin_users',
                                                                     # backup to ensure access in cas'e the sync fails:
                                                                     ['arr', 'klibby', 'jwatkins'])
+    }
+
+    $jumphost_users = [
+        'dcrisan',
+    ]
+
+    $users = $::fqdn ? {
+        /^rejh\d\.srv\.releng\.(mdc1|scl3)\.mozilla.com/  => $jumphost_users,
+        default                                           => []
     }
 
     $buildbot_mail_to                 = 'release@mozilla.com'
