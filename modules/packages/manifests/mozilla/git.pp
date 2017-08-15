@@ -60,7 +60,7 @@ class packages::mozilla::git {
                         'git':
                             os_version_specific => true,
                             private             => false,
-                            version             => '2.7.4-2';
+                            version             => '2.13.5-1';
                     } -> Anchor['packages::mozilla::git::end']
                 }
                 10.7: {
@@ -72,7 +72,7 @@ class packages::mozilla::git {
                         'git':
                             os_version_specific => true,
                             private             => false,
-                            version             => '2.7.4-3';
+                            version             => '2.13.5-1';
                     } -> Anchor['packages::mozilla::git::end']
                 }
                 default: {
