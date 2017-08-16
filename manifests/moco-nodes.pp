@@ -959,7 +959,6 @@ node 'buildbot-master140.bb.releng.usw2.mozilla.com' {
 node /log-aggregator\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
     $aspects                = [ 'high-security' ]
     $is_log_aggregator_host = 'true'
-    $fw_allow_all      = true
     include fw::profiles::log_aggregator
     include toplevel::server::log_aggregator
 }

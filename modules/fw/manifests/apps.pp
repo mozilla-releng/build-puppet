@@ -13,5 +13,7 @@ class fw::apps {
                         'dep_signing'     => { proto => 'tcp', port  => '9110' },
                         'rel_signing'     => { proto => 'tcp', port  => '9120' },
                         'nightly_signing' => { proto => 'tcp', port  => '9100' },
+                        'syslog_udp'      => { proto => 'udp', port  => '514' },
+                        'syslog_tcp'      => { proto => 'tcp', port  => '514' },
                         }
 }
