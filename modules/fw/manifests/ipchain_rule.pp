@@ -28,11 +28,11 @@ define fw::ipchain_rule (
     if $log {
         firewall {
             "005 ${name}-logging":
-                proto  => $proto,
-                dport  => $dport,
-                source => $source,
+                proto      => $proto,
+                dport      => $dport,
+                source     => $source,
                 log_prefix => "IPTABLES: ",
-                jump   => 'LOG';
+                jump       => 'LOG';
         }
     }
 }

@@ -79,7 +79,7 @@ class pf {
         refreshonly => true,
     }
     exec { 'enable_pf':
-        command     => "${pfctl} -e",
-        onlyif      => '/bin/test `pfctl -sa| grep "Status" | awk \'/Status:/ {print $2}\'` != "Enabled"',
+        command => "${pfctl} -e",
+        onlyif  => '/bin/test `pfctl -sa| grep "Status" | awk \'/Status:/ {print $2}\'` != "Enabled"',
     }
 }

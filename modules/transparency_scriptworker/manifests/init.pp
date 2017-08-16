@@ -83,11 +83,11 @@ class transparency_scriptworker {
 
     file {
         "${transparency_scriptworker::settings::root}/script_config.json":
-            require   => Python35::Virtualenv[$transparency_scriptworker::settings::root],
-            mode      => '0600',
-            owner     => $users::builder::username,
-            group     => $users::builder::group,
-            content   => template("${module_name}/script_config.json.erb");
+            require => Python35::Virtualenv[$transparency_scriptworker::settings::root],
+            mode    => '0600',
+            owner   => $users::builder::username,
+            group   => $users::builder::group,
+            content => template("${module_name}/script_config.json.erb");
     }
 
     file {

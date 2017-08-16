@@ -14,7 +14,7 @@ python_sitelib=$pyhome/lib/python$pyver/site-packages
 _prefix=/tools/${pyrealname}-${realname}
 _libdir=$_prefix/lib
 package_sitelib=$_libdir/python$pyver/site-packages
-version=3.7.3
+version=4.3.1
 release=1
 srpm_release=1
 

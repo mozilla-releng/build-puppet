@@ -3,8 +3,8 @@
 set -e
 
 realname=git
-version=2.7.4
-release=3
+version=2.13.5
+release=1
 _prefix=/tools/$realname
 URL="https://www.kernel.org/pub/software/scm/git/git-${version}.tar.gz"
 
