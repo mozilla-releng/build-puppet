@@ -8,6 +8,7 @@ class fw::profiles::depsigning {
         /.*\.mdc1\.mozilla\.com/: {
             include ::fw::roles::ssh_from_anywhere_logging
             include ::fw::roles::dep_signing_from_anywhere
+            include ::fw::roles::nrpe_from_nagios
         }
         default:{
             # Silently skip other DCs

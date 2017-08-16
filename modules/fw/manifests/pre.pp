@@ -24,18 +24,5 @@ class fw::pre {
             proto   => 'all',
             iniface => 'lo',
             action  => 'accept';
-    }->
-    firewall {
-        '010 ssh for management':
-            proto  => 'tcp',
-            dport  => 22,
-            action => 'accept';
-    }->
-    firewall {
-        '010 nrpe for monitoring':
-            # note that NRPE does its own source-IP filtering
-            proto  => 'tcp',
-            dport  => 5666,
-            action => 'accept';
     }
 }

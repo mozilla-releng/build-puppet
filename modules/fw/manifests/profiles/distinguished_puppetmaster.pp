@@ -8,4 +8,5 @@ class fw::profiles::distinguished_puppetmaster {
     include ::fw::roles::puppetmaster_sync_from_all_releng
     include ::fw::roles::bacula_from_scl3_bacula_host
     include ::fw::roles::ssh_from_anywhere
+    include ::fw::roles::nrpe_from_nagios
 }
