@@ -11,16 +11,16 @@ define scriptworker::nagios(
         'check_pending_scriptworker_tasks':
             cfg => "sudo ${plugins_dir}/check_pending_scriptworker_tasks -w \$ARG1\$ -c \$ARG2\$";
         'check_scriptworker_file_age':
-            cfg => "sudo -u $username ${plugins_dir}/check_file_age -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
+            cfg => "sudo -u ${username} ${plugins_dir}/check_file_age -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
         'check_scriptworker_file_age_ok_if_missing':
-            cfg => "sudo -u $username ${plugins_dir}/check_file_age -m -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
+            cfg => "sudo -u ${username} ${plugins_dir}/check_file_age -m -w \$ARG1\$ -c \$ARG2\$ -f '\$ARG3\$'";
     }
 
     file {
         "${plugins_dir}/check_pending_scriptworker_tasks":
-            ensure => present,
-            mode  => 0755,
-            require  => Class['nrpe::base'],
+            ensure  => present,
+            mode    => '0755',
+            require => Class['nrpe::base'],
             content => template('scriptworker/check_pending_scriptworker_tasks.erb');
     }
 

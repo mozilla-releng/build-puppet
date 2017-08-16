@@ -96,8 +96,8 @@ class pushapk_scriptworker {
 
     file {
         $pushapk_scriptworker::settings::script_config:
-            require   => Python35::Virtualenv[$pushapk_scriptworker::settings::root],
-            content   => template("${module_name}/script_config.json.erb");
+            require => Python35::Virtualenv[$pushapk_scriptworker::settings::root],
+            content => template("${module_name}/script_config.json.erb");
 
         $google_play_config['aurora']['certificate_target_location']:
             content     => $google_play_config['aurora']['certificate'];
