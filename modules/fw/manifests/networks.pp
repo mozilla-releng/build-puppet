@@ -158,6 +158,10 @@ class fw::networks {
 
     $all_signing_workers = [ $use1_signing_workers, $usw2_signing_workers ]
 
+    # Infra managed production releng web cluster
+    $releng_web_cluster = [ '10.22.81.88/32',  # web1.releng.webapp.scl3.mozilla.com
+                            '10.22.81.89/32' ] # web2.releng.webapp.scl3.mozilla.com
+
     # Infra VPN Network Endpoints (CIDR blocks of IPs given to vpn clients)
 
     # Infra SCL3 Jumphost (ssh.mozilla.com)

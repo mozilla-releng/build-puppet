@@ -15,5 +15,6 @@ class fw::apps {
                         'nightly_signing' => { proto => 'tcp', port  => '9100' },
                         'syslog_udp'      => { proto => 'udp', port  => '514' },
                         'syslog_tcp'      => { proto => 'tcp', port  => '514' },
+                        'slave_api'       => { proto => 'tcp', port  => '8080' },
                         }
 }
