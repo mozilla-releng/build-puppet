@@ -8,6 +8,12 @@ class packages::virtualenv {
     case $::operatingsystem {
         Ubuntu: {
             case $::operatingsystemrelease {
+                12.04: {
+                    package {
+                        'python-virtualenv':
+                            ensure => '1.7.1.2-1';
+                    }
+                }
                 16.04: {
                     package {
                         'python-virtualenv':
