@@ -15,7 +15,6 @@ node /t-yosemite-r7-0(0[^0-2]\d|[1-2]\d+|3[0-9]\d)\.test\.releng\.scl3\.mozilla\
 node /t.*-\d+\.test\.releng\.mdc1\.mozilla\.com/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
-    $fw_allow_all      = true
     include fw::profiles::osx_taskcluster_worker
     include toplevel::base
     include generic_worker::disabled
@@ -208,7 +207,6 @@ node /^depsigning\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
 node /releng-puppet\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
     $aspects       = [ 'maximum-security' ]
     $only_user_ssh = true
-    $fw_allow_all  = true
     include fw::profiles::puppetmasters
     include toplevel::server::puppetmaster
 }
@@ -266,7 +264,6 @@ node /rejh\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     $timezone      = 'GMT'
     $only_user_ssh = true
     $duo_enabled   = true
-    $fw_allow_all  = true
     include fw::profiles::rejh
     include toplevel::jumphost
 }
@@ -292,7 +289,6 @@ node /cruncher-aws\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
 node /partner-repack-\d+\.srv\.releng\.mdc1\.mozilla\.com/ {
     $aspects       = [ 'maximum-security' ]
     $only_user_ssh = true
-    $fw_allow_all  = true
     include fw::profiles::partner_repack
     include toplevel::server
 }
