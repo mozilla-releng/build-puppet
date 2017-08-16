@@ -8,6 +8,7 @@ class fw::profiles::deploystudio {
         /.*\.mdc1\.mozilla\.com/: {
             include ::fw::roles::vnc_from_anywhere_logging
             include ::fw::roles::ssh_from_anywhere_logging
+            include ::fw::roles::nrpe_from_nagios
         }
         default:{
             # Silently skip other DCs
