@@ -182,6 +182,7 @@ class config inherits config::base {
         'mcornmesser',
         'qfortier',
         'rthijssen',
+        'dcrisan',
     ]
 
     # a few users from each team as the 'short list' of people with access
@@ -217,7 +218,6 @@ class config inherits config::base {
     }
 
     $jumphost_users = [
-        'dcrisan',
     ]
 
     $users = $::fqdn ? {
