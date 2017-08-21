@@ -20,6 +20,12 @@ node /t.*-\d+\.test\.releng\.mdc1\.mozilla\.com/ {
     include generic_worker::disabled
 }
 
+# taskcluster-host-secrets hosts
+node /^tc-host-secrets\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+    $aspects          = [ 'high-security' ]
+    include toplevel::server::taskcluster_host_secrets
+}
+
 
 ## Buildbot testers
 
