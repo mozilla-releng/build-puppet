@@ -218,6 +218,20 @@ class config inherits config::base {
     }
 
     $jumphost_users = [
+        'aobreja',
+        'asasaki',
+        'aselagea',
+        'catlee',
+        'jlorenzo',
+        'jlund',
+        'jwood',
+        'kmoir',
+        'mtabara',
+        'nthomas',
+        'raliiev',
+        'rgarbas',
+        'sfraser',
+        'spacurar',
     ]
 
     $users = $::fqdn ? {
