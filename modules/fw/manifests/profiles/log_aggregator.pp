@@ -10,11 +10,11 @@ class fw::profiles::log_aggregator {
             include ::fw::roles::nrpe_from_nagios
             include ::fw::roles::syslog_from_mdc1_releng
         }
-#        /.*\.scl3.mozilla\.com/: {
-#            include ::fw::roles::ssh_from_anywhere_logging
-#            include ::fw::roles::nrpe_from_nagios
-#            include ::fw::roles::syslog_from_scl3_releng
-#        }
+        /.*\.scl3.mozilla\.com/: {
+            include ::fw::roles::ssh_from_anywhere_logging
+            include ::fw::roles::nrpe_from_nagios
+            include ::fw::roles::syslog_from_scl3_releng
+        }
         default:{
             # Silently skip other DCs
         }
