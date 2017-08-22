@@ -66,6 +66,7 @@ class fw::networks {
 
     $all_build = [ $build_scl3, $use1_build, $usw2_build ]
     $all_try   = [ $try_scl3, $use1_try, $usw2_try ]
+    $dc_test   = [ $test_mdc1, $wintest_mdc1, $test_scl3, $wintest_scl3 ]
 
 
     $non_distingushed_puppetmasters = [ '10.26.48.45/32',  # releng-puppet1.srv.releng.scl3.mozilla.com
