@@ -303,6 +303,7 @@ node /partner-repack-\d+\.srv\.releng\.mdc1\.mozilla\.com/ {
 
 node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'high-security' ]
+    include fw::profiles::aws_manager
     include toplevel::server::aws_manager
 
     # Bug 1265758 - Add acccess to the following accounts to dev-master2
