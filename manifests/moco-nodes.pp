@@ -162,12 +162,14 @@ node /bld-lion-r5-0[10-11]\.try\.releng\.scl3\.mozilla\.com/ {
 node /bld-(lion|yosemite)-r5-\d+.try.releng.scl3.mozilla.com/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
+    include fw::profiles::buildbot_slave
     include toplevel::slave::releng::build::standard
 }
 
 node /y-yosemite-r5-\d+.try.releng.scl3.mozilla.com/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
+    include fw::profiles::buildbot_slave
     include toplevel::slave::releng::build::standard
 }
 
