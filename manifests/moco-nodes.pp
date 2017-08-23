@@ -327,11 +327,13 @@ node /buildduty-tools\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
 
 node 'slaveapi1.srv.releng.scl3.mozilla.com' {
     $aspects = [ 'high-security' ]
+    include fw::profiles::slave_api
     include toplevel::server::slaveapi
 }
 
 node 'slaveapi-dev1.srv.releng.scl3.mozilla.com' {
     $aspects = [ 'high-security', 'dev' ]
+    include fw::profiles::slave_api
     include toplevel::server::slaveapi
 }
 
