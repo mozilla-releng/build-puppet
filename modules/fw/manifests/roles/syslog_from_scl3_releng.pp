@@ -6,11 +6,17 @@ class fw::roles::syslog_from_scl3_releng {
     include fw::networks
 
     fw::rules { 'allow_syslog_udp_from_scl3_releng':
-        sources =>  $::fw::networks::scl3_releng,
+        sources => [ $::fw::networks::scl3_releng,
+                     $::fw::networks::ad_scl3,
+                     $::fw::networks::releng_web_cluster,
+                     $::fw::networks::releng_web_admin ],
         app     => 'syslog_udp'
     }
     fw::rules { 'allow_syslog_tcp_from_scl3_releng':
-        sources =>  $::fw::networks::scl3_releng,
+        sources => [ $::fw::networks::scl3_releng,
+                     $::fw::networks::ad_scl3,
+                     $::fw::networks::releng_web_cluster,
+                     $::fw::networks::releng_web_admin ],
         app     => 'syslog_tcp'
     }
 }
