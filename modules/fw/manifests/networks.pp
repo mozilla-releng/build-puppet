@@ -27,6 +27,9 @@ class fw::networks {
     $winbuild_scl3 = [ '10.26.36.0/22' ] # *.winbuild.releng.scl3.mozilla.com
     $wintry_scl3   = [ '10.26.44.0/22' ] # *.wintry.releng.scl3.mozilla.com
 
+    # SCL3 Infra CIDRs
+    $ad_scl3       = [ '10.22.69.0/24' ] # *.ad.mozilla.com, *.releng.ad.mozilla.com
+
     # MDC1 Releng Network CIDRs
     $ops_mdc1     = [ '10.49.8.0/21' ] # *.ops.releng.mdc1.mozilla.com
     $inband_mdc1  = [ '10.49.16.0/22' ] # *.inband.releng.mdc1.mozilla.com
@@ -161,7 +164,10 @@ class fw::networks {
 
     # Infra managed production releng web cluster
     $releng_web_cluster = [ '10.22.81.88/32',  # web1.releng.webapp.scl3.mozilla.com
-                            '10.22.81.89/32' ] # web2.releng.webapp.scl3.mozilla.com
+                            '10.22.81.89/32',  # web2.releng.webapp.scl3.mozilla.com
+                            '10.22.81.91/32' ] # web1.stage.releng.webapp.scl3.mozilla.com
+
+    $releng_web_admin = [ '10.22.75.138/32' ]  # relengwebadm.private.scl3.mozilla.com
 
     # Infra VPN Network Endpoints (CIDR blocks of IPs given to vpn clients)
 
