@@ -15,6 +15,10 @@ class toplevel::slave::releng inherits toplevel::slave {
     include packages::wget
     include packages::mozilla::py27_mercurial
 
+    if ($::operatingsystem == Darwin) {
+        include packages::mozilla::py27_virtualenv
+    }
+
     if ($::operatingsystem == Windows) {
         include tweaks::memory_paging
         include tweaks::nouac
