@@ -1,6 +1,6 @@
 /builds/scriptworker/logs/*.log {
        missingok
-       weekly
+       daily
        notifempty
        compress
        copytruncate
