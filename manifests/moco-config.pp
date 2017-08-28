@@ -271,6 +271,7 @@ class config inherits config::base {
             releaserunner_buildbot_configs        => 'https://hg.mozilla.org/build/buildbot-configs',
             releaserunner_gpg_key_path            => 'scripts/release/KEY',
             releaserunner_config_file             => 'release-runner.yml',
+            allowed_branches                      => [ 'projects/jamun' ],
         },
         'prod-old' => {
             ship_it_root                          => 'https://ship-it.mozilla.org',
@@ -305,6 +306,11 @@ class config inherits config::base {
             releaserunner_buildbot_configs        => 'https://hg.mozilla.org/build/buildbot-configs',
             releaserunner_gpg_key_path            => 'scripts/release/KEY',
             releaserunner_config_file             => 'release-runner.yml',
+            allowed_branches                      => [
+                                                        'releases/mozilla-release',
+                                                        'releases/mozilla-beta',
+                                                        'releases/mozilla-esr*',
+                                                     ],
         }
     }
 
