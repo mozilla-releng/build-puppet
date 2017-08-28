@@ -42,6 +42,7 @@ class releaserunner {
                 'decorator==3.4.0',
                 'ecdsa==0.10',
                 'enum34==1.0.4',
+                'futures==3.1.1',
                 'mohawk==0.3.1',
                 'paramiko==1.9.0',
                 'pycrypto==2.6.1',
@@ -56,6 +57,7 @@ class releaserunner {
                 'six==1.9.0',
                 'sqlalchemy-migrate==0.7.2',
                 'taskcluster==0.0.24',
+                'toposort==1.5',
                 'wsgiref==0.1.2',
                 'zope.interface==4.0.2',
             ];
