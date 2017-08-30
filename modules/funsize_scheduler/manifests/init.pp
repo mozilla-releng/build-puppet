@@ -30,7 +30,7 @@ class funsize_scheduler {
                 'cryptography==1.7.1',
                 'ecdsa==0.10',
                 'enum34==1.0.4',
-                'funsize==0.93',
+                'funsize==0.94',
                 'ndg_httpsclient==0.4.2',
                 'idna==2.2',
                 'importlib==1.0.4',
