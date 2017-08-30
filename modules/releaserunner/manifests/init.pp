@@ -55,6 +55,7 @@ class releaserunner {
                 'simplejson==2.6.2',
                 'singledispatch==3.4.0.3',
                 'six==1.9.0',
+                'slugid==1.0.7',
                 'sqlalchemy-migrate==0.7.2',
                 'taskcluster==0.0.24',
                 'toposort==1.5',
