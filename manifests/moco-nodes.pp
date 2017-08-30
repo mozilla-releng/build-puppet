@@ -8,6 +8,7 @@
 node /t-yosemite-r7-0(0[^0-2]\d|[1-2]\d+|3[0-9]\d)\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
+    include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
 }
 
