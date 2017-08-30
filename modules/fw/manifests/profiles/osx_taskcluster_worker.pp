@@ -5,7 +5,7 @@
 class fw::profiles::osx_taskcluster_worker {
 
     case $::fqdn {
-        /.*\.mdc1\.mozilla\.com/: {
+        /.*\.(scl3|mdc1)\.mozilla\.com/: {
             include ::fw::roles::vnc_from_anywhere_logging
             include ::fw::roles::ssh_from_anywhere_logging
         }
