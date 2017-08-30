@@ -4,6 +4,6 @@
 
 class toplevel::server::taskcluster_host_secrets inherits toplevel::server {
 
-    include taskcluster_host_secrets
+    include ::taskcluster_host_secrets
 }
 

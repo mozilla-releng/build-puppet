@@ -13,7 +13,12 @@ class taskcluster_host_secrets {
             }
             $credentials_expiry = '4 days'
             $allowed_ips        = '::ffff:10.0.0.0/8 10.0.0.0/8'
-            $service_port       = 8020
+
+            if ($taskcluster_host_secrets_port == undef) {
+                $service_port   = 8020
+            } else {
+                $service_port   = $taskcluster_host_secrets_port
+            }
 
             file { '/etc/host-secrets.conf':
                 ensure  => present,
