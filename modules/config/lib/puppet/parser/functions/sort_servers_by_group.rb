@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # This function is useful in "large" puppetagain clusters.  It takes an
-# argument conssiting of a hash with regular expressions as keys, and lists of
+# argument consisting of a hash with regular expressions as keys, and lists of
 # servers as values.  Each hash element represents a group, with the listed
 # servers being an equally-weighted set of servers for that group.  The keys
 # are matched against agent's fqdn to determine which group(s) contain it.  The
@@ -26,8 +26,12 @@ module Puppet::Parser::Functions
     # fqdn so that the list differs from host to host, but is the same from one puppet
     # run to the next.  This would be so much easier with Ruby-1.9 :(
     old_seed = rand()
-    srand(Digest::MD5.hexdigest([fqdn].join(':')).hex)
-    result = (group_servers.shuffle + all_servers.shuffle).uniq
+    seed = Digest::MD5.hexdigest([fqdn].join(':')).hex
+    srand(seed)
+    group_result = group_servers.shuffle
+    # reset seed to keep following groups always in same order also
+    srand(seed)
+    result = (group_result + all_servers.shuffle).uniq
     srand(old_seed)
     result
   end
