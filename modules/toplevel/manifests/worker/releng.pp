@@ -15,10 +15,8 @@ class toplevel::worker::releng inherits toplevel::worker {
     # TODO: run mig agent on boot?
     include mig::agent::daemon
 
-    # not sure why these are required on Darwin..
     if ($::operatingsystem == 'Darwin') {
         include packages::mozilla::py27_virtualenv
-        include buildslave::install
     }
 
     case $::kernel {
