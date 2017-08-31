@@ -258,11 +258,11 @@ node 'install.test.releng.mdc1.mozilla.com' {
     $fw_allow_all = true
     include fw::profiles::deploystudio
     include toplevel::server::deploystudio
-    #class {
-    #    'bacula_client':
-    #        cert => secret('install_test_releng_scl3_bacula_cert'),
-    #        key => secret('install_test_releng_scl3_bacula_key');
-    #}
+    class {
+        'bacula_client':
+            cert => secret('install_test_releng_mdc1_bacula_cert'),
+            key  => secret('install_test_releng_mdc1_bacula_key');
+    }
 }
 
 ## Jump hosts

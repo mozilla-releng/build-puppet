@@ -474,7 +474,11 @@ class config inherits config::base {
 
     $bacula_fd_port                                     = 9102
     # this isn't actually secret, but it's long, so we stick it in hiera.
-    $bacula_cacert                                      = secret('bacula_ca_cert')
+    $bacula_cacert = $::fqdn? {
+        /.*\.mdc1\.mozilla\.com/             => secret('bacula_mdc1_ca_cert'),
+        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => secret('bacula_scl3_ca_cert'),
+        default => undef,
+    }
 
     # Buildbot <-> Taskcluster bridge configuration
     $buildbot_bridge_root                               = '/builds/bbb'
