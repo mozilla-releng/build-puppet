@@ -54,6 +54,7 @@ node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
     # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
+    include fw::profiles::buildbot_slave
     include toplevel::slave::releng::test::gpu
 }
 
