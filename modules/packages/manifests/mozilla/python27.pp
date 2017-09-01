@@ -99,11 +99,37 @@ class packages::mozilla::python27 {
                     }
                 }
                 Darwin: {
-                    Anchor['packages::mozilla::python27::begin'] ->
-                    packages::pkgdmg {
-                        'python27':
-                            version => '2.7.3-1';
-                    } -> Anchor['packages::mozilla::python27::end']
+                    case $::macosx_productversion_major {
+                        '10.6','10.8','10.9','10.10': {
+                            Anchor['packages::mozilla::python27::begin'] ->
+                            packages::pkgdmg {
+                                'python27':
+                                    version => '2.7.3-1';
+                            }  -> Anchor['packages::mozilla::python27::end']
+                        }
+                        '10.7': {
+                            case $::fqdn {
+                                /^bld-lion-r5-01[^7-9]\.try\.releng\.scl3\.mozilla\.com/: {
+                                    Anchor['packages::mozilla::python27::begin'] ->
+                                    packages::pkgdmg {
+                                        'python27':
+                                            os_version_specific => true,
+                                            version             => '2.7.12-1';
+                                    }  -> Anchor['packages::mozilla::python27::end']
+                                }
+                                default: {
+                                    Anchor['packages::mozilla::python27::begin'] ->
+                                    packages::pkgdmg {
+                                        'python27':
+                                            version => '2.7.3-1';
+                                    }  -> Anchor['packages::mozilla::python27::end']
+                                }
+                            }
+                        }
+                        default: {
+                            fail("Cannot install on Darwin version ${::macosx_productversion_major}")
+                        }
+                    }
                 }
                 default: {
                     fail("Cannot install on ${::operatingsystem}")
