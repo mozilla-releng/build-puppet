@@ -10,6 +10,14 @@ class toplevel::server::signing inherits toplevel::server {
     $signing_server_dep_password     = secret('signing_server_dep_password')
     $signing_server_release_password = secret('signing_server_release_password')
     $signing_server_nightly_password = secret('signing_server_nightly_password')
+    $signing_server_ssl_cert     = $config::signing_server_ssl_certs[$hostname] ? {
+        undef => secret('signing_server_ssl_cert'),
+        default => $config::signing_server_ssl_certs[$hostname],
+    }
+    $signing_server_ssl_private_key = $config::signing_server_ssl_private_keys[$hostname] ? {
+        undef => secret('signing_server_ssl_private_key'),
+        default => $config::signing_server_ssl_private_keys[$hostname],
+    }
 
     assert {
       'signing-server-maximum-security':
@@ -48,8 +56,8 @@ class toplevel::server::signing inherits toplevel::server {
                     jar_digestalg       => 'SHA1',
                     jar_sigalg          => 'SHA1withDSA',
                     formats             => $signing_formats,
-                    ssl_cert            => $config::signing_server_ssl_certs[$hostname],
-                    ssl_private_key     => $config::signing_server_ssl_private_keys[$hostname],
+                    ssl_cert            => $signing_server_ssl_cert,
+                    ssl_private_key     => $signing_server_ssl_private_key,
                     concurrency         => $concurrency;
             }
 
@@ -70,8 +78,8 @@ class toplevel::server::signing inherits toplevel::server {
                     jar_sigalg          => 'SHA1withRSA',
                     formats             => $signing_formats,
                     signcode_timestamp  => 'no',
-                    ssl_cert            => $config::signing_server_ssl_certs[$hostname],
-                    ssl_private_key     => $config::signing_server_ssl_private_keys[$hostname],
+                    ssl_cert            => $signing_server_ssl_cert,
+                    ssl_private_key     => $signing_server_ssl_private_key,
                     concurrency         => $concurrency;
             }
             signingserver::instance {
@@ -92,8 +100,8 @@ class toplevel::server::signing inherits toplevel::server {
                     jar_digestalg       => 'SHA1',
                     jar_sigalg          => 'SHA1withRSA',
                     formats             => $signing_formats,
-                    ssl_cert            => $config::signing_server_ssl_certs[$hostname],
-                    ssl_private_key     => $config::signing_server_ssl_private_keys[$hostname],
+                    ssl_cert            => $signing_server_ssl_cert,
+                    ssl_private_key     => $signing_server_ssl_private_key,
                     concurrency         => $concurrency;
             }
         }
