@@ -52,7 +52,7 @@ class pushapk_scriptworker {
                 'PyYAML==3.12',
                 'requests==2.18.1',
                 'rsa==3.4.2',
-                'scriptworker==5.1.1',
+                'scriptworker==5.1.2',
                 'six==1.10.0',
                 'slugid==1.0.7',
                 'taskcluster==1.3.3',
