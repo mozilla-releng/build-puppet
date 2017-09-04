@@ -1,0 +1,54 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#!/bin/bash
+
+LOGFILE=<%= @logfile %>
+# I'll remove the color from the output, to make easy to add filters to the log file
+PUPPET_COMMAND="/usr/bin/puppet agent -t --noop --color false"
+EMAIL_ADDRESS="<%= scope.lookupvar('::config::puppet_relops_email') %>"
+# Remove information related Yumrepo and yum refresh. Puppet reorders the yum files every time, so we will have the output each time
+# also remove the empty lines
+
+RUN_COMMAND="$PUPPET_COMMAND > $LOGFILE"
+
+# max iterations
+ATTEMPTS=5
+
+#Start from 0
+START=0
+
+# Number of attempts will be 5 
+while [ $START -lt $ATTEMPTS ]; do
+    # eval - construct command by concatenating arguments
+    eval $RUN_COMMAND
+    # get status code
+    STATUSCODE=$( echo $? )
+    if [ $STATUSCODE -eq 0 ]; then
+        # If command run with success, set start grater that attempts, in our case 10
+        START=10
+    else
+        START=$(($START+1))
+        # Wait 10 seconds and run again
+        sleep 10
+    fi
+done
+
+# If are more that 5 attempts, send email with the error message and exit
+if [ $START -eq 5 ]; then
+    echo "Puppet failed to run" | mail -s "Puppet failed to on <%= @fqdn %>" -r "root@<%= @fqdn %><root@<%= @fqdn %>>"  $EMAIL_ADDRESS
+    exit 1
+fi
+
+# If there are changes, sent the email
+LINES=$( /bin/cat $LOGFILE|/usr/bin/wc -l )
+
+if [ $LINES -gt 6 ]; then
+    # sent the email
+    mail -s "Puppet changes on <%= @fqdn %>" -r "root@<%= @fqdn %><root@<%= @fqdn %>>"  $EMAIL_ADDRESS< $LOGFILE
+fi
+
+# Delete log file
+if [ -f $LOGFILE ]; then
+  /bin/rm -rf $LOGFILE
+fi
