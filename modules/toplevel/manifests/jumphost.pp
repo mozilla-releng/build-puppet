@@ -21,6 +21,7 @@ class toplevel::jumphost {
     include ::config
 
     include puppet
+    include puppet::check_changes
     include network
     include hardware
     include timezone

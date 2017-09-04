@@ -109,7 +109,17 @@ class packages::mozilla::python27 {
                         }
                         '10.7': {
                             case $::fqdn {
-                                /^bld-lion-r5-01[^7-9]\.try\.releng\.scl3\.mozilla\.com/: {
+                                ### Adding all try machines to use python 2.7.12
+                                /^bld-lion-r5-\d+\.try\.releng\.scl3\.mozilla\.com/: {
+                                    Anchor['packages::mozilla::python27::begin'] ->
+                                    packages::pkgdmg {
+                                        'python27':
+                                            os_version_specific => true,
+                                            version             => '2.7.12-1';
+                                    }  -> Anchor['packages::mozilla::python27::end']
+                                }
+                                ### Adding all build machines between bld-lion-r5-060 and bld-lion-r5-079 to use python 2.7.12
+                                /^bld-lion-r5-0(6|7)\d+\.build\.releng\.scl3\.mozilla\.com/: {
                                     Anchor['packages::mozilla::python27::begin'] ->
                                     packages::pkgdmg {
                                         'python27':
