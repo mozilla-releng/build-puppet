@@ -124,6 +124,7 @@ node /bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com/ {
     # any bld-lion-r5-(digit) hosts in the scl3 build zone
     $slave_trustlevel = 'core'
     $aspects          = [ 'low-security' ]
+    include fw::profiles::buildbot_slave
     include toplevel::slave::releng::build::standard
 }
 
