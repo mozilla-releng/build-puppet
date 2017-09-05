@@ -1023,3 +1023,14 @@ node 'releng-puppet-test1.srv.releng.scl3.mozilla.com' {
     include toplevel::server
 }
 
+# Loaner for testing pip and python update
+# See Bug 1388816
+node 't-yosemite-r7-394.test.releng.mdc1.mozilla.com' {
+    $aspects           = [ 'low-security' ]
+    $slave_trustlevel  = 'try'
+    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
+    $pin_puppet_env    = 'dcrisan'
+    include fw::profiles::osx_taskcluster_worker
+    include toplevel::base
+    include generic_worker::disabled
+}
