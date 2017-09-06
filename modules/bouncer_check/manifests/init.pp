@@ -12,7 +12,7 @@ class bouncer_check {
             require  => Class['packages::mozilla::python27'],
             packages => [
                 'argparse==1.2.1',
-                'nagios-tools==0.5',
+                'nagios-tools==0.6',
                 'nagiosplugin==1.1',
                 'wsgiref==0.1.2',
             ];
