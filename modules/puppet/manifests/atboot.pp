@@ -17,7 +17,7 @@ class puppet::atboot {
             # Always run puppet at boot unless maximums are set for both
             # n_reboots and seconds since last puppet run.
             if ( $::config::puppet_run_atboot_if_more_than_n_reboots and
-                 $::config::puppet_run_atboot_if_more_than_seconds ) {
+              $::config::puppet_run_atboot_if_more_than_seconds ) {
                 $puppet_run_atboot_always = 'false'
             } else {
                 $puppet_run_atboot_always = 'true'
