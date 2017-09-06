@@ -5,21 +5,38 @@ rvm:
 script:
   #- "ln -s manifests/moco-config.pp manifests/config.pp"
   #- "ln -s manifests/moco-nodes.pp manifests/nodes.pp"
-  - "puppet parser validate `find modules -name '*.pp'`"
-  - "puppet-lint --no-arrow_alignment-check --no-140chars-check \
-      --no-documentation-check --no-double_quoted_strings-check \
-      --no-variable_scope-check --no-case_without_default-check \
-      --no-variables_not_enclosed-check --no-only_variable_string-check \
-      --no-ensure_first_param-check --no-unquoted_file_mode-check \
-      --no-variable_contains_dash-check --no-parameter_order-check \
-      --no-variable_is_lowercase-check --no-arrow_on_right_operand_line-check \
-      --no-file_mode-check --no-nested_classes_or_defines \
-      --no-quoted_booleans --no-puppet_url_without_modules \
-      --no-selector_inside_resource --no-unquoted_resource_title \
-      --no-names_containing_dash \
-      --log-format '%{path} - %{KIND}: %{message} on line %{line} - %{check}'
-      modules"
-
+  # Added manifests directory to validate. I skiped site.pp from check, to prevent errors related missing links 
+  # for config.pp and nodes.pp
+  - "puppet parser validate `find manifests modules -name '*.pp' -not -name 'site.pp'`"
+  # Skipping from the lint check all modules that are imported from puppet labs. These modules are:
+  # acl, assert, concat, firewall, java_ks, powershell, registry, stdlib, windows_firewall and windows_path
+  # Checked also for lint the pp files located into manifests directory
+  - "puppet-lint \
+      --no-140chars-check \
+      --no-case_without_default-check \
+      --no-only_variable_string-check \
+      --no-unquoted_file_mode-check \
+      --no-nested_classes_or_defines \
+      --no-quoted_booleans \
+      --no-puppet_url_without_modules \
+      --no-selector_inside_resource \
+      --no-file_mode-check \
+      --no-variable_scope-check \
+      --no-arrow_on_right_operand_line \
+      --no-double_quoted_strings-check \
+      --no-autoloader_layout-check \
+      --log-format '%{path} - %{KIND}: %{message} on line %{line} - %{check}' \
+      `find manifests modules -name '*.pp' \
+       -not -path 'modules/acl/*' \
+       -not -path 'modules/assert/*' \
+       -not -path 'modules/concat/*' \
+       -not -path 'modules/firewall/*' \
+       -not -path 'modules/java_ks/*' \
+       -not -path 'modules/powershell/*' \
+       -not -path 'modules/registry/*' \
+       -not -path 'modules/stdlib/*' \
+       -not -path 'modules/windows_firewall/*' \
+       -not -path 'modules/windows_path/*'`"
 gemfile: .gemfile
 
 # The channel name "irc.mozilla.org#releng" is encrypted against mozilla/build-buildbot-configs to prevent IRC spam of forks

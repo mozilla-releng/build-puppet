@@ -18,11 +18,11 @@ class bacula_client($cert, $key) {
 
             file {
                 $bacula_client::settings::confpath:
-                    ensure    => directory,
-                    owner     => $bacula_client::settings::owner,
-                    group     => $bacula_client::settings::group,
-                    mode      => '0755',
-                    require   => Class['packages::bacula_enterprise_client'];
+                    ensure  => directory,
+                    owner   => $bacula_client::settings::owner,
+                    group   => $bacula_client::settings::group,
+                    mode    => '0755',
+                    require => Class['packages::bacula_enterprise_client'];
                 "${bacula_client::settings::confpath}/bacula-fd.conf":
                     ensure    => file,
                     owner     => $bacula_client::settings::owner,
