@@ -233,6 +233,18 @@ node 'releng-puppet2.srv.releng.scl3.mozilla.com' {
     }
 }
 
+node 'releng-puppet2.srv.releng.mdc1.mozilla.com' {
+    $aspects       = [ 'maximum-security' ]
+    $only_user_ssh = true
+    include fw::profiles::puppetmasters
+    include toplevel::server::puppetmaster
+    class {
+        'bacula_client':
+            cert => secret('releng_puppet2_srv_releng_mdc1_bacula_cert'),
+            key  => secret('releng_puppet2_srv_releng_mdc1_bacula_key');
+    }
+}
+
 ## deploystudio servers
 
 node 'install.build.releng.scl3.mozilla.com' {
