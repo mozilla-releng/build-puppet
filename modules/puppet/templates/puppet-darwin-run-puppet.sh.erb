@@ -49,9 +49,61 @@ mkdir -p "${SEMAPHORE_DIR}"
 chmod 0777 "${SEMAPHORE_DIR}"
 rm -rf "${SEMAPHORE}"
 
-logger -ist run-puppet "Starting run-puppet.sh at "`date`
-wait_for_dns
-run_until_success
+function puppet_config_version_is_not_latest() {
+    readonly local last_run_summary_yml=/var/lib/puppet/state/last_run_summary.yaml
+    echo "Compare last puppet run config version with repo tip hash..."
+    local last_run=$(sed -n -e 's/^[ \n\t]*config:[ \n\t]*"\([^+"]*\)+*"/\1/p' "${last_run_summary_yml}")
+    echo "Last puppet run config version: ${last_run}"
+    # if hg fails or is not yet installed, this will leave a non-matching empty string
+    local repo_version=$(hg identify https://hg.mozilla.org/build/puppet)
+    echo "Repository tip hash: ${repo_version}"
+    [[ "${last_run}" != "${repo_version}" ]]
+}
+
+function puppet_elapsed_time_exceeded() {
+    local max_seconds=<%= scope['::config::puppet_run_atboot_if_more_than_seconds'] %>
+
+    # if max_seconds is an empty string, undefined, or 0, then return true
+    [[ $max_seconds -lt 1 || ! -e $LAST_GOOD_RUN_FILE ]] && return 0
+
+    # using perl because the common puppet_atboot functions do
+    local since_last_good_run=$(perl -e '@st = stat("'${LAST_GOOD_RUN_FILE}'"); print time - $st[9]')
+    echo "Last puppet run (seconds ago): ${since_last_good_run} [max ${max_seconds}]"
+    [[ $since_last_good_run -gt $max_seconds ]]
+}
+
+function puppet_counter_exceeded() {
+    local max_count=<%= scope['::config::puppet_run_atboot_if_more_than_n_reboots'] %>
+    local RUN_COUNT_FILE="${LAST_GOOD_RUN_FILE}.atboot_run_puppet_counter"
+
+    # if max_count is an empty string, undefined, or 0, then return true
+    [[ $max_count -lt 1 || ! -e $RUN_COUNT_FILE ]] && return 0
+
+    date >> $RUN_COUNT_FILE
+    local run_count=$(wc -l <"${RUN_COUNT_FILE}")
+    echo "Boot count since puppet run: ${run_count} [max ${max_count}]"
+    if [[ $run_count -gt $max_count ]]; then
+        # reset count
+        > $RUN_COUNT_FILE
+        true
+    else
+        false
+    fi
+}
+
+# First condition is puppet_run_atboot_always flag set in puppet::atboot
+if <%= @puppet_run_atboot_always %> \
+   || [ -f $REBOOT_FLAG_FILE ] \
+   || puppet_counter_exceeded \
+   || puppet_elapsed_time_exceeded \
+   || puppet_config_version_is_not_latest; then
+    logger -ist run-puppet "Starting run-puppet.sh at "`date`
+    wait_for_dns
+    run_until_success
+else
+    echo "Skipping puppet run"
+    <%= @execs_every_boot_without_puppet %>
+fi
 
 # Now touch SEMAPHORE to signal the builder user's launchd to start
 # buildbot.  This is level-triggered, not edge-triggered, so it's OK if the

@@ -147,6 +147,10 @@ class config::base {
     # a flag that controls which nodes should install and run MIG Agent
     $enable_mig_agent       = false
 
+    # Conditional puppet run atboot for macs
+    $puppet_run_atboot_if_more_than_n_reboots = undef
+    $puppet_run_atboot_if_more_than_seconds   = undef
+
     ##
     ## users
     ##
