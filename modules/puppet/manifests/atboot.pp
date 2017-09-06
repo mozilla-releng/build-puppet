@@ -13,6 +13,34 @@ class puppet::atboot {
     $puppet_servers = $::puppet::settings::puppet_servers
 
     case ($::operatingsystem) {
+        Darwin: {
+            # Always run puppet at boot unless maximums are set for both
+            # n_reboots and seconds since last puppet run.
+            if ( $::config::puppet_run_atboot_if_more_than_n_reboots and
+              $::config::puppet_run_atboot_if_more_than_seconds ) {
+                $puppet_run_atboot_always = 'false'
+            } else {
+                $puppet_run_atboot_always = 'true'
+            }
+
+            # Bug 1393524: copy-paste from gui and screenresolution modules
+            # TODO: use screen resolution module and getparam() for these values
+            $width   = 1600
+            $height  = 1200
+            $depth   = 32
+            $refresh = 60
+            $resolution = "${width}x${height}x${depth}"
+            $command107 = "/usr/local/bin/screenresolution set ${resolution}"
+            $command = "${command107}@${refresh}||${command107}"
+            $unless  = "/usr/local/bin/screenresolution get 2>&1 | /usr/bin/grep 'Display 0: ${resolution}'"
+            $execs_every_boot_without_puppet = "${unless}||${command}"
+        }
+        default: {
+            # puppet run at boot is only conditional for Darwin
+        }
+    }
+
+    case ($::operatingsystem) {
         windows: {
             include dirs::etc
             $puppetmasters_txt = "${dirs::etc::dir}/puppetmasters.txt"

@@ -130,6 +130,18 @@ class config inherits config::base {
     }
 
     $enable_mig_agent                = true
+
+    # Conditional puppet run at boot for Mac slaves
+    case $::fqdn {
+        # first test: limit to 393-399 in mdc1
+        /t-yosemite-r7-3\d+\.test\.releng\.mdc1\.mozilla\.com/: {
+            $puppet_run_atboot_if_more_than_n_reboots = 5
+            $puppet_run_atboot_if_more_than_seconds   = 3600
+        }
+        default: {
+        }
+    }
+
     $signer_username                 = 'cltsign'
     $signing_tools_repo              = 'https://hg.mozilla.org/build/tools'
     $signing_mac_id                  = 'Mozilla'
