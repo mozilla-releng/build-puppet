@@ -311,7 +311,7 @@ class config inherits config::base {
                                                         'releases/mozilla-release',
                                                         'releases/mozilla-beta',
                                                         'releases/mozilla-esr*',
-                                                     ],
+                                                      ],
         }
     }
 
