@@ -33,6 +33,7 @@ node /^t.*-\d+\.test\.releng\.mdc1\.mozilla\.com/ {
 node /^tc-host-secrets\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     $aspects                       = [ 'high-security' ]
     $taskcluster_host_secrets_port = 80
+    include fw::profiles::taskcluster_host_secrets
     include toplevel::server::taskcluster_host_secrets
 }
 
