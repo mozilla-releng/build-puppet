@@ -252,6 +252,7 @@ class config::base {
     $releaserunner_tools_branch          = 'default'
     # root directory for releaserunner; this must be under /builds
     $releaserunner_root                  = '/builds/releaserunner'
+    $releaserunner2_root                  = '/builds/releaserunner2'
 
     $releaserunner_env_config = {
         'dev'  => {
