@@ -20,6 +20,22 @@ class toplevel::worker::releng::generic_worker::test inherits toplevel::worker::
         }
         'Darwin': {
             include tweaks::disable_bonjour
+            # This can be removed after ESR52
+            # See 1396266
+            include dirs::tools::buildbot::bin
+            include dirs::tools::misc_python
+            file {
+                '/tools/buildbot/bin/python':
+                    ensure  => link,
+                    target  => '/tools/python27/bin/python2.7',
+                    require => Class[ 'dirs::tools::buildbot::bin',
+                                      'packages::mozilla::python27' ];
+                '/tools/misc-python/virtualenv.py':
+                    ensure  => link,
+                    target  => '/tools/virtualenv/bin/virtualenv',
+                    require => Class[ 'dirs::tools::misc_python',
+                                      'packages::mozilla::py27_virtualenv' ];
+            }
         }
         'Windows': {
             include disableservices::disable_indexing
