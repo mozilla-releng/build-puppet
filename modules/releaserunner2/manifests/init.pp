@@ -65,25 +65,12 @@ class releaserunner2 {
     }
 
     file {
-        "${releaserunner2::settings::root}/release-runner.ini":
-            require   => Python::Virtualenv[$releaserunner2::settings::root],
-            mode      => '0600',
-            owner     => $users::builder::username,
-            group     => $users::builder::group,
-            content   => template('releaserunner2/release-runner.ini.erb'),
-            show_diff => false;
         "${releaserunner2::settings::root}/release-runner.yml":
             require   => Python::Virtualenv[$releaserunner2::settings::root],
             mode      => '0600',
             owner     => $users::builder::username,
             group     => $users::builder::group,
             content   => template('releaserunner2/release-runner.yml.erb'),
-            show_diff => false;
-        "${users::builder::home}/.ssh/release-runner":
-            mode      => '0600',
-            owner     => $users::builder::username,
-            group     => $users::builder::group,
-            content   => secret('releaserunner_ssh_key'),
             show_diff => false;
         "${releaserunner2::settings::root}/docker-worker-pub.pem":
             require => Python::Virtualenv[$releaserunner2::settings::root],
