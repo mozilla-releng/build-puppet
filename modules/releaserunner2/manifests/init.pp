@@ -14,7 +14,7 @@ class releaserunner2 {
     include packages::make
     include packages::mysql_devel
 
-    $env_config = $config::releaserunner2_env_config[$releaserunner_env]
+    $env_config = $config::releaserunner2_env_config[$releaserunner2_env]
 
     python::virtualenv {
         $releaserunner2::settings::root:
