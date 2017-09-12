@@ -37,6 +37,7 @@ class releaserunner2 {
                 'arrow==0.5.4',
                 'buildbot==0.8.7p1',
                 'certifi==0.0.8',
+                'cffi==0.8.6',
                 'chunkify==1.2',
                 'cryptography==0.6',
                 'decorator==3.4.0',
