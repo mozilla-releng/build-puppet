@@ -275,6 +275,27 @@ class config::base {
         }
     }
 
+    $releaserunner2_env_config = {
+        'dev-fennec'  => {
+            ship_it_root             => '',
+            ship_it_username         => '',
+            ship_it_password         => '',
+            notify_to                => '',
+            notify_to_announce       => '',
+            taskcluster_client_id    => '',
+            taskcluster_access_token => '',
+        },
+        'prod-fennec' => {
+            ship_it_root             => '',
+            ship_it_username         => '',
+            ship_it_password         => '',
+            notify_to                => '',
+            notify_to_announce       => '',
+            taskcluster_client_id    => '',
+            taskcluster_access_token => '',
+        }
+    }
+
     # runner task settings
 
     $runner_hg_tools_path          = '/tools/checkouts/build-tools'
