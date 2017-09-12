@@ -323,7 +323,7 @@ class config inherits config::base {
                                                         'releases/mozilla-release',
                                                         'releases/mozilla-beta',
                                                         'releases/mozilla-esr*',
-                                                     ],
+                                                      ],
         }
     }
 
@@ -367,7 +367,7 @@ class config inherits config::base {
                                                         'releases/mozilla-release',
                                                         'releases/mozilla-beta',
                                                         'releases/mozilla-esr*',
-                                                     ],
+                                                      ],
             releasetasks_relconfigs_prefix        => 'prod',
         }
     }
