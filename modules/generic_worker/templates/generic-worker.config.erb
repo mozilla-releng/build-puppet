@@ -25,19 +25,19 @@
   "requiredDiskSpaceMegabytes": 10240,
   "runAfterUserCreation": "",
   "runTasksAsCurrentUser": true,
-  "shutdownMachineOnInternalError": false,
+  "sentryProject": "generic-worker",
   "shutdownMachineOnIdle": false,
+  "shutdownMachineOnInternalError": false,
   "signingKeyLocation": "/Users/cltbld/generic-worker.openpgp.key",
   "subdomain": "taskcluster-worker.net",
-  "sentryProject": "generic-worker",
   "tasksDir": "/Users/cltbld/tasks",
   "workerGroup": "<%= @worker_group %>",
   "workerId": "<%= @hostname %>",
   "workerType": "gecko-t-osx-<%= @macos_version %>",
   "workerTypeMetadata": {
-    "config": {
-      "deploymentId": "",
-      "runTaskAsCurrentUser": true
+    "machine-setup": {
+      "config": "https://hg.mozilla.org/build/puppet/raw-file/production/modules/generic_worker/templates/generic-worker.config.erb",
+      "docs": "https://wiki.mozilla.org/ReleaseEngineering/PuppetAgain/Modules/generic_worker"
     }
   }
 }
