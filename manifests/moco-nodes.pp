@@ -245,7 +245,7 @@ node 'releng-puppet2.srv.releng.scl3.mozilla.com' {
 node 'releng-puppet2.srv.releng.mdc1.mozilla.com' {
     $aspects       = [ 'maximum-security' ]
     $only_user_ssh = true
-    include fw::profiles::puppetmasters
+    include fw::profiles::distinguished_puppetmaster
     include toplevel::server::puppetmaster
     class {
         'bacula_client':
