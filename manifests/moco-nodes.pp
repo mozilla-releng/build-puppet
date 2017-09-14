@@ -9,7 +9,7 @@ node /t-yosemite-r7-000\d+\.test\.releng\.scl3\.mozilla\.com/ {
     $slave_trustlevel = 'try'
     include fw::profiles::buildbot_slave
     include toplevel::slave::releng::test::gpu
-
+}
 ## TaskCluster workers
 
 #OS X  migrated in taskcluster- Bug 1384640 //Bug 1398301
