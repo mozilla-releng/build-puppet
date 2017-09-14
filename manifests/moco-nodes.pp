@@ -2,10 +2,18 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+## Buildbot OS X
+# 9 machines that will remain in buildbot
+node /t-yosemite-r7-000\d+\.test\.releng\.scl3\.mozilla\.com/ {
+    $aspects          = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    include fw::profiles::buildbot_slave
+    include toplevel::slave::releng::test::gpu
+}
 ## TaskCluster workers
 
-#OS X batch#28 13 machines(adding yosemite-r7-(0380-0392)) migrate in taskcluster- Bug 1384640
-node /t-yosemite-r7-0(0[^0-2]\d|[1-2]\d+|3[0-9]\d)\.test\.releng\.scl3\.mozilla\.com/ {
+#OS X  migrated in taskcluster- Bug 1384640 //Bug 1398301
+node /t-yosemite-r7.*\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include fw::profiles::osx_taskcluster_worker
