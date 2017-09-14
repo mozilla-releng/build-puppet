@@ -25,8 +25,6 @@ release-runner:
   ssh_username: <%= scope.lookupvar('config::releaserunner_ssh_username') %>
   ssh_key: <%= scope.lookupvar('users::builder::home') %>/.ssh/release-runner
   docker_worker_key: <%= scope.lookupvar('releaserunner2::settings::root') %>/docker-worker-pub.pem
-  python: <%= scope.lookupvar('releaserunner2::settings::root') %>/bin/python
-  gen_script: <%= scope.lookupvar('releaserunner2::settings::tools_dst') %>/buildfarm/release/releasetasks_graph_gen.py
   release_runner_config: <%= scope.lookupvar('releaserunner2::settings::root') %>/release-runner.yml
   relconfigs_root: <%= scope.lookupvar('users::builder::home') %>/releasetasks/releasetasks/release_configs
   relconfigs_prefix: <%= @env_config["releasetasks_relconfigs_prefix"] %>
