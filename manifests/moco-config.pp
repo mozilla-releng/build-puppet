@@ -493,6 +493,12 @@ class config inherits config::base {
         default => undef,
     }
 
+    # Bug 1394481. old bacula in scl3 without PKI
+    $bacula_pki_enabled = $::fqdn ? {
+        /.*\.scl3\.mozilla\.com/ => false,
+        default                  => true,
+    }
+
     # Buildbot <-> Taskcluster bridge configuration
     $buildbot_bridge_root                               = '/builds/bbb'
     $buildbot_bridge_tclistener_pulse_exchange_basename = 'exchange/taskcluster-queue/v1'
