@@ -14,6 +14,8 @@ class bacula_client($cert, $key) {
             $bacula_director = $::config::bacula_director
             $bacula_fd_port = $::config::bacula_fd_port
 
+            $bacula_pki_enabled = $::config::bacula_pki_enabled
+
             $bacula_director_password = secret('bacula_director_password')
 
             file {
@@ -65,6 +67,15 @@ class bacula_client($cert, $key) {
                     show_diff => false,
                     require   => File['/opt/bacula/ssl'],
                     content   => $key;
+                "/opt/bacula/ssl/${::fqdn}-client.pem":
+                    ensure    => file,
+                    owner     => $bacula_client::settings::owner,
+                    group     => $bacula_client::settings::group,
+                    mode      => '0600',
+                    notify    => Service[$bacula_client::settings::servicename],
+                    show_diff => false,
+                    require   => File['/opt/bacula/ssl'],
+                    content   => "${key}${cert}";
             }
 
             service {

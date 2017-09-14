@@ -26,6 +26,13 @@ FileDaemon {
   TlsRequire = yes
   WorkingDirectory = <%= scope.lookupvar('bacula_client::settings::workingdir') %>
   PidDirectory = <%= scope.lookupvar('bacula_client::settings::piddir') %>
+  <%- if @bacula_pki_enabled -%>
+  PluginDirectory = "/opt/bacula/plugins"
+  PKI Signatures = Yes
+  PKI Encryption = Yes
+  PKI Keypair = "/opt/bacula/ssl/<%= scope.lookupvar('::fqdn') %>-client.pem"
+  PKI Master Key = "/opt/bacula/ssl/cacert.pem"
+  <%- end -%>
 }
 Messages {
   Name = "Standard"

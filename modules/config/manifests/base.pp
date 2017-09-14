@@ -376,9 +376,10 @@ class config::base {
 
     # Bacula configuration.  Mozilla uses Bacula Enterprise, which is not
     # redistributable.
-    $bacula_director = '' # hostname of the director
-    $bacula_fd_port  = '' # port on the director
-    $bacula_cacert   = '' # full text of the CA cert signing the director's keys
+    $bacula_director    = ''    # hostname of the director
+    $bacula_fd_port     = ''    # port on the director
+    $bacula_cacert      = ''    # full text of the CA cert signing the director's keys
+    $bacula_pki_enabled = true  # newer bacula client pki encrypts data transfer
 
     # Buildbot <-> Taskcluster bridge configuration
     $buildbot_bridge_root                               = ''
