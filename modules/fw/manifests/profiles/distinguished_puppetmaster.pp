@@ -10,7 +10,7 @@ class fw::profiles::distinguished_puppetmaster {
 
             include ::fw::roles::puppetmaster_from_all_releng
             include ::fw::roles::puppetmaster_sync_from_all_releng
-            include ::fw::roles::ssh_from_anywhere
+            include ::fw::roles::ssh_from_anywhere_logging
             include ::fw::roles::nrpe_from_nagios
         }
         /.*\.scl3\.mozilla\.com/: {
@@ -18,7 +18,7 @@ class fw::profiles::distinguished_puppetmaster {
 
             include ::fw::roles::puppetmaster_from_all_releng
             include ::fw::roles::puppetmaster_sync_from_all_releng
-            include ::fw::roles::ssh_from_anywhere
+            include ::fw::roles::ssh_from_anywhere_logging
             include ::fw::roles::nrpe_from_nagios
         }
         default: {
