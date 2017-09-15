@@ -326,6 +326,51 @@ class config inherits config::base {
         }
     }
 
+    $releaserunner2_env_config = {
+        'dev-fennec' => {
+            ship_it_root                          => 'https://ship-it-dev.allizom.org',
+            ship_it_username                      => secret('releaserunner_dev_ship_it_username'),
+            ship_it_password                      => secret('releaserunner_dev_ship_it_password'),
+            notify_to                             => 'Release Notifications Dev <release-automation-notifications-dev@mozilla.com>',
+            notify_to_announce                    => 'Release Notifications Dev <release-automation-notifications-dev@mozilla.com>',
+            taskcluster_client_id                 => secret('releaserunner_dev_taskcluster_client_id'),
+            taskcluster_access_token              => secret('releaserunner_dev_taskcluster_access_token'),
+            balrog_username                       => 'balrog-stage-ffxbld',
+            balrog_password                       => secret('balrog-stage-ffxbld_ldap_password'),
+            beetmover_aws_access_key_id           => secret('stage-beetmover-aws_access_key_id'),
+            beetmover_aws_secret_access_key       => secret('stage-beetmover-aws_secret_access_key'),
+            releaserunner_buildbot_configs_branch => 'default',
+            releaserunner_buildbot_configs        => 'https://hg.mozilla.org/build/buildbot-configs',
+            releaserunner_gpg_key_path            => 'scripts/release/KEY',
+            releaserunner_config_file             => 'release-runner.yml',
+            allowed_branches                      => [ 'projects/jamun' ],
+            releasetasks_relconfigs_prefix        => 'dev',
+        },
+        'prod-fennec' => {
+            ship_it_root                          => 'https://ship-it.mozilla.org',
+            ship_it_username                      => secret('releaserunner_prod_ship_it_username'),
+            ship_it_password                      => secret('releaserunner_prod_ship_it_password'),
+            notify_to                             => 'Release Notifications <release-automation-notifications@mozilla.com>',
+            notify_to_announce                    => 'Release Co-ordination <release-drivers@mozilla.org>',
+            taskcluster_client_id                 => secret('releaserunner_prod_taskcluster_client_id'),
+            taskcluster_access_token              => secret('releaserunner_prod_taskcluster_access_token'),
+            balrog_username                       => 'balrog-ffxbld',
+            balrog_password                       => secret('balrog-ffxbld_ldap_password'),
+            beetmover_aws_access_key_id           => secret('beetmover-aws_access_key_id'),
+            beetmover_aws_secret_access_key       => secret('beetmover-aws_secret_access_key'),
+            releaserunner_buildbot_configs_branch => 'production',
+            releaserunner_buildbot_configs        => 'https://hg.mozilla.org/build/buildbot-configs',
+            releaserunner_gpg_key_path            => 'scripts/release/KEY',
+            releaserunner_config_file             => 'release-runner.yml',
+            allowed_branches                      => [
+                                                        'releases/mozilla-release',
+                                                        'releases/mozilla-beta',
+                                                        'releases/mozilla-esr*',
+                                                      ],
+            releasetasks_relconfigs_prefix        => 'prod',
+        }
+    }
+
     $slaveapi_slavealloc_url           = 'http://slavealloc.build.mozilla.org/api/'
     $slaveapi_inventory_url            = 'https://inventory.mozilla.org/en-US/tasty/v3/'
     $slaveapi_inventory_username       = 'releng-inventory-automation'
