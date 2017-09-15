@@ -91,6 +91,8 @@ function puppet_counter_exceeded() {
     fi
 }
 
+wait_for_dns
+
 # First condition is puppet_run_atboot_always flag set in puppet::atboot
 if <%= @puppet_run_atboot_always %> \
    || [ -f $REBOOT_FLAG_FILE ] \
@@ -98,7 +100,6 @@ if <%= @puppet_run_atboot_always %> \
    || puppet_elapsed_time_exceeded \
    || puppet_config_version_is_not_latest; then
     logger -ist run-puppet "Starting run-puppet.sh at "`date`
-    wait_for_dns
     run_until_success
 else
     echo "Skipping puppet run"
