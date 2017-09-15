@@ -674,6 +674,7 @@ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
     $aspects           = [ 'high-security' ]
     $only_user_ssh     = true
     $releaserunner_env = 'dev'
+    $releaserunner2_env = 'dev-fennec'
     buildmaster::buildbot_master::mozilla {
         'bm83-try1':
             http_port   => 8101,
@@ -682,6 +683,7 @@ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
     }
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::releaserunner
+    include toplevel::mixin::releaserunner2
 }
 
 node 'buildbot-master84.bb.releng.scl3.mozilla.com' {
@@ -704,6 +706,7 @@ node 'buildbot-master85.bb.releng.scl3.mozilla.com' {
     $aspects           = [ 'high-security' ]
     $only_user_ssh     = true
     $releaserunner_env = 'prod'
+    $releaserunner2_env = 'prod-fennec'
     buildmaster::buildbot_master::mozilla {
         'bm85-build1':
             http_port   => 8001,
@@ -712,6 +715,7 @@ node 'buildbot-master85.bb.releng.scl3.mozilla.com' {
     }
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::releaserunner
+    include toplevel::mixin::releaserunner2
 }
 
 node 'buildbot-master86.bb.releng.scl3.mozilla.com' {
