@@ -252,6 +252,7 @@ class config::base {
     $releaserunner_tools_branch          = 'default'
     # root directory for releaserunner; this must be under /builds
     $releaserunner_root                  = '/builds/releaserunner'
+    $releaserunner2_root                  = '/builds/releaserunner2'
 
     $releaserunner_env_config = {
         'dev'  => {
@@ -264,6 +265,27 @@ class config::base {
             taskcluster_access_token => '',
         },
         'prod' => {
+            ship_it_root             => '',
+            ship_it_username         => '',
+            ship_it_password         => '',
+            notify_to                => '',
+            notify_to_announce       => '',
+            taskcluster_client_id    => '',
+            taskcluster_access_token => '',
+        }
+    }
+
+    $releaserunner2_env_config = {
+        'dev-fennec'  => {
+            ship_it_root             => '',
+            ship_it_username         => '',
+            ship_it_password         => '',
+            notify_to                => '',
+            notify_to_announce       => '',
+            taskcluster_client_id    => '',
+            taskcluster_access_token => '',
+        },
+        'prod-fennec' => {
             ship_it_root             => '',
             ship_it_username         => '',
             ship_it_password         => '',
