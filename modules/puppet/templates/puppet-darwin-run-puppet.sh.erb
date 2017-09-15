@@ -57,6 +57,7 @@ function puppet_config_version_is_not_latest() {
     # if hg fails or is not yet installed, this will leave a non-matching empty string
     local repo_version=$(hg identify https://hg.mozilla.org/build/puppet)
     echo "Repository tip hash: ${repo_version}"
+    [[ -z "${repo_version}" ]] && return 1
     [[ "${last_run}" != "${repo_version}" ]]
 }
 
