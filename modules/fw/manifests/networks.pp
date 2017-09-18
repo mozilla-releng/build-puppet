@@ -80,8 +80,8 @@ class fw::networks {
 
     $distingushed_puppetmaster = [ '10.26.48.50/32' ] # releng-puppet2.srv.releng.scl3.mozilla.com
 
-    $infra_bacula_scl3 = [ '10.22.8.141/32' ] # bacula1.private.scl3.mozilla.com
-    $infra_bacula_mdc1 = [ '10.48.8.141/32' ] # bacula1.private.mdc1.mozilla.com
+    $infra_bacula_scl3 = [ '10.22.75.200/32' ] # bacula1.private.scl3.mozilla.com
+    $infra_bacula_mdc1 = [ '10.48.75.200/32' ] # bacula1.private.mdc1.mozilla.com
 
     # Jumphosts
 
