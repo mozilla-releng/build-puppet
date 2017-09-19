@@ -4,6 +4,8 @@
 
 define fw::ipchain_rule (
 
+    $proto,
+    $dport,
     $log = false,
 
 )
@@ -11,11 +13,9 @@ define fw::ipchain_rule (
     include fw::pre
     include fw::post
 
-    $source     = regsubst($name, '^(\d+\.\d+\.\d+\.\d+/\d+)\s([a-z]*)/([0-9]*)\s(.+)$', '\1')
-    $proto      = regsubst($name, '^(\d+\.\d+\.\d+\.\d+/\d+)\s([a-z]*)/([0-9]*)\s(.+)$', '\2')
-    $dport      = regsubst($name, '^(\d+\.\d+\.\d+\.\d+/\d+)\s([a-z]*)/([0-9]*)\s(.+)$', '\3')
+    $source = regsubst($name, '^(\d+\.\d+\.\d+\.\d+/\d+)\s(.+)$', '\1')
 
-    # Generate a single ipchains rule
+    # Generate a single iptable rule
     firewall {
         "200 ${name}":
             proto  => $proto,

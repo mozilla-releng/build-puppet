@@ -29,7 +29,21 @@ define pf::rule (
     if $src_addr { $_src_addr = " from ${src_addr}" } else { $_src_addr = ' from any' }
     if $src_port { $_src_port = " port ${src_port}" } else { $_src_port = '' }
     if $dst_addr { $_dst_addr = " to ${dst_addr}" } else { $_dst_addr = ' to any' }
-    if $dst_port { $_dst_port = " port ${dst_port}" } else { $_dst_port = '' }
+
+    if $dst_port {
+        # Split the port ranges (or not)
+        $port_range = split($dst_port, '-')
+
+        # if there is a second element, set as an inclusive port range
+        if $port_range[1] {
+            $_dst_port = " port ${port_range[0]}:${port_range[1]}"
+        } else {
+            $_dst_port = " port ${dst_port}"
+        }
+    } else {
+        $_dst_port = ''
+    }
+
     if $tcp_flags { $_tcp_flags = " flags ${tcp_flags}" } else { $_tcp_flags = '' }
     if $state { $_state = " ${state}" } else { $_state = '' }
 

@@ -70,7 +70,12 @@ class fw::networks {
     $all_build = [ $build_scl3, $use1_build, $usw2_build ]
     $all_try   = [ $try_scl3, $use1_try, $usw2_try ]
     $dc_test   = [ $test_mdc1, $wintest_mdc1, $test_scl3, $wintest_scl3 ]
+    $all_bb_slaves = [ $build_scl3, $test_scl3, $try_scl3, $wintest_scl3, $winbuild_scl3, $wintry_scl3, $use1_test, $use1_build, $use1_try, $usw2_test, $usw2_build, $usw2_try ]
 
+    $buildduty_tools = [ '10.132.51.74/32' ] # buildduty-tools.srv.releng.usw2.mozilla.com
+
+    $slaveapi  = [ '10.26.48.16/32',  # slaveapi1.srv.releng.scl3.mozilla.com
+                   '10.26.48.17/32' ] # slaveapi-dev1.srv.releng.scl3.mozilla.com
 
     $non_distingushed_puppetmasters = [ '10.26.48.45/32',  # releng-puppet1.srv.releng.scl3.mozilla.com
                                         '10.134.48.16/32', # releng-puppet1.srv.releng.use1.mozilla.com

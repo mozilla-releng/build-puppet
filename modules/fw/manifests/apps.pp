@@ -3,18 +3,20 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class fw::apps {
-    $app_proto_port = { 'ssh'             => { proto => 'tcp', port  => '22' },
-                        'vnc'             => { proto => 'tcp', port  => '5900' },
-                        'nrpe'            => { proto => 'tcp', port  => '5666' },
-                        'http'            => { proto => 'tcp', port  => '80' },
-                        'https'           => { proto => 'tcp', port  => '443' },
-                        'puppet'          => { proto => 'tcp', port  => '8140' },
-                        'bacula'          => { proto => 'tcp', port  => '9102' },
-                        'dep_signing'     => { proto => 'tcp', port  => '9110' },
-                        'rel_signing'     => { proto => 'tcp', port  => '9120' },
-                        'nightly_signing' => { proto => 'tcp', port  => '9100' },
-                        'syslog_udp'      => { proto => 'udp', port  => '514' },
-                        'syslog_tcp'      => { proto => 'tcp', port  => '514' },
-                        'slave_api'       => { proto => 'tcp', port  => '8080' },
+    $app_proto_port = { 'ssh'                 => { proto => 'tcp', port  => '22' },
+                        'vnc'                 => { proto => 'tcp', port  => '5900' },
+                        'nrpe'                => { proto => 'tcp', port  => '5666' },
+                        'http'                => { proto => 'tcp', port  => '80' },
+                        'https'               => { proto => 'tcp', port  => '443' },
+                        'puppet'              => { proto => 'tcp', port  => '8140' },
+                        'bacula'              => { proto => 'tcp', port  => '9102' },
+                        'dep_signing'         => { proto => 'tcp', port  => '9110' },
+                        'rel_signing'         => { proto => 'tcp', port  => '9120' },
+                        'nightly_signing'     => { proto => 'tcp', port  => '9100' },
+                        'syslog_udp'          => { proto => 'udp', port  => '514' },
+                        'syslog_tcp'          => { proto => 'tcp', port  => '514' },
+                        'slave_api'           => { proto => 'tcp', port  => '8080' },
+                        'buildbot_http_range' => { proto => 'tcp', port  => '8000-8999' },
+                        'buildbot_rpc_range'  => { proto => 'tcp', port  => '9000-9999' },
                         }
 }
