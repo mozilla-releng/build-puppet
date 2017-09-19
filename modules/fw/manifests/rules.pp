@@ -9,13 +9,14 @@ define fw::rules ( $sources, $app, $log = false ) {
     $port  = $::fw::apps::app_proto_port[$app]['port']
 
     $sources_uniq = unique(flatten($sources))
-
     $rules = suffix($sources_uniq, " ${proto}/${port} ${name}")
 
     case $::kernel {
         'Linux': {
             fw::ipchain_rule { $rules:
-                log => $log,
+                proto => $proto,
+                dport => $port,
+                log   => $log,
             }
         }
         'Darwin': {

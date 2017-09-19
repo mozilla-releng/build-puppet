@@ -1,0 +1,27 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+class fw::roles::buildbot_master_from_various {
+    include fw::networks
+
+    # Allow buildbot rpc from all slaves and other bb masters
+    fw::rules { 'allow_buildbot_rpc':
+        sources =>  [ $::fw::networks::all_bb_slaves,
+                      $::fw::networks::all_bb ],
+        app     => 'buildbot_rpc_range'
+    }
+    # Allow buildbot http from other bb masters, slaveapi and buildduty tools
+    fw::rules { 'allow_buildbot_http':
+        sources =>  [ $::fw::networks::all_bb,
+                      $::fw::networks::slaveapi,
+                      $::fw::networks::buildduty_tools ],
+        app     => 'buildbot_http_range'
+    }
+    # Allow bb related ssh from slaveapi and buildduty tools
+    fw::rules { 'allow_buildbot_ssh':
+        sources =>  [ $::fw::networks::all_bb,
+                      $::fw::networks::buildduty_tools ],
+        app     => 'ssh'
+    }
+}
