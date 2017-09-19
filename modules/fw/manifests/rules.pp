@@ -14,9 +14,9 @@ define fw::rules ( $sources, $app, $log = false ) {
     case $::kernel {
         'Linux': {
             fw::ipchain_rule { $rules:
-                proto     => $proto,
-                dport     => $port,
-                log       => $log,
+                proto => $proto,
+                dport => $port,
+                log   => $log,
             }
         }
         'Darwin': {

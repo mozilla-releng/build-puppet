@@ -74,8 +74,8 @@ class fw::networks {
 
     $buildduty_tools = [ '10.132.51.74/32' ] # buildduty-tools.srv.releng.usw2.mozilla.com
 
-    $slaveapi  = [ '10.26.48.16/32',  # slaveapi1.srv.releng.scl3.mozilla.com
-                   '10.26.48.17/32' ] # slaveapi-dev1.srv.releng.scl3.mozilla.com
+    $slaveapi = [ '10.26.48.16/32',  # slaveapi1.srv.releng.scl3.mozilla.com
+                  '10.26.48.17/32' ] # slaveapi-dev1.srv.releng.scl3.mozilla.com
 
     $non_distingushed_puppetmasters = [ '10.26.48.45/32',  # releng-puppet1.srv.releng.scl3.mozilla.com
                                         '10.134.48.16/32', # releng-puppet1.srv.releng.use1.mozilla.com
