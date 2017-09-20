@@ -8,6 +8,7 @@ class fw::profiles::osx_taskcluster_worker {
         /.*\.(scl3|mdc1)\.mozilla\.com/: {
             include ::fw::roles::vnc_from_anywhere_logging
             include ::fw::roles::ssh_from_anywhere_logging
+            include ::fw::roles::ssh_from_slaveapi
         }
         default:{
             # Silently skip other DCs
