@@ -133,7 +133,7 @@ class config inherits config::base {
 
     # Conditional puppet run at boot for Mac slaves
     case $::fqdn {
-        /t-yosemite-r7-\d+\.test\.releng\..*\.mozilla\.com/: {
+        /t-yosemite-r7-\d+\.test\.releng\.(scl3|mdc1|usw2|use1)\.mozilla\.com/: {
             $puppet_run_atboot_if_more_than_n_reboots = 5
             $puppet_run_atboot_if_more_than_seconds   = 3600
         }

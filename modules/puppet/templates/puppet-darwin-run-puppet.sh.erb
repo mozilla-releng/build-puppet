@@ -51,12 +51,10 @@ rm -rf "${SEMAPHORE}"
 
 function puppet_config_version_is_not_latest() {
     readonly local last_run_summary_yml=/var/lib/puppet/state/last_run_summary.yaml
-    echo "Compare last puppet run config version with repo tip hash..."
     local last_run=$(sed -n -e 's/^[ \n\t]*config:[ \n\t]*"\([^+"]*\)+*"/\1/p' "${last_run_summary_yml}")
-    echo "Last puppet run config version: ${last_run}"
     # if hg fails or is not yet installed, this will leave a non-matching empty string
     local repo_version=$(hg identify https://hg.mozilla.org/build/puppet)
-    echo "Repository tip hash: ${repo_version}"
+    echo "Last puppet run (config version): ${last_run} [Repository tip hash: ${repo_version}]"
     [[ -z "${repo_version}" ]] && return 1
     [[ "${last_run}" != "${repo_version}" ]]
 }
@@ -73,23 +71,19 @@ function puppet_elapsed_time_exceeded() {
     [[ $since_last_good_run -gt $max_seconds ]]
 }
 
-function puppet_counter_exceeded() {
+REBOOT_COUNT_FILE="${LAST_GOOD_RUN_FILE}.atboot_run_puppet_counter"
+date >> $REBOOT_COUNT_FILE  # increment boot count for every atboot
+function puppet_reboot_counter_exceeded() {
     local max_count=<%= scope['::config::puppet_run_atboot_if_more_than_n_reboots'] %>
-    local RUN_COUNT_FILE="${LAST_GOOD_RUN_FILE}.atboot_run_puppet_counter"
 
     # if max_count is an empty string, undefined, or 0, then return true
     [[ $max_count -lt 1 ]] && return 0
 
-    date >> $RUN_COUNT_FILE
-    local run_count=$(wc -l <"${RUN_COUNT_FILE}")
-    echo "Boot count since puppet run: ${run_count} [max ${max_count}]"
-    if [[ $run_count -gt $max_count ]]; then
-        # reset count
-        > $RUN_COUNT_FILE
-        true
-    else
-        false
-    fi
+    local -i run_count=$(wc -l <"${REBOOT_COUNT_FILE}")
+    echo "Last puppet run (reboots since): ${run_count} [max ${max_count}]"
+    [[ $run_count -gt $max_count ]]
+    # if true, reset reboot count when puppet is run (below)
+    # > $REBOOT_COUNT_FILE
 }
 
 wait_for_dns
@@ -97,13 +91,14 @@ wait_for_dns
 # First condition is puppet_run_atboot_always flag set in puppet::atboot
 if <%= @puppet_run_atboot_always %> \
    || [ -f $REBOOT_FLAG_FILE ] \
-   || puppet_counter_exceeded \
-   || puppet_elapsed_time_exceeded \
-   || puppet_config_version_is_not_latest; then
-    logger -ist run-puppet "Starting run-puppet.sh at "`date`
+   || cause=$(puppet_reboot_counter_exceeded) \
+   || cause=$(puppet_elapsed_time_exceeded) \
+   || cause=$(puppet_config_version_is_not_latest); then
+    logger -ist run-puppet "Starting run-puppet.sh at $(date). ${cause}"
+    > $REBOOT_COUNT_FILE  # reset reboot count
     run_until_success
 else
-    echo "Skipping puppet run"
+    logger -ist run-puppet "Skipping puppet run. ${cause}"  # cause will contain config version
     <%= @execs_every_boot_without_puppet %>
 fi
 
