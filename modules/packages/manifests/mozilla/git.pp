@@ -13,9 +13,9 @@ class packages::mozilla::git {
             Anchor['packages::mozilla::git::begin'] ->
             package {
                 'git':
-                    ensure => '2.7.4-moz1.el6';
+                    ensure => '2.7.6-moz1.el6';
                 'perl-Git':
-                    ensure => '2.7.4-moz1.el6';
+                    ensure => '2.7.6-moz1.el6';
                 'perl-Error':
                     ensure => present;
                 'mozilla-git':
