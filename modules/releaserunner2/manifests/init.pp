@@ -4,6 +4,7 @@
 
 class releaserunner2 {
     include ::config
+    include ::config
     include dirs::builds
     include users::builder
     include releaserunner2::settings

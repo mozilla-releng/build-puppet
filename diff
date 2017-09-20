@@ -1,0 +1,67 @@
+comparing with ssh://hg.mozilla.org/build/puppet/
+searching for changes
+changeset:   5819:f2555994b8f7
+tag:         tip
+parent:      5817:e65f9bfce3ee
+user:        Mihai Tabara <mtabara@mozilla.com>
+date:        Fri Sep 15 20:39:57 2017 +0300
+summary:     Bug 1347635 - enable dev and production releaserunner2 for Fennec. r=rail
+
+diff --git a/manifests/moco-nodes.pp b/manifests/moco-nodes.pp
+--- a/manifests/moco-nodes.pp
++++ b/manifests/moco-nodes.pp
+@@ -669,24 +669,26 @@ node 'buildbot-master82.bb.releng.scl3.m
+     include toplevel::mixin::buildbot_bridge
+     include toplevel::mixin::buildbot_bridge2
+ }
+ 
+ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
+     $aspects           = [ 'high-security' ]
+     $only_user_ssh     = true
+     $releaserunner_env = 'dev'
++    $releaserunner2_env = 'dev-fennec'
+     buildmaster::buildbot_master::mozilla {
+         'bm83-try1':
+             http_port   => 8101,
+             master_type => 'try',
+             basedir     => 'try1';
+     }
+     include toplevel::server::buildmaster::mozilla
+     include toplevel::mixin::releaserunner
++    include toplevel::mixin::releaserunner2
+ }
+ 
+ node 'buildbot-master84.bb.releng.scl3.mozilla.com' {
+     $aspects              = [ 'high-security' ]
+     $only_user_ssh        = true
+     $buildbot_bridge_env  = 'dev'
+     $buildbot_bridge2_env = 'dev'
+     buildmaster::buildbot_master::mozilla {
+@@ -699,24 +701,26 @@ node 'buildbot-master84.bb.releng.scl3.m
+     include toplevel::mixin::buildbot_bridge
+     include toplevel::mixin::buildbot_bridge2
+ }
+ 
+ node 'buildbot-master85.bb.releng.scl3.mozilla.com' {
+     $aspects           = [ 'high-security' ]
+     $only_user_ssh     = true
+     $releaserunner_env = 'prod'
++    $releaserunner2_env = 'prod-fennec'
+     buildmaster::buildbot_master::mozilla {
+         'bm85-build1':
+             http_port   => 8001,
+             master_type => 'build',
+             basedir     => 'build1';
+     }
+     include toplevel::server::buildmaster::mozilla
+     include toplevel::mixin::releaserunner
++    include toplevel::mixin::releaserunner2
+ }
+ 
+ node 'buildbot-master86.bb.releng.scl3.mozilla.com' {
+     $aspects              = [ 'high-security' ]
+     $only_user_ssh        = true
+     $buildbot_bridge_env  = 'prod'
+     $buildbot_bridge2_env = 'prod'
+     buildmaster::buildbot_master::mozilla {
+
