@@ -8,7 +8,7 @@ class fw::roles::rel_signing_from_linux {
     fw::rules { 'allow_rel_signing_from_linux':
         # All signing sources sans dep signing workers
         sources =>  [   $::fw::networks::all_partner_repack,
-                        $::fw::networks::all_bb,
+                        $::fw::networks::all_bb_masters,
                         $::fw::networks::all_build,
                         $::fw::networks::all_try,
                         $::fw::networks::all_signing_workers,

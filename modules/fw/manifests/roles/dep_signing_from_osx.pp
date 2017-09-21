@@ -8,7 +8,7 @@ class fw::roles::dep_signing_from_osx {
     fw::rules { 'allow_dep_signing_from_osx':
         # All signing sources
         sources =>  [   $::fw::networks::all_partner_repack,
-                        $::fw::networks::all_bb,
+                        $::fw::networks::all_bb_masters,
                         $::fw::networks::all_build,
                         $::fw::networks::all_try,
                         $::fw::networks::all_signing_workers,

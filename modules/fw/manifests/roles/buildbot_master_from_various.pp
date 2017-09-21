@@ -8,19 +8,19 @@ class fw::roles::buildbot_master_from_various {
     # Allow buildbot rpc from all slaves and other bb masters
     fw::rules { 'allow_buildbot_rpc':
         sources =>  [ $::fw::networks::all_bb_slaves,
-                      $::fw::networks::all_bb ],
+                      $::fw::networks::all_bb_masters ],
         app     => 'buildbot_rpc_range'
     }
     # Allow buildbot http from other bb masters, slaveapi and buildduty tools
     fw::rules { 'allow_buildbot_http':
-        sources =>  [ $::fw::networks::all_bb,
+        sources =>  [ $::fw::networks::all_bb_masters,
                       $::fw::networks::slaveapi,
                       $::fw::networks::buildduty_tools ],
         app     => 'buildbot_http_range'
     }
     # Allow bb related ssh from slaveapi and buildduty tools
     fw::rules { 'allow_buildbot_ssh':
-        sources =>  [ $::fw::networks::all_bb,
+        sources =>  [ $::fw::networks::all_bb_masters,
                       $::fw::networks::buildduty_tools ],
         app     => 'ssh'
     }
