@@ -243,7 +243,6 @@ class config inherits config::base {
         'raliiev',
         'rgarbas',
         'sfraser',
-        'spacurar',
     ]
 
     $users = $::fqdn ? {
