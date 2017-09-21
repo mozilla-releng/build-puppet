@@ -64,8 +64,8 @@ class fw::networks {
     # All releng subnets
     $all_releng = [ $scl3_releng, $mdc1_releng, $mdc2_releng, $use1_releng, $usw2_releng ]
 
-    # All buildbot subnets
-    $all_bb = [ $bb_scl3, $use1_bb, $usw2_bb ]
+    # All buildbot master subnets
+    $all_bb_masters = [ $bb_scl3, $use1_bb, $usw2_bb ]
 
     $all_build = [ $build_scl3, $use1_build, $usw2_build ]
     $all_try   = [ $try_scl3, $use1_try, $usw2_try ]
