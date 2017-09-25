@@ -7,6 +7,15 @@ class fw::post {
         before => undef,
     }
 
+    # Log all ssh connections that end up denied
+    firewall {
+        "995 log all denied ssh":
+            proto      => 'tcp',
+            dport      => '22',
+            log_prefix => "IPTABLES: DENIED ",
+            jump       => 'LOG';
+    }
+
     # We can override the default deny policy by setting the node def $fw_allow_all true
     if $fw_allow_all {
         # Accept, accept, accept

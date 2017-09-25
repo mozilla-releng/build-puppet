@@ -24,3 +24,6 @@ include "<%= @pf_dir -%>/tables.conf"
 # Include rules
 include "<%= @pf_dir -%>/rules.conf"
 
+# Log all ssh that ends up denied
+block in log quick on <%= @iface %> inet proto tcp from any to any port 22
+
