@@ -7,7 +7,7 @@ class fw::profiles::puppetmasters {
     case $::fqdn {
         /.*\.(scl3|mdc1)\.mozilla\.com/: {
             include ::fw::roles::puppetmaster_from_all_releng
-            include ::fw::roles::ssh_from_anywhere_logging
+            include ::fw::roles::ssh_from_rejh_logging
             include ::fw::roles::nrpe_from_nagios
         }
         default:{
