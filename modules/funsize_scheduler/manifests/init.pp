@@ -4,7 +4,6 @@
 
 class funsize_scheduler {
     include ::config
-    include funsize_scheduler::services
     include funsize_scheduler::settings
     include dirs::builds
     include packages::gcc
