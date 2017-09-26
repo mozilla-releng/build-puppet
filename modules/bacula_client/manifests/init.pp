@@ -34,6 +34,12 @@ class bacula_client($cert, $key) {
                     show_diff => false,
                     require   => Class['packages::bacula_enterprise_client'],
                     content   => template('bacula_client/bacula-fd.conf.erb');
+                '/opt/bacula/plugins':
+                    ensure  => directory,
+                    owner   => $bacula_client::settings::owner,
+                    group   => $bacula_client::settings::group,
+                    mode    => '0640',
+                    require => Class['packages::bacula_enterprise_client'];
                 '/opt/bacula/ssl':
                     ensure  => directory,
                     owner   => $bacula_client::settings::owner,
