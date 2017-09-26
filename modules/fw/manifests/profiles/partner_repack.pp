@@ -6,9 +6,9 @@ class fw::profiles::partner_repack {
 
     case $::fqdn {
         /.*\.mdc1\.mozilla\.com/: {
-            include ::fw::roles::vnc_from_anywhere_logging
+            include ::fw::roles::vnc_from_rejh_logging
             include ::fw::roles::nrpe_from_nagios
-            include ::fw::roles::ssh_from_anywhere_logging
+            include ::fw::roles::ssh_from_rejh_logging
         }
         default:{
             # Silently skip other DCs
