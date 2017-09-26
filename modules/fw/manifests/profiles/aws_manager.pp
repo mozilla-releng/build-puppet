@@ -6,7 +6,7 @@ class fw::profiles::aws_manager {
 
     case $::fqdn {
         /.*\.scl3\.mozilla\.com/: {
-            include ::fw::roles::ssh_from_anywhere_logging
+            include ::fw::roles::ssh_from_rejh_logging
             include ::fw::roles::nrpe_from_nagios
         }
         default:{
