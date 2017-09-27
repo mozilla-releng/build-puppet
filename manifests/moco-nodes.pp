@@ -798,7 +798,6 @@ node 'buildbot-master103.bb.releng.scl3.mozilla.com' {
             master_type => 'tests',
             basedir     => 'tests1-linux';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::funsize_scheduler
@@ -813,7 +812,6 @@ node 'buildbot-master104.bb.releng.scl3.mozilla.com' {
             master_type => 'tests',
             basedir     => 'tests1-linux';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
 }
@@ -841,7 +839,6 @@ node 'buildbot-master106.bb.releng.scl3.mozilla.com' {
             master_type => 'tests',
             basedir     => 'tests1-macosx';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
 }
@@ -870,7 +867,6 @@ node 'buildbot-master109.bb.releng.scl3.mozilla.com' {
             master_type => 'tests',
             basedir     => 'tests1-windows';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
 }
