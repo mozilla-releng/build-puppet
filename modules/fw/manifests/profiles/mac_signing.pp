@@ -6,8 +6,8 @@ class fw::profiles::mac_signing {
 
     case $::fqdn {
         /.*\.(scl3|mdc1)\.mozilla\.com/: {
-            include ::fw::roles::vnc_from_anywhere_logging
-            include ::fw::roles::ssh_from_anywhere_logging
+            include ::fw::roles::vnc_from_rejh_logging
+            include ::fw::roles::ssh_from_rejh_logging
             include ::fw::roles::nrpe_from_nagios
             include ::fw::roles::dep_signing_from_osx
             include ::fw::roles::rel_signing_from_osx

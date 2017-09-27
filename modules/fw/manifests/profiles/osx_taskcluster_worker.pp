@@ -6,8 +6,8 @@ class fw::profiles::osx_taskcluster_worker {
 
     case $::fqdn {
         /.*\.(scl3|mdc1)\.mozilla\.com/: {
-            include ::fw::roles::vnc_from_anywhere_logging
-            include ::fw::roles::ssh_from_anywhere_logging
+            include ::fw::roles::vnc_from_rejh_logging
+            include ::fw::roles::ssh_from_rejh_logging
             include ::fw::roles::ssh_from_slaveapi
         }
         default:{
