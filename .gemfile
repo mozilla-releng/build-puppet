@@ -2,4 +2,4 @@ source 'https://rubygems.org'
 
 gem 'json_pure', '1.8.3'
 gem 'puppet', '3.7.0', :require => false
-gem 'puppet-lint'
+gem 'puppet-lint', '2.3.0'
