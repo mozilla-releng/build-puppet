@@ -11,14 +11,17 @@ class fw::roles::buildbot_master_from_various {
                       $::fw::networks::all_bb_masters ],
         app     => 'buildbot_rpc_range'
     }
-    # Allow buildbot http from other bb masters, slaveapi and buildduty tools
+    # Allow buildbot http from other bb masters, slaveapi,
+    # infra corp jumphost, infra vpn users and buildduty tools
     fw::rules { 'allow_buildbot_http':
         sources =>  [ $::fw::networks::all_bb_masters,
                       $::fw::networks::slaveapi,
+                      $::fw::networks::infra_corp_jumphost,
+                      $::fw::networks::infra_vpn_users,
                       $::fw::networks::buildduty_tools ],
         app     => 'buildbot_http_range'
     }
-    # Allow bb related ssh from slaveapi and buildduty tools
+    # Allow bb related ssh from other bb masters and buildduty tools
     fw::rules { 'allow_buildbot_ssh':
         sources =>  [ $::fw::networks::all_bb_masters,
                       $::fw::networks::buildduty_tools ],

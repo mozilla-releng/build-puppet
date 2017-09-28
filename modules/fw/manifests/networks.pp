@@ -175,7 +175,10 @@ class fw::networks {
     $releng_web_admin = [ '10.22.75.138/32' ]  # relengwebadm.private.scl3.mozilla.com
 
     # Infra VPN Network Endpoints (CIDR blocks of IPs given to vpn clients)
+    $infra_vpn_users =  [ '10.22.248.0/22',  # openvpn1.corpdmz.scl3 tcp clients
+                          '10.22.252.0/22' ] # openvpn1.corpdmz.scl3 udp clients
 
     # Infra SCL3 Jumphost (ssh.mozilla.com)
+    $infra_corp_jumphost = [ '10.22.72.158/32' ] # ssh1.corpdmz.scl3.mozilla.com
 
 }
