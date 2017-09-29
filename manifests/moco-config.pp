@@ -282,7 +282,7 @@ class config inherits config::base {
             releaserunner_buildbot_configs        => 'https://hg.mozilla.org/build/buildbot-configs',
             releaserunner_gpg_key_path            => 'scripts/release/KEY',
             releaserunner_config_file             => 'release-runner.yml',
-            allowed_branches                      => [ 'projects/jamun' ],
+            allowed_branches                      => [ 'projects/jamun', 'projects/maple' ],
         },
         'prod-old' => {
             ship_it_root                          => 'https://ship-it.mozilla.org',
@@ -342,7 +342,7 @@ class config inherits config::base {
             releaserunner_buildbot_configs        => 'https://hg.mozilla.org/build/buildbot-configs',
             releaserunner_gpg_key_path            => 'scripts/release/KEY',
             releaserunner_config_file             => 'release-runner.yml',
-            allowed_branches                      => [ 'projects/jamun' ],
+            allowed_branches                      => [ 'projects/jamun', 'projects/maple' ],
             releasetasks_relconfigs_prefix        => 'dev',
         },
         'prod-fennec' => {
@@ -565,7 +565,7 @@ class config inherits config::base {
                 '^release-.*$',
             ],
             ignored_builders     => [
-                '^((?!(alder|-date|jamun)).)*$',
+                '^((?!(alder|-date|jamun|maple)).)*$',
             ],
         },
         'prod' => {
@@ -583,6 +583,7 @@ class config inherits config::base {
                 '^.*alder.*$',
                 '^.*jamun.*$',
                 '^.*-date.*$',
+                '^.*maple.*$',
             ],
         }
     }
