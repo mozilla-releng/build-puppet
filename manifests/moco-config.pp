@@ -631,24 +631,14 @@ class config inherits config::base {
     $funsize_scheduler_th_api_root            = 'https://treeherder.mozilla.org/api'
 
     $l10n_bumper_env_config = {
-        'jamun'                 => {
-            mozharness_repo     => 'https://hg.mozilla.org/projects/jamun',
-            mozharness_revision => 'e1af5dd01c02',
-            config_file         => 'l10n_bumper/jamun.py',
-        },
         'mozilla-central' => {
             mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
-            mozharness_revision => 'e1af5dd01c02',
+            mozharness_revision => '8c6b4fd1d769',
             config_file         => 'l10n_bumper/mozilla-central.py',
-        },
-        'mozilla-aurora'  => {
-            mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
-            mozharness_revision => 'e1af5dd01c02',
-            config_file         => 'l10n_bumper/mozilla-aurora.py',
         },
         'mozilla-beta'    => {
             mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
-            mozharness_revision => 'e1af5dd01c02',
+            mozharness_revision => '8c6b4fd1d769',
             config_file         => 'l10n_bumper/mozilla-beta.py',
         },
     }

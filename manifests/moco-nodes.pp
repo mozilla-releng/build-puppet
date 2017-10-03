@@ -740,11 +740,9 @@ node 'buildbot-master86.bb.releng.scl3.mozilla.com' {
             master_type => 'build',
             basedir     => 'build1';
     }
-    $l10n_bumper_env      = 'mozilla-aurora'
     $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::l10n_bumper
     include toplevel::mixin::buildbot_bridge
     include toplevel::mixin::buildbot_bridge2
 }
