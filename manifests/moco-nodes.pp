@@ -648,7 +648,6 @@ node 'buildbot-master81.bb.releng.scl3.mozilla.com' {
             master_type => 'scheduler',
             basedir     => 'tests_scheduler';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::selfserve_agent
@@ -668,7 +667,6 @@ node 'buildbot-master82.bb.releng.scl3.mozilla.com' {
             master_type => 'build',
             basedir     => 'build1';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::buildbot_bridge
@@ -686,7 +684,6 @@ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
             master_type => 'try',
             basedir     => 'try1';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::releaserunner
@@ -704,7 +701,6 @@ node 'buildbot-master84.bb.releng.scl3.mozilla.com' {
             master_type => 'build',
             basedir     => 'build1';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::buildbot_bridge
@@ -722,7 +718,6 @@ node 'buildbot-master85.bb.releng.scl3.mozilla.com' {
             master_type => 'build',
             basedir     => 'build1';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::releaserunner
@@ -740,7 +735,6 @@ node 'buildbot-master86.bb.releng.scl3.mozilla.com' {
             master_type => 'build',
             basedir     => 'build1';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::buildbot_bridge
@@ -756,7 +750,6 @@ node 'buildbot-master87.bb.releng.scl3.mozilla.com' {
             master_type => 'try',
             basedir     => 'try1';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
 }
@@ -823,7 +816,6 @@ node 'buildbot-master105.bb.releng.scl3.mozilla.com' {
             master_type => 'tests',
             basedir     => 'tests1-linux';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
 }
@@ -850,7 +842,6 @@ node 'buildbot-master107.bb.releng.scl3.mozilla.com' {
             master_type => 'tests',
             basedir     => 'tests1-macosx';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
 }
@@ -878,7 +869,6 @@ node 'buildbot-master110.bb.releng.scl3.mozilla.com' {
             master_type => 'tests',
             basedir     => 'tests1-windows';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
 }
@@ -892,7 +882,6 @@ node 'buildbot-master111.bb.releng.scl3.mozilla.com' {
             master_type => 'tests',
             basedir     => 'tests1-windows';
     }
-    $fw_allow_all = true
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
 }
