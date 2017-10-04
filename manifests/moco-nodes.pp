@@ -20,13 +20,12 @@ node /t-yosemite-r7.*\.test\.releng\.scl3\.mozilla\.com/ {
     include toplevel::worker::releng::generic_worker::test::gpu
 }
 
-# Linux and OS X in mdc1 running generic worker
+# Linux and OS X in mdc1 running generic worker (400 - 449)
 node /^t.*-\d+\.test\.releng\.mdc1\.mozilla\.com/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include fw::profiles::osx_taskcluster_worker
-    # include toplevel::worker::releng::generic_worker::test::gpu
-    include generic_worker::disabled
+    include toplevel::worker::releng::generic_worker::test::gpu
 }
 
 # Dsiabled Linux and OS X taskcluster workers in mdc1
