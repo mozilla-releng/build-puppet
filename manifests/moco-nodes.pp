@@ -250,6 +250,7 @@ node 'releng-puppet2.srv.releng.mdc1.mozilla.com' {
 
 node 'install.build.releng.scl3.mozilla.com' {
     $aspects = [ 'maximum-security' ]
+    include fw::profiles::deploystudio
     include toplevel::server::deploystudio
     class {
         'bacula_client':
@@ -261,6 +262,7 @@ node 'install.build.releng.scl3.mozilla.com' {
 node 'install.test.releng.scl3.mozilla.com' {
     $aspects = [ 'maximum-security' ]
     include toplevel::server::deploystudio
+    include fw::profiles::deploystudio
     class {
         'bacula_client':
             cert => secret('install_test_releng_scl3_bacula_cert'),
@@ -270,7 +272,6 @@ node 'install.test.releng.scl3.mozilla.com' {
 
 node 'install.test.releng.mdc1.mozilla.com' {
     $aspects = [ 'maximum-security' ]
-    $fw_allow_all = true
     include fw::profiles::deploystudio
     include toplevel::server::deploystudio
     class {
