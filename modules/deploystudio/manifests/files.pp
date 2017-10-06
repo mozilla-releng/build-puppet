@@ -30,5 +30,11 @@ class deploystudio::files {
             show_diff => false,
             content   => "${deploy_password}\n";
     }
+
+    # RPC ports are set static to accommodate firewall(s)
+    file { '/etc/nfs.con':
+        ensure => present,
+        source => 'puppet:///modules/deploystudio/nfs.conf';
+    }
 }
 
