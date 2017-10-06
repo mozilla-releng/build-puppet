@@ -24,10 +24,10 @@ class packages::bacula_enterprise_client {
         Darwin: {
             packages::pkgdmg {
                 'bacula-enterprise-client':
-                    version             => '8.8.0-1',
+                    version             => '8.8.5-1',
                     private             => true,
                     os_version_specific => false,
-                    dmgname             => 'bacula-enterprise-client-8.8.0-1.dmg';
+                    dmgname             => 'bacula-enterprise-client-8.8.5-1.dmg';
             }
         }
 
