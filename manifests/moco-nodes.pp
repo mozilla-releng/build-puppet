@@ -24,7 +24,6 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|scl3)\.mozilla\.com/ {
 node /^t-linux64-xe-\d{3}\.test\.releng\.mdc1\.mozilla\.com/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
-    include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
