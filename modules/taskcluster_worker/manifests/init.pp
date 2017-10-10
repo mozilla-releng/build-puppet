@@ -9,7 +9,7 @@ class taskcluster_worker {
     include ::config
 
     $taskcluster_worker_group = regsubst($::servername, '.*\.releng\.(.+)\.mozilla\..*', '\1')
-    $puppet_servers = $::config::puppet_servers
+    $tc_host_secrets_servers = $::config::tc_host_secrets_servers
     file { '/etc/taskcluster-worker.yml':
         ensure  => present,
         content => template('taskcluster_worker/taskcluster-worker.yml.erb'),
