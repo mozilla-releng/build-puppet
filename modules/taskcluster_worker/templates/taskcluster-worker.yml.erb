@@ -8,8 +8,8 @@ transforms:
 config:
   credentials:
     $hostcredentials:
-<% @puppet_servers.uniq.each do |server| -%>
-    - http://<%= server %>:8020/v1/credentials
+<% @tc_host_secrets_servers.uniq.each do |server| -%>
+    - http://<%= server %>/v1/credentials
 <% end -%>
   engine:           native
   engines:

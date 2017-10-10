@@ -468,6 +468,9 @@ class config::base {
         }
     }
 
+    # TC host-secrets
+    $tc_host_secrets_servers       = ['tc-host-secrets']
+
     # TC signing workers
     $signingworker_tools_repo      = 'https://hg.mozilla.org/build/tools'
     $signingworker_tools_branch    = 'default'
