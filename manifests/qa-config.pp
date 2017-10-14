@@ -60,5 +60,5 @@ class config inherits config::base {
         ],
         hiera('ldap_infra_users',
             # backup to ensure access in case the sync fails:
-            ['arr', 'dmitchell', 'jwatkins'])))
+            ['dmitchell', 'jwatkins'])))
 }

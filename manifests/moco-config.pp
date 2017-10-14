@@ -187,7 +187,6 @@ class config inherits config::base {
 
     $jumphost_admin_users = [
         # a few folks from relops..
-        'arr',
         'klibby',
         'jwatkins',
         'dhouse',
@@ -200,7 +199,6 @@ class config inherits config::base {
     # a few users from each team as the 'short list' of people with access
     $shortlist = [
         # a few folks from relops..
-        'arr',
         'klibby',
         'jwatkins',
         'dhouse',
@@ -226,7 +224,7 @@ class config inherits config::base {
         /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ => $shortlist,
         default                                           => hiera('ldap_admin_users',
                                                                     # backup to ensure access in cas'e the sync fails:
-                                                                    ['arr', 'klibby', 'jwatkins'])
+                                                                    ['klibby', 'jwatkins'])
     }
 
     $jumphost_users = [

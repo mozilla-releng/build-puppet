@@ -60,7 +60,6 @@ class config inherits config::base {
     $enable_mig_agent                   = true
 
     $admin_users                        = [
-        'arr',
         'bhearsum',
         'catlee',
         'dmitchell',
