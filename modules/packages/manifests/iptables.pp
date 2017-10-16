@@ -19,6 +19,29 @@ class packages::iptables {
                 creates => '/sbin/ip6tables';
             }
         }
+        Ubuntu: {
+            # Install iptables on Ubuntu
+            case $::operatingsystemrelease {
+                16.04: {
+                    # ip6tables is installed by iptables package, so we don't have separate packages
+                    exec { 'install iptables':
+                        command => '/usr/bin/apt-get install iptables -y',
+                        creates => '/sbin/iptables';
+                    }
+                    # Although the iptables rules are effective, they will automatically be deleted if the server reboots.
+                    # To make sure that they remain in effect, we can use a package called IP-Tables persistent.
+                    exec { 'install iptables-persistent':
+                        command => '/usr/bin/apt-get install iptables-persistent -y';
+                    }
+                }
+                12.04: {
+                    # 12.04 does not have a problems having the firewall puppet module install iptables
+                }
+                default: {
+                    fail("No iptables package is defined for ${::operatingsystem}-${::operatingsystemrelease}")
+                }
+            }
+        }
         default: {
             fail("Cannot install on ${::operatingsystem}")
         }

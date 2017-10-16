@@ -50,12 +50,12 @@ if ($::operatingsystem != 'windows') {
 }
 
 # The PuppetLabs firewall module is only supported on Linux
-case $operatingsystem {
+case $::operatingsystem {
     CentOS,Ubuntu: {
-        # Let's make sure iptables and iptables-ipv6 is installed on centos
+        # Let's make sure iptables and iptables-ipv6 is installed on centos and ubuntu
         # https://tickets.puppetlabs.com/browse/PUP-1963
         # https://tickets.puppetlabs.com/browse/PUP-5874
-        if ($operatingsystem == 'CentOS') {
+        if ($::operatingsystem == 'CentOS') or ($::operatingsystem == 'Ubuntu') {
             include packages::iptables
         }
 
