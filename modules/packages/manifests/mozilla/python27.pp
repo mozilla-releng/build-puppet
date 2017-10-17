@@ -46,7 +46,7 @@ class packages::mozilla::python27 {
                     # install Python 2.7.12 for 'buildduty-tools' and 'cruncher-aws' servers in order
                     # to silence the alerts caused by using on older Python version (2.7.3) when
                     # performing HG operation.
-                    if $::hostname in [ 'buildduty-tools', 'cruncher-aws' ] {
+                    if $::hostname in [ 'buildduty-tools', 'cruncher-aws', 'aws-manager1' ] {
                       realize(Packages::Yumrepo['python27-12'])
                       Anchor['packages::mozilla::python27::begin'] ->
                       package {
