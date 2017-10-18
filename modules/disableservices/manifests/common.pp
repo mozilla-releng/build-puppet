@@ -95,12 +95,14 @@ class disableservices::common {
             }
             case $::macosx_productversion_major {
                 # 10.6 doesn't seem to have a way to disable software update, but later versions do
+                # 10.7 disable apple push notification service - com.apple.applepushserviced
                 10.6: {}
                 10.7, 10.8: {
                     service {
                         [
                             'com.apple.softwareupdatecheck.initial',
                             'com.apple.softwareupdatecheck.periodic',
+                            'com.apple.applepushserviced',
                         ]:
                             ensure => stopped,
                             enable => false,
@@ -117,6 +119,7 @@ class disableservices::common {
                             'com.apple.metadata.mds.index',
                             'com.apple.metadata.mds.scan',
                             'com.apple.metadata.mds.spindump',
+                            'com.apple.apsd',
                         ]:
                             ensure => stopped,
                             enable => false,
