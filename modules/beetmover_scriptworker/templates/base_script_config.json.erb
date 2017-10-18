@@ -1,4 +1,3 @@
-{
     "work_dir": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/work",
     "artifact_dir": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/artifacts",
     "aiohttp_max_connections": 10,
@@ -10,8 +9,6 @@
     "schema_file": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/data/beetmover_task_schema.json",
 
     "verbose": <%= scope.lookupvar("beetmover_scriptworker::settings::verbose_logging") %>,
-    "dummy": false,
-    "disable_certs": false,
 
     "template_files": {
         "firefox_nightly": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly.yml",
@@ -37,40 +34,5 @@
             "fennecx86_candidates": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennecx86_candidates.yml",
             "fennecaarch64_candidates": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennecaarch64_candidates.yml"
         },
-        "push-to-releases": {},
-        "push-to-staging": {}
+        "push-to-releases": {}
     },
-
-    "bucket_config": {
-        "nightly": {
-            "credentials": {
-                "id": "<%= @env_config["nightly_beetmover_aws_access_key_id"] %>",
-                "key": "<%= @env_config["nightly_beetmover_aws_secret_access_key"] %>"
-            },
-            "buckets": {
-                "firefox": "<%= @env_config["nightly_beetmover_aws_s3_firefox_bucket"] %>",
-                "fennec": "<%= @env_config["nightly_beetmover_aws_s3_fennec_bucket"] %>"
-            }
-        },
-        "release": {
-            "credentials": {
-                "id": "<%= @env_config["release_beetmover_aws_access_key_id"] %>",
-                "key": "<%= @env_config["release_beetmover_aws_secret_access_key"] %>"
-            },
-            "buckets": {
-                "firefox": "<%= @env_config["release_beetmover_aws_s3_firefox_bucket"] %>",
-                "fennec": "<%= @env_config["release_beetmover_aws_s3_fennec_bucket"] %>"
-            }
-        },
-        "dep": {
-            "credentials": {
-                "id": "<%= @env_config["dep_beetmover_aws_access_key_id"] %>",
-                "key": "<%= @env_config["dep_beetmover_aws_secret_access_key"] %>"
-            },
-            "buckets": {
-                "firefox": "<%= @env_config["dep_beetmover_aws_s3_firefox_bucket"] %>",
-                "fennec": "<%= @env_config["dep_beetmover_aws_s3_fennec_bucket"] %>"
-            }
-        }
-    }
-}

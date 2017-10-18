@@ -1009,6 +1009,14 @@ node /beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::beetmoverscriptworker
 }
 
+node /beetmover-dev.*\.srv\.releng\..*\.mozilla\.com/ {
+    $aspects             = [ 'maximum-security' ]
+    $beetmoverworker_env = 'dev'
+    $timezone            = 'UTC'
+    $only_user_ssh       = true
+    include toplevel::server::beetmoverscriptworker
+}
+
 # Pushapk scriptworkers
 node /pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects                  = [ 'maximum-security' ]

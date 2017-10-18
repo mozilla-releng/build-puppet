@@ -9,9 +9,6 @@ class beetmover_scriptworker::settings {
     $task_max_timeout         = 1800
 
     $worker_group             = 'beetmoverworker-v1'
-    $worker_type              = 'beetmoverworker-v1'
-    $taskcluster_client_id    = secret('beetmoverworker_dev_taskcluster_client_id')
-    $taskcluster_access_token = secret('beetmoverworker_dev_taskcluster_access_token')
     $verbose_logging          = true
 
     $env_config = {
@@ -30,6 +27,14 @@ class beetmover_scriptworker::settings {
             dep_beetmover_aws_secret_access_key     => secret('stage-beetmover-aws_secret_access_key'),
             dep_beetmover_aws_s3_firefox_bucket     => 'net-mozaws-stage-delivery-firefox',
             dep_beetmover_aws_s3_fennec_bucket      => 'net-mozaws-stage-delivery-archive',
+
+            config_template                         => 'beetmover_scriptworker/dev_script_config.json.erb',
+            worker_type                             => 'beetmover-dev',
+            taskcluster_client_id                   => secret('beetmoverworker_dev_taskcluster_client_id'),
+            taskcluster_access_token                => secret('beetmoverworker_dev_taskcluster_access_token'),
+            sign_chain_of_trust                     => false,
+            verify_chain_of_trust                   => true,
+            verify_cot_signature                    => false,
         },
         'prod' => {
             nightly_beetmover_aws_access_key_id     => secret('nightly-beetmover-aws_access_key_id'),
@@ -46,6 +51,14 @@ class beetmover_scriptworker::settings {
             dep_beetmover_aws_secret_access_key     => secret('stage-beetmover-aws_secret_access_key'),
             dep_beetmover_aws_s3_firefox_bucket     => 'net-mozaws-stage-delivery-firefox',
             dep_beetmover_aws_s3_fennec_bucket      => 'net-mozaws-stage-delivery-archive',
+
+            config_template                         => 'beetmover_scriptworker/prod_script_config.json.erb',
+            worker_type                             => 'beetmoverworker-v1',
+            taskcluster_client_id                   => secret('beetmoverworker_prod_taskcluster_client_id'),
+            taskcluster_access_token                => secret('beetmoverworker_prod_taskcluster_access_token'),
+            sign_chain_of_trust                     => true,
+            verify_chain_of_trust                   => true,
+            verify_cot_signature                    => true,
         }
     }
 }
