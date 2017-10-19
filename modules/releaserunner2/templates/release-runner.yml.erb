@@ -52,7 +52,7 @@ signing:
 
 releases:
   - product: fennec
-    pattern: Fennec-.*
+    pattern: <%= @env_config["fennec_pattern"] %>
     checks:
       - long_revision
       - check_allowed_branches
