@@ -96,21 +96,25 @@ class balrog_scriptworker {
             username                 => $users::builder::username,
             group                    => $users::builder::group,
 
-            taskcluster_client_id    => $balrog_scriptworker::settings::taskcluster_client_id,
-            taskcluster_access_token => $balrog_scriptworker::settings::taskcluster_access_token,
+            taskcluster_client_id    => $env_config["taskcluster_client_id"],
+            taskcluster_access_token => $env_config["taskcluster_access_token"],
             worker_group             => $balrog_scriptworker::settings::worker_group,
-            worker_type              => $balrog_scriptworker::settings::worker_type,
+            worker_type              => $env_config["worker_type"],
 
             task_max_timeout         => $balrog_scriptworker::settings::task_max_timeout,
 
             cot_job_type             => 'balrog',
+
+            sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
+            verify_chain_of_trust    => $env_config["verify_chain_of_trust"],
+            verify_cot_signature     => $env_config["verify_cot_signature"],
 
             verbose_logging          => $balrog_scriptworker::settings::verbose_logging,
     }
 
     mercurial::repo {
         'tools':
-            hg_repo => $balrog_scriptworker::settings::tools_repo,
+            hg_repo => $env_config["tools_repo"],
             dst_dir => "${balrog_scriptworker::settings::root}/tools",
             user    => $users::builder::username,
             branch  => $balrog_scriptworker::settings::tools_branch,

@@ -71,14 +71,18 @@ class beetmover_scriptworker {
             username                 => $users::builder::username,
             group                    => $users::builder::group,
 
-            taskcluster_client_id    => $beetmover_scriptworker::settings::taskcluster_client_id,
-            taskcluster_access_token => $beetmover_scriptworker::settings::taskcluster_access_token,
+            taskcluster_client_id    => $env_config["taskcluster_client_id"],
+            taskcluster_access_token => $env_config["taskcluster_access_token"],
             worker_group             => $beetmover_scriptworker::settings::worker_group,
-            worker_type              => $beetmover_scriptworker::settings::worker_type,
+            worker_type              => $env_config["worker_type"],
 
             task_max_timeout         => $beetmover_scriptworker::settings::task_max_timeout,
 
             cot_job_type             => 'beetmover',
+
+            sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
+            verify_chain_of_trust    => $env_config["verify_chain_of_trust"],
+            verify_cot_signature     => $env_config["verify_cot_signature"],
 
             verbose_logging          => $beetmover_scriptworker::settings::verbose_logging,
     }
@@ -89,7 +93,7 @@ class beetmover_scriptworker {
             mode      => '0600',
             owner     => $users::builder::username,
             group     => $users::builder::group,
-            content   => template("${module_name}/script_config.json.erb"),
+            content   => template($env_config["config_template"]),
             show_diff => false;
     }
 }

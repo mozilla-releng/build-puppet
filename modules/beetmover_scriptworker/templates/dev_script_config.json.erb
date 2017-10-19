@@ -1,0 +1,16 @@
+{
+<%= scope.function_template(["beetmover_scriptworker/base_script_config.json.erb"]) %>
+
+    "bucket_config": {
+        "dep": {
+            "credentials": {
+                "id": "<%= @env_config["dep_beetmover_aws_access_key_id"] %>",
+                "key": "<%= @env_config["dep_beetmover_aws_secret_access_key"] %>"
+            },
+            "buckets": {
+                "firefox": "<%= @env_config["dep_beetmover_aws_s3_firefox_bucket"] %>",
+                "fennec": "<%= @env_config["dep_beetmover_aws_s3_fennec_bucket"] %>"
+            }
+        }
+    }
+}

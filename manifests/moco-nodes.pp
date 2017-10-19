@@ -992,9 +992,17 @@ node /signing-linux-dev.*\.releng\..*\.mozilla\.com/ {
 }
 
 # Balrog scriptworkers
-node /balrogworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+node /balrogworker-\d*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects          = [ 'maximum-security' ]
     $balrogworker_env = 'prod'
+    $timezone         = 'UTC'
+    $only_user_ssh    = true
+    include toplevel::server::balrogscriptworker
+}
+
+node /balrogworker-dev\d*\.srv\.releng\..*\.mozilla\.com/ {
+    $aspects          = [ 'maximum-security' ]
+    $balrogworker_env = 'dev'
     $timezone         = 'UTC'
     $only_user_ssh    = true
     include toplevel::server::balrogscriptworker
@@ -1004,6 +1012,14 @@ node /balrogworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 node /beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects             = [ 'maximum-security' ]
     $beetmoverworker_env = 'prod'
+    $timezone            = 'UTC'
+    $only_user_ssh       = true
+    include toplevel::server::beetmoverscriptworker
+}
+
+node /beetmover-dev.*\.srv\.releng\..*\.mozilla\.com/ {
+    $aspects             = [ 'maximum-security' ]
+    $beetmoverworker_env = 'dev'
     $timezone            = 'UTC'
     $only_user_ssh       = true
     include toplevel::server::beetmoverscriptworker
