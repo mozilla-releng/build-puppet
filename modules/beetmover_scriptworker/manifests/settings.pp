@@ -29,8 +29,8 @@ class beetmover_scriptworker::settings {
             dep_beetmover_aws_s3_fennec_bucket      => 'net-mozaws-stage-delivery-archive',
 
             config_template                         => 'beetmover_scriptworker/dev_script_config.json.erb',
-            worker_type                             => 'beetmover-dev',
-            taskcluster_client_id                   => secret('beetmoverworker_dev_taskcluster_client_id'),
+            worker_type                             => 'beetmoverworker-dev',
+            taskcluster_client_id                   => 'project/releng/scriptworker/beetmover-dev',
             taskcluster_access_token                => secret('beetmoverworker_dev_taskcluster_access_token'),
             sign_chain_of_trust                     => false,
             verify_chain_of_trust                   => true,
@@ -54,7 +54,7 @@ class beetmover_scriptworker::settings {
 
             config_template                         => 'beetmover_scriptworker/prod_script_config.json.erb',
             worker_type                             => 'beetmoverworker-v1',
-            taskcluster_client_id                   => secret('beetmoverworker_prod_taskcluster_client_id'),
+            taskcluster_client_id                   => 'project/releng/scriptworker/beetmoverworker',
             taskcluster_access_token                => secret('beetmoverworker_prod_taskcluster_access_token'),
             sign_chain_of_trust                     => true,
             verify_chain_of_trust                   => true,
