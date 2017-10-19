@@ -671,6 +671,7 @@ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
     $only_user_ssh     = true
     $releaserunner_env = 'dev'
     $releaserunner2_env = 'dev-fennec'
+    $releaserunner3_env = 'dev'
     buildmaster::buildbot_master::mozilla {
         'bm83-try1':
             http_port   => 8101,
@@ -681,6 +682,7 @@ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::releaserunner
     include toplevel::mixin::releaserunner2
+    include toplevel::mixin::releaserunner3
 }
 
 node 'buildbot-master84.bb.releng.scl3.mozilla.com' {

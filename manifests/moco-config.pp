@@ -241,7 +241,8 @@ class config inherits config::base {
         'raliiev',
         'rgarbas',
         'sfraser',
-        'wcosta',  # Bug 1409474 tc testing t-linux64-xe
+        'wcosta',   # Bug 1409474 tc testing t-linux64-xe
+        'bhearsum', # Bug 1409806
     ]
 
     $users = $::fqdn ? {
@@ -343,6 +344,7 @@ class config inherits config::base {
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [ 'projects/jamun', 'projects/maple' ],
             releasetasks_relconfigs_prefix        => 'dev',
+            fennec_pattern                        => 'Fennec-5[67].*',
         },
         'prod-fennec' => {
             ship_it_root                          => 'https://ship-it.mozilla.org',
@@ -366,8 +368,41 @@ class config inherits config::base {
                                                         'releases/mozilla-esr*',
                                                       ],
             releasetasks_relconfigs_prefix        => 'prod',
+            fennec_pattern                        => 'Fennec-.*',
         }
     }
+
+    $releaserunner3_env_config = {
+        'dev' => {
+            ship_it_root                          => 'https://ship-it-dev.allizom.org',
+            ship_it_username                      => secret('releaserunner_dev_ship_it_username'),
+            ship_it_password                      => secret('releaserunner_dev_ship_it_password'),
+            notify_to                             => 'Release Notifications Dev <release-automation-notifications-dev@mozilla.com>',
+            notify_to_announce                    => 'Release Notifications Dev <release-automation-notifications-dev@mozilla.com>',
+            taskcluster_client_id                 => secret('releaserunner_dev_taskcluster_client_id'),
+            taskcluster_access_token              => secret('releaserunner_dev_taskcluster_access_token'),
+            releaserunner_config_file             => 'release-runner.yml',
+            allowed_branches                      => [ 'projects/jamun', 'projects/maple' ],
+            fennec_pattern                        => 'Fennec-58.*',
+        },
+        'prod' => {
+            ship_it_root                          => 'https://ship-it.mozilla.org',
+            ship_it_username                      => secret('releaserunner_prod_ship_it_username'),
+            ship_it_password                      => secret('releaserunner_prod_ship_it_password'),
+            notify_to                             => 'Release Notifications <release-automation-notifications@mozilla.com>',
+            notify_to_announce                    => 'Release Management <release-mgmt@mozilla.com>, Release Signoff <release-signoff@mozilla.org>',
+            taskcluster_client_id                 => secret('releaserunner_prod_taskcluster_client_id'),
+            taskcluster_access_token              => secret('releaserunner_prod_taskcluster_access_token'),
+            releaserunner_config_file             => 'release-runner.yml',
+            allowed_branches                      => [
+                                                        'releases/mozilla-release',
+                                                        'releases/mozilla-beta',
+                                                        'releases/mozilla-esr*',
+                                                      ],
+            fennec_pattern                        => 'FIXME',
+        }
+    }
+
 
     $slaveapi_slavealloc_url           = 'http://slavealloc.build.mozilla.org/api/'
     $slaveapi_inventory_url            = 'https://inventory.mozilla.org/en-US/tasty/v3/'
