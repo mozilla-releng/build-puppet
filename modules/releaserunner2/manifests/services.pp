@@ -12,7 +12,7 @@ class releaserunner2::services {
             user         => $::config::builder_username,
             require      => [ File["${releaserunner2::settings::root}/${config::releaserunner2_env_config[$releaserunner2_env]['releaserunner_config_file']}"],
                               Python::Virtualenv[$releaserunner2::settings::root],
-                              Mercurial::Repo['releaserunner-tools']],
+                              Mercurial::Repo['releaserunner2-tools']],
             extra_config => template("${module_name}/extra_config.erb")
     }
 }
