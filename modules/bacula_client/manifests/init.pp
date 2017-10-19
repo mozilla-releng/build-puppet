@@ -8,6 +8,10 @@ class bacula_client($cert, $key) {
     include packages::bacula_enterprise_client
     include bacula_client::settings
 
+    if $::operatingsystem == 'Darwin' {
+        include packages::openssl_non_xcode
+    }
+
     case $::operatingsystem {
         CentOS, Darwin: {
 
