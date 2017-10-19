@@ -241,7 +241,8 @@ class config inherits config::base {
         'raliiev',
         'rgarbas',
         'sfraser',
-        'wcosta',  # Bug 1409474 tc testing t-linux64-xe
+        'wcosta',   # Bug 1409474 tc testing t-linux64-xe
+        'bhearsum', # Bug 1409806
     ]
 
     $users = $::fqdn ? {
