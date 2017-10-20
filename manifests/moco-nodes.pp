@@ -3,8 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 ## Buildbot OS X
-# 9 machines that will remain in buildbot
-node /t-yosemite-r7-000\d+\.test\.releng\.scl3\.mozilla\.com/ {
+# 19 machines that will remain in buildbot
+node /t-yosemite-r7-00[0-1]\d+\.test\.releng\.scl3\.mozilla\.com/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include fw::profiles::buildbot_slave
