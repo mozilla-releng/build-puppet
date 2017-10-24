@@ -18,6 +18,11 @@ pass out all
 # Allow all icmp packets
 pass in quick inet proto icmp all icmp-type echoreq
 
+# See bug 1401601 and 1409349
+# Just in case the state tables fail to allow a dhcp exchange
+# Allow all dhcp packets
+pass in quick inet proto udp from any port 67 to any port 68
+
 # Include tables
 include "<%= @pf_dir -%>/tables.conf"
 
