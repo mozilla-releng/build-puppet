@@ -72,7 +72,7 @@ class packages::mozilla::git {
                         'git':
                             os_version_specific => true,
                             private             => false,
-                            version             => '2.13.5-1';
+                            version             => '2.14.1-1';
                     } -> Anchor['packages::mozilla::git::end']
                 }
                 default: {
