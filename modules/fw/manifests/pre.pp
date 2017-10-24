@@ -24,5 +24,14 @@ class fw::pre {
             proto   => 'all',
             iniface => 'lo',
             action  => 'accept';
+    }->
+    # See bug 1401601 and 1409349
+    # Just in case the state tables fail to allow a dhcp exchange
+    firewall {
+        '003 allow dhcp':
+            proto   => 'udp',
+            sport   => '67',
+            dport   => '68',
+            action  => 'accept';
     }
 }
