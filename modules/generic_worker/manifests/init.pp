@@ -11,7 +11,7 @@ class generic_worker {
             $taskcluster_client_id = secret('generic_worker_macosx_client_id')
             $taskcluster_access_token = hiera('generic_worker_macosx_access_token')
             $livelog_secret = hiera('livelog_secret')
-            $worker_group = regsubst($::servername, '.*\.releng\.(.+)\.mozilla\..*', '\1')
+            $worker_group = regsubst($::fqdn, '.*\.releng\.(.+)\.mozilla\..*', '\1')
 
             file { '/Library/LaunchAgents/net.generic.worker.plist':
                 ensure  => present,

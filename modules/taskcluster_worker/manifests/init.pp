@@ -8,7 +8,7 @@ class taskcluster_worker {
     include ::users::builder
     include ::config
 
-    $taskcluster_worker_group = regsubst($::servername, '.*\.releng\.(.+)\.mozilla\..*', '\1')
+    $taskcluster_worker_group = regsubst($::fqdn, '.*\.releng\.(.+)\.mozilla\..*', '\1')
     $tc_host_secrets_servers = $::config::tc_host_secrets_servers
     file { '/etc/taskcluster-worker.yml':
         ensure  => present,
