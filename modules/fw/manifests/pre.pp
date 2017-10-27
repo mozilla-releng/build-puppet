@@ -7,6 +7,8 @@ class fw::pre {
         require => undef,
     }
 
+    # IPv4
+
     # Allow a few things globally
     firewall {
         '000 accept related and established flows':
@@ -34,4 +36,27 @@ class fw::pre {
             dport  => '68',
             action => 'accept';
     }
+
+    # IPv6
+    firewall {
+        '000 accept related and established flows (IPv6)':
+            proto    => 'all',
+            state    => ['RELATED', 'ESTABLISHED'],
+            action   => 'accept',
+            provider => 'ip6tables';
+    }->
+    firewall {
+        '001 all icmp (IPv6)':
+            proto    => 'icmp',
+            action   => 'accept',
+            provider => 'ip6tables';
+    }->
+    firewall {
+        '002 local traffic (IPv6)':
+            proto    => 'all',
+            iniface  => 'lo',
+            action   => 'accept',
+            provider => 'ip6tables';
+    }
+
 }
