@@ -1,0 +1,14 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# Bug 1410207: drop EDAC errors for now to avoid spamming the log
+:msg, contains, "EDAC MC0: 1 UE ie31200 UE on mc#0csrow#3channel#0 (csrow:3 channel:0 page:0x0 offset:0x0 grain:8)" ~
+:msg, contains, "EDAC MC0: 1 UE ie31200 UE on mc#0csrow#3channel#1 (csrow:3 channel:1 page:0x0 offset:0x0 grain:8)" ~
+
+# forward all syslog data to the aggregation server
+# (via TCP because of the second @)
+# Bug 1410207: via UDP as workaround. TCP resulting in zero-length msg
+
+*.* @<%= @log_aggregator %>:<%= @logging_port %>
+

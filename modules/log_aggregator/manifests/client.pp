@@ -10,7 +10,16 @@ class log_aggregator::client {
 
     if (!$is_log_aggregator_host and $log_aggregator and $logging_port) {
         case $::operatingsystem {
-            CentOS,Ubuntu: {
+            Ubuntu: {
+                rsyslog::config {
+                    'log_aggregator_client' :
+                        contents => $::operatingsystemrelease ? {
+                            '16.04' => template("${module_name}/ubuntu_client.conf.erb"),
+                            default => template("${module_name}/client.conf.erb"),
+                        }
+                }
+            }
+            CentOS: {
                 rsyslog::config {
                     'log_aggregator_client' :
                         contents => template("${module_name}/client.conf.erb");
