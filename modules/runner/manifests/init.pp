@@ -28,7 +28,7 @@ class runner {
                             Class['dirs::opt']
                         ],
             packages => [
-                'runner==2.0',
+                'runner==2.1',
             ];
     }
     file {
