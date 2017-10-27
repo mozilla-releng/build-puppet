@@ -21,6 +21,7 @@ class cleanslate {
             python   => $packages::mozilla::python27::python,
             require  => Class['packages::mozilla::python27'],
             packages => [
+                'nose==1.3.4',
                 'cleanslate==1.2',
             ];
     }
