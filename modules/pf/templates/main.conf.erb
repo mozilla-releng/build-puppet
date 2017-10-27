@@ -6,17 +6,32 @@ set skip on lo0
 antispoof quick for <%= @iface %>
 
 # Set default rule which can be overridden by the nodescope var $fw_allow_all
+# This applies to IPv6 also
 <% if @fw_allow_all -%>
 pass all
 <% else -%>
 block all
 <% end -%>
 
-# Make an exception for all outgoing packets
+# Make an exception for all outgoing packets (includes IPv6)
 pass out all
 
-# Allow all icmp packets
+# Allow all IPv4 icmp packets
 pass in quick inet proto icmp all icmp-type echoreq
+
+## allow icmp6 for getting address using IPv6 autoconfiguration from router
+pass quick inet6 proto ipv6-icmp all icmp6-type routeradv
+pass quick inet6 proto ipv6-icmp all icmp6-type routersol
+
+## allow icmp6 for getting neighbor addresses
+pass quick inet6 proto ipv6-icmp all icmp6-type neighbradv
+pass quick inet6 proto ipv6-icmp all icmp6-type neighbrsol
+
+## allow icmp6 echo
+pass in quick inet6 proto ipv6-icmp all icmp6-type echoreq
+
+## pass icmp-types: unreachable, time exceeded, parameter problem
+pass in quick inet6 proto ipv6-icmp all icmp6-type {1 3 4}
 
 # See bug 1401601 and 1409349
 # Just in case the state tables fail to allow a dhcp exchange

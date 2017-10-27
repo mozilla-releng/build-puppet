@@ -24,12 +24,24 @@ class fw::post {
                 proto  => 'all',
                 action => 'accept',
         }
+        firewall {
+            '999 accept all (IPv6)':
+                proto    => 'all',
+                action   => 'accept',
+                provider => 'ip6tables',
+        }
     } else {
         # Deny, deny, deny
         firewall {
             '999 drop all':
                 proto  => 'all',
                 action => 'drop',
+        }
+        firewall {
+            '999 drop all (IPv6)':
+                proto  => 'all',
+                action => 'drop',
+                provider => 'ip6tables',
         }
     }
 }
