@@ -3,8 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # Bug 1410207: drop EDAC errors for now to avoid spamming the log
-:msg, contains, "EDAC MC0: 1 UE ie31200 UE on mc#0csrow#3channel#0 (csrow:3 channel:0 page:0x0 offset:0x0 grain:8)" ~
-:msg, contains, "EDAC MC0: 1 UE ie31200 UE on mc#0csrow#3channel#1 (csrow:3 channel:1 page:0x0 offset:0x0 grain:8)" ~
+:msg, contains, "EDAC MC0: 1 UE ie31200 UE on mc#0csrow#3channel#0 (csrow:3 channel:0 page:0x0 offset:0x0 grain:8)" stop
+:msg, contains, "EDAC MC0: 1 UE ie31200 UE on mc#0csrow#3channel#1 (csrow:3 channel:1 page:0x0 offset:0x0 grain:8)" stop
 
 # forward all syslog data to the aggregation server
 # (via TCP because of the second @)
