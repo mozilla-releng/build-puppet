@@ -45,6 +45,10 @@ class packages::mozilla::mozilla_maintenance_service {
         "${cert_dir}/MozRoot.cer":
             source => 'puppet:///modules/packages/MozRoot.cer';
     }
+    file {
+        "${cert_dir}/MozFakeCA.cer":
+            source => 'puppet:///modules/packages/MozFakeCA_2017-10-13.cer';
+    }
     exec {
         'install_mozfakeca':
             command     => "C:\\Windows\\System32\\certutil.exe -addstore Root ${cert_dir}\\MozFakeCA.cer",
@@ -55,6 +59,12 @@ class packages::mozilla::mozilla_maintenance_service {
         'install_mozroot':
             command     => "C:\\Windows\\System32\\certutil.exe -addstore Root ${cert_dir}\\MozRoot.cer",
             subscribe   => File["${cert_dir}/MozRoot.cer"],
+            refreshonly => true;
+    }
+    exec {
+        'install_mozfakeca_2017-10-13':
+            command     => "C:\\Windows\\System32\\certutil.exe -addstore Root ${cert_dir}\\MozFakeCA_2017-10-13.cer",
+            subscribe   => File["${cert_dir}/MozFakeCA.cer"],
             refreshonly => true;
     }
     # The spacing in the dword(s) value does not work well with the registry module
