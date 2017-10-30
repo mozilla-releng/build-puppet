@@ -25,6 +25,7 @@ script:
       --no-arrow_on_right_operand_line \
       --no-double_quoted_strings-check \
       --no-autoloader_layout-check \
+      --fail-on-warnings \
       --log-format '%{path} - %{KIND}: %{message} on line %{line} - %{check}' \
       `find manifests modules -name '*.pp' \
        -not -path 'modules/acl/*' \
