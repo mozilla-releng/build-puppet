@@ -37,12 +37,12 @@ class pushapk_scriptworker {
                 'idna==2.5',
                 'jsonschema==2.6.0',
                 'mohawk==0.3.4',
-                'mozapkpublisher==0.4.0',
+                'mozapkpublisher==0.5.0',
                 'multidict==2.1.6',
                 'oauth2client==4.1.1',
                 'pexpect==4.2.1',
                 'ptyprocess==0.5.1',
-                'pushapkscript==0.3.4',
+                'pushapkscript==0.4.0',
                 'pyasn1==0.2.3',
                 'pyasn1-modules==0.0.9',
                 'pycparser==2.17',
@@ -59,6 +59,7 @@ class pushapk_scriptworker {
                 'uritemplate==3.0.0',
                 'urllib3==1.21.1',
                 'virtualenv==15.1.0',
+                'voluptuous==0.10.5',
                 'yarl==0.10.3',
             ];
     }
@@ -81,6 +82,10 @@ class pushapk_scriptworker {
 
             cot_job_type             => 'pushapk',
 
+            sign_chain_of_trust      => $pushapk_scriptworker::settings::sign_chain_of_trust,
+            verify_chain_of_trust    => $pushapk_scriptworker::settings::verify_chain_of_trust,
+            verify_cot_signature     => $pushapk_scriptworker::settings::verify_cot_signature,
+
             verbose_logging          => $pushapk_scriptworker::settings::verbose_logging,
     }
 
@@ -93,19 +98,32 @@ class pushapk_scriptworker {
     }
 
     $google_play_config = $pushapk_scriptworker::settings::google_play_config
-
+    $config_content = $pushapk_scriptworker::settings::script_config_content
     file {
         $pushapk_scriptworker::settings::script_config:
             require => Python35::Virtualenv[$pushapk_scriptworker::settings::root],
-            content => template("${module_name}/script_config.json.erb");
+            content => inline_template("<%- require 'json' -%><%= JSON.pretty_generate(@config_content) %>");
+    }
 
-        $google_play_config['aurora']['certificate_target_location']:
-            content     => $google_play_config['aurora']['certificate'];
-
-        $google_play_config['beta']['certificate_target_location']:
-            content     => $google_play_config['beta']['certificate'];
-
-        $google_play_config['release']['certificate_target_location']:
-            content     => $google_play_config['release']['certificate'];
+    case $pushapk_scriptworker_env {
+        'dep': {
+            file {
+                $google_play_config['dep']['certificate_target_location']:
+                    content     => $google_play_config['dep']['certificate'];
+            }
+        }
+        'prod': {
+            file {
+                $google_play_config['aurora']['certificate_target_location']:
+                    content     => $google_play_config['aurora']['certificate'];
+                $google_play_config['beta']['certificate_target_location']:
+                    content     => $google_play_config['beta']['certificate'];
+                $google_play_config['release']['certificate_target_location']:
+                    content     => $google_play_config['release']['certificate'];
+            }
+        }
+        default: {
+            fail("Invalid pushapk_scriptworker_env given: $pushapk_scriptworker_env")
+        }
     }
 }

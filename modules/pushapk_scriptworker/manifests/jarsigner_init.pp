@@ -6,20 +6,9 @@ class pushapk_scriptworker::jarsigner_init {
     include ::config
     include packages::jdk17
 
-    $nightly = $pushapk_scriptworker::settings::jarsigner_nightly_certificate
-    $release = $pushapk_scriptworker::settings::jarsigner_release_certificate
-
     File {
       ensure      => 'present',
       show_diff   => false,
-    }
-
-    file {
-        $nightly:
-            content     => secret('pushapk_scriptworker_nightly_jarsigner_certificate');
-
-        $release:
-            content     => secret('pushapk_scriptworker_release_jarsigner_certificate');
     }
 
     Java_ks {
@@ -29,11 +18,41 @@ class pushapk_scriptworker::jarsigner_init {
       trustcacerts => true,
     }
 
-    java_ks {
-        $pushapk_scriptworker::settings::jarsigner_nightly_certificate_alias:
-            certificate  => $nightly;
+    case $pushapk_scriptworker_env {
+        'dep': {
+            $dep = $pushapk_scriptworker::settings::jarsigner_all_certificates['dep']
+            file {
+                $dep:
+                    source => 'puppet:///modules/pushapk_scriptworker/dep.pem';
+            }
 
-        $pushapk_scriptworker::settings::jarsigner_release_certificate_alias:
-            certificate  => $release;
+            java_ks {
+                'dep':
+                    certificate  => $dep;
+            }
+        }
+        'prod': {
+            $nightly = $pushapk_scriptworker::settings::jarsigner_all_certificates['nightly']
+            $release = $pushapk_scriptworker::settings::jarsigner_all_certificates['release']
+
+            file {
+                $nightly:
+                    source => 'puppet:///modules/pushapk_scriptworker/nightly.pem';
+
+                $release:
+                    source => 'puppet:///modules/pushapk_scriptworker/release.pem';
+            }
+
+            java_ks {
+                'nightly':
+                    certificate  => $nightly;
+
+                'release':
+                    certificate  => $release;
+            }
+        }
+        default: {
+            fail("Invalid pushapk_scriptworker_env given: $pushapk_scriptworker_env")
+        }
     }
 }
