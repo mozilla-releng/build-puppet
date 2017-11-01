@@ -22,3 +22,19 @@ releases:
       - long_revision
       - check_allowed_branches
     allowed_branches: <%= require "json"; JSON.generate(Array(@env_config["allowed_branches"])) %>
+  - product: firefox
+    pattern: <%= @env_config["firefox_pattern"] %>
+    checks:
+      - long_revision
+      - l10n_changesets
+      - partial_updates
+      - check_allowed_branches
+    allowed_branches: <%= require "json"; JSON.generate(Array(@env_config["allowed_branches"])) %>
+  - product: devedition
+    pattern: <%= @env_config["devedition_pattern"] %>
+    checks:
+      - long_revision
+      - l10n_changesets
+      - partial_updates
+      - check_allowed_branches
+    allowed_branches: <%= require "json"; JSON.generate(Array(@env_config["allowed_branches"])) %>

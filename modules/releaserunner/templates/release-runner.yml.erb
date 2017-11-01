@@ -49,7 +49,7 @@ signing:
 
 releases:
   - product: firefox
-    pattern: Firefox-.*
+    pattern: <%= @env_config["firefox_pattern"] %>
     checks:
       - long_revision
       - l10n_changesets
@@ -57,7 +57,7 @@ releases:
       - check_allowed_branches
     allowed_branches: <%= require "json"; JSON.generate(Array(@env_config["allowed_branches"])) %>
   - product: devedition
-    pattern: Devedition-.*
+    pattern: <%= @env_config["devedition_pattern"] %>
     checks:
       - long_revision
       - l10n_changesets

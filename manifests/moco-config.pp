@@ -283,6 +283,8 @@ class config inherits config::base {
             releaserunner_gpg_key_path            => 'scripts/release/KEY',
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [ 'projects/jamun', 'projects/maple' ],
+            firefox_pattern                       => 'Firefox-57.*',
+            devedition_pattern                    => 'Devedition-57.*',
         },
         'prod-old' => {
             ship_it_root                          => 'https://ship-it.mozilla.org',
@@ -322,6 +324,8 @@ class config inherits config::base {
                                                         'releases/mozilla-beta',
                                                         'releases/mozilla-esr*',
                                                       ],
+            firefox_pattern                       => 'Firefox-.*',
+            devedition_pattern                    => 'Devedition-.*',
         }
     }
 
@@ -384,6 +388,8 @@ class config inherits config::base {
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [ 'projects/jamun', 'projects/maple' ],
             fennec_pattern                        => 'Fennec-58.*',
+            firefox_pattern                       => 'Firefox-5[89].*',
+            devedition_pattern                    => 'Devedition-5[89].*',
         },
         'prod' => {
             ship_it_root                          => 'https://ship-it.mozilla.org',
@@ -400,6 +406,8 @@ class config inherits config::base {
                                                         'releases/mozilla-esr*',
                                                       ],
             fennec_pattern                        => 'FIXME',
+            firefox_pattern                       => 'FIXME',
+            devedition_pattern                    => 'FIXME',
         }
     }
 
