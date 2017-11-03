@@ -372,7 +372,7 @@ class config inherits config::base {
                                                         'releases/mozilla-esr*',
                                                       ],
             releasetasks_relconfigs_prefix        => 'prod',
-            fennec_pattern                        => 'Fennec-.*',
+            fennec_pattern                        => 'Fennec-5[67].*',
         }
     }
 
@@ -387,7 +387,7 @@ class config inherits config::base {
             taskcluster_access_token              => secret('releaserunner_dev_taskcluster_access_token'),
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [ 'projects/jamun', 'projects/maple' ],
-            fennec_pattern                        => 'Fennec-58.*',
+            fennec_pattern                        => 'Fennec-5[89].*',
             firefox_pattern                       => 'Firefox-5[89].*',
             devedition_pattern                    => 'Devedition-5[89].*',
         },
@@ -405,7 +405,7 @@ class config inherits config::base {
                                                         'releases/mozilla-beta',
                                                         'releases/mozilla-esr*',
                                                       ],
-            fennec_pattern                        => 'FIXME',
+            fennec_pattern                        => 'Fennec-5[89].*',
             firefox_pattern                       => 'FIXME',
             devedition_pattern                    => 'FIXME',
         }
