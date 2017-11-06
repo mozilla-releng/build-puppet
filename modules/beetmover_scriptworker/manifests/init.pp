@@ -30,7 +30,7 @@ class beetmover_scriptworker {
                 'aiohttp==2.3.1',
                 'arrow==0.10.0',
                 'async_timeout==1.4.0',
-                'beetmoverscript==3.0.0',
+                'beetmoverscript==3.2.0',
                 'boto3==1.4.7',
                 'botocore==1.7.33',
                 'certifi==2017.7.27.1',
