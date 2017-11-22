@@ -1,3 +1,4 @@
+# Define an integration type, which upstream should have commented but didn't
 define datadog_agent::integration (
   $instances,
   $init_config = undef,
