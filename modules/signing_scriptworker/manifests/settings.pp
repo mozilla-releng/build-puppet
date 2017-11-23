@@ -20,6 +20,7 @@ class signing_scriptworker::settings {
             sign_chain_of_trust      => false,
             verify_chain_of_trust    => true,
             verify_cot_signature     => false
+            datadog_api_key          => secret('scriptworker_datadog_api_key'),
         },
         'dep' => {
             worker_type              => 'depsigning',
@@ -29,6 +30,7 @@ class signing_scriptworker::settings {
             sign_chain_of_trust      => false,
             verify_chain_of_trust    => true,
             verify_cot_signature     => false
+            datadog_api_key          => secret('scriptworker_datadog_api_key'),
         },
         'prod' => {
             worker_type              => 'signing-linux-v1',
@@ -38,6 +40,7 @@ class signing_scriptworker::settings {
             sign_chain_of_trust      => true,
             verify_chain_of_trust    => true,
             verify_cot_signature     => true
+            datadog_api_key          => secret('scriptworker_datadog_api_key'),
         }
     }
 }
