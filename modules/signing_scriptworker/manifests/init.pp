@@ -132,8 +132,8 @@ class signing_scriptworker {
     }
 
     class { 'datadog_agent':
-      api_key   => $env_config['datadog_api_key'],
-      puppet_run_reports  => false,
-      puppetmaster_user   => puppet,
+        api_key            => $env_config['datadog_api_key'],
+        puppet_run_reports => false,
+        puppetmaster_user  => puppet,
     }
 }
