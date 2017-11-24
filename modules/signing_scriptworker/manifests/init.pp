@@ -36,6 +36,7 @@ class signing_scriptworker {
                   'async-timeout==1.2.1',
                   'certifi==2017.4.17',
                   'chardet==3.0.4',
+                  'datadog==0.17.0',
                   'defusedxml==0.5.0',
                   'ecdsa==0.13',
                   'frozendict==1.2',
@@ -128,5 +129,11 @@ class signing_scriptworker {
         username          => $users::signer::username,
         group             => $users::signer::group,
         zipalign_location => $zipalign_location;
+    }
+
+    class { 'datadog_agent':
+        api_key            => $env_config['datadog_api_key'],
+        puppet_run_reports => false,
+        puppetmaster_user  => puppet,
     }
 }
