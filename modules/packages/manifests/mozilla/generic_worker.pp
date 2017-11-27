@@ -8,7 +8,7 @@ class packages::mozilla::generic_worker {
         'packages::mozilla::generic_worker::end': ;
     }
 
-    $tag = 'v10.2.2'
+    $tag = 'v10.2.3'
 
     # Binaries should be downloaded from
     # https://github.com/taskcluster/generic-worker/releases/download/${tag}/generic-worker-${os}-${arch}
