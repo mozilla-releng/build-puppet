@@ -1071,13 +1071,6 @@ node 't-yosemite-r7-393.test.releng.mdc1.mozilla.com' {
     include toplevel::base
 }
 
-node 'bld-lion-r5-052.build.releng.scl3.mozilla.com' {
-    $aspects           = [ 'low-security' ]
-    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
-    $pin_puppet_env    = 'jwatkins'
-    include toplevel::base
-}
-
 # See Bug 1375500
 node 'releng-puppet-test1.srv.releng.scl3.mozilla.com' {
     $aspects = [ 'low-security' ]
