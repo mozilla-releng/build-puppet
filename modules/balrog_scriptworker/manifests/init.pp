@@ -52,7 +52,7 @@ class balrog_scriptworker {
             ];
     }
 
-    python::virtualenv {
+    python27::virtualenv {
         "${balrog_scriptworker::settings::root}/py27venv":
             python   => $packages::mozilla::python27::python,
             require  => Class['packages::mozilla::python27'],
