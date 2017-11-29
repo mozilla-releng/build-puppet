@@ -123,7 +123,7 @@ class pushapk_scriptworker {
             }
         }
         default: {
-            fail("Invalid pushapk_scriptworker_env given: $pushapk_scriptworker_env")
+            fail("Invalid pushapk_scriptworker_env given: ${pushapk_scriptworker_env}")
         }
     }
 }
