@@ -1030,6 +1030,14 @@ node /beetmover-dev.*\.srv\.releng\..*\.mozilla\.com/ {
 }
 
 # Pushapk scriptworkers
+node /dep-pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+    $aspects                  = [ 'maximum-security' ]
+    $pushapk_scriptworker_env = 'dep'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::pushapkscriptworker
+}
+
 node /pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     $aspects                  = [ 'maximum-security' ]
     $pushapk_scriptworker_env = 'prod'
