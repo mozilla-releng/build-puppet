@@ -503,14 +503,4 @@ class config::base {
     $signingworker_exchange        = ''
     $signingworker_worker_type     = ''
     $signingworker_balrog_api_root = 'https://aus4-admin.mozilla.org/api'
-
-    # Funsize Scheduler configuration
-    $funsize_scheduler_root                   = '/builds/funsize'
-    $funsize_scheduler_balrog_username        = ''
-    $funsize_scheduler_pulse_username         = ''
-    $funsize_scheduler_pulse_queue            = ''
-    $funsize_scheduler_pulse_exchange         = ''
-    $funsize_scheduler_s3_bucket              = ''
-    $funsize_scheduler_balrog_worker_api_root = ''
-    $funsize_scheduler_th_api_root            = ''
 }
