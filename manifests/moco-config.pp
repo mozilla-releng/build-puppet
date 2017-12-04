@@ -669,17 +669,6 @@ class config inherits config::base {
     $scriptworker_gpg_private_keys            = hiera_hash('scriptworker_gpg_private_keys')
     $scriptworker_gpg_public_keys             = hiera_hash('scriptworker_gpg_public_keys')
 
-    # Funsize Scheduler configuration
-    $funsize_scheduler_root                   = '/builds/funsize'
-    $funsize_scheduler_balrog_username        = 'balrog-funsize'
-    $funsize_scheduler_pulse_username         = 'funsize'
-    $funsize_scheduler_pulse_queue            = 'scheduler'
-    $funsize_scheduler_bb_pulse_exchange      = 'exchange/build'
-    $funsize_scheduler_tc_pulse_exchange      = 'exchange/taskcluster-queue/v1/task-completed'
-    $funsize_scheduler_s3_bucket              = 'mozilla-nightly-updates'
-    $funsize_scheduler_balrog_worker_api_root = 'http://balrog/api'
-    $funsize_scheduler_th_api_root            = 'https://treeherder.mozilla.org/api'
-
     $l10n_bumper_env_config = {
         'mozilla-central' => {
             mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
