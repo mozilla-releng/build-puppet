@@ -55,6 +55,7 @@ class signing_scriptworker {
                   'scriptworker==5.2.3',
                   'signingscript==4.1.2',
                   'signtool==3.1.6',
+                  'simplejson==3.13.2',
                   'six==1.10.0',
                   'slugid==1.0.7',
                   'taskcluster==1.3.3',
