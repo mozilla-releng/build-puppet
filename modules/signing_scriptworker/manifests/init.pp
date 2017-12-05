@@ -37,6 +37,7 @@ class signing_scriptworker {
                   'certifi==2017.4.17',
                   'chardet==3.0.4',
                   'datadog==0.17.0',
+                  'decorator==4.1.2',
                   'defusedxml==0.5.0',
                   'ecdsa==0.13',
                   'frozendict==1.2',
