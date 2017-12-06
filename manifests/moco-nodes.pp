@@ -1093,3 +1093,9 @@ node 't-yosemite-r7-394.test.releng.mdc1.mozilla.com' {
     include toplevel::base
     include generic_worker::disabled
 }
+
+node 'xenserver273.ops.releng.mdc1.mozilla.com' {
+    $aspects           = [ 'low-security' ]
+    include toplevel::base
+}
+
