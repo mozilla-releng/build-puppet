@@ -497,19 +497,6 @@ node 'buildbot-master69.bb.releng.use1.mozilla.com' {
     include toplevel::server::buildmaster::mozilla
 }
 
-node 'buildbot-master70.bb.releng.use1.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm70-build1':
-            http_port   => 8001,
-            master_type => 'build',
-            basedir     => 'build1';
-    }
-    include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::selfserve_agent
-}
-
 node 'buildbot-master71.bb.releng.use1.mozilla.com' {
     $aspects       = [ 'high-security' ]
     $only_user_ssh = true
@@ -553,37 +540,11 @@ node 'buildbot-master73.bb.releng.usw2.mozilla.com' {
     include toplevel::mixin::selfserve_agent
 }
 
-node 'buildbot-master74.bb.releng.usw2.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm74-build1':
-            http_port   => 8001,
-            master_type => 'build',
-            basedir     => 'build1';
-    }
-    include toplevel::server::buildmaster::mozilla
-    # disabled per Callek
-    #include toplevel::mixin::slaverebooter
-}
-
 node 'buildbot-master75.bb.releng.use1.mozilla.com' {
     $aspects       = [ 'high-security' ]
     $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         'bm75-try1':
-            http_port   => 8101,
-            master_type => 'try',
-            basedir     => 'try1';
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master76.bb.releng.use1.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm76-try1':
             http_port   => 8101,
             master_type => 'try',
             basedir     => 'try1';
@@ -610,18 +571,6 @@ node 'buildbot-master78.bb.releng.usw2.mozilla.com' {
     $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         'bm78-try1':
-            http_port   => 8101,
-            master_type => 'try',
-            basedir     => 'try1';
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master79.bb.releng.usw2.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm79-try1':
             http_port   => 8101,
             master_type => 'try',
             basedir     => 'try1';
@@ -751,30 +700,6 @@ node 'buildbot-master87.bb.releng.scl3.mozilla.com' {
     include toplevel::server::buildmaster::mozilla
 }
 
-node 'buildbot-master91.bb.releng.usw2.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm91-build1':
-            http_port   => 8001,
-            master_type => 'build',
-            basedir     => 'build1';
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master94.bb.releng.use1.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm94-build1':
-            http_port   => 8001,
-            master_type => 'build',
-            basedir     => 'build1';
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
 node 'buildbot-master103.bb.releng.scl3.mozilla.com' {
     $aspects       = [ 'high-security' ]
     $only_user_ssh = true
@@ -886,18 +811,6 @@ node 'buildbot-master128.bb.releng.use1.mozilla.com' {
     $only_user_ssh = true
     buildmaster::buildbot_master::mozilla {
         'bm128-tests1-windows':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-windows';
-    }
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master129.bb.releng.usw2.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm129-tests1-windows':
             http_port   => 8201,
             master_type => 'tests',
             basedir     => 'tests1-windows';
