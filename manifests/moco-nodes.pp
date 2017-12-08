@@ -1007,8 +1007,10 @@ node 't-yosemite-r7-394.test.releng.mdc1.mozilla.com' {
     include generic_worker::disabled
 }
 
-node 'xenserver273.ops.releng.mdc1.mozilla.com' {
-    $aspects           = [ 'low-security' ]
-    include toplevel::base
+node 't-linux64-xe-264.test.releng.mdc1.mozilla.com' {
+    $aspects          = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    $taskcluster_worker_type  = 'gecko-t-linux-talos'
+    include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
