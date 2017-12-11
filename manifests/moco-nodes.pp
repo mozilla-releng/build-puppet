@@ -356,6 +356,18 @@ node 'slaveapi-dev1.srv.releng.scl3.mozilla.com' {
     include toplevel::server::slaveapi
 }
 
+# Relops Controller
+
+node 'roller1.srv.releng.mdc1.mozilla.com' {
+    $aspects = [ 'high-security' ]
+    include toplevel::base
+}
+
+node 'roller-dev1.srv.releng.mdc1.mozilla.com' {
+    $aspects = [ 'high-security', 'dev' ]
+    include toplevel::base
+}
+
 # Proxxy
 
 node /proxxy\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
