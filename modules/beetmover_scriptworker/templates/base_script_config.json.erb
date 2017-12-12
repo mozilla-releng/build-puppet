@@ -11,15 +11,6 @@
 
     "verbose": <%= scope.lookupvar("beetmover_scriptworker::settings::verbose_logging") %>,
 
-    "template_files": {
-        "firefox_nightly": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly.yml",
-        "firefox_nightly_repacks": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly_repacks.yml",
-        "fennec_nightly": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly.yml",
-        "fennec_nightly_repacks": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennec_nightly_repacks.yml",
-        "fennecx86_nightly": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennecx86_nightly.yml",
-        "fennecaarch64_nightly": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennecaarch64_nightly.yml"
-    },
-
     "actions": {
         "push-to-nightly": {
             "firefox_nightly": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_nightly.yml",
@@ -35,7 +26,9 @@
             "fennecx86_candidates": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennecx86_candidates.yml",
             "fennecaarch64_candidates": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/fennecaarch64_candidates.yml",
             "firefox_candidates": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_candidates.yml",
-            "firefox_candidates_repacks": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_candidates_repacks.yml"
+            "firefox_candidates_repacks": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/firefox_candidates_repacks.yml",
+            "devedition_candidates": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/devedition_candidates.yml",
+            "devedition_candidates_repacks": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python3.5/site-packages/beetmoverscript/templates/devedition_candidates_repacks.yml"
         },
         "push-to-releases": {}
     },
