@@ -365,6 +365,7 @@ node 'roller1.srv.releng.mdc1.mozilla.com' {
 
 node 'roller-dev1.srv.releng.mdc1.mozilla.com' {
     $aspects = [ 'high-security', 'dev' ]
+    realize(Users::Person['gguthe'])
     include toplevel::base
 }
 
