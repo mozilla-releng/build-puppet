@@ -18,11 +18,11 @@ class balrog_scriptworker::settings {
             balrog_password => secret('balrog-stage-ffxbld_ldap_password'),
             balrog_api_root => 'https://balrog-admin.stage.mozaws.net/api',
 
-            dummy => true,
+            dummy => false,
             tools_repo => 'https://hg.mozilla.org/build/tools',
             taskcluster_client_id => 'project/releng/scriptworker/balrogworker-dev',
             taskcluster_access_token => secret('balrogworker_dev_taskcluster_access_token'),
-            worker_type => 'balrogworker-dev',
+            worker_type => 'balrog-dev',
             sign_chain_of_trust => false,
             verify_chain_of_trust => true,
             verify_cot_signature => false,
