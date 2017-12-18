@@ -34,7 +34,7 @@ class packages::mozilla::py27_mercurial {
                     Anchor['packages::mozilla::py27_mercurial::begin'] ->
                     package {
                         'mozilla-python27-mercurial':
-                            ensure  => '3.9.1',
+                            ensure  => '4.4.1',
                             require => Class['packages::mozilla::python27'];
                     } -> Anchor['packages::mozilla::py27_mercurial::end']
 
@@ -49,10 +49,11 @@ class packages::mozilla::py27_mercurial {
                     }
                 }
                 16.04: {
+                    realize(Packages::Aptrepo['mozilla-mercurial'])
                     Anchor['packages::mozilla::py27_mercurial::begin'] ->
                     package {
-                        'mercurial':
-                            ensure  => '3.7.3-1ubuntu1',
+                        ['mercurial', 'mercurial-common']:
+                            ensure  => '4.4.1~xenial1',
                             require => Class['packages::mozilla::python27'];
                     } -> Anchor['packages::mozilla::py27_mercurial::end']
 
