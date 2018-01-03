@@ -29,6 +29,13 @@ node /^t-linux64-xe-\d{3}\.test\.releng\.mdc1\.mozilla\.com/ {
     include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
+# Moonshot baremetal nodes
+node /^ms\d-\d+\.test\.releng\.mdc1\.mozilla\.com/ {
+    $aspects          = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    include toplevel::base
+}
+
 
 # taskcluster-host-secrets hosts
 node /^tc-host-secrets\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
