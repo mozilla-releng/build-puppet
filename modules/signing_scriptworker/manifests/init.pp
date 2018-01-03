@@ -53,7 +53,7 @@ class signing_scriptworker {
                   'python-gnupg==0.4.1',
                   'python-jose==1.3.2',
                   'requests==2.18.1',
-                  'scriptworker==5.2.3',
+                  'scriptworker==6.0.1',
                   'signingscript==4.2.0',
                   'signtool==3.1.6',
                   'simplejson==3.13.2',
