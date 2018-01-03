@@ -606,7 +606,7 @@ class config inherits config::base {
                 '^release-.*$',
             ],
             ignored_builders     => [
-                '^((?!(alder|-date|jamun|maple)).)*$',
+                '^((?!(alder|birch|-date|jamun|maple)).)*$',
             ],
         },
         'prod' => {
@@ -622,6 +622,7 @@ class config inherits config::base {
             ],
             ignored_builders     => [
                 '^.*alder.*$',
+                '^.*birch.*$',
                 '^.*jamun.*$',
                 '^.*-date.*$',
                 '^.*maple.*$',
