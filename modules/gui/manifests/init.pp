@@ -15,9 +15,18 @@ class gui(
 
     $nvidia_version = '361.42'
 
-    # only use the nvidia drivers and settings if we're using a GPU, and are not
-    # in virtualization mode
-    $use_nvidia = $on_gpu and $::virtual == 'physical'
+    if ($::manufacturer == 'HP' and $::boardproductname =~ /ProLiant m710x/) {
+        # The new moonshot hardware GPU workers have an intel gpu.
+        $use_nvidia = false
+        # Remove the nvidia packages so they do not conflict with intel.
+        package {
+            'nvidia-*':
+                ensure => absent;
+        }
+    } else {
+        # Before the moonshots, we used nvidia for all gpu hardware.
+        $use_nvidia = $on_gpu and $::virtual == 'physical'
+    }
 
     case $::operatingsystem {
         Darwin: {
