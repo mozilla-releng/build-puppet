@@ -1,2 +1,2 @@
 MAILTO="<%=@mailto%>"
-@hourly <%=@owner%> (cd <%=@basedir%> && <%=@python%> mozharness/scripts/l10n_bumper.py -c <%=@config_file%> >/dev/null 2>&1)
+@hourly <%=@owner%> lockfile -10 -r3 <%=@basedir%>/bumper.lock 2>/dev/null && (cd <%=@basedir%> && <%=@python%> mozharness/scripts/l10n_bumper.py -c <%=@config_file%>; rm -f <%=@basedir%>/bumper.lock) >/dev/null 2>&1
