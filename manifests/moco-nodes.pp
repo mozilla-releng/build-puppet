@@ -29,11 +29,13 @@ node /^t-linux64-xe-\d{3}\.test\.releng\.mdc1\.mozilla\.com/ {
     include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
-# Moonshot baremetal nodes
+# Moonshot baremetal Linux nodes
 node /^ms\d-\d+\.test\.releng\.mdc1\.mozilla\.com/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
-    include toplevel::base
+    $taskcluster_worker_type  = 'gecko-t-linux-talos'
+    include fw::profiles::osx_taskcluster_worker
+    include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
 
@@ -1032,5 +1034,11 @@ node 't-linux64-xe-264.test.releng.mdc1.mozilla.com' {
     $slave_trustlevel = 'try'
     $taskcluster_worker_type  = 'gecko-t-linux-talos'
     include toplevel::worker::releng::taskcluster_worker::test::gpu
+}
+
+node 'ms1-1.test.releng.mdc1.mozilla.com' {
+    $aspects          = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    include toplevel::base
 }
 
