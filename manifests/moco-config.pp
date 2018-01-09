@@ -388,9 +388,9 @@ class config inherits config::base {
             taskcluster_access_token              => secret('releaserunner_dev_taskcluster_access_token'),
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [ 'projects/jamun', 'projects/maple', 'projects/birch' ],
-            fennec_pattern                        => 'Fennec-5[89].*',
-            firefox_pattern                       => 'Firefox-5[89].*',
-            devedition_pattern                    => 'Devedition-5[89].*',
+            fennec_pattern                        => 'Fennec-(5[89]|6[0-9]).*',
+            firefox_pattern                       => 'Firefox-(5[89]|6[0-9]).*',
+            devedition_pattern                    => 'Devedition-(5[89]|6[0-9]).*',
         },
         'prod' => {
             ship_it_root                          => 'https://ship-it.mozilla.org',
