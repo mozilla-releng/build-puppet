@@ -31,7 +31,8 @@ class packages::iptables {
                     # Although the iptables rules are effective, they will automatically be deleted if the server reboots.
                     # To make sure that they remain in effect, we can use a package called IP-Tables persistent.
                     exec { 'install iptables-persistent':
-                        command => '/usr/bin/apt-get install iptables-persistent -y';
+                        command => '/usr/bin/apt-get install iptables-persistent -y',
+                        creates => '/usr/share/doc/iptables-persistent';
                     }
                 }
                 12.04: {
