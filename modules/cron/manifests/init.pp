@@ -15,11 +15,25 @@ class cron {
             }
         }
         Ubuntu: {
-            service {
-                'cron':
-                    ensure  => 'running',
-                    enable  => true,
-                    require => Class['packages::crond'];
+            case $::operatingsystemrelease {
+                '16.04': {
+                    service {
+                        'cron':
+                            ensure   => 'running',
+                            enable   => true,
+                            provider => 'systemd',
+                            require  => Class['packages::crond'];
+                    }
+                }
+                default: {
+                    service {
+                        'cron':
+                            ensure  => 'running',
+                            enable  => true,
+                            require => Class['packages::crond'];
+                    }
+
+                }
             }
         }
         Darwin: {
