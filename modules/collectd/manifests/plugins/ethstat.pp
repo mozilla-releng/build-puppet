@@ -10,9 +10,17 @@ class collectd::plugins::ethstat {
 
     $plugin_name = 'ethstat'
 
+    # naming changed: https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames
+    if ($::operatingsystem == 'Ubuntu' and $::operatingsystemrelease == '16.04'
+        and has_interface_with('eno1')) {
+        $nic_name = 'eno1'
+    } else {
+        $nic_name = 'eth0'
+    }
+
     case $::operatingsystem {
         'CentOS', 'Ubuntu': {
-            $args = [ 'Interface "eth0"',
+            $args = [ "Interface \"${nic_name}\"",
                       'Map "rx_bytes" "derive" "rx_bytes"',
                       'Map "tx_bytes" "derive" "tx_bytes"',
                       'MappedOnly true', ]
