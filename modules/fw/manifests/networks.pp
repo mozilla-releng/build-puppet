@@ -119,7 +119,8 @@ class fw::networks {
                                   '10.134.30.159/32',  # depsigning-worker9.srv.releng.use1.mozilla.com
                                   '10.134.30.164/32',  # depsigning-worker11.srv.releng.use1.mozilla.com
                                   '10.134.30.103/32',  # depsigning-worker13.srv.releng.use1.mozilla.com
-                                  '10.134.30.78/32' ]  # depsigning-worker15.srv.releng.use1.mozilla.com
+                                  '10.134.30.78/32',   # depsigning-worker15.srv.releng.use1.mozilla.com
+                                  '10.134.30.109/32' ] # tb-depsigning-worker1.srv.releng.use1.mozilla.com
 
     $usw2_dep_signing_workers = [ '10.132.30.55/32',   # depsigning-worker2.srv.releng.usw2.mozilla.com
                                   '10.132.30.242/32',  # depsigning-worker4.srv.releng.usw2.mozilla.com
