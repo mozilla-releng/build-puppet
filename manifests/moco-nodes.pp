@@ -641,7 +641,6 @@ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
     $aspects           = [ 'high-security' ]
     $only_user_ssh     = true
     $releaserunner_env = 'dev'
-    $releaserunner2_env = 'dev-fennec'
     $releaserunner3_env = 'dev'
     buildmaster::buildbot_master::mozilla {
         'bm83-try1':
@@ -652,7 +651,6 @@ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::releaserunner
-    include toplevel::mixin::releaserunner2
     include toplevel::mixin::releaserunner3
 }
 
@@ -677,7 +675,6 @@ node 'buildbot-master85.bb.releng.scl3.mozilla.com' {
     $aspects           = [ 'high-security' ]
     $only_user_ssh     = true
     $releaserunner_env = 'prod'
-    $releaserunner2_env = 'prod-fennec'
     $releaserunner3_env = 'prod'
     buildmaster::buildbot_master::mozilla {
         'bm85-build1':
@@ -688,7 +685,6 @@ node 'buildbot-master85.bb.releng.scl3.mozilla.com' {
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::releaserunner
-    include toplevel::mixin::releaserunner2
     include toplevel::mixin::releaserunner3
 }
 
