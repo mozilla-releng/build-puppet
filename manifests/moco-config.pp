@@ -325,7 +325,7 @@ class config inherits config::base {
                                                         'releases/mozilla-beta',
                                                         'releases/mozilla-esr*',
                                                       ],
-            firefox_pattern                       => 'Firefox-58.*',
+            firefox_pattern                       => 'Firefox-5[28].*',
             devedition_pattern                    => 'Devedition-58.*',
         }
     }
