@@ -306,42 +306,52 @@ class packages::setup {
                 'mig-agent':
                     url_path     => 'repos/apt/custom/mig-agent',
                     distribution => $::lsbdistcodename,
+                    trusted      => 'yes',
                     components   => ['all'];
                 'openssl':
                     url_path     => 'repos/apt/custom/openssl',
                     distribution => $::lsbdistcodename,
+                    trusted      => 'yes',
                     components   => ['all'];
                 'bash':
                     url_path     => 'repos/apt/custom/bash',
                     distribution => $::lsbdistcodename,
+                    trusted      => 'yes',
                     components   => ['all'];
                 'eglibc':
                     url_path     => 'repos/apt/custom/eglibc',
                     distribution => $::lsbdistcodename,
+                    trusted      => 'yes',
                     components   => ['all'];
                 'mozilla-mercurial':
                     url_path     => 'repos/apt/custom/mozilla-mercurial',
                     distribution => $::lsbdistcodename,
+                    trusted      => 'yes',
                     components   => ['all'];
                 'kernel':
                     url_path     => 'repos/apt/custom/kernel',
                     distribution => $::lsbdistcodename,
+                    trusted      => 'yes',
                     components   => ['all'];
                 'collectd':
                     url_path     => 'repos/apt/custom/collectd',
                     distribution => $::lsbdistcodename,
+                    trusted      => 'yes',
                     components   => ['all'];
                 'mesa-lts-saucy':
                     url_path     => 'repos/apt/custom/mesa-lts-saucy',
                     distribution => $::lsbdistcodename,
+                    trusted      => 'yes',
                     components   => ['all'];
                 'git':
                     url_path     => 'repos/apt/custom/git',
                     distribution => $::lsbdistcodename,
+                    trusted      => 'yes',
                     components   => ['all'];
                 'libxcb':
                     url_path     => 'repos/apt/custom/libxcb',
                     distribution => $::lsbdistcodename,
+                    trusted      => 'yes',
                     components   => ['all'];
             }
         }
