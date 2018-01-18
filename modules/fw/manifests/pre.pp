@@ -37,22 +37,32 @@ class fw::pre {
             action => 'accept';
     }
 
+    # Clean up the IPv6 rules with parenthesis.  Firewall module happily creates but doesn't delete
+    # due to improper escaping.
+    # See bug 1413305
+    exec {
+        "clean-ipv6-rules":
+            command   => '/sbin/ip6tables -F',
+            logoutput => on_failure,
+            onlyif    => '/sbin/ip6tables -L | /bin/grep -q "(IPv6)"';
+    }->
+
     # IPv6
     firewall {
-        '000 accept related and established flows (IPv6)':
+        '000 accept related and established flows IPv6':
             proto    => 'all',
             state    => ['RELATED', 'ESTABLISHED'],
             action   => 'accept',
             provider => 'ip6tables';
     }->
     firewall {
-        '001 all icmp (IPv6)':
+        '001 all icmp IPv6':
             proto    => 'icmp',
             action   => 'accept',
             provider => 'ip6tables';
     }->
     firewall {
-        '002 local traffic (IPv6)':
+        '002 local traffic IPv6':
             proto    => 'all',
             iniface  => 'lo',
             action   => 'accept',
