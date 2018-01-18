@@ -59,11 +59,53 @@ case $::operatingsystem {
             include packages::iptables
         }
 
-        # similarly, set up the firewall resource, but note that this does not activate
-        # the firewall
-        resources {
-            'firewall':
-                purge => true;
+        # Purging all unmanaged firewall rules was removed in favor of explicitly
+        # purging just the 'Big 3' chains since these are what really matter and
+        # what we are trying managing anyway.  This also allows for Docker to manage
+        # its own rules dynamically as we can ignore them through the use of regex.
+        # See bug 1429240
+
+        $chain_purge = true
+        $chain_purge_ignore = [
+            '-o docker0',
+            '-i docker0',
+            'DOCKER',
+            'DOCKER-USER',
+            'DOCKER-ISOLATION',
+        ]
+
+        # IPv4 Chains
+        firewallchain { 'INPUT:filter:IPv4':
+            ensure => 'present',
+            purge  => $chain_purge,
+            ignore => $chain_purge_ignore,
+        }
+        firewallchain { 'OUTPUT:filter:IPv4':
+            ensure => 'present',
+            purge  => $chain_purge,
+            ignore => $chain_purge_ignore,
+        }
+        firewallchain { 'FORWARD:filter:IPv4':
+            ensure => 'present',
+            purge  => $chain_purge,
+            ignore => $chain_purge_ignore,
+        }
+
+        # IPv6 chains
+        firewallchain { 'INPUT:filter:IPv6':
+            ensure => 'present',
+            purge  => $chain_purge,
+            ignore => $chain_purge_ignore,
+        }
+        firewallchain { 'OUTPUT:filter:IPv6':
+            ensure => 'present',
+            purge  => $chain_purge,
+            ignore => $chain_purge_ignore,
+        }
+        firewallchain { 'FORWARD:filter:IPv6':
+            ensure => 'present',
+            purge  => $chain_purge,
+            ignore => $chain_purge_ignore,
         }
 
         # put the default rules before/after any custom rules
