@@ -1,7 +1,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-define packages::aptrepo ($url_path, $distribution, $components, $repo_name = $title, $gpg_id='', $gpg_key='', $trusted='no') {
+define packages::aptrepo ($url_path, $distribution, $components, $repo_name = $title, $gpg_id='', $gpg_key='', $options=[]) {
     include config
 
     $config_file     = "/etc/apt/sources.list.d/${repo_name}.list"
@@ -15,14 +15,6 @@ define packages::aptrepo ($url_path, $distribution, $components, $repo_name = $t
         default => 'https'
     }
 
-    # For Ubuntu 16.04 (and greater), we need to explicitly indicate our trust for the repo
-    # if it happens to be unsigned (no Release file).  This is the case for all of
-    # the custom repos under /data/repos/apt/custom
-    if $trusted == 'yes' and $::operatingsystemrelease >= '16.04' {
-        $options = 'trusted=yes'
-    } else {
-        $options = ''
-    }
     # This class uses numeric user/group IDs since this resource is in the
     # 'packagesetup' state, which comes before the 'main' stage where
     # User['root'] occurs..
