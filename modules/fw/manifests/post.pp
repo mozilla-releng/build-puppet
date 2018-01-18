@@ -25,7 +25,7 @@ class fw::post {
                 action => 'accept',
         }
         firewall {
-            '999 accept all (IPv6)':
+            '999 accept all IPv6':
                 proto    => 'all',
                 action   => 'accept',
                 provider => 'ip6tables',
@@ -38,7 +38,7 @@ class fw::post {
                 action => 'drop',
         }
         firewall {
-            '999 drop all (IPv6)':
+            '999 drop all IPv6':
                 proto    => 'all',
                 action   => 'drop',
                 provider => 'ip6tables',
