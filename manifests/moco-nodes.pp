@@ -335,13 +335,6 @@ node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
     $aspects = [ 'high-security' ]
     include fw::profiles::aws_manager
     include toplevel::server::aws_manager
-
-    # Bug 1265758 - Add acccess to the following accounts to dev-master2
-    realize(Users::Person['gchang'])
-
-    users::buildduty::extra_authorized_key {
-        'gchang': ;
-    }
 }
 
 # buildduty-tools
@@ -403,7 +396,6 @@ node 'dev-master2.bb.releng.use1.mozilla.com' {
     # Bug 975004 - Grant pkewisch access to dev-master1
     # Bug 1265758 - Add acccess to the following accounts to dev-master2
     realize(Users::Person['sledru'])
-    realize(Users::Person['gchang'])
     users::builder::extra_authorized_key {
         'sledru': ;
     }
