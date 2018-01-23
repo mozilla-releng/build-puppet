@@ -27,7 +27,7 @@ class releaserunner3 {
                 'certifi==2017.07.27.1',
                 'chardet==3.0.4',
                 'idna==2.6',
-                'json-e==2.3.1',
+                'json-e==2.5.0',
                 'mohawk==0.3.4',
                 'requests==2.18.4',
                 'simplejson==3.11.1',
