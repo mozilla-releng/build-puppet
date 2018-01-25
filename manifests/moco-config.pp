@@ -631,7 +631,7 @@ class config inherits config::base {
         },
         'mozilla-beta'    => {
             mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
-            mozharness_revision => 'b159a6ed52f7',
+            mozharness_revision => '9c2f023a62d0',
             config_file         => 'l10n_bumper/mozilla-beta.py',
         },
     }
