@@ -84,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 16 2017 Dragos Crisan <dcrisan mozilla com> 4.4.1-1
+- update to hg 4.4.1
+
 * Tue Sep 13 2016 Alin Selagea <aselagea mozilla com> 3.9.1-1
 - update to hg 3.9.1
 
