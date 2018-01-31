@@ -15,6 +15,7 @@ define scriptworker::instance(
     $worker_group,
     $worker_type,
     $cot_job_type,
+    $cot_product                  = 'firefox',
 
     $work_dir                     = "${basedir}/work",
     $script_worker_config         = "${basedir}/scriptworker.yaml",
