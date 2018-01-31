@@ -11,7 +11,8 @@ define signingserver::instance(
         $formats, $mac_cert_subject_ou,
         $ssl_cert, $ssl_private_key,
         $signcode_timestamp = 'yes',
-        $concurrency        = 4) {
+        $concurrency        = 4,
+        $signcode_maxsize   = 157286400) {
     include config
     include signingserver::base
     include users::signer
