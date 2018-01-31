@@ -80,7 +80,10 @@ class toplevel::server::signing inherits toplevel::server {
                     signcode_timestamp  => 'no',
                     ssl_cert            => $signing_server_ssl_cert,
                     ssl_private_key     => $signing_server_ssl_private_key,
-                    concurrency         => $concurrency;
+                    concurrency         => $concurrency,
+                    # We need to allow very large files to be signed for code
+                    # coverage builds
+                    signcode_maxsize    => 786432000;
             }
             signingserver::instance {
                 'rel-key-signing-server':

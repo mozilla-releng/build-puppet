@@ -28,9 +28,9 @@ max_filesize_gpg = 812646400
 max_filesize_dmg = 125829120
 max_filesize_mar = 125829120
 max_filesize_mar_sha384 = 125829120
-max_filesize_signcode = 157286400
-max_filesize_osslsigncode = 157286400
-max_filesize_sha2signcode = 157286400
+max_filesize_signcode = <%= @signcode_maxsize %>
+max_filesize_osslsigncode = <%= @signcode_maxsize %>
+max_filesize_sha2signcode = <%= @signcode_maxsize %>
 max_filesize_sha2signcodestub = 2097152
 max_filesize_emevoucher = 2097152
 token_secret = <%=@token_secret%>
