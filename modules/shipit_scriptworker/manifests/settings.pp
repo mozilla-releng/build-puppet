@@ -29,7 +29,7 @@ class shipit_scriptworker::settings {
         verify_cot_signature     => false,
 
         ship_it_instances        => {
-            "$ship_it_stage_instance_scope" => $ship_it_stage_instance_config,
+            "${ship_it_stage_instance_scope}" => $ship_it_stage_instance_config,
         },
       },
       'prod' => {
@@ -44,7 +44,7 @@ class shipit_scriptworker::settings {
         verify_cot_signature     => true,
 
         ship_it_instances        => {
-            "$ship_it_stage_instance_scope"     => $ship_it_stage_instance_config,
+            "${ship_it_stage_instance_scope}"   => $ship_it_stage_instance_config,
             'project:releng:ship-it:production' => {
                 api_root                  => 'https://ship-it.mozilla.org',
                 timeout_in_seconds        => 60,
