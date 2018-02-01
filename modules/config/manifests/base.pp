@@ -349,6 +349,15 @@ class config::base {
     # username to access IMPI interfaces on suitable hosts
     $slaveapi_ipmi_username      = 'releng'
 
+    # roller
+
+    $roller_image_tag_prod       = '0.8.0'
+    $roller_image_tag_dev        = 'latest'
+
+    # roller git repo
+    $roller_git_repo             = 'https://github.com/mozilla-platform-ops/relops-hardware-controller'
+
+
     # AWS management
 
     # fqdn of the distinguished_aws_manager

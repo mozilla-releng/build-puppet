@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  redis:
+    image: redis:3.2
+
+  # Base container is used for development tasks like tests, linting, coverage
+  # and building docs.
+  base:
+    image: "mozilla/relops-hardware-controller:<%= @image_tag %>"
+    environment:
+      - DJANGO_CONFIGURATION=Dev
+    env_file:
+      - .env
+
+  web:
+    extends:
+      service: base
+    depends_on:
+      - redis
+    ports:
+      - "<%= @port %>:<%= @port %>"
+    links:
+      - redis
+    command: web-dev
+
+  worker:
+    extends:
+      service: base
+    depends_on:
+      - base
+    links:
+      - redis
+    command: worker-purge
+
