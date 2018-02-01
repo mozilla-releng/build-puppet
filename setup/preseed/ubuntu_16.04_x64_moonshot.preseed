@@ -59,7 +59,13 @@ d-i apt-setup/security_path string /repos/apt/Ubuntu-16.04
 ### Package selection
 tasksel tasksel/first multiselect minimal
 
-d-i pkgsel/include string openssh-server,apt-transport-https,puppet,python,ntpdate
+d-i pkgsel/include string \
+	openssh-server, \
+	apt-transport-https, \
+	puppet, \
+	python, \
+	ntpdate, \
+	iptables
 
 # Policy for applying updates. May be "none" (no automatic updates),
 # "unattended-upgrades" (install security updates automatically), or
