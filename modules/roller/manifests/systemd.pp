@@ -25,16 +25,16 @@ define roller::systemd ($image_tag){
     if $environment == 'prod' {
         service {
             "docker-compose@roller${environment}":
-                provider => 'systemd',
-                enable   => true,
-                ensure   => running,
+                ensure    => running,
+                provider  => 'systemd',
+                enable    => true,
                 subscribe => File["/etc/docker/compose/roller${environment}/docker-compose.yml", "/etc/docker/compose/roller${environment}/.env"],
         }
     } else {
         service {
             "docker-compose@roller${environment}":
-                provider => 'systemd',
-                enable   => false,
+                provider  => 'systemd',
+                enable    => false,
                 subscribe => File["/etc/docker/compose/roller${environment}/docker-compose.yml", "/etc/docker/compose/roller${environment}/.env"],
         }
     }

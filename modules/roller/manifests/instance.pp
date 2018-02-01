@@ -27,7 +27,7 @@ define roller::instance ($port=8000) {
     if $environment == 'dev' {
         git::repo {
             "roller-${environment}":
-                repo => $config::roller_git_repo,
+                repo    => $config::roller_git_repo,
                 dst_dir => "${base_dir}",
                 user    => $roller_user,
         }
