@@ -246,7 +246,7 @@ class config inherits config::base {
         'bcrisan', # Bug 1434170
         'dlabici', # Bug 1434170
         'riman', # Bug 1434170
-        'rmutter', # Bug 1434170
+#       'rmutter', # Bug 1434170, is off until Monday. To ulock the puppet on jumphosts, I'll remove the uer. I'll add back on the Monday
         'zfay', # Bug 1434170
     ]
 
