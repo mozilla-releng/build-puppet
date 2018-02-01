@@ -6,6 +6,7 @@
     "signing_server_config": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/passwords.json",
     "ssl_cert": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/lib/python3.5/site-packages/signingscript/data/host.cert",
     "schema_file": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/lib/python3.5/site-packages/signingscript/data/signing_task_schema.json",
+    "taskcluster_scope_prefix": "<%= @env_config['scope_prefix'] %>",
 
     "signtool": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/bin/signtool",
     "token_duration_seconds": 3600,
