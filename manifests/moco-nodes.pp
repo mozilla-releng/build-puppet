@@ -352,14 +352,18 @@ node 'slaveapi-dev1.srv.releng.scl3.mozilla.com' {
 # Relops Controller
 
 node 'roller1.srv.releng.mdc1.mozilla.com' {
-    $aspects = [ 'high-security' ]
-    include toplevel::base
+    $aspects = [ 'high-security', 'prod' ]
+    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
+    $pin_puppet_env    = 'jwatkins'
+    include fw::profiles::roller
+    include toplevel::server::roller
 }
 
 node 'roller-dev1.srv.releng.mdc1.mozilla.com' {
     $aspects = [ 'high-security', 'dev' ]
     realize(Users::Person['gguthe'])
-    include toplevel::base
+    include fw::profiles::roller
+    include toplevel::server::roller
 }
 
 # Proxxy

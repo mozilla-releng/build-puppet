@@ -72,6 +72,7 @@ case $::operatingsystem {
             'DOCKER',
             'DOCKER-USER',
             'DOCKER-ISOLATION',
+            'br-',
         ]
 
         # IPv4 Chains
