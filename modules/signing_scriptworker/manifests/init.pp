@@ -55,8 +55,8 @@ class signing_scriptworker {
                   'python-gnupg==0.4.1',
                   'python-jose==2.0.0',
                   'requests==2.18.1',
-                  'scriptworker==8.0.0',
-                  'signingscript==4.2.0',
+                  'scriptworker==8.1.0',
+                  'signingscript==5.0.0',
                   'signtool==3.1.6',
                   'simplejson==3.13.2',
                   'six==1.10.0',
@@ -81,11 +81,12 @@ class signing_scriptworker {
 
             taskcluster_client_id    => $env_config['taskcluster_client_id'],
             taskcluster_access_token => $env_config['taskcluster_access_token'],
-            worker_group             => $signing_scriptworker::settings::worker_group,
+            worker_group             => $env_config['worker_group'],
             worker_type              => $env_config['worker_type'],
             task_max_timeout         => $signing_scriptworker::settings::task_max_timeout,
 
             cot_job_type             => 'signing',
+            cot_product              => $env_config['cot_product'],
 
             sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
             verify_chain_of_trust    => $env_config["verify_chain_of_trust"],

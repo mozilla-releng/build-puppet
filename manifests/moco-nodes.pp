@@ -879,14 +879,14 @@ node /log-aggregator\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
 }
 
 # Signing workers
-node /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+node /^signingworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects       = [ 'maximum-security' ]
     $only_user_ssh = true
     include toplevel::server::signingworker
 }
 
 # Signing scriptworkers
-node /signing-linux-\d*\.srv\.releng\..*\.mozilla\.com/ {
+node /^signing-linux-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
     $signing_scriptworker_env = 'prod'
     $timezone                 = 'UTC'
@@ -894,7 +894,7 @@ node /signing-linux-\d*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::signingscriptworker
 }
 
-node /depsigning-worker.*\.srv\.releng\..*\.mozilla\.com/ {
+node /^depsigning-worker.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
     $signing_scriptworker_env = 'dep'
     $timezone                 = 'UTC'
@@ -902,9 +902,17 @@ node /depsigning-worker.*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::signingscriptworker
 }
 
-node /signing-linux-dev.*\.releng\..*\.mozilla\.com/ {
+node /^signing-linux-dev.*\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
     $signing_scriptworker_env = 'dev'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::signingscriptworker
+}
+
+node /^tb-depsigning-worker.*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $signing_scriptworker_env = 'comm-thunderbird-dep'
     $timezone                 = 'UTC'
     $only_user_ssh            = true
     include toplevel::server::signingscriptworker
