@@ -171,6 +171,7 @@ class fw::networks {
     # Infra managed production releng web cluster
     $releng_web_cluster = [ '10.22.81.88/32',  # web1.releng.webapp.scl3.mozilla.com
                             '10.22.81.89/32',  # web2.releng.webapp.scl3.mozilla.com
+                            '10.22.81.90/32',  # web3.releng.webapp.scl3.mozilla.com
                             '10.22.81.91/32' ] # web1.stage.releng.webapp.scl3.mozilla.com
 
     $releng_web_admin = [ '10.22.75.138/32' ]  # relengwebadm.private.scl3.mozilla.com
