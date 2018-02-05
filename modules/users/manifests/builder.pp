@@ -22,7 +22,7 @@ class users::builder {
 
     case $::operatingsystem {
         Ubuntu: {
-            $grouplist =  ['audio','video']
+            $grouplist =  ['audio','video','kvm']
         }
         Darwin: {
             # Bug 1122875 - enable DevTools for debug tests
