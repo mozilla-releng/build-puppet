@@ -21,12 +21,25 @@ class users::builder::account($username, $group, $grouplist, $home) {
                 fail('No builder password hash set')
             }
 
+            # Bug 1435058 - add group kvm for android emulator usage
+            if $::operatingsystem == 'Ubuntu' and $::hardwaremodel == 'x86_64' {
+                # We only run Android x86 emulator kvm jobs on
+                # 64-bit host machines
+                # the 'kvm' group will exist after package qemu-kvm
+                group { 'kvm':
+                    ensure => present
+                }
+                $modified_grouplist = concat($grouplist, ['kvm'])
+            } else {
+                $modified_grouplist = $grouplist
+            }
+
             user {
                 $username:
                     password   => secret('builder_pw_hash'),
                     shell      => '/bin/bash',
                     managehome => true,
-                    groups     => $grouplist,
+                    groups     => $modified_grouplist,
                     comment    => 'Builder';
             }
         }
