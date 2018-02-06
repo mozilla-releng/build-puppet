@@ -22,7 +22,17 @@ class users::builder {
 
     case $::operatingsystem {
         Ubuntu: {
-            $grouplist =  ['audio','video','kvm']
+            # Bug 1435058 - add group kvm for android emulator usage
+            case $::hardwaremodel {
+                # We only run Android x86 emulator kvm jobs on
+                # 64-bit host machines
+                'x86_64': {
+                    $grouplist =  ['audio','video','kvm']
+                }
+                default: {
+                    $grouplist =  ['audio','video']
+                }
+            }
         }
         Darwin: {
             # Bug 1122875 - enable DevTools for debug tests
