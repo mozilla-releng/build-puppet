@@ -272,6 +272,12 @@ node 'install.test.releng.scl3.mozilla.com' {
     }
 }
 
+node 'install3.test.releng.scl3.mozilla.com' {
+    $aspects = [ 'maximum-security' ]
+    include fw::profiles::deploystudio
+    include toplevel::server::deploystudio
+}
+
 node 'install.test.releng.mdc1.mozilla.com' {
     $aspects = [ 'maximum-security' ]
     include fw::profiles::deploystudio
