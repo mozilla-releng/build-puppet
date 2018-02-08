@@ -4,7 +4,7 @@
 
 ## Buildbot OS X
 # 19 machines that will remain in buildbot
-node /t-yosemite-r7-00[0-1]\d+\.test\.releng\.scl3\.mozilla\.com/ {
+node /^t-yosemite-r7-00[0-1]\d+\.test\.releng\.scl3\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include fw::profiles::buildbot_slave
@@ -13,7 +13,7 @@ node /t-yosemite-r7-00[0-1]\d+\.test\.releng\.scl3\.mozilla\.com/ {
 ## TaskCluster workers
 
 # OS X in mdc1 running generic worker
-node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|scl3)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include fw::profiles::osx_taskcluster_worker
@@ -21,7 +21,7 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|scl3)\.mozilla\.com/ {
 }
 
 # Linux on moonshot in mdc1 running taskcluster worker
-node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1\.mozilla\.com/ {
+node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     $taskcluster_worker_type  = 'gecko-t-linux-talos'
@@ -31,7 +31,7 @@ node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1\.mozilla\.com/ {
 
 
 # taskcluster-host-secrets hosts
-node /^tc-host-secrets\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+node /^tc-host-secrets\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
     $aspects                       = [ 'high-security' ]
     $taskcluster_host_secrets_port = 80
     include fw::profiles::taskcluster_host_secrets
@@ -41,18 +41,8 @@ node /^tc-host-secrets\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
 
 ## Buildbot testers
 
-# Personal
-node 'jwatkins-1330169.srv.releng.scl3.mozilla.com' {
-    # host to test the upgrade to Ubuntu 16.04
-    $aspects           = [ 'low-security' ]
-    $slave_trustlevel  = 'try'
-    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
-    $pin_puppet_env    = 'jwatkins'
-    include toplevel::server
-}
-
 # Linux and OS X
-node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
+node /^t.*-\d+\.test\.releng\.scl3\.mozilla\.com$/ {
     # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
@@ -61,7 +51,7 @@ node /t.*-\d+\.test\.releng\.scl3\.mozilla\.com/ {
 }
 
 # AWS
-node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
+node /^tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com$/ {
     # tst-anything in any region of the test.releng mozilla zones
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
@@ -69,13 +59,13 @@ node /tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com/ {
 }
 
 # Windows
-node /t-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
+node /^t-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com$/ {
     # windows 7 nodes in wintest.releng.scl3.mozilla.com
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include toplevel::slave
 }
-node /g-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
+node /^g-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com$/ {
     # windows 7 nodes in wintest.releng.scl3.mozilla.com
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
@@ -84,7 +74,7 @@ node /g-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
 
 # Node declaration is for Win 7 development
 # To keep development and production catalogs separate
-node /d-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
+node /^d-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com$/ {
     # windows 7 nodes in wintest.releng.scl3.mozilla.com
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
@@ -94,35 +84,35 @@ node /d-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
 ## Buildbot builders
 
 # Windows
-node /b-2008.*\.(winbuild|build)\.releng\.(scl3|use1|usw2)\.mozilla.com/{
+node /^b-2008.*\.(winbuild|build)\.releng\.(scl3|use1|usw2)\.mozilla.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'core'
     include toplevel::slave::releng::build
 }
 
 # linux64
-node /b-linux64-\w+-\d+.build.releng.scl3.mozilla.com/ {
+node /^b-linux64-\w+-\d+.build.releng.scl3.mozilla.com$/ {
     # any b-linux64-(something)-digit host in the scl3 build zone
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'core'
     include toplevel::slave::releng::build::mock
 }
 
-node /bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com/ {
+node /^bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com$/ {
     # any bld-(something) host in the use1 and usw2 releng build zones
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'core'
     include toplevel::slave::releng::build::mock
 }
 
-node /av-linux64.*\.build\.releng\.(use1|usw2)\.mozilla\.com/ {
+node /^av-linux64.*\.build\.releng\.(use1|usw2)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'core'
     include toplevel::slave::releng::build::mock::av
 }
 
 # OS X
-node /bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com/ {
+node /^bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com$/ {
     # any bld-lion-r5-(digit) hosts in the scl3 build zone
     $slave_trustlevel = 'core'
     $aspects          = [ 'low-security' ]
@@ -133,7 +123,7 @@ node /bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com/ {
 ## Buildbot try builders
 
 # Windows
-node /(b|y|try)-2008-.*\.(try|wintry).releng.(use1|usw2|scl3).mozilla.com/ {
+node /^(b|y|try)-2008-.*\.(try|wintry).releng.(use1|usw2|scl3).mozilla.com$/ {
     $slave_trustlevel = 'try'
     $aspects          = [ 'low-security' ]
     include toplevel::slave::releng::build
@@ -147,14 +137,14 @@ node 'ix-mn-w0864-002.wintest.releng.scl3.mozilla.com' {
 }
 
 # linux64
-node /b-linux64-\w+-\d+.try.releng.scl3.mozilla.com/ {
+node /^b-linux64-\w+-\d+.try.releng.scl3.mozilla.com$/ {
     # any b-linux64-(something)-digit host in the scl3 try zone
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include toplevel::slave::releng::build::mock
 }
 
-node /(dev|try)-.*\.(dev|try)\.releng\.(use1|usw2)\.mozilla.com/ {
+node /^(dev|try)-.*\.(dev|try)\.releng\.(use1|usw2)\.mozilla.com$/ {
     # any dev or try node in the dev or try zones of use1 and usw2
     # dev-* hosts are *always* staging
     $aspects          = [ 'low-security' ]
@@ -164,14 +154,14 @@ node /(dev|try)-.*\.(dev|try)\.releng\.(use1|usw2)\.mozilla.com/ {
 
 # OS X
 
-node /bld-(lion|yosemite)-r5-\d+.try.releng.scl3.mozilla.com/ {
+node /^bld-(lion|yosemite)-r5-\d+.try.releng.scl3.mozilla.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include fw::profiles::buildbot_slave
     include toplevel::slave::releng::build::standard
 }
 
-node /y-yosemite-r5-\d+.try.releng.scl3.mozilla.com/ {
+node /^y-yosemite-r5-\d+.try.releng.scl3.mozilla.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include fw::profiles::buildbot_slave
@@ -180,7 +170,7 @@ node /y-yosemite-r5-\d+.try.releng.scl3.mozilla.com/ {
 
 ## signing servers
 
-node /^mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+node /^mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
     # mac signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'GMT'
@@ -189,7 +179,7 @@ node /^mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     include toplevel::server::signing
 }
 
-node /^signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+node /^signing\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
     # linux signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'UTC'
@@ -198,7 +188,7 @@ node /^signing\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     include toplevel::server::signing
 }
 
-node /^mac-depsigning\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+node /^mac-depsigning\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
     # mac signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'GMT'
@@ -207,7 +197,7 @@ node /^mac-depsigning\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
     include toplevel::server::depsigning
 }
 
-node /^depsigning\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
+node /^depsigning\d+\.srv\.releng\.(mdc1|mdc2|scl3|use1|usw2)\.mozilla\.com$/ {
     # linux dev signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'UTC'
@@ -217,7 +207,7 @@ node /^depsigning\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
 
 ## puppetmasters
 
-node /releng-puppet\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
+node /^releng-puppet\d+\.srv\.releng\.(mdc1|mdc2|scl3|use1|usw2)\.mozilla\.com$/ {
     $aspects       = [ 'maximum-security' ]
     $only_user_ssh = true
     include fw::profiles::puppetmasters
@@ -289,9 +279,20 @@ node 'install.test.releng.mdc1.mozilla.com' {
     }
 }
 
+node 'install.test.releng.mdc2.mozilla.com' {
+    $aspects = [ 'maximum-security' ]
+    include fw::profiles::deploystudio
+    include toplevel::server::deploystudio
+    class {
+        'bacula_client':
+            cert => secret('install_test_releng_mdc2_bacula_cert'),
+            key  => secret('install_test_releng_mdc2_bacula_key');
+    }
+}
+
 ## Jump hosts
 
-node /rejh\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
+node /^rejh\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
     # jump host servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'GMT'
@@ -303,7 +304,7 @@ node /rejh\d+\.srv\.releng\.(mdc1|scl3)\.mozilla\.com/ {
 
 ## Misc servers
 
-node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
+node /^dev-linux64-ec2-001.dev.releng.use1.mozilla.com$/ {
     # any dev or try node in the dev or try zones of use1 and usw2
     # dev-* hosts are *always* staging
     $aspects          = [ 'low-security' ]
@@ -314,12 +315,12 @@ node /dev-linux64-ec2-001.dev.releng.use1.mozilla.com/ {
     }
 }
 
-node /cruncher-aws\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
+node /^cruncher-aws\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
     $aspects = [ 'high-security' ]
     include toplevel::server::cruncher
 }
 
-node /partner-repack-\d+\.srv\.releng\.mdc1\.mozilla\.com/ {
+node /^partner-repack-\d+\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects       = [ 'maximum-security' ]
     $only_user_ssh = true
     include fw::profiles::partner_repack
@@ -328,7 +329,7 @@ node /partner-repack-\d+\.srv\.releng\.mdc1\.mozilla\.com/ {
 
 # aws-manager
 
-node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
+node /^aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com$/ {
     $aspects = [ 'high-security' ]
     include fw::profiles::aws_manager
     include toplevel::server::aws_manager
@@ -336,7 +337,7 @@ node /aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com/ {
 
 # buildduty-tools
 
-node /buildduty-tools\.srv\.releng\.(use1|usw2)\.mozilla\.com/ {
+node /^buildduty-tools\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
     $aspects = [ 'medium-security' ]
     include toplevel::server::buildduty_tools
 }
@@ -357,7 +358,7 @@ node 'slaveapi-dev1.srv.releng.scl3.mozilla.com' {
 
 # Relops Controller
 
-node 'roller1.srv.releng.mdc1.mozilla.com' {
+node /^roller1\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects = [ 'high-security', 'prod' ]
     $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
     $pin_puppet_env    = 'jwatkins'
@@ -365,7 +366,7 @@ node 'roller1.srv.releng.mdc1.mozilla.com' {
     include toplevel::server::roller
 }
 
-node 'roller-dev1.srv.releng.mdc1.mozilla.com' {
+node /^roller-dev1\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects = [ 'high-security', 'dev' ]
     realize(Users::Person['gguthe'])
     include fw::profiles::roller
@@ -374,14 +375,14 @@ node 'roller-dev1.srv.releng.mdc1.mozilla.com' {
 
 # Proxxy
 
-node /proxxy\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com/ {
+node /^proxxy\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com$/ {
     $aspects = [ 'high-security' ]
     include toplevel::server::proxxy
 }
 
 # Package Builders
 
-node /.*packager\d+\.srv\.releng\.use1\.mozilla\.com/ {
+node /.*packager\d+\.srv\.releng\.use1\.mozilla\.com$/ {
     # RPM and DPKG package servers
     $aspects = [ 'low-security' ]
     include toplevel::server::pkgbuilder
@@ -877,7 +878,7 @@ node 'buildbot-master140.bb.releng.usw2.mozilla.com' {
     include toplevel::server::buildmaster::mozilla
 }
 
-node /log-aggregator\d+\.srv\.releng\.(mdc1|scl3|use1|usw2)\.mozilla\.com/ {
+node /^log-aggregator\d+\.srv\.releng\.(mdc1|mdc2|scl3|use1|usw2)\.mozilla\.com$/ {
     $aspects                = [ 'high-security' ]
     $is_log_aggregator_host = 'true'
     include fw::profiles::log_aggregator
@@ -925,7 +926,7 @@ node /^tb-depsigning-worker.*\.srv\.releng\..*\.mozilla\.com$/ {
 }
 
 # Balrog scriptworkers
-node /balrogworker-\d*\.srv\.releng\..*\.mozilla\.com/ {
+node /^balrogworker-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects          = [ 'maximum-security' ]
     $balrogworker_env = 'prod'
     $timezone         = 'UTC'
@@ -933,7 +934,7 @@ node /balrogworker-\d*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::balrogscriptworker
 }
 
-node /balrogworker-dev\d*\.srv\.releng\..*\.mozilla\.com/ {
+node /^balrogworker-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects          = [ 'maximum-security' ]
     $balrogworker_env = 'dev'
     $timezone         = 'UTC'
@@ -942,7 +943,7 @@ node /balrogworker-dev\d*\.srv\.releng\..*\.mozilla\.com/ {
 }
 
 # Beetmover scriptworkers
-node /beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+node /^beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects             = [ 'maximum-security' ]
     $beetmoverworker_env = 'prod'
     $timezone            = 'UTC'
@@ -950,7 +951,7 @@ node /beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::beetmoverscriptworker
 }
 
-node /beetmover-dev.*\.srv\.releng\..*\.mozilla\.com/ {
+node /^beetmover-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects             = [ 'maximum-security' ]
     $beetmoverworker_env = 'dev'
     $timezone            = 'UTC'
@@ -959,7 +960,7 @@ node /beetmover-dev.*\.srv\.releng\..*\.mozilla\.com/ {
 }
 
 # Pushapk scriptworkers
-node /dep-pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+node /^dep-pushapkworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
     $pushapk_scriptworker_env = 'dep'
     $timezone                 = 'UTC'
@@ -967,7 +968,7 @@ node /dep-pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
     include toplevel::server::pushapkscriptworker
 }
 
-node /pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+node /^pushapkworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
     $pushapk_scriptworker_env = 'prod'
     $timezone                 = 'UTC'
@@ -976,7 +977,7 @@ node /pushapkworker-.*\.srv\.releng\..*\.mozilla\.com/ {
 }
 
 # Transparency scriptworkers
-node /binarytransparencyworker-.*\.srv\.releng\..*\.mozilla\.com/ {
+node /^binarytransparencyworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects = [ 'maximum-security' ]
     $transparencyworker_env = "dev"
     $timezone = "UTC"
@@ -1015,19 +1016,6 @@ node /^treescriptworker-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
 
 ## Loaners
 
-node 'dhouse-1330169.srv.releng.scl3.mozilla.com' {
-    $aspects = [ 'low-security' ]
-    include toplevel::server
-}
-
-# See Bug 1343963
-node 'moonshot-test3.test.releng.scl3.mozilla.com' {
-    $aspects                  = [ 'low-security' ]
-    $slave_trustlevel         = 'try'
-    $taskcluster_worker_type  = 'gecko-t-linux-talos'
-    include toplevel::worker::releng::taskcluster_worker::test::gpu
-}
-
 # Loaner for testing osx firewalling
 # See bug 1369566
 node 't-yosemite-r7-393.test.releng.mdc1.mozilla.com' {
@@ -1035,12 +1023,6 @@ node 't-yosemite-r7-393.test.releng.mdc1.mozilla.com' {
     $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
     $pin_puppet_env    = 'jwatkins'
     include toplevel::base
-}
-
-# See Bug 1375500
-node 'releng-puppet-test1.srv.releng.scl3.mozilla.com' {
-    $aspects = [ 'low-security' ]
-    include toplevel::server
 }
 
 # Loaner for testing pip and python update
@@ -1053,19 +1035,6 @@ node 't-yosemite-r7-394.test.releng.mdc1.mozilla.com' {
     include fw::profiles::osx_taskcluster_worker
     include toplevel::base
     include generic_worker::disabled
-}
-
-node 't-linux64-xe-264.test.releng.mdc1.mozilla.com' {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    $taskcluster_worker_type  = 'gecko-t-linux-talos'
-    include toplevel::worker::releng::taskcluster_worker::test::gpu
-}
-
-node 'ms1-1.test.releng.mdc1.mozilla.com' {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include toplevel::base
 }
 
 # Loaner for testing security patches
