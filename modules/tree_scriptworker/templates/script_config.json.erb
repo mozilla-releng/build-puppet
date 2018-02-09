@@ -1,0 +1,8 @@
+{
+    "work_dir": "<%= scope.lookupvar("tree_scriptworker::settings::root") %>/work",
+    "artifact_dir": "<%= scope.lookupvar("tree_scriptworker::settings::root") %>/artifacts",
+
+    "hg": "<%= scope.lookupvar("packages::mozilla::py27_mercurial::mercurial") %>",
+    "hg_share_base_dir": "<%= scope.lookupvar("tree_scriptworker::settings::share_base") %>",
+    "upstream_repo": "<%= scope.lookupvar("tree_scriptworker::settings::upstream_repo") %>"
+}
