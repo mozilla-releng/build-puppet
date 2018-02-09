@@ -1010,7 +1010,7 @@ node /^treescriptworker-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $treescriptworker_env = 'dev'
     $timezone         = 'UTC'
     $only_user_ssh    = true
-    include toplevel::server
+    include toplevel::server::treescriptworker
 }
 
 
