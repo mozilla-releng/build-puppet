@@ -16,7 +16,7 @@ ExecStartPre=-/bin/bash -c 'docker network ls -qf "name=%i_" | xargs -r docker n
 ExecStartPre=-/bin/bash -c 'docker ps -aqf "name=%i_*" | xargs -r docker rm'
 
 # Compose up
-ExecStart=/usr/local/bin/docker-compose up
+ExecStart=/usr/local/bin/docker-compose up --remove-orphans --abort-on-container-exit --no-color
 
 # Compose down, remove containers and volumes
 ExecStop=/usr/local/bin/docker-compose down -v

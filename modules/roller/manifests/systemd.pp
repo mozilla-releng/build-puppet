@@ -7,6 +7,8 @@ define roller::systemd ($image_tag){
     include docker_ce
 
     $environment = $title
+    $taskcluster_client_id = secret('roller_taskcluster_client_id')
+    $taskcluster_access_token = secret('roller_taskcluster_access_token')
 
     file {
         # Do not put '-' or '_' in directory name.  docker-compose will strip it
