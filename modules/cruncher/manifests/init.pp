@@ -6,7 +6,6 @@ class cruncher {
     include cruncher::config
     include cruncher::httpd
     include cruncher::slave_health
-    include cruncher::reportor
     include cruncher::allthethings
     include cruncher::cron
 }
