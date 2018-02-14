@@ -1011,6 +1011,12 @@ node /^treescriptworker-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::treescriptworker
 }
 
+node /^treescriptworker\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects          = [ 'maximum-security' ]
+    $timezone         = 'UTC'
+    $only_user_ssh    = true
+    include toplevel::server
+}
 
 ## Loaners
 
