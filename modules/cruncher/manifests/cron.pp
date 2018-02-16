@@ -9,9 +9,6 @@ class cruncher::cron {
         '/etc/cron.d/slave_health':
             mode    => '0644',
             content => template('cruncher/slave_health_cron.erb');
-        '/etc/cron.d/reportor':
-            mode    => '0644',
-            content => template('cruncher/reportor_cron.erb');
         '/etc/cron.d/allthethings':
             mode    => '0644',
             content => template('cruncher/allthethings_cron.erb');
