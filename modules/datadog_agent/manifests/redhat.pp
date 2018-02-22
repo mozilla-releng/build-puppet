@@ -49,6 +49,7 @@ class datadog_agent::redhat(
       descr    => 'Datadog, Inc.',
       baseurl  => $baseurl,
       require  => Exec['install-gpg-key'],
+      exclude  => "supervisor* meld3*",
     }
 
     Package { require => Yumrepo['datadog']}
