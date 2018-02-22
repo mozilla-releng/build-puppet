@@ -20,6 +20,7 @@ class tree_scriptworker::settings {
             sign_chain_of_trust => false,
             verify_chain_of_trust => false,
             verify_cot_signature => false,
+            artifact_expiration_hours => 336,
         },
         'prod' => {
             taskcluster_client_id => 'project/releng/scriptworker/treescriptworker',
@@ -29,6 +30,7 @@ class tree_scriptworker::settings {
             sign_chain_of_trust => true,
             verify_chain_of_trust => true,
             verify_cot_signature => true,
+            artifact_expiration_hours => 8760,
         }
     }
 }

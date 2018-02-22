@@ -23,6 +23,7 @@ class signing_scriptworker::settings {
             verify_chain_of_trust    => true,
             verify_cot_signature     => false,
             cot_product              => 'firefox',
+            artifact_expiration_hours => 336,
             datadog_api_key          => secret('scriptworker_datadog_api_key')
         },
         'dep' => {
@@ -37,6 +38,7 @@ class signing_scriptworker::settings {
             verify_chain_of_trust    => true,
             verify_cot_signature     => false,
             cot_product              => 'firefox',
+            artifact_expiration_hours => 336,
             datadog_api_key          => secret('scriptworker_datadog_api_key')
         },
         'prod' => {
@@ -51,6 +53,7 @@ class signing_scriptworker::settings {
             verify_chain_of_trust    => true,
             verify_cot_signature     => true,
             cot_product              => 'firefox',
+            artifact_expiration_hours => 8760,
             datadog_api_key          => secret('scriptworker_datadog_api_key')
         },
         'comm-thunderbird-dep' => {
