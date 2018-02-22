@@ -146,7 +146,17 @@ class fw::networks {
                                     '10.132.30.182/32',  # signing-linux-6.srv.releng.usw2.mozilla.com
                                     '10.132.30.219/32',  # signing-linux-8.srv.releng.usw2.mozilla.com
                                     '10.132.30.166/32',  # signing-linux-10.srv.releng.usw2.mozilla.com
-                                    '10.132.30.43/32' ]  # signing-linux-12.srv.releng.usw2.mozilla.com
+                                    '10.132.30.43/32',   # signing-linux-12.srv.releng.usw2.mozilla.com
+                                    '10.132.30.120/32',  # signing-linux-13.srv.releng.usw2.mozilla.com
+                                    '10.132.30.124/32',  # signing-linux-14.srv.releng.usw2.mozilla.com
+                                    '10.132.30.144/32',  # signing-linux-15.srv.releng.usw2.mozilla.com
+                                    '10.132.30.215/32',  # signing-linux-16.srv.releng.usw2.mozilla.com
+                                    '10.132.30.77/32',   # signing-linux-17.srv.releng.usw2.mozilla.com
+                                    '10.132.30.240/32',  # signing-linux-18.srv.releng.usw2.mozilla.com
+                                    '10.132.30.253/32',  # signing-linux-19.srv.releng.usw2.mozilla.com
+                                    '10.132.30.224/32',  # signing-linux-20.srv.releng.usw2.mozilla.com
+                                    '10.132.30.20/32',   # signing-linux-21.srv.releng.usw2.mozilla.com
+                                    '10.132.30.114/32']  # signing-linux-22.srv.releng.usw2.mozilla.com
 
     $all_signing_linux_workers = [ $use1_signing_linux_workers, $usw2_signing_linux_workers ]
 
