@@ -84,7 +84,7 @@ class signing_scriptworker {
             worker_group              => $env_config['worker_group'],
             worker_type               => $env_config['worker_type'],
             task_max_timeout          => $signing_scriptworker::settings::task_max_timeout,
-            artifact_expiration_hours => $signing_scriptworker::settings::artifact_expiration_hours,
+            artifact_expiration_hours => $env_config['artifact_expiration_hours'],
 
             cot_job_type              => 'signing',
             cot_product               => $env_config['cot_product'],
