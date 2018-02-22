@@ -64,29 +64,30 @@ class beetmover_scriptworker {
 
     scriptworker::instance {
         $beetmover_scriptworker::settings::root:
-            instance_name            => $module_name,
-            basedir                  => $beetmover_scriptworker::settings::root,
+            instance_name             => $module_name,
+            basedir                   => $beetmover_scriptworker::settings::root,
 
-            task_script              => $beetmover_scriptworker::settings::task_script,
-            task_script_config       => $beetmover_scriptworker::settings::task_script_config,
+            task_script               => $beetmover_scriptworker::settings::task_script,
+            task_script_config        => $beetmover_scriptworker::settings::task_script_config,
 
-            username                 => $users::builder::username,
-            group                    => $users::builder::group,
+            username                  => $users::builder::username,
+            group                     => $users::builder::group,
 
-            taskcluster_client_id    => $env_config["taskcluster_client_id"],
-            taskcluster_access_token => $env_config["taskcluster_access_token"],
-            worker_group             => $beetmover_scriptworker::settings::worker_group,
-            worker_type              => $env_config["worker_type"],
+            taskcluster_client_id     => $env_config["taskcluster_client_id"],
+            taskcluster_access_token  => $env_config["taskcluster_access_token"],
+            worker_group              => $beetmover_scriptworker::settings::worker_group,
+            worker_type               => $env_config["worker_type"],
 
-            task_max_timeout         => $beetmover_scriptworker::settings::task_max_timeout,
+            task_max_timeout          => $beetmover_scriptworker::settings::task_max_timeout,
+            artifact_expiration_hours => $beetmover_scriptworker::settings::artifact_expiration_hours,
 
-            cot_job_type             => 'beetmover',
+            cot_job_type              => 'beetmover',
 
-            sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
-            verify_chain_of_trust    => $env_config["verify_chain_of_trust"],
-            verify_cot_signature     => $env_config["verify_cot_signature"],
+            sign_chain_of_trust       => $env_config["sign_chain_of_trust"],
+            verify_chain_of_trust     => $env_config["verify_chain_of_trust"],
+            verify_cot_signature      => $env_config["verify_cot_signature"],
 
-            verbose_logging          => $beetmover_scriptworker::settings::verbose_logging,
+            verbose_logging           => $beetmover_scriptworker::settings::verbose_logging,
     }
 
     file {

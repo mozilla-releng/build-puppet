@@ -53,27 +53,28 @@ class shipit_scriptworker {
 
     scriptworker::instance {
         $shipit_scriptworker::settings::root:
-            instance_name            => $module_name,
-            basedir                  => $shipit_scriptworker::settings::root,
-            work_dir                 => $shipit_scriptworker::settings::work_dir,
+            instance_name             => $module_name,
+            basedir                   => $shipit_scriptworker::settings::root,
+            work_dir                  => $shipit_scriptworker::settings::work_dir,
 
-            task_script              => $shipit_scriptworker::settings::task_script,
+            task_script               => $shipit_scriptworker::settings::task_script,
 
-            username                 => $shipit_scriptworker::settings::user,
-            group                    => $shipit_scriptworker::settings::group,
+            username                  => $shipit_scriptworker::settings::user,
+            group                     => $shipit_scriptworker::settings::group,
 
-            taskcluster_client_id    => $shipit_scriptworker::settings::taskcluster_client_id,
-            taskcluster_access_token => $shipit_scriptworker::settings::taskcluster_access_token,
-            worker_group             => $shipit_scriptworker::settings::worker_group,
-            worker_type              => $shipit_scriptworker::settings::worker_type,
+            taskcluster_client_id     => $shipit_scriptworker::settings::taskcluster_client_id,
+            taskcluster_access_token  => $shipit_scriptworker::settings::taskcluster_access_token,
+            worker_group              => $shipit_scriptworker::settings::worker_group,
+            worker_type               => $shipit_scriptworker::settings::worker_type,
+            artifact_expiration_hours => $shipit_scriptworker::settings::artifact_expiration_hours,
 
-            cot_job_type             => 'shipit',
+            cot_job_type              => 'shipit',
 
-            sign_chain_of_trust      => $shipit_scriptworker::settings::sign_chain_of_trust,
-            verify_chain_of_trust    => $shipit_scriptworker::settings::verify_chain_of_trust,
-            verify_cot_signature     => $shipit_scriptworker::settings::verify_cot_signature,
+            sign_chain_of_trust       => $shipit_scriptworker::settings::sign_chain_of_trust,
+            verify_chain_of_trust     => $shipit_scriptworker::settings::verify_chain_of_trust,
+            verify_cot_signature      => $shipit_scriptworker::settings::verify_cot_signature,
 
-            verbose_logging          => $shipit_scriptworker::settings::verbose_logging,
+            verbose_logging           => $shipit_scriptworker::settings::verbose_logging,
     }
 
     File {

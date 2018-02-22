@@ -67,27 +67,28 @@ class pushapk_scriptworker {
 
     scriptworker::instance {
         $pushapk_scriptworker::settings::root:
-            instance_name            => $module_name,
-            basedir                  => $pushapk_scriptworker::settings::root,
-            work_dir                 => $pushapk_scriptworker::settings::work_dir,
+            instance_name             => $module_name,
+            basedir                   => $pushapk_scriptworker::settings::root,
+            work_dir                  => $pushapk_scriptworker::settings::work_dir,
 
-            task_script              => $pushapk_scriptworker::settings::task_script,
+            task_script               => $pushapk_scriptworker::settings::task_script,
 
-            username                 => $pushapk_scriptworker::settings::user,
-            group                    => $pushapk_scriptworker::settings::group,
+            username                  => $pushapk_scriptworker::settings::user,
+            group                     => $pushapk_scriptworker::settings::group,
 
-            taskcluster_client_id    => $pushapk_scriptworker::settings::taskcluster_client_id,
-            taskcluster_access_token => $pushapk_scriptworker::settings::taskcluster_access_token,
-            worker_group             => $pushapk_scriptworker::settings::worker_group,
-            worker_type              => $pushapk_scriptworker::settings::worker_type,
+            taskcluster_client_id     => $pushapk_scriptworker::settings::taskcluster_client_id,
+            taskcluster_access_token  => $pushapk_scriptworker::settings::taskcluster_access_token,
+            worker_group              => $pushapk_scriptworker::settings::worker_group,
+            worker_type               => $pushapk_scriptworker::settings::worker_type,
 
-            cot_job_type             => 'pushapk',
+            artifact_expiration_hours => $pushapk_scriptworker::settings::artifact_expiration_hours,
+            cot_job_type              => 'pushapk',
 
-            sign_chain_of_trust      => $pushapk_scriptworker::settings::sign_chain_of_trust,
-            verify_chain_of_trust    => $pushapk_scriptworker::settings::verify_chain_of_trust,
-            verify_cot_signature     => $pushapk_scriptworker::settings::verify_cot_signature,
+            sign_chain_of_trust       => $pushapk_scriptworker::settings::sign_chain_of_trust,
+            verify_chain_of_trust     => $pushapk_scriptworker::settings::verify_chain_of_trust,
+            verify_cot_signature      => $pushapk_scriptworker::settings::verify_cot_signature,
 
-            verbose_logging          => $pushapk_scriptworker::settings::verbose_logging,
+            verbose_logging           => $pushapk_scriptworker::settings::verbose_logging,
     }
 
     File {
