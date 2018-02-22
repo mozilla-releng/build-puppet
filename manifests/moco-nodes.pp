@@ -957,6 +957,23 @@ node /^beetmover-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::beetmoverscriptworker
 }
 
+# Bouncer scriptworkers
+node /^bouncerworker-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $bouncer_scriptworker_env = 'dev'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::bouncerscriptworker
+}
+
+node /^bouncerworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $bouncer_scriptworker_env = 'prod'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::bouncerscriptworker
+}
+
 # Pushapk scriptworkers
 node /^dep-pushapkworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
@@ -1063,4 +1080,3 @@ node 't-linux64-ms-280.test.releng.mdc1.mozilla.com' {
     # $pin_puppet_env    = 'dcrian'
     include toplevel::server
 }
-
