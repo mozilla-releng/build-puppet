@@ -79,7 +79,7 @@ class beetmover_scriptworker {
             worker_type               => $env_config["worker_type"],
 
             task_max_timeout          => $beetmover_scriptworker::settings::task_max_timeout,
-            artifact_expiration_hours => $beetmover_scriptworker::settings::artifact_expiration_hours,
+            artifact_expiration_hours => $env_config["artifact_expiration_hours"],
 
             cot_job_type              => 'beetmover',
 
