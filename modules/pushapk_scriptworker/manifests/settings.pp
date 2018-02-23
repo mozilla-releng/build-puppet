@@ -48,8 +48,6 @@ class pushapk_scriptworker::settings {
     $worker_group                        = $_env_config['worker_group']
     $worker_type                         = $_env_config['worker_type']
 
-    $artifact_expiration_hours           = $_env_config['artifact_expiration_hours']
-
     $sign_chain_of_trust                 = $_env_config['sign_chain_of_trust']
     $verify_chain_of_trust               = $_env_config['verify_chain_of_trust']
     $verify_cot_signature                = $_env_config['verify_cot_signature']
