@@ -13,7 +13,7 @@ node /^t-yosemite-r7-00[0-1]\d+\.test\.releng\.scl3\.mozilla\.com$/ {
 ## TaskCluster workers
 
 # OS X in mdc1 running generic worker
-node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|scl3)\.mozilla\.com$/ {
+node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include fw::profiles::osx_taskcluster_worker
