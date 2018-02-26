@@ -5,7 +5,7 @@
 class fw::profiles::buildbot_master {
 
     case $::fqdn {
-        /.*\.(scl3|mdc1)\.mozilla\.com/: {
+        /.*\.(scl3|mdc1|mdc2)\.mozilla\.com/: {
             include ::fw::roles::buildbot_master_from_various
             include ::fw::roles::ssh_from_rejh_logging
             include ::fw::roles::nrpe_from_nagios

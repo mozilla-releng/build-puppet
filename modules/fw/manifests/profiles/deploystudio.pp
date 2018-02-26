@@ -12,6 +12,13 @@ class fw::profiles::deploystudio {
             include ::fw::roles::bacula_from_mdc1_bacula_host
             include ::fw::roles::deploystudio_from_mdc1_releng
         }
+        /.*\.mdc2\.mozilla\.com/: {
+            include ::fw::roles::vnc_from_rejh_logging
+            include ::fw::roles::ssh_from_rejh_logging
+            include ::fw::roles::nrpe_from_nagios
+            include ::fw::roles::bacula_from_mdc2_bacula_host
+            include ::fw::roles::deploystudio_from_mdc2_releng
+        }
         /.*\.scl3\.mozilla\.com/: {
             include ::fw::roles::vnc_from_rejh_logging
             include ::fw::roles::ssh_from_rejh_logging
