@@ -5,7 +5,7 @@
 class fw::profiles::rejh {
 
     case $::fqdn {
-        /.*\.(scl3|mdc1)\.mozilla\.com/: {
+        /.*\.(scl3|mdc1|mdc2)\.mozilla\.com/: {
             include ::fw::roles::ssh_from_anywhere_logging
             include ::fw::roles::nrpe_from_nagios
         }
