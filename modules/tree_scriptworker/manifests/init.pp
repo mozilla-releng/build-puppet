@@ -94,4 +94,10 @@ class tree_scriptworker {
             content   => template("${module_name}/script_config.json.erb"),
             show_diff => false;
     }
+
+    $key_names = keys($env_config["keyset"])
+    slave_secrets::ssh_key {
+        $key_names:
+            slave_keyset => $env_config["keyset"];
+    }
 }

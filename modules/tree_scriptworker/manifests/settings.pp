@@ -21,16 +21,19 @@ class tree_scriptworker::settings {
             verify_chain_of_trust => false,
             verify_cot_signature => false,
             artifact_expiration_hours => 336,
+            keyset => {'trybld' => 'builder_ssh_key_try_trybld_dsa'},
+            ssh_user => 'trybld'
         },
         'prod' => {
             taskcluster_client_id => 'project/releng/scriptworker/treescriptworker',
-            # No prod secret yet, this line would break puppet if not commented out
-            # taskcluster_access_token => secret('treescriptworker_prod_taskcluster_access_token'),
+            taskcluster_access_token => secret('treescriptworker_prod_taskcluster_access_token'),
             worker_type => 'treescript-v1',
             sign_chain_of_trust => true,
             verify_chain_of_trust => true,
             verify_cot_signature => true,
             artifact_expiration_hours => 8760,
+            keyset => {'ffxbld' => 'builder_ssh_key_prod_ffxbld_rsa'},
+            ssh_user => 'ffxbld'
         }
     }
 }
