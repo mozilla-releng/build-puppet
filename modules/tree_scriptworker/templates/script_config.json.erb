@@ -4,5 +4,8 @@
 
     "hg": "<%= scope.lookupvar("packages::mozilla::py27_mercurial::mercurial") %>",
     "hg_share_base_dir": "<%= scope.lookupvar("tree_scriptworker::settings::share_base") %>",
-    "upstream_repo": "<%= scope.lookupvar("tree_scriptworker::settings::upstream_repo") %>"
+    "upstream_repo": "<%= scope.lookupvar("tree_scriptworker::settings::upstream_repo") %>",
+
+    "hg_ssh_user": "<%= @env_config["ssh_user"] %>",
+    "hg_ssh_keyfile": "<%= scope.lookupvar("users::builder::home") %>/.ssh/<%= @env_config["ssh_user"] %>"
 }
