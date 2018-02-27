@@ -1,32 +1,34 @@
-version: '2'
+version: '3.5'
 
 services:
   redis:
     image: redis:3.2
 
-  base:
+  web:
     image: "mozilla/relops-hardware-controller:<%= @image_tag %>"
+    build:
+      context: /opt/rollerdev
+    depends_on:
+      - redis
+    ports:
+      - "<%= @port %>:<%= @port %>"
     environment:
       - DJANGO_CONFIGURATION=Dev
     env_file:
       - .env
     volumes:
       - /opt/rollerdev:/app
-
-  web:
-    extends:
-      service: base
-    depends_on:
-      - redis
-    ports:
-      - "<%= @port %>:<%= @port %>"
-    links:
-      - redis
     command: web-dev
 
-  watch-worker:
-    extends:
-      service: base
-    links:
-      - redis
+  worker:
+    image: "mozilla/relops-hardware-controller:<%= @image_tag %>"
+    build:
+      context: /opt/rollerdev
+    environment:
+      - WORKER_CONFIG_PATH=/run/worker_config.json
+    env_file:
+      - .env
+    volumes:
+      - /opt/rollerdev:/app
+      - ./worker_config.json:/run/worker_config.json:ro
     command: watch-worker-purge

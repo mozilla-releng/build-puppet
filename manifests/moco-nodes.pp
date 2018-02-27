@@ -360,8 +360,6 @@ node 'slaveapi-dev1.srv.releng.scl3.mozilla.com' {
 
 node /^roller1\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects = [ 'high-security', 'prod' ]
-    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
-    $pin_puppet_env    = 'jwatkins'
     include fw::profiles::roller
     include toplevel::server::roller
 }
