@@ -10,11 +10,21 @@ define roller::systemd ($image_tag){
     $taskcluster_client_id = secret('roller_taskcluster_client_id')
     $taskcluster_access_token = secret('roller_taskcluster_access_token')
 
+    $moonshot_ipmi_user = secret('roller_moonshot_ipmi_user')
+    $moonshot_ipmi_password = secret('roller_moonshot_ipmi_password')
+
+    $django_secret_key = secret('roller_django_secret_key')
+
+    $bugzilla_api_key = secret('roller_bugzilla_api_key')
+
     file {
         # Do not put '-' or '_' in directory name.  docker-compose will strip it
         # when creating containers and this breaks the systemd use of %i
         "/etc/docker/compose/roller${environment}":
             ensure => directory;
+        "/etc/docker/compose/roller${environment}/worker_config.json":
+            ensure  => file,
+            content => template("roller/${environment}/worker_config.json.erb");
         "/etc/docker/compose/roller${environment}/docker-compose.yml":
             ensure  => file,
             content => template("roller/${environment}/docker-compose.yml.erb");
