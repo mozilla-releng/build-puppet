@@ -218,7 +218,7 @@ class fw::networks {
                               '10.50.242.0/23' ] # 10.50.242.0/23 (prod TCP)  = 10-50-Y-Z.vpn.mdc2.mozilla.com
 
     # All vpn endpoint ranges
-    $infra_vpn_users =  [ $infra_scl3_vpn_users, $infra_mcd1_vpn_users, $infra_mdc2_vpn_users ]
+    $infra_vpn_users =  [ $infra_scl3_vpn_users, $infra_mdc1_vpn_users, $infra_mdc2_vpn_users ]
 
     # Infra Jumphosts
     $infra_corp_jumphost = [  '10.22.72.158/32',  # ssh1.corpdmz.scl3.mozilla.com
