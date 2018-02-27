@@ -18,8 +18,6 @@ services:
 
   worker:
     image: "mozilla/relops-hardware-controller:<%= @image_tag %>"
-    build:
-      context: /opt/rollerdev
     environment:
       - WORKER_CONFIG_PATH=/run/worker_config.json
     env_file:
