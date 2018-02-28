@@ -88,31 +88,30 @@ class balrog_scriptworker {
 
     scriptworker::instance {
         $balrog_scriptworker::settings::root:
-            instance_name             => $module_name,
-            basedir                   => $balrog_scriptworker::settings::root,
+            instance_name            => $module_name,
+            basedir                  => $balrog_scriptworker::settings::root,
 
-            task_script_executable    => $balrog_scriptworker::settings::task_script_executable,
-            task_script               => $balrog_scriptworker::settings::task_script,
-            task_script_config        => $balrog_scriptworker::settings::task_script_config,
+            task_script_executable   => $balrog_scriptworker::settings::task_script_executable,
+            task_script              => $balrog_scriptworker::settings::task_script,
+            task_script_config       => $balrog_scriptworker::settings::task_script_config,
 
-            username                  => $users::builder::username,
-            group                     => $users::builder::group,
+            username                 => $users::builder::username,
+            group                    => $users::builder::group,
 
-            taskcluster_client_id     => $env_config["taskcluster_client_id"],
-            taskcluster_access_token  => $env_config["taskcluster_access_token"],
-            worker_group              => $balrog_scriptworker::settings::worker_group,
-            worker_type               => $env_config["worker_type"],
+            taskcluster_client_id    => $env_config["taskcluster_client_id"],
+            taskcluster_access_token => $env_config["taskcluster_access_token"],
+            worker_group             => $balrog_scriptworker::settings::worker_group,
+            worker_type              => $env_config["worker_type"],
 
-            task_max_timeout          => $balrog_scriptworker::settings::task_max_timeout,
-            artifact_expiration_hours => $balrog_scriptworker::settings::artifact_expiration_hours,
+            task_max_timeout         => $balrog_scriptworker::settings::task_max_timeout,
 
-            cot_job_type              => 'balrog',
+            cot_job_type             => 'balrog',
 
-            sign_chain_of_trust       => $env_config["sign_chain_of_trust"],
-            verify_chain_of_trust     => $env_config["verify_chain_of_trust"],
-            verify_cot_signature      => $env_config["verify_cot_signature"],
+            sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
+            verify_chain_of_trust    => $env_config["verify_chain_of_trust"],
+            verify_cot_signature     => $env_config["verify_cot_signature"],
 
-            verbose_logging           => $balrog_scriptworker::settings::verbose_logging,
+            verbose_logging          => $balrog_scriptworker::settings::verbose_logging,
     }
 
     mercurial::repo {

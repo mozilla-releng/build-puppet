@@ -22,8 +22,7 @@ class transparency_scriptworker::settings {
             transparency_aws_secret_access_key => secret('transparency-aws_secret_access_key'),
             sign_chain_of_trust                => false,
             verify_chain_of_trust              => false,
-            verify_cot_signature               => false,
-            artifact_expiration_hours          => 336
+            verify_cot_signature               => false
         }
     }
 }

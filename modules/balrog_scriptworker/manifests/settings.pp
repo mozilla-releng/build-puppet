@@ -18,7 +18,6 @@ class balrog_scriptworker::settings {
             balrog_password => secret('balrog-stage-ffxbld_ldap_password'),
             balrog_api_root => 'https://balrog-admin.stage.mozaws.net/api',
 
-            artifact_expiration_hours => 336,
             dummy => false,
             tools_repo => 'https://hg.mozilla.org/build/tools',
             taskcluster_client_id => 'project/releng/scriptworker/balrogworker-dev',
@@ -33,7 +32,6 @@ class balrog_scriptworker::settings {
             balrog_password => secret('balrog-ffxbld_ldap_password'),
             balrog_api_root => 'https://aus4-admin.mozilla.org/api',
 
-            artifact_expiration_hours => 8760,
             dummy => false,
             tools_repo => 'https://hg.mozilla.org/build/tools',
             taskcluster_client_id => 'project/releng/scriptworker/balrogworker',

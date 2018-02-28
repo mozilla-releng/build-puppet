@@ -20,7 +20,6 @@ class tree_scriptworker::settings {
             sign_chain_of_trust => false,
             verify_chain_of_trust => false,
             verify_cot_signature => false,
-            artifact_expiration_hours => 336,
             keyset => {'trybld' => 'builder_ssh_key_try_trybld_dsa'},
             ssh_user => 'trybld'
         },
@@ -31,7 +30,6 @@ class tree_scriptworker::settings {
             sign_chain_of_trust => true,
             verify_chain_of_trust => true,
             verify_cot_signature => true,
-            artifact_expiration_hours => 8760,
             keyset => {'ffxbld' => 'builder_ssh_key_prod_ffxbld_rsa'},
             ssh_user => 'ffxbld'
         }
