@@ -1049,3 +1049,12 @@ node 'relops-patching1.srv.releng.mdc1.mozilla.com' {
     $pin_puppet_env    = 'dcrisan'
     include toplevel::server
 }
+
+# Loaner for dcrisan; Bug 1410207
+node 't-linux64-ms-280.test.releng.mdc1.mozilla.com' {
+    $aspects = [ 'low-security' ]
+    # $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
+    # $pin_puppet_env    = 'dcrian'
+    include toplevel::server
+}
+
