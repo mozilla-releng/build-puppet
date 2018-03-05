@@ -13,10 +13,13 @@ class packages::mozilla::mozilla_maintenance_service {
     $key_0            = "${service_reg_path}\\0"
     $key_1            = "${service_reg_path}\\1"
     $key_2            = "${service_reg_path}\\2"
+    $key_3            = "${service_reg_path}\\3"
     $_name            = '"name"="Mozilla Corporation"'
+    $_name3           = '"name"="Mozilla Fake SPC"'
     $issuer_0         = '"issuer"="Thawte Code Signing CA - G2"'
     $issuer_1         = '"issuer"="Mozilla Fake CA"'
     $issuer_2         = '"DigiCert SHA2 Assured ID Code Signing CA"'
+    $issuer_3         = '"Mozilla Fake CA"'
     $programname      = '"programName"=""'
     $publisherlink    = '"publisherLink"=""'
 
@@ -26,6 +29,7 @@ class packages::mozilla::mozilla_maintenance_service {
             zip        => 'updateservice.zip',
             target_dir => "C:\\etc";
     }
+
     # After the packages is unzipped the service needs to be installed
     # The services needs to be installed but not necessarily running
     # Hence no attempt to use the service resource to manage it
