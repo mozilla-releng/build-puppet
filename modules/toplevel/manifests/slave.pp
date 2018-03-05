@@ -26,6 +26,8 @@ class toplevel::slave inherits toplevel::base {
             include slave_secrets::crash_stats_api_token
             include mercurial::system_hgrc
             include mercurial::cacert
+            include packages::mozilla::mozilla_maintenance_service
+            include vnc
         }
     }
 }
