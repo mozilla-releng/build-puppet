@@ -10,7 +10,7 @@ class bouncer_scriptworker::settings {
 
     $bouncer_stage_instance_scope = 'project:releng:bouncer:server:staging'
     $bouncer_stage_instance_config = {
-        api_root                  => 'https://admin-bouncer-releng.stage.mozaws.net/',
+        api_root                  => 'https://admin-bouncer-releng.stage.mozaws.net/api',
         timeout_in_seconds        => 60,
         username                  => 'ffxbld',
         # TODO Split credentials
@@ -47,7 +47,7 @@ class bouncer_scriptworker::settings {
         bouncer_instances        => {
             "${bouncer_stage_instance_scope}"   => $bouncer_stage_instance_config,
             'project:releng:bouncer:server:production' => {
-                api_root                  => 'https://bounceradmin.mozilla.com/',
+                api_root                  => 'https://bounceradmin.mozilla.com/api',
                 timeout_in_seconds        => 60,
                 username                  => 'ffxbld',
                 # TODO Split credentials
