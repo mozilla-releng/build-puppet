@@ -26,7 +26,7 @@ class bouncer_scriptworker {
                 'aiohttp==2.3.9',
                 'arrow==0.12.1',
                 'async_timeout==1.4.0',
-                'bouncerscript==0.1.1',
+                'bouncerscript==0.1.0',
                 'certifi==2018.1.18',
                 'chardet==3.0.4',
                 'defusedxml==0.5.0',
