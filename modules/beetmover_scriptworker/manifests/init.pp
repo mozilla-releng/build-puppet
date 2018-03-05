@@ -52,7 +52,7 @@ class beetmover_scriptworker {
                 'redo==1.6',
                 'requests==2.18.4',
                 's3transfer==0.1.12',
-                'scriptworker==8.0.0',
+                'scriptworker==10.0.0',
                 'six==1.10.0',
                 'slugid==1.0.7',
                 'taskcluster==2.1.3',

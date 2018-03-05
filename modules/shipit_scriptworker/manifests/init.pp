@@ -39,7 +39,7 @@ class shipit_scriptworker {
                 'python-gnupg==0.4.1',
                 'redo==1.6',
                 'requests==2.18.4',
-                'scriptworker==8.1.0',
+                'scriptworker==10.0.0',
                 'shipitapi==0.1.0',
                 'shipitscript==0.1.0',
                 'six==1.10.0',
