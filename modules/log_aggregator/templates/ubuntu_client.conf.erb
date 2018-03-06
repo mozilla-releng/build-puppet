@@ -10,5 +10,5 @@
 # (via TCP because of the second @)
 # Bug 1410207: via UDP as workaround. TCP resulting in zero-length msg
 
-*.* @<%= @log_aggregator %>:<%= @logging_port %>
+*.* @@<%= @log_aggregator %>:<%= @logging_port %>
 
