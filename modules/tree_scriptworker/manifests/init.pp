@@ -45,7 +45,7 @@ class tree_scriptworker {
                   'python-dateutil==2.6.1',
                   'python-gnupg==0.4.1',
                   'requests==2.18.4',
-                  'scriptworker==8.1.1',
+                  'scriptworker==10.0.0',
                   'treescript==0.3',
                   'six==1.10.0',
                   'slugid==1.0.7',
@@ -58,31 +58,30 @@ class tree_scriptworker {
 
     scriptworker::instance {
         $tree_scriptworker::settings::root:
-            instance_name             => $module_name,
-            basedir                   => $tree_scriptworker::settings::root,
+            instance_name            => $module_name,
+            basedir                  => $tree_scriptworker::settings::root,
 
-            task_script_executable    => $tree_scriptworker::settings::task_script_executable,
-            task_script               => $tree_scriptworker::settings::task_script,
-            task_script_config        => $tree_scriptworker::settings::task_script_config,
+            task_script_executable   => $tree_scriptworker::settings::task_script_executable,
+            task_script              => $tree_scriptworker::settings::task_script,
+            task_script_config       => $tree_scriptworker::settings::task_script_config,
 
-            username                  => $users::builder::username,
-            group                     => $users::builder::group,
+            username                 => $users::builder::username,
+            group                    => $users::builder::group,
 
-            taskcluster_client_id     => $env_config["taskcluster_client_id"],
-            taskcluster_access_token  => $env_config["taskcluster_access_token"],
-            worker_group              => $tree_scriptworker::settings::worker_group,
-            worker_type               => $env_config["worker_type"],
+            taskcluster_client_id    => $env_config["taskcluster_client_id"],
+            taskcluster_access_token => $env_config["taskcluster_access_token"],
+            worker_group             => $tree_scriptworker::settings::worker_group,
+            worker_type              => $env_config["worker_type"],
 
-            task_max_timeout          => $tree_scriptworker::settings::task_max_timeout,
-            artifact_expiration_hours => $tree_scriptworker::settings::artifact_expiration_hours,
+            task_max_timeout         => $tree_scriptworker::settings::task_max_timeout,
 
-            cot_job_type              => 'scriptworker',
+            cot_job_type             => 'scriptworker',
 
-            sign_chain_of_trust       => $env_config["sign_chain_of_trust"],
-            verify_chain_of_trust     => $env_config["verify_chain_of_trust"],
-            verify_cot_signature      => $env_config["verify_cot_signature"],
+            sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
+            verify_chain_of_trust    => $env_config["verify_chain_of_trust"],
+            verify_cot_signature     => $env_config["verify_cot_signature"],
 
-            verbose_logging           => $tree_scriptworker::settings::verbose_logging,
+            verbose_logging          => $tree_scriptworker::settings::verbose_logging,
     }
 
     file {

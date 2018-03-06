@@ -23,7 +23,6 @@ class shipit_scriptworker::settings {
         verbose_logging          => true,
         taskcluster_client_id    => 'project/releng/scriptworker/shipit/dev',
         taskcluster_access_token => secret('shipit_scriptworker_taskcluster_access_token_dev'),
-        artifact_expiration_hours => 336,
 
         sign_chain_of_trust      => false,
         verify_chain_of_trust    => true,
@@ -39,7 +38,6 @@ class shipit_scriptworker::settings {
         verbose_logging          => true,
         taskcluster_client_id    => 'project/releng/scriptworker/shipit/production',
         taskcluster_access_token => secret('shipit_scriptworker_taskcluster_access_token_prod'),
-        artifact_expiration_hours => 8760,
 
         sign_chain_of_trust      => true,
         verify_chain_of_trust    => true,

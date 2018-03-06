@@ -15,7 +15,6 @@ class pushapk_scriptworker::settings {
         verbose_logging          => true,
         taskcluster_client_id    => secret('pushapk_scriptworker_taskcluster_client_id_dep'),
         taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_dep'),
-        artifact_expiration_hours => 336,
 
         sign_chain_of_trust      => false,
         verify_chain_of_trust    => true,
@@ -27,7 +26,6 @@ class pushapk_scriptworker::settings {
         verbose_logging          => true,
         taskcluster_client_id    => secret('pushapk_scriptworker_taskcluster_client_id_prod'),
         taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_prod'),
-        artifact_expiration_hours => 8760,
 
         sign_chain_of_trust      => true,
         verify_chain_of_trust    => true,

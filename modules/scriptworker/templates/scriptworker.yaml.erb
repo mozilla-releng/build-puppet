@@ -7,7 +7,6 @@ credentials:
     clientId: <%= @taskcluster_client_id %>
     accessToken: <%= @taskcluster_access_token %>
 
-artifact_expiration_hours: <%= @artifact_expiration_hours %>
 artifact_upload_timeout: <%= @artifact_upload_timeout %>
 task_max_timeout: <%= @task_max_timeout %>
 task_script: ["<%= @task_script_executable %>", "<%= @task_script %>", "<%= @task_script_config %>"]

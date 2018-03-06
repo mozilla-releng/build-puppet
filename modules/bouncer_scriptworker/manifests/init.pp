@@ -43,7 +43,7 @@ class bouncer_scriptworker {
                 'python-gnupg==0.4.1',
                 'redo==1.6',
                 'requests==2.18.4',
-                'scriptworker==9.0.0',
+                'scriptworker==10.0.0',
                 'six==1.10.0',
                 'slugid==1.0.7',
                 'taskcluster==2.1.3',

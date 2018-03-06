@@ -24,7 +24,6 @@ define scriptworker::instance(
 
     $worker_id                    = $hostname,
     $task_max_timeout             = 3600,
-    $artifact_expiration_hours    = 336,
     $artifact_upload_timeout      = 1200,
 
     $sign_chain_of_trust          = true,

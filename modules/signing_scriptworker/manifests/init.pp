@@ -55,7 +55,7 @@ class signing_scriptworker {
                   'python-gnupg==0.4.1',
                   'python-jose==2.0.0',
                   'requests==2.18.1',
-                  'scriptworker==8.1.0',
+                  'scriptworker==10.0.0',
                   'signingscript==5.0.0',
                   'signtool==3.1.6',
                   'simplejson==3.13.2',
@@ -70,30 +70,29 @@ class signing_scriptworker {
 
     scriptworker::instance {
         $signing_scriptworker::settings::root:
-            instance_name             => $module_name,
-            basedir                   => $signing_scriptworker::settings::root,
+            instance_name            => $module_name,
+            basedir                  => $signing_scriptworker::settings::root,
 
-            task_script               => $signing_scriptworker::settings::task_script,
-            task_script_config        => $signing_scriptworker::settings::task_script_config,
+            task_script              => $signing_scriptworker::settings::task_script,
+            task_script_config       => $signing_scriptworker::settings::task_script_config,
 
-            username                  => $users::signer::username,
-            group                     => $users::signer::group,
+            username                 => $users::signer::username,
+            group                    => $users::signer::group,
 
-            taskcluster_client_id     => $env_config['taskcluster_client_id'],
-            taskcluster_access_token  => $env_config['taskcluster_access_token'],
-            worker_group              => $env_config['worker_group'],
-            worker_type               => $env_config['worker_type'],
-            task_max_timeout          => $signing_scriptworker::settings::task_max_timeout,
-            artifact_expiration_hours => $signing_scriptworker::settings::artifact_expiration_hours,
+            taskcluster_client_id    => $env_config['taskcluster_client_id'],
+            taskcluster_access_token => $env_config['taskcluster_access_token'],
+            worker_group             => $env_config['worker_group'],
+            worker_type              => $env_config['worker_type'],
+            task_max_timeout         => $signing_scriptworker::settings::task_max_timeout,
 
-            cot_job_type              => 'signing',
-            cot_product               => $env_config['cot_product'],
+            cot_job_type             => 'signing',
+            cot_product              => $env_config['cot_product'],
 
-            sign_chain_of_trust       => $env_config["sign_chain_of_trust"],
-            verify_chain_of_trust     => $env_config["verify_chain_of_trust"],
-            verify_cot_signature      => $env_config["verify_cot_signature"],
+            sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
+            verify_chain_of_trust    => $env_config["verify_chain_of_trust"],
+            verify_cot_signature     => $env_config["verify_cot_signature"],
 
-            verbose_logging           => $signing_scriptworker::settings::verbose
+            verbose_logging          => $signing_scriptworker::settings::verbose
     }
 
     file {
