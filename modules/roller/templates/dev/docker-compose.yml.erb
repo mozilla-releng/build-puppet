@@ -5,7 +5,7 @@ services:
     image: redis:3.2
 
   web:
-    image: "mozilla/relops-hardware-controller:<%= @image_tag %>"
+    image: "mozillarelops/roller:<%= @image_tag %>"
     build:
       context: /opt/rollerdev
     depends_on:
@@ -13,15 +13,19 @@ services:
     ports:
       - "<%= @port %>:<%= @port %>"
     environment:
+      - SSL_CERT=/run/ssl.crt
+      - SSL_KEY=/run/ssl.key
       - DJANGO_CONFIGURATION=Dev
     env_file:
       - .env
     volumes:
       - /opt/rollerdev:/app
+      - ./ssl.crt:/run/ssl.crt:ro
+      - ./ssl.key:/run/ssl.key:ro
     command: web-dev
 
   worker:
-    image: "mozilla/relops-hardware-controller:<%= @image_tag %>"
+    image: "mozillarelops/roller:<%= @image_tag %>"
     build:
       context: /opt/rollerdev
     environment:
@@ -32,3 +36,14 @@ services:
       - /opt/rollerdev:/app
       - ./worker_config.json:/run/worker_config.json:ro
     command: watch-worker-purge
+
+  ssl:
+    image: nginx:latest
+    depends_on:
+      - web
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./ssl.crt:/run/ssl.crt:ro
+      - ./ssl.key:/run/ssl.key:ro
