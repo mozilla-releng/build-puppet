@@ -17,11 +17,20 @@ define roller::systemd ($image_tag){
 
     $bugzilla_api_key = secret('roller_bugzilla_api_key')
 
+    $ssl_key = secret('roller_ssl_key')
+    $ssl_cert = secret('roller_ssl_cert')
+
     file {
         # Do not put '-' or '_' in directory name.  docker-compose will strip it
         # when creating containers and this breaks the systemd use of %i
         "/etc/docker/compose/roller${environment}":
             ensure => directory;
+        "/etc/docker/compose/roller${environment}/ssl.key":
+            ensure  => file,
+            content => $ssl_key;
+        "/etc/docker/compose/roller${environment}/ssl.crt":
+            ensure  => file,
+            content => $ssl_cert;
         "/etc/docker/compose/roller${environment}/worker_config.json":
             ensure  => file,
             content => template("roller/${environment}/worker_config.json.erb");

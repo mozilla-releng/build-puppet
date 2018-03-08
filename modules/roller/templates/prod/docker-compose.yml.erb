@@ -5,7 +5,7 @@ services:
     image: redis:3.2
 
   web:
-    image: "mozilla/relops-hardware-controller:<%= @image_tag %>"
+    image: "mozillarelops/roller:<%= @image_tag %>"
     depends_on:
       - redis
     ports:
@@ -17,7 +17,7 @@ services:
     command: web
 
   worker:
-    image: "mozilla/relops-hardware-controller:<%= @image_tag %>"
+    image: "mozillarelops/roller:<%= @image_tag %>"
     environment:
       - WORKER_CONFIG_PATH=/run/worker_config.json
     env_file:
