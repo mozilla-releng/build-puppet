@@ -9,24 +9,24 @@ class config inherits config::base {
     $puppet_relops_email   = 'relops@mozilla.com'
 
     # what puppet report processors to use
-    # http temporarily disabled in mdc1 until relops sets up a local foreman
+    # http temporarily disabled in mdc1 and mdc2 until relops sets up a local foreman
     $puppet_server_reports = $::fqdn ? {
-        /.*\.mdc1\.mozilla\.com/             => 'tagmail',
+        /.*\.(mdc1|mdc2)\.mozilla\.com/      => 'tagmail',
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'tagmail,http',
         default => '',
     }
 
     # where to send http/https reports
     $puppet_server_reporturl = $::fqdn ? {
-        /.*\.mdc1\.mozilla\.com/             => '',
+        /.*\.(mdc1|mdc2)\.mozilla\.com/      => '',
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'http://foreman.pvt.build.mozilla.org:3001/',
         default => '',
     }
 
     # where to store puppet facts
-    # http temporarily disabled in mdc1 until relops sets up a local foreman
+    # http temporarily disabled in mdc1 and mdc2 until relops sets up a local foreman
     $puppet_server_facturl = $::fqdn ? {
-        /.*\.mdc1\.mozilla\.com/             => '',
+        /.*\.(mdc1|mdc2)\.mozilla\.com/      => '',
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'http://foreman.pvt.build.mozilla.org:3000/',
         default => '',
     }
@@ -47,6 +47,10 @@ class config inherits config::base {
         '.*\.releng\.mdc1\.mozilla\.com' => [
             'releng-puppet1.srv.releng.mdc1.mozilla.com',
             'releng-puppet2.srv.releng.mdc1.mozilla.com',
+        ],
+        '.*\.releng\.mdc2\.mozilla\.com' => [
+            'releng-puppet1.srv.releng.mdc2.mozilla.com',
+            'releng-puppet2.srv.releng.mdc2.mozilla.com',
         ],
         '.*\.releng\.scl3\.mozilla\.com' => [
             'releng-puppet1.srv.releng.scl3.mozilla.com',
@@ -84,6 +88,7 @@ class config inherits config::base {
         'moco_ldap' => {
             'moco_ldap_uri'   => $::fqdn ? {
                         /.*\.mdc1\.mozilla\.com/             => 'ldap://ldap-slave.vips.private.mdc1.mozilla.com',
+                        /.*\.mdc2\.mozilla\.com/             => 'ldap://ldap-slave.vips.private.mdc2.mozilla.com',
                         default                              => 'ldap://ldap.db.scl3.mozilla.com/',
                 },
             'moco_ldap_root'  => 'dc=mozilla',
@@ -107,12 +112,14 @@ class config inherits config::base {
 
     $nrpe_allowed_hosts            = $::fqdn? {
         /.*\.mdc1\.mozilla\.com/             => '127.0.0.1,10.49.75.30',
+        /.*\.mdc2\.mozilla\.com/             => '127.0.0.1,10.51.75.30',
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => '127.0.0.1,10.26.75.30',
         default                              => '127.0.0.1,10.26.75.30',
     }
 
     $ntp_servers                   = $::fqdn? {
         /.*\.mdc1\.mozilla\.com/             => [ 'infoblox1.private.mdc1.mozilla.com' ],
+        /.*\.mdc2\.mozilla\.com/             => [ 'infoblox1.private.mdc2.mozilla.com' ],
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => [ 'ns1.private.releng.scl3.mozilla.com',
                                                   'ns2.private.releng.scl3.mozilla.com',
                                                   'ns1.private.scl3.mozilla.com',
@@ -127,6 +134,7 @@ class config inherits config::base {
 
     $relayhost                     = $::fqdn? {
         /.*\.mdc1\.mozilla\.com/             => 'smtp1.private.mdc1.mozilla.com',
+        /.*\.mdc2\.mozilla\.com/             => 'smtp1.private.mdc2.mozilla.com',
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'smtp.mail.scl3.mozilla.com',
         default                              => undef,
     }
@@ -135,7 +143,7 @@ class config inherits config::base {
 
     # Conditional puppet run at boot for Mac slaves
     case $::fqdn {
-        /t-yosemite-r7-\d+\.test\.releng\.(scl3|mdc1|usw2|use1)\.mozilla\.com/: {
+        /t-yosemite-r7-\d+\.test\.releng\.(scl3|mdc1|mdc2|usw2|use1)\.mozilla\.com/: {
             $puppet_run_atboot_if_more_than_n_reboots = 5
             $puppet_run_atboot_if_more_than_seconds   = 3600
         }
@@ -219,12 +227,12 @@ class config inherits config::base {
     ]
 
     $admin_users                     = $::fqdn ? {
-        /^rejh\d\.srv\.releng\.(mdc1|scl3)\.mozilla.com/  => $jumphost_admin_users,
+        /^rejh\d\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla.com/  => $jumphost_admin_users,
         # signing machines have a very limited access list
-        /^(mac-)?(v2-)?signing\d\..*/                     => $shortlist,
-        /^signing-linux-\d\..*/                           => $shortlist,
-        /signingworker-.*\.srv\.releng\..*\.mozilla\.com/ => $shortlist,
-        default                                           => hiera('ldap_admin_users',
+        /^(mac-)?(v2-)?signing\d\..*/                          => $shortlist,
+        /^signing-linux-\d\..*/                                => $shortlist,
+        /signingworker-.*\.srv\.releng\..*\.mozilla\.com/      => $shortlist,
+        default                                                => hiera('ldap_admin_users',
                                                                     # backup to ensure access in cas'e the sync fails:
                                                                     ['klibby', 'jwatkins'])
     }
@@ -252,8 +260,8 @@ class config inherits config::base {
     ]
 
     $users = $::fqdn ? {
-        /^rejh\d\.srv\.releng\.(mdc1|scl3)\.mozilla.com/  => $jumphost_users,
-        default                                           => []
+        /^rejh\d\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla.com/  => $jumphost_users,
+        default                                                => []
     }
 
     $buildbot_mail_to                 = 'release@mozilla.com'
@@ -413,6 +421,15 @@ class config inherits config::base {
                     },
                 }
         }
+        /.*\.mdc2\.mozilla\.com/: {
+                $collectd_write = {
+                    graphite_nodes => {
+                        'graphite1.private.mdc2.mozilla.com' => {
+                            'port' => '2003', 'prefix' => 'hosts.',
+                        },
+                    },
+                }
+        }
         /.*\.scl3\.mozilla\.com/: {
                 $collectd_write                    = {
                     graphite_nodes => {
@@ -429,6 +446,7 @@ class config inherits config::base {
     # cef server for auditd output
     $cef_syslog_server = $::fqdn ? {
         /.*\.mdc1\.mozilla\.com/             => 'syslog1.private.mdc1.mozilla.com',
+        /.*\.mdc2\.mozilla\.com/             => 'syslog1.private.mdc2.mozilla.com',
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'syslog1.private.scl3.mozilla.com',
         default => '',
     }
@@ -442,6 +460,7 @@ class config inherits config::base {
 
     $log_aggregator    = $::fqdn ? {
         /.*\.mdc1\.mozilla\.com/ => 'log-aggregator.srv.releng.mdc1.mozilla.com',
+        /.*\.mdc2\.mozilla\.com/ => 'log-aggregator.srv.releng.mdc2.mozilla.com',
         /.*\.scl3\.mozilla\.com/ => 'log-aggregator.srv.releng.scl3.mozilla.com',
         /.*\.use1\.mozilla\.com/ => 'log-aggregator.srv.releng.use1.mozilla.com',
         /.*\.usw2\.mozilla\.com/ => 'log-aggregator.srv.releng.usw2.mozilla.com',
@@ -450,8 +469,8 @@ class config inherits config::base {
 
     # we need to pick a logging port > 1024 for AWS to use the ELB
     $logging_port = $::fqdn ? {
-        /.*\.(mdc1|scl3)\.mozilla\.com/ => '514',
-        /.*\.(usw2|use1)\.mozilla\.com/ => '1514',
+        /.*\.(mdc1|mdc2|scl3)\.mozilla\.com/ => '514',
+        /.*\.(usw2|use1)\.mozilla\.com/      => '1514',
         default => '',
     }
 
@@ -483,8 +502,8 @@ class config inherits config::base {
         10.8    => '5.1-cmdline',
         10.9    => '5.0-cmdline',
         10.10   => $::fqdn ? {
-            /t-yosemite-r7-\d+\.test\.releng\.(scl3|mdc1)\.mozilla\.com/ => '6.1-cmdline',
-            default                                                      => '6.1',
+            /t-yosemite-r7-\d+\.test\.releng\.(scl3|mdc1|mdc2)\.mozilla\.com/ => '6.1-cmdline',
+            default                                                           => '6.1',
             },
         default => undef
     }
@@ -525,6 +544,7 @@ class config inherits config::base {
     # bacula configuration
     $bacula_director = $::fqdn? {
         /.*\.mdc1\.mozilla\.com/             => 'bacula1.private.mdc1.mozilla.com',
+        /.*\.mdc2\.mozilla\.com/             => 'bacula1.private.mdc2.mozilla.com',
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'bacula1.private.scl3.mozilla.com',
         default => undef,
     }
@@ -533,6 +553,7 @@ class config inherits config::base {
     # this isn't actually secret, but it's long, so we stick it in hiera.
     $bacula_cacert = $::fqdn? {
         /.*\.mdc1\.mozilla\.com/             => secret('bacula_mdc1_ca_cert'),
+        /.*\.mdc2\.mozilla\.com/             => secret('bacula_mdc2_ca_cert'),
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => secret('bacula_scl3_ca_cert'),
         default => undef,
     }
@@ -614,7 +635,7 @@ class config inherits config::base {
 
     # TC host-secrets
     $tc_host_secrets_servers = $::fqdn ? {
-        /.*\.(mdc1|scl3)\.mozilla\.com/       => [
+        /.*\.(mdc1|mdc2|scl3)\.mozilla\.com/  => [
             "tc-host-secrets1.srv.releng.${1}.mozilla.com",
             "tc-host-secrets2.srv.releng.${1}.mozilla.com"
         ],
