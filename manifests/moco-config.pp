@@ -553,7 +553,7 @@ class config inherits config::base {
     # this isn't actually secret, but it's long, so we stick it in hiera.
     $bacula_cacert = $::fqdn? {
         /.*\.mdc1\.mozilla\.com/             => secret('bacula_mdc1_ca_cert'),
-        /.*\.mdc2\.mozilla\.com/             => secret('bacula_mdc2_ca_cert'),
+        /.*\.mdc2\.mozilla\.com/             => '', # shortterm bustage fix see bug 1443270
         /.*\.(scl3|usw2|use1)\.mozilla\.com/ => secret('bacula_scl3_ca_cert'),
         default => undef,
     }
