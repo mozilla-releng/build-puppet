@@ -283,11 +283,11 @@ node 'install.test.releng.mdc2.mozilla.com' {
     $aspects = [ 'maximum-security' ]
     include fw::profiles::deploystudio
     include toplevel::server::deploystudio
-    class {
-        'bacula_client':
-            cert => secret('install_test_releng_mdc2_bacula_cert'),
-            key  => secret('install_test_releng_mdc2_bacula_key');
-    }
+#    class {
+#        'bacula_client':
+#            cert => secret('install_test_releng_mdc2_bacula_cert'),
+#            key  => secret('install_test_releng_mdc2_bacula_key');
+#    }
 }
 
 ## Jump hosts
