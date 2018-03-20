@@ -967,7 +967,7 @@ node /^bouncerworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::bouncerscriptworker
 }
 
-# Pushapk scriptworkers
+# PushAPK scriptworkers
 node /^dep-pushapkworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
     $pushapk_scriptworker_env = 'dep'
@@ -983,6 +983,24 @@ node /^pushapkworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $only_user_ssh            = true
     include toplevel::server::pushapkscriptworker
 }
+
+# PushSnap scriptworkers
+node /^dep-pushsnapworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $pushsnap_scriptworker_env = 'dep'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::pushsnapscriptworker
+}
+
+node /^pushsnapworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $pushsnap_scriptworker_env = 'prod'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::pushsnapscriptworker
+}
+
 
 # Transparency scriptworkers
 node /^binarytransparencyworker-.*\.srv\.releng\..*\.mozilla\.com$/ {

@@ -1,0 +1,13 @@
+Index: squashfs4.3/squashfs-tools/mksquashfs.c
+===================================================================
+--- squashfs4.3.orig/squashfs-tools/mksquashfs.c
++++ squashfs4.3/squashfs-tools/mksquashfs.c
+@@ -1946,7 +1946,7 @@ struct file_info *duplicate(long long fi
+ 
+ inline int is_fragment(struct inode_info *inode)
+ {
+-	int file_size = inode->buf.st_size;
++	off_t file_size = inode->buf.st_size;
+ 
+ 	/*
+ 	 * If this block is to be compressed differently to the
