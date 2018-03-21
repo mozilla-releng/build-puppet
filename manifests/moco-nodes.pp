@@ -1073,3 +1073,10 @@ node 't-linux64-ms-280.test.releng.mdc1.mozilla.com' {
     # $pin_puppet_env    = 'dcrian'
     include toplevel::server
 }
+
+# Loaner for dividehex; bug 1445842 and 1447766
+node 'ds-test1.srv.releng.mdc2.mozilla.com' {
+    $aspects = [ 'low-security' ]
+    include toplevel::server
+}
+
