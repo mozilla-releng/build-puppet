@@ -371,13 +371,6 @@ node /^roller-dev1\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     include toplevel::server::roller
 }
 
-# Proxxy
-
-node /^proxxy\d+\.srv\.releng\.(scl3|use1|usw2)\.mozilla\.com$/ {
-    $aspects = [ 'high-security' ]
-    include toplevel::server::proxxy
-}
-
 # Package Builders
 
 node /.*packager\d+\.srv\.releng\.use1\.mozilla\.com$/ {
