@@ -6,7 +6,7 @@ class config inherits config::base {
     $org                   = 'moco'
 
     $puppet_notif_email    = 'releng-puppet-mail@mozilla.com'
-    $puppet_relops_email   = 'relops@mozilla.com'
+    $puppet_relops_email   = 'relops-rejh-mail@mozilla.com'
 
     # what puppet report processors to use
     # http temporarily disabled in mdc1 and mdc2 until relops sets up a local foreman
