@@ -2,6 +2,11 @@ api:
   api_root: <%= @env_config["ship_it_root"] %>
   username: <%= @env_config["ship_it_username"] %>
   password: <%= @env_config["ship_it_password"] %>
+  shipitv2_api_root: <%= @env_config["shipitv2_api_root"] %>
+  auth0_client_id: <%= @env_config["auth0_client_id"] %>
+  auth0_client_secret: <%= @env_config["auth0_client_secret"] %>
+  auth0_auth_domain: <%= @env_config["auth0_auth_domain"] %>
+  auth0_audience: <%= @env_config["auth0_audience"] %>
 
 release-runner:
   notify_from: <%= scope.lookupvar('config::releaserunner_notify_from') %>
