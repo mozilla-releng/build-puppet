@@ -10,6 +10,7 @@ class releaserunner3 {
     include releaserunner3::settings
     include releaserunner3::services
     include packages::mozilla::python27
+    include packages::mozilla::python35
 
     $env_config = $config::releaserunner3_env_config[$releaserunner3_env]
 
