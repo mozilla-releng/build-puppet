@@ -357,6 +357,11 @@ class config inherits config::base {
             fennec_pattern                        => 'Fennec-.*',
             firefox_pattern                       => 'Firefox-(5[89]|6[0-9]).*',
             devedition_pattern                    => 'Devedition-(5[89]|6[0-9]).*',
+            shipitv2_api_root                     => 'https://shipit-workflow.staging.mozilla-releng.net',
+            auth0_client_id                       => secret('releaserunner_auth0_client_id_dev')
+            auth0_client_secret                   => secret('releaserunner_auth0_client_secret_dev')
+            auth0_auth_domain                     => 'auth.mozilla.auth0.com',
+            auth0_audience                        => 'https://shipit-workflow.staging.mozilla-releng.net/',
         },
         'prod' => {
             ship_it_root                          => 'https://ship-it.mozilla.org',

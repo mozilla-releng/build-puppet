@@ -284,6 +284,11 @@ class config::base {
             notify_to_announce       => '',
             taskcluster_client_id    => '',
             taskcluster_access_token => '',
+            shipitv2_api_root        => '',
+            auth0_client_id          => '',
+            auth0_client_secret      => '',
+            auth0_auth_domain        => '',
+            auth0_audience           => '',
         },
         'prod' => {
             ship_it_root             => '',
@@ -293,6 +298,11 @@ class config::base {
             notify_to_announce       => '',
             taskcluster_client_id    => '',
             taskcluster_access_token => '',
+            shipitv2_api_root        => '',
+            auth0_client_id          => '',
+            auth0_client_secret      => '',
+            auth0_auth_domain        => '',
+            auth0_audience           => '',
         }
     }
 
