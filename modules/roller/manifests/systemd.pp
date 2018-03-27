@@ -24,8 +24,10 @@ define roller::systemd ($image_tag){
         # Do not put '-' or '_' in directory name.  docker-compose will strip it
         # when creating containers and this breaks the systemd use of %i
         "/etc/docker/compose/roller${environment}":
-            ensure => directory;
+            mode    => 0640,
+            ensure  => directory;
         "/etc/docker/compose/roller${environment}/ssl.key":
+            mode    => 0640,
             ensure  => file,
             content => $ssl_key;
         "/etc/docker/compose/roller${environment}/ssl.crt":
@@ -35,9 +37,14 @@ define roller::systemd ($image_tag){
             ensure  => file,
             content => template("roller/${environment}/worker_config.json.erb");
         "/etc/docker/compose/roller${environment}/docker-compose.yml":
+            mode    => 0640,
             ensure  => file,
             content => template("roller/${environment}/docker-compose.yml.erb");
+        "/etc/docker/compose/roller${environment}/nginx.conf":
+            ensure  => file,
+            content => template("roller/${environment}/nginx.conf.erb");
         "/etc/docker/compose/roller${environment}/.env":
+            mode    => 0640,
             ensure  => file,
             content => template("roller/${environment}/env.erb");
     }
