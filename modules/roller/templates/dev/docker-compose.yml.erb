@@ -13,15 +13,11 @@ services:
     ports:
       - "<%= @port %>:<%= @port %>"
     environment:
-      - SSL_CERT=/run/ssl.crt
-      - SSL_KEY=/run/ssl.key
       - DJANGO_CONFIGURATION=Dev
     env_file:
       - .env
     volumes:
       - /opt/rollerdev:/app
-      - ./ssl.crt:/run/ssl.crt:ro
-      - ./ssl.key:/run/ssl.key:ro
     command: web-dev
 
   worker:

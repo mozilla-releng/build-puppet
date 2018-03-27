@@ -25,3 +25,14 @@ services:
     volumes:
       - ./worker_config.json:/run/worker_config.json:ro
     command: worker
+
+  ssl:
+    image: nginx:latest
+    depends_on:
+      - web
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./ssl.crt:/run/ssl.crt:ro
+      - ./ssl.key:/run/ssl.key:ro
