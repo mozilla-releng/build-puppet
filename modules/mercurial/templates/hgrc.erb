@@ -31,10 +31,7 @@ rebase=
 mq=
 purge=
 <% if scope.lookupvar('::operatingsystem') != 'windows' -%>
-bundleclone=<%=scope.lookupvar('mercurial::settings::hgext_dir')%>/bundleclone.py
-
-[bundleclone]
-prefers = stream=revlogv1
+robustcheckout=<%=scope.lookupvar('mercurial::settings::hgext_dir')%>/robustcheckout.py
 <% end -%>
 
 
