@@ -162,27 +162,6 @@ class aws_manager::cron {
             virtualenv_dir => $aws_manager::settings::root,
             user           => $users::buildduty::username,
             params         => "-c ${repo_root}/configs/tst-emulator64 -r us-east-1 -s aws-releng -k ${aws_manager::settings::secrets_dir}/aws-secrets.json --ssh-key ${users::buildduty::home}/.ssh/aws-ssh-key -i ${repo_root}/instance_data/us-east-1.instance_data_tests.json --create-ami --ignore-subnet-check --copy-to-region us-west-2 tst-emulator64-ec2-golden";
-        'aws_get_cloudtrail_logs.py':
-            ensure         => $cron_switch,
-            minute         => '5,35',
-            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
-            virtualenv_dir => $aws_manager::settings::root,
-            user           => $users::buildduty::username,
-            params         => "--cache-dir ${aws_manager::settings::cloudtrail_logs_dir} --s3-base-prefix ${::config::cloudtrail_s3_base_prefix} --s3-bucket ${::config::cloudtrail_s3_bucket}";
-        'aws_process_cloudtrail_logs.py':
-            ensure         => $cron_switch,
-            minute         => '10,40',
-            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
-            virtualenv_dir => $aws_manager::settings::root,
-            user           => $users::buildduty::username,
-            params         => "--cloudtrail-dir ${aws_manager::settings::cloudtrail_logs_dir} --events-dir ${aws_manager::settings::events_dir}";
-        'aws_clean_log_dir.py':
-            ensure         => $cron_switch,
-            minute         => '15,45',
-            cwd            => "${aws_manager::settings::cloud_tools_dst}/scripts",
-            virtualenv_dir => $aws_manager::settings::root,
-            user           => $users::buildduty::username,
-            params         => "--cache-dir ${aws_manager::settings::cloudtrail_logs_dir} --events-dir ${aws_manager::settings::events_dir} --s3-base-prefix ${::config::cloudtrail_s3_base_prefix}";
     }
 
     file {
