@@ -8,10 +8,10 @@ class packages::nss_tools {
             realize(Packages::Yumrepo['nss'])
             package {
                 ['nss', 'nss-sysinit', 'nss-tools']:
-                    ensure => '3.21.3-2.el6_8';
+                    ensure => '3.27.1-13.el6';
 
-                "nss-util":
-                    ensure => '3.21.3-1.el6_8';
+                'nss-util':
+                    ensure => '3.27.1-3.el6';
             }
         }
 

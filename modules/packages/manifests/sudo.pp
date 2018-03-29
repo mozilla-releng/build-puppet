@@ -3,7 +3,14 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::sudo {
     case $::operatingsystem {
-        CentOS, Ubuntu : {
+        CentOS: {
+            realize(Packages::Yumrepo['security_update_1433165'])
+            package {
+                'sudo':
+                    ensure => '1.8.6p3-27.el6';
+            }
+        }
+        Ubuntu : {
             package {
                 'sudo' :
                     ensure => latest ;

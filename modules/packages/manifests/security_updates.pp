@@ -71,9 +71,6 @@ class packages::security_updates {
                 'lzo':
                     ensure => '2.03-3.1.el6_5.1';
 
-                'nspr':
-                    ensure => '4.11.0-1.el6';
-
                 ['policycoreutils', 'policycoreutils-python']:
                     ensure => '2.0.83-30.1.el6_8';
 
@@ -84,7 +81,7 @@ class packages::security_updates {
                     ensure => '4.8.0-55.el6';
 
                 ['samba-client', 'samba-common', 'samba-winbind', 'samba-winbind-clients']:
-                    ensure => '3.6.23-36.el6_8';
+                    ensure => '3.6.23-41.el6';
 
                 'sqlite':
                     ensure => '3.6.20-1.el6_7.2';
