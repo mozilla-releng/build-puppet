@@ -7,10 +7,10 @@ class packages::libc {
         CentOS: {
             case $::operatingsystemrelease {
                 6.5: {
-                    realize(Packages::Yumrepo['glibc'])
+                    realize(Packages::Yumrepo['security_update_1433165'])
                     package {
                         'glibc':
-                            ensure => '2.12-1.166.el6_7.7';
+                            ensure => '2.12-1.209.el6';
                     }
                 }
                 6.2: {

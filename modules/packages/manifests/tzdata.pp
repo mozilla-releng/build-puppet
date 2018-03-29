@@ -3,7 +3,14 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::tzdata {
     case $::operatingsystem {
-        CentOS, Ubuntu: {
+        CentOS: {
+            realize(Packages::Yumrepo['security_update_1433165'])
+            package {
+                'tzdata':
+                    ensure => latest;
+            }
+        }
+        Ubuntu: {
             package {
                 'tzdata':
                     ensure => latest;

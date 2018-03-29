@@ -24,6 +24,7 @@ class toplevel::server inherits toplevel::base {
     include users::people
     include ::config
     include packages::security_updates
+    include packages::security_updates_1433165
 
     if ($::config::enable_mig_agent) {
         case $::operatingsystem {

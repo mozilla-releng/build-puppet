@@ -4,9 +4,10 @@
 class packages::nslookup {
     case $::operatingsystem {
         CentOS: {
+            realize(Packages::Yumrepo['security_update_1433165'])
             package {
                 ['bind-utils', 'bind-libs']:  #Provided by bind-utils
-                    ensure => '9.8.2-0.47.rc1.el6_8.4';
+                    ensure => '9.8.2-0.62.rc1.el6';
             }
         }
 
