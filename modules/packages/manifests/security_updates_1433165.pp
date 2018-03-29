@@ -15,9 +15,6 @@ class packages::security_updates_1433165 {
             realize(Packages::Yumrepo['security_update_1433165'])
             Anchor['packages::security_updates_1433165::begin'] ->
             package {
-                'gnutls':
-                    ensure => '2.12.23-21.el6';
-
                 'nspr':
                     ensure => '4.13.1-1.el6';
 
