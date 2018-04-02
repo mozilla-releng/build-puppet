@@ -18,8 +18,8 @@ class packages::mozilla::mozilla_maintenance_service {
     $_name3           = '"name"="Mozilla Fake SPC"'
     $issuer_0         = '"issuer"="Thawte Code Signing CA - G2"'
     $issuer_1         = '"issuer"="Mozilla Fake CA"'
-    $issuer_2         = '"DigiCert SHA2 Assured ID Code Signing CA"'
-    $issuer_3         = '"Mozilla Fake CA"'
+    $issuer_2         = '"issuer"="DigiCert SHA2 Assured ID Code Signing CA"'
+    $issuer_3         = '"issuer"="Mozilla Fake CA"'
     $programname      = '"programName"=""'
     $publisherlink    = '"publisherLink"=""'
 
