@@ -1,7 +1,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-define python35::user_pip_conf($homedir='', $group='') {
+define python3::user_pip_conf($homedir='', $group='') {
     include config
 
     $user     = $title
@@ -22,7 +22,7 @@ define python35::user_pip_conf($homedir='', $group='') {
                     "${homedir_}/.pip":
                         ensure => directory;
                     "${homedir_}/.pip/pip.conf":
-                        content => template('python35/user-pip-conf.erb');
+                        content => template('python3/user-pip-conf.erb');
                 }
             }
             default: {
@@ -32,7 +32,7 @@ define python35::user_pip_conf($homedir='', $group='') {
                         owner  => $user,
                         group  => $group_;
                     "${homedir_}/.pip/pip.conf":
-                        content => template('python35/user-pip-conf.erb'),
+                        content => template('python3/user-pip-conf.erb'),
                         owner   => $user,
                         group   => $group_;
                     }
