@@ -4,29 +4,29 @@
 class packages::mozilla::python35 {
 
     anchor {
-        'packages::mozilla::python35::begin': ;
-        'packages::mozilla::python35::end': ;
+        'packages::mozilla::python3::begin': ;
+        'packages::mozilla::python3::end': ;
     }
 
     case $::operatingsystem {
         CentOS: {
-            $python3 = '/tools/python35/bin/python3.5'
+            $python3 = '/tools/python3/bin/python'
 
-            # these all install into /tools/python35.  To support tools that
+            # these install into /tools/python36.  To support tools that
             # just need any old Python3, they are symlinked from /tools/python3.
-            Anchor['packages::mozilla::python35::begin'] ->
+            Anchor['packages::mozilla::python3::begin'] ->
             file {
                 '/tools/python3':
                     ensure => link,
-                    target => '/tools/python35';
-            } -> Anchor['packages::mozilla::python35::end']
+                    target => '/tools/python36';
+            } -> Anchor['packages::mozilla::python3::end']
 
-            realize(Packages::Yumrepo['python35'])
-            Anchor['packages::mozilla::python35::begin'] ->
+            realize(Packages::Yumrepo['python3'])
+            Anchor['packages::mozilla::python3::begin'] ->
             package {
-                'mozilla-python35':
-                    ensure => '3.5.2-1.el6';
-            } -> Anchor['packages::mozilla::python35::end']
+                'mozilla-python36':
+                    ensure => '3.6.5-1.el6';
+            } -> Anchor['packages::mozilla::python3::end']
         }
         default: {
             fail("Cannot install on ${::operatingsystem}")

@@ -1,22 +1,22 @@
-%define realname python35
-%define pyver 3.5
-%define pyrel 2
+%define realname python36
+%define pyver 3.6
+%define pyrel 5
 %define _prefix /tools/%{realname}
 # We set lib explicitly to avoid lib64 issues
 %define _libdir %{_prefix}/lib
 
 Name:       mozilla-%{realname}
-Version:	%{pyver}.%{pyrel}
-Release:	1%{?dist}
-Summary:	This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
+Version:        %{pyver}.%{pyrel}
+Release:        1%{?dist}
+Summary:        This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
-Group:		mozilla
-License:	Python
-URL:		http://python.org
-Source0:	http://python.org/ftp/python/%{pyver}.%{pyrel}/Python-%{pyver}.%{pyrel}.tgz
+Group:          mozilla
+License:        Python
+URL:            https://python.org
+Source0:        https://python.org/ftp/python/%{pyver}.%{pyrel}/Python-%{pyver}.%{pyrel}.tar.xz
 # this cgi patch avoids pulling in a /usr/local/bin/python dependency
-Patch0:		python-2.6-fix-cgi.patch
-BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+Patch0:         python-2.6-fix-cgi.patch
+BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 # Needed to build a full-featured python
 BuildRequires: readline-devel, openssl-devel, gmp-devel
@@ -68,9 +68,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %_prefix
 %_prefix/*
 /usr/local/bin/python%{pyver}
-%doc /usr/share/man/man1/python3.5.1.gz
-
+%doc /usr/share/man/man1/python3.6.1.gz
 
 %changelog
-* Wed Jul 13 2016 Aki Sasaki <aki mozilla com> 3.5.2-1
-- initial commit, copied from py27
+* Fri Apr 13 2018 Ben Hearsum <bhearsum mozilla com> 3.6.5-1
+- initial commit, copied from py35
