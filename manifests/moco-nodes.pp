@@ -894,6 +894,8 @@ node /^signing-linux-\d*\.srv\.releng\..*\.mozilla\.com$/ {
 
 node /^depsigning-worker.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
+    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
+    $pin_puppet_env    = 'bhearsum'
     $signing_scriptworker_env = 'dep'
     $timezone                 = 'UTC'
     $only_user_ssh            = true
@@ -944,6 +946,8 @@ node /^beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
 
 node /^beetmover-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects             = [ 'maximum-security' ]
+    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
+    $pin_puppet_env    = 'bhearsum'
     $beetmoverworker_env = 'dev'
     $timezone            = 'UTC'
     $only_user_ssh       = true
