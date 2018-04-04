@@ -353,6 +353,7 @@ class config inherits config::base {
             notify_to_announce                    => 'Release Notifications Dev <release-automation-notifications-dev@mozilla.com>',
             taskcluster_client_id                 => secret('releaserunner_dev_taskcluster_client_id'),
             taskcluster_access_token              => secret('releaserunner_dev_taskcluster_access_token'),
+            github_token                          => secret('releaserunner_github_token'),
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [ 'projects/jamun', 'projects/maple', 'projects/birch' ],
             fennec_pattern                        => 'Fennec-.*',
@@ -372,6 +373,7 @@ class config inherits config::base {
             notify_to_announce                    => 'Release Signoff <release-signoff@mozilla.org>',
             taskcluster_client_id                 => secret('releaserunner_prod_taskcluster_client_id'),
             taskcluster_access_token              => secret('releaserunner_prod_taskcluster_access_token'),
+            github_token                          => secret('releaserunner_github_token'),
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [
                                                         'releases/mozilla-release',
