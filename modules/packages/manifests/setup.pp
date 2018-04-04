@@ -127,6 +127,9 @@ class packages::setup {
                 'python27-12':
                     url_path => "repos/yum/custom/mozilla-python2712/${::architecture}";
 
+                'squashfs-tools':
+                    url_path => "repos/yum/custom/mozilla-squashfs-tools/${::architecture}";
+
                 'clamav':
                     url_path => "repos/yum/custom/clamav/${::architecture}";
 
@@ -178,7 +181,7 @@ class packages::setup {
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 91
+            $repoflag = 92
             file {
                 '/etc/.repo-flag':
                     content =>
