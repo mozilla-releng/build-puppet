@@ -916,6 +916,23 @@ node /^tb-depsigning-worker.*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::signingscriptworker
 }
 
+# Addon scriptworkers
+node /^addonworker-\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects          = [ 'maximum-security' ]
+    $addon_scriptworker_env = 'prod'
+    $timezone         = 'UTC'
+    $only_user_ssh    = true
+    include toplevel::server::addonscriptworker
+}
+
+node /^addonworker-dev-\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects          = [ 'maximum-security' ]
+    $addon_scriptworker_env = 'dev'
+    $timezone         = 'UTC'
+    $only_user_ssh    = true
+    include toplevel::server::addonscriptworker
+}
+
 # Balrog scriptworkers
 node /^balrogworker-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects          = [ 'maximum-security' ]
@@ -1097,4 +1114,3 @@ node 'ds-test1.srv.releng.mdc2.mozilla.com' {
     $aspects = [ 'low-security' ]
     include toplevel::server
 }
-
