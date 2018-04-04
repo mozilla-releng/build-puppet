@@ -10,7 +10,7 @@ class releaserunner3 {
     include releaserunner3::settings
     include releaserunner3::services
     include packages::mozilla::python27
-    include packages::mozilla::python35
+    include packages::mozilla::python3
 
     $env_config = $config::releaserunner3_env_config[$releaserunner3_env]
 
@@ -20,7 +20,7 @@ class releaserunner3 {
         "stop-for-rebuild-${module_name}":
             command     => "/sbin/service ${module_name} stop",
             refreshonly => true,
-            subscribe   => Class['packages::mozilla::python35'];
+            subscribe   => Class['packages::mozilla::python3'];
     }
 
     python::virtualenv {

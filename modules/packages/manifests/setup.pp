@@ -121,8 +121,8 @@ class packages::setup {
                 'procmail':
                     url_path => "repos/yum/custom/procmail/${::architecture}";
 
-                'python35':
-                    url_path => "repos/yum/custom/mozilla-python35/${::architecture}";
+                'python3':
+                    url_path => "repos/yum/custom/mozilla-python36/${::architecture}";
 
                 'python27-12':
                     url_path => "repos/yum/custom/mozilla-python2712/${::architecture}";

@@ -11,7 +11,7 @@ class buildbot_bridge2::conf {
 
     file {
         "${buildbot_bridge2::settings::root}/config.yml":
-            require   => Python35::Virtualenv[$buildbot_bridge2::settings::root],
+            require   => Python3::Virtualenv[$buildbot_bridge2::settings::root],
             mode      => '0600',
             owner     => $users::builder::username,
             group     => $users::builder::group,

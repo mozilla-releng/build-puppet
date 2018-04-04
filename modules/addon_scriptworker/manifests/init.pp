@@ -5,7 +5,7 @@
 class addon_scriptworker {
     include addon_scriptworker::settings
     include dirs::builds
-    include packages::mozilla::python35
+    include packages::mozilla::python3
     include tweaks::swap_on_instance_storage
     include packages::gcc
     include packages::make
@@ -17,14 +17,14 @@ class addon_scriptworker {
         "stop-for-rebuild-${module_name}":
             command     => "/usr/bin/supervisorctl stop ${module_name}",
             refreshonly => true,
-            subscribe   => Class['packages::mozilla::python35'];
+            subscribe   => Class['packages::mozilla::python3'];
     }
 
-    python35::virtualenv {
+    python3::virtualenv {
         $addon_scriptworker::settings::root:
-            python3         => $packages::mozilla::python35::python3,
+            python3         => $packages::mozilla::python3::python3,
             rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
-            require         => Class['packages::mozilla::python35'],
+            require         => Class['packages::mozilla::python3'],
             user            => $addon_scriptworker::settings::user,
             group           => $addon_scriptworker::settings::group,
             mode            => 700,
@@ -100,7 +100,7 @@ class addon_scriptworker {
     $config_content = $addon_scriptworker::settings::script_config_content
     file {
         $addon_scriptworker::settings::script_config:
-            require => Python35::Virtualenv[$addon_scriptworker::settings::root],
+            require => Python3::Virtualenv[$addon_scriptworker::settings::root],
             content => inline_template("<%- require 'json' -%><%= JSON.pretty_generate(@config_content) %>");
     }
 }

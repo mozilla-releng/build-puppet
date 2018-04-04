@@ -19,7 +19,7 @@ define scriptworker::chain_of_trust(
           repo    => $git_key_repo_url,
           dst_dir => $git_key_repo_dir,
           user    => $username,
-          require => Python35::Virtualenv[$basedir];
+          require => Python3::Virtualenv[$basedir];
   }
 
   File {
@@ -41,7 +41,7 @@ define scriptworker::chain_of_trust(
         recurse      => true,
         recurselimit => 1,
         purge        => true,
-        require      => Python35::Virtualenv[$basedir];
+        require      => Python3::Virtualenv[$basedir];
     # cron jobs to poll git + rebuild gpg homedirs
     '/etc/cron.d/scriptworker':
         content     => template('scriptworker/scriptworker.cron.erb');
@@ -59,7 +59,7 @@ define scriptworker::chain_of_trust(
   exec {
       # create gpg homedirs on change
       'rebuild_gpg_homedirs':
-          require   => [Python35::Virtualenv[$basedir],
+          require   => [Python3::Virtualenv[$basedir],
                       Git::Repo["scriptworker-${git_key_repo_dir}"],
                       File["${basedir}/scriptworker.yaml"]],
           command   => "${basedir}/bin/rebuild_gpg_homedirs ${basedir}/scriptworker.yaml",
