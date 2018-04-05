@@ -56,7 +56,7 @@ class signing_scriptworker {
                   'python-jose==2.0.0',
                   'requests==2.18.1',
                   'scriptworker==10.2.0',
-                  'signingscript==6.0.0',
+                  'signingscript==6.0.1',
                   'signtool==3.1.6',
                   'simplejson==3.13.2',
                   'six==1.10.0',
@@ -126,6 +126,13 @@ class signing_scriptworker {
             owner     => $users::signer::username,
             group     => $users::signer::group,
             source    => 'puppet:///modules/signing_scriptworker/dmg/hfsplus',
+            show_diff => false;
+        "${signing_scriptworker::settings::root}/KEY":
+            require   => Python35::Virtualenv[$signing_scriptworker::settings::root],
+            mode      => '0600',
+            owner     => $users::signer::username,
+            group     => $users::signer::group,
+            source    => "puppet:///modules/signing_scriptworker/gpg/${env_config['gpg_keyfile']}",
             show_diff => false;
     }
 
