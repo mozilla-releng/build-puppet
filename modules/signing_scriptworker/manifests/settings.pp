@@ -23,7 +23,8 @@ class signing_scriptworker::settings {
             verify_chain_of_trust    => true,
             verify_cot_signature     => false,
             cot_product              => 'firefox',
-            datadog_api_key          => secret('scriptworker_datadog_api_key')
+            datadog_api_key          => secret('scriptworker_datadog_api_key'),
+            gpg_keyfile              => 'KEY_dep'
         },
         'dep' => {
             worker_type              => 'depsigning',
@@ -37,7 +38,8 @@ class signing_scriptworker::settings {
             verify_chain_of_trust    => true,
             verify_cot_signature     => false,
             cot_product              => 'firefox',
-            datadog_api_key          => secret('scriptworker_datadog_api_key')
+            datadog_api_key          => secret('scriptworker_datadog_api_key'),
+            gpg_keyfile              => 'KEY_dep'
         },
         'prod' => {
             worker_type              => 'signing-linux-v1',
@@ -51,7 +53,8 @@ class signing_scriptworker::settings {
             verify_chain_of_trust    => true,
             verify_cot_signature     => true,
             cot_product              => 'firefox',
-            datadog_api_key          => secret('scriptworker_datadog_api_key')
+            datadog_api_key          => secret('scriptworker_datadog_api_key'),
+            gpg_keyfile              => 'KEY_prod'
         },
         'comm-thunderbird-dep' => {
             worker_type              => 'tb-depsigning',
@@ -65,7 +68,8 @@ class signing_scriptworker::settings {
             verify_chain_of_trust    => true,
             verify_cot_signature     => false,
             cot_product              => 'thunderbird',
-            datadog_api_key          => secret('scriptworker_datadog_api_key')
+            datadog_api_key          => secret('scriptworker_datadog_api_key'),
+            gpg_keyfile              => 'KEY_dep'
         },
     }
 }

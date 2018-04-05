@@ -127,6 +127,13 @@ class signing_scriptworker {
             group     => $users::signer::group,
             source    => 'puppet:///modules/signing_scriptworker/dmg/hfsplus',
             show_diff => false;
+        "${signing_scriptworker::settings::root}/KEY":
+            require   => Python35::Virtualenv[$signing_scriptworker::settings::root],
+            mode      => '0600',
+            owner     => $users::signer::username,
+            group     => $users::signer::group,
+            source    => "puppet:///modules/signing_scriptworker/gpg/${env_config['gpg_keyfile']}",
+            show_diff => false;
     }
 
     packages::mozilla::android_sdk {

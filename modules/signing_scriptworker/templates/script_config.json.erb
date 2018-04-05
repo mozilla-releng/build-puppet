@@ -13,5 +13,6 @@
     "verbose": <%= @verbose_logging %>,
     "dmg": "<%= @dmg_location %>",
     "hfsplus": "<%= @hfsplus_location %>",
-    "zipalign": "<%= @zipalign_location %>"
+    "zipalign": "<%= @zipalign_location %>",
+    "gpg_pubkey": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/KEY"
 }
