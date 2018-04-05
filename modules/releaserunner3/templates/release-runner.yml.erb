@@ -20,6 +20,9 @@ taskcluster:
   client_id: <%= @env_config["taskcluster_client_id"] %>
   access_token: <%= @env_config["taskcluster_access_token"] %>
 
+git:
+  github_token: <%= @env_config["github_token"] %>
+
 releases:
   - product: fennec
     pattern: <%= @env_config["fennec_pattern"] %>
