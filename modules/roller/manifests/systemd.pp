@@ -13,6 +13,8 @@ define roller::systemd ($image_tag){
     $moonshot_ipmi_user = secret('roller_moonshot_ipmi_user')
     $moonshot_ipmi_password = secret('roller_moonshot_ipmi_password')
 
+    $snmp_community_string = secret('roller_snmp_community_string')
+
     $django_secret_key = secret('roller_django_secret_key')
 
     $bugzilla_api_key = secret('roller_bugzilla_api_key')
