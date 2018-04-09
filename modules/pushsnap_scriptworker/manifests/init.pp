@@ -43,7 +43,7 @@ class pushsnap_scriptworker {
                 'pluggy==0.6.0',
                 'progressbar33==2.4',
                 'ptyprocess==0.5.2',
-                'pushsnapscript==0.1.0',
+                'pushsnapscript==0.2.0',
                 'py==1.5.2',
                 'pycparser==2.18',
                 'pyelftools==0.24',
