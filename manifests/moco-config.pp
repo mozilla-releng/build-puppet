@@ -231,6 +231,7 @@ class config inherits config::base {
         # signing machines have a very limited access list
         /^(mac-)?(v2-)?signing\d\..*/                          => $shortlist,
         /^signing-linux-\d\..*/                                => $shortlist,
+        /^tb-signing-\d\..*/                                   => $shortlist,
         /signingworker-.*\.srv\.releng\..*\.mozilla\.com/      => $shortlist,
         default                                                => hiera('ldap_admin_users',
                                                                     # backup to ensure access in cas'e the sync fails:
