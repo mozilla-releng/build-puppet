@@ -5,11 +5,11 @@ class mercurial::settings {
     # Bug 1336535 - Changing http://hg.mozilla.org to https:// everywhere (relops-puppet edition)
     define change_file() {
         exec { $title:
-            command => "sed -i -e 's/default = http:/default = https:/g' `find ${title} -name hgrc -exec grep -l 'default = http:' {} \\;`",
+            command => "sed -i -e 's/default = http:/default = https:/g' `find ${title} -maxdepth 4 -mtime +1 -name hgrc -exec grep -l 'default = http:' {} \\;`",
             path    => ['/bin', '/sbin', '/usr/bin', '/usr/local/bin'],
             # if the directory exist (ls directory|wc -l) is greater that 0
             # and the find command return a list of files
-            onlyif  => ["test `ls ${title}|wc -l` -gt 0", "test `find ${title} -name hgrc -exec grep -l 'default = http:' {} \\;|wc -l` -gt 0"]
+            onlyif  => ["test `ls ${title}|wc -l` -gt 0", "test `find ${title} -maxdepth 4 -mtime +1 -name hgrc -exec grep -l 'default = http:' {} \\;|wc -l` -gt 0"]
         }
     }
     case $::operatingsystem {
