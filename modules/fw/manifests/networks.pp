@@ -155,7 +155,14 @@ class fw::networks {
                                     '10.134.30.97/32',   # signing-linux-5.srv.releng.use1.mozilla.com
                                     '10.134.30.39/32',   # signing-linux-7.srv.releng.use1.mozilla.com
                                     '10.134.30.180/32',  # signing-linux-9.srv.releng.use1.mozilla.com
-                                    '10.134.30.119/32' ] # signing-linux-11.srv.releng.use1.mozilla.com
+                                    '10.134.30.119/32',  # signing-linux-11.srv.releng.use1.mozilla.com
+                                    '10.134.30.162/32',  # tb-signing-1.srv.releng.use1.mozilla.com
+                                    '10.134.30.205/32',  # tb-signing-3.srv.releng.use1.mozilla.com
+                                    '10.134.30.227/32',  # tb-signing-5.srv.releng.use1.mozilla.com
+                                    '10.134.30.110/32',  # tb-signing-7.srv.releng.use1.mozilla.com
+                                    '10.134.30.42/32' ]  # tb-signing-9.srv.releng.use1.mozilla.com
+
+
 
     $usw2_signing_linux_workers = [ '10.132.30.46/32',   # signing-linux-2.srv.releng.usw2.mozilla.com
                                     '10.132.30.82/32',   # signing-linux-4.srv.releng.usw2.mozilla.com
@@ -172,7 +179,13 @@ class fw::networks {
                                     '10.132.30.253/32',  # signing-linux-19.srv.releng.usw2.mozilla.com
                                     '10.132.30.224/32',  # signing-linux-20.srv.releng.usw2.mozilla.com
                                     '10.132.30.20/32',   # signing-linux-21.srv.releng.usw2.mozilla.com
-                                    '10.132.30.114/32']  # signing-linux-22.srv.releng.usw2.mozilla.com
+                                    '10.132.30.114/32',  # signing-linux-22.srv.releng.usw2.mozilla.com
+                                    '10.132.30.76/32',   # tb-signing-2.srv.releng.usw2.mozilla.com
+                                    '10.132.30.63/32',   # tb-signing-4.srv.releng.usw2.mozilla.com
+                                    '10.132.30.163/32',  # tb-signing-6.srv.releng.usw2.mozilla.com
+                                    '10.132.30.190/32',  # tb-signing-8.srv.releng.usw2.mozilla.com
+                                    '10.132.30.206/32' ] # tb-signing-10.srv.releng.usw2.mozilla.com
+
 
     $all_signing_linux_workers = [ $use1_signing_linux_workers, $usw2_signing_linux_workers ]
 
