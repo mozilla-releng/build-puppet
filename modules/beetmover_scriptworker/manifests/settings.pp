@@ -32,7 +32,7 @@ class beetmover_scriptworker::settings {
             worker_type                             => 'beetmoverworker-dev',
             taskcluster_client_id                   => 'project/releng/scriptworker/beetmover-dev',
             taskcluster_access_token                => secret('beetmoverworker_dev_taskcluster_access_token'),
-	    taskcluster_scope_prefix                => 'project:releng:beetmover:',
+            taskcluster_scope_prefix                => 'project:releng:beetmover:',
             sign_chain_of_trust                     => false,
             verify_chain_of_trust                   => true,
             verify_cot_signature                    => false,
