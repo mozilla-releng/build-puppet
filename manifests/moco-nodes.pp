@@ -21,7 +21,7 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
 }
 
 # Linux on moonshot in mdc1 running taskcluster worker
-node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1\.mozilla\.com$/ {
+node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     $taskcluster_worker_type  = 'gecko-t-linux-talos'
