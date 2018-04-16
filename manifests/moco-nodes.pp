@@ -908,6 +908,14 @@ node /^signing-linux-dev.*\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::signingscriptworker
 }
 
+node /^tb-signing-\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $signing_scriptworker_env = 'comm-thunderbird-prod'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::signingscriptworker
+}
+
 node /^tb-depsigning-worker.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
     $signing_scriptworker_env = 'comm-thunderbird-dep'

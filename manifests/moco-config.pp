@@ -231,6 +231,7 @@ class config inherits config::base {
         # signing machines have a very limited access list
         /^(mac-)?(v2-)?signing\d\..*/                          => $shortlist,
         /^signing-linux-\d\..*/                                => $shortlist,
+        /^tb-signing-\d\..*/                                   => $shortlist,
         /signingworker-.*\.srv\.releng\..*\.mozilla\.com/      => $shortlist,
         default                                                => hiera('ldap_admin_users',
                                                                     # backup to ensure access in cas'e the sync fails:
@@ -355,7 +356,7 @@ class config inherits config::base {
             taskcluster_access_token              => secret('releaserunner_dev_taskcluster_access_token'),
             github_token                          => secret('releaserunner_github_token'),
             eme_free_url                          => 'https://github.com/mozilla-partners/mozilla-EME-free-manifest',
-            partner_repack_url                    => 'git@github.com:mozilla-partners/test-manifests',
+            partner_repack_url                    => 'git@github.com:mozilla-partners/repack-manifests',
             partner_min_version                   => 59,
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [ 'projects/jamun', 'projects/maple', 'projects/birch' ],
