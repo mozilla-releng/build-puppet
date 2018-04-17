@@ -55,12 +55,14 @@ case "$OS" in
 esac
 
 https_proxy= python <<EOF
-import urllib2, getpass, ssl
+import urllib2, getpass, ssl, socket
 deploypass="""$deploypass"""
 puppet_server="${PUPPET_SERVER:-puppet}"
+# Lookup and make request by host ip forces use of IPv4
+puppet_server_ip = socket.gethostbyname(puppet_server)
 print "Contacting puppet server %s" % (puppet_server,)
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-password_mgr.add_password(None, 'https://'+puppet_server, 'deploy', deploypass)
+password_mgr.add_password(None, 'https://'+puppet_server_ip, 'deploy', deploypass)
 handlers = [urllib2.HTTPBasicAuthHandler(password_mgr)]
 try:
     # on Pythons that support it, add an SSL context
@@ -70,7 +72,7 @@ try:
 except AttributeError:
     pass
 opener = urllib2.build_opener(*handlers)
-data = opener.open('https://%s/deploy/getcert.cgi' % (puppet_server,)).read()
+data = opener.open('https://%s/deploy/getcert.cgi' % (puppet_server_ip,)).read()
 open("${PUPPET_DIR}/certs.sh", "w").write(data)
 EOF
 
