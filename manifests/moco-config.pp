@@ -246,7 +246,6 @@ class config inherits config::base {
         'nthomas',
         'raliiev',
         'sfraser',
-        'kmoir',
     ]
 
     $admin_users                     = $::fqdn ? {
@@ -267,7 +266,6 @@ class config inherits config::base {
         'jlorenzo',
         'jlund',
         'jwood',
-        'kmoir',
         'mtabara',
         'nthomas',
         'raliiev',
