@@ -69,6 +69,29 @@ class config inherits config::base {
     $data_servers   = $puppet_servers
     $data_server    = $puppet_server
 
+    # Puppet masters CAs we deem valid
+    $valid_puppet_cas = [
+                         'releng-puppet1.srv.releng.mdc1.mozilla.com',
+                         'releng-puppet2.srv.releng.mdc1.mozilla.com',
+                         'releng-puppet1.srv.releng.mdc2.mozilla.com',
+                         'releng-puppet2.srv.releng.mdc2.mozilla.com',
+                         'releng-puppet1.srv.releng.scl3.mozilla.com',
+#                         'releng-puppet2.srv.releng.scl3.mozilla.com',  # This intermediate CA is expiring on 2018/05/01, let's invalidate it until the cert is renewed
+                         'releng-puppet1.srv.releng.use1.mozilla.com',
+                         'releng-puppet1.srv.releng.usw2.mozilla.com',
+                        ]
+
+    $local_datacenter = $::fqdn ? {
+        /^.*\.mdc1\.mozilla\.com$/ => 'mdc1',
+        /^.*\.mdc2\.mozilla\.com$/ => 'mdc2',
+        /^.*\.scl3\.mozilla\.com$/ => 'scl3',
+        /^.*\.use1\.mozilla\.com$/ => 'use1',
+        /^.*\.usw2\.mozilla\.com$/ => 'usw2',
+        default                    => '',
+    }
+
+    $nearby_puppet_cas = grep($valid_puppet_cas, "^.*\\.${local_datacenter}\\.mozilla.com$")
+
     $node_location  = $::fqdn? {
         /.*\.(mdc1|mdc2|scl3)\.mozilla\.com/ => 'in-house',
         /.*\.(use1|usw2)\.mozilla\.com/      => 'aws',

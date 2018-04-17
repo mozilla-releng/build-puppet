@@ -73,6 +73,16 @@ class config::base {
     $data_server                        = 'repos'
     $data_servers                       = [$data_server]
 
+    # This contains a subset of puppetmasters which are deemed valid CAs
+    $valid_puppet_cas  = []
+
+    # locale datacenter designation
+    $local_datacenter  = ''
+
+    # list of puppet CAs determined to be in the same datacenter (or nearby) to the host
+    $nearby_puppet_cas = []
+
+
     # The hostname of the server on which the Apt repositories are located.
     # Apt does not support client configuration of multiple mirrors, so if the
     # org only has one puppet server, it is safe to point this variable to that
