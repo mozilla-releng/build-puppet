@@ -19,13 +19,13 @@ class puppet::renew_cert {
     # otherwise pick a nearby (same DC) puppet CA
     # lastly, pick any valid CA
     if $::config::puppet_server in $::config::valid_puppet_cas {
-       $ca_server = $::config::puppet_server
+        $ca_server = $::config::puppet_server
     } elsif size($nearby_puppet_cas) != 0 {
-       $servers = fqdn_rotate($nearby_puppet_cas)
-       $ca_server = $servers[0]
+        $servers = fqdn_rotate($nearby_puppet_cas)
+        $ca_server = $servers[0]
     } else {
-       $servers = fqdn_rotate($all_puppet_cas)
-       $ca_server = $servers[0]
+        $servers = fqdn_rotate($all_puppet_cas)
+        $ca_server = $servers[0]
     }
 
     # If the assigned CA doesn't match the current cert CA
