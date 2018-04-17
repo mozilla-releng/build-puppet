@@ -20,7 +20,7 @@ class addon_scriptworker {
             mode     => 700,
             packages => [
                 'PyYAML==3.12',
-                'addonscript==0.3',
+                'addonscript==0.4',
                 'aiohttp==2.3.9',
                 'arrow==0.12.1',
                 'async_timeout==1.4.0',
