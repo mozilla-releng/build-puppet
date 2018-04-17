@@ -5,6 +5,7 @@ class puppet::periodic {
     include puppet
     include config
     include puppet::puppetize_sh
+    include puppet::renew_cert
     include dirs::usr::local::bin
 
     case $::operatingsystem {
