@@ -46,10 +46,10 @@ define python35::virtualenv($python3, $ensure='present', $packages=null, $user=n
     if ($rebuild_trigger) {
         if ($::operatingsystem != Windows) {
             exec {
-                "rebuild $virtualenv":
+                "rebuild ${virtualenv}":
                     user        => $ve_user,
                     logoutput   => on_failure,
-                    command     => "/bin/rm -rf $virtualenv/bin $virtualenv/include $virtualenv/lib $virtualenv/local $virtualenv/share",
+                    command     => "/bin/rm -rf ${virtualenv}/bin ${virtualenv}/include ${virtualenv}/lib ${virtualenv}/local ${virtualenv}/share",
                     subscribe   => $rebuild_trigger,
                     refreshonly => true;
             }
@@ -57,7 +57,7 @@ define python35::virtualenv($python3, $ensure='present', $packages=null, $user=n
     }
     $rebuild_requires = $::operatingsystem ? {
         windows => null,
-        default => Exec["rebuild $virtualenv"],
+        default => Exec["rebuild ${virtualenv}"],
     }
     case $ensure {
         present: {
