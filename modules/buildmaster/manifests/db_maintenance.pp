@@ -25,11 +25,12 @@ class buildmaster::db_maintenance {
 
     python::virtualenv {
         $db_maintenance_dir:
-            python   => $packages::mozilla::python27::python,
-            require  => Class['packages::mozilla::python27'],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            packages => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Class['packages::mozilla::python27'],
+            require         => Class['packages::mozilla::python27'],
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            packages        => [
                 'SQLAlchemy==0.7.9',
                 'MySQL-python==1.2.3',
             ];

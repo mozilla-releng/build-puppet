@@ -11,14 +11,24 @@ class buildbot_bridge2 {
 
     $bbb_version = $::buildbot_bridge2::settings::env_config['version']
 
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-reflector":
+            command     => "/usr/bin/supervisorctl stop reflector",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python35'];
+    }
+
     python35::virtualenv {
         $buildbot_bridge2::settings::root:
-            python3  => $packages::mozilla::python35::python3,
-            require  => Class['packages::mozilla::python35'],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            mode     => '0700',
-            packages => [
+            python3         => $packages::mozilla::python35::python3,
+            rebuild_trigger => Exec["stop-for-rebuild-reflector"],
+            require         => Class['packages::mozilla::python35'],
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            mode            => '0700',
+            packages        => [
                 "bbb==${bbb_version}",
                 'aiohttp==1.3.5',
                 'appdirs==1.4.3',

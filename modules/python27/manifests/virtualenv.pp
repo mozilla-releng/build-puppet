@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # Handle installing Python virtualenvs containing Python packages.
 # https://wiki.mozilla.org/ReleaseEngineering/Puppet/Modules/python
-define python27::virtualenv($python, $ensure='present', $packages=null, $user=null, $group=null) {
+define python27::virtualenv($python, $ensure='present', $packages=null, $user=null, $group=null, $rebuild_trigger=null) {
     include python27::virtualenv::settings
     include python27::virtualenv::prerequisites
 
@@ -50,6 +50,24 @@ define python27::virtualenv($python, $ensure='present', $packages=null, $user=nu
             }
         }
     }
+    # If a $rebuild_trigger was specified, we want to completely remove
+    # the virtualenv, which will cause it to rebuilt from scratch
+    if ($rebuild_trigger) {
+        if ($::operatingsystem != Windows) {
+            exec {
+                "rebuild $virtualenv":
+                    user        => $ve_user,
+                    logoutput   => on_failure,
+                    command     => "/bin/rm -rf $virtualenv/bin $virtualenv/include $virtualenv/lib $virtualenv/local $virtualenv/share",
+                    subscribe   => $rebuild_trigger,
+                    refreshonly => true;
+            }
+        }
+    }
+    $rebuild_requires = $::operatingsystem ? {
+        windows => null,
+        default => Exec["rebuild $virtualenv"],
+    }
     case $ensure {
         present: {
             file {
@@ -57,7 +75,8 @@ define python27::virtualenv($python, $ensure='present', $packages=null, $user=nu
                 $virtualenv:
                     ensure => directory,
                     owner  => $ve_user,
-                    group  => $ve_group;
+                    group  => $ve_group,
+                    require => $rebuild_requires;
             }
             exec {
                 "virtualenv ${virtualenv}":
@@ -66,7 +85,7 @@ define python27::virtualenv($python, $ensure='present', $packages=null, $user=nu
                     logoutput => on_failure,
                     require   => [
                         File[$virtualenv],
-                            Class['python27::virtualenv::prerequisites'],
+                        Class['python27::virtualenv::prerequisites'],
                     ],
                     creates   => $::operatingsystem ? {
                         windows => "${virtualenv}/Scripts/pip.exe",

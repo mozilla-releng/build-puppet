@@ -14,14 +14,24 @@ class pushapk_scriptworker {
     include pushapk_scriptworker::mime_types
     include tweaks::scriptworkerlogrotate
 
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-${module_name}":
+            command     => "/usr/bin/supervisorctl stop ${module_name}",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python35'];
+    }
+
     python35::virtualenv {
         $pushapk_scriptworker::settings::root:
-            python3  => $packages::mozilla::python35::python3,
-            require  => Class['packages::mozilla::python35'],
-            user     => $pushapk_scriptworker::settings::user,
-            group    => $pushapk_scriptworker::settings::group,
-            mode     => 700,
-            packages => [
+            python3         => $packages::mozilla::python35::python3,
+            rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
+            require         => Class['packages::mozilla::python35'],
+            user            => $pushapk_scriptworker::settings::user,
+            group           => $pushapk_scriptworker::settings::group,
+            mode            => 700,
+            packages        => [
                 'PyYAML==3.12',
                 'aiohttp==2.3.9',
                 'arrow==0.12.1',

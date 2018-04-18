@@ -15,14 +15,24 @@ class pushsnap_scriptworker {
     include tweaks::scriptworkerlogrotate
     include tweaks::scriptworkerlogrotate
 
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-${module_name}":
+            command     => "/usr/bin/supervisorctl stop ${module_name}",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python35'];
+    }
+
     python35::virtualenv {
         $pushsnap_scriptworker::settings::root:
-            python3  => $packages::mozilla::python35::python3,
-            require  => Class['packages::mozilla::python35'],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            mode     => '0700',
-            packages => [
+            python3         => $packages::mozilla::python35::python3,
+            rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
+            require         => Class['packages::mozilla::python35'],
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            mode            => '0700',
+            packages        => [
                 'aiohttp==2.3.9',
                 'arrow==0.12.1',
                 'async_timeout==1.4.0',

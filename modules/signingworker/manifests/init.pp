@@ -13,13 +13,23 @@ class signingworker {
     include packages::gcc
     include packages::make
 
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-${module_name}":
+            command     => "/sbin/service ${module_name} stop",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python27'];
+    }
+
     python::virtualenv {
         $signingworker::settings::root:
-            python   => $packages::mozilla::python27::python,
-            require  => Class['packages::mozilla::python27'],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            packages => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
+            require         => Class['packages::mozilla::python27'],
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            packages        => [
                   'PyHawk-with-a-single-extra-commit==0.1.5',
                   'amqp==1.4.6',
                   'anyjson==0.3.3',

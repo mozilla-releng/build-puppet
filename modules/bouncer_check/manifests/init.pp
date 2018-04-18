@@ -8,9 +8,10 @@ class bouncer_check {
 
     python::virtualenv {
         $venv_root:
-            python   => $packages::mozilla::python27::python,
-            require  => Class['packages::mozilla::python27'],
-            packages => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Class['packages::mozilla::python27'],
+            require         => Class['packages::mozilla::python27'],
+            packages        => [
                 'argparse==1.2.1',
                 'nagios-tools==0.6',
                 'nagiosplugin==1.1',

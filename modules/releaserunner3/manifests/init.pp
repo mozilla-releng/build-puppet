@@ -14,15 +14,25 @@ class releaserunner3 {
 
     $env_config = $config::releaserunner3_env_config[$releaserunner3_env]
 
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-${module_name}":
+            command     => "/sbin/service ${module_name} stop",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python35'];
+    }
+
     python::virtualenv {
         $releaserunner3::settings::root:
-            python   => $packages::mozilla::python27::python,
-            require  => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
+            require         => [
                 Class['packages::mozilla::python27'],
             ],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            packages => [
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            packages        => [
                 'PyYAML==3.12',
                 'Twisted==12.3.0',
                 'certifi==2017.07.27.1',

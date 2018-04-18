@@ -16,16 +16,26 @@ class releaserunner {
 
     $env_config = $config::releaserunner_env_config[$releaserunner_env]
 
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-${module_name}":
+            command     => "/sbin/service ${module_name} stop",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python27'];
+    }
+
     python::virtualenv {
         $releaserunner::settings::root:
-            python   => $packages::mozilla::python27::python,
-            require  => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
+            require         => [
                 Class['packages::mozilla::python27'],
                 Class['packages::libffi'],
             ],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            packages => [
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            packages        => [
                 'Fabric==1.5.1',
                 'Jinja2==2.6',
                 'PGPy==0.3.0',
