@@ -34,7 +34,7 @@ class balrog_scriptworker {
             user            => $users::builder::username,
             group           => $users::builder::group,
             mode            => '0700',
-            packages => [
+            packages        => [
                   'PyYAML==3.12',
                   'aiohttp==2.3.9',
                   'arrow==0.12.1',
@@ -66,12 +66,12 @@ class balrog_scriptworker {
 
     python27::virtualenv {
         "${balrog_scriptworker::settings::root}/py27venv":
-            python           => $packages::mozilla::python27::python,
-            rebuild_trigger  => Class['packages::mozilla::python27'],
-            require          => Class['packages::mozilla::python27'],
-            user             => $users::builder::username,
-            group            => $users::builder::group,
-            packages         => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Class['packages::mozilla::python27'],
+            require         => Class['packages::mozilla::python27'],
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            packages        => [
                   'appdirs==1.4.3',
                   'arrow==0.10.0',
                   'asn1crypto==0.22.0',

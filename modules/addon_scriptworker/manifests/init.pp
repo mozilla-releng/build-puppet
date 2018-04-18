@@ -28,7 +28,7 @@ class addon_scriptworker {
             user            => $addon_scriptworker::settings::user,
             group           => $addon_scriptworker::settings::group,
             mode            => 700,
-            packages => [
+            packages        => [
                 'PyYAML==3.12',
                 'addonscript==0.4',
                 'aiohttp==2.3.9',

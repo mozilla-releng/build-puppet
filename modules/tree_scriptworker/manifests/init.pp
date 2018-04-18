@@ -35,7 +35,7 @@ class tree_scriptworker {
             user            => $users::builder::username,
             group           => $users::builder::group,
             mode            => '0700',
-            packages => [
+            packages        => [
                   'PyYAML==3.12',
                   'aiohttp==2.3.9',
                   'arrow==0.12.1',
