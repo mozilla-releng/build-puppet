@@ -57,13 +57,27 @@ class buildmaster::queue {
             enable    => true;
     }
 
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-command_runner":
+            command     => "/sbin/service command_runner stop",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python27'];
+        "stop-for-rebuild-pulse_publisher":
+            command     => "/sbin/service pulse_publisher stop",
+            refreshonly => true,
+            subscribe   => Exec['stop-for-rebuild-command_runner'];
+    }
+
     python::virtualenv {
         $buildmaster::settings::queue_dir:
-            python   => $packages::mozilla::python27::python,
-            require  => Class['packages::mozilla::python27'],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            packages => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Exec['stop-for-rebuild-pulse_publisher'];
+            require         => Class['packages::mozilla::python27'],
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            packages        => [
                 'buildbot==0.8.4-pre-moz2',
                 'MozillaPulse==1.2.1',
                 'amqp==1.4.6',

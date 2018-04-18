@@ -15,11 +15,12 @@ class slaverebooter {
 
     python::virtualenv {
         $basedir:
-            python   => $packages::mozilla::python27::python,
-            require  => Class['packages::mozilla::python27'],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            packages => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Class['packages::mozilla::python27'],
+            require         => Class['packages::mozilla::python27'],
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            packages        => [
                             'furl==0.3.5',
                             'requests==1.2.3',
                             'docopt==0.6.1',

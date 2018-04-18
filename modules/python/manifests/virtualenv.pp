@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # Handle installing Python virtualenvs containing Python packages.
 # https://wiki.mozilla.org/ReleaseEngineering/Puppet/Modules/python
-define python::virtualenv($python, $ensure='present', $packages=null, $user=null, $group=null) {
+define python::virtualenv($python, $ensure='present', $packages=null, $user=null, $group=null, $rebuild_trigger=null) {
     include python::virtualenv::settings
     include python::virtualenv::prerequisites
 
@@ -50,14 +50,33 @@ define python::virtualenv($python, $ensure='present', $packages=null, $user=null
             }
         }
     }
+    # If a $rebuild_trigger was specified, we want to completely remove
+    # the virtualenv, which will cause it to rebuilt from scratch
+    if ($rebuild_trigger) {
+        if ($::operatingsystem != Windows) {
+            exec {
+                "rebuild $virtualenv":
+                    user        => $ve_user,
+                    logoutput   => on_failure,
+                    command     => "/bin/rm -rf $virtualenv/bin $virtualenv/include $virtualenv/lib $virtualenv/local $virtualenv/share",
+                    subscribe   => $rebuild_trigger,
+                    refreshonly => true;
+            }
+        }
+    }
+    $rebuild_requires = $::operatingsystem ? {
+        windows => null,
+        default => Exec["rebuild $virtualenv"],
+    }
     case $ensure {
         present: {
             file {
                 # create the virtualenv directory
                 $virtualenv:
-                    ensure => directory,
-                    owner  => $ve_user,
-                    group  => $ve_group;
+                    ensure  => directory,
+                    owner   => $ve_user,
+                    group   => $ve_group,
+                    require => $rebuild_requires;
             }
             python::virtualenv::package {
                 "${virtualenv}||pip==${python::virtualenv::settings::pip_version}":
@@ -70,7 +89,7 @@ define python::virtualenv($python, $ensure='present', $packages=null, $user=null
                     logoutput => on_failure,
                     require   => [
                         File[$virtualenv],
-                            Class['python::virtualenv::prerequisites'],
+                        Class['python::virtualenv::prerequisites'],
                     ],
                     creates   => $::operatingsystem ? {
                         windows => "${virtualenv}/Scripts/pip.exe",

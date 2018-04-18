@@ -33,17 +33,27 @@ define slaveapi::instance($listenaddr, $port, $version='1.6.8') {
     $user  = $users::builder::username
     $group = $users::builder::group
 
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-${module_name}":
+            command     => "${basedir}/bin/slaveapi-server.py stop ${config_file}",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python27'];
+    }
+
     python::virtualenv {
         $basedir:
-            python   => $packages::mozilla::python27::python,
-            require  => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
+            require         => [
                 Class['packages::mozilla::python27'],
                 Class['packages::libevent'],
                 $slaveapi::base::compiler_req, # for compiled extensions
             ],
-            user     => $user,
-            group    => $group,
-            packages => [
+            user            => $user,
+            group           => $group,
+            packages        => [
                 'gevent==0.13.8',
                 'greenlet==0.4.1',
                 'pycrypto==2.6.1',
@@ -68,7 +78,7 @@ define slaveapi::instance($listenaddr, $port, $version='1.6.8') {
                 'python-dateutil==1.5',
                 # for aws cloud-tools
                 'MySQL-python==1.2.5',
-                'PyYAML==3.11',
+                'PyYAML==3.12',
                 'SQLAlchemy==0.8.3',
                 'cfn-pyplates>=0.5.0',
                 'ecdsa==0.10',

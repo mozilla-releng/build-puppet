@@ -9,13 +9,14 @@ class cruncher::slave_health {
 
     python::virtualenv {
         '/home/buildduty/slave_health':
-            python   => $::packages::mozilla::python27::python,
-            require  => [
+            python          => $::packages::mozilla::python27::python,
+            rebuild_trigger => Class['packages::mozilla::python27'],
+            require         => [
                 Class['packages::mozilla::python27'],
             ],
-            user     => $users::buildduty::username,
-            group    => $users::buildduty::group,
-            packages => [
+            user            => $users::buildduty::username,
+            group           => $users::buildduty::group,
+            packages        => [
                 'MySQL-python',
                 'SQLAlchemy',
                 'pytz',

@@ -71,17 +71,27 @@ define buildmaster::buildbot_master::simple($basedir, $http_port, $master_cfg, $
             creates   => "${full_master_dir}/tools";
     }
 
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-${master_name}":
+            command     => "/sbin/service ${master_name} stop",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python27'];
+    }
+
     # Actual master setup TBD
     python::virtualenv {
         $full_master_dir:
-            python   => $::packages::mozilla::python27::python,
-            require  => [
+            python          => $::packages::mozilla::python27::python,
+            rebuild_trigger => Exec["stop-for-rebuild-${master_name}"],
+            require         => [
                 Class['packages::mozilla::python27'],
                 File['/builds/buildbot']
             ],
-            user     => $master_user,
-            group    => $master_group,
-            packages => [
+            user            => $master_user,
+            group           => $master_group,
+            packages        => [
                 "buildbot==${buildbot_version}",
                 'Twisted==10.2.0',
                 'Jinja2==2.5.5',

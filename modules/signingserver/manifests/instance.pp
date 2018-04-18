@@ -135,15 +135,16 @@ define signingserver::instance(
 
     python::virtualenv {
         $basedir:
-            python   => $packages::mozilla::python27::python,
-            require  => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Class['packages::mozilla::python27'],
+            require         => [
                 Class['packages::mozilla::python27'],
                 Class['packages::libevent'],
                 $signingserver::base::compiler_req, # for compiled extensions
             ],
-            user     => $user,
-            group    => $group,
-            packages => $virtualenv_packages;
+            user            => $user,
+            group           => $group,
+            packages        => $virtualenv_packages;
     }
 
     mercurial::repo {

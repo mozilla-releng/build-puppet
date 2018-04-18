@@ -15,13 +15,29 @@ class buildbot_bridge {
 
     $bbb_version = $::buildbot_bridge::settings::env_config['version']
 
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-bblistener":
+            command     => "/usr/bin/supervisorctl stop bblistener",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python27'];
+    }
+    exec {
+        "stop-for-rebuild-tclistener":
+            command     => "/usr/bin/supervisorctl stop tclistener",
+            refreshonly => true,
+            subscribe   => Exec["stop-for-rebuild-bblistener"],
+    }
+
     python::virtualenv {
         $buildbot_bridge::settings::root:
-            python   => $packages::mozilla::python27::python,
-            require  => Class['packages::mozilla::python27'],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            packages => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Exec["stop-for-rebuild-tclistener"],
+            require         => Class['packages::mozilla::python27'],
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            packages        => [
                 # Taskcluster pins requests 2.4.3, so we need to de the same,
                 # even though we'd rather use a more up-to-date version.
                 'requests==2.4.3',

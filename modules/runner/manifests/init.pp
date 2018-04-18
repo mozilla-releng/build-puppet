@@ -23,11 +23,12 @@ class runner {
     }
     python::virtualenv {
         $runner::settings::root:
-            python   => $packages::mozilla::python27::python,
-            require  => [Class['packages::mozilla::python27'],
-                            Class['dirs::opt']
-                        ],
-            packages => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Class['packages::mozilla::python27'],
+            require         => [Class['packages::mozilla::python27'],
+                                Class['dirs::opt']
+            ],
+            packages        => [
                 'runner==2.1',
             ];
     }

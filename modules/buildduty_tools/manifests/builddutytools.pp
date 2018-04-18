@@ -13,13 +13,14 @@ class buildduty_tools::builddutytools {
 
     python::virtualenv {
         '/home/buildduty/buildduty-tools':
-            python   => $::packages::mozilla::python27::python,
-            require  => [
+            python          => $::packages::mozilla::python27::python,
+            rebuild_trigger => Class['packages::mozilla::python27'],
+            require         => [
                 Class['packages::mozilla::python27'],
             ],
-            user     => $users::buildduty::username,
-            group    => $users::buildduty::group,
-            packages => [
+            user            => $users::buildduty::username,
+            group           => $users::buildduty::group,
+            packages        => [
         'Jinja2==2.7.1',
         'MarkupSafe==0.18',
         'Twisted==10.2.0',

@@ -16,11 +16,12 @@ class aws_manager::install {
 
     python::virtualenv {
         $aws_manager::settings::root:
-            python   => $packages::mozilla::python27::python,
-            require  => Class['packages::mozilla::python27'],
-            user     => $users::buildduty::username,
-            group    => $users::buildduty::group,
-            packages => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Class['packages::mozilla::python27'],
+            require         => Class['packages::mozilla::python27'],
+            user            => $users::buildduty::username,
+            group           => $users::buildduty::group,
+            packages        => [
                 'Fabric==1.8.0',
                 'IPy==0.81',
                 'MySQL-python==1.2.5',

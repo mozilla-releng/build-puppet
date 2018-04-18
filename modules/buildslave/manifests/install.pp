@@ -29,8 +29,9 @@ class buildslave::install {
     Anchor['buildslave::install::begin'] ->
     python::virtualenv {
         $virtualenv_path:
-            python   => $::packages::mozilla::python27::python,
-            require  => $py_require,
-            packages => $packages;
+            python          => $::packages::mozilla::python27::python,
+            rebuild_trigger => $py_require,
+            require         => $py_require,
+            packages        => $packages;
     } -> Anchor['buildslave::install::end']
 }

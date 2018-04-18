@@ -17,13 +17,23 @@ class balrog_scriptworker {
 
     $env_config = $balrog_scriptworker::settings::env_config[$balrogworker_env]
 
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-${module_name}":
+            command     => "/usr/bin/supervisorctl stop ${module_name}",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python35'];
+    }
+
     python35::virtualenv {
         $balrog_scriptworker::settings::root:
-            python3  => $packages::mozilla::python35::python3,
-            require  => Class['packages::mozilla::python35'],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            mode     => '0700',
+            python3         => $packages::mozilla::python35::python3,
+            rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
+            require         => Class['packages::mozilla::python35'],
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            mode            => '0700',
             packages => [
                   'PyYAML==3.12',
                   'aiohttp==2.3.9',
@@ -56,11 +66,12 @@ class balrog_scriptworker {
 
     python27::virtualenv {
         "${balrog_scriptworker::settings::root}/py27venv":
-            python   => $packages::mozilla::python27::python,
-            require  => Class['packages::mozilla::python27'],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            packages => [
+            python           => $packages::mozilla::python27::python,
+            rebuild_trigger  => Class['packages::mozilla::python27'],
+            require          => Class['packages::mozilla::python27'],
+            user             => $users::builder::username,
+            group            => $users::builder::group,
+            packages         => [
                   'appdirs==1.4.3',
                   'arrow==0.10.0',
                   'asn1crypto==0.22.0',

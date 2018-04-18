@@ -10,13 +10,24 @@ class selfserve_agent::install {
     include packages::make
     include packages::mysql_devel
     include selfserve_agent::settings
+
+    # If the Python installation changes, we need to rebuild the virtualenv
+    # from scratch. Before doing that, we need to stop the running instance.
+    exec {
+        "stop-for-rebuild-${module_name}":
+            command     => "/sbin/service selfserve-agent stop",
+            refreshonly => true,
+            subscribe   => Class['packages::mozilla::python35'];
+    }
+
     python::virtualenv {
         $selfserve_agent::settings::root:
-            python   => $packages::mozilla::python27::python,
-            require  => Class['packages::mozilla::python27'],
-            user     => $users::builder::username,
-            group    => $users::builder::group,
-            packages => [
+            python          => $packages::mozilla::python27::python,
+            rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
+            require         => Class['packages::mozilla::python27'],
+            user            => $users::builder::username,
+            group           => $users::builder::group,
+            packages        => [
                 'anyjson==0.3.3',
                 'Beaker==1.5.4',
                 'FormEncode==1.2.4',

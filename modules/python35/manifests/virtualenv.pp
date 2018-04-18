@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # Handle installing Python virtualenvs containing Python packages.
 # https://wiki.mozilla.org/ReleaseEngineering/Puppet/Modules/python
-define python35::virtualenv($python3, $ensure='present', $packages=null, $user=null, $group=null, $mode='0755') {
+define python35::virtualenv($python3, $ensure='present', $packages=null, $user=null, $group=null, $mode='0755', $rebuild_trigger=null) {
     include python35::virtualenv::settings
 
     $virtualenv = $title
@@ -41,15 +41,34 @@ define python35::virtualenv($python3, $ensure='present', $packages=null, $user=n
             }
         }
     }
+    # If a $rebuild_trigger was specified, we want to completely remove
+    # the virtualenv, which will cause it to rebuilt from scratch
+    if ($rebuild_trigger) {
+        if ($::operatingsystem != Windows) {
+            exec {
+                "rebuild $virtualenv":
+                    user        => $ve_user,
+                    logoutput   => on_failure,
+                    command     => "/bin/rm -rf $virtualenv/bin $virtualenv/include $virtualenv/lib $virtualenv/local $virtualenv/share",
+                    subscribe   => $rebuild_trigger,
+                    refreshonly => true;
+            }
+        }
+    }
+    $rebuild_requires = $::operatingsystem ? {
+        windows => null,
+        default => Exec["rebuild $virtualenv"],
+    }
     case $ensure {
         present: {
             file {
                 # create the virtualenv directory
                 $virtualenv:
-                    ensure => directory,
-                    owner  => $ve_user,
-                    group  => $ve_group,
-                    mode   => $mode;
+                    ensure  => directory,
+                    owner   => $ve_user,
+                    group   => $ve_group,
+                    mode    => $mode,
+                    require => $rebuild_requires;
             }
             python35::virtualenv::package {
                 "${virtualenv}||pip==${python35::virtualenv::settings::pip_version}":
