@@ -73,7 +73,7 @@ class buildmaster::queue {
     python::virtualenv {
         $buildmaster::settings::queue_dir:
             python          => $packages::mozilla::python27::python,
-            rebuild_trigger => Exec['stop-for-rebuild-pulse_publisher'];
+            rebuild_trigger => Exec['stop-for-rebuild-pulse_publisher'],
             require         => Class['packages::mozilla::python27'],
             user            => $users::builder::username,
             group           => $users::builder::group,
