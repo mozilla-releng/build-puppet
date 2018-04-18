@@ -28,6 +28,10 @@ class beetmover_scriptworker::settings {
             dep_beetmover_aws_s3_firefox_bucket     => 'net-mozaws-stage-delivery-firefox',
             dep_beetmover_aws_s3_fennec_bucket      => 'net-mozaws-stage-delivery-archive',
 
+            dep_partner_beetmover_aws_access_key_id => secret('dep_partner_beetmover_aws_access_key_id'),
+            dep_partner_beetmover_aws_secret_access_key => secret('dep_partner_beetmover_aws_secret_access_key'),
+            dep_partner_beetmover_aws_s3_firefox_bucket => 'mozilla-releng-dep-partner',
+
             config_template                         => 'beetmover_scriptworker/dev_script_config.json.erb',
             worker_type                             => 'beetmoverworker-dev',
             taskcluster_client_id                   => 'project/releng/scriptworker/beetmover-dev',
@@ -52,6 +56,10 @@ class beetmover_scriptworker::settings {
             dep_beetmover_aws_secret_access_key     => secret('stage-beetmover-aws_secret_access_key'),
             dep_beetmover_aws_s3_firefox_bucket     => 'net-mozaws-stage-delivery-firefox',
             dep_beetmover_aws_s3_fennec_bucket      => 'net-mozaws-stage-delivery-archive',
+
+            dep_partner_beetmover_aws_access_key_id => secret('dep_partner_beetmover_aws_access_key_id'),
+            dep_partner_beetmover_aws_secret_access_key => secret('dep_partner_beetmover_aws_secret_access_key'),
+            dep_partner_beetmover_aws_s3_firefox_bucket => 'mozilla-releng-dep-partner',
 
             config_template                         => 'beetmover_scriptworker/prod_script_config.json.erb',
             worker_type                             => 'beetmoverworker-v1',
