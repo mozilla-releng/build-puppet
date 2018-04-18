@@ -7,6 +7,12 @@ class puppet::renew_cert {
     include stdlib
     include dirs::usr::local::bin
 
+    # puppet::renew_cert only supports posix
+    case $::operatingsystem {
+        'CentOS', 'Ubuntu', 'Darwin': {}
+        default: { fail("pupppet::renew_cert support missing for ${::operatingsystem}") }
+    }
+
     $enddate = $::puppet_agent_cert_enddate
     $issuer  = $::puppet_agent_cert_issuer
     $second_in_30_days = 60 * 60 * 24 * 30
