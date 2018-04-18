@@ -17,7 +17,7 @@ class selfserve_agent::install {
         "stop-for-rebuild-${module_name}":
             command     => "/sbin/service selfserve-agent stop",
             refreshonly => true,
-            subscribe   => Class['packages::mozilla::python35'];
+            subscribe   => Class['packages::mozilla::python27'];
     }
 
     python::virtualenv {
