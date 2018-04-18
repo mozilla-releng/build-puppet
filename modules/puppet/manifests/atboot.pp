@@ -12,6 +12,11 @@ class puppet::atboot {
     $puppet_server = $::puppet::settings::puppet_server
     $puppet_servers = $::puppet::settings::puppet_servers
 
+    # puppet::renew_cert only supports posix
+    case $::operatingsystem {
+        'CentOS', 'Ubuntu', 'Darwin': { include puppet::renew_cert }
+    }
+
     case ($::operatingsystem) {
         Darwin: {
             # Always run puppet at boot unless maximums are set for both
