@@ -41,7 +41,7 @@ class aws_manager::install {
                 'docopt==0.6.1',
                 'netaddr==0.7.12',
                 'cfn-pyplates>=0.5.0',
-                'PyYAML==3.11',
+                'PyYAML==3.12',
                 'dnspython==1.12.0',
                 'pbr==0.10.7',
                 'ordereddict==1.1',
