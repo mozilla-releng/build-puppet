@@ -63,19 +63,26 @@ define python::virtualenv($python, $ensure='present', $packages=null, $user=null
             }
         }
     }
-    $rebuild_requires = $::operatingsystem ? {
-        windows => null,
-        default => Exec["rebuild ${virtualenv}"],
-    }
     case $ensure {
         present: {
-            file {
-                # create the virtualenv directory
-                $virtualenv:
-                    ensure  => directory,
-                    owner   => $ve_user,
-                    group   => $ve_group,
-                    require => $rebuild_requires;
+            if ($::operatingsystem != Windows) {
+                file {
+                    # create the virtualenv directory
+                    $virtualenv:
+                        ensure  => directory,
+                        owner   => $ve_user,
+                        group   => $ve_group,
+                        require => $rebuild_requires;
+                }
+            }
+            else {
+                file {
+                    # create the virtualenv directory
+                    $virtualenv:
+                        ensure => directory,
+                        owner  => $ve_user,
+                        group  => $ve_group;
+                }
             }
             python::virtualenv::package {
                 "${virtualenv}||pip==${python::virtualenv::settings::pip_version}":

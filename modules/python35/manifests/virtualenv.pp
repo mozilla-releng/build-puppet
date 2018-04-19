@@ -54,20 +54,28 @@ define python35::virtualenv($python3, $ensure='present', $packages=null, $user=n
             }
         }
     }
-    $rebuild_requires = $::operatingsystem ? {
-        windows => null,
-        default => Exec["rebuild ${virtualenv}"],
-    }
     case $ensure {
         present: {
-            file {
-                # create the virtualenv directory
-                $virtualenv:
-                    ensure  => directory,
-                    owner   => $ve_user,
-                    group   => $ve_group,
-                    mode    => $mode,
-                    require => $rebuild_requires;
+            if ($::operatingsystem != Windows) {
+                file {
+                    # create the virtualenv directory
+                    $virtualenv:
+                        ensure  => directory,
+                        owner   => $ve_user,
+                        group   => $ve_group,
+                        mode    => $mode,
+                        require => $rebuild_requires;
+                }
+            }
+            else {
+                file {
+                    # create the virtualenv directory
+                    $virtualenv:
+                        ensure => directory,
+                        owner  => $ve_user,
+                        group  => $ve_group,
+                        mode   => $mode;
+                }
             }
             python35::virtualenv::package {
                 "${virtualenv}||pip==${python35::virtualenv::settings::pip_version}":
