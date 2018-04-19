@@ -25,6 +25,15 @@
                 "devedition": "<%= @env_config["release_beetmover_aws_s3_fennec_bucket"] %>"
             }
         },
+        "partner": {
+            "credentials": {
+                "id": "<%= @env_config["partner_beetmover_aws_access_key_id"] %>",
+                "key": "<%= @env_config["partner_beetmover_aws_secret_access_key"] %>"
+            },
+            "buckets": {
+                "firefox": "<%= @env_config["partner_beetmover_aws_s3_firefox_bucket"] %>"
+            }
+        },
         "dep": {
             "credentials": {
                 "id": "<%= @env_config["dep_beetmover_aws_access_key_id"] %>",

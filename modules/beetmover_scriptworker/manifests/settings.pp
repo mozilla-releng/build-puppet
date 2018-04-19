@@ -52,6 +52,10 @@ class beetmover_scriptworker::settings {
             release_beetmover_aws_s3_firefox_bucket => 'net-mozaws-prod-delivery-firefox',
             release_beetmover_aws_s3_fennec_bucket  => 'net-mozaws-prod-delivery-archive',
 
+            partner_beetmover_aws_access_key_id => secret('partner_beetmover_aws_access_key_id'),
+            partner_beetmover_aws_secret_access_key => secret('partner_beetmover_aws_secret_access_key'),
+            partner_beetmover_aws_s3_firefox_bucket => 'fxpartners-distros',
+
             dep_beetmover_aws_access_key_id         => secret('stage-beetmover-aws_access_key_id'),
             dep_beetmover_aws_secret_access_key     => secret('stage-beetmover-aws_secret_access_key'),
             dep_beetmover_aws_s3_firefox_bucket     => 'net-mozaws-stage-delivery-firefox',
