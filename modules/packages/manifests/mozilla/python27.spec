@@ -1,6 +1,6 @@
 %define realname python27
 %define pyver 2.7
-%define pyrel 3
+%define pyrel 14
 %define _prefix /tools/%{realname}
 # We set lib explicitly to avoid lib64 issues
 %define _libdir %{_prefix}/lib
@@ -12,11 +12,9 @@ Summary:	This is a packaging of %{realname} %{version}-%{release} for Mozilla Re
 
 Group:		mozilla
 License:	Python
-URL:		http://python.org
-Source0:	http://python.org/ftp/python/%{pyver}.%{pyrel}/Python-%{pyver}.%{pyrel}.tar.bz2
+URL:		https://python.org
+Source0:	https://python.org/ftp/python/%{pyver}.%{pyrel}/Python-%{pyver}.%{pyrel}.tar.xz
 Patch0:     python-2.6-fix-cgi.patch
-# from http://pkgs.fedoraproject.org/gitweb/?p=python.git;a=summary
-#Patch1:     python-2.7-lib64-sysconfig.patch
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 # Needed to build a full-featured python
@@ -36,7 +34,6 @@ Requires: tcl tk
 %prep
 %setup -q -n Python-%{pyver}.%{pyrel}
 %patch0
-#%patch1 -p1
 
 
 %build
@@ -71,10 +68,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %_prefix
 %_prefix/*
 /usr/local/bin/python%{pyver}
+/usr/share/man/man1/python%{pyver}.1.gz
 
 
 
 %changelog
+* Wed Apr 11 2018 Ben Hearsum (bhearsum mozilla com> 2.7.14-1
+- upgrade to latest python version
+
 * Tue Jul 10 2012 Dustin J. Mitchell <dustin mozilla com> 2.7.2-5
 - only add the versioned python link; others conflict between 2.6 and 2.7
 

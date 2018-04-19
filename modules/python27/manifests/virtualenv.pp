@@ -78,6 +78,10 @@ define python27::virtualenv($python, $ensure='present', $packages=null, $user=nu
                     group   => $ve_group,
                     require => $rebuild_requires;
             }
+            python27::virtualenv::package {
+                "${virtualenv}||pip==${python27::virtualenv::settings::pip_version}":
+                    user => $ve_user;
+            }
             exec {
                 "virtualenv ${virtualenv}":
                     user      => $ve_user,
