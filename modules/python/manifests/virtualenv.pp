@@ -56,7 +56,6 @@ define python::virtualenv($python, $ensure='present', $packages=null, $user=null
         if ($::operatingsystem != Windows) {
             exec {
                 "rebuild ${virtualenv}":
-                    user        => $ve_user,
                     logoutput   => on_failure,
                     command     => "/bin/rm -rf ${virtualenv}/bin ${virtualenv}/include ${virtualenv}/lib ${virtualenv}/local ${virtualenv}/share",
                     subscribe   => $rebuild_trigger,
