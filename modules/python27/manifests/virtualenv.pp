@@ -79,9 +79,9 @@ define python27::virtualenv($python, $ensure='present', $packages=null, $user=nu
                 file {
                     # create the virtualenv directory
                     $virtualenv:
-                        ensure  => directory,
-                        owner   => $ve_user,
-                        group   => $ve_group;
+                        ensure => directory,
+                        owner  => $ve_user,
+                        group  => $ve_group;
                 }
             }
             exec {
