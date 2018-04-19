@@ -401,7 +401,7 @@ class config inherits config::base {
             github_token                          => secret('releaserunner_github_token'),
             eme_free_url                          => 'https://github.com/mozilla-partners/mozilla-EME-free-manifest',
             partner_repack_url                    => 'git@github.com:mozilla-partners/repack-manifests',
-            partner_min_version                   => 99,
+            partner_min_version                   => 60,
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [
                                                         'releases/mozilla-release',
