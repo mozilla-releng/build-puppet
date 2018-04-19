@@ -42,17 +42,13 @@ class packages::mozilla::python27 {
 
             case $::operatingsystem {
                 CentOS: {
-                    # Bug 1307757 - Deploy python 2.7.12 to releng servers
-                    # install Python 2.7.12 for 'buildduty-tools' and 'cruncher-aws' servers in order
-                    # to silence the alerts caused by using on older Python version (2.7.3) when
-                    # performing HG operation.
                     if $::hostname in [ 'buildduty-tools', 'cruncher-aws', 'aws-manager1', 'aws-manager2',
-                        'treescriptworker-dev1', 'treescriptworker-1', 'slaveapi-dev1' ] {
-                      realize(Packages::Yumrepo['python27-12'])
+                                        'treescriptworker-dev1', 'treescriptworker-1', ] {
+                      realize(Packages::Yumrepo['python27-14'])
                       Anchor['packages::mozilla::python27::begin'] ->
                       package {
                           'mozilla-python27':
-                              ensure => '2.7.12-1.el6';
+                              ensure => '2.7.14-1.el6';
                       } -> Anchor['packages::mozilla::python27::end']
                     }
                     else {
@@ -102,11 +98,20 @@ class packages::mozilla::python27 {
                 Darwin: {
                     case $::macosx_productversion_major {
                         '10.6','10.8','10.9','10.10': {
-                            Anchor['packages::mozilla::python27::begin'] ->
-                            packages::pkgdmg {
-                                'python27':
-                                    version => '2.7.3-1';
-                            }  -> Anchor['packages::mozilla::python27::end']
+                            if $::hostname in [ 'mac-v2-signing1' ] {
+                                Anchor['packages::mozilla::python27::begin'] ->
+                                packages::pkgdmg {
+                                    'python27':
+                                        version => '2.7.14-1';
+                                }  -> Anchor['packages::mozilla::python27::end']
+                            }
+                            else {
+                                Anchor['packages::mozilla::python27::begin'] ->
+                                packages::pkgdmg {
+                                    'python27':
+                                        version => '2.7.3-1';
+                                }  -> Anchor['packages::mozilla::python27::end']
+                            }
                         }
                         '10.7': {
                             Anchor['packages::mozilla::python27::begin'] ->

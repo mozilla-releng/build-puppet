@@ -12,4 +12,5 @@ class python27::virtualenv::settings {
     $packages_dir_source = 'puppet:///python/packages'
 
     $virtualenv_version  = '15.0.2'
+    $pip_version = '9.0.3'
 }
