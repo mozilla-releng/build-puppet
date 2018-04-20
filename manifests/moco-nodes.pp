@@ -589,6 +589,8 @@ node 'buildbot-master81.bb.releng.scl3.mozilla.com' {
     $aspects           = [ 'high-security' ]
     $only_user_ssh     = true
     $releaserunner_env = 'prod-old'
+    # This runs the `old-release-runner` branch, but we can't set
+    # `$releaserunner_tools_branch` because we don't want to tag that branch.
     buildmaster::buildbot_master::mozilla {
         'bm81-build_scheduler':
             master_type => 'scheduler',
