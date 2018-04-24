@@ -34,7 +34,7 @@ kiwisolver==1.0.1
 lxml==4.2.1
 matplotlib==2.2.2
 mohawk==0.3.4
-mozapkpublisher==0.7.1
+mozapkpublisher==0.7.2
 multidict==4.3.1
 networkx==2.1
 numpy==1.14.3
@@ -54,7 +54,7 @@ python-gnupg==0.4.2
 pytz==2018.4
 requests==2.18.4
 rsa==3.4.2
-scriptworker==11.0.0
+scriptworker==11.1.0
 simplegeneric==0.8.1
 slugid==1.0.7
 taskcluster==3.0.1
@@ -65,4 +65,4 @@ virtualenv==15.2.0
 voluptuous==0.11.1
 wcwidth==0.1.7
 yarl==1.2.4
-pushapkscript==0.6.0
+pushapkscript==0.7.0
