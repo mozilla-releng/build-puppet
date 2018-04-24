@@ -54,7 +54,7 @@ class addon_scriptworker {
                 'python-jose==2.0.2',
                 'redo==1.6',
                 'requests==2.18.4',
-                'scriptworker==10.2.0',
+                'scriptworker==10.5.0',
                 'six==1.10.0',
                 'slugid==1.0.7',
                 'taskcluster==2.1.3',
