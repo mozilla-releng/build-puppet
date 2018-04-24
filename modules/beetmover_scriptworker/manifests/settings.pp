@@ -107,5 +107,35 @@ class beetmover_scriptworker::settings {
             verify_cot_signature                    => false,
             cot_product                             => 'thunderbird',
         },
+        'comm-thunderbird-prod' => {
+            nightly_beetmover_aws_access_key_id     => secret('comm_nightly-beetmover-aws_access_key_id'),
+            nightly_beetmover_aws_secret_access_key => secret('comm_nightly-beetmover-aws_secret_access_key'),
+            nightly_buckets                             => {
+                'thunderbird' => 'net-mozaws-prod-delivery-archive',
+            },
+
+            release_beetmover_aws_access_key_id     => secret('comm_beetmover-aws_access_key_id'),
+            release_beetmover_aws_secret_access_key => secret('comm_beetmover-aws_secret_access_key'),
+            release_buckets => {
+                'thunderbird' => 'net-mozaws-prod-delivery-archive',
+            },
+
+            dep_beetmover_aws_access_key_id         => secret('comm_thunderbird_dev-beetmover-aws_access_key_id'),
+            dep_beetmover_aws_secret_access_key     => secret('comm_thunderbird_dev-beetmover-aws_secret_access_key'),
+            dep_buckets                             => {
+                'thunderbird' => 'net-mozaws-stage-delivery-archive',
+            },
+
+            config_template                         => 'beetmover_scriptworker/prod_script_config.json.erb',
+            worker_type                             => 'tb-beetmover-v1',
+            worker_group                            => 'beetmoverworker-v1',
+            taskcluster_client_id                   => 'project/comm/thunderbird/releng/scriptworker/beetmover/prod',
+            taskcluster_access_token                => secret('comm_thunderbird_beetmoverworker_prod_taskcluster_access_token'),
+            taskcluster_scope_prefix                => 'project:comm:thunderbird:releng:beetmover:',
+            sign_chain_of_trust                     => true,
+            verify_chain_of_trust                   => true,
+            verify_cot_signature                    => true,
+            cot_product                             => 'thunderbird',
+        },
     }
 }
