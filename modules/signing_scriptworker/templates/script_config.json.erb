@@ -9,7 +9,7 @@
     "taskcluster_scope_prefix": "<%= @env_config['scope_prefix'] %>",
 
     "signtool": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/bin/signtool",
-    "token_duration_seconds": 7200,
+    "token_duration_seconds": 3600,
     "verbose": <%= @verbose_logging %>,
     "dmg": "<%= @dmg_location %>",
     "hfsplus": "<%= @hfsplus_location %>",
