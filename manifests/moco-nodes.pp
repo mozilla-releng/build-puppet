@@ -629,6 +629,8 @@ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
     $only_user_ssh     = true
     $releaserunner_env = 'dev'
     $releaserunner3_env = 'dev'
+    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
+    $pin_puppet_env    = 'tprince'
     buildmaster::buildbot_master::mozilla {
         'bm83-try1':
             http_port   => 8101,
@@ -974,6 +976,8 @@ node /^beetmover-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
     $beetmoverworker_env = 'dev'
     $timezone            = 'UTC'
     $only_user_ssh       = true
+    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
+    $pin_puppet_env    = 'tprince'
     include toplevel::server::beetmoverscriptworker
 }
 
