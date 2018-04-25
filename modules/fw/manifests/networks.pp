@@ -160,7 +160,8 @@ class fw::networks {
                                     '10.134.30.205/32',  # tb-signing-3.srv.releng.use1.mozilla.com
                                     '10.134.30.227/32',  # tb-signing-5.srv.releng.use1.mozilla.com
                                     '10.134.30.110/32',  # tb-signing-7.srv.releng.use1.mozilla.com
-                                    '10.134.30.42/32' ]  # tb-signing-9.srv.releng.use1.mozilla.com
+                                    '10.134.30.42/32',   # tb-signing-9.srv.releng.use1.mozilla.com
+                                    '10.134.30.184/32' ] # mobil-signing-linux-1.srv.releng.use1.mozilla.com
 
 
 
