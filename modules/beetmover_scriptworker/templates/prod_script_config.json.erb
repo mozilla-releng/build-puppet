@@ -11,7 +11,8 @@
                 "firefox": "<%= @env_config["nightly_beetmover_aws_s3_firefox_bucket"] %>",
                 "fennec": "<%= @env_config["nightly_beetmover_aws_s3_fennec_bucket"] %>",
                 "mobile": "<%= @env_config["nightly_beetmover_aws_s3_fennec_bucket"] %>"
-            }
+            },
+            "url_prefix": "https://archive.mozilla.org"
         },
         "release": {
             "credentials": {
@@ -23,7 +24,8 @@
                 "fennec": "<%= @env_config["release_beetmover_aws_s3_fennec_bucket"] %>",
                 "mobile": "<%= @env_config["release_beetmover_aws_s3_fennec_bucket"] %>",
                 "devedition": "<%= @env_config["release_beetmover_aws_s3_fennec_bucket"] %>"
-            }
+            },
+            "url_prefix": "https://archive.mozilla.org"
         },
         "partner": {
             "credentials": {
@@ -44,7 +46,8 @@
                 "fennec": "<%= @env_config["dep_beetmover_aws_s3_fennec_bucket"] %>",
                 "mobile": "<%= @env_config["dep_beetmover_aws_s3_fennec_bucket"] %>",
                 "devedition": "<%= @env_config["dep_beetmover_aws_s3_fennec_bucket"] %>"
-            }
+            },
+            "url_prefix": "https://ftp.stage.mozaws.net"
         },
         "dep-partner": {
             "credentials": {
