@@ -2,27 +2,22 @@
 <%= scope.function_template(["beetmover_scriptworker/base_script_config.json.erb"]) %>
 
     "bucket_config": {
-        "dep": {
-            "credentials": {
-                "id": "<%= @env_config["dep_beetmover_aws_access_key_id"] %>",
-                "key": "<%= @env_config["dep_beetmover_aws_secret_access_key"] %>"
-            },
-            "buckets": {
-                "firefox": "<%= @env_config["dep_beetmover_aws_s3_firefox_bucket"] %>",
-                "fennec": "<%= @env_config["dep_beetmover_aws_s3_fennec_bucket"] %>",
-                "mobile": "<%= @env_config["dep_beetmover_aws_s3_fennec_bucket"] %>",
-                "devedition": "<%= @env_config["dep_beetmover_aws_s3_fennec_bucket"] %>"
-            },
-            "url_prefix": "https://ftp.stage.mozaws.net"
-        },
+<% if @env_config["dep_partner_buckets"] -%>
         "dep-partner": {
             "credentials": {
                 "id": "<%= @env_config["dep_partner_beetmover_aws_access_key_id"] %>",
                 "key": "<%= @env_config["dep_partner_beetmover_aws_secret_access_key"] %>"
             },
-            "buckets": {
-                "firefox": "<%= @env_config["dep_partner_beetmover_aws_s3_firefox_bucket"] %>"
-            }
+            "buckets": <%= require "json"; JSON.pretty_generate(@env_config["dep_partner_buckets"]) %>
+        },
+<% end -%>
+        "dep": {
+            "credentials": {
+                "id": "<%= @env_config["dep_beetmover_aws_access_key_id"] %>",
+                "key": "<%= @env_config["dep_beetmover_aws_secret_access_key"] %>"
+            },
+            "buckets": <%= require "json"; JSON.pretty_generate(@env_config["dep_buckets"]) %>,
+            "url_prefix": "https://ftp.stage.mozaws.net"
         }
     }
 }
