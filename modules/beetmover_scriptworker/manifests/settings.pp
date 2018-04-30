@@ -89,5 +89,23 @@ class beetmover_scriptworker::settings {
             verify_cot_signature                    => true,
             cot_product                             => 'firefox',
         },
+        'comm-thunderbird-dev' => {
+            dep_beetmover_aws_access_key_id         => secret('comm_thunderbird_dev-beetmover-aws_access_key_id'),
+            dep_beetmover_aws_secret_access_key     => secret('comm_thunderbird_dev-beetmover-aws_secret_access_key'),
+            dep_buckets                             => {
+                'thunderbird' => 'net-mozaws-stage-delivery-archive',
+            },
+
+            config_template                         => 'beetmover_scriptworker/dev_script_config.json.erb',
+            worker_type                             => 'tb-beetmover-dev',
+            worker_group                            => 'beetmoverworker-v1',
+            taskcluster_client_id                   => 'project/comm/thunderbird/releng/scriptworker/beetmover/dev',
+            taskcluster_access_token                => secret('comm_thunderbird_beetmoverworker_dev_taskcluster_access_token'),
+            taskcluster_scope_prefix                => 'project:comm:thunderbird:releng:beetmover:',
+            sign_chain_of_trust                     => false,
+            verify_chain_of_trust                   => true,
+            verify_cot_signature                    => false,
+            cot_product                             => 'thunderbird',
+        },
     }
 }

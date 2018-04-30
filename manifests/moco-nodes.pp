@@ -981,6 +981,14 @@ node /^beetmover-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::beetmoverscriptworker
 }
 
+node /^tb-beetmover-dev\d+\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects             = [ 'maximum-security' ]
+    $beetmoverworker_env = 'comm-thunderbird-dev'
+    $timezone            = 'UTC'
+    $only_user_ssh       = true
+    include toplevel::server::beetmoverscriptworker
+}
+
 # Bouncer scriptworkers
 node /^bouncerworker-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
