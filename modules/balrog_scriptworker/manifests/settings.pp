@@ -61,5 +61,22 @@ class balrog_scriptworker::settings {
             verify_chain_of_trust => true,
             verify_cot_signature => false,
         },
+        'comm-thunderbird-prod' => {
+            balrog_username => 'balrog-tbirdbld',
+            balrog_password => secret('balrog-tbirdbld_ldap_password'),
+            balrog_api_root => 'https://aus4-admin.mozilla.org/api',
+
+            dummy => false,
+            tools_repo => 'https://hg.mozilla.org/build/tools',
+            taskcluster_client_id => 'project/comm/thunderbird/releng/scriptworker/balrogworker/prod',
+            taskcluster_access_token => secret('comm_thunderbird_balrogworker_prod_taskcluster_access_token'),
+            taskcluster_scope_prefix => 'project:comm:thunderbird:releng:balrog:',
+            cot_product => 'thunderbird',
+            worker_type => 'tb-balrog-v1',
+            worker_group => 'balrogworker-v1',
+            sign_chain_of_trust => true,
+            verify_chain_of_trust => true,
+            verify_cot_signature => true,
+        },
     }
 }
