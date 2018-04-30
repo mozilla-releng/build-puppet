@@ -48,7 +48,7 @@ define python35::virtualenv($python3, $ensure='present', $packages=null, $user=n
             exec {
                 "rebuild ${virtualenv}":
                     logoutput   => on_failure,
-                    command     => "/bin/rm -rf ${virtualenv}/bin ${virtualenv}/include ${virtualenv}/lib ${virtualenv}/local ${virtualenv}/share",
+                    command     => "/bin/rm -rf ${virtualenv}/bin ${virtualenv}/include ${virtualenv}/lib ${virtualenv}/local ${virtualenv}/share ${virtualenv}/build",
                     subscribe   => $rebuild_trigger,
                     refreshonly => true;
             }
