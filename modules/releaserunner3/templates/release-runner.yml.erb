@@ -50,3 +50,12 @@ releases:
       - partial_updates
       - check_allowed_branches
     allowed_branches: <%= require "json"; JSON.generate(Array(@env_config["allowed_branches"])) %>
+<% if @env_config["thunderbird_pattern"] -%>
+  - product: thunderbird
+    pattern: <%= @env_config["thunderbird_pattern"] %>
+    checks:
+      - long_revision
+      - partial_updates
+      - check_allowed_branches
+    allowed_branches: <%= require "json"; JSON.generate(Array(@env_config["comm_allowed_branches"])) %>
+<% end -%>

@@ -40,7 +40,7 @@ class beetmover_scriptworker {
                 'aiohttp==2.3.1',
                 'arrow==0.10.0',
                 'async_timeout==1.4.0',
-                'beetmoverscript==7.0.0',
+                'beetmoverscript==7.1.1',
                 'boto3==1.5.19',
                 'botocore==1.8.33',
                 'certifi==2018.1.18',
@@ -85,12 +85,13 @@ class beetmover_scriptworker {
 
             taskcluster_client_id    => $env_config["taskcluster_client_id"],
             taskcluster_access_token => $env_config["taskcluster_access_token"],
-            worker_group             => $beetmover_scriptworker::settings::worker_group,
+            worker_group             => $env_config['worker_group'],
             worker_type              => $env_config["worker_type"],
 
             task_max_timeout         => $beetmover_scriptworker::settings::task_max_timeout,
 
             cot_job_type             => 'beetmover',
+            cot_product              => $env_config['cot_product'],
 
             sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
             verify_chain_of_trust    => $env_config["verify_chain_of_trust"],
