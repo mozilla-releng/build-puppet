@@ -962,6 +962,14 @@ node /^balrogworker-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::balrogscriptworker
 }
 
+node /^tb-balrogworker-dev\d+\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects          = [ 'maximum-security' ]
+    $balrogworker_env = 'comm-thunderbird-dev'
+    $timezone         = 'UTC'
+    $only_user_ssh    = true
+    include toplevel::server::balrogscriptworker
+}
+
 # Beetmover scriptworkers
 node /^beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects             = [ 'maximum-security' ]
