@@ -15,7 +15,7 @@ class beetmover_scriptworker::settings {
             dep_beetmover_aws_access_key_id         => secret('stage-beetmover-aws_access_key_id'),
             dep_beetmover_aws_secret_access_key     => secret('stage-beetmover-aws_secret_access_key'),
             dep_buckets => {
-                devedition  => 'net-mozaws-stage-delivery-firefox',
+                devedition  => 'net-mozaws-stage-delivery-archive',
                 firefox     => 'net-mozaws-stage-delivery-firefox',
                 fennec      => 'net-mozaws-stage-delivery-archive',
                 mobile      => 'net-mozaws-stage-delivery-archive',
@@ -42,7 +42,7 @@ class beetmover_scriptworker::settings {
             nightly_beetmover_aws_access_key_id     => secret('nightly-beetmover-aws_access_key_id'),
             nightly_beetmover_aws_secret_access_key => secret('nightly-beetmover-aws_secret_access_key'),
             nightly_buckets => {
-                devedition => 'net-mozaws-prod-delivery-firefox',
+                devedition => 'net-mozaws-prod-delivery-archive',
                 firefox    => 'net-mozaws-prod-delivery-firefox',
                 fennec     => 'net-mozaws-prod-delivery-archive',
                 mobile     => 'net-mozaws-prod-delivery-archive',
@@ -51,7 +51,7 @@ class beetmover_scriptworker::settings {
             release_beetmover_aws_access_key_id     => secret('beetmover-aws_access_key_id'),
             release_beetmover_aws_secret_access_key => secret('beetmover-aws_secret_access_key'),
             release_buckets => {
-                devedition  => 'net-mozaws-prod-delivery-firefox',
+                devedition  => 'net-mozaws-prod-delivery-archive',
                 firefox     => 'net-mozaws-prod-delivery-firefox',
                 fennec      => 'net-mozaws-prod-delivery-archive',
                 mobile      => 'net-mozaws-prod-delivery-archive',
@@ -66,7 +66,7 @@ class beetmover_scriptworker::settings {
             dep_beetmover_aws_access_key_id         => secret('stage-beetmover-aws_access_key_id'),
             dep_beetmover_aws_secret_access_key     => secret('stage-beetmover-aws_secret_access_key'),
             dep_buckets => {
-                devedition  => 'net-mozaws-stage-delivery-firefox',
+                devedition  => 'net-mozaws-stage-delivery-archive',
                 firefox     => 'net-mozaws-stage-delivery-firefox',
                 fennec      => 'net-mozaws-stage-delivery-archive',
                 mobile      => 'net-mozaws-stage-delivery-archive',
