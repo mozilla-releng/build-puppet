@@ -130,6 +130,9 @@ class packages::setup {
                 'python27-14':
                     url_path => "repos/yum/custom/mozilla-python2714/${::architecture}";
 
+                'python27-15':
+                    url_path => "repos/yum/custom/mozilla-python2715/${::architecture}";
+
                 'squashfs-tools':
                     url_path => "repos/yum/custom/mozilla-squashfs-tools/${::architecture}";
 
