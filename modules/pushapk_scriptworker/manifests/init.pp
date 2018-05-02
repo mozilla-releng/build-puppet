@@ -78,7 +78,7 @@ class pushapk_scriptworker {
                 'python-gnupg==0.4.1',
                 'requests==2.18.4',
                 'rsa==3.4.2',
-                'scriptworker==10.6.1',
+                'scriptworker==10.6.2',
                 'setuptools==39.0.1',
                 'simplegeneric==0.8.1',
                 'six==1.10.0',
