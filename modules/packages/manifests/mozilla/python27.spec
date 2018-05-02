@@ -1,6 +1,6 @@
 %define realname python27
 %define pyver 2.7
-%define pyrel 14
+%define pyrel 15
 %define _prefix /tools/%{realname}
 # We set lib explicitly to avoid lib64 issues
 %define _libdir %{_prefix}/lib
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed May 01 2018 Ben Hearsum (bhearsum mozilla com> 2.7.15-1
+- upgrade to latest python version
+
 * Wed Apr 11 2018 Ben Hearsum (bhearsum mozilla com> 2.7.14-1
 - upgrade to latest python version
 

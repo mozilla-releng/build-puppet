@@ -44,11 +44,11 @@ class packages::mozilla::python27 {
                 CentOS: {
                     if $::hostname in [ 'buildduty-tools', 'cruncher-aws', 'aws-manager1', 'aws-manager2',
                                         'treescriptworker-dev1', 'treescriptworker1', ] {
-                      realize(Packages::Yumrepo['python27-14'])
+                      realize(Packages::Yumrepo['python27-15'])
                       Anchor['packages::mozilla::python27::begin'] ->
                       package {
                           'mozilla-python27':
-                              ensure => '2.7.14-1.el6';
+                              ensure => '2.7.15-1.el6';
                       } -> Anchor['packages::mozilla::python27::end']
                     }
                     else {
@@ -102,7 +102,7 @@ class packages::mozilla::python27 {
                                 Anchor['packages::mozilla::python27::begin'] ->
                                 packages::pkgdmg {
                                     'python27':
-                                        version => '2.7.14-1';
+                                        version => '2.7.15-1';
                                 }  -> Anchor['packages::mozilla::python27::end']
                             }
                             else {

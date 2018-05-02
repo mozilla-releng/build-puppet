@@ -12,7 +12,7 @@ set -e
 # variables to parallel the spec file
 realname=python27
 pyver=2.7
-pyrel=14
+pyrel=15
 release=1
 _prefix=/tools/$realname
 _libdir=$_prefix/lib
@@ -51,10 +51,10 @@ BUILD=$PWD/build
 cd $BUILD
 
 # get the sources from the SRPM and some local patches
-curl http://puppet/repos/yum/releng/public/CentOS/6/x86_64/mozilla-python27-$pyver.$pyrel-$srpm_release.el6.src.rpm | bsdtar -x
+curl http://puppet/repos/yum/custom/mozilla-python2715/x86_64/mozilla-python27-$pyver.$pyrel-$srpm_release.el6.src.rpm | bsdtar -x
 
 # %prep
-tar -jxf Python-$pyver.$pyrel.tar.bz2
+tar -jxf Python-$pyver.$pyrel.tar.xz
 cd Python-$pyver.$pyrel
 patch -p0 < ../python-2.6-fix-cgi.patch
 
