@@ -11,6 +11,7 @@
     "verbose": <%= scope.lookupvar("balrog_scriptworker::settings::verbose_logging") %>,
     "dummy": <%= @env_config["dummy"] %>,
     "disable_certs": false,
+    "taskcluster_scope_prefix": "<%= @env_config['taskcluster_scope_prefix'] %>",
 
     "server_config": {
         "nightly": {

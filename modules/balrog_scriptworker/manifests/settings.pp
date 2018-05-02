@@ -22,6 +22,8 @@ class balrog_scriptworker::settings {
             tools_repo => 'https://hg.mozilla.org/build/tools',
             taskcluster_client_id => 'project/releng/scriptworker/balrogworker-dev',
             taskcluster_access_token => secret('balrogworker_dev_taskcluster_access_token'),
+            taskcluster_scope_prefix => 'project:releng:balrog:',
+            cot_product => 'firefox',
             worker_type => 'balrog-dev',
             sign_chain_of_trust => false,
             verify_chain_of_trust => true,
@@ -36,10 +38,12 @@ class balrog_scriptworker::settings {
             tools_repo => 'https://hg.mozilla.org/build/tools',
             taskcluster_client_id => 'project/releng/scriptworker/balrogworker',
             taskcluster_access_token => secret('balrogworker_prod_taskcluster_access_token'),
+            taskcluster_scope_prefix => 'project:releng:balrog:',
+            cot_product => 'firefox',
             worker_type => 'balrogworker-v1',
             sign_chain_of_trust => true,
             verify_chain_of_trust => true,
             verify_cot_signature => true,
-        }
+        },
     }
 }
