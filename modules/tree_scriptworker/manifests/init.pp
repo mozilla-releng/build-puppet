@@ -55,7 +55,7 @@ class tree_scriptworker {
                   'python-dateutil==2.6.1',
                   'python-gnupg==0.4.1',
                   'requests==2.18.4',
-                  'scriptworker==10.6.1',
+                  'scriptworker==10.6.2',
                   'treescript==0.4',
                   'six==1.10.0',
                   'slugid==1.0.7',

@@ -70,7 +70,7 @@ class pushsnap_scriptworker {
                 'requests-toolbelt==0.8.0',
                 'requests-unixsocket==0.1.5',
                 'requests==2.18.4',
-                'scriptworker==10.6.1',
+                'scriptworker==10.6.2',
                 'simplejson==3.13.2',
                 'six==1.10.0',
                 'slugid==1.0.7',

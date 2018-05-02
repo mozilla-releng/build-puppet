@@ -54,7 +54,7 @@ class transparency_scriptworker {
                   'PyYAML==3.12',
                   'redo==1.6',
                   'requests==2.18.4',
-                  'scriptworker==10.6.1',
+                  'scriptworker==10.6.2',
                   'six==1.10.0',
                   'slugid==1.0.7',
                   'taskcluster==2.1.3',
