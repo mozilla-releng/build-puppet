@@ -45,6 +45,7 @@ class packages::mozilla::python27 {
                     if ($::hostname in [ 'buildduty-tools', 'cruncher-aws', 'aws-manager1', 'aws-manager2',
                                         'treescriptworker-dev1', 'treescriptworker1', ])
                           or ($::hostname =~ /^balrogworker-dev\d+/)
+                          or ($::hostname =~ /^balrogworker-\d+/)
                     {
                       realize(Packages::Yumrepo['python27-15'])
                       Anchor['packages::mozilla::python27::begin'] ->
