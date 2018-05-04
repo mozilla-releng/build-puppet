@@ -80,9 +80,9 @@ class buildmaster::queue {
             packages        => [
                 'buildbot==0.8.4-pre-moz2',
                 'MozillaPulse==1.2.1',
-                'amqp==1.4.6',
+                'amqp==1.4.7',
                 'anyjson==0.3.3',
-                'kombu==3.0.23',
+                'kombu==3.0.30',
                 'pytz==2015.6',
             ];
     }
