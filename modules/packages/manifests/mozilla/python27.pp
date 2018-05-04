@@ -44,7 +44,8 @@ class packages::mozilla::python27 {
                 CentOS: {
                     if ($::hostname in [ 'buildduty-tools', 'cruncher-aws', 'aws-manager1', 'aws-manager2',
                                         'treescriptworker-dev1', 'treescriptworker1', 'slaveapi1',
-                                        'slaveapi-dev1', 'slaveapi1', 'dev-master2', 'buildbot-master75', ])
+                                        'slaveapi-dev1', 'slaveapi1', 'dev-master2', 'buildbot-master75',
+                                        'buildbot-master78', ])
                           or ($::hostname =~ /^balrogworker-dev\d+/)
                           or ($::hostname =~ /^balrogworker-\d+/)
                     {
