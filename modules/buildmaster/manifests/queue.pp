@@ -102,6 +102,8 @@ class buildmaster::queue {
             branch  => 'default';
     }
 
+    $mirrors = join($config::user_python_repositories, " --find-links=")
+
     exec {
         'install-tools':
             require => [
@@ -110,7 +112,7 @@ class buildmaster::queue {
                 Mercurial::Repo['clone-tools'],
                 ],
             creates => "${buildmaster::settings::queue_dir}/lib/python2.7/site-packages/buildtools.egg-link",
-            command => "${buildmaster::settings::queue_dir}/bin/python setup.py develop",
+            command => "${buildmaster::settings::queue_dir}/bin/python setup.py develop ${mirrors}",
             cwd     => "${buildmaster::settings::queue_dir}/tools",
             user    => $users::builder::username,
             group   => $users::builder::group;
