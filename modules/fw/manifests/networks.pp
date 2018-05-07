@@ -83,6 +83,11 @@ class fw::networks {
 
     $buildduty_tools = [ '10.132.51.74/32' ] # buildduty-tools.srv.releng.usw2.mozilla.com
 
+    $roller = [ '10.49.48.75',  # roller1.srv.releng.mdc1.mozilla.com
+                '10.49.48.76',  # roller-dev1.srv.releng.mdc1.mozilla.com
+                '10.51.48.75',  # roller1.srv.releng.mdc2.mozilla.com
+                '10.51.48.76' ] # roller-dev1.srv.releng.mdc2.mozilla.com
+
     $slaveapi = [ '10.26.48.16/32',  # slaveapi1.srv.releng.scl3.mozilla.com
                   '10.26.48.17/32' ] # slaveapi-dev1.srv.releng.scl3.mozilla.com
 
