@@ -5,8 +5,10 @@
 class shipit_scriptworker::settings {
     include ::config
     include users::builder
+    include python3::settings
 
-    $root                     = $config::scriptworker_root
+    $root                       = $config::scriptworker_root
+    $python3_virtualnev_version = $python3::settings::python3_virtualenv_version
 
     $ship_it_stage_instance_scope = 'project:releng:ship-it:staging'
     $ship_it_stage_instance_config = {
@@ -56,7 +58,7 @@ class shipit_scriptworker::settings {
     }
 
     $_env_config                = $_env_configs[$shipit_scriptworker_env]
-    $schema_file                = "${root}/lib/python3.5/site-packages/shipitscript/data/shipit_task_schema.json"
+    $schema_file                = "${root}/lib/python${python3_virtualenv_version}/site-packages/shipitscript/data/shipit_task_schema.json"
     $work_dir                   = "${root}/work"
     $task_script                = "${root}/bin/shipitscript"
 
