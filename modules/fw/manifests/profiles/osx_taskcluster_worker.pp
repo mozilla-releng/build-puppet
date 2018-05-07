@@ -9,6 +9,7 @@ class fw::profiles::osx_taskcluster_worker {
             include ::fw::roles::vnc_from_rejh_logging
             include ::fw::roles::ssh_from_rejh_logging
             include ::fw::roles::ssh_from_slaveapi
+            include ::fw::roles::ssh_from_roller
         }
         default:{
             # Silently skip other DCs
