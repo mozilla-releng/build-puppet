@@ -15,7 +15,7 @@ class selfserve_agent::install {
     # from scratch. Before doing that, we need to stop the running instance.
     exec {
         "stop-for-rebuild-${module_name}":
-            command     => "/sbin/service selfserve-agent stop",
+            command     => "/usr/bin/supervisorctl stop selfserve-agent",
             refreshonly => true,
             subscribe   => Class['packages::mozilla::python27'];
     }
