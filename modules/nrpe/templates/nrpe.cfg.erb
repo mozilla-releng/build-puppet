@@ -26,4 +26,5 @@ command[check_inodes]=<%=@plugins_dir%>/check_disk -W $ARG1$ -C $ARG2$ -p $ARG3$
 command[check_procs]=<%=@plugins_dir%>/check_procs -w $ARG1$ -c $ARG2$ -s $ARG3$
 command[check_procs_age]=<%=@plugins_dir%>/check_procs -m ELAPSED -a $ARG1$ -c $ARG2$
 command[check_file_age]=<%=@plugins_dir%>/check_file_age $ARG1$
+command[check_file_age_ok_not_exists]=<%=@plugins_dir%>/check_file_age -m -w $ARG1$ -c $ARG2$ -f '$ARG3$'
 
