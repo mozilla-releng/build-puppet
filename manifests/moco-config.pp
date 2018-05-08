@@ -280,6 +280,7 @@ class config inherits config::base {
         'apop', # Bug 1442124
         'acraciun', # Bug 1443668
         'tprince', # Bug 1449013
+        'lguo', # Bug 1459746
     ]
 
     $users = $::fqdn ? {
