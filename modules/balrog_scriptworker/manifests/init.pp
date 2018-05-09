@@ -72,6 +72,9 @@ class balrog_scriptworker {
             user            => $users::builder::username,
             group           => $users::builder::group,
             packages        => [
+                  # install six before cryptography
+                  'six==1.10.0',
+
                   'appdirs==1.4.3',
                   'arrow==0.10.0',
                   'asn1crypto==0.22.0',
@@ -93,7 +96,6 @@ class balrog_scriptworker {
                   'pyparsing==2.2.0',
                   'python-dateutil==2.6.0',
                   'requests==2.13.0',
-                  'six==1.10.0',
             ];
     }
 

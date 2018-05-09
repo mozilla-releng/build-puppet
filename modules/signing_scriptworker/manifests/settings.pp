@@ -3,12 +3,14 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class signing_scriptworker::settings {
     include ::config
+    include python3::settings
 
     $root               = $config::scriptworker_root
     $task_max_timeout   = 7200
     $task_script        = "${root}/bin/signingscript"
     $task_script_config = "${root}/script_config.json"
     $verbose            = true
+    $virtualenv_version = $python3::settings::python3_virtualenv_version
 
     $env_config = {
         'dev' => {
