@@ -8,7 +8,7 @@ class bouncer_scriptworker::settings {
     include python3::settings
 
     $root                       = $config::scriptworker_root
-    $python3_virtualenv_verison = $python3::settings::python3_virtualenv_version
+    $python3_virtualenv_version = $python3::settings::python3_virtualenv_version
 
     $bouncer_stage_instance_scope = 'project:releng:bouncer:server:staging'
     $bouncer_stage_instance_config = {
