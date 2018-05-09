@@ -8,7 +8,7 @@ class shipit_scriptworker::settings {
     include python3::settings
 
     $root                       = $config::scriptworker_root
-    $python3_virtualnev_version = $python3::settings::python3_virtualenv_version
+    $python3_virtualenv_version = $python3::settings::python3_virtualenv_version
 
     $ship_it_stage_instance_scope = 'project:releng:ship-it:staging'
     $ship_it_stage_instance_config = {
