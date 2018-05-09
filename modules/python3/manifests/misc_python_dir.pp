@@ -4,13 +4,13 @@
 # (private)
 #
 # Ensure that this module's misc directory exists
-class python35::misc_python_dir {
-    include python35::virtualenv::settings
+class python3::misc_python_dir {
+    include python3::virtualenv::settings
     if ($::operatingsystem != Windows) {
         include dirs::tools # assuming this dir is under /tools
     }
     file {
-        $python35::virtualenv::settings::misc_python_dir:
+        $python3::virtualenv::settings::misc_python_dir:
             ensure => directory;
     }
 }

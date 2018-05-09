@@ -2,14 +2,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # (private)
-class python35::virtualenv::settings {
+class python3::virtualenv::settings {
     # the root package directory into which all Python package tarballs are copied
     $misc_python_dir     = $::operatingsystem ? {
         windows => 'c:\mozilla-build',
-        default => '/tools/misc-python35',
+        default => '/tools/misc-python3',
     }
     # the puppet URL for the python/packages-3.5 downloads
     $packages_dir_source = 'puppet:///python/packages-3.5'
 
-    $pip_version         = '8.1.1'
+    $pip_version         = '9.0.3'
 }

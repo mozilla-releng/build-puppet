@@ -4,17 +4,17 @@
 # (private)
 #
 # Install the given Python package into the given virtualenv.
-define python35::virtualenv::package($user) {
-    include python35::virtualenv::settings
-    include python35::misc_python_dir
-    include python35::pip_check_py
+define python3::virtualenv::package($user) {
+    include python3::virtualenv::settings
+    include python3::misc_python_dir
+    include python3::pip_check_py
     include users::root
 
     # extract the virtualenv and tarball from the title
     $virtualenv   = regsubst($title, "\\|\\|.*$", '')
     $pkg          = regsubst($title, "^.*\\|\\|", '')
 
-    $pip_check_py = $python35::pip_check_py::file
+    $pip_check_py = $python3::pip_check_py::file
     # give a --find-links option for each data server, so pip will search them all.
     $data_server  = $config::data_server
     $data_servers = $config::data_servers
@@ -52,7 +52,7 @@ end
                 'PIP_CONFIG_FILE=/dev/null' # because sudo will sometimes lead pip to ~administrator/.pip
             ],
             require     => [
-                Class['python35::pip_check_py'],
+                Class['python3::pip_check_py'],
                 Exec["virtualenv ${virtualenv}"],
                 Class['users::root'], # for pip.conf
             ];

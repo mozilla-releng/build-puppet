@@ -5,8 +5,10 @@
 class bouncer_scriptworker::settings {
     include ::config
     include users::builder
+    include python3::settings
 
-    $root                     = $config::scriptworker_root
+    $root                       = $config::scriptworker_root
+    $python3_virtualenv_verison = $python3::settings::python3_virtualenv_version
 
     $bouncer_stage_instance_scope = 'project:releng:bouncer:server:staging'
     $bouncer_stage_instance_config = {
@@ -79,8 +81,8 @@ class bouncer_scriptworker::settings {
     $script_config_content      = {
         work_dir           => $work_dir,
         schema_files       => {
-            submission => "${root}/lib/python3.5/site-packages/bouncerscript/data/bouncer_submission_task_schema.json",
-            aliases    => "${root}/lib/python3.5/site-packages/bouncerscript/data/bouncer_aliases_task_schema.json",
+            submission => "${root}/lib/python${python3_virtualenv_version}/site-packages/bouncerscript/data/bouncer_submission_task_schema.json",
+            aliases    => "${root}/lib/python${python3_virtualenv_version}/site-packages/bouncerscript/data/bouncer_aliases_task_schema.json",
         },
         verbose            => $verbose_logging,
         bouncer_config     => $_env_config['bouncer_instances'],

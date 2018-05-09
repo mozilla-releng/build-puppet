@@ -5,7 +5,7 @@
 class transparency_scriptworker {
     include transparency_scriptworker::settings
     include dirs::builds
-    include packages::mozilla::python35
+    include packages::mozilla::python3
     include packages::mozilla::lego
     include users::builder
     include tweaks::swap_on_instance_storage
@@ -22,14 +22,14 @@ class transparency_scriptworker {
         "stop-for-rebuild-${module_name}":
             command     => "/usr/bin/supervisorctl stop ${module_name}",
             refreshonly => true,
-            subscribe   => Class['packages::mozilla::python35'];
+            subscribe   => Class['packages::mozilla::python3'];
     }
 
-    python35::virtualenv {
+    python3::virtualenv {
         $transparency_scriptworker::settings::root:
-            python3         => $packages::mozilla::python35::python3,
+            python3         => $packages::mozilla::python3::python3,
             rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
-            require         => Class['packages::mozilla::python35'],
+            require         => Class['packages::mozilla::python3'],
             user            => $users::builder::username,
             group           => $users::builder::group,
             mode            => '0700',
@@ -95,7 +95,7 @@ class transparency_scriptworker {
 
     file {
         "${transparency_scriptworker::settings::root}/script_config.json":
-            require => Python35::Virtualenv[$transparency_scriptworker::settings::root],
+            require => Python3::Virtualenv[$transparency_scriptworker::settings::root],
             mode    => '0600',
             owner   => $users::builder::username,
             group   => $users::builder::group,
@@ -104,7 +104,7 @@ class transparency_scriptworker {
 
     file {
         "${transparency_scriptworker::settings::root}/passwords.json":
-            require   => Python35::Virtualenv[$transparency_scriptworker::settings::root],
+            require   => Python3::Virtualenv[$transparency_scriptworker::settings::root],
             mode      => '0600',
             owner     => $users::builder::username,
             group     => $users::builder::group,

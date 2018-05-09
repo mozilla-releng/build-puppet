@@ -5,7 +5,7 @@
 class beetmover_scriptworker {
     include beetmover_scriptworker::settings
     include dirs::builds
-    include packages::mozilla::python35
+    include packages::mozilla::python3
     include users::builder
     include tweaks::swap_on_instance_storage
     include packages::gcc
@@ -22,14 +22,14 @@ class beetmover_scriptworker {
         "stop-for-rebuild-${module_name}":
             command     => "/usr/bin/supervisorctl stop ${module_name}",
             refreshonly => true,
-            subscribe   => Class['packages::mozilla::python35'];
+            subscribe   => Class['packages::mozilla::python3'];
     }
 
-    python35::virtualenv {
+    python3::virtualenv {
         $beetmover_scriptworker::settings::root:
-            python3         => $packages::mozilla::python35::python3,
+            python3         => $packages::mozilla::python3::python3,
             rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
-            require         => Class['packages::mozilla::python35'],
+            require         => Class['packages::mozilla::python3'],
             user            => $users::builder::username,
             group           => $users::builder::group,
             mode            => '0700',
@@ -102,7 +102,7 @@ class beetmover_scriptworker {
 
     file {
         "${beetmover_scriptworker::settings::root}/script_config.json":
-            require   => Python35::Virtualenv[$beetmover_scriptworker::settings::root],
+            require   => Python3::Virtualenv[$beetmover_scriptworker::settings::root],
             mode      => '0600',
             owner     => $users::builder::username,
             group     => $users::builder::group,

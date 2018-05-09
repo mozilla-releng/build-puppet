@@ -5,7 +5,7 @@ class buildbot_bridge2 {
     include ::config
     include buildbot_bridge2::services
     include buildbot_bridge2::settings
-    include packages::mozilla::python35
+    include packages::mozilla::python3
     include dirs::builds
     include users::builder
 
@@ -17,14 +17,14 @@ class buildbot_bridge2 {
         "stop-for-rebuild-reflector":
             command     => "/usr/bin/supervisorctl stop reflector",
             refreshonly => true,
-            subscribe   => Class['packages::mozilla::python35'];
+            subscribe   => Class['packages::mozilla::python3'];
     }
 
-    python35::virtualenv {
+    python3::virtualenv {
         $buildbot_bridge2::settings::root:
-            python3         => $packages::mozilla::python35::python3,
+            python3         => $packages::mozilla::python3::python3,
             rebuild_trigger => Exec["stop-for-rebuild-reflector"],
-            require         => Class['packages::mozilla::python35'],
+            require         => Class['packages::mozilla::python3'],
             user            => $users::builder::username,
             group           => $users::builder::group,
             mode            => '0700',

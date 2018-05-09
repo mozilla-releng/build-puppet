@@ -12,7 +12,7 @@ class buildbot_bridge2::services {
             command      => "${buildbot_bridge2::settings::root}/bin/reflector --config ${buildbot_bridge2::settings::root}/config.yml",
             user         => $::config::builder_username,
             require      => [File["${buildbot_bridge2::settings::root}/config.yml"],
-                            Python35::Virtualenv[$buildbot_bridge2::settings::root]],
+                            Python3::Virtualenv[$buildbot_bridge2::settings::root]],
             extra_config => template("${module_name}/reflector_supervisor_config.erb");
     }
 
@@ -20,7 +20,7 @@ class buildbot_bridge2::services {
         'restart-buildbot-bridge2':
             command     => '/usr/bin/supervisorctl restart buildbot_bridge2_reflector',
             refreshonly => true,
-            subscribe   => [Python35::Virtualenv[$buildbot_bridge2::settings::root],
+            subscribe   => [Python3::Virtualenv[$buildbot_bridge2::settings::root],
                             File["${buildbot_bridge2::settings::root}/config.yml"]];
     }
 }

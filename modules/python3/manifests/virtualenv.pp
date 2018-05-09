@@ -3,8 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # Handle installing Python virtualenvs containing Python packages.
 # https://wiki.mozilla.org/ReleaseEngineering/Puppet/Modules/python
-define python35::virtualenv($python3, $ensure='present', $packages=null, $user=null, $group=null, $mode='0755', $rebuild_trigger=null) {
-    include python35::virtualenv::settings
+define python3::virtualenv($python3, $ensure='present', $packages=null, $user=null, $group=null, $mode='0755', $rebuild_trigger=null) {
+    include python3::virtualenv::settings
 
     $virtualenv = $title
     $ve_cmd = $::operatingsystem ? {
@@ -77,8 +77,8 @@ define python35::virtualenv($python3, $ensure='present', $packages=null, $user=n
                         mode   => $mode;
                 }
             }
-            python35::virtualenv::package {
-                "${virtualenv}||pip==${python35::virtualenv::settings::pip_version}":
+            python3::virtualenv::package {
+                "${virtualenv}||pip==${python3::virtualenv::settings::pip_version}":
                     user => $ve_user;
             }
             $os = $::operatingsystem ? {
@@ -100,9 +100,9 @@ define python35::virtualenv($python3, $ensure='present', $packages=null, $user=n
             if ($packages != null) {
                 # now install each package; we use regsubst to qualify the resource
                 # name with the virtualenv; a similar regsubst will be used in the
-                # python35::virtualenv::package define to separate these two values
+                # python3::virtualenv::package define to separate these two values
                 $qualified_packages = regsubst($packages, '^', "${virtualenv}||")
-                python35::virtualenv::package {
+                python3::virtualenv::package {
                     $qualified_packages:
                         user => $ve_user;
                 }

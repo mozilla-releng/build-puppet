@@ -5,7 +5,7 @@ class signing_scriptworker {
     include ::config
     include signing_scriptworker::settings
     include dirs::builds
-    include packages::mozilla::python35
+    include packages::mozilla::python3
     include users::signer
     include tweaks::swap_on_instance_storage
     include packages::gcc
@@ -28,14 +28,14 @@ class signing_scriptworker {
         "stop-for-rebuild-${module_name}":
             command     => "/usr/bin/supervisorctl stop ${module_name}",
             refreshonly => true,
-            subscribe   => Class['packages::mozilla::python35'];
+            subscribe   => Class['packages::mozilla::python3'];
     }
 
-    python35::virtualenv {
+    python3::virtualenv {
         $signing_scriptworker::settings::root:
-            python3         => $packages::mozilla::python35::python3,
+            python3         => $packages::mozilla::python3::python3,
             rebuild_trigger => Exec["stop-for-rebuild-${module_name}"],
-            require         => Class['packages::mozilla::python35'],
+            require         => Class['packages::mozilla::python3'],
             user            => $users::signer::username,
             group           => $users::signer::group,
             mode            => '0700',
@@ -107,14 +107,14 @@ class signing_scriptworker {
 
     file {
         "${signing_scriptworker::settings::root}/script_config.json":
-            require   => Python35::Virtualenv[$signing_scriptworker::settings::root],
+            require   => Python3::Virtualenv[$signing_scriptworker::settings::root],
             mode      => '0600',
             owner     => $users::signer::username,
             group     => $users::signer::group,
             content   => template("${module_name}/script_config.json.erb"),
             show_diff => true;
         "${signing_scriptworker::settings::root}/passwords.json":
-            require   => Python35::Virtualenv[$signing_scriptworker::settings::root],
+            require   => Python3::Virtualenv[$signing_scriptworker::settings::root],
             mode      => '0600',
             owner     => $users::signer::username,
             group     => $users::signer::group,
@@ -138,7 +138,7 @@ class signing_scriptworker {
             source    => 'puppet:///modules/signing_scriptworker/dmg/hfsplus',
             show_diff => false;
         "${signing_scriptworker::settings::root}/KEY":
-            require   => Python35::Virtualenv[$signing_scriptworker::settings::root],
+            require   => Python3::Virtualenv[$signing_scriptworker::settings::root],
             mode      => '0600',
             owner     => $users::signer::username,
             group     => $users::signer::group,

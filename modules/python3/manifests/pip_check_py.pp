@@ -4,19 +4,19 @@
 # (private)
 #
 # Install pip-check.py into the misc-python directory
-class python35::pip_check_py {
-    include python35::virtualenv::settings
-    include python35::misc_python_dir
+class python3::pip_check_py {
+    include python3::virtualenv::settings
+    include python3::misc_python_dir
     include users::root
 
-    $file = "${python35::virtualenv::settings::misc_python_dir}/pip-check.py"
+    $file = "${python3::virtualenv::settings::misc_python_dir}/pip-check.py"
 
     file {
         $file:
-            source  => 'puppet:///modules/python35/pip-check.py',
+            source  => 'puppet:///modules/python3/pip-check.py',
             owner   => root,
             group   => $::users::root::group,
             mode    => filemode(0644),
-            require => Class['python35::misc_python_dir'];
+            require => Class['python3::misc_python_dir'];
     }
 }
