@@ -8,8 +8,8 @@ class python3::virtualenv::settings {
         windows => 'c:\mozilla-build',
         default => '/tools/misc-python3',
     }
-    # the puppet URL for the python/packages-3.5 downloads
-    $packages_dir_source = 'puppet:///python/packages-3.5'
+    # the puppet URL for the python/packages-3.x downloads
+    $packages_dir_source = 'puppet:///python/packages-3.x'
 
     $pip_version         = '9.0.3'
 }

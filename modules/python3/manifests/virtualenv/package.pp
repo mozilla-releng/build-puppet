@@ -21,7 +21,7 @@ define python3::virtualenv::package($user) {
 
     $pip_options  = inline_template("--no-deps --no-index <%
 servers = [ @data_server ] + Array(@data_servers)
-servers.uniq.each do |mirror_server| -%> --find-links=https://<%= mirror_server %>/python/packages-3.5 --trusted-host <%= mirror_server %><%
+servers.uniq.each do |mirror_server| -%> --find-links=https://<%= mirror_server %>/python/packages-3.x --trusted-host <%= mirror_server %><%
 end
 -%>")
     if ($user == 'root') {
