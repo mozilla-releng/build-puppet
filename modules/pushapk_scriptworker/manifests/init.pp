@@ -32,6 +32,9 @@ class pushapk_scriptworker {
             group           => $pushapk_scriptworker::settings::group,
             mode            => 700,
             packages        => [
+                # install six before cryptography
+                'six==1.10.0',
+
                 'PyYAML==3.12',
                 'aiohttp==2.3.9',
                 'androguard==3.1.0',
@@ -81,7 +84,6 @@ class pushapk_scriptworker {
                 'scriptworker==10.6.2',
                 'setuptools==39.0.1',
                 'simplegeneric==0.8.1',
-                'six==1.10.0',
                 'slugid==1.0.7',
                 'taskcluster==2.1.3',
                 'traitlets==4.3.2',
