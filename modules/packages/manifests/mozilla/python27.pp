@@ -44,10 +44,18 @@ class packages::mozilla::python27 {
                 CentOS: {
                     if ($::hostname in [ 'buildduty-tools', 'cruncher-aws', 'aws-manager1', 'aws-manager2',
                                         'treescriptworker-dev1', 'treescriptworker1', 'slaveapi1',
-                                        'slaveapi-dev1', 'slaveapi1', 'dev-master2', 'buildbot-master75',
-                                        'buildbot-master78', 'buildbot-master04', 'buildbot-master107',
-                                        'buildbot-master111', 'buildbot-master71', 'buildbot-master01',
-                                        'buildbot-master72', 'buildbot-master02', 'buildbot-master04', ])
+                                        'slaveapi-dev1', 'slaveapi1', 'dev-master2',
+                                        'buildbot-master01', 'buildbot-master02', 'buildbot-master04',
+                                        'buildbot-master05', 'buildbot-master51', 'buildbot-master52',
+                                        'buildbot-master53', 'buildbot-master54', 'buildbot-master69',
+                                        'buildbot-master71', 'buildbot-master72', 'buildbot-master73',
+                                        'buildbot-master75', 'buildbot-master77', 'buildbot-master78',
+                                        'buildbot-master82', 'buildbot-master83', 'buildbot-master84',
+                                        'buildbot-master86', 'buildbot-master87', 'buildbot-master103',
+                                        'buildbot-master104', 'buildbot-master105', 'buildbot-master106',
+                                        'buildbot-master107', 'buildbot-master109', 'buildbot-master110',
+                                        'buildbot-master111', 'buildbot-master128', 'buildbot-master137',
+                                        'buildbot-master138', 'buildbot-master139', 'buildbot-master140', ])
                           or ($::hostname =~ /^balrogworker-dev\d+/)
                           or ($::hostname =~ /^balrogworker-\d+/)
                     {
