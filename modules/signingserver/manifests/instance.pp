@@ -96,11 +96,11 @@ define signingserver::instance(
     if $::operatingsystem != 'Darwin' {
         # If you edit this, edit the mac virtualenv_packages below!
         $virtualenv_packages = [
-            'gevent==0.13.6',
+            'gevent==1.2.2',
             'WebOb==1.0.8',
             'poster==0.8.1',
             'IPy==0.75',
-            'greenlet==0.3.1',
+            'greenlet==0.4.13',
             'redis==2.4.5',
             'flufl.lock==2.2',
             'pexpect==2.4',
@@ -122,11 +122,11 @@ define signingserver::instance(
     } else {
         # If you edit this, edit the linux virtualenv_packages above!
         $virtualenv_packages = [
-            'gevent==0.13.6',
+            'gevent==1.2.2',
             'WebOb==1.0.8',
             'poster==0.8.1',
             'IPy==0.75',
-            'greenlet==0.3.1',
+            'greenlet==0.4.13',
             'redis==2.4.5',
             'flufl.lock==2.2',
             'pexpect==2.4',
