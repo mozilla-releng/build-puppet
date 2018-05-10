@@ -113,7 +113,7 @@ class packages::mozilla::python27 {
                 Darwin: {
                     case $::macosx_productversion_major {
                         '10.6','10.8','10.9','10.10': {
-                            if $::hostname in [ 'mac-v2-signing1' ] {
+                            if $::hostname in [ 'mac-v2-signing-fake' ] {
                                 Anchor['packages::mozilla::python27::begin'] ->
                                 packages::pkgdmg {
                                     'python27':
