@@ -90,35 +90,39 @@ class cruncher::allthethings {
 
     exec {
         'allthethings-pip-install-master':
-            name      => '/home/buildduty/allthethings/bin/pip install -e .',
-            cwd       => '/home/buildduty/allthethings/repos/buildbot/master',
-            user      => $users::buildduty::username,
-            logoutput => on_failure,
-            require   => [
+            name        => '/home/buildduty/allthethings/bin/pip install -e .',
+            cwd         => '/home/buildduty/allthethings/repos/buildbot/master',
+            user        => $users::buildduty::username,
+            logoutput   => on_failure,
+            refreshonly => true,
+            require     => [
                 Mercurial::Repo['allthethings-buildbot-clone'],
             ];
         'allthethings-pip-install-slave':
-            name      => '/home/buildduty/allthethings/bin/pip install buildbot-slave==0.8.4-pre-moz2',
-            cwd       => '/home/buildduty/allthethings',
-            user      => $users::buildduty::username,
-            logoutput => on_failure,
-            require   => [
+            name        => '/home/buildduty/allthethings/bin/pip install buildbot-slave==0.8.4-pre-moz2',
+            cwd         => '/home/buildduty/allthethings',
+            user        => $users::buildduty::username,
+            logoutput   => on_failure,
+            refreshonly => true,
+            require     => [
                 Exec['allthethings-pip-install-master'],
             ];
         'allthethings-pythonpath1':
-            name      => '/bin/echo /home/buildduty/allthethings/repos >> /home/buildduty/allthethings/lib/python2.7/site-packages/releng.pth',
-            cwd       => '/home/buildduty/allthethings',
-            user      => $users::buildduty::username,
-            logoutput => on_failure,
-            require   => [
+            name        => '/bin/echo /home/buildduty/allthethings/repos >> /home/buildduty/allthethings/lib/python2.7/site-packages/releng.pth',
+            cwd         => '/home/buildduty/allthethings',
+            user        => $users::buildduty::username,
+            logoutput   => on_failure,
+            refreshonly => true,
+            require     => [
                 File['/home/buildduty/allthethings/repos'],
             ];
         'allthethings-pythonpath2':
-            name      => '/bin/echo /home/buildduty/allthethings/repos/tools/lib/python >> /home/buildduty/allthethings/lib/python2.7/site-packages/releng.pth',
-            cwd       => '/home/buildduty/allthethings',
-            user      => $users::buildduty::username,
-            logoutput => on_failure,
-            require   => [
+            name        => '/bin/echo /home/buildduty/allthethings/repos/tools/lib/python >> /home/buildduty/allthethings/lib/python2.7/site-packages/releng.pth',
+            cwd         => '/home/buildduty/allthethings',
+            user        => $users::buildduty::username,
+            logoutput   => on_failure,
+            refreshonly => true,
+            require     => [
                 Mercurial::Repo['allthethings-tools-clone'],
             ];
     }
