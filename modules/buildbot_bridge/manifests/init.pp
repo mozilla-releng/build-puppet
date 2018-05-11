@@ -31,7 +31,7 @@ class buildbot_bridge {
     }
 
     $external_packages = file("buildbot_bridge/requirements.txt")
-    $packages = "${external_packages}bbb==${bbb_version}"
+    $packages = "${external_packages}\nbbb==${bbb_version}"
 
     python::virtualenv {
         $buildbot_bridge::settings::root:

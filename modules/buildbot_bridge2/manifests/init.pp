@@ -10,7 +10,7 @@ class buildbot_bridge2 {
     include users::builder
 
     $bbb_version = $::buildbot_bridge2::settings::env_config['version']
-    $external_packages = file("buildbot_bridge/requirements.txt")
+    $external_packages = file("buildbot_bridge2/requirements.txt")
     $packages = "${external_requirements}\nbbb==${bbb_version}"
 
     # If the Python installation changes, we need to rebuild the virtualenv
