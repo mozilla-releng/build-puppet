@@ -18,12 +18,15 @@ class buildslave::install {
 
     $py_require = Class['packages::mozilla::python27']
 
+    $external_packages = file("buildslave/requirements.txt")
+    $packages = "${external_requirements}buildbot==${version}\nbuildbot-slave==${version}"
+
     Anchor['buildslave::install::begin'] ->
     python::virtualenv {
         $virtualenv_path:
             python          => $::packages::mozilla::python27::python,
             rebuild_trigger => $py_require,
             require         => $py_require,
-            packages        => file("buildslave/requirements.txt");
+            packages        => $packages;
     } -> Anchor['buildslave::install::end']
 }
