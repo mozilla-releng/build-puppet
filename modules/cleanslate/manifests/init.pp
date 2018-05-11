@@ -21,9 +21,7 @@ class cleanslate {
             python          => $packages::mozilla::python27::python,
             rebuild_trigger => Class['packages::mozilla::python27'],
             require         => Class['packages::mozilla::python27'],
-            packages        => [
-                'cleanslate==1.3',
-            ];
+            packages        => file("cleanslate/requirements.txt");
     }
 
 }

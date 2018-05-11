@@ -71,32 +71,7 @@ class balrog_scriptworker {
             require         => Class['packages::mozilla::python27'],
             user            => $users::builder::username,
             group           => $users::builder::group,
-            packages        => [
-                  # install six before cryptography
-                  'six==1.10.0',
-
-                  'appdirs==1.4.3',
-                  'arrow==0.10.0',
-                  'asn1crypto==0.22.0',
-                  'balrogclient==0.0.4',
-                  'balrogscript==3.1.0',
-                  'cffi==1.10.0',
-                  'click==6.7',
-                  'construct==2.8.11',
-                  'cryptography==1.8.1',
-                  'enum34==1.1.6',
-                  'functools32==3.2.3-2',
-                  'idna==2.5',
-                  'ipaddress==1.0.18',
-                  'jsonschema==2.6.0',
-                  'mar==2.0',
-                  'packaging==16.8',
-                  'pyasn1==0.2.3',
-                  'pycparser==2.17',
-                  'pyparsing==2.2.0',
-                  'python-dateutil==2.6.0',
-                  'requests==2.13.0',
-            ];
+            packages        => file("balrog_scriptworker/requirements-27.txt");
     }
 
     scriptworker::instance {

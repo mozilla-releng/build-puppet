@@ -16,16 +16,7 @@ class cruncher::slave_health {
             ],
             user            => $users::buildduty::username,
             group           => $users::buildduty::group,
-            packages        => [
-                'MySQL-python',
-                'SQLAlchemy',
-                'pytz',
-                # Pinning to avoid investigating if an update would break
-                # https://bugzilla.mozilla.org/show_bug.cgi?id=1289822#c7
-                'requests==2.8.1',
-                'simplejson',
-                'wsgiref',
-            ];
+            packages        => file("cruncher/slave_health_requirements.txt");
     }
 
     mercurial::repo {

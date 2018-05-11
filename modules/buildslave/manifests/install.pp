@@ -17,14 +17,6 @@ class buildslave::install {
     }
 
     $py_require = Class['packages::mozilla::python27']
-    $packages = [
-        'zope.interface==3.6.1',
-        "buildbot-slave==${version}",
-        # buildbot (master) is needed for buildbot sendchange
-        "buildbot==${version}",
-        'Twisted==10.2.0',
-        # this is required for some mozilla custom classes
-        'simplejson==2.1.3' ]
 
     Anchor['buildslave::install::begin'] ->
     python::virtualenv {
@@ -32,6 +24,6 @@ class buildslave::install {
             python          => $::packages::mozilla::python27::python,
             rebuild_trigger => $py_require,
             require         => $py_require,
-            packages        => $packages;
+            packages        => file("buildslave/requirements.txt");
     } -> Anchor['buildslave::install::end']
 }

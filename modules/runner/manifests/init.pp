@@ -28,9 +28,7 @@ class runner {
             require         => [Class['packages::mozilla::python27'],
                                 Class['dirs::opt']
             ],
-            packages        => [
-                'runner==2.1',
-            ];
+            packages        => "runner==2.1";
     }
     file {
         $runner::settings::taskdir:

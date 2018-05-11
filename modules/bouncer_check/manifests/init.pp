@@ -11,12 +11,7 @@ class bouncer_check {
             python          => $packages::mozilla::python27::python,
             rebuild_trigger => Class['packages::mozilla::python27'],
             require         => Class['packages::mozilla::python27'],
-            packages        => [
-                'argparse==1.2.1',
-                'nagios-tools==0.6',
-                'nagiosplugin==1.1',
-                'wsgiref==0.1.2',
-            ];
+            packages        => file("bouncer_check/requirements.txt");
     }
     nrpe::check {
         'check_bouncer':

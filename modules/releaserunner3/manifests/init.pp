@@ -32,23 +32,7 @@ class releaserunner3 {
             ],
             user            => $users::builder::username,
             group           => $users::builder::group,
-            packages        => [
-                'PyYAML==3.12',
-                'Twisted==12.3.0',
-                'certifi==2017.07.27.1',
-                'chardet==3.0.4',
-                'idna==2.6',
-                'json-e==2.5.0',
-                'mohawk==0.3.4',
-                'requests==2.18.4',
-                'simplejson==3.11.1',
-                'six==1.11.0',
-                'slugid==1.0.7',
-                'taskcluster==1.3.5',
-                'urllib3==1.22',
-                'wsgiref==0.1.2',
-                'zope.interface==4.4.3',
-            ];
+            packages        => file("releaserunner3/requirements.txt");
     }
 
     file {
