@@ -10,6 +10,8 @@ class buildbot_bridge2 {
     include users::builder
 
     $bbb_version = $::buildbot_bridge2::settings::env_config['version']
+    $external_packages = file("buildbot_bridge/requirements.txt")
+    $packages = "${external_requirements}\nbbb==${bbb_version}"
 
     # If the Python installation changes, we need to rebuild the virtualenv
     # from scratch. Before doing that, we need to stop the running instance.
@@ -28,31 +30,6 @@ class buildbot_bridge2 {
             user            => $users::builder::username,
             group           => $users::builder::group,
             mode            => '0700',
-            packages        => [
-                "bbb==${bbb_version}",
-                'aiohttp==1.3.5',
-                'appdirs==1.4.3',
-                'arrow==0.10.0',
-                'async-timeout==1.2.0',
-                'chardet==2.3.0',
-                'click==6.7',
-                'jsonschema==2.6.0',
-                'mohawk==0.3.4',
-                'multidict==2.1.4',
-                'mysql-connector-python==2.0.4',
-                'py==1.4.33',
-                'pyparsing==2.2.0',
-                'python-dateutil==2.6.0',
-                'PyYAML==3.12',
-                'Represent==1.5.1',
-                'requests==2.13.0',
-                'six==1.10.0',
-                'slugid==1.0.7',
-                'SQLAlchemy==1.1.7',
-                'sqlalchemy-aio==0.11.0',
-                'statsd==3.2.1',
-                'taskcluster==1.2.0',
-                'yarl==0.9.8',
-            ];
+            packages        => packages;
     }
 }
