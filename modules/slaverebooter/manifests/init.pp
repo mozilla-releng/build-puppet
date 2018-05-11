@@ -20,13 +20,7 @@ class slaverebooter {
             require         => Class['packages::mozilla::python27'],
             user            => $users::builder::username,
             group           => $users::builder::group,
-            packages        => [
-                            'furl==0.3.5',
-                            'requests==1.2.3',
-                            'docopt==0.6.1',
-                            'buildtools==1.0.6',
-                            'orderedmultidict==0.7.1',
-            ];
+            packages        => file("slaverebooter/requirements.txt");
     }
 
     file {

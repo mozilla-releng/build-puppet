@@ -30,10 +30,7 @@ class buildmaster::db_maintenance {
             require         => Class['packages::mozilla::python27'],
             user            => $users::builder::username,
             group           => $users::builder::group,
-            packages        => [
-                'SQLAlchemy==0.7.9',
-                'MySQL-python==1.2.3',
-            ];
+            packages        => file("buildmaster/db_maintenance_requirements.txt");
     }
 
     file {

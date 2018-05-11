@@ -1,0 +1,7 @@
+zope.interface==3.6.1
+buildbot-slave==${version}
+# buildbot (master) is needed for buildbot sendchange
+buildbot==${version}
+Twisted==10.2.0
+# this is required for some mozilla custom classes
+simplejson==2.1.3

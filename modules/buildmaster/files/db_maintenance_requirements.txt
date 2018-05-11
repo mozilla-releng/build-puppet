@@ -1,0 +1,2 @@
+SQLAlchemy==0.7.9
+MySQL-python==1.2.3
