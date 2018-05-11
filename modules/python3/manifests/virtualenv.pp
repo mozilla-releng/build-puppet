@@ -98,10 +98,15 @@ define python3::virtualenv($python3, $ensure='present', $packages=null, $user=nu
             }
 
             if ($packages != null) {
+                $lines = split($packages, "\n")
+                # Get rid of lines that are just a comment
+                $no_comment_lines = grep($lines, "^(?!#)")
+                # Get rid of inline comments on package lines
+                $parsed_packages = strip(regsubst($no_comment_lines, "#.*", ""))
                 # now install each package; we use regsubst to qualify the resource
                 # name with the virtualenv; a similar regsubst will be used in the
                 # python3::virtualenv::package define to separate these two values
-                $qualified_packages = regsubst($packages, '^', "${virtualenv}||")
+                $qualified_packages = regsubst($parsed_packages, '^', "${virtualenv}||")
                 python3::virtualenv::package {
                     $qualified_packages:
                         user => $ve_user;
