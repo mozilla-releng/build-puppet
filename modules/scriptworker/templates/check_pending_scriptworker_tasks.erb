@@ -58,7 +58,7 @@ def get_args():
     return argp.parse_args()
 
 
-def query_pending_task_count():
+async def async_main():
     """query_pending_task_count.
 
     Query the API for the number of pending tasks, so we can
@@ -69,22 +69,19 @@ def query_pending_task_count():
 
     conn = aiohttp.TCPConnector(
         limit=5)
-    loop = asyncio.get_event_loop()
 
     credentials = {
         "clientId": "<%= @taskcluster_client_id %>",
         "accessToken": "<%= @taskcluster_access_token %>"
     }
 
-    with aiohttp.ClientSession(connector=conn) as session:
+    async with aiohttp.ClientSession(connector=conn) as session:
         context.session = session
         context.credentials = credentials  # this creates a queue
         try:
-            result = loop.run_until_complete(
-                context.queue.pendingTasks(
-                    '<%= scope["scriptworker::instance::settings::provisioner_id"] %>',
-                    '<%= @worker_type %>'
-                )
+            result = await context.queue.pendingTasks(
+                '<%= scope["scriptworker::instance::settings::provisioner_id"] %>',
+                '<%= @worker_type %>'
             )
 
         except Exception as excp:
@@ -116,6 +113,11 @@ def query_pending_task_count():
                     args.critical
                 )
             )
+
+
+def query_pending_task_count():
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(async_main())
 
 
 if __name__ == '__main__':
