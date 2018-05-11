@@ -31,36 +31,7 @@ class bouncer_scriptworker {
             user            => $users::builder::username,
             group           => $users::builder::group,
             mode            => '0700',
-            packages        => [
-                'PyYAML==3.12',
-                'aiohttp==2.3.9',
-                'arrow==0.12.1',
-                'async_timeout==1.4.0',
-                'bouncerscript==1.3.0',
-                'certifi==2018.1.18',
-                'chardet==3.0.4',
-                'defusedxml==0.5.0',
-                'dictdiffer==0.7.0',
-                'frozendict==1.2',
-                'idna==2.6',
-                'json-e==2.5.0',
-                'jsonschema==2.6.0',
-                'mohawk==0.3.4',
-                'multidict==4.0.0',
-                'pexpect==4.3.1',
-                'ptyprocess==0.5.2',
-                'python-dateutil==2.6.1',
-                'python-gnupg==0.4.1',
-                'redo==1.6',
-                'requests==2.18.4',
-                'scriptworker==10.6.2',
-                'six==1.10.0',
-                'slugid==1.0.7',
-                'taskcluster==2.1.3',
-                'urllib3==1.22',
-                'virtualenv==15.1.0',
-                'yarl==1.0.0',
-            ];
+            packages        => file("bouncer_scriptworker/requirements.txt");
     }
 
     scriptworker::instance {
