@@ -30,6 +30,6 @@ class buildbot_bridge2 {
             user            => $users::builder::username,
             group           => $users::builder::group,
             mode            => '0700',
-            packages        => packages;
+            packages        => $packages;
     }
 }
