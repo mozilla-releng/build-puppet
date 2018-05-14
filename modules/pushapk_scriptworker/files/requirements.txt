@@ -55,5 +55,6 @@ traitlets==4.3.2
 uritemplate==3.0.0
 urllib3==1.22
 virtualenv==15.1.0
+voluptuous==0.10.5
 wcwidth==0.1.7
 yarl==1.0.0
