@@ -42,27 +42,12 @@ class packages::mozilla::python27 {
 
             case $::operatingsystem {
                 CentOS: {
-                    if ($::hostname in [ 'buildduty-tools', 'cruncher-aws', 'aws-manager1', 'aws-manager2',
-                                        'treescriptworker-dev1', 'treescriptworker1', 'slaveapi1',
-                                        'slaveapi-dev1', 'slaveapi1', 'dev-master2', ])
-                          or ($::hostname =~ /^buildbot-master\d+/)
-                          or ($::hostname =~ /^balrogworker-dev\d+/)
-                          or ($::hostname =~ /^balrogworker-\d+/)
-                    {
-                      realize(Packages::Yumrepo['python27-15'])
-                      Anchor['packages::mozilla::python27::begin'] ->
-                      package {
-                          'mozilla-python27':
-                              ensure => '2.7.15-1.el6';
-                      } -> Anchor['packages::mozilla::python27::end']
-                    }
-                    else {
-                      Anchor['packages::mozilla::python27::begin'] ->
-                      package {
-                          'mozilla-python27':
-                              ensure => '2.7.3-1.el6';
-                      } -> Anchor['packages::mozilla::python27::end']
-                    }
+                    realize(Packages::Yumrepo['python27-15'])
+                    Anchor['packages::mozilla::python27::begin'] ->
+                    package {
+                        'mozilla-python27':
+                            ensure => '2.7.15-1.el6';
+                    } -> Anchor['packages::mozilla::python27::end']
                 }
                 Ubuntu: {
                     case $::operatingsystemrelease {
@@ -103,13 +88,14 @@ class packages::mozilla::python27 {
                 Darwin: {
                     case $::macosx_productversion_major {
                         '10.6','10.8','10.9','10.10': {
-                            if $::hostname in [ 'mac-v2-signing-fake' ] {
+                            if ($::hostname =~ /^mac-v2-signing\d+/) {
                                 Anchor['packages::mozilla::python27::begin'] ->
                                 packages::pkgdmg {
                                     'python27':
                                         version => '2.7.15-1';
                                 }  -> Anchor['packages::mozilla::python27::end']
                             }
+                            # soon-to-be-dying t-yosemite-r7 machines
                             else {
                                 Anchor['packages::mozilla::python27::begin'] ->
                                 packages::pkgdmg {
