@@ -7,9 +7,10 @@ redis==2.4.5
 flufl.lock==2.2
 pexpect==2.4
 # widevine: osx cant build cryptography and doesnt need these!
-argparse==1.4.0
+## install six and setuptools before cryptography
 setuptools==33.1.1
 six==1.10.0
+argparse==1.4.0
 enum34==1.1.6
 ipaddress==1.0.18
 asn1crypto==0.22.0
