@@ -1,5 +1,5 @@
 PyHawk-with-a-single-extra-commit==0.1.5
-amqp==1.4.6
+amqp==1.4.7
 anyjson==0.3.3
 argparse==1.2.1
 arrow==0.5.4
