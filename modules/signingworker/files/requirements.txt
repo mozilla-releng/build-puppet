@@ -7,7 +7,7 @@ configman==1.2.13
 configobj==5.0.6
 ecdsa==0.10
 jsonschema==2.4.0
-kombu==3.0.26
+kombu==3.0.30
 pycrypto==2.6.1
 python-dateutil==2.4.2
 python-jose==0.5.2
