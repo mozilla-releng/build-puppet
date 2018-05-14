@@ -17,7 +17,7 @@ class signingworker {
     # from scratch. Before doing that, we need to stop the running instance.
     exec {
         "stop-for-rebuild-${module_name}":
-            command     => "/sbin/service ${module_name} stop",
+            command     => "/usr/bin/supervisorctl stop ${module_name}",
             refreshonly => true,
             subscribe   => Class['packages::mozilla::python27'];
     }
