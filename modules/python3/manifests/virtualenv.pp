@@ -60,10 +60,10 @@ define python3::virtualenv($python3, $ensure='present', $packages=null, $user=nu
                 file {
                     # create the virtualenv directory
                     $virtualenv:
-                        ensure  => directory,
-                        owner   => $ve_user,
-                        group   => $ve_group,
-                        mode    => $mode;
+                        ensure => directory,
+                        owner  => $ve_user,
+                        group  => $ve_group,
+                        mode   => $mode;
                 }
             }
             else {
