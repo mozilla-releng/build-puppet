@@ -53,11 +53,16 @@ class pushsnap_scriptworker::settings {
                     content         => $_snap_store_macaroons['candidate'],
                     target_location => "${root}/candidate_macaroon.cfg",
                 },
+                'esr'  => {
+                    content         => $_snap_store_macaroons['esr'],
+                    target_location => "${root}/esr_macaroon.cfg",
+                },
             }
 
             $macaroons_locations = {
                 beta      => $macaroons_config['beta']['target_location'],
                 candidate => $macaroons_config['candidate']['target_location'],
+                esr       => $macaroons_config['esr']['target_location'],
             }
         }
         default: {
