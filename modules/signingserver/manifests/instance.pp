@@ -10,6 +10,7 @@ define signingserver::instance(
         $jar_key_name, $jar_digestalg, $jar_sigalg,
         $formats, $mac_cert_subject_ou,
         $ssl_cert, $ssl_private_key,
+        $focus_jar_key_name = '', $focus_jar_digestalg = '', $focus_jar_sigalg = '',
         $signcode_timestamp = 'yes',
         $concurrency        = 4,
         $signcode_maxsize   = 157286400) {
@@ -43,6 +44,7 @@ define signingserver::instance(
     $mar_keydir            = "${secrets_dir}/mar"
     $mar_sha384_keydir     = "${secrets_dir}/mar-sha384"
     $jar_keystore          = "${secrets_dir}/jar"
+    $focus_jar_keystore    = "${secrets_dir}/focus-jar"
     $server_certdir        = "${secrets_dir}/server"
     $emevoucher_key        = "${secrets_dir}/emevouch.pem"
     $emevoucher_chain      = "${secrets_dir}/emechain.pem"

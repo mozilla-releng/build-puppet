@@ -51,6 +51,18 @@ class pushapk_scriptworker::jarsigner_init {
                     certificate  => $release;
             }
         }
+        'mobile-prod': {
+            $focus = $pushapk_scriptworker::settings::jarsigner_all_certificates['focus']
+            file {
+                $focus:
+                    source => 'puppet:///modules/pushapk_scriptworker/focus.pem';
+            }
+
+            java_ks {
+                'focus':
+                    certificate  => $focus;
+            }
+        }
         default: {
             fail("Invalid pushapk_scriptworker_env given: ${pushapk_scriptworker_env}")
         }

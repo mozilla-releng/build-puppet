@@ -83,5 +83,19 @@ class signing_scriptworker::settings {
             datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_prod',
         },
+        'mobile-prod' => {
+            worker_type              => 'mobile-signing-v1',
+            worker_group             => 'mobile-signing-v1',
+            taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/signing/production',
+            taskcluster_access_token => secret('mobile_focus_signing_scriptworker_taskcluster_access_token'),
+            passwords_template       => 'passwords-mobile.json.erb',
+            scope_prefix             => 'project:mobile:focus:releng:signing:',
+            sign_chain_of_trust      => true,
+            verify_chain_of_trust    => true,
+            verify_cot_signature     => true,
+            cot_product              => 'mobile',
+            datadog_api_key          => secret('scriptworker_datadog_api_key'),
+            gpg_keyfile              => 'KEY_dep',
+        },
     }
 }
