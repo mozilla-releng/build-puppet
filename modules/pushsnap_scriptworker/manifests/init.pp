@@ -88,6 +88,8 @@ class pushsnap_scriptworker {
                     content     => $macaroons_config['beta']['content'];
                 $macaroons_config['candidate']['target_location']:
                     content     => $macaroons_config['candidate']['content'];
+                $macaroons_config['esr']['target_location']:
+                    content     => $macaroons_config['esr']['content'];
             }
         }
         default: {
