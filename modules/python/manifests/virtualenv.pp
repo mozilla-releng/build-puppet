@@ -71,8 +71,7 @@ define python::virtualenv($python, $ensure='present', $packages=null, $user=null
                     $virtualenv:
                         ensure  => directory,
                         owner   => $ve_user,
-                        group   => $ve_group,
-                        require => $rebuild_requires;
+                        group   => $ve_group;
                 }
             }
             else {
@@ -96,6 +95,7 @@ define python::virtualenv($python, $ensure='present', $packages=null, $user=null
                     require   => [
                         File[$virtualenv],
                         Class['python::virtualenv::prerequisites'],
+                        Exec["rebuild ${virtualenv}"],
                     ],
                     creates   => $::operatingsystem ? {
                         windows => "${virtualenv}/Scripts/pip.exe",

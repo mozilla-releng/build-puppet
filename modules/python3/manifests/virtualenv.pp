@@ -63,8 +63,7 @@ define python3::virtualenv($python3, $ensure='present', $packages=null, $user=nu
                         ensure  => directory,
                         owner   => $ve_user,
                         group   => $ve_group,
-                        mode    => $mode,
-                        require => $rebuild_requires;
+                        mode    => $mode;
                 }
             }
             else {
@@ -92,6 +91,7 @@ define python3::virtualenv($python3, $ensure='present', $packages=null, $user=nu
                     logoutput => on_failure,
                     require   => [
                         File[$virtualenv],
+                        Exec["rebuild ${virtualenv}"],
                     ],
                     creates   => $os,
                     cwd       => $virtualenv;
