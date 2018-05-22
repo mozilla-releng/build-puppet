@@ -13,7 +13,7 @@ define python27::virtualenv($python, $ensure='present', $packages=null, $user=nu
         # isn't pip-installable
         windows => "${python} -BE ${python27::virtualenv::settings::misc_python_dir}\\virtualenv.py --system-site-packages --python=${python} --distribute --never-download ${virtualenv}",
         default => "${python} -BE ${python27::virtualenv::settings::misc_python_dir}/virtualenv.py \
-                                        --python=${python} --distribute --never-download ${virtualenv}",
+                                        --python=${python} --never-download ${virtualenv}",
     }
 
     # Figure out user/group if they haven't been set
@@ -58,7 +58,11 @@ define python27::virtualenv($python, $ensure='present', $packages=null, $user=nu
                 "rebuild ${virtualenv}":
                     logoutput   => on_failure,
                     command     => "/bin/rm -rf ${virtualenv}/bin ${virtualenv}/include ${virtualenv}/lib ${virtualenv}/local ${virtualenv}/share ${virtualenv}/build",
-                    subscribe   => $rebuild_trigger,
+                    subscribe   => [
+                        $rebuild_trigger,
+                        Python27::Misc_python_file["virtualenv.py"],
+                        Python27::Misc_python_file["virtualenv_support"],
+                    ],
                     refreshonly => true;
             }
         }
@@ -69,10 +73,9 @@ define python27::virtualenv($python, $ensure='present', $packages=null, $user=nu
                 file {
                     # create the virtualenv directory
                     $virtualenv:
-                        ensure  => directory,
-                        owner   => $ve_user,
-                        group   => $ve_group,
-                        require => Exec["rebuild ${virtualenv}"];
+                        ensure => directory,
+                        owner  => $ve_user,
+                        group  => $ve_group;
                 }
             }
             else {
@@ -92,6 +95,7 @@ define python27::virtualenv($python, $ensure='present', $packages=null, $user=nu
                     require   => [
                         File[$virtualenv],
                         Class['python27::virtualenv::prerequisites'],
+                        Exec["rebuild ${virtualenv}"],
                     ],
                     creates   => $::operatingsystem ? {
                         windows => "${virtualenv}/Scripts/pip.exe",

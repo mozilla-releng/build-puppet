@@ -32,17 +32,13 @@ class aws_manager::install {
     }
     exec {
         'install-cloud-tools-dist':
-            command => "${aws_manager::settings::root}/bin/pip install -e ${aws_manager::settings::cloud_tools_dst}",
+            # no-deps because we already installed everything based on the requirements file above,
+            # and either pip or the cloud tools setup.py gets too aggressive and pulls in broken stuff
+            command => "${aws_manager::settings::root}/bin/pip install --no-deps -e ${aws_manager::settings::cloud_tools_dst}",
             user    => $users::buildduty::username,
             require => Git::Repo["cloud-tools-${aws_manager::settings::cloud_tools_dst}"];
     }
     file {
-        "${aws_manager::settings::root}/bin":
-            ensure  => directory,
-            mode    => '0755',
-            owner   => $users::buildduty::username,
-            group   => $users::buildduty::group,
-            require => Python::Virtualenv[$aws_manager::settings::root];
         '/etc/invtool.conf':
             source => "puppet:///modules/${module_name}/invtool.conf";
         $aws_manager::settings::cloudtrail_logs_dir:

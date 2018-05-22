@@ -15,10 +15,11 @@ define python27::misc_python_file(
 
     file {
         "${python27::virtualenv::settings::misc_python_dir}/${filename}":
-            source  => "${python27::virtualenv::settings::packages_dir_source}/${source_file}",
-            backup  => false,
-            recurse => $recurse,
-            require => [
+            source    => "${python27::virtualenv::settings::packages_dir_source}/${source_file}",
+            backup    => false,
+            recurse   => $recurse,
+            show_diff => false,
+            require   => [
                 File[$python27::virtualenv::settings::misc_python_dir],
             ];
     }
