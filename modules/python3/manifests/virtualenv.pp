@@ -5,15 +5,24 @@
 # https://wiki.mozilla.org/ReleaseEngineering/Puppet/Modules/python
 define python3::virtualenv($python3, $ensure='present', $packages=null, $user=null, $group=null, $mode='0755', $rebuild_trigger=null) {
     include python3::virtualenv::settings
+    include python3::virtualenv::prerequisites
 
     $virtualenv = $title
-    $ve_cmd = $::operatingsystem ? {
-        default => "${python3} -mvenv -- ${virtualenv}",
+    $ve_cmd     = $::operatingsystem ? {
+        # use --system-site-packages on Windows so that we can have access to pywin32, which
+        # isn't pip-installable
+        windows => "${python3} -BE ${python3::virtualenv::settings::misc_python_dir}\\virtualenv.py --system-site-packages --python=${python3} --distribute --never-download ${virtualenv}",
+        default => "${python3} -BE ${python3::virtualenv::settings::misc_python_dir}/virtualenv.py \
+                    --python=${python3} --distribute --never-download ${virtualenv}",
     }
 
     # Figure out user/group if they haven't been set
     # User and Group attributes are not support by Windows when using the exec resource
     case $::operatingsystem {
+        Windows: {
+            $ve_user  = undef
+            $ve_group = undef
+        }
         default: {
             case $user {
                 null: {
@@ -60,10 +69,11 @@ define python3::virtualenv($python3, $ensure='present', $packages=null, $user=nu
                 file {
                     # create the virtualenv directory
                     $virtualenv:
-                        ensure => directory,
-                        owner  => $ve_user,
-                        group  => $ve_group,
-                        mode   => $mode;
+                        ensure  => directory,
+                        owner   => $ve_user,
+                        group   => $ve_group,
+                        mode    => $mode,
+                        require => Exec["rebuild ${virtualenv}"];
                 }
             }
             else {
@@ -72,17 +82,8 @@ define python3::virtualenv($python3, $ensure='present', $packages=null, $user=nu
                     $virtualenv:
                         ensure => directory,
                         owner  => $ve_user,
-                        group  => $ve_group,
-                        mode   => $mode;
+                        group  => $ve_group;
                 }
-            }
-            python3::virtualenv::package {
-                "${virtualenv}||pip==${python3::virtualenv::settings::pip_version}":
-                    user => $ve_user;
-            }
-            $os = $::operatingsystem ? {
-                        windows => "${virtualenv}/Scripts/pip.exe",
-                        default => "${virtualenv}/bin/pip"
             }
             exec {
                 "virtualenv ${virtualenv}":
@@ -91,9 +92,12 @@ define python3::virtualenv($python3, $ensure='present', $packages=null, $user=nu
                     logoutput => on_failure,
                     require   => [
                         File[$virtualenv],
-                        Exec["rebuild ${virtualenv}"],
+                        Class['python3::virtualenv::prerequisites'],
                     ],
-                    creates   => $os,
+                    creates   => $::operatingsystem ? {
+                        windows => "${virtualenv}/Scripts/pip.exe",
+                        default => "${virtualenv}/bin/pip"
+                    },
                     cwd       => $virtualenv;
             }
 

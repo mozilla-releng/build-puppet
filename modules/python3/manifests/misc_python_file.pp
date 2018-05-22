@@ -5,16 +5,19 @@
 #
 # Download a file from the package dir into the misc-python directory.  This should be
 # used sparingly - pip should download most mackages on its own.
-define python3::misc_python_file {
+define python3::misc_python_file(
+    $source_file,
+    $filename,
+    $recurse                      = false,
+) {
     include python3::virtualenv::settings
     include python3::misc_python_dir
 
-    $filename = $title
-
     file {
         "${python3::virtualenv::settings::misc_python_dir}/${filename}":
-            source  => "${python3::virtualenv::settings::packages_dir_source}/${filename}",
+            source  => "${python3::virtualenv::settings::packages_dir_source}/${source_file}",
             backup  => false,
+            recurse => $recurse,
             require => [
                 File[$python3::virtualenv::settings::misc_python_dir],
             ];

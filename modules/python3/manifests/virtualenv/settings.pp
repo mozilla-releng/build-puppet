@@ -11,5 +11,5 @@ class python3::virtualenv::settings {
     # the puppet URL for the python/packages-3.x downloads
     $packages_dir_source = 'puppet:///python/packages-3.x'
 
-    $pip_version         = '9.0.3'
+    $virtualenv_version  = '16.0.0'
 }
