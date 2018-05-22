@@ -28,6 +28,31 @@ class packages::mozilla::python3 {
                     ensure => '3.6.5-1.el6';
             } -> Anchor['packages::mozilla::python3::end']
         }
+        Darwin: {
+            case $::macosx_productversion_major {
+                '10.10': {
+                    $python3 = '/tools/python36/bin/python3.6'
+
+                    # Install python36 into /tools/python36 on OSX workers
+                    Anchor['packages::mozilla::python3::begin'] ->
+                    file {
+                        '/tools/python3':
+                            ensure => link,
+                            target => '/tools/python36';
+                    } -> Anchor['packages::mozilla::python3::end']
+
+                    Anchor['packages::mozilla::python3::begin'] ->
+                    packages::pkgdmg {
+                        'python36':
+                            os_version_specific => true,
+                            version             => '3.6.5-1';
+                    }  -> Anchor['packages::mozilla::python3::end']
+                }
+                default: {
+                    fail("Cannot install on Darwin version ${::macosx_productversion_major}")
+                }
+            }
+        }
         default: {
             fail("Cannot install on ${::operatingsystem}")
         }
