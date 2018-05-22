@@ -13,7 +13,7 @@ define python::virtualenv($python, $ensure='present', $packages=null, $user=null
         # isn't pip-installable
         windows => "${python} -BE ${python::virtualenv::settings::misc_python_dir}\\virtualenv.py --system-site-packages --python=${python} --distribute --never-download ${virtualenv}",
         default => "${python} -BE ${python::virtualenv::settings::misc_python_dir}/virtualenv.py \
-                                        --python=${python} --distribute --never-download ${virtualenv}",
+                                        --python=${python} --never-download ${virtualenv}",
     }
 
     # Figure out user/group if they haven't been set
@@ -58,7 +58,12 @@ define python::virtualenv($python, $ensure='present', $packages=null, $user=null
                 "rebuild ${virtualenv}":
                     logoutput   => on_failure,
                     command     => "/bin/rm -rf ${virtualenv}/bin ${virtualenv}/include ${virtualenv}/lib ${virtualenv}/local ${virtualenv}/share ${virtualenv}/build",
-                    subscribe   => $rebuild_trigger,
+                    subscribe   => [
+                        $rebuild_trigger,
+                        Python::Misc_python_file["virtualenv.py"],
+                        Python::Misc_python_file["pip"],
+                        Python::Misc_python_file["setuptools"],
+                    ],
                     refreshonly => true;
             }
         }

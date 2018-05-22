@@ -61,7 +61,7 @@ class slaveapi::aws ($environment='prod') {
 
     exec {
         'install-cloud-tools-dist':
-            command => "${slaveapi::base::root}/${environment}/bin/pip install -e ${cloud_tools_dst}",
+            command => "${slaveapi::base::root}/${environment}/bin/pip install --no-deps -e ${cloud_tools_dst}",
             user    => $user,
             require => Git::Repo["cloud-tools-${cloud_tools_dst}"];
     }

@@ -11,5 +11,8 @@ class python::virtualenv::settings {
     # the puppet URL for the python/packages downloads
     $packages_dir_source = 'puppet:///python/packages'
 
-    $pip_version         = '1.5.5'
+    $pip_version         = '10.0.1'
+    $setuptools_version  = '39.1.0'
+    $wheel_version       = '0.31.1'
+    $virtualenv_version  = '16.0.0'
 }

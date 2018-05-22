@@ -13,17 +13,29 @@ class python::virtualenv::prerequisites {
 
     Anchor['python::virtualenv::prerequisites::begin'] ->
     python::misc_python_file {
-        'virtualenv.py': ;
+        'virtualenv.py':
+            source_file => "virtualenv-${python::virtualenv::settings::virtualenv_version}/virtualenv.py",
+            filename    => "virtualenv.py";
     } -> Anchor['python::virtualenv::prerequisites::end']
 
     # these two need to be in the same dir as virtualenv.py, or it will
     # want to download them from pypi
     Anchor['python::virtualenv::prerequisites::begin'] ->
     python::misc_python_file {
-        "pip-${python::virtualenv::settings::pip_version}.tar.gz": ;
+        "pip":
+            source_file => "virtualenv-${python::virtualenv::settings::virtualenv_version}/pip-${python::virtualenv::settings::pip_version}-py2.py3-none-any.whl",
+            filename    => "pip-${python::virtualenv::settings::pip_version}-py2.py3-none-any.whl";
     } -> Anchor['python::virtualenv::prerequisites::end']
     Anchor['python::virtualenv::prerequisites::begin'] ->
     python::misc_python_file {
-        'distribute-0.6.24.tar.gz': ; # the virtualenv.py above looks for this version
+        "setuptools":
+            source_file => "virtualenv-${python::virtualenv::settings::virtualenv_version}/setuptools-${python::virtualenv::settings::setuptools_version}-py2.py3-none-any.whl",
+            filename    => "setuptools-${python::virtualenv::settings::setuptools_version}-py2.py3-none-any.whl";
+    } -> Anchor['python::virtualenv::prerequisites::end']
+    Anchor['python::virtualenv::prerequisites::begin'] ->
+    python::misc_python_file {
+        "wheel":
+            source_file => "virtualenv-${python::virtualenv::settings::virtualenv_version}/wheel-${python::virtualenv::settings::wheel_version}-py2.py3-none-any.whl",
+            filename    => "wheel-${python::virtualenv::settings::wheel_version}-py2.py3-none-any.whl";
     } -> Anchor['python::virtualenv::prerequisites::end']
 }
