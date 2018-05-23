@@ -5,6 +5,10 @@ class packages::security_updates_1433165 {
 
     # This class contains pinned versions of package updates
     # See bug 1433165
+
+    # DHCP is updated into dhcp custom repo, and defined in dhcp.pp module. So, we only need to include it
+    include packages::dhcp
+
     anchor {
         'packages::security_updates_1433165::begin': ;
         'packages::security_updates_1433165::end': ;
