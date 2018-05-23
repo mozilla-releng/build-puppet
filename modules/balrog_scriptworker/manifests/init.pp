@@ -13,6 +13,7 @@ class balrog_scriptworker {
     include packages::gcc
     include packages::make
     include packages::libffi
+    include packages::xz_devel
     include tweaks::scriptworkerlogrotate
 
     $env_config = $balrog_scriptworker::settings::env_config[$balrogworker_env]
