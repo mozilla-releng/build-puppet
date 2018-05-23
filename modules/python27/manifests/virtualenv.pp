@@ -92,11 +92,17 @@ define python27::virtualenv($python, $ensure='present', $packages=null, $user=nu
                     user      => $ve_user,
                     command   => $ve_cmd,
                     logoutput => on_failure,
-                    require   => [
-                        File[$virtualenv],
-                        Class['python27::virtualenv::prerequisites'],
-                        Exec["rebuild ${virtualenv}"],
-                    ],
+                    require   => $::operatingsystem ? {
+                        windows => [
+                            File[$virtualenv],
+                            Class['python27::virtualenv::prerequisites'],
+                        ],
+                        default => [
+                            File[$virtualenv],
+                            Class['python27::virtualenv::prerequisites'],
+                            Exec["rebuild ${virtualenv}"],
+                        ],
+                    },
                     creates   => $::operatingsystem ? {
                         windows => "${virtualenv}/Scripts/pip.exe",
                         default => "${virtualenv}/bin/pip"
