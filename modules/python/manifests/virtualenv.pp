@@ -107,7 +107,7 @@ define python::virtualenv($python, $ensure='present', $packages=null, $user=null
                             Class['python::virtualenv::prerequisites'],
                             Exec["rebuild ${virtualenv}"],
                         ],
-                    }
+                    },
                     creates   => $::operatingsystem ? {
                         windows => "${virtualenv}/Scripts/pip.exe",
                         default => "${virtualenv}/bin/pip"
