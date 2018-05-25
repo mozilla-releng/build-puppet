@@ -32,12 +32,14 @@ partners:
 releases:
   - product: fennec
     pattern: <%= @env_config["fennec_pattern"] %>
+    trust_domain: gecko
     checks:
       - long_revision
       - check_allowed_branches
     allowed_branches: <%= require "json"; JSON.generate(Array(@env_config["allowed_branches"])) %>
   - product: firefox
     pattern: <%= @env_config["firefox_pattern"] %>
+    trust_domain: gecko
     checks:
       - long_revision
       - partial_updates
@@ -45,6 +47,7 @@ releases:
     allowed_branches: <%= require "json"; JSON.generate(Array(@env_config["allowed_branches"])) %>
   - product: devedition
     pattern: <%= @env_config["devedition_pattern"] %>
+    trust_domain: gecko
     checks:
       - long_revision
       - partial_updates
@@ -53,6 +56,7 @@ releases:
 <% if @env_config["thunderbird_pattern"] -%>
   - product: thunderbird
     pattern: <%= @env_config["thunderbird_pattern"] %>
+    trust_domain: comm
     checks:
       - long_revision
       - partial_updates
