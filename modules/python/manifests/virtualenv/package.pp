@@ -19,11 +19,19 @@ define python::virtualenv::package($user) {
     $data_server  = $config::data_server
     $data_servers = $config::data_servers
 
-    $pip_options  = inline_template("--no-deps --no-index <%
+    $pip_options = $::operatingsystem ? {
+        # No trusted host on windows, because those are ancient buildbot machines whose pip doesn't support it.
+        windows => inline_template("--no-deps --no-index <%
+servers = [ @data_server ] + Array(@data_servers)
+servers.uniq.each do |mirror_server| -%> --find-links=http://<%= mirror_server %>/python/packages <%
+end
+-%>"),
+        default => inline_template("--no-deps --no-index <%
 servers = [ @data_server ] + Array(@data_servers)
 servers.uniq.each do |mirror_server| -%> --trusted-host <%= mirror_server %> --find-links=http://<%= mirror_server %>/python/packages <%
 end
 -%>")
+    }
     if ($user == 'root') {
         $home_dir = $::users::root::home
     } else {
