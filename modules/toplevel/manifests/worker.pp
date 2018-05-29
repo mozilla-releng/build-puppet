@@ -9,6 +9,7 @@ class toplevel::worker inherits toplevel::base {
     include puppet::atboot
     include sudoers::reboot
     include users::builder
+    include python::system_pip_conf
 
     # apply tweaks
     include tweaks::dev_ptmx
