@@ -37,11 +37,12 @@ class python::system_pip_conf {
         }
     }
     if $dir {
-        directory {
+        file {
             "${dir}":
-                owner => $user,
-                group => $group,
-                mode  => "0755";
+                ensure => directory,
+                owner  => $user,
+                group  => $group,
+                mode   => "0755";
         }
     }
     if $filename {
