@@ -18,20 +18,30 @@ class python::system_pip_conf {
             $group    = "root"
         }
         "Darwin": {
-            $filename = "/Library/Application Support/pip/pip.conf"
+            $dir      = "/Library/Application Support/pip/"
+            $filename = "${dir}/pip.conf"
             $user     = "root"
             $group    = "wheel"
         }
         "windows": {
-            $filename = $::operatingsystemrelease ? {
-                XP => "C:\\Documents and Settings\\All Users\\Application Data\\pip\\pip.ini",
-                default => "C:\\ProgramData\\pip\\pip.ini",
+            $dir = $::operatingsystemrelease ? {
+                XP => "C:\\Documents and Settings\\All Users\\Application Data\\pip",
+                default => "C:\\ProgramData\\pip",
             }
+            $filename = "${dir}\\pip.ini"
             $user     = "administrator"
             $group    = "administrator"
         }
         default: {
             fail("This OS is not supported for system_pip_conf")
+        }
+    }
+    if $dir {
+        directory {
+            "${dir}":
+                owner => $user,
+                group => $group,
+                mode  => "0755";
         }
     }
     if $filename {
@@ -40,7 +50,7 @@ class python::system_pip_conf {
                 content => template("python/user-pip-conf.erb"),
                 owner   => $user,
                 group   => $group,
-                mode    => "0755";
+                mode    => "0644";
         }
     }
 }
