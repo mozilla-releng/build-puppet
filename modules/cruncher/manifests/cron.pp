@@ -12,5 +12,11 @@ class cruncher::cron {
         '/etc/cron.d/allthethings':
             mode    => '0644',
             content => template('cruncher/allthethings_cron.erb');
+        '/usr/local/bin/cert_check.sh':
+            content => template('cruncher/cert_check.sh.erb'),
+            mode    => '0755';
+        '/etc/cron.weekly/check_sign_srv_ssl_exp.sh':
+            mode    => '0755',
+            content => template('cruncher/check_sign_srv_ssl_exp.sh.erb');
     }
 }
