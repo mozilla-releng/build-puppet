@@ -13,7 +13,7 @@ amqp==2.2.2
 buildapi==0.3.25
 buildbot==0.8.4-pre-moz2 # pyup: ignore
 decorator==4.2.1
-distribute==0.7.3
+#distribute==0.7.3
 kombu==4.2.0
 Routes==2.4.1
 SQLAlchemy==1.2.7
@@ -31,3 +31,4 @@ redis==2.10.6
 simplejson==3.15.0
 wsgiref==0.1.2
 zope.interface==4.5.0
+vine==1.1.4
