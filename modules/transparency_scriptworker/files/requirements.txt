@@ -20,7 +20,7 @@ python-dateutil==2.7.3
 python-gnupg==0.4.2
 redo==1.6
 requests==2.18.4
-scriptworker==12.0.0
+scriptworker==12.0.1
 six==1.11.0
 slugid==1.0.7
 taskcluster==3.0.1
