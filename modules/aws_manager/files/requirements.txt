@@ -1,12 +1,13 @@
+# python_version: 27
 # fabric 2 contains api breaking changes.
-Fabric==1.14.0 # pyup: ignore
+Fabric==1.14.0  # pyup: ignore
 IPy==0.83
 MySQL-python==1.2.5
 SQLAlchemy==1.2.7
 argparse==1.4.0
 boto==2.48.0
 ecdsa==0.13
-invtool==4.4
+invtool==4.4  # puppet: nodownload
 iso8601==0.1.12
 paramiko==2.4.1
 pycrypto==2.6.1

@@ -1,3 +1,4 @@
+# python_version: 27
 requests==2.18.4
 arrow==0.12.1
 taskcluster==3.0.1

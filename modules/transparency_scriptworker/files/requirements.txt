@@ -1,3 +1,4 @@
+# python_version: 36
 PyYAML==3.12
 aiohttp==3.2.1
 arrow==0.12.1
@@ -27,4 +28,4 @@ taskcluster==3.0.1
 urllib3==1.22
 virtualenv==15.2.0
 yarl==1.2.4
-transparencyscript==0.0.4
+transparencyscript==0.0.4  # puppet: nodownload

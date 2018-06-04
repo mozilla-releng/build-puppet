@@ -5,10 +5,12 @@
 class puppetmaster::settings {
     include ::config
 
-    $data_root         = '/data'
-    $puppetmaster_root = '/var/lib/puppetmaster'
-    $puppetsync_home   = '/var/lib/puppetsync-home'
-    $deploy_dir        = '/var/lib/puppetmaster/deploy'
+    $data_root                = '/data'
+    $puppetmaster_root        = '/var/lib/puppetmaster'
+    $puppetsync_home          = '/var/lib/puppetsync-home'
+    $deploy_dir               = '/var/lib/puppetmaster/deploy'
+    $pip2_download_virtualenv = '/etc/puppet/pip2-venv'
+    $pip3_download_virtualenv = '/etc/puppet/pip3-venv'
 
     # how often to check and update the puppet manifests and files
     $puppet_check_interval_mins = 5

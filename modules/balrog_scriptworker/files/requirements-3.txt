@@ -1,3 +1,4 @@
+# python_version: 36
 PyYAML==3.12
 aiohttp==3.2.1
 arrow==0.12.1

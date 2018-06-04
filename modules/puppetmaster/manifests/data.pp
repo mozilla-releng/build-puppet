@@ -89,4 +89,51 @@ class puppetmaster::data {
                 ensure => absent;
         }
     }
+
+    $python2_crontab = '/etc/cron.d/puppetmaster-pip2-download'
+    $python3_crontab = '/etc/cron.d/puppetmaster-pip3-download'
+    $python_script = '/etc/puppet/puppetmaster-pip-download.sh'
+    if ($puppetmaster::settings::is_distinguished) {
+        include packages::mozilla::python27
+        include packages::mozilla::python3
+        # To make pip shut up when downloading the mysql-python package
+        include packages::mysql
+        include packages::mysql_devel
+
+        # Due to https://github.com/pypa/pip/issues/5369, we have to run
+        # "pip download" for each target version of Python that we want
+        # packages for. When this bug is fixed, we should be able to use
+        # Python2 for all of the downloads, and pass "--python-version"
+        # to specify the target version.
+        python27::virtualenv {
+            $puppetmaster::settings::pip2_download_virtualenv:
+                python          => $packages::mozilla::python27::python,
+                rebuild_trigger => Class['packages::mozilla::python27'],
+                require         => Class['packages::mozilla::python27'];
+        }
+
+        python3::virtualenv {
+            $puppetmaster::settings::pip3_download_virtualenv:
+                python3         => $packages::mozilla::python3::python3,
+                rebuild_trigger => Class['packages::mozilla::python3'],
+                require         => Class['packages::mozilla::python3'];
+        }
+
+        file {
+            # We need to sync these at least as often as puppet manifests are updated - which is every 5 minutes.
+            $python2_crontab:
+                content => "*/5 * * * * root ${python_script} 27\n";
+            $python3_crontab:
+                content => "*/5 * * * * root ${python_script} 36\n";
+            $python_script:
+                mode    => '0755',
+                content => template("${module_name}/puppetmaster-pip-download.sh.erb");
+        }
+    } else {
+        file {
+            [ $python2_crontab, $python3_crontab, $python_script, $puppetmaster::settings::pip2_download_virtualenv,
+              $puppetmaster::settings::pip3_download_virtualenv ]:
+                ensure => absent;
+        }
+    }
 }
