@@ -1,3 +1,4 @@
+# python_version: 27
 PyHawk-with-a-single-extra-commit==0.1.5
 amqp==2.2.2
 anyjson==0.3.3

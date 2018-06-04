@@ -1,4 +1,5 @@
-buildbot==0.8.4-pre-moz2 # pyup: ignore
+# python_version: 27
+buildbot==0.8.4-pre-moz2  # pyup: ignore, puppet: nodownload
 MozillaPulse==1.3
 amqp==2.2.2
 anyjson==0.3.3

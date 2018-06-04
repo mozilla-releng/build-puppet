@@ -1,3 +1,4 @@
+# python_version: 27
 MySQL-python==1.2.5
 SQLAlchemy==1.2.7
 pytz==2018.4

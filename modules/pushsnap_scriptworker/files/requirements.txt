@@ -1,3 +1,4 @@
+# python_version: 36
 PyNaCl==1.2.1
 PyYAML==3.12
 aiohttp==3.2.1
@@ -40,4 +41,4 @@ taskcluster==3.0.1
 urllib3==1.22
 virtualenv==15.2.0
 yarl==1.2.4
-pushsnapscript==0.2.1
+pushsnapscript==0.2.1  # puppet: nodownload

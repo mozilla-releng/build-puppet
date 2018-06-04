@@ -1,1 +1,2 @@
-cleanslate==1.3
+# python_version: 27
+cleanslate==1.3  # puppet: nodownload

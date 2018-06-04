@@ -1,3 +1,4 @@
+# python_version: 27
 # install six before cryptography
 six==1.11.0
 Fabric==2.0.1
@@ -8,9 +9,9 @@ PyYAML==3.12
 SQLAlchemy==1.2.7
 Tempita==0.5.2
 # don't upgrade twisted because it doesn't work with our buildbot
-Twisted==12.3.0 # pyup: ignore
+Twisted==12.3.0  # pyup: ignore
 arrow==0.12.1
-buildbot==0.8.7p1 # pyup: ignore
+buildbot==0.8.7p1  # pyup: ignore, puppet: nodownload
 certifi==2018.4.16
 chunkify==1.2
 cryptography==2.2.2

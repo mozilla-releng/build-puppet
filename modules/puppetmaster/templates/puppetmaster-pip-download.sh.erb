@@ -1,0 +1,81 @@
+#! /bin/bash
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+distinguished_master=<%= scope.lookupvar('puppetmaster::settings::distinguished_master') %>
+data_root=<%= scope.lookupvar('puppetmaster::settings::data_root') %>
+mailto=<%= scope.lookupvar('::config::puppet_notif_email') %>
+hostname=<%= scope.lookupvar('::fqdn') %>
+
+python_version=$1
+pip_binary=<%= scope.lookupvar('puppetmaster::settings::pip2_download_virtualenv') %>/bin/pip
+download_dir="${data_root}/python/packages"
+if [ "${python_version}" != "27" ]; then
+    pip_binary=<%= scope.lookupvar('puppetmaster::settings::pip3_download_virtualenv') %>/bin/pip
+    download_dir="${data_root}/python/packages-3.x"
+fi
+
+# make logfile that puppetsync can write to
+logfile=$(mktemp)
+
+# set the default subject line for our output email
+subject="[PuppetAagin Changes] Downloaded new python-${python_version} packages"
+
+cd /etc/puppet
+
+if [ -f ${logfile} ]; then
+    LOCKFILE="/dev/shm/puppetmaster-pypi-download-log-${python_version}"
+    if ! lockfile -r 0 "${LOCKFILE}" >> ${logfile} 2>&1; then
+        echo "${LOCKFILE} already exists; not running pip download" >> ${logfile}
+        subject="[PuppetAgain Errors] pip download already running on ${hostname}"
+    else
+        trap "rm -f ${LOCKFILE}; exit" SIGHUP SIGINT SIGTERM EXIT
+
+        # To minimize the number of times we need to call "pip download", we collect
+        # all of the unique dependencies from all of the requirements files first
+        # and then call "pip download" on each one. If we were to call "pip download"
+        # on each requirements files, many dependencies would be processed multiple times
+        # which is pretty expensive.
+        all_deps=""
+        for req_file in `find . -wholename "*files*requirements*.txt"`; do
+            # Skip requirements files that aren't for the Python version that we're
+            # operating on.
+            # xargs is to remove leading/trailing whitespace
+            req_python_version=$(grep python_version $req_file | cut -d: -f2 | xargs)
+            if [ "${python_version}" == "${req_python_version}" ]; then
+                while read dependency; do
+                    # Apparently this construct is bash for "does not contain substring"
+                    if [[ "${all_deps}" != *"${dependency}"* ]]; then
+                        all_deps="${all_deps} ${dependency}"
+                    fi
+                # read requirements file, filtering away any comments, and packages that
+                # are explicitly marked as something we shouldn't download (these are typically
+                # internal packages that don't exist on pypi).
+                done < <(cat $req_file | grep -v '^#' | grep -v 'puppet: nodownload' | sed -e 's/.\?#.*//')
+            fi
+        done
+        for dep in $all_deps; do
+            # -q to avoid sending unnecessary email when nothing is downloaded
+            # --cache-dir because pip doesn't cache in a way that can be shared by multiple python versions
+            # --no-deps beacuse we don't want to download implicit dependencies (we'd rather have errors, and make them explicit)
+            # --python-version to make sure we're getting the correct wheels
+            # -d to make sure the packages go to the right place
+            ${pip_binary} download -q --cache-dir=/root/.cache/pip-${python_version} --no-deps --python-version ${python_version} -d $download_dir $dep >> $logfile 2>&1
+        done
+    fi
+
+    # if anything was logged..
+
+    if [ -s ${logfile} ]; then
+        # if we're interactive, show the results
+        tty -s && cat ${logfile}
+
+        # email it
+        mail -s "${subject}" "${mailto}" < "${logfile}"
+    fi
+
+    rm ${logfile}
+else
+    echo "Cannot create log file for pip-download-${python_version} on ${hostname}." | mail -s "[PuppetAgain Errors] pip-download-${python_version} failed on ${hostname}" "${mailto}"
+fi
