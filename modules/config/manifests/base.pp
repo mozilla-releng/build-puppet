@@ -25,8 +25,8 @@ class config::base {
 
     # The repository and branch that puppetmasters should follow to get the latest
     # manifests
-    $puppet_again_repo              = 'https://hg.mozilla.org/build/puppet'
-    $puppet_again_branch            = 'production'
+    $puppet_again_repo              = 'https://github.com/mozilla/build-puppet'
+    $puppet_again_branch            = 'master'
 
     # The fqdn of the 'distinguished' puppetmaster.  This master serves as the
     # hub in the hub-and-spoke architecture for synchronizing masters and also
