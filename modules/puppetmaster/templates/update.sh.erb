@@ -10,12 +10,19 @@ repo="<%= scope.lookupvar('::config::puppet_again_repo') %>"
 branch="<%= scope.lookupvar('::config::puppet_again_branch') %>"
 repodir="/etc/puppet/production"
 hg="/usr/local/bin/hg"
+git="/usr/bin/git"
 
 hostname=<%= scope.lookupvar('::fqdn') %>
 cd $repodir
 
-# check for uncommitted changes
-output=`$hg stat`
+output=""
+if [ -e ".hg" ]; then
+    # check for uncommitted changes
+    output=`$hg stat`
+elif [ -e ".git" ]; then
+    output=`$git status -s`
+fi
+
 if [ -n "$output" ]; then
     (
         echo "Uncommitted local changes to $hostname:$repodir!"
@@ -26,22 +33,40 @@ if [ -n "$output" ]; then
 fi
 
 try_update() {
-    rev_before=`$hg ident -i`
-    rev_current=`$hg ident -i $repo -r $branch`
-    if [ $? -ne 0 ] || [ -z "$rev_current" ]; then
+    if [ -e ".hg" ]; then
+        rev_before=`$hg ident -i`
+        rev_current=`$hg ident -i $repo -r $branch`
+        if [ $? -ne 0 ] || [ -z "$rev_current" ]; then
+            return 1
+        fi
+
+        if [ $rev_before == $rev_current ]; then
+            # nothing to do
+            return 0
+        fi
+
+        # update (and pass on the exit status)
+        # (hg pull can't do -u and -r at the same time)
+        $hg pull $repo && $hg up -r $branch
+    elif [ -e ".git" ]; then
+        $git fetch origin
+        rev_before=`$git rev-parse HEAD`
+        rev_current=`$git rev-parse "origin/$branch"`
+        if [ -z "$rev_current" ]; then
+            return 1
+        fi
+
+        if [ $rev_before == $rev_current ]; then
+            # nothing to do
+            return 0
+        fi
+
+        # update (and pass on the exit status)
+        $git checkout "origin/$branch"
+    else
         return 1
     fi
-
-    if [ $rev_before == $rev_current ]; then
-        # nothing to do
-        return 0
-    fi
-
-    # update (and pass on the exit status)
-    # (hg pull can't do -u and -r at the same time)
-    $hg pull $repo && $hg up -r $branch
 }
-
 
 # retry that five times
 LOGFILE=$(mktemp)
@@ -59,18 +84,27 @@ done
 
 if ! $ok; then
     (
-        echo "Errors pulling from mercurial for puppet on $hostname:"
+        echo "Errors pulling from vcs for puppet on $hostname:"
         echo ''
         cat $LOGFILE
-    ) | mail -s "[PuppetAgain Errors] Errors pulling from mercurial for puppet on $hostname" $errormailto
+    ) | mail -s "[PuppetAgain Errors] Errors pulling from vcs for puppet on $hostname" $errormailto
 else
     # get a new rev, in case something landed during this run
-    rev_after=`$hg ident -i`
+    rev_after=""
+    if [ -e ".hg" ]; then
+        rev_after=`$hg ident -i`
+    elif [ -e ".git" ]; then
+        rev_after=`$git rev-parse HEAD`
+    fi
     if [ $rev_before != $rev_after ]; then
         (
             echo "Puppet changes applied at $hostname:"
             echo ''
-            $hg diff -r $rev_before -r $rev_after
+            if [ -e ".hg" ]; then
+                $hg diff -r $rev_before -r $rev_after
+            elif [ -e ".git" ]; then
+                $git diff -r $rev_before -r $rev_after
+            fi
         ) | mail -s "[PuppetAgain Changes] Puppet changes applied at $hostname" $changemailto
 
         # reload httpd, to flush puppet's caches

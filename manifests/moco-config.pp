@@ -103,7 +103,7 @@ class config inherits config::base {
     # See https://bugzilla.mozilla.org/show_bug.cgi?id=906785
     $apt_repo_server            = 'puppetagain-apt.pvt.build.mozilla.org'
     $distinguished_puppetmaster = 'releng-puppet2.srv.releng.scl3.mozilla.com'
-    $puppet_again_repo          = 'https://hg.mozilla.org/build/puppet/'
+    $puppet_again_repo          = 'https://github.com/mozilla/build-puppet'
     $puppetmaster_extsyncs      = {
         'slavealloc' => {
             'slavealloc_api_url' => 'http://slavealloc.pvt.build.mozilla.org/api/',

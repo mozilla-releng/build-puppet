@@ -14,7 +14,7 @@ class puppetmaster::manifests {
     $checkout_dir = '/etc/puppet/production'
     exec {
         'checkout-puppet':
-            command   => "/usr/bin/hg clone ${puppetmaster::settings::manifests_repo} ${checkout_dir}",
+            command   => "/usr/bin/git clone ${puppetmaster::settings::manifests_repo} ${checkout_dir}",
             creates   => $checkout_dir,
             logoutput => on_failure,
             require   => Class['packages::mercurial'];
@@ -34,12 +34,6 @@ class puppetmaster::manifests {
             owner   => root,
             group   => root,
             content => template('puppetmaster/update.sh.erb');
-        "${checkout_dir}/.hg/hgrc":
-            mode    => '0755',
-            owner   => root,
-            group   => root,
-            content => "[paths]\ndefault = ${puppetmaster::settings::manifests_repo}\n",
-            require => Exec['checkout-puppet'];
         '/etc/puppet/get_rev.sh':
             mode    => '0755',
             owner   => root,
