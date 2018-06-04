@@ -3,7 +3,7 @@
 Fabric==1.14.0  # pyup: ignore
 IPy==0.83
 MySQL-python==1.2.5
-SQLAlchemy==1.2.7
+SQLAlchemy==1.2.8
 argparse==1.4.0
 boto==2.48.0
 ecdsa==0.13
@@ -29,8 +29,8 @@ pbr==4.0.3
 ordereddict==1.1
 schema==0.6.7
 redo==1.6
-boto3==1.7.26
-botocore==1.10.26
+boto3==1.7.29
+botocore==1.10.29
 docutils==0.14
 futures==3.2.0
 jmespath==0.9.3
