@@ -8,6 +8,7 @@
     },
 
     "verbose": <%= scope.lookupvar("bouncer_scriptworker::settings::verbose_logging") %>,
+    "taskcluster_scope_prefix": "<%= @env_config['taskcluster_scope_prefix'] %>",
 
     "bouncer_config": <%- require 'json' -%><%= JSON.pretty_generate(@env_config['bouncer_instances']) %>
 }

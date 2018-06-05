@@ -27,6 +27,7 @@ class bouncer_scriptworker::settings {
         worker_type              => 'bouncer-dev',
         taskcluster_client_id    => 'project/releng/scriptworker/bouncer/dev',
         taskcluster_access_token => secret('bouncer_scriptworker_taskcluster_access_token_dev'),
+        taskcluster_scope_prefix => 'project:releng:bouncer:',
 
         sign_chain_of_trust      => false,
         verify_chain_of_trust    => true,
@@ -42,6 +43,7 @@ class bouncer_scriptworker::settings {
         worker_type              => 'bouncer-v1',
         taskcluster_client_id    => 'project/releng/scriptworker/bouncer/production',
         taskcluster_access_token => secret('bouncer_scriptworker_taskcluster_access_token_prod'),
+        taskcluster_scope_prefix => 'project:releng:bouncer:',
 
         sign_chain_of_trust      => true,
         verify_chain_of_trust    => true,
