@@ -18,13 +18,13 @@ class shipit_scriptworker::settings {
         password                  => secret('shipit_scriptworker_ship_it_password_dev'),
     }
 
-    $_env_configs             = {
+    $env_config = {
       'dev'  => {
         worker_group             => 'shipit-dev',
         worker_type              => 'shipit-dev',
-        verbose_logging          => true,
         taskcluster_client_id    => 'project/releng/scriptworker/shipit/dev',
         taskcluster_access_token => secret('shipit_scriptworker_taskcluster_access_token_dev'),
+        taskcluster_scope_prefix => 'project:releng:ship-it:',
 
         sign_chain_of_trust      => false,
         verify_chain_of_trust    => true,
@@ -37,9 +37,9 @@ class shipit_scriptworker::settings {
       'prod' => {
         worker_group             => 'shipit-v1',
         worker_type              => 'shipit-v1',
-        verbose_logging          => true,
         taskcluster_client_id    => 'project/releng/scriptworker/shipit/production',
         taskcluster_access_token => secret('shipit_scriptworker_taskcluster_access_token_prod'),
+        taskcluster_scope_prefix => 'project:releng:ship-it:',
 
         sign_chain_of_trust      => true,
         verify_chain_of_trust    => true,
@@ -57,7 +57,6 @@ class shipit_scriptworker::settings {
       },
     }
 
-    $_env_config                = $_env_configs[$shipit_scriptworker_env]
     $mark_as_shipped_schema_file = "${root}/lib/python${python3_virtualenv_version}/site-packages/shipitscript/data/mark_as_shipped_task_schema.json"
     $mark_as_started_schema_file = "${root}/lib/python${python3_virtualenv_version}/site-packages/shipitscript/data/mark_as_started_task_schema.json"
     $work_dir                   = "${root}/work"
@@ -66,27 +65,7 @@ class shipit_scriptworker::settings {
     $user                       = $users::builder::username
     $group                      = $users::builder::group
 
-    $taskcluster_client_id      = $_env_config['taskcluster_client_id']
-    $taskcluster_access_token   = $_env_config['taskcluster_access_token']
-    $worker_group               = $_env_config['worker_group']
-    $worker_type                = $_env_config['worker_type']
-
-    $sign_chain_of_trust        = $_env_config['sign_chain_of_trust']
-    $verify_chain_of_trust      = $_env_config['verify_chain_of_trust']
-    $verify_cot_signature       = $_env_config['verify_cot_signature']
-
-    $taskcluster_scope_prefix   = "project:releng:ship-it:"
-
-    $verbose_logging            = $_env_config['verbose_logging']
+    $verbose_logging            = true
 
     $script_config              = "${root}/script_config.json"
-    $script_config_content      = {
-        work_dir           => $work_dir,
-        mark_as_shipped_schema_file => $mark_as_shipped_schema_file,
-        mark_as_started_schema_file => $mark_as_started_schema_file,
-        schema_file        => $schema_file,
-        verbose            => $verbose_logging,
-        ship_it_instances  => $_env_config['ship_it_instances'],
-        taskcluster_scope_prefix => $taskcluster_scope_prefix,
-    }
 }
