@@ -10,14 +10,14 @@ PasteDeploy==1.5.2
 PasteScript==2.0.2
 Pygments==2.2.0
 Pylons==1.0.3
-amqp==2.2.2
+amqp==2.3.2
 buildapi==0.3.25  # puppet: nodownload
 buildbot==0.8.4-pre-moz2  # pyup: ignore, puppet: nodownload
 decorator==4.2.1
-#distribute==0.7.3
-kombu==4.2.0
+distribute==0.7.3
+kombu==4.2.1
 Routes==2.4.1
-SQLAlchemy==1.2.7
+SQLAlchemy==1.2.8
 Tempita==0.5.2
 # don't upgrade twisted because it doesn't work with our buildbot
 Twisted==10.1.0  # pyup: ignore

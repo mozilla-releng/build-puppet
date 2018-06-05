@@ -1,5 +1,5 @@
 # python_version: 27
-furl==1.0.1
+furl==1.0.2
 requests==2.18.4
 docopt==0.6.2
 buildtools==1.0.6
