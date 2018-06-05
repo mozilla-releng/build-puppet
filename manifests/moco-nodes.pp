@@ -1124,6 +1124,22 @@ node /^treescriptworker\d*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::treescriptworker
 }
 
+node /^tb-tree-comm-dev-\d+\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects          = [ 'maximum-security' ]
+    $treescriptworker_env = 'tb-comm-dev'
+    $timezone         = 'UTC'
+    $only_user_ssh    = true
+    include toplevel::server::treescriptworker
+}
+
+node /^tb-tree-comm-\d+\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects          = [ 'maximum-security' ]
+    $treescriptworker_env = 'tb-comm-prod'
+    $timezone         = 'UTC'
+    $only_user_ssh    = true
+    include toplevel::server::treescriptworker
+}
+
 ## Loaners
 
 # Loaner for testing osx firewalling
