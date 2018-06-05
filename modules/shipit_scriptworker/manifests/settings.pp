@@ -29,6 +29,7 @@ class shipit_scriptworker::settings {
         sign_chain_of_trust      => false,
         verify_chain_of_trust    => true,
         verify_cot_signature     => false,
+        cot_product              => 'firefox',
 
         ship_it_instances        => {
             "${ship_it_stage_instance_scope}" => $ship_it_stage_instance_config,
@@ -44,10 +45,49 @@ class shipit_scriptworker::settings {
         sign_chain_of_trust      => true,
         verify_chain_of_trust    => true,
         verify_cot_signature     => true,
+        cot_product              => 'firefox',
 
         ship_it_instances        => {
             "${ship_it_stage_instance_scope}"   => $ship_it_stage_instance_config,
             'project:releng:ship-it:server:production' => {
+                api_root                  => 'https://ship-it.mozilla.org',
+                timeout_in_seconds        => 60,
+                username                  => 'shipit-scriptworker',
+                password                  => secret('shipit_scriptworker_ship_it_password_prod'),
+            },
+        },
+      },
+      'tb-dev'  => {
+        worker_group             => 'shipit-v1',
+        worker_type              => 'tb-shipit-dev',
+        taskcluster_client_id    => 'project/comm/thunderbird/releng/scriptworker/shipit/dev',
+        taskcluster_access_token => secret('comm_thunderbird_shipit_scriptworker_taskcluster_access_token_dev'),
+        taskcluster_scope_prefix => 'project:comm:thunderbird:releng:ship-it:',
+
+        sign_chain_of_trust      => false,
+        verify_chain_of_trust    => true,
+        verify_cot_signature     => false,
+        cot_product              => 'thunderbird',
+
+        ship_it_instances        => {
+            "project:comm:thunderbird:releng:ship-it:staging" => $ship_it_stage_instance_config,
+        },
+      },
+      'tb-prod'  => {
+        worker_group             => 'shipit-v1',
+        worker_type              => 'tb-shipit-v1',
+        taskcluster_client_id    => 'project/comm/thunderbird/releng/scriptworker/shipit/prod',
+        taskcluster_access_token => secret('comm_thunderbird_shipit_scriptworker_taskcluster_access_token_prod'),
+        taskcluster_scope_prefix => 'project:comm:thunderbird:releng:ship-it:',
+
+        sign_chain_of_trust      => true,
+        verify_chain_of_trust    => true,
+        verify_cot_signature     => true,
+        cot_product              => 'thunderbird',
+
+        ship_it_instances        => {
+            "project:comm:thunderbird:releng:ship-it:staging" => $ship_it_stage_instance_config,
+            'project:comm:thunderbird:releng:ship-it:production' => {
                 api_root                  => 'https://ship-it.mozilla.org',
                 timeout_in_seconds        => 60,
                 username                  => 'shipit-scriptworker',

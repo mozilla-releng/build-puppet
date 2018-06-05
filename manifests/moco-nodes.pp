@@ -1142,6 +1142,22 @@ node /^shipitworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::shipitscriptworker
 }
 
+node /^tb-shipit-dev-\d+\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $shipit_scriptworker_env  = 'tb-dev'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::shipitscriptworker
+}
+
+node /^tb-shipit-\d+\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $shipit_scriptworker_env  = 'tb-prod'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::shipitscriptworker
+}
+
 # Treescript workers
 node /^treescriptworker-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects          = [ 'maximum-security' ]

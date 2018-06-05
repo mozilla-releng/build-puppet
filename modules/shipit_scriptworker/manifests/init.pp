@@ -50,6 +50,7 @@ class shipit_scriptworker {
             worker_type              => $env_config["worker_type"],
 
             cot_job_type             => 'shipit',
+            cot_product              => $env_config['cot_product'],
 
             sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
             verify_chain_of_trust    => $env_config["verify_chain_of_trust"],
