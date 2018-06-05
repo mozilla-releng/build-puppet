@@ -18,7 +18,7 @@ json-e==2.5.0
 jsonschema==2.6.0
 mohawk==0.3.4
 multidict==4.3.1
-pexpect==4.5.0
+pexpect==4.6.0
 progressbar33==2.4
 ptyprocess==0.5.2
 pycparser==2.18
@@ -39,6 +39,6 @@ slugid==1.0.7
 tabulate==0.8.2
 taskcluster==3.0.1
 urllib3==1.22
-virtualenv==15.2.0
+virtualenv==16.0.0
 yarl==1.2.4
 pushsnapscript==0.2.1  # puppet: nodownload
