@@ -16,6 +16,7 @@ class tree_scriptworker::settings {
         'dev' => {
             taskcluster_client_id => 'project/releng/scriptworker/treescriptworker-dev',
             taskcluster_access_token => secret('treescriptworker_dev_taskcluster_access_token'),
+            taskcluster_scope_prefix => 'project:releng:treescript:',
             worker_type => 'treescript-dev',
             sign_chain_of_trust => false,
             verify_chain_of_trust => false,
@@ -26,12 +27,13 @@ class tree_scriptworker::settings {
         'prod' => {
             taskcluster_client_id => 'project/releng/scriptworker/treescriptworker',
             taskcluster_access_token => secret('treescriptworker_prod_taskcluster_access_token'),
+            taskcluster_scope_prefix => 'project:releng:treescript:',
             worker_type => 'treescript-v1',
             sign_chain_of_trust => true,
             verify_chain_of_trust => true,
             verify_cot_signature => true,
             keyset => {'ffxbld' => 'builder_ssh_key_prod_ffxbld_rsa'},
             ssh_user => 'ffxbld'
-        }
+        },
     }
 }
