@@ -23,7 +23,8 @@ redo==1.6
 requests==2.10.0
 rsa==3.4.2
 sh==1.12.14
-signingworker==0.15
+# see bug 1467067
+signingworker==0.15  # pyup: ignore
 six==1.11.0
 slugid==1.0.7
 taskcluster==3.0.1
