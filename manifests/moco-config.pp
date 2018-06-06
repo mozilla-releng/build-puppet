@@ -414,6 +414,11 @@ class config inherits config::base {
             fennec_pattern                        => 'Fennec-.*',
             firefox_pattern                       => 'Firefox-(5[9]|6[0-9]).*',
             devedition_pattern                    => 'Devedition-(5[9]|6[0-9]).*',
+            comm_allowed_branches                 => [
+                                                        'releases/comm-beta',
+                                                        'releases/comm-esr6*',
+                                                      ],
+            thunderbird_pattern                   => 'Thunderbird-6[0-9]\.*',
         }
     }
 
