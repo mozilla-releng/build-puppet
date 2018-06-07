@@ -40,13 +40,13 @@ multidict==4.3.1
 networkx==2.1
 numpy==1.14.3
 oauth2client==4.1.2
-parso==0.2.0
-pexpect==4.5.0
+parso==0.2.1
+pexpect==4.6.0
 pickleshare==0.7.4
 prompt_toolkit==1.0.15
 ptyprocess==0.5.2
-pyOpenSSL==17.5.0
-pyasn1==0.4.2
+pyOpenSSL==18.0.0
+pyasn1==0.4.3
 pyasn1-modules==0.2.1
 pycparser==2.18
 pyparsing==2.2.0
@@ -62,7 +62,7 @@ taskcluster==3.0.1
 traitlets==4.3.2
 uritemplate==3.0.0
 urllib3==1.22
-virtualenv==15.2.0
+virtualenv==16.0.0
 voluptuous==0.11.1
 wcwidth==0.1.7
 yarl==1.2.4
