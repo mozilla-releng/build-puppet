@@ -414,6 +414,11 @@ class config inherits config::base {
             fennec_pattern                        => 'Fennec-.*',
             firefox_pattern                       => 'Firefox-(5[9]|6[0-9]).*',
             devedition_pattern                    => 'Devedition-(5[9]|6[0-9]).*',
+            comm_allowed_branches                 => [
+                                                        'releases/comm-beta',
+                                                        'releases/comm-esr6*',
+                                                      ],
+            thunderbird_pattern                   => 'Thunderbird-6[0-9]\.*',
         }
     }
 
@@ -615,7 +620,7 @@ class config inherits config::base {
 
     $buildbot_bridge_env_config = {
         'dev'  => {
-            version              => '1.6.5',
+            version              => '1.6.6',
             client_id            => secret('buildbot_bridge_dev_taskcluster_client_id'),
             access_token         => secret('buildbot_bridge_dev_taskcluster_access_token'),
             dburi                => secret('buildbot_bridge_dev_dburi'),
@@ -630,7 +635,7 @@ class config inherits config::base {
             ],
         },
         'prod' => {
-            version              => '1.6.5',
+            version              => '1.6.6',
             client_id            => secret('buildbot_bridge_prod_taskcluster_client_id'),
             access_token         => secret('buildbot_bridge_prod_taskcluster_access_token'),
             dburi                => secret('buildbot_bridge_prod_dburi'),
