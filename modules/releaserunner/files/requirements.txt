@@ -12,6 +12,7 @@ Tempita==0.5.2
 Twisted==12.3.0  # pyup: ignore
 arrow==0.12.1
 asn1crypto==0.24.0
+backports.functools_lru_cache==1.5
 bcrypt==3.1.4
 buildbot==0.8.7p1  # pyup: ignore, puppet: nodownload
 certifi==2018.4.16
