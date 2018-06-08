@@ -8,7 +8,7 @@ class mergeday::install {
     include packages::mozilla::python27
     include packages::mozilla::py27_virtualenv
     include packages::mozilla::py27_mercurial
-    include packages::patchutils
+    include packages::patch
 
     python::virtualenv {
         "/home/buildduty/mergeday":
