@@ -344,7 +344,7 @@ node /^buildduty-tools\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
 
 # mergeday
 
-node /^mergeday1\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
+node /^mergeday\d+\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
     $aspects = [ 'medium-security' ]
     include toplevel::server::mergeday
 }
