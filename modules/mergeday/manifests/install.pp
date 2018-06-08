@@ -4,7 +4,6 @@
 class mergeday::install {
     include ::config
     include users::buildduty
-    include packages::make
     include packages::mercurial
     include packages::mozilla::python27
     include packages::mozilla::py27_virtualenv
