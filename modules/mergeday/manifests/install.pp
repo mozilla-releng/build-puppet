@@ -4,13 +4,9 @@
 class mergeday::install {
     include ::config
     include users::buildduty
-    include packages::gcc
     include packages::make
     include packages::mercurial
-    include packages::mysql_devel
-    include packages::mozilla::git
     include packages::mozilla::python27
-    include packages::mozilla::python3
     include packages::mozilla::py27_virtualenv
     include packages::mozilla::py27_mercurial
     include packages::patchutils
