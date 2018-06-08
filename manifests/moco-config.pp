@@ -399,6 +399,7 @@ class config inherits config::base {
             ship_it_password                      => secret('releaserunner_prod_ship_it_password'),
             notify_to                             => 'Release Notifications <release-automation-notifications@mozilla.com>',
             notify_to_announce                    => 'Release Signoff <release-signoff@mozilla.org>',
+            thunderbird_notify_to_announce        => 'Thunderbird Drivers <thunderbird-drivers@mozilla.org>',
             taskcluster_client_id                 => secret('releaserunner_prod_taskcluster_client_id'),
             taskcluster_access_token              => secret('releaserunner_prod_taskcluster_access_token'),
             github_token                          => secret('releaserunner_github_token'),
