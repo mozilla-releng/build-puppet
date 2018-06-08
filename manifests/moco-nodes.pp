@@ -342,6 +342,13 @@ node /^buildduty-tools\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
     include toplevel::server::buildduty_tools
 }
 
+# mergeday
+
+node /^mergeday\d+\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
+    $aspects = [ 'high-security' ]
+    include toplevel::server::mergeday
+}
+
 # slaveapi
 
 node 'slaveapi1.srv.releng.scl3.mozilla.com' {
