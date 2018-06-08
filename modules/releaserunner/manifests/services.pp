@@ -15,4 +15,12 @@ class releaserunner::services {
                               Mercurial::Repo['releaserunner-tools']],
             extra_config => template("${module_name}/extra_config.erb")
     }
+
+    exec {
+        'restart-releaserunner':
+            command     => '/usr/bin/supervisorctl restart releaserunner',
+            refreshonly => true,
+            subscribe   => [Python::Virtualenv[$releaserunner::settings::root],
+                            File["${releaserunner::settings::root}/${config::releaserunner_env_config[$releaserunner_env]['releaserunner_config_file']}"]];
+    }
 }
