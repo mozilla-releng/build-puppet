@@ -16,6 +16,7 @@ class mergeday::install {
             rebuild_trigger => Class["packages::mozilla::python27"],
             require         => [
                 Class["packages::mozilla::python27"],
+                Class["users::buildduty"],
             ],
             user            => $users::buildduty::username,
             group           => $users::buildduty::group,
