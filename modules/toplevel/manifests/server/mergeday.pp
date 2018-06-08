@@ -8,8 +8,8 @@
 class toplevel::server::mergeday inherits toplevel::server {
     include ::security
     assert {
-      'mergeday-medium-security':
-        condition => $::security::medium;
+      'mergeday-high-security':
+        condition => $::security::high;
     }
     include ::mergeday
 }
