@@ -14,6 +14,8 @@ class bouncer_scriptworker {
     include tweaks::scriptworkerlogrotate
     include tweaks::scriptworkerlogrotate
 
+    $env_config = $bouncer_scriptworker::settings::env_config[$bouncer_scriptworker_env]
+
     # If the Python installation changes, we need to rebuild the virtualenv
     # from scratch. Before doing that, we need to stop the running instance.
     exec {
@@ -45,18 +47,19 @@ class bouncer_scriptworker {
             username                 => $users::builder::username,
             group                    => $users::builder::group,
 
-            taskcluster_client_id    => $bouncer_scriptworker::settings::taskcluster_client_id,
-            taskcluster_access_token => $bouncer_scriptworker::settings::taskcluster_access_token,
-            worker_group             => $bouncer_scriptworker::settings::worker_group,
-            worker_type              => $bouncer_scriptworker::settings::worker_type,
+            taskcluster_client_id    => $env_config['taskcluster_client_id'],
+            taskcluster_access_token => $env_config['taskcluster_access_token'],
+            worker_group             => $env_config['worker_group'],
+            worker_type              => $env_config['worker_type'],
 
             task_max_timeout         => $bouncer_scriptworker::settings::task_max_timeout,
 
             cot_job_type             => 'bouncer',
+            cot_product              => $env_config['cot_product'],
 
-            sign_chain_of_trust      => $bouncer_scriptworker::settings::sign_chain_of_trust,
-            verify_chain_of_trust    => $bouncer_scriptworker::settings::verify_chain_of_trust,
-            verify_cot_signature     => $bouncer_scriptworker::settings::verify_cot_signature,
+            sign_chain_of_trust      => $env_config['sign_chain_of_trust'],
+            verify_chain_of_trust    => $env_config['verify_chain_of_trust'],
+            verify_cot_signature     => $env_config['verify_cot_signature'],
 
             verbose_logging          => $bouncer_scriptworker::settings::verbose_logging,
     }
@@ -69,10 +72,14 @@ class bouncer_scriptworker {
         show_diff   => false,
     }
 
-    $config_content = $bouncer_scriptworker::settings::script_config_content
+    $bouncer_instances = $env_config['bouncer_instances']
     file {
         $bouncer_scriptworker::settings::script_config:
-            require => Python3::Virtualenv[$bouncer_scriptworker::settings::root],
-            content => inline_template("<%- require 'json' -%><%= JSON.pretty_generate(@config_content) %>");
+            require   => Python3::Virtualenv[$bouncer_scriptworker::settings::root],
+            mode      => '0600',
+            owner     => $users::builder::username,
+            group     => $users::builder::group,
+            content   => template("${module_name}/script_config.json.erb"),
+            show_diff => false;
     }
 }
