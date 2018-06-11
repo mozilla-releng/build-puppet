@@ -56,7 +56,7 @@ function puppet_config_version_is_not_latest() {
     # FIXME: since the move to github, last_run is always "remotes/origin/HEAD" because of the way
     # we checkout the manifests on the masters, so this check is not doing anything
     #local repo_version=$(git ls-remote -h https://github.com/mozilla-releng/build-puppet | grep master | awk '{print $1}')
-    local repo_version="remotes/origin/HEAD"
+    local repo_version=""
     echo "Last puppet run (config version): ${last_run} [Repository tip hash: ${repo_version}]"
     [[ -z "${repo_version}" ]] && return 1
     [[ "${last_run}" != "${repo_version}" ]]
