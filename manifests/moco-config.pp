@@ -399,6 +399,7 @@ class config inherits config::base {
             ship_it_password                      => secret('releaserunner_prod_ship_it_password'),
             notify_to                             => 'Release Notifications <release-automation-notifications@mozilla.com>',
             notify_to_announce                    => 'Release Signoff <release-signoff@mozilla.org>',
+            thunderbird_notify_to_announce        => 'Thunderbird Drivers <thunderbird-drivers@mozilla.org>',
             taskcluster_client_id                 => secret('releaserunner_prod_taskcluster_client_id'),
             taskcluster_access_token              => secret('releaserunner_prod_taskcluster_access_token'),
             github_token                          => secret('releaserunner_github_token'),
@@ -414,6 +415,11 @@ class config inherits config::base {
             fennec_pattern                        => 'Fennec-.*',
             firefox_pattern                       => 'Firefox-(5[9]|6[0-9]).*',
             devedition_pattern                    => 'Devedition-(5[9]|6[0-9]).*',
+            comm_allowed_branches                 => [
+                                                        'releases/comm-beta',
+                                                        'releases/comm-esr6*',
+                                                      ],
+            thunderbird_pattern                   => 'Thunderbird-6[0-9]\.*',
         }
     }
 
@@ -615,7 +621,7 @@ class config inherits config::base {
 
     $buildbot_bridge_env_config = {
         'dev'  => {
-            version              => '1.6.5',
+            version              => '1.6.6',
             client_id            => secret('buildbot_bridge_dev_taskcluster_client_id'),
             access_token         => secret('buildbot_bridge_dev_taskcluster_access_token'),
             dburi                => secret('buildbot_bridge_dev_dburi'),
@@ -630,7 +636,7 @@ class config inherits config::base {
             ],
         },
         'prod' => {
-            version              => '1.6.5',
+            version              => '1.6.6',
             client_id            => secret('buildbot_bridge_prod_taskcluster_client_id'),
             access_token         => secret('buildbot_bridge_prod_taskcluster_access_token'),
             dburi                => secret('buildbot_bridge_prod_dburi'),

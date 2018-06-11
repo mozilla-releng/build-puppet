@@ -1,6 +1,6 @@
 # python_version: 27
 PyHawk-with-a-single-extra-commit==0.1.5
-amqp==2.2.2
+amqp==2.3.2
 anyjson==0.3.3
 argparse==1.4.0
 arrow==0.12.1
@@ -13,14 +13,15 @@ ecdsa==0.13
 functools32==3.2.3-2
 idna==2.6
 jsonschema==2.6.0
-kombu==4.2.0
+kombu==4.2.1
 mohawk==0.3.4
 pyasn1==0.4.3
 pycrypto==2.6.1
 python-dateutil==2.7.3
 python-jose==3.0.0
 redo==1.6
-requests==2.18.4
+# see bug 1467067
+requests==2.10.0  # pyup: ignore
 rsa==3.4.2
 sh==1.12.14
 signingworker==0.15

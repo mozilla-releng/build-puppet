@@ -11,7 +11,7 @@ class buildbot_bridge2 {
 
     $bbb_version = $::buildbot_bridge2::settings::env_config['version']
     $external_packages = file("buildbot_bridge2/requirements.txt")
-    $packages = "${external_requirements}\nbbb==${bbb_version}"
+    $packages = "${external_packages}\nbbb==${bbb_version}"
 
     # If the Python installation changes, we need to rebuild the virtualenv
     # from scratch. Before doing that, we need to stop the running instance.
