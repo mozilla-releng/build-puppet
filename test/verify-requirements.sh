@@ -24,6 +24,10 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
 
     echo "Verifying requirements for ${req_file}..."
 
+    # Initial set-up, including:
+    # * Get the right python version
+    # * Set up some temporary files/dirs
+    # * Set up the virtualenv
     python=$(which python2.7)
     if [ "${req_python_version}" == "36" ]; then
         python=$(which python3.6)
@@ -31,11 +35,19 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     virtualenv_dir=$(mktemp -d)
     pypi_deps=$(mktemp)
     log=$(mktemp)
-
     virtualenv -p ${python} ${virtualenv_dir} >${log} 2>&1
     venv_python="${virtualenv_dir}/bin/${python}"
     pip="${virtualenv_dir}/bin/pip"
 
+    # Before we can verify the requirements file, we need to do some parsing and
+    # add hashes to it. In the parsing phase, we remove any packages that are
+    # marked as 'nodownload', because they won't be available on pypi. In theory,
+    # this could cause bustage, but in practice they are all direct dependencies,
+    # and nothing depends on them.
+    # A side-effect of running hashin is that any packages which are pinned to invalid
+    # versions will throw errors.
+    # Once we're done here, we end up with a new requirements file with the nodownload
+    # packages removed, and with hashes included.
     hashin_error=0
     while read dependency; do
         hashin -r ${pypi_deps} ${dependency}
@@ -50,6 +62,10 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
         continue
     fi
 
+    # Now that we have a more useful requirements file, let's install everything
+    # from it! Because hashes are included in it, any transitive dependencies
+    # that are missing from the file will cause an error, rather than get
+    # implicitly installed.
     ${pip} install -r ${pypi_deps} >>${log} 2>&1
     # if exit code is not 1, print message and mark overall as fail
     if [ $? != 0 ]; then
