@@ -35,14 +35,19 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     pip="${virtualenv_dir}/bin/pip"
 
     echo "Verifying requirements for ${req_file}..."
+    hashin_error=0
     while read dependency; do
         hashin -r ${pypi_deps} ${dependency}
         if [ $? != 0 ]; then
             echo "ERROR: couldn't find hashes for ${dependency}. The pinned version is probably invalid."
             rc=1
-            continue
+            hashin_error=1
         fi
     done < <(cat $req_file | grep -v '^#' | grep -v 'puppet: nodownload' | sed -e 's/.\?#.*//')
+
+    if [ ${hashin_error} != 0 ]; then
+        continue
+    fi
 
     ${pip} install -r ${pypi_deps} >>${log} 2>&1
     # if exit code is not 1, print message and mark overall as fail
