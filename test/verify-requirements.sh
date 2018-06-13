@@ -22,19 +22,22 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     pypi_deps=$(mktemp)
     log=$(mktemp)
 
+    virtualenv -p ${python} ${virtualenv_dir} >${log} 2>&1
+    venv_python="${virtualenv_dir}/bin/${python}"
+    pip="${virtualenv_dir}/bin/pip"
+    hashin="${virtualenv_dir}/bin/hashin"
+
+    ${pip} install hashin
+
     echo "Verify requirements for ${req_file}..."
     while read dependency; do
-        hashin -r ${pypi_deps} ${dependency}
+        ${hashin} -r ${pypi_deps} ${dependency}
         if [ $? != 0 ]; then
             echo "ERROR: couldn't find hashes for ${dependency}. The pinned version is probably invalid."
             rc=1
             continue
         fi
     done < <(cat $req_file | grep -v '^#' | grep -v 'puppet: nodownload' | sed -e 's/.\?#.*//')
-
-    virtualenv -p ${python} ${virtualenv_dir} >${log} 2>&1
-    venv_python="${virtualenv_dir}/bin/${python}"
-    pip="${virtualenv_dir}/bin/pip"
 
     ${pip} install -r ${pypi_deps} >>${log} 2>&1
     # if exit code is not 1, print message and mark overall as fail
