@@ -5,12 +5,17 @@ MODULES=$(readlink -f "${MY_DIR}/../modules")
 
 rc=0
 
-# in order to catch transitive dependencies we need hashes, so maybe try:
-# 1) parse requirements file and remove nodownload deps (beacuse they aren't on pypi)
-# 2) run the new requirements file through hashin, to add hashes
-# 3) pip install the new new requirements file, which should fail if any transitive deps are missing
 for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     echo "Verify requirements for ${req_file}..."
+    pypi_deps=$(mktemp)
+    while read dependency; do
+        hashin -r ${pypi_deps} ${dependency}
+        if [ $? != 0 ]; then
+            echo "ERROR: couldn't find hashes for ${dependency}. The pinned version is probably invalid."
+            rc=1
+            continue
+        fi
+    done < <(cat $req_file | grep -v '^#' | grep -v 'puppet: nodownload' | sed -e 's/.\?#.*//')
     virtualenv_dir=$(mktemp -d)
     log=$(mktemp)
     req_python_version=$(grep python_version $req_file | cut -d: -f2 | xargs)
@@ -22,7 +27,7 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     venv_python="${virtualenv_dir}/bin/${python}"
     pip="${virtualenv_dir}/bin/pip"
 
-    ${pip} install -r ${req_file} >>${log} 2>&1
+    ${pip} install -r ${pypi_deps} >>${log} 2>&1
     # if exit code is not 1, print message and mark overall as fail
     if [ $? != 0 ]; then
         echo "ERROR: pip install failed for ${req_file}. See below for details:"
@@ -31,4 +36,7 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     fi
 done
 
+if [ $rc != 0 ]; then
+    echo "Hit errors while verifying some requirements. See above for details."
+fi
 exit ${rc}
