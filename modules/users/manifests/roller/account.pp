@@ -92,7 +92,7 @@ class users::roller::account($username, $group, $grouplist, $home) {
             }
         }
         default: {
-            fail("roller account is not set up for $::operatingsystem reboots")
+            fail("roller account is not set up for ${::operatingsystem} reboots")
         }
     }
 }

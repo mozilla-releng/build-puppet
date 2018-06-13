@@ -214,7 +214,7 @@ class config inherits config::base {
                     '10.51.48.75',  # roller1.srv.releng.mdc2.mozilla.com
                     '10.51.48.76' ] # roller-dev1.srv.releng.mdc2.mozilla.com
     $roller_key_limits = join(['from="', join($roller_ips, ','), '",command="~/.ssh/allowed_commands.sh",',
-                               'no-pty,no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-user-rc' ])
+                              'no-pty,no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-user-rc' ])
 
     $extra_user_ssh_keys = {
         # role accounts
