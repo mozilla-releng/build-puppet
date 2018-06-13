@@ -8,8 +8,6 @@ metadata:
 tasks:
   - provisionerId: "{{ taskcluster.docker.provisionerId }}"
     workerType: "{{ taskcluster.docker.workerType }}"
-    scopes:
-      - secrets:get:repo:github.com/mozilla/balrog:coveralls
     payload:
       maxRunTime: 3600
       image: "python:2.7-slim"
@@ -34,8 +32,6 @@ tasks:
       source: "{{ event.head.repo.url }}"
   - provisionerId: "{{ taskcluster.docker.provisionerId }}"
     workerType: "{{ taskcluster.docker.workerType }}"
-    scopes:
-      - secrets:get:repo:github.com/mozilla/balrog:coveralls
     payload:
       maxRunTime: 3600
       image: "python:3.6-slim"
