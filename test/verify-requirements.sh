@@ -22,6 +22,8 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
         continue
     fi
 
+    echo "Verifying requirements for ${req_file}..."
+
     python=$(which python2.7)
     if [ "${req_python_version}" == "36" ]; then
         python=$(which python3.6)
@@ -34,7 +36,6 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     venv_python="${virtualenv_dir}/bin/${python}"
     pip="${virtualenv_dir}/bin/pip"
 
-    echo "Verifying requirements for ${req_file}..."
     hashin_error=0
     while read dependency; do
         hashin -r ${pypi_deps} ${dependency}
