@@ -34,7 +34,7 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     venv_python="${virtualenv_dir}/bin/${python}"
     pip="${virtualenv_dir}/bin/pip"
 
-    echo "Verify requirements for ${req_file}..."
+    echo "Verifying requirements for ${req_file}..."
     while read dependency; do
         hashin -r ${pypi_deps} ${dependency}
         if [ $? != 0 ]; then
