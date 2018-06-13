@@ -7,6 +7,10 @@ python_version=$1
 
 rc=0
 
+# We want to do everything inside the loop in virtualenvs,
+# so we install that first, with the system pip.
+pip install virtualenv
+
 for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     req_python_version=$(grep python_version $req_file | cut -d: -f2 | xargs)
     if [ "${req_python_version}" != "${python_version}" ]; then
