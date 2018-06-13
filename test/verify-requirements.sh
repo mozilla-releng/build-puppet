@@ -7,6 +7,10 @@ python_version=$1
 
 rc=0
 
+# Install the packages we need to install certain Python packages.
+apt-get -q update
+apt-get -q --yes install gcc automake autoconf libmariadbclient-dev liblzma-dev
+
 # We need virtualenv and hashin to do our work, so we install them
 # into the system first
 pip install virtualenv hashin
