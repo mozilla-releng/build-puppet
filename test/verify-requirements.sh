@@ -3,11 +3,26 @@
 MY_DIR=$(dirname $(readlink -f $0))
 MODULES=$(readlink -f "${MY_DIR}/../modules")
 
+python_version=$1
+
 rc=0
 
 for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
-    echo "Verify requirements for ${req_file}..."
+    req_python_version=$(grep python_version $req_file | cut -d: -f2 | xargs)
+    if [ "${req_python_version}" != "${python_version}" ]; then
+        echo "Skipping ${req_file} because its python version (${req_python_version}) doesn't match python_version (${python_version})"
+        continue
+    fi
+
+    python=$(which python2.7)
+    if [ "${req_python_version}" == "36" ]; then
+        python=$(which python3.6)
+    fi
+    virtualenv_dir=$(mktemp -d)
     pypi_deps=$(mktemp)
+    log=$(mktemp)
+
+    echo "Verify requirements for ${req_file}..."
     while read dependency; do
         hashin -r ${pypi_deps} ${dependency}
         if [ $? != 0 ]; then
@@ -16,13 +31,7 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
             continue
         fi
     done < <(cat $req_file | grep -v '^#' | grep -v 'puppet: nodownload' | sed -e 's/.\?#.*//')
-    virtualenv_dir=$(mktemp -d)
-    log=$(mktemp)
-    req_python_version=$(grep python_version $req_file | cut -d: -f2 | xargs)
-    python=$(which python2.7)
-    if [ "${req_python_version}" == "36" ]; then
-        python=$(which python3.6)
-    fi
+
     virtualenv -p ${python} ${virtualenv_dir} >${log} 2>&1
     venv_python="${virtualenv_dir}/bin/${python}"
     pip="${virtualenv_dir}/bin/pip"
