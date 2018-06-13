@@ -14,7 +14,7 @@ tasks:
       command:
         - "/bin/bash"
         - "-c"
-        - "git clone $GITHUB_HEAD_REPO_URL build-puppet && cd build-puppet && bash test/verify-requirements.sh 27"
+        - "git clone $GITHUB_HEAD_REPO_URL build-puppet && cd build-puppet && git checkout $GITHUB_HEAD_BRANCH && bash test/verify-requirements.sh 27"
     extra:
       github:
         env: true
@@ -38,7 +38,7 @@ tasks:
       command:
         - "/bin/bash"
         - "-c"
-        - "git clone $GITHUB_HEAD_REPO_URL build-puppet && cd build-puppet && bash test/verify-requirements.sh 36"
+        - "git clone $GITHUB_HEAD_REPO_URL build-puppet && cd build-puppet && git checkout $GITHUB_HEAD_BRANCH && bash test/verify-requirements.sh 36"
     extra:
       github:
         env: true
@@ -50,7 +50,7 @@ tasks:
         branches:
           - master
     metadata:
-      name: PuppetAgain Python 2.7 requirements
-      description: PuppetAgain Python 2.7 requirements file verification
+      name: PuppetAgain Python 3.6 requirements
+      description: PuppetAgain Python 3.6 requirements file verification
       owner: "{{ event.head.user.email }}"
       source: "{{ event.head.repo.url }}"
