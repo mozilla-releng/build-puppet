@@ -8,7 +8,9 @@ class bouncer_scriptworker::settings {
     include python3::settings
 
     $root                       = $config::scriptworker_root
-    $python3_virtualenv_version = $python3::settings::python3_virtualenv_version
+    $script_config              = "${root}/script_config.json"
+    $task_script                = "${root}/bin/bouncerscript"
+    $verbose_logging            = true
 
     $bouncer_stage_instance_scope = 'project:releng:bouncer:server:staging'
     $bouncer_stage_instance_config = {
@@ -19,17 +21,18 @@ class bouncer_scriptworker::settings {
         password                  => secret('tuxedo_password'),
     }
 
-    $_env_configs             = {
+    $env_config = {
       'dev'  => {
         worker_group             => 'bouncer-dev',
         worker_type              => 'bouncer-dev',
-        verbose_logging          => true,
         taskcluster_client_id    => 'project/releng/scriptworker/bouncer/dev',
         taskcluster_access_token => secret('bouncer_scriptworker_taskcluster_access_token_dev'),
+        taskcluster_scope_prefix => 'project:releng:bouncer:',
 
         sign_chain_of_trust      => false,
         verify_chain_of_trust    => true,
         verify_cot_signature     => false,
+        cot_product              => 'firefox',
 
         bouncer_instances        => {
             "${bouncer_stage_instance_scope}" => $bouncer_stage_instance_config,
@@ -38,13 +41,14 @@ class bouncer_scriptworker::settings {
       'prod' => {
         worker_group             => 'bouncer-v1',
         worker_type              => 'bouncer-v1',
-        verbose_logging          => true,
         taskcluster_client_id    => 'project/releng/scriptworker/bouncer/production',
         taskcluster_access_token => secret('bouncer_scriptworker_taskcluster_access_token_prod'),
+        taskcluster_scope_prefix => 'project:releng:bouncer:',
 
         sign_chain_of_trust      => true,
         verify_chain_of_trust    => true,
         verify_cot_signature     => true,
+        cot_product              => 'firefox',
 
         bouncer_instances        => {
             "${bouncer_stage_instance_scope}"   => $bouncer_stage_instance_config,
@@ -57,34 +61,51 @@ class bouncer_scriptworker::settings {
             },
         },
       },
-    }
+      'comm-thunderbird-dev' => {
+        worker_group             => 'bouncer-v1',
+        worker_type              => 'tb-bouncer-dev',
+        taskcluster_client_id    => 'project/comm/thunderbird/releng/scriptworker/bouncer/dev',
+        taskcluster_access_token => secret('comm_thunderbird_bouncer_scriptworker_taskcluster_access_token_dev'),
+        taskcluster_scope_prefix => 'project:comm:thunderbird:releng:bouncer:',
 
-    $_env_config                = $_env_configs[$bouncer_scriptworker_env]
-    $work_dir                   = "${root}/work"
-    $task_script                = "${root}/bin/bouncerscript"
-
-    $user                       = $users::builder::username
-    $group                      = $users::builder::group
-
-    $taskcluster_client_id      = $_env_config['taskcluster_client_id']
-    $taskcluster_access_token   = $_env_config['taskcluster_access_token']
-    $worker_group               = $_env_config['worker_group']
-    $worker_type                = $_env_config['worker_type']
-
-    $sign_chain_of_trust        = $_env_config['sign_chain_of_trust']
-    $verify_chain_of_trust      = $_env_config['verify_chain_of_trust']
-    $verify_cot_signature       = $_env_config['verify_cot_signature']
-
-    $verbose_logging            = $_env_config['verbose_logging']
-
-    $script_config              = "${root}/script_config.json"
-    $script_config_content      = {
-        work_dir           => $work_dir,
-        schema_files       => {
-            submission => "${root}/lib/python${python3_virtualenv_version}/site-packages/bouncerscript/data/bouncer_submission_task_schema.json",
-            aliases    => "${root}/lib/python${python3_virtualenv_version}/site-packages/bouncerscript/data/bouncer_aliases_task_schema.json",
+        sign_chain_of_trust      => false,
+        verify_chain_of_trust    => true,
+        verify_cot_signature     => false,
+        cot_product              => 'thunderbird',
+        bouncer_instances        => {
+          "project:comm:thunderbird:releng:bouncer:server:staging" => {
+            api_root                  => 'https://admin-bouncer-releng.stage.mozaws.net/api',
+            timeout_in_seconds        => 60,
+            username                  => 'releng-tbird-staging',
+            password                  => secret('tbird-bouncer-staging_password'),
+          },
         },
-        verbose            => $verbose_logging,
-        bouncer_config     => $_env_config['bouncer_instances'],
+      },
+      'comm-thunderbird-prod' => {
+        worker_group             => 'bouncer-v1',
+        worker_type              => 'tb-bouncer-v1',
+        taskcluster_client_id    => 'project/comm/thunderbird/releng/scriptworker/bouncer/prod',
+        taskcluster_access_token => secret('comm_thunderbird_bouncer_scriptworker_taskcluster_access_token_prod'),
+        taskcluster_scope_prefix => 'project:comm:thunderbird:releng:bouncer:',
+        sign_chain_of_trust      => true,
+        verify_chain_of_trust    => true,
+        verify_cot_signature     => true,
+        cot_product              => 'thunderbird',
+        bouncer_instances        => {
+          "project:comm:thunderbird:releng:bouncer:server:staging" => {
+            api_root                  => 'https://admin-bouncer-releng.stage.mozaws.net/api',
+            timeout_in_seconds        => 60,
+            username                  => 'releng-tbird-staging',
+            password                  => secret('tbird-bouncer-staging_password'),
+          },
+          'project:comm:thunderbird:releng:bouncer:server:production' => {
+            api_root                  => 'https://bounceradmin.mozilla.com/api',
+            timeout_in_seconds        => 60,
+            username                  => 'ffxbld',
+            # TODO Split credentials
+            password                  => secret('tuxedo_password'),
+          },
+        },
+      },
     }
 }

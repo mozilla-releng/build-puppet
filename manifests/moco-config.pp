@@ -103,7 +103,7 @@ class config inherits config::base {
     # See https://bugzilla.mozilla.org/show_bug.cgi?id=906785
     $apt_repo_server            = 'puppetagain-apt.pvt.build.mozilla.org'
     $distinguished_puppetmaster = 'releng-puppet2.srv.releng.scl3.mozilla.com'
-    $puppet_again_repo          = 'https://github.com/mozilla/build-puppet'
+    $puppet_again_repo          = 'https://github.com/mozilla-releng/build-puppet'
     $puppetmaster_extsyncs      = {
         'slavealloc' => {
             'slavealloc_api_url' => 'http://slavealloc.pvt.build.mozilla.org/api/',
@@ -399,6 +399,7 @@ class config inherits config::base {
             ship_it_password                      => secret('releaserunner_prod_ship_it_password'),
             notify_to                             => 'Release Notifications <release-automation-notifications@mozilla.com>',
             notify_to_announce                    => 'Release Signoff <release-signoff@mozilla.org>',
+            thunderbird_notify_to_announce        => 'Thunderbird Drivers <thunderbird-drivers@mozilla.org>',
             taskcluster_client_id                 => secret('releaserunner_prod_taskcluster_client_id'),
             taskcluster_access_token              => secret('releaserunner_prod_taskcluster_access_token'),
             github_token                          => secret('releaserunner_github_token'),

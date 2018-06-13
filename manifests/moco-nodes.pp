@@ -342,6 +342,13 @@ node /^buildduty-tools\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
     include toplevel::server::buildduty_tools
 }
 
+# mergeday
+
+node /^mergeday\d+\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
+    $aspects = [ 'high-security' ]
+    include toplevel::server::mergeday
+}
+
 # slaveapi
 
 node 'slaveapi1.srv.releng.scl3.mozilla.com' {
@@ -1031,6 +1038,22 @@ node /^bouncerworker-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
 node /^bouncerworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
     $bouncer_scriptworker_env = 'prod'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::bouncerscriptworker
+}
+
+node /^tb-bouncer-dev-\d+\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $bouncer_scriptworker_env = 'comm-thunderbird-dev'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::bouncerscriptworker
+}
+
+node /^tb-bouncer-\d+\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $bouncer_scriptworker_env = 'comm-thunderbird-prod'
     $timezone                 = 'UTC'
     $only_user_ssh            = true
     include toplevel::server::bouncerscriptworker
