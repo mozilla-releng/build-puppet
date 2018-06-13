@@ -370,6 +370,7 @@ class config::base {
     $slaveapi_ipmi_username      = 'releng'
 
     # roller
+    $roller_username             = 'roller'
 
     $roller_image_tag_prod       = '1.0.5'
     $roller_image_tag_dev        = 'latest'

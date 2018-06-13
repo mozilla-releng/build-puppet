@@ -18,6 +18,7 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
     $slave_trustlevel = 'try'
     include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
+    include users::roller  # roller needs ssh to reboot macs
 }
 
 # Linux on moonshot in mdc1 running taskcluster worker
