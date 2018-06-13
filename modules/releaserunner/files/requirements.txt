@@ -24,13 +24,17 @@ cryptography==2.2.2
 decorator==4.2.1
 ecdsa==0.13
 enum34==1.1.6
+future==0.16.0
 futures==3.2.0
 idna==2.6
 invoke==1.0.0
 ipaddress==1.0.22
+MarkupSafe==1.0
 mohawk==0.3.4
 paramiko==2.4.1
+pbr==4.0.4
 pyasn1==0.4.3
+pycparser==2.18
 pycrypto==2.6.1
 pynacl==1.2.1
 python-dateutil==2.7.3
@@ -39,10 +43,12 @@ redo==1.6
 releasetasks==0.4.1  # puppet: nodownload
 requests==2.18.4
 requests-hawk==1.0.0
+rsa==3.4.2
 simplejson==3.15.0
 singledispatch==3.4.0.3
 slugid==1.0.7
 sqlalchemy-migrate==0.11.0
+sqlparse==0.2.4
 # Held at this ancient version because we need encrypted enviroment variable support.
 taskcluster==0.0.24  # pyup: noupdate
 toposort==1.5

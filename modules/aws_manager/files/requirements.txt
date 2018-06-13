@@ -18,7 +18,7 @@ ssh==1.8.0
 wsgiref==0.1.2
 docopt==0.6.2
 netaddr==0.7.19
-cfn-pyplates>=0.5.0
+cfn-pyplates==0.6.0
 PyYAML==3.12
 dnspython==1.15.0
 testrepository==0.0.20
@@ -51,3 +51,9 @@ chardet==3.0.4
 certifi==2018.4.16
 ipaddress==1.0.22
 enum34==1.1.6
+fixtures==3.0.0
+python-mimeparse==1.6.0
+unittest2==1.1.0
+traceback2==1.4.0
+pycparser==2.18
+linecache2==1.0.0

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MY_DIR=$(pwd)
+MY_DIR=$(dirname $(readlink -f $0))
 MODULES=$(readlink -f "${MY_DIR}/../modules")
 
 rc=0
@@ -31,7 +31,12 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     # if exit code is not 1, print message and mark overall as fail
     if [ $? != 0 ]; then
         echo "ERROR: pip install failed for ${req_file}. See below for details:"
+        echo "pip install log:"
         cat ${log}
+        echo "requirements file used:"
+        cat ${pypi_deps}
+        echo
+        echo
         rc=1
     fi
 done
