@@ -7,9 +7,9 @@ python_version=$1
 
 rc=0
 
-# We want to do everything inside the loop in virtualenvs,
-# so we install that first, with the system pip.
-pip install virtualenv
+# We need virtualenv and hashin to do our work, so we install them
+# into the system first
+pip install virtualenv hashin
 
 for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     req_python_version=$(grep python_version $req_file | cut -d: -f2 | xargs)
@@ -29,13 +29,10 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     virtualenv -p ${python} ${virtualenv_dir} >${log} 2>&1
     venv_python="${virtualenv_dir}/bin/${python}"
     pip="${virtualenv_dir}/bin/pip"
-    hashin="${virtualenv_dir}/bin/hashin"
-
-    ${pip} install hashin
 
     echo "Verify requirements for ${req_file}..."
     while read dependency; do
-        ${hashin} -r ${pypi_deps} ${dependency}
+        hashin -r ${pypi_deps} ${dependency}
         if [ $? != 0 ]; then
             echo "ERROR: couldn't find hashes for ${dependency}. The pinned version is probably invalid."
             rc=1
