@@ -9,8 +9,11 @@ class toplevel::worker inherits toplevel::base {
     include puppet::atboot
     include sudoers::reboot
     include users::builder
-    include users::roller
     include python::system_pip_conf
+    if ($::operatingsystem == 'Darwin') {
+        # roller user ssh only on macs for now
+        include users::roller
+    }
 
     # apply tweaks
     include tweaks::dev_ptmx
