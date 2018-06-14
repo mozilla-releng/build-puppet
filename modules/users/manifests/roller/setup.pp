@@ -12,7 +12,7 @@ class users::roller::setup($home, $username, $group) {
         $username:
             home                          => $home,
             group                         => $group,
-            authorized_keys               => 'roller_ssh_pub_key',
+            authorized_keys               => 'roller_ssh_pub_key',  # key into config::extra_user_ssh_keys
             authorized_keys_allows_extras => false,
             config                        => template('users/roller-ssh-config.erb');
     } -> Anchor['users::roller::setup::end']
