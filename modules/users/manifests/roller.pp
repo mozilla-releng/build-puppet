@@ -26,11 +26,11 @@ class users::roller {
     # account happens in the users stage, and is not included in the anchor
     class {
         'users::roller::account':
-            stage    => users,
-            username => $username,
-            group    => $group,
+            stage     => users,
+            username  => $username,
+            group     => $group,
             grouplist => [],
-            home     => $home;
+            home      => $home;
     }
 
     Anchor['users::roller::begin'] ->
