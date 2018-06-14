@@ -13,8 +13,7 @@ class users::roller::setup($home, $username, $group) {
             home                          => $home,
             group                         => $group,
             authorized_keys               => 'roller_ssh_pub_key',  # key into config::extra_user_ssh_keys
-            authorized_keys_allows_extras => false,
-            config                        => template('users/roller-ssh-config.erb');
+            authorized_keys_allows_extras => false
     } -> Anchor['users::roller::setup::end']
 
     case $::operatingsystem {
