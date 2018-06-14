@@ -378,6 +378,7 @@ class config::base {
     # roller git repo
     $roller_git_repo             = 'https://github.com/mozilla-platform-ops/relops-hardware-controller'
 
+    $mac_netboot_ips             = []
 
     # AWS management
 

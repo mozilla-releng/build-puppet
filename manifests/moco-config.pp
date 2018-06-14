@@ -208,6 +208,11 @@ class config inherits config::base {
         '10.134.30.0/24',  # srv.releng.use1 (signing)
     ]
 
+    $mac_netboot_ips = [ '10.26.52.17',  # install.build.releng.scl3
+                        '10.26.56.110', # install.test.releng.scl3
+                        '10.49.56.16',  # install.test.releng.mdc1
+                        '10.51.56.16' ] # install.test.releng.mdc2
+
     # Copied from fw::networks
     $roller_ips = [ '10.49.48.75',  # roller1.srv.releng.mdc1.mozilla.com
                     '10.49.48.76',  # roller-dev1.srv.releng.mdc1.mozilla.com

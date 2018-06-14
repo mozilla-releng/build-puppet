@@ -33,10 +33,8 @@ class users::roller::setup($home, $username, $group) {
         }
     }
 
-    $mac_netboot_ips = [ '10.26.52.17',  # install.build.releng.scl3
-                        '10.26.56.110', # install.test.releng.scl3
-                        '10.49.56.16',  # install.test.releng.mdc1
-                        '10.51.56.16' ] # install.test.releng.mdc2
+    $mac_netboot_ips = $::config:mac_netboot_ips
+
     file {
         "${home}/.ssh/allowed_commands.sh":
             mode    => filemode(0700),
