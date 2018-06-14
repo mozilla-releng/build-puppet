@@ -33,7 +33,7 @@ class users::roller::setup($home, $username, $group) {
         }
     }
 
-    $mac_netboot_ips = $::config:mac_netboot_ips
+    $mac_netboot_ips = $::config::mac_netboot_ips
 
     file {
         "${home}/.ssh/allowed_commands.sh":
