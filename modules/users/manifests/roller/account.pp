@@ -22,38 +22,7 @@ class users::roller::account($username, $group, $grouplist, $home) {
             # relevant fixes.
             # NOTE: this user is *not* an Administrator.  All admin-level access is granted via sudoers.
             case $::macosx_productversion_major {
-                '10.7': {
-                    if (secret('roller_pw_saltedsha512') == '') {
-                        fail('No roller password saltedsha512 set')
-                    }
-                    darwinuser {
-                        $username:
-                            gid      => $group,
-                            shell    => '/bin/bash',
-                            home     => $home,
-                            password => secret('roller_pw_saltedsha512'),
-                            comment  => 'roller',
-                            notify   => Exec['kill-roller-keychain'];
-                    }
-                    $user_req = Darwinuser[$username]
-                }
-                '10.8': {
-                    if (secret('roller_pw_pbkdf2') == '' or secret('roller_pw_pbkdf2_salt') == '') {
-                        fail('No roller password pbkdf2 set')
-                    }
-                    darwinuser {
-                        $username:
-                            shell      => '/bin/bash',
-                            home       => $home,
-                            password   => secret('roller_pw_pbkdf2'),
-                            salt       => secret('roller_pw_pbkdf2_salt'),
-                            iterations => secret('roller_pw_pbkdf2_iterations'),
-                            comment    => 'roller',
-                            notify     => Exec['kill-roller-keychain'];
-                    }
-                    $user_req = Darwinuser[$username]
-                }
-                '10.9','10.10': {
+                '10.10': {
                     if (secret('roller_pw_pbkdf2') == '' or secret('roller_pw_pbkdf2_salt') == '') {
                         fail('No roller password pbkdf2 set')
                     }
