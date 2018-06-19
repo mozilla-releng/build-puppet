@@ -6,9 +6,9 @@ if echo "$SSH_ORIGINAL_COMMAND" | grep -Eq '^/usr/sbin/bless --netboot --server 
     logger -s "Hardware controller requested netboot from ${install}"
     sudo /usr/sbin/bless --netboot --server "${install}"
     sudo reboot
-elif echo "$SSH_ORIGINAL_COMMAND" | grep -Eq '^reboot$'; then
+elif echo "$SSH_ORIGINAL_COMMAND" | grep -Eq '^<%= scope.lookupvar('sudoers::settings::rebootpath') %>$'; then
     logger -s "Hardware controller requested reboot"
-    sudo reboot
+    sudo <%= scope.lookupvar('sudoers::settings::rebootpath') %>
 else
     echo "Access denied"
     exit 1
