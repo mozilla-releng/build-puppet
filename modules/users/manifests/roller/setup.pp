@@ -27,7 +27,7 @@ class users::roller::setup($home, $username, $group) {
                 'roller-reboot':
                     user    => $users::roller::username,
                     runas   => 'root',
-                    command => "${sudoers::settings::rebootpath}, /usr/sbin/bless";
+                    command => $sudoers::settings::rebootpath;
             }
         }
     }
