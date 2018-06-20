@@ -14,7 +14,7 @@ construct==2.9.45
 cryptography==2.2.2
 enum34==1.1.6
 functools32==3.2.3-2
-idna==2.6
+idna==2.7
 incremental==17.5.0
 ipaddress==1.0.21
 jinja2==2.10
