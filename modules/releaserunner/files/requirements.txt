@@ -37,7 +37,7 @@ python-dateutil==2.7.3
 python-jose==3.0.0
 redo==1.6
 releasetasks==0.4.1  # puppet: nodownload
-requests==2.18.4
+requests==2.19.1
 requests-hawk==1.0.0
 simplejson==3.15.0
 singledispatch==3.4.0.3
