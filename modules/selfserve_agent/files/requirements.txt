@@ -22,7 +22,7 @@ Tempita==0.5.2
 Twisted==10.1.0  # pyup: ignore
 WebError==0.13.1
 WebHelpers==1.3
-WebOb==1.8.1
+WebOb==1.8.2
 WebTest==2.0.29
 meld3==1.0.2
 nose==1.3.7
