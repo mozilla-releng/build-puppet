@@ -39,4 +39,4 @@ toml==0.9.4
 towncrier==18.5.0
 urllib3==1.22
 virtualenv==16.0.0
-yarl==1.2.4
+yarl==1.2.6
