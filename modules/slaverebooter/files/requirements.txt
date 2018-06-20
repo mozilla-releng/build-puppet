@@ -3,4 +3,4 @@ furl==1.1
 requests==2.19.1
 docopt==0.6.2
 buildtools==1.0.6
-orderedmultidict==0.7.11
+orderedmultidict==1.0
