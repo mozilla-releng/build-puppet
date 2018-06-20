@@ -1199,3 +1199,13 @@ node 'ds-test1.srv.releng.mdc2.mozilla.com' {
     $aspects = [ 'low-security' ]
     include toplevel::server
 }
+
+node 't-yosemite-r7-380.test.releng.mdc1.mozilla.com' {
+    $aspects           = [ 'low-security' ]
+    $slave_trustlevel  = 'try'
+    #$pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
+    #$pin_puppet_env    = 'dcrisan'
+    $environment       = 'staging'
+    include fw::profiles::osx_taskcluster_worker
+    include toplevel::worker::releng::generic_worker::test::gpu
+}
