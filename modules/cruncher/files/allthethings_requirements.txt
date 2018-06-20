@@ -20,7 +20,7 @@ constantly==15.1.0
 automat==0.6.0
 attrs==18.1.0
 hyperlink==18.0.0
-idna==2.6
+idna==2.7
 enum34==1.1.6
 ipaddress==1.0.22
 asn1crypto==0.24.0
