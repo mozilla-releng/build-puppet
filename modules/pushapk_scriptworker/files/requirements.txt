@@ -22,7 +22,7 @@ defusedxml==0.5.0
 dictdiffer==0.7.1
 frozendict==1.2
 future==0.16.0
-google-api-python-client==1.6.7
+google-api-python-client==1.7.3
 httplib2==0.11.3
 idna==2.7
 idna_ssl==1.0.1
