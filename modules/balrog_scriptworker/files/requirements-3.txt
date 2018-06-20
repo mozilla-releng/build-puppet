@@ -11,7 +11,7 @@ defusedxml==0.5.0
 dephash==1.0.0
 dictdiffer==0.7.1
 frozendict==1.2
-hashin==0.13.0
+hashin==0.13.2
 idna==2.7
 idna_ssl==1.0.1
 json-e==2.5.0
