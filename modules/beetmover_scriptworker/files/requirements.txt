@@ -16,7 +16,7 @@ defusedxml==0.5.0
 dictdiffer==0.7.1
 docutils==0.14
 frozendict==1.2
-idna==2.6
+idna==2.7
 idna_ssl==1.0.1
 incremental==17.5.0
 jmespath==0.9.3
