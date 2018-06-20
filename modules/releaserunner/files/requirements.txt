@@ -44,7 +44,7 @@ singledispatch==3.4.0.3
 slugid==1.0.7
 sqlalchemy-migrate==0.11.0
 # Held at this ancient version because we need encrypted enviroment variable support.
-taskcluster==0.0.24  # pyup: noupdate
+taskcluster==3.0.1  # pyup: noupdate
 toposort==1.5
 urllib3==1.22
 wsgiref==0.1.2
