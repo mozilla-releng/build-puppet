@@ -1,5 +1,5 @@
 # python_version: 27
-requests==2.18.4
+requests==2.19.1
 arrow==0.12.1
 taskcluster==3.0.1
 sqlalchemy==1.2.8
