@@ -27,4 +27,4 @@ taskcluster==3.0.1
 treescript==0.4  # puppet: nodownload
 urllib3==1.22
 virtualenv==16.0.0
-yarl==1.2.4
+yarl==1.2.6
