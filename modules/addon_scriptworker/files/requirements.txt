@@ -12,7 +12,7 @@ dictdiffer==0.7.1
 ecdsa==0.13
 frozendict==1.2
 future==0.16.0
-idna==2.6
+idna==2.7
 idna_ssl==1.0.1
 json-e==2.5.0
 jsonschema==2.6.0
