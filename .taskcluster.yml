@@ -14,7 +14,7 @@ tasks:
       command:
         - "/bin/bash"
         - "-c"
-        - "git clone $GITHUB_HEAD_REPO_URL build-puppet && cd build-puppet && git checkout $GITHUB_HEAD_BRANCH && bash test/verify-requirements.sh 27"
+        - "apt-get update -q && apt-get install --yes git && git clone $GITHUB_HEAD_REPO_URL build-puppet && cd build-puppet && git checkout $GITHUB_HEAD_BRANCH && bash test/verify-requirements.sh 27"
     extra:
       github:
         env: true
@@ -38,7 +38,7 @@ tasks:
       command:
         - "/bin/bash"
         - "-c"
-        - "git clone $GITHUB_HEAD_REPO_URL build-puppet && cd build-puppet && git checkout $GITHUB_HEAD_BRANCH && bash test/verify-requirements.sh 36"
+        - "apt-get update && apt-get install --yes git && git clone $GITHUB_HEAD_REPO_URL build-puppet && cd build-puppet && git checkout $GITHUB_HEAD_BRANCH && bash test/verify-requirements.sh 36"
     extra:
       github:
         env: true
