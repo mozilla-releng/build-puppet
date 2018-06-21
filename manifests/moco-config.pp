@@ -11,23 +11,7 @@ class config inherits config::base {
     # what puppet report processors to use
     # http temporarily disabled in mdc1 and mdc2 until relops sets up a local foreman
     $puppet_server_reports = $::fqdn ? {
-        /.*\.(mdc1|mdc2)\.mozilla\.com/      => 'tagmail',
-        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'tagmail,http',
-        default => '',
-    }
-
-    # where to send http/https reports
-    $puppet_server_reporturl = $::fqdn ? {
-        /.*\.(mdc1|mdc2)\.mozilla\.com/      => '',
-        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'http://foreman.pvt.build.mozilla.org:3001/',
-        default => '',
-    }
-
-    # where to store puppet facts
-    # http temporarily disabled in mdc1 and mdc2 until relops sets up a local foreman
-    $puppet_server_facturl = $::fqdn ? {
-        /.*\.(mdc1|mdc2)\.mozilla\.com/      => '',
-        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'http://foreman.pvt.build.mozilla.org:3000/',
+        /.*\.(scl3|usw2|use1|mdc1|mdc2)\.mozilla\.com/ => 'tagmail',
         default => '',
     }
 
