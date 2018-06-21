@@ -10,8 +10,8 @@ class toplevel::worker inherits toplevel::base {
     include sudoers::reboot
     include users::builder
     include python::system_pip_conf
-    if ($::operatingsystem == 'Darwin') {
-        # roller user ssh only on macs for now
+    if ($::operatingsystem == 'Darwin') or ($::operatingsystem == 'Ubuntu') {
+        # roller user ssh
         include users::roller
     }
 
