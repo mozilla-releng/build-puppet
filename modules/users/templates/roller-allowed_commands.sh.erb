@@ -5,7 +5,7 @@ if echo "$SSH_ORIGINAL_COMMAND" | grep -Eq '^/usr/sbin/bless --netboot --server 
     install=$(echo "$SSH_ORIGINAL_COMMAND" | grep -Eo 'bsdp://[\.0-9]+')
     logger -s "Hardware controller requested netboot from ${install}"
     sudo /usr/sbin/bless --netboot --server "${install}"
-    sudo reboot
+    sudo <%= scope.lookupvar('sudoers::settings::rebootpath') %>
 elif echo "$SSH_ORIGINAL_COMMAND" | grep -Eq '^reboot$'; then
     logger -s "Hardware controller requested reboot"
     sudo <%= scope.lookupvar('sudoers::settings::rebootpath') %>
