@@ -2,13 +2,13 @@
 Jinja2==2.10
 MarkupSafe==1.0
 PyYAML==3.12
-aiohttp==3.2.1
+aiohttp==3.3.2
 arrow==0.12.1
 async_timeout==3.0.0
 attrs==18.1.0
 beetmoverscript==7.4.0  # puppet: nodownload
-boto3==1.7.29
-botocore==1.10.29
+boto3==1.7.41
+botocore==1.10.41
 certifi==2018.4.16
 chardet==3.0.4
 click==6.7
@@ -16,7 +16,7 @@ defusedxml==0.5.0
 dictdiffer==0.7.1
 docutils==0.14
 frozendict==1.2
-idna==2.6
+idna==2.7
 idna_ssl==1.0.1
 incremental==17.5.0
 jmespath==0.9.3
@@ -27,11 +27,11 @@ multidict==4.3.1
 pexpect==4.6.0
 ptyprocess==0.5.2
 python-dateutil==2.7.3
-python-gnupg==0.4.2
+python-gnupg==0.4.3
 redo==1.6
-requests==2.18.4
+requests==2.19.1
 s3transfer==0.1.13
-scriptworker==12.0.1
+scriptworker==12.1.0
 six==1.11.0
 slugid==1.0.7
 taskcluster==3.0.1
@@ -39,4 +39,4 @@ toml==0.9.4
 towncrier==18.5.0
 urllib3==1.22
 virtualenv==16.0.0
-yarl==1.2.4
+yarl==1.2.6

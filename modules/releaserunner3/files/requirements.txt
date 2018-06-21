@@ -4,10 +4,10 @@ PyYAML==3.12
 Twisted==12.3.0  # pyup: ignore
 certifi==2018.4.16
 chardet==3.0.4
-idna==2.6
+idna==2.7
 json-e==2.5.0
 mohawk==0.3.4
-requests==2.18.4
+requests==2.19.1
 simplejson==3.15.0
 six==1.11.0
 slugid==1.0.7
