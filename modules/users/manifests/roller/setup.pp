@@ -1,6 +1,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 class users::roller::setup($home, $username, $group) {
     anchor {
         'users::roller::setup::begin': ;
@@ -17,8 +18,8 @@ class users::roller::setup($home, $username, $group) {
     } -> Anchor['users::roller::setup::end']
 
     case $::operatingsystem {
-        # Roller needs ssh for reboot on macs only
-        Darwin: {
+        # Roller first tries ssh to reboot
+        Ubuntu, Darwin: {
             include sudoers
             include sudoers::settings
             include users::roller

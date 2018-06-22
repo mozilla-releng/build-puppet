@@ -16,6 +16,20 @@ class users::roller::account($username, $group, $grouplist, $home) {
     # create the user
 
     case $::operatingsystem {
+        CentOS, Ubuntu: {
+            if (secret('roller_pw_hash') == '') {
+                fail('No builder password hash set')
+            }
+
+            user {
+                $username:
+                    password   => secret('roller_pw_hash'),
+                    shell      => '/bin/bash',
+                    managehome => true,
+                    groups     => $grouplist,
+                    comment    => 'hardware controller';
+            }
+        }
         Darwin: {
             # use our custom type and provider, based on http://projects.puppetlabs.com/issues/12833
             # This should be replaced with 'user' once we are running a version of puppet containing the

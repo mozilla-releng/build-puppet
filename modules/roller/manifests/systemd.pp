@@ -33,6 +33,8 @@ define roller::systemd ($image_tag){
         "/etc/docker/compose/roller${environment}/ssh.key":
             ensure  => file,
             mode    => 0600,
+            owner   => 10001,
+            group   => 10001,
             content => $roller_ssh_key;
         "/etc/docker/compose/roller${environment}/ssl.key":
             ensure  => file,
