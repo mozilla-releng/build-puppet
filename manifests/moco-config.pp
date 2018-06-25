@@ -86,7 +86,7 @@ class config inherits config::base {
     # only way to communicate to apt that the masters are all mirrors of one another.
     # See https://bugzilla.mozilla.org/show_bug.cgi?id=906785
     $apt_repo_server            = 'puppetagain-apt.pvt.build.mozilla.org'
-    $distinguished_puppetmaster = 'releng-puppet2.srv.releng.scl3.mozilla.com'
+    $distinguished_puppetmaster = 'releng-puppet2.srv.releng.mdc1.mozilla.com'
     $puppet_again_repo          = 'https://github.com/mozilla-releng/build-puppet'
     $puppetmaster_extsyncs      = {
         'slavealloc' => {
