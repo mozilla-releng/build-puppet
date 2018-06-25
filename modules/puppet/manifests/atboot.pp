@@ -143,6 +143,7 @@ class puppet::atboot {
                         '/lib/systemd/system/puppet.service':
                             owner   => 'root',
                             group   => 'root',
+                            source  => 'puppet:///modules/puppet/puppet.service',
                             require => Class['packages::puppet'],
                             notify  => Exec['reload systemd'];
                     }
