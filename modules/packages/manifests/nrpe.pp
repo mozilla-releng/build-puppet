@@ -2,15 +2,40 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class packages::nrpe {
+
+    anchor {
+        'packages::nrpe::begin': ;
+        'packages::nrpe::end': ;
+    }
+
     case $::operatingsystem {
         Ubuntu: {
-            package {
-                'nagios-nrpe-server':
-                    ensure          => latest,
-                    install_options => [ '--no-install-recommends' ];
-                'nagios-plugins':
-                    ensure          => latest,
-                    install_options => [ '--no-install-recommends' ];
+            case $::operatingsystemrelease {
+                12.04, 14.04: {
+                    package {
+                        'nagios-nrpe-server':
+                            ensure          => latest,
+                            install_options => [ '--no-install-recommends' ];
+                        'nagios-plugins':
+                            ensure          => latest,
+                            install_options => [ '--no-install-recommends' ];
+                    }
+                }
+                16.04: {
+                    realize(Packages::Aptrepo['nrpe'])
+                        Anchor['packages::nrpe::begin'] ->
+                        package {
+                            'nagios-nrpe-server':
+                                ensure          => '3.2.1-1ubuntu1_amd64',
+                                install_options => [ '--no-install-recommends' ];
+                            'nagios-nrpe-plugin':
+                                ensure          => '3.2.1-1ubuntu1_amd64',
+                                install_options => [ '--no-install-recommends' ];
+                        } -> Anchor['packages::nrpe::end']
+                }
+                default: {
+                    fail ("Cannot install on Ubuntu ${::operatingsystemrelease}")
+                }
             }
         }
         CentOS: {
