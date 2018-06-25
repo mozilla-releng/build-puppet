@@ -7,7 +7,7 @@ CERT2=/tmp/cert1.pem
 DAYS=60
 
 /usr/bin/wget $SSL -P /tmp
-CHECKSSL=/usr/local/bin/ssl_cert_check.sh
+CHECKSSL=/usr/local/bin/cert_check.sh
 
 cat $CERT | awk  'split_after == 1 {n++;split_after=0}  /-----END CERTIFICATE-----/ {split_after=1}{print > "/tmp/cert" n ".pem"}'
 

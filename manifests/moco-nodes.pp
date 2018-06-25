@@ -342,6 +342,13 @@ node /^buildduty-tools\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
     include toplevel::server::buildduty_tools
 }
 
+# mergeday
+
+node /^mergeday\d+\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
+    $aspects = [ 'high-security' ]
+    include toplevel::server::mergeday
+}
+
 # slaveapi
 
 node 'slaveapi1.srv.releng.scl3.mozilla.com' {
@@ -1036,6 +1043,22 @@ node /^bouncerworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::bouncerscriptworker
 }
 
+node /^tb-bouncer-dev-\d+\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $bouncer_scriptworker_env = 'comm-thunderbird-dev'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::bouncerscriptworker
+}
+
+node /^tb-bouncer-\d+\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $bouncer_scriptworker_env = 'comm-thunderbird-prod'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::bouncerscriptworker
+}
+
 # PushAPK scriptworkers
 node /^dep-pushapkworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
@@ -1175,4 +1198,12 @@ node 't-linux64-ms-280.test.releng.mdc1.mozilla.com' {
 node 'ds-test1.srv.releng.mdc2.mozilla.com' {
     $aspects = [ 'low-security' ]
     include toplevel::server
+}
+
+node 't-yosemite-r7-380.test.releng.mdc1.mozilla.com' {
+    $aspects           = [ 'low-security' ]
+    $slave_trustlevel  = 'try'
+    $environment       = 'staging'
+    include fw::profiles::osx_taskcluster_worker
+    include toplevel::worker::releng::generic_worker::test::gpu
 }

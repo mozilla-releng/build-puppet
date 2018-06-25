@@ -11,23 +11,7 @@ class config inherits config::base {
     # what puppet report processors to use
     # http temporarily disabled in mdc1 and mdc2 until relops sets up a local foreman
     $puppet_server_reports = $::fqdn ? {
-        /.*\.(mdc1|mdc2)\.mozilla\.com/      => 'tagmail',
-        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'tagmail,http',
-        default => '',
-    }
-
-    # where to send http/https reports
-    $puppet_server_reporturl = $::fqdn ? {
-        /.*\.(mdc1|mdc2)\.mozilla\.com/      => '',
-        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'http://foreman.pvt.build.mozilla.org:3001/',
-        default => '',
-    }
-
-    # where to store puppet facts
-    # http temporarily disabled in mdc1 and mdc2 until relops sets up a local foreman
-    $puppet_server_facturl = $::fqdn ? {
-        /.*\.(mdc1|mdc2)\.mozilla\.com/      => '',
-        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'http://foreman.pvt.build.mozilla.org:3000/',
+        /.*\.(scl3|usw2|use1|mdc1|mdc2)\.mozilla\.com/ => 'tagmail',
         default => '',
     }
 
@@ -103,7 +87,7 @@ class config inherits config::base {
     # See https://bugzilla.mozilla.org/show_bug.cgi?id=906785
     $apt_repo_server            = 'puppetagain-apt.pvt.build.mozilla.org'
     $distinguished_puppetmaster = 'releng-puppet2.srv.releng.scl3.mozilla.com'
-    $puppet_again_repo          = 'https://github.com/mozilla/build-puppet'
+    $puppet_again_repo          = 'https://github.com/mozilla-releng/build-puppet'
     $puppetmaster_extsyncs      = {
         'slavealloc' => {
             'slavealloc_api_url' => 'http://slavealloc.pvt.build.mozilla.org/api/',
@@ -208,8 +192,24 @@ class config inherits config::base {
         '10.134.30.0/24',  # srv.releng.use1 (signing)
     ]
 
-    $extra_user_ssh_keys             = {
+    $mac_netboot_ips = [ '10.26.52.17',  # install.build.releng.scl3
+                        '10.26.56.110', # install.test.releng.scl3
+                        '10.49.56.16',  # install.test.releng.mdc1
+                        '10.51.56.16' ] # install.test.releng.mdc2
+
+    # Copied from fw::networks
+    $roller_ips = [ '10.49.48.75',  # roller1.srv.releng.mdc1.mozilla.com
+                    '10.49.48.76',  # roller-dev1.srv.releng.mdc1.mozilla.com
+                    '10.51.48.75',  # roller1.srv.releng.mdc2.mozilla.com
+                    '10.51.48.76' ] # roller-dev1.srv.releng.mdc2.mozilla.com
+    $roller_key_limits = join(['from="', join($roller_ips, ','), '",command="~/.ssh/allowed_commands.sh",',
+                              'no-pty,no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-user-rc' ])
+
+    $extra_user_ssh_keys = {
         # role accounts
+
+        # hardware controller
+        'roller_ssh_pub_key' => [ "${roller_key_limits} ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDkgMMlWHbReAix1HaCdWzUkGrT7gGrV++uLDEm9HQH6NjYM1i0zh+RwCEGduJs9yuDLxvznpI9HkQWPgNLPRl7Bh8TQI2lAgnjFegOLNwGZyXrbLeQsDATFQnPY/alJE//c9yCzs59PENyjtfU4VF6tG8m8F6/kcNxJxQ4b07q/aPqQR+Aeg5i0MbXgULgjVgWbYlQ8lV+8P1UY1RGric0TIKM3Q1JGs0zvOxdgEvOX2HcEHePCEwKE4hZXvJnkC2wTCjy9+ppkanh2dM5i2UT7Z520dwKX0kX7O30Luv9ln3SflIF4nEGwHrbJfGerHdhJXbyRuctYrVoSj5CYdnFLYiAxTSVc+dbPkeOts7X5QghE6pLRwUFz4CBktR0Vrn8u00enyl6Ae95Rl+ut0P5yyLCJ78nBRroLE6TyuK1jsxVeSZv2WNx9tZTbSCkv3+xF56sRKpIs2jDAQKM3LsR5iNVauixsI7Q3QUSPuxDATY7zmwhKe2O3euhTN/tWfub+4GibzF64vaMZhkZaR5JF2kWK3tj1O/kbhwmeWQqTp08TcIk3YoWQjEClOO794mNGuLoWwd5WWPjq9mCKZ5qzUiWNpJxhcjJZETSaLHEn8ChtC+QxBrdc1DBxXfwvVznwu6L3LfAVHKaHtMaEOw+Y59bZktsVm0bd6OXazPxKQ== roller ssh key 2018-04-26" ],
 
         # used on buildbot masters
         'release-runner' => [ 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCjq0iMalKswxR5xl0mQIMA0YdKVwxTidy4pA/IAN9e4OwOkk4iknvnfpzAft7F4erxDDWhETerqrVN7oVgCFtwXrLQ/OGDEFZg98dPXvMCn80+DqpKB8LlZXBf66B8UDfJJAlM2uvRsqKMCJP826k6aARmiYgKlTMUM4DR2+F7ArY/7OV4hfecx70q9hKK1ZmpMXIDQWDvcu6ltSYRmmPo4Qdzig1Yu9Yjl0KLsWHu+N5QP9McWfJ9QGYHlVsrlywjoweytwIWpFhnUIPh1OlD3YuGi9qs9pfKI4PDfKFa25FDDTLBh9RlUr0x4V1WKYDsvCr4+TKGb1gR4JGo6esZB+lx8QH+zwgxRamzst1pdM1WyFN+csyjHCX2AuWa2/qfLAJIglqXRcEfXEy26GclP6d1uRK4s2vCF9YmLO8FGbvqqlC1rg36pOjR8WGJAGY4eB1AsQSW1HKqvB2exDv+90FSV9iTmCE8aR3mxSLrE1zTJfeNn9x07UURtBStq83PMA8vUjRvKP0mLyKZ5Bpne3rNUO192g/6+4KAuOxrzS/70dlPzmtFhZOapsFcKsIAj3zlu7JGfwOt8ycOLLlH3pjQIKq3JUaO3FgiYXvEB92VhbDadngVJiiq+8VUlcGSFSrFMg6idx2Vu9EAs5zPjYCA5k1pKQ+340POr5oxHw== Releng RSA key release-runner on 2017-05-19' ],
@@ -399,6 +399,7 @@ class config inherits config::base {
             ship_it_password                      => secret('releaserunner_prod_ship_it_password'),
             notify_to                             => 'Release Notifications <release-automation-notifications@mozilla.com>',
             notify_to_announce                    => 'Release Signoff <release-signoff@mozilla.org>',
+            thunderbird_notify_to_announce        => 'Thunderbird Drivers <thunderbird-drivers@mozilla.org>',
             taskcluster_client_id                 => secret('releaserunner_prod_taskcluster_client_id'),
             taskcluster_access_token              => secret('releaserunner_prod_taskcluster_access_token'),
             github_token                          => secret('releaserunner_github_token'),

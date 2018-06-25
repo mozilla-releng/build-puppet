@@ -8,7 +8,8 @@ class packages::mozilla::generic_worker {
         'packages::mozilla::generic_worker::end': ;
     }
 
-    $tag = 'v10.2.3'
+    $tag = 'v10.8.4'
+    $proxy_tag = 'v4.1.1'
 
     # Binaries should be downloaded from
     # https://github.com/taskcluster/generic-worker/releases/download/${tag}/generic-worker-${os}-${arch}
@@ -20,6 +21,14 @@ class packages::mozilla::generic_worker {
             file {
                 '/usr/local/bin/generic-worker':
                     source => "puppet:///repos/EXEs/generic-worker-${tag}-darwin-amd64",
+                    mode   => '0755',
+                    owner  => root,
+                    group  => wheel,
+            }
+            # install taskcluster proxy, Bug 1452095
+            file {
+                '/usr/local/bin/taskcluster-proxy':
+                    source => "puppet:///repos/EXEs/taskcluster-proxy-${proxy_tag}-darwin-amd64",
                     mode   => '0755',
                     owner  => root,
                     group  => wheel,

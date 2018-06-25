@@ -19,6 +19,8 @@ define roller::systemd ($image_tag){
 
     $bugzilla_api_key = secret('roller_bugzilla_api_key')
 
+    $roller_ssh_key = secret('roller_ssh_key')
+
     $ssl_key = secret('roller_ssl_key')
     $ssl_cert = secret('roller_ssl_cert')
 
@@ -28,6 +30,12 @@ define roller::systemd ($image_tag){
         "/etc/docker/compose/roller${environment}":
             ensure => directory,
             mode   => 0640;
+        "/etc/docker/compose/roller${environment}/ssh.key":
+            ensure  => file,
+            mode    => 0600,
+            owner   => 10001,
+            group   => 10001,
+            content => $roller_ssh_key;
         "/etc/docker/compose/roller${environment}/ssl.key":
             ensure  => file,
             mode    => 0640,

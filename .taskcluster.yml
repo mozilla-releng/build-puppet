@@ -1,0 +1,56 @@
+version: 0
+allowPullRequests: public
+metadata:
+  name: PuppetAgain
+  description: PuppetAgain CI Tasks
+  owner: "{{ event.head.user.email }}"
+  source: "{{ event.head.repo.url }}"
+tasks:
+  - provisionerId: "{{ taskcluster.docker.provisionerId }}"
+    workerType: "{{ taskcluster.docker.workerType }}"
+    payload:
+      maxRunTime: 3600
+      image: "python:2.7-slim"
+      command:
+        - "/bin/bash"
+        - "-c"
+        - "apt-get update -q && apt-get install --yes git && git clone $GITHUB_HEAD_REPO_URL build-puppet && cd build-puppet && git checkout $GITHUB_HEAD_BRANCH && bash test/verify-requirements.sh 27"
+    extra:
+      github:
+        env: true
+        events:
+          - pull_request.opened
+          - pull_request.synchronize
+          - pull_request.reopened
+          - push
+        branches:
+          - master
+    metadata:
+      name: PuppetAgain Python 2.7 requirements
+      description: PuppetAgain Python 2.7 requirements file verification
+      owner: "{{ event.head.user.email }}"
+      source: "{{ event.head.repo.url }}"
+  - provisionerId: "{{ taskcluster.docker.provisionerId }}"
+    workerType: "{{ taskcluster.docker.workerType }}"
+    payload:
+      maxRunTime: 3600
+      image: "python:3.6-slim"
+      command:
+        - "/bin/bash"
+        - "-c"
+        - "apt-get update && apt-get install --yes git && git clone $GITHUB_HEAD_REPO_URL build-puppet && cd build-puppet && git checkout $GITHUB_HEAD_BRANCH && bash test/verify-requirements.sh 36"
+    extra:
+      github:
+        env: true
+        events:
+          - pull_request.opened
+          - pull_request.synchronize
+          - pull_request.reopened
+          - push
+        branches:
+          - master
+    metadata:
+      name: PuppetAgain Python 3.6 requirements
+      description: PuppetAgain Python 3.6 requirements file verification
+      owner: "{{ event.head.user.email }}"
+      source: "{{ event.head.repo.url }}"
