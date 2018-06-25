@@ -14,6 +14,13 @@ class generic_worker {
             $livelog_secret = hiera('livelog_secret')
             $worker_group = regsubst($::fqdn, '.*\.releng\.(.+)\.mozilla\..*', '\1')
 
+            if ($environment == 'staging') {
+                $worker_type = "gecko-t-osx-${macos_version}-beta"
+            }
+            else {
+                $worker_type = "gecko-t-osx-${macos_version}"
+            }
+
             file { '/Library/LaunchAgents/net.generic.worker.plist':
                 ensure  => present,
                 content => template('generic_worker/generic-worker.plist.erb'),
