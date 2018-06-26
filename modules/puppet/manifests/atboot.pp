@@ -156,7 +156,7 @@ class puppet::atboot {
                     service {
                         'puppet':
                             enable   => true,
-                            provider => 'systemd'
+                            provider => 'systemd',
                             require  => File['/lib/systemd/system/puppet.service'];
                     }
                 }
