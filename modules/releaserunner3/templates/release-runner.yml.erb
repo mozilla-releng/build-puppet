@@ -57,6 +57,7 @@ releases:
   - product: thunderbird
     pattern: <%= @env_config["thunderbird_pattern"] %>
     trust_domain: comm
+    repo_param_prefix: comm_
 <% if @env_config["thunderbird_notify_to_announce"] -%>
     notify_to_announce: <%= @env_config["thunderbird_notify_to_announce"] %>
 <% end -%>
