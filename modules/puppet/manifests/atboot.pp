@@ -155,8 +155,9 @@ class puppet::atboot {
                     # enable the service but not start it
                     service {
                         'puppet':
-                            enable  => true,
-                            require => File['/lib/systemd/system/puppet.service'];
+                            enable   => true,
+                            provider => 'systemd'
+                            require  => File['/lib/systemd/system/puppet.service'];
                     }
                 }
                 default: {
