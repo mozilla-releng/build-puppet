@@ -30,6 +30,12 @@ class beetmover_scriptworker::settings {
                 firefox     => 'mozilla-releng-dep-partner',
             },
 
+            dep_maven_beetmover_aws_access_key_id => secret('dep_maven_beetmover_aws_access_key_id'),
+            dep_maven_beetmover_aws_secret_access_key => secret('dep_maven_beetmover_aws_secret_access_key'),
+            dep_maven_buckets => {
+                maven     => 'geckoviewtest',   # TODO replace with bucket owned by CloudOps
+            },
+
             config_template                         => 'beetmover_scriptworker/dev_script_config.json.erb',
             worker_type                             => 'beetmoverworker-dev',
             worker_group                            => 'beetmoverworker-v1',
