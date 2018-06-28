@@ -14,6 +14,24 @@ rm -f tasks-resolved-count.txt
 # wrapper script...
 /usr/local/bin/generic-worker "$@" 2>&1 | logger -t generic-worker -s
 
+exitcode=$?
+
+if [ $exitcode -eq 69 ]; then
+
+# quarantine the worker
+/usr/local/bin/quarantine_worker releng-hardware, "<%= @worker_type %>", "<%= @worker_group %>", "<%= @hostname %>", 720h5s
+# create the bug
+
+prevexitcode=$exitcode
+
+elif [$prevexitcode - eq 69]; then
+# remove worker from quarantine
+/usr/local/bin/quarantine_worker releng-hardware, "<%= @worker_type %>", "<%= @worker_group %>", "<%= @hostname %>", 0s
+
+# close the bug
+
+fi
+
 # Now reboot the machine immediately (time costs money)
 /usr/bin/sudo /sbin/reboot
 # Sleep to prevent this script from terminating naturally, and launchd restarting
