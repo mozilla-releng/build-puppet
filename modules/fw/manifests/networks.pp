@@ -100,8 +100,7 @@ class fw::networks {
                                         '10.51.48.21/32',  # releng-puppet1.srv.releng.mdc2.mozilla.com
                                         '10.51.48.22/32' ] # releng-puppet2.srv.releng.mdc2.mozilla.com
 
-    $distingushed_puppetmaster = [  '10.26.48.50/32',  # releng-puppet2.srv.releng.scl3.mozilla.com
-                                    '10.49.48.22/32' ] # releng-puppet2.srv.releng.mdc1.mozilla.com
+    $distingushed_puppetmaster = [ '10.49.48.22/32' ] # releng-puppet2.srv.releng.mdc1.mozilla.com
 
     $infra_bacula_scl3 = [ '10.22.75.200/32' ] # bacula1.private.scl3.mozilla.com
     $infra_bacula_mdc1 = [ '10.48.75.200/32' ] # bacula1.private.mdc1.mozilla.com
