@@ -87,6 +87,6 @@ class shipit_scriptworker::settings {
         schema_file        => $schema_file,
         verbose            => $verbose_logging,
         ship_it_instances  => $_env_config['ship_it_instances'],
-        taskcluster_scope_prefix => $taskcluster_scope_prefix
+        taskcluster_scope_prefix => $taskcluster_scope_prefix,
     }
 }
