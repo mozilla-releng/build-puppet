@@ -83,15 +83,16 @@ class fw::networks {
 
     $buildduty_tools = [ '10.132.51.74/32' ] # buildduty-tools.srv.releng.usw2.mozilla.com
 
-    $roller = [ '10.49.48.75',  # roller1.srv.releng.mdc1.mozilla.com
-                '10.49.48.76',  # roller-dev1.srv.releng.mdc1.mozilla.com
-                '10.51.48.75',  # roller1.srv.releng.mdc2.mozilla.com
-                '10.51.48.76' ] # roller-dev1.srv.releng.mdc2.mozilla.com
+    $roller = [ '10.49.48.75/32',  # roller1.srv.releng.mdc1.mozilla.com
+                '10.49.48.76/32',  # roller-dev1.srv.releng.mdc1.mozilla.com
+                '10.51.48.75/32',  # roller1.srv.releng.mdc2.mozilla.com
+                '10.51.48.76/32' ] # roller-dev1.srv.releng.mdc2.mozilla.com
 
     $slaveapi = [ '10.26.48.16/32',  # slaveapi1.srv.releng.scl3.mozilla.com
                   '10.26.48.17/32' ] # slaveapi-dev1.srv.releng.scl3.mozilla.com
 
     $non_distingushed_puppetmasters = [ '10.26.48.45/32',  # releng-puppet1.srv.releng.scl3.mozilla.com
+                                        '10.26.48.50/32',  # releng-puppet2.srv.releng.scl3.mozilla.com
                                         '10.134.48.16/32', # releng-puppet1.srv.releng.use1.mozilla.com
                                         '10.132.48.16/32', # releng-puppet1.srv.releng.usw2.mozilla.com
                                         '10.49.48.21/32',  # releng-puppet1.srv.releng.mdc1.mozilla.com
@@ -99,7 +100,7 @@ class fw::networks {
                                         '10.51.48.21/32',  # releng-puppet1.srv.releng.mdc2.mozilla.com
                                         '10.51.48.22/32' ] # releng-puppet2.srv.releng.mdc2.mozilla.com
 
-    $distingushed_puppetmaster = [ '10.26.48.50/32' ] # releng-puppet2.srv.releng.scl3.mozilla.com
+    $distingushed_puppetmaster = [ '10.49.48.22/32' ] # releng-puppet2.srv.releng.mdc1.mozilla.com
 
     $infra_bacula_scl3 = [ '10.22.75.200/32' ] # bacula1.private.scl3.mozilla.com
     $infra_bacula_mdc1 = [ '10.48.75.200/32' ] # bacula1.private.mdc1.mozilla.com

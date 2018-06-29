@@ -2,6 +2,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class buildslave::install {
+    if ($::operatingsystem == CentOS) {
+        include packages::gcc
+    }
     include packages::mozilla::python27
 
     anchor {
@@ -18,6 +21,14 @@ class buildslave::install {
 
     $py_require = Class['packages::mozilla::python27']
 
+    $virtualenv_require = $::operatingsystem ? {
+        CentOS  => [
+            Class['packages::mozilla::python27'],
+            Class['packages::gcc'],
+        ],
+        default => [Class['packages::mozilla::python27']],
+    }
+
     $external_packages = file("buildslave/requirements.txt")
     $packages = "${external_packages}buildbot==${version}\nbuildbot-slave==${version}"
 
@@ -26,7 +37,7 @@ class buildslave::install {
         $virtualenv_path:
             python          => $::packages::mozilla::python27::python,
             rebuild_trigger => $py_require,
-            require         => $py_require,
+            require         => $virtualenv_require,
             packages        => $packages;
     } -> Anchor['buildslave::install::end']
 }

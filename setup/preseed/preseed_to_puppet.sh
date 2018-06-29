@@ -48,11 +48,11 @@ echo "$PUPPET_PASS" > /root/deploypass
 chmod 600 /root/deploypass
 
 # set up the puppetize script to run at boot
-hgrepo="https://hg.mozilla.org/build/puppet"
+gitrepo="https://github.com/mozilla-releng/build-puppet"
 # try to use the proxy, falling back to a direct fetch (e.g., if the DC doesn't have a proxy)
-https_proxy=https://proxy.dmz.mdc2.mozilla.com:3128/ wget --tries=3 --waitretry=10 -O/root/puppetize.sh "$hgrepo/raw-file/default/modules/puppet/files/puppetize.sh" \
-    || https_proxy=https://proxy.dmz.mdc1.mozilla.com:3128/ wget --tries=3 --waitretry=10 -O/root/puppetize.sh "$hgrepo/raw-file/default/modules/puppet/files/puppetize.sh" \
-    || wget --tries=6 --waitretry=60 -O/root/puppetize.sh "$hgrepo/raw-file/default/modules/puppet/files/puppetize.sh" \
+https_proxy=https://proxy.dmz.mdc2.mozilla.com:3128/ wget --tries=3 --waitretry=10 -O/root/puppetize.sh "$gitrepo/raw/master/modules/puppet/files/puppetize.sh" \
+    || https_proxy=https://proxy.dmz.mdc1.mozilla.com:3128/ wget --tries=3 --waitretry=10 -O/root/puppetize.sh "$gitrepo/raw/master/modules/puppet/files/puppetize.sh" \
+    || wget --tries=6 --waitretry=60 -O/root/puppetize.sh "$gitrepo/raw/master/modules/puppet/files/puppetize.sh" \
     || fail
 chmod +x /root/puppetize.sh
 

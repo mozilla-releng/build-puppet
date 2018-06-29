@@ -24,8 +24,9 @@ python-dateutil==2.7.3
 MySQL-python==1.2.5
 PyYAML==3.12
 SQLAlchemy==1.2.8
-cfn-pyplates>=0.5.0
+cfn-pyplates==0.6.0
 ecdsa==0.13
+idna==2.6
 invtool==4.4  # puppet: nodownload
 netaddr==0.7.19
 ordereddict==1.1
@@ -43,4 +44,26 @@ boto==2.48.0
 iso8601==0.1.12
 repoze.lru==0.7
 ssh==1.8.0
+urllib3==1.22
 wsgiref==0.1.2
+certifi==2018.4.16
+chardet==3.0.4
+six==1.11.0
+cryptography==2.2.2
+pynacl==1.2.1
+pyasn1==0.4.3
+bcrypt==3.1.4
+click==6.7
+docutils==0.14
+lockfile==0.12.2
+fixtures==3.0.0
+python-mimeparse==1.6.0
+unittest2==1.1.0
+traceback2==1.4.0
+invoke==1.0.0
+cffi==1.11.5
+enum34==1.1.6
+asn1crypto==0.24.0
+ipaddress==1.0.22
+linecache2==1.0.0
+pycparser==2.18

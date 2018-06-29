@@ -1,0 +1,10 @@
+[Unit]
+Description=Puppet agent
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/etc/default/puppet
+ExecStart=/etc/puppet/init start
+
+[Install]
+WantedBy=multi-user.target

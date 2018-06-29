@@ -24,6 +24,8 @@ services:
       - .env
     volumes:
       - ./worker_config.json:/run/worker_config.json:ro
+      - ./ssh.key:/app/ssh.key
+      - tmp:/app/.ssh
     command: worker
 
   ssl:
@@ -36,3 +38,6 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
       - ./ssl.crt:/run/ssl.crt:ro
       - ./ssl.key:/run/ssl.key:ro
+
+volumes:
+  tmp:

@@ -28,15 +28,17 @@
   "sentryProject": "generic-worker",
   "shutdownMachineOnIdle": false,
   "shutdownMachineOnInternalError": false,
+  "taskclusterProxyExecutable": "/usr/local/bin/taskcluster-proxy",
+  "taskclusterProxyPort": 8080,
   "signingKeyLocation": "/Users/cltbld/generic-worker.openpgp.key",
   "subdomain": "taskcluster-worker.net",
   "tasksDir": "/Users/cltbld/tasks",
   "workerGroup": "<%= @worker_group %>",
   "workerId": "<%= @hostname %>",
-  "workerType": "gecko-t-osx-<%= @macos_version %>",
+  "workerType": "<%= @worker_type %>",
   "workerTypeMetadata": {
     "machine-setup": {
-      "config": "https://hg.mozilla.org/build/puppet/raw-file/production/modules/generic_worker/templates/generic-worker.config.erb",
+      "config": "https://github.com/mozilla-releng/build-puppet/raw/master/modules/generic_worker/templates/generic-worker.config.erb",
       "docs": "https://wiki.mozilla.org/ReleaseEngineering/PuppetAgain/Modules/generic_worker"
     }
   }
