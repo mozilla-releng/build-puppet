@@ -24,7 +24,7 @@ scriptworker==12.1.0
 six==1.11.0
 slugid==1.0.7
 taskcluster==3.0.1
-treescript==0.4  # puppet: nodownload
+treescript==1.0  # puppet: nodownload
 urllib3==1.23
 virtualenv==16.0.0
 yarl==1.2.6
