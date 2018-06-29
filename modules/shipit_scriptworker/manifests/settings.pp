@@ -10,7 +10,7 @@ class shipit_scriptworker::settings {
     $root                       = $config::scriptworker_root
     $python3_virtualenv_version = $python3::settings::python3_virtualenv_version
 
-    $ship_it_stage_instance_scope = 'project:releng:ship-it:staging'
+    $ship_it_stage_instance_scope = 'project:releng:ship-it:server:staging'
     $ship_it_stage_instance_config = {
         api_root                  => 'https://ship-it-dev.allizom.org',
         timeout_in_seconds        => 60,
@@ -47,7 +47,7 @@ class shipit_scriptworker::settings {
 
         ship_it_instances        => {
             "${ship_it_stage_instance_scope}"   => $ship_it_stage_instance_config,
-            'project:releng:ship-it:production' => {
+            'project:releng:ship-it:server:production' => {
                 api_root                  => 'https://ship-it.mozilla.org',
                 timeout_in_seconds        => 60,
                 username                  => 'shipit-scriptworker',
@@ -58,7 +58,8 @@ class shipit_scriptworker::settings {
     }
 
     $_env_config                = $_env_configs[$shipit_scriptworker_env]
-    $schema_file                = "${root}/lib/python${python3_virtualenv_version}/site-packages/shipitscript/data/shipit_task_schema.json"
+    $mark_as_shipped_schema_file = "${root}/lib/python${python3_virtualenv_version}/site-packages/shipitscript/data/mark_as_shipped_task_schema.json"
+    $mark_as_started_schema_file = "${root}/lib/python${python3_virtualenv_version}/site-packages/shipitscript/data/mark_as_started_task_schema.json"
     $work_dir                   = "${root}/work"
     $task_script                = "${root}/bin/shipitscript"
 
@@ -74,13 +75,18 @@ class shipit_scriptworker::settings {
     $verify_chain_of_trust      = $_env_config['verify_chain_of_trust']
     $verify_cot_signature       = $_env_config['verify_cot_signature']
 
+    $taskcluster_scope_prefix   = "project:releng:ship-it:"
+
     $verbose_logging            = $_env_config['verbose_logging']
 
     $script_config              = "${root}/script_config.json"
     $script_config_content      = {
         work_dir           => $work_dir,
+        mark_as_shipped_schema_file => $mark_as_shipped_schema_file,
+        mark_as_started_schema_file => $mark_as_started_schema_file,
         schema_file        => $schema_file,
         verbose            => $verbose_logging,
         ship_it_instances  => $_env_config['ship_it_instances'],
+        taskcluster_scope_prefix => $taskcluster_scope_prefix,
     }
 }
