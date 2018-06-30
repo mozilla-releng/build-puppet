@@ -40,12 +40,12 @@ script:
        -not -path 'modules/windows_path/*'`"
 gemfile: .gemfile
 
-# The channel name "irc.mozilla.org#ci" is encrypted against mozilla-releng/build-puppet to prevent IRC spam of forks
-# Generated with: travis encrypt --repo mozilla-releng/build-puppet --skip-version-check irc.mozilla.org#ci
+# The channel name "irc.mozilla.org#releng-bots" is encrypted against mozilla-releng/build-puppet to prevent IRC spam of forks
+# Generated with: travis encrypt --repo mozilla-releng/build-puppet --skip-version-check irc.mozilla.org#releng-bots
 notifications:
   irc:
     channels:
-      - secure: "VwsaaMbg7XTaXDo5PuRhdknumSq7TzHzR/u7tpAi/iQz9baVtpyH2PqdptG52iBgZFeKIkhpj0QelXEvVVxjTb1RYTx7tWCTY8oJEVjqgmwXNRrMPkQmlv82m2Qi/68asbDyWp7Z1NPHwdE16prS2GFfSM7XRGzzTgWzj+0cx24="
+      - secure: "BThC3WlKQ0KLhJyRH7L/6StvdTFKMU1cXhTG4wpO04iz8pSHSUNb13L9CZeFrva35bOd6HMEa7VHkPkmvftI3OR04pY75eemzXR6KQy3IeyZGFbiexrayegYFc63yFTTp+09lK9GAHQQ1rTxFCPEOwlQXaWcWptstuMvv56rWSQ="
     on_success: always
     on_failure: always
     template:
