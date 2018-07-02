@@ -29,4 +29,4 @@ taskcluster==3.0.1
 urllib3==1.23
 virtualenv==16.0.0
 yarl==1.2.6
-shipitscript==2.1.0.dev0  # puppet: nodownload
+shipitscript==2.1.0.dev1  # puppet: nodownload
