@@ -2,9 +2,11 @@
     "work_dir": "<%= scope.lookupvar("tree_scriptworker::settings::root") %>/work",
     "artifact_dir": "<%= scope.lookupvar("tree_scriptworker::settings::root") %>/artifacts",
 
+    "taskcluster_scope_prefix": "<%= @env_config["taskcluster_scope_prefix"] %>",
+
     "hg": "<%= scope.lookupvar("packages::mozilla::py27_mercurial::mercurial") %>",
     "hg_share_base_dir": "<%= scope.lookupvar("tree_scriptworker::settings::share_base") %>",
-    "upstream_repo": "<%= scope.lookupvar("tree_scriptworker::settings::upstream_repo") %>",
+    "upstream_repo": "<%= @env_config["upstream_repo"] %>",
 
     "hg_ssh_user": "<%= @env_config["ssh_user"] %>",
     "hg_ssh_keyfile": "<%= scope.lookupvar("users::builder::home") %>/.ssh/<%= @env_config["ssh_user"] %>"
