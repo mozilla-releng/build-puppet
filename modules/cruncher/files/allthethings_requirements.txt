@@ -17,7 +17,7 @@ wsgiref==0.1.2
 zope.interface==4.5.0
 incremental==17.5.0
 constantly==15.1.0
-automat==0.6.0
+automat==0.7.0
 attrs==18.1.0
 hyperlink==18.0.0
 idna==2.7
