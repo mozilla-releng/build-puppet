@@ -30,7 +30,7 @@ rsa==3.4.2
 scriptworker==12.1.0
 signingscript==7.0.0  # puppet: nodownload
 signtool==3.2.0
-simplejson==3.15.0
+simplejson==3.16.0
 six==1.11.0
 slugid==1.0.7
 taskcluster==3.0.1
