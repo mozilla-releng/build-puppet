@@ -8,7 +8,7 @@ redo==1.6
 mysql-python==1.2.5
 amqp==2.3.2
 python-dateutil==2.7.3
-pytz==2018.4
+pytz==2018.5
 six==1.11.0
 wsgiref==0.1.2
 PyHawk-with-a-single-extra-commit==0.1.5
