@@ -12,7 +12,7 @@ dictdiffer==0.7.1
 frozendict==1.2
 idna==2.7
 idna_ssl==1.0.1
-json-e==2.5.0
+json-e==2.6.0
 jsonschema==2.6.0
 mohawk==0.3.4
 multidict==4.3.1
