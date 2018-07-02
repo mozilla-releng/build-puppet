@@ -46,7 +46,7 @@ oauth2client==4.1.2
 parso==0.3.0
 pexpect==4.6.0
 pickleshare==0.7.4
-prompt_toolkit==1.0.15
+prompt_toolkit==2.0.3
 ptyprocess==0.6.0
 pyOpenSSL==18.0.0
 pyasn1==0.4.3
