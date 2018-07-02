@@ -6,7 +6,7 @@ pycrypto==2.6.1
 Jinja2==2.10
 MarkupSafe==1.0
 WebOb==1.8.1
-requests==2.18.4
+requests==2.19.1
 bzrest==1.1
 dnspython==1.15.0
 paramiko==2.4.1
