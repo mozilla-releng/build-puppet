@@ -24,7 +24,7 @@ markupsafe==1.0
 pyasn1==0.4.3
 pycparser==2.18
 python-dateutil==2.7.3
-requests==2.18.4
+requests==2.19.1
 toml==0.9.4
 towncrier==18.5.0
 urllib3==1.22
