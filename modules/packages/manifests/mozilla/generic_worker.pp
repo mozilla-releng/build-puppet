@@ -37,7 +37,7 @@ class packages::mozilla::generic_worker {
             # install quarantine-worker, Bug 1461913
             file {
                 '/usr/local/bin/quarantine-worker':
-                    source => "puppet:///repos/EXEs/taskcluster-proxy-${quarantine_worker__tag}-darwin-amd64",
+                    source => "puppet:///repos/EXEs/quarantine-qorker-${quarantine_worker_tag}-darwin-amd64",
                     mode   => '0755',
                     owner  => root,
                     group  => wheel,
