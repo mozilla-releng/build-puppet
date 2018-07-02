@@ -1119,6 +1119,8 @@ node /^shipitworker-dev-.*\.srv\.releng\..*\.mozilla\.com$/ {
     $shipit_scriptworker_env  = 'dev'
     $timezone                 = 'UTC'
     $only_user_ssh            = true
+    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
+    $pin_puppet_env    = 'mtabara'
     include toplevel::server::shipitscriptworker
 }
 
