@@ -23,4 +23,4 @@ altgraph==0.15
 idna==2.7
 pycparser==2.18
 wsgiref==0.1.2
-ptyprocess==0.5.2
+ptyprocess==0.6.0
