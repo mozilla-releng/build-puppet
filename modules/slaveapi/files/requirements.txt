@@ -23,7 +23,7 @@ python-dateutil==2.7.3
 # for aws cloud-tools
 MySQL-python==1.2.5
 PyYAML==3.12
-SQLAlchemy==1.2.8
+SQLAlchemy==1.2.9
 cfn-pyplates==0.6.0
 ecdsa==0.13
 idna==2.6
