@@ -10,6 +10,7 @@ class packages::mozilla::generic_worker {
 
     $tag = 'v10.8.4'
     $proxy_tag = 'v4.1.1'
+    $quarantine_worker_tag = 'v1.0.0'
 
     # Binaries should be downloaded from
     # https://github.com/taskcluster/generic-worker/releases/download/${tag}/generic-worker-${os}-${arch}
@@ -29,6 +30,14 @@ class packages::mozilla::generic_worker {
             file {
                 '/usr/local/bin/taskcluster-proxy':
                     source => "puppet:///repos/EXEs/taskcluster-proxy-${proxy_tag}-darwin-amd64",
+                    mode   => '0755',
+                    owner  => root,
+                    group  => wheel,
+            }
+            # install quarantine-worker, Bug 1461913
+            file {
+                '/usr/local/bin/quarantine-worker':
+                    source => "puppet:///repos/EXEs/taskcluster-proxy-${quarantine_worker__tag}-darwin-amd64",
                     mode   => '0755',
                     owner  => root,
                     group  => wheel,
