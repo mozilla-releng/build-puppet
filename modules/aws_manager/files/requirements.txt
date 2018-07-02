@@ -41,7 +41,7 @@ invoke==1.0.0
 cryptography==2.2.2
 enum==0.4.6
 pyasn1==0.4.3
-idna==2.6
+idna==2.7
 asn1crypto==0.24.0
 bcrypt==3.1.4
 cffi==1.11.5
