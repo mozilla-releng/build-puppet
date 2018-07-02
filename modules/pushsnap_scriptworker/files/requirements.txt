@@ -20,7 +20,7 @@ mohawk==0.3.4
 multidict==4.3.1
 pexpect==4.6.0
 progressbar33==2.4
-ptyprocess==0.5.2
+ptyprocess==0.6.0
 pycparser==2.18
 pyelftools==0.24
 pymacaroons==0.13.0
