@@ -14,22 +14,37 @@ rm -f tasks-resolved-count.txt
 # wrapper script...
 /usr/local/bin/generic-worker "$@" 2>&1 | logger -t generic-worker -s
 
-exitcode=$?
+exitstatus=( ${PIPESTATUS[0]} )
 
-if [ $exitcode -eq 69 ]; then
+echo $exitstatus
 
-# quarantine the worker
-/usr/local/bin/quarantine-worker releng-hardware "<%= @worker_type %>" "<%= @worker_group %>" "<%= @hostname %>" 720h5s
-# create the bug
+export TASKCLUSTER_CLIENT_ID="project/releng/quarantine-worker"
+export TASKCLUSTER_ACCESS_TOKEN="LMoH3pBKQh2LmGN7_r0IXQJelKK8fhQyWe0iTsu_Ag8w"
 
-prevexitcode=$exitcode
+if [ $exitstatus -eq 69 ]; then
+    if [ -f /Users/cltbld/quarantined ]; then
+        echo "Worker is quarantined"
+    else
+        echo "Quarantine worker"
+        # quarantine the worker
+        /usr/local/bin/quarantine-worker releng-hardware "<%= @worker_type %>" "<%= @worker_group %>" "<%= @hostname %>" 720h5s
+        # create the bug
 
-elif [$prevexitcode - eq 69]; then
-# remove worker from quarantine
-/usr/local/bin/quarantine-worker releng-hardware "<%= @worker_type %>" "<%= @worker_group %>" "<%= @hostname %>" 0s
+        # create a semaphore file
+        echo "quarantined worker" > /Users/cltbld/quarantined
+        # create the bug
+    fi
+elif [ -f /Users/cltbld/quarantined ]; then
 
-# close the bug
+    # if the worker was in quarantine, but now the exitcode is other that 69
+    # remove worker from quarantine
+    /usr/local/bin/quarantine-worker releng-hardware "<%= @worker_type %>" "<%= @worker_group %>" "<%= @hostname %>" 0s
 
+    # close the bug
+
+    # remove the semaphore file
+
+    /bin/rm -rf /Users/cltbld/quarantined
 fi
 
 # Now reboot the machine immediately (time costs money)
