@@ -18,8 +18,8 @@ exitstatus=( ${PIPESTATUS[0]} )
 
 echo $exitstatus
 
-export TASKCLUSTER_CLIENT_ID="project/releng/quarantine-worker"
-export TASKCLUSTER_ACCESS_TOKEN="LMoH3pBKQh2LmGN7_r0IXQJelKK8fhQyWe0iTsu_Ag8w"
+export TASKCLUSTER_CLIENT_ID="<%= @quarantine_client_id %>"
+export TASKCLUSTER_ACCESS_TOKEN="<%= @quarantine_access_token %>"
 
 if [ $exitstatus -eq 69 ]; then
     if [ -f /Users/cltbld/quarantined ]; then
