@@ -1205,6 +1205,7 @@ node 't-linux64-ms-279.test.releng.mdc1.mozilla.com' {
 # This worker is part of staging pool
 node 't-linux64-ms-280.test.releng.mdc1.mozilla.com' {
     $aspects = [ 'low-security' ]
+    $slave_trustlevel = 'try'
     $taskcluster_worker_type  = 'gecko-t-linux-talos-beta'
     include fw::profiles::linux_taskcluster_worker
     include toplevel::worker::releng::taskcluster_worker::test::gpu
