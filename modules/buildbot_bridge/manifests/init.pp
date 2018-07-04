@@ -19,13 +19,13 @@ class buildbot_bridge {
     # from scratch. Before doing that, we need to stop the running instance.
     exec {
         "stop-for-rebuild-bblistener":
-            command     => "/usr/bin/supervisorctl stop bblistener",
+            command     => "/usr/bin/supervisorctl stop buildbot_bridge_bblistener",
             refreshonly => true,
             subscribe   => Class['packages::mozilla::python27'];
     }
     exec {
         "stop-for-rebuild-tclistener":
-            command     => "/usr/bin/supervisorctl stop tclistener",
+            command     => "/usr/bin/supervisorctl stop buildbot_bridge_tclistener",
             refreshonly => true,
             subscribe   => Exec["stop-for-rebuild-bblistener"],
     }

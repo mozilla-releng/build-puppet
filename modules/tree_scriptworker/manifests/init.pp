@@ -58,6 +58,7 @@ class tree_scriptworker {
             task_max_timeout         => $tree_scriptworker::settings::task_max_timeout,
 
             cot_job_type             => 'scriptworker',
+            cot_product              => $env_config["cot_product"],
 
             sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
             verify_chain_of_trust    => $env_config["verify_chain_of_trust"],

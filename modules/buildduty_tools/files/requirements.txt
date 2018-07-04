@@ -5,8 +5,17 @@ Jinja2==2.10
 MarkupSafe==1.0
 Twisted==18.4.0
 argparse==1.4.0
+asn1crypto==0.24.0
+attrs==18.1.0
+automat==0.6.0
 cffi==1.11.5
+constantly==15.1.0
 cryptography==2.2.2
+enum34==1.1.6
+hyperlink==18.0.0
+idna==2.6
+incremental==17.5.0
+ipaddress==1.0.22
 pyOpenSSL==18.0.0
 pyasn1==0.4.3
 pycparser==2.18

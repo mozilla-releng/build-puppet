@@ -110,26 +110,61 @@ class puppet::atboot {
             }
         }
         Ubuntu: {
-            # On Ubuntu, puppet runs by Upstart and on successful result
-            # notifies dependent services
-            file {
-                '/etc/puppet/init':
-                    mode    => '0755',
-                    owner   => 'root',
-                    group   => 'root',
-                    content => template('puppet/puppet-ubuntu-initd.erb');
-                '/etc/init/puppet.conf':
-                    # this script special-cases the automatic start that the puppet
-                    # package does, so it needs to be in place first
-                    before => Class['packages::puppet'],
-                    source => 'puppet:///modules/puppet/puppet.upstart.conf';
-                '/etc/init.d/puppet':
-                    ensure => link,
-                    force  => true,
-                    target => '/lib/init/upstart-job';
+            case $::operatingsystemrelease {
+                12.04, 14.04: {
+                    # On Ubuntu 12.04 and 14.04, puppet runs by Upstart and on successful result
+                    # notifies dependent services
+                    file {
+                        '/etc/puppet/init':
+                            mode    => '0755',
+                            owner   => 'root',
+                            group   => 'root',
+                            content => template('puppet/puppet-ubuntu-initd.erb');
+                        '/etc/init/puppet.conf':
+                            # this script special-cases the automatic start that the puppet
+                            # package does, so it needs to be in place first
+                            before => Class['packages::puppet'],
+                            source => 'puppet:///modules/puppet/puppet.upstart.conf';
+                        '/etc/init.d/puppet':
+                            ensure => link,
+                            force  => true,
+                            target => '/lib/init/upstart-job';
+                    }
+                }
+                16.04: {
+                    # On Ubuntu 16.04 puppet runs by systemd and on successful result
+                    # notifies dependent services
+                    file {
+                        '/etc/puppet/init':
+                            mode    => '0755',
+                            owner   => 'root',
+                            group   => 'root',
+                            content => template('puppet/puppet-ubuntu-initd.erb');
+                        '/lib/systemd/system/puppet.service':
+                            owner   => 'root',
+                            group   => 'root',
+                            source  => 'puppet:///modules/puppet/puppet.service',
+                            require => Class['packages::puppet'],
+                            notify  => Exec['reload systemd'];
+                    }
+                    # reload systemd daemon
+                    exec {
+                        'reload systemd':
+                            command => '/bin/systemctl daemon-reload';
+                    }
+                    # enable the service but not start it
+                    service {
+                        'puppet':
+                            enable   => true,
+                            provider => 'systemd',
+                            require  => File['/lib/systemd/system/puppet.service'];
+                    }
+                }
+                default: {
+                    fail("puppet::atboot support missing for ${::operatingsystemrelease}")
+                }
             }
         }
-
         Darwin: {
             # On Darwin, puppet runs as a system-level launch daemon.  This
             # runs run-puppet.sh, which is similar to the CentOS initscript.

@@ -25,7 +25,7 @@ class config::base {
 
     # The repository and branch that puppetmasters should follow to get the latest
     # manifests
-    $puppet_again_repo              = 'https://github.com/mozilla/build-puppet'
+    $puppet_again_repo              = 'https://github.com/mozilla-releng/build-puppet'
     $puppet_again_branch            = 'master'
 
     # The fqdn of the 'distinguished' puppetmaster.  This master serves as the
@@ -370,13 +370,15 @@ class config::base {
     $slaveapi_ipmi_username      = 'releng'
 
     # roller
+    $roller_username             = 'roller'
 
-    $roller_image_tag_prod       = '1.0.5'
+    $roller_image_tag_prod       = '1.0.7'
     $roller_image_tag_dev        = 'latest'
 
     # roller git repo
     $roller_git_repo             = 'https://github.com/mozilla-platform-ops/relops-hardware-controller'
 
+    $mac_netboot_ips             = []
 
     # AWS management
 

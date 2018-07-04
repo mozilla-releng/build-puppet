@@ -10,6 +10,10 @@ class toplevel::worker inherits toplevel::base {
     include sudoers::reboot
     include users::builder
     include python::system_pip_conf
+    if ($::operatingsystem == 'Darwin') or ($::operatingsystem == 'Ubuntu') {
+        # roller user ssh
+        include users::roller
+    }
 
     # apply tweaks
     include tweaks::dev_ptmx
