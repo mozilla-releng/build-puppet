@@ -16,8 +16,6 @@ rm -f tasks-resolved-count.txt
 
 exitstatus=( ${PIPESTATUS[0]} )
 
-echo $exitstatus
-
 export TASKCLUSTER_CLIENT_ID="<%= @quarantine_client_id %>"
 export TASKCLUSTER_ACCESS_TOKEN="<%= @quarantine_access_token %>"
 
@@ -26,25 +24,14 @@ if [ $exitstatus -eq 69 ]; then
         echo "Worker is quarantined"
     else
         echo "Quarantine worker"
-        # quarantine the worker
+        # quarantine the worker using github.com/mozilla-platform-ops/quarantine-worker CLI
         /usr/local/bin/quarantine-worker releng-hardware "<%= @worker_type %>" "<%= @worker_group %>" "<%= @hostname %>" 720h5s
-        # create the bug
 
         # create a semaphore file
         echo "quarantined worker" > /Users/cltbld/quarantined
+
         # create the bug
     fi
-elif [ -f /Users/cltbld/quarantined ]; then
-
-    # if the worker was in quarantine, but now the exitcode is other that 69
-    # remove worker from quarantine
-    /usr/local/bin/quarantine-worker releng-hardware "<%= @worker_type %>" "<%= @worker_group %>" "<%= @hostname %>" 0s
-
-    # close the bug
-
-    # remove the semaphore file
-
-    /bin/rm -rf /Users/cltbld/quarantined
 fi
 
 # Now reboot the machine immediately (time costs money)
