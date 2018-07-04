@@ -47,7 +47,7 @@ parso==0.2.1
 pexpect==4.6.0
 pickleshare==0.7.4
 prompt_toolkit==1.0.15
-ptyprocess==0.6.0
+ptyprocess==0.5.2
 pyOpenSSL==18.0.0
 pyasn1==0.4.3
 pyasn1-modules==0.2.1
@@ -58,10 +58,10 @@ python-gnupg==0.4.3
 pytz==2018.4
 requests==2.19.1
 rsa==3.4.2
-scriptworker==13.0.0
+scriptworker==12.1.0
 simplegeneric==0.8.1
 slugid==1.0.7
-taskcluster==3.0.2
+taskcluster==3.0.1
 traitlets==4.3.2
 uritemplate==3.0.0
 urllib3==1.23
