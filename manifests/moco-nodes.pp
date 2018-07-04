@@ -1202,7 +1202,7 @@ node 't-linux64-ms-279.test.releng.mdc1.mozilla.com' {
     include toplevel::server
 }
 
-# Loaner for dcrisan; Bug 1410207
+# This worker is part of staging pool
 node 't-linux64-ms-280.test.releng.mdc1.mozilla.com' {
     $aspects = [ 'low-security' ]
     $taskcluster_worker_type  = 'gecko-t-linux-talos-beta'
