@@ -5,7 +5,7 @@
 # This class is used to create and close bugs automatically 
 class generic_worker::control_bug {
 
-    $bugzilla_api_key = secret('roller_bugzilla_api_key')
+    $bugzilla_api_key = secret('roller_bugzilla_api_key!prod')
     $logfile = ''
     $bugzilla_url = 'https://bugzilla.mozilla.org'
 
