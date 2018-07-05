@@ -6,7 +6,6 @@
 class generic_worker::control_bug {
 
     $bugzilla_api_key = secret('roller_bugzilla_api_key!prod')
-    $logfile = ''
     $bugzilla_url = 'https://bugzilla.mozilla.org'
 
     file { '/usr/local/bin/bugs.sh':
