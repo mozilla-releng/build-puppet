@@ -1202,12 +1202,13 @@ node 't-linux64-ms-279.test.releng.mdc1.mozilla.com' {
     include toplevel::server
 }
 
-# Loaner for dcrisan; Bug 1410207
+# This worker is part of staging pool
 node 't-linux64-ms-280.test.releng.mdc1.mozilla.com' {
     $aspects = [ 'low-security' ]
-    # $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
-    # $pin_puppet_env    = 'dcrian'
-    include toplevel::server
+    $slave_trustlevel = 'try'
+    $taskcluster_worker_type  = 'gecko-t-linux-talos-b'
+    include fw::profiles::linux_taskcluster_worker
+    include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
 # Loaner for dividehex; bug 1445842 and 1447766
