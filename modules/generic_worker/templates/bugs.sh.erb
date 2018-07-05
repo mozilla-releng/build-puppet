@@ -2,6 +2,7 @@
 
 create_bug () {
     export BUGZILLA_API_KEY = "<%= @bugzilla_api_key %>"
+    logfile= "<%= @logfile %>"
     product = "Infrastructure & Operations"
     component = "CIDuty"
     summary = "Generic worker on host <%= @fqdn %> returned exit code 69"
@@ -9,7 +10,7 @@ create_bug () {
                 a task, e.g. a file cannot be written to the file system, or something else did \
                 not work that was required in order to execute a task. See config setting \
                 shutdownMachineOnInternalError. \
-                `tail -20 "<%= @logfile %>"`
+                tail -20 $logfile
                 "
     bugzilla_url = "<%= @bugzilla_url %>"
     JSON = '{"product" : "$product", "component" : "$component", "version" : "unspecified", "summary" : "$sumary", "decription": "$description"}'
