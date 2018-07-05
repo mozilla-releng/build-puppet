@@ -2,7 +2,7 @@
 
 create_bug () {
     export BUGZILLA_API_KEY = "<%= @bugzilla_api_key %>"
-    logfile= "<%= @logfile %>"
+    logfile= "<%= @log_file %>"
     product = "Infrastructure & Operations"
     component = "CIDuty"
     summary = "Generic worker on host <%= @fqdn %> returned exit code 69"

@@ -19,14 +19,13 @@ class generic_worker::control_bug {
     # set logfile for each OS
     case $::operatingsystem {
         Darwin: {
-            $logfile = '/var/log/system.log'
+            $log_file = '/var/log/system.log'
         }
         Ubuntu: {
-            $logfile = '/var/log/syslog'
+            $log_file = '/var/log/syslog'
         }
         CentOS: {
-            $logfile = '/var/log/messages'
+            $log_file = '/var/log/messages'
         }
     }
-
 }
