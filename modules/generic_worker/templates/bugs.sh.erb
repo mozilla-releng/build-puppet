@@ -5,9 +5,10 @@ create_bug() {
     logfile="<%= @log_file %>"
     product="Infrastructure & Operations"
     component="CIDuty"
-    log=`tail -20 $logfile`
+    # Provide last20 lines from the log, and put this information into the bug
+    log=`tail -20 $logfile|grep generic-worker`
     summary="Generic worker on host <%= @fqdn %> returned exit code 69"
-    description=" 69     Worker panic - either a worker bug, or the environment is not suitable for running
+    description="Error code 69 means: worker panic - either a worker bug, or the environment is not suitable for running
                 a task, e.g. a file cannot be written to the file system, or something else did
                 not work that was required in order to execute a task. See config setting
                 shutdownMachineOnInternalError.
@@ -25,7 +26,7 @@ create_bug() {
        "decription": "$description"
    }
 )
-    curl -X POST $bugzilla_url/rest/bug -d $JSON 
+    curl -X POST $bugzilla_url/rest/bug -d "$JSON" 
 }
 
 close_bug() {}
