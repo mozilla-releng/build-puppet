@@ -12,8 +12,8 @@ create_bug() {
                 not work that was required in order to execute a task. See config setting\n
                 shutdownMachineOnInternalError.\n
                 "$log""
-    bugzilla_url = "<%= @bugzilla_url %>"
-    JSON = '{"product" : "'"$product"'", "component" : "'"$component"'", "version" : "unspecified", "summary" : "'"$summary"'", "decription": "'"$description"'"}'
+    bugzilla_url="<%= @bugzilla_url %>"
+    JSON='{"product" : "'"$product"'", "component" : "'"$component"'", "version" : "unspecified", "summary" : "'"$summary"'", "decription": "'"$description"'"}'
     curl -X POST $bugzilla_url/rest/bug -d $JSON 
 }
 
