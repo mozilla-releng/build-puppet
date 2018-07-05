@@ -10,10 +10,10 @@ create_bug () {
                 a task, e.g. a file cannot be written to the file system, or something else did \
                 not work that was required in order to execute a task. See config setting \
                 shutdownMachineOnInternalError. \
-                tail -20 $logfile
+                `tail -20 $logfile`
                 "
     bugzilla_url = "<%= @bugzilla_url %>"
-    JSON = '{"product" : "$product", "component" : "$component", "version" : "unspecified", "summary" : "$sumary", "decription": "$description"}'
+    JSON = '{"product" : "${product}", "component" : "$component", "version" : "unspecified", "summary" : "$sumary", "decription": "$description"}'
     curl -X POST $bugzilla_url/rest/bug -d $JSON 
 
 }
