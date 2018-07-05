@@ -10,6 +10,8 @@
 # to numberOfTasksToRun, the worker won't exit and machine won't reboot.
 rm -f tasks-resolved-count.txt
 
+source /usr/local/bin/bugs.sh
+
 # First run the generic-worker, passing through any arguments handed to this
 # wrapper script...
 /usr/local/bin/generic-worker "$@" 2>&1 | logger -t generic-worker -s
@@ -31,7 +33,11 @@ if [ $exitstatus -eq 69 ]; then
         echo "quarantined worker" > /Users/cltbld/quarantined
 
         # create the bug
+        create_bug
     fi
+elif [ $exitstatus -eq 0 ]; then
+    # The worker was removed from the quarantin and run with success a job
+    /bin/rm -rf /Users/cltbld/quarantined
 fi
 
 # Now reboot the machine immediately (time costs money)
