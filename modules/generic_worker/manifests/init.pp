@@ -4,6 +4,7 @@
 
 class generic_worker {
     include packages::mozilla::generic_worker
+    include generic_worker::control_bug
 
     case $::operatingsystem {
         Darwin: {
