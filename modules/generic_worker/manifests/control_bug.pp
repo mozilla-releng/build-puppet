@@ -8,14 +8,6 @@ class generic_worker::control_bug {
     $bugzilla_api_key = secret('roller_bugzilla_api_key!prod')
     $bugzilla_url = 'https://bugzilla.mozilla.org'
 
-    file { '/usr/local/bin/bugs.sh':
-        ensure  => present,
-        content => template('generic_worker/bugs.sh.erb'),
-        mode    => '0644',
-        owner   => root,
-        group   => wheel,
-    }
-
     # set logfile for each OS
     case $::operatingsystem {
         Darwin: {
@@ -27,5 +19,13 @@ class generic_worker::control_bug {
         CentOS: {
             $log_file = '/var/log/messages'
         }
+    }
+
+    file { '/usr/local/bin/bugs.sh':
+        ensure  => present,
+        content => template('generic_worker/bugs.sh.erb'),
+        mode    => '0644',
+        owner   => root,
+        group   => wheel,
     }
 }
