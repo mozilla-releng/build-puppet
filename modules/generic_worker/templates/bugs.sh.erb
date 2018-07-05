@@ -1,23 +1,20 @@
 #!/bin/bash
 
-create_bug () {
-    export BUGZILLA_API_KEY = "<%= @bugzilla_api_key %>"
-    logfile= "<%= @log_file %>"
-    product = "Infrastructure & Operations"
-    component = "CIDuty"
-    summary = "Generic worker on host <%= @fqdn %> returned exit code 69"
-    description = " 69     Worker panic - either a worker bug, or the environment is not suitable for running \
-                a task, e.g. a file cannot be written to the file system, or something else did \
-                not work that was required in order to execute a task. See config setting \
-                shutdownMachineOnInternalError. \
-                `tail -20 $logfile`
-                "
+create_bug() {
+    export BUGZILLA_API_KEY="<%= @bugzilla_api_key %>"
+    logfile="<%= @log_file %>"
+    product="Infrastructure & Operations"
+    component="CIDuty"
+    log=`tail -20 $logfile`
+    summary="Generic worker on host <%= @fqdn %> returned exit code 69"
+    description=" 69     Worker panic - either a worker bug, or the environment is not suitable for running\n
+                a task, e.g. a file cannot be written to the file system, or something else did\n
+                not work that was required in order to execute a task. See config setting\n
+                shutdownMachineOnInternalError.\n
+                "$log""
     bugzilla_url = "<%= @bugzilla_url %>"
-    JSON = '{"product" : "${product}", "component" : "$component", "version" : "unspecified", "summary" : "$sumary", "decription": "$description"}'
+    JSON = '{"product" : "'"$product"'", "component" : "'"$component"'", "version" : "unspecified", "summary" : "'"$summary"'", "decription": "'"$description"'"}'
     curl -X POST $bugzilla_url/rest/bug -d $JSON 
-
 }
 
-close_bug () {
-
-}
+close_bug() {}

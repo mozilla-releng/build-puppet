@@ -24,7 +24,7 @@ class generic_worker::control_bug {
     file { '/usr/local/bin/bugs.sh':
         ensure  => present,
         content => template('generic_worker/bugs.sh.erb'),
-        mode    => '0644',
+        mode    => '0755',
         owner   => root,
         group   => wheel,
     }
