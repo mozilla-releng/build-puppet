@@ -1,7 +1,7 @@
 #!/bin/bash
 
 create_bug() {
-    export BUGZILLA_API_KEY="<%= @bugzilla_api_key %>"
+    BUGZILLA_API_KEY="<%= @bugzilla_api_key %>"
     logfile="<%= @log_file %>"
     product="Infrastructure & Operations"
     component="CIDuty"
@@ -19,6 +19,7 @@ create_bug() {
     
     JSON=$(cat << EOF
     {
+       "api_key": "$BUGZILLA_API_KEY"
        "product" : "$product",
        "component" : "$component",
        "version" : "unspecified",
@@ -26,7 +27,7 @@ create_bug() {
        "decription": "$description"
    }
 )
-    curl -X POST $bugzilla_url/rest/bug -d "$JSON" 
+    curl  -X POST-H "Content-type: application/json" -H "Accept: application/json" -d "$JSON" $bugzilla_url/rest/bug 
 }
 
 close_bug() {}
