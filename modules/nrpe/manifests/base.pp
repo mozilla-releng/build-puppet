@@ -47,6 +47,15 @@ class nrpe::base {
                     require => Class['packages::nrpe'],
                     notify  => Class['nrpe::service'];
             }
+
+            # Make sure nrpe uses SSL by default on Ubuntu 16.04
+            if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease == '16.04' {
+                file { '/etc/default/nagios-nrpe-server':
+                    ensure  => present,
+                    content => "NRPE_OPTS=\"\"\n",
+                    require => Class['packages::nrpe'];
+                }
+            }
         }
     }
 }
