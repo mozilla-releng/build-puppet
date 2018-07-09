@@ -6,7 +6,7 @@ Fabric==1.14.0  # pyup < 2.0
 Jinja2==2.10
 PGPy==0.4.3
 PyHawk-with-a-single-extra-commit==0.1.5
-PyYAML==3.12
+PyYAML==3.13
 SQLAlchemy==1.2.8
 Tempita==0.5.2
 # don't upgrade twisted because it doesn't work with our buildbot
