@@ -26,10 +26,10 @@ class packages::nrpe {
                         Anchor['packages::nrpe::begin'] ->
                         package {
                             'nagios-nrpe-server':
-                                ensure          => '3.2.1-1-nossl',
+                                ensure          => '3.2.1-1',
                                 install_options => [ '--no-install-recommends' ];
                             'nagios-nrpe-plugin':
-                                ensure          => '3.2.1-1-nossl',
+                                ensure          => '3.2.1-1',
                                 install_options => [ '--no-install-recommends' ];
                         } -> Anchor['packages::nrpe::end']
                 }
