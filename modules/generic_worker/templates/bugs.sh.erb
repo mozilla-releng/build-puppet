@@ -27,7 +27,7 @@ create_bug() {
        "decription": "$description"
    }
 )
-    curl  -X POST-H "Content-type: application/json" -H "Accept: application/json" -d "$JSON" $bugzilla_url/rest/bug 
+    curl  -X POST -H \"Content-type: application/json\" -H \"Accept: application/json\" -d \""$JSON"\" $bugzilla_url/rest/bug 
 }
 
 close_bug() {}
