@@ -29,7 +29,7 @@ rsa==3.4.2
 scriptworker==13.0.0
 six==1.11.0
 slugid==1.0.7
-taskcluster==3.0.1
+taskcluster==3.0.2
 urllib3==1.23
 virtualenv==16.0.0
 yarl==1.2.6
