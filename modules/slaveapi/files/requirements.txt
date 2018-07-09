@@ -5,7 +5,7 @@ pycrypto==2.6.1
 # unused, but one of the vendor libraries (Flask) requires it
 Jinja2==2.10
 MarkupSafe==1.0
-WebOb==1.8.1
+WebOb==1.8.2
 requests==2.19.1
 bzrest==1.1
 dnspython==1.15.0
