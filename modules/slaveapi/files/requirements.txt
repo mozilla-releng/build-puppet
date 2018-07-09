@@ -17,7 +17,7 @@ docopt==0.6.2
 python-daemon==2.1.2
 gevent_subprocess==0.1.2
 furl==1.2
-orderedmultidict==0.7.11
+orderedmultidict==1.0
 pytz==2018.5
 python-dateutil==2.7.3
 # for aws cloud-tools
