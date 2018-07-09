@@ -50,7 +50,7 @@ prompt_toolkit==2.0.3
 ptyprocess==0.6.0
 pyOpenSSL==18.0.0
 pyasn1==0.4.3
-pyasn1-modules==0.2.1
+pyasn1-modules==0.2.2
 pycparser==2.18
 pyparsing==2.2.0
 python-dateutil==2.7.3
