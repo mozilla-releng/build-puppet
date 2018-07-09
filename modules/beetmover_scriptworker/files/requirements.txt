@@ -1,7 +1,7 @@
 # python_version: 36
 Jinja2==2.10
 MarkupSafe==1.0
-PyYAML==3.12
+PyYAML==3.13
 aiohttp==3.3.2
 arrow==0.12.1
 async_timeout==3.0.0
