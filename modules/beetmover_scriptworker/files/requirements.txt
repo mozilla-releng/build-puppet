@@ -17,7 +17,7 @@ dictdiffer==0.7.1
 docutils==0.14
 frozendict==1.2
 idna==2.7
-idna_ssl==1.0.1
+idna_ssl==1.1.0
 incremental==17.5.0
 jmespath==0.9.3
 json-e==2.6.0
