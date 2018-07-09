@@ -7,7 +7,7 @@ async-timeout==3.0.0
 certifi==2018.4.16
 chardet==3.0.4
 click==6.7
-idna==2.6
+idna==2.7
 jsonschema==2.6.0
 mohawk==0.3.4
 multidict==4.3.0
