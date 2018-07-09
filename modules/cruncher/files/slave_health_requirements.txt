@@ -8,6 +8,6 @@ pytz==2018.4
 # Pinning to avoid investigating if an update would break
 # https://bugzilla.mozilla.org/show_bug.cgi?id=1289822#c7
 requests==2.19.1
-simplejson==3.15.0
+simplejson==3.16.0
 urllib3==1.22
 wsgiref==0.1.2
