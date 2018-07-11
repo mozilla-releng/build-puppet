@@ -21,7 +21,7 @@ class generic_worker::control_bug {
         }
     }
 
-    file { '/usr/local/bin/bugs.sh':
+    file { '/usr/local/share/generic-worker/bugzilla-utils.sh':
         ensure  => present,
         content => template('generic_worker/bugs.sh.erb'),
         mode    => '0755',

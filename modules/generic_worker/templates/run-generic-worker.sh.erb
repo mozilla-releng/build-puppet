@@ -10,18 +10,28 @@
 # to numberOfTasksToRun, the worker won't exit and machine won't reboot.
 rm -f tasks-resolved-count.txt
 
-source /usr/local/bin/bugs.sh
+source /usr/local/share/generic-worker/bugzilla-utils.sh
 
 # First run the generic-worker, passing through any arguments handed to this
 # wrapper script...
 /usr/local/bin/generic-worker "$@" 2>&1 | logger -t generic-worker -s
 
-exitstatus=( ${PIPESTATUS[0]} )
+exitstatus="${PIPESTATUS[0]}"
 
 export TASKCLUSTER_CLIENT_ID="<%= @quarantine_client_id %>"
 export TASKCLUSTER_ACCESS_TOKEN="<%= @quarantine_access_token %>"
 
 if [ $exitstatus -eq 69 ]; then
+# If generic-worker considers that the host environment is in an invalid/corrupted
+# state (for example, it cannot write to disk), it will return the exit code 69.
+#
+# More information about generic-worker exit codes can be seen here:
+# https://docs.taskcluster.net/docs/reference/workers/generic-worker#set-up-your-env
+#
+# If this happens, we make a call to Taskcluster Queue to quarantine the worker, so
+# that no further tasks will be provided to the worker until the quarantine expires.
+# This prevents the worker from burning through tasks that it is not able to execute
+# properly.
     if [ -f /Users/cltbld/quarantined ]; then
         echo "Worker is quarantined"
     else
@@ -32,18 +42,20 @@ if [ $exitstatus -eq 69 ]; then
         # create a semaphore file
         echo "quarantined worker" > /Users/cltbld/quarantined
 
-        # create the bug
-        create_bug
+        # Submit a new bug to Bugzilla that reports that the worker has been quarantined, 
+        # in order to alert CI Duty to the failure, track status and facilitate resolution.
+        create_bug_self_failure
     fi
 elif [ $exitstatus -eq 0 ]; then
     # The worker was removed from the quarantin and run with success a job
     /bin/rm -rf /Users/cltbld/quarantined
+    # Self resolve the bug
+    resolve_bug_self_failure
+    # Now reboot the machine immediately (time costs money)
+    /usr/bin/sudo /sbin/reboot
+    # Sleep to prevent this script from terminating naturally, and launchd restarting
+    # it. Instead, the shutdown should cause this script to terminate (so it won't
+    # really sleep for 2 mins). If shutdown doesn't kick in within 2 mins, it is sane
+    # for this script to exit, and allow launchd to fire up the worker again.
+    /bin/sleep 120
 fi
-
-# Now reboot the machine immediately (time costs money)
-/usr/bin/sudo /sbin/reboot
-# Sleep to prevent this script from terminating naturally, and launchd restarting
-# it. Instead, the shutdown should cause this script to terminate (so it won't
-# really sleep for 2 mins). If shutdown doesn't kick in within 2 mins, it is sane
-# for this script to exit, and allow launchd to fire up the worker again.
-/bin/sleep 120

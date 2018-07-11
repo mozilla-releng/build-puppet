@@ -1,6 +1,6 @@
 #!/bin/bash
 
-create_bug() {
+create_bug_self_failure() {
     BUGZILLA_API_KEY="<%= @bugzilla_api_key %>"
     logfile="<%= @log_file %>"
     product="Infrastructure & Operations"
@@ -19,15 +19,23 @@ create_bug() {
     
     JSON=$(cat << EOF
     {
-       "api_key": "$BUGZILLA_API_KEY"
+       "api_key": "$BUGZILLA_API_KEY",
        "product" : "$product",
        "component" : "$component",
        "version" : "unspecified",
        "summary" : "$summary",
-       "decription": "$description"
+       "description": "$description"
    }
 )
-    curl  -X POST -H \"Content-type: application/json\" -H \"Accept: application/json\" -d \""$JSON"\" $bugzilla_url/rest/bug 
+echo "$JSON" > $json_file
+
+curl -X 'POST' -H Content-Type:application/json -H Accept:application/json -d @$json_file $bugzilla_url/rest/bug -o 'id_bug'
+sed -i -e 's/}//g' 
+
 }
 
-close_bug() {}
+
+resolve_bug_self_failure() {
+    bug_id=`awk -F: '{print $2}' id_bug`
+    
+}
