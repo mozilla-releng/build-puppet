@@ -53,6 +53,7 @@ class nrpe::base {
                 file { '/etc/default/nagios-nrpe-server':
                     ensure  => present,
                     content => "NRPE_OPTS=\"\"\n",
+                    notify  => Class['nrpe::service'],
                     require => Class['packages::nrpe'];
                 }
             }
