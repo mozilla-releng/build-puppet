@@ -46,7 +46,8 @@ if [ $exitstatus -eq 69 ]; then
         # in order to alert CI Duty to the failure, track status and facilitate resolution.
         create_bug_self_failure
     fi
-elif [ $exitstatus -eq 0 ]; then
+elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
+    # If exitstatus is different by 69 (grater than 69 or lower than 69)
     # The worker was removed from the quarantin and run with success a job
     /bin/rm -rf /Users/cltbld/quarantined
     # Self resolve the bug
