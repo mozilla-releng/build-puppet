@@ -1032,8 +1032,6 @@ node /^bouncerworker-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
     $bouncer_scriptworker_env = 'dev'
     $timezone                 = 'UTC'
     $only_user_ssh            = true
-    $pin_puppet_server = 'releng-puppet2.srv.releng.mdc1.mozilla.com'
-    $pin_puppet_env    = 'mtabara'
     include toplevel::server::bouncerscriptworker
 }
 
