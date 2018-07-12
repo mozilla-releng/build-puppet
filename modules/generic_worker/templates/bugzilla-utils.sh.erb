@@ -5,6 +5,10 @@ create_bug_self_failure() {
     logfile="<%= @log_file %>"
     product="Infrastructure & Operations"
     component="CIDuty"
+    # Store the json into the file
+    json_file="bug.json"
+    # Store the id of the bug into the file, for future use
+    bug_id_file="bug_id"
     # Provide last20 lines from the log, and put this information into the bug
     log=`tail -20 $logfile|grep generic-worker`
     summary="Generic worker on host <%= @fqdn %> returned exit code 69"
@@ -29,13 +33,12 @@ create_bug_self_failure() {
 )
 echo "$JSON" > $json_file
 
-curl -X 'POST' -H Content-Type:application/json -H Accept:application/json -d @$json_file $bugzilla_url/rest/bug -o 'id_bug'
-sed -i -e 's/}//g' 
-
+curl -X 'POST' -H Content-Type:application/json -H Accept:application/json -d @$json_file $bugzilla_url/rest/bug -o $bug_id_file
+sed -i -e 's/}//g' bug_id 
 }
 
 
 resolve_bug_self_failure() {
-    bug_id=`awk -F: '{print $2}' id_bug`
-    
+    bug_id=`awk -F: '{print $2}' $bug_id_file`
+    echo $bug_id
 }
