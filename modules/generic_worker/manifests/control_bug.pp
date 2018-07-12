@@ -2,7 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# This class is used to create and close bugs automatically 
+# This class provides a utility to the worker, 
+# to enable it to raise a Bugzilla bug against itself, if it considers that it is in a bad state.
 class generic_worker::control_bug {
 
     $bugzilla_api_key = secret('roller_bugzilla_api_key!prod')
