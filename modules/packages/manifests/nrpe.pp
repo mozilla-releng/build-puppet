@@ -26,10 +26,13 @@ class packages::nrpe {
                         Anchor['packages::nrpe::begin'] ->
                         package {
                             'nagios-nrpe-server':
-                                ensure          => '3.0.1-3',
+                                ensure          => '3.2.1-1',
                                 install_options => [ '--no-install-recommends' ];
                             'nagios-nrpe-plugin':
-                                ensure          => '3.0.1-3',
+                                ensure          => '3.2.1-1',
+                                install_options => [ '--no-install-recommends' ];
+                            'nagios-plugins-extra':
+                                ensure          => '2.1.2-2ubuntu2',
                                 install_options => [ '--no-install-recommends' ];
                         } -> Anchor['packages::nrpe::end']
                 }
