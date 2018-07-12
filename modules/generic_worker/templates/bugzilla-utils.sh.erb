@@ -39,6 +39,26 @@ sed -i -e 's/}//g' $bug_id_file
 
 
 resolve_bug_self_failure() {
+    BUGZILLA_API_KEY="<%= @bugzilla_api_key %>"
+    # Store the json into the file
+    json_file="bug.json"
+    # Store the id of the bug into the file
+    bug_id_file="bug_id"
+
     bug_id=`awk -F: '{print $2}' $bug_id_file`
-    echo $bug_id
+
+    JSON=$(cat << EOF
+    {
+       "api_key": "$BUGZILLA_API_KEY",
+       "status" : "RESOLVED",
+       "resolution": "FIXED",
+       "comment": {
+         "body": "The worker is now in working state",
+         "is_private": false
+      }
+   }
+  )
+   echo "$JSON" > $json_file
+
+  curl -v -X PUT -H Content-Type:application/json -H Accept:application/json -d @$json_file https://bugzilla.mozilla.org/rest/bug/$bug_id
 }
