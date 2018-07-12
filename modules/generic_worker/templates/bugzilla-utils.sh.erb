@@ -34,7 +34,7 @@ create_bug_self_failure() {
 echo "$JSON" > $json_file
 
 curl -X 'POST' -H Content-Type:application/json -H Accept:application/json -d @$json_file $bugzilla_url/rest/bug -o $bug_id_file
-sed -i -e 's/}//g' bug_id 
+sed -i -e 's/}//g' $bug_id_file 
 }
 
 
