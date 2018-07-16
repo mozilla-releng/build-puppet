@@ -12,7 +12,7 @@ pyOpenSSL==18.0.0
 pyasn1==0.4.3
 pycparser==2.18
 pycrypto==2.6.1
-simplejson==3.15.0
+simplejson==3.16.0
 wsgiref==0.1.2
 zope.interface==4.5.0
 incremental==17.5.0
