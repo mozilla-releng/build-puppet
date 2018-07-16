@@ -112,8 +112,8 @@ class generic_worker {
                     exec { 'create gpg key':
                         path    => ['/bin', '/sbin', '/usr/local/bin'],
                         user    => $users::builder::username,
-                        command => 'generic-worker new-openpgp-keypair --file /Users/cltbld/generic-worker.openpgp.key',
-                        unless  => 'test -f /Users/cltbld/generic-worker.openpgp.key'
+                        command => "generic-worker new-openpgp-keypair --file ${::users::builder::home}/generic-worker.openpgp.key",
+                        unless  => "test -f ${::users::builder::home}/generic-worker.openpgp.key"
                     }
                     host {"${taskcluster_host}":
                         ip => '127.0.0.1'
