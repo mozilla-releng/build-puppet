@@ -43,7 +43,7 @@ multidict==4.3.1
 networkx==2.1
 numpy==1.14.5
 oauth2client==4.1.2
-parso==0.2.1
+parso==0.3.0
 pexpect==4.6.0
 pickleshare==0.7.4
 prompt_toolkit==1.0.15
