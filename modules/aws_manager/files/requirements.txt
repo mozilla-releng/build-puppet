@@ -3,7 +3,7 @@
 Fabric==1.14.0  # pyup: ignore
 IPy==0.83
 MySQL-python==1.2.5
-SQLAlchemy==1.2.8
+SQLAlchemy==1.2.10
 argparse==1.4.0
 boto==2.48.0
 ecdsa==0.13
