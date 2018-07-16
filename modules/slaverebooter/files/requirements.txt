@@ -14,6 +14,7 @@ incremental==17.5.0
 jinja2==2.10
 markupsafe==1.0
 orderedmultidict==1.0
+pyhamcrest==1.9.0
 python-dateutil==2.7.3
 redo==1.6
 requests==2.19.1
