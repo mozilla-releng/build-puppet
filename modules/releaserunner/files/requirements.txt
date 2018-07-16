@@ -27,7 +27,7 @@ enum34==1.1.6
 future==0.16.0
 futures==3.2.0
 idna==2.6
-invoke==1.0.0
+invoke==1.1.0
 ipaddress==1.0.22
 MarkupSafe==1.0
 mohawk==0.3.4
