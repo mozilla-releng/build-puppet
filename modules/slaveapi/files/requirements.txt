@@ -36,7 +36,7 @@ extras==1.0.0
 testtools==2.3.0
 pbr==4.0.3
 schema==0.6.7
-simplejson==3.15.0
+simplejson==3.16.0
 Fabric==2.1.3
 IPy==0.83
 argparse==1.4.0
