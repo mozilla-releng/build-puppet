@@ -1,0 +1,64 @@
+#!/bin/bash
+
+create_bug_self_failure() {
+    BUGZILLA_API_KEY="<%= @bugzilla_api_key %>"
+    logfile="<%= @log_file %>"
+    product="Infrastructure & Operations"
+    component="CIDuty"
+    # Store the json into the file
+    json_file="bug.json"
+    # Store the id of the bug into the file, for future use
+    bug_id_file="bug_id"
+    # Provide last20 lines from the log, and put this information into the bug
+    log=`tail -20 $logfile|grep generic-worker`
+    summary="Generic worker on host <%= @fqdn %> returned exit code 69"
+    description="Error code 69 means: worker panic - either a worker bug, or the environment is not suitable for running
+                a task, e.g. a file cannot be written to the file system, or something else did
+                not work that was required in order to execute a task. See config setting
+                shutdownMachineOnInternalError.
+
+                The following log were provided:
+                https://papertrailapp.com/systems/"<%= @fqdn %>"/events?q=program%3Ageneric-worker"
+    bugzilla_url="<%= @bugzilla_url %>"
+    
+    JSON=$(cat << EOF
+    {
+       "api_key": "$BUGZILLA_API_KEY",
+       "product" : "$product",
+       "component" : "$component",
+       "version" : "unspecified",
+       "summary" : "$summary",
+       "description": "$description"
+   }
+)
+echo "$JSON" > $json_file
+
+curl -X 'POST' -H Content-Type:application/json -H Accept:application/json -d @$json_file $bugzilla_url/rest/bug -o $bug_id_file
+sed -i -e 's/}//g' $bug_id_file 
+}
+
+
+resolve_bug_self_failure() {
+    BUGZILLA_API_KEY="<%= @bugzilla_api_key %>"
+    # Store the json into the file
+    json_file="bug.json"
+    # Store the id of the bug into the file
+    bug_id_file="bug_id"
+
+    bug_id=`awk -F: '{print $2}' $bug_id_file`
+
+    JSON=$(cat << EOF
+    {
+       "api_key": "$BUGZILLA_API_KEY",
+       "status" : "RESOLVED",
+       "resolution": "FIXED",
+       "comment": {
+         "body": "The worker is now in working state",
+         "is_private": false
+      }
+   }
+  )
+   echo "$JSON" > $json_file
+
+  curl -v -X PUT -H Content-Type:application/json -H Accept:application/json -d @$json_file https://bugzilla.mozilla.org/rest/bug/$bug_id
+}

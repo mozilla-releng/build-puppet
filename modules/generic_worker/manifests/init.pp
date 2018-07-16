@@ -7,6 +7,7 @@ class generic_worker {
     include ::users::root
     include ::users::builder
     include ::config
+    include generic_worker::control_bug
 
     $taskcluster_host = 'taskcluster'
     $livelog_secret = hiera('livelog_secret')
