@@ -60,7 +60,7 @@ fixtures==3.0.0
 python-mimeparse==1.6.0
 unittest2==1.1.0
 traceback2==1.4.0
-invoke==1.0.0
+invoke==1.1.0
 cffi==1.11.5
 enum34==1.1.6
 asn1crypto==0.24.0
