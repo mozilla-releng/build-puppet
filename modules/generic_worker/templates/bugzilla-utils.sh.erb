@@ -18,7 +18,7 @@ create_bug_self_failure() {
                 shutdownMachineOnInternalError.
 
                 The following log were provided:
-                "https://papertrailapp.com/systems/<%= @fqdn %>/events?q=program%3Ageneric-worker""
+                https://papertrailapp.com/systems/"<%= @fqdn %>"/events?q=program%3Ageneric-worker"
     bugzilla_url="<%= @bugzilla_url %>"
     
     JSON=$(cat << EOF
