@@ -4,7 +4,7 @@ SQLAlchemy==1.2.10
 certifi==2018.4.16
 chardet==3.0.4
 idna==2.7
-pytz==2018.4
+pytz==2018.5
 # Pinning to avoid investigating if an update would break
 # https://bugzilla.mozilla.org/show_bug.cgi?id=1289822#c7
 requests==2.19.1
