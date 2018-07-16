@@ -1,7 +1,7 @@
 # python_version: 27
 requests==2.18.4
 arrow==0.12.1
-taskcluster==3.0.1
+taskcluster==3.0.2
 sqlalchemy==1.2.8
 kombu==4.2.1
 redo==1.6
