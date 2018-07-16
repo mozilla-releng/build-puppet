@@ -18,7 +18,7 @@ python-daemon==2.1.2
 gevent_subprocess==0.1.2
 furl==1.0.2
 orderedmultidict==0.7.11
-pytz==2018.4
+pytz==2018.5
 python-dateutil==2.7.3
 # for aws cloud-tools
 MySQL-python==1.2.5
