@@ -12,6 +12,8 @@ class generic_worker {
     $taskcluster_host = 'taskcluster'
     $livelog_secret = hiera('livelog_secret')
     $worker_group = regsubst($::fqdn, '.*\.releng\.(.+)\.mozilla\..*', '\1')
+    $quarantine_client_id = secret('quarantine_client_id')
+    $quarantine_access_token = hiera('quarantine_access_token')
 
     case $::operatingsystem {
         Darwin: {
