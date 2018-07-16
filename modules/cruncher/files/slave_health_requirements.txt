@@ -1,13 +1,13 @@
 # python_version: 27
 MySQL-python==1.2.5
-SQLAlchemy==1.2.8
+SQLAlchemy==1.2.10
 certifi==2018.4.16
 chardet==3.0.4
-idna==2.6
-pytz==2018.4
+idna==2.7
+pytz==2018.5
 # Pinning to avoid investigating if an update would break
 # https://bugzilla.mozilla.org/show_bug.cgi?id=1289822#c7
-requests==2.18.4
-simplejson==3.15.0
+requests==2.19.1
+simplejson==3.16.0
 urllib3==1.22
 wsgiref==0.1.2

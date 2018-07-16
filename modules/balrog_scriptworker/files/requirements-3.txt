@@ -1,5 +1,5 @@
 # python_version: 36
-PyYAML==3.12
+PyYAML==3.13
 aiohttp==3.3.2
 arrow==0.12.1
 async_timeout==3.0.0
@@ -10,20 +10,20 @@ defusedxml==0.5.0
 dictdiffer==0.7.1
 frozendict==1.2
 idna==2.7
-idna_ssl==1.0.1
-json-e==2.5.0
+idna_ssl==1.1.0
+json-e==2.6.0
 jsonschema==2.6.0
 mohawk==0.3.4
 multidict==4.3.1
 pexpect==4.6.0
-ptyprocess==0.5.2
+ptyprocess==0.6.0
 python-dateutil==2.7.3
 python-gnupg==0.4.3
 requests==2.19.1
-scriptworker==12.1.0
+scriptworker==13.0.0
 six==1.11.0
 slugid==1.0.7
-taskcluster==3.0.1
+taskcluster==3.0.2
 urllib3==1.23
 virtualenv==16.0.0
 yarl==1.2.6

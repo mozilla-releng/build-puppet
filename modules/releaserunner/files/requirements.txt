@@ -2,12 +2,12 @@
 # install six before cryptography
 # held at old version because 1.11.0 breaks pgpy
 six==1.10.0  # pyup: ignore
-Fabric==1.14.0  # pyup < 2.0
+Fabric==2.2.0  # pyup < 2.0
 Jinja2==2.10
 PGPy==0.4.3
 PyHawk-with-a-single-extra-commit==0.1.5
-PyYAML==3.12
-SQLAlchemy==1.2.8
+PyYAML==3.13
+SQLAlchemy==1.2.10
 Tempita==0.5.2
 # don't upgrade twisted because it doesn't work with our buildbot
 Twisted==12.3.0  # pyup: ignore
@@ -26,13 +26,13 @@ ecdsa==0.13
 enum34==1.1.6
 future==0.16.0
 futures==3.2.0
-idna==2.6
-invoke==1.0.0
+idna==2.7
+invoke==1.1.0
 ipaddress==1.0.22
 MarkupSafe==1.0
 mohawk==0.3.4
 paramiko==2.4.1
-pbr==4.0.4
+pbr==4.1.0
 pyasn1==0.4.3
 pycparser==2.18
 pycrypto==2.6.1
@@ -41,16 +41,16 @@ python-dateutil==2.7.3
 python-jose==3.0.0
 redo==1.6
 releasetasks==0.4.1  # puppet: nodownload
-requests==2.18.4
+requests==2.19.1
 requests-hawk==1.0.0
 rsa==3.4.2
-simplejson==3.15.0
+simplejson==3.16.0
 singledispatch==3.4.0.3
 slugid==1.0.7
 sqlalchemy-migrate==0.11.0
 sqlparse==0.2.4
 # Held at this ancient version because we need encrypted enviroment variable support.
-taskcluster==0.0.24  # pyup: noupdate
+taskcluster==3.0.2  # pyup: noupdate
 toposort==1.5
 urllib3==1.22
 wsgiref==0.1.2
