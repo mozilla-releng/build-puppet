@@ -34,6 +34,43 @@ class packages::mozilla::generic_worker {
                     group  => wheel,
             }
         }
+        Ubuntu: {
+            case $::operatingsystemrelease {
+                16.04: {
+                    file {
+                        '/usr/local/bin/generic-worker':
+                            source => "puppet:///repos/EXEs/generic-worker-${tag}-linux-amd64",
+                            mode   => '0755',
+                            owner  => $::users::root::username,
+                            group  => $::users::root::group,
+                    }
+                    # install taskcluster proxy, Bug 1452095
+                    # Binaries should be downloaded from
+                    # https://github.com/taskcluster/taskcluster-proxy/releases/download/${tag}/taskcluster-proxy-${os}-${arch}
+                    # to /data/repos/EXEs/taskcluster-proxy-${tag}-${os}-${arch}
+                    file {
+                        '/usr/local/bin/taskcluster-proxy':
+                            source => "puppet:///repos/EXEs/taskcluster-proxy-${proxy_tag}-linux-amd64",
+                            mode   => '0755',
+                            owner  => $::users::root::username,
+                            group  => $::users::root::group,                    }
+                    # install quarantine-worker, Bug 1461913
+                    # Binaries should be downloaded from
+                    # https://github.com/mozilla-platform-ops/quarantine-worker/releases/download/${tag}/quarantine-worker-${os}-${arch}
+                    # to /data/repos/EXEs/quarantine-worker-${tag}-${os}-${arch}
+                    file {
+                        '/usr/local/bin/quarantine-worker':
+                            source => "puppet:///repos/EXEs/quarantine-worker-${quarantine_worker_tag}-linux-amd64",
+                            mode   => '0755',
+                            owner  => $::users::root::username,
+                            group  => $::users::root::group,
+                    }
+                }
+                default: {
+                    fail("Cannot install on ${::operatingsystemrelease}")
+                }
+            }
+        }
         default: {
             fail("Cannot install on ${::operatingsystem}")
         }
