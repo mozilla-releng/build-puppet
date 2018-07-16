@@ -3,9 +3,9 @@
 Fabric==1.14.0  # pyup: ignore
 IPy==0.83
 MySQL-python==1.2.5
-SQLAlchemy==1.2.9
+SQLAlchemy==1.2.10
 argparse==1.4.0
-boto==2.48.0
+boto==2.49.0
 ecdsa==0.13
 invtool==4.4  # puppet: nodownload
 iso8601==0.1.12
@@ -29,15 +29,15 @@ pbr==4.1.0
 ordereddict==1.1
 schema==0.6.8
 redo==1.6
-boto3==1.7.52
-botocore==1.10.52
+boto3==1.7.58
+botocore==1.10.58
 docutils==0.14
 futures==3.2.0
 jmespath==0.9.3
 python-dateutil==2.7.3
 s3transfer==0.1.13
 six==1.11.0
-invoke==1.0.0
+invoke==1.1.0
 cryptography==2.2.2
 enum==0.4.6
 pyasn1==0.4.3

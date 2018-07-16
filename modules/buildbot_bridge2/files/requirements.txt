@@ -21,7 +21,7 @@ Represent==1.5.1
 requests==2.19.1
 six==1.11.0
 slugid==1.0.7
-SQLAlchemy==1.2.9
+SQLAlchemy==1.2.10
 sqlalchemy-aio==0.12.0
 statsd==3.2.2
 # Held at 1.2.0 to avoid needing to upgrade aiohttp
