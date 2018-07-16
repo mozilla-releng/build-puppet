@@ -19,7 +19,7 @@ redo==1.6
 requests==2.18.4
 simplejson==3.15.0
 six==1.11.0
-sqlalchemy==1.2.8
+sqlalchemy==1.2.10
 twisted==18.4.0
 urllib3==1.22
 zope.interface==4.5.0
