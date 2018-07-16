@@ -1,5 +1,5 @@
 # python_version: 27
-PyYAML==3.12
+PyYAML==3.13
 # don't upgrade twisted because it doesn't work with our buildbot
 Twisted==12.3.0  # pyup: ignore
 certifi==2018.4.16
