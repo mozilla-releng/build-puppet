@@ -1,5 +1,5 @@
 # python_version: 36
-PyYAML==3.12
+PyYAML==3.13
 addonscript==1.0  # puppet: nodownload
 aiohttp==3.3.2
 arrow==0.12.1
