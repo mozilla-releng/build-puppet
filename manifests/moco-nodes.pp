@@ -279,6 +279,12 @@ node 'install.test.releng.mdc1.mozilla.com' {
     }
 }
 
+node 'install2.test.releng.mdc1.mozilla.com' {
+    $aspects = [ 'maximum-security' ]
+    include fw::profiles::deploystudio
+    include toplevel::server::deploystudio
+}
+
 node 'install.test.releng.mdc2.mozilla.com' {
     $aspects = [ 'maximum-security' ]
     include fw::profiles::deploystudio
@@ -288,6 +294,12 @@ node 'install.test.releng.mdc2.mozilla.com' {
             cert => secret('install_test_releng_mdc2_bacula_cert'),
             key  => secret('install_test_releng_mdc2_bacula_key');
     }
+}
+
+node 'install2.test.releng.mdc2.mozilla.com' {
+    $aspects = [ 'maximum-security' ]
+    include fw::profiles::deploystudio
+    include toplevel::server::deploystudio
 }
 
 ## Jump hosts
@@ -1164,15 +1176,6 @@ node /^tb-tree-comm-\d+\.srv\.releng\..*\.mozilla\.com$/ {
 }
 
 ## Loaners
-
-# Loaner for testing osx firewalling
-# See bug 1369566
-node 't-yosemite-r7-393.test.releng.mdc1.mozilla.com' {
-    $aspects           = [ 'low-security' ]
-    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
-    $pin_puppet_env    = 'jwatkins'
-    include toplevel::base
-}
 
 # Loaner for testing pip and python update
 # See Bug 1388816
