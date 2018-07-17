@@ -110,7 +110,7 @@ class generic_worker {
                         group   => $users::root::group;
                     }
                     exec { 'create gpg key':
-                        path    => ['/bin', '/sbin', '/usr/local/bin'],
+                        path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin'],
                         user    => $users::builder::username,
                         command => "generic-worker new-openpgp-keypair --file ${::users::builder::home}/generic-worker.openpgp.key",
                         unless  => "test -f ${::users::builder::home}/generic-worker.openpgp.key"
