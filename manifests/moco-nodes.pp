@@ -1196,9 +1196,10 @@ node 'relops-patching1.srv.releng.mdc1.mozilla.com' {
     include toplevel::server
 }
 
-# Loaner for dcrisan; Bug 1410207
+# Worker in linux talos staging pool
 node 't-linux64-ms-280.test.releng.mdc1.mozilla.com' {
     $aspects = [ 'low-security' ]
+    $slave_trustlevel  = 'try'
     $environment       = 'staging'
     include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
@@ -1210,6 +1211,7 @@ node 'ds-test1.srv.releng.mdc2.mozilla.com' {
     include toplevel::server
 }
 
+# Worker in osx staging pool
 node 't-yosemite-r7-380.test.releng.mdc1.mozilla.com' {
     $aspects           = [ 'low-security' ]
     $slave_trustlevel  = 'try'
