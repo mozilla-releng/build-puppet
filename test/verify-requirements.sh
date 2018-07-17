@@ -93,7 +93,9 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
         if [ ".$actual_error" == "." ] ; then
             actual_error="can't find the error; please read the full log. sorry"
         fi
-        error_messages="${error_messages}${req_file}: ${actual_error}\\n"
+        error_messages="${error_messages}
+${req_file}: ${actual_error}
+"
         echo "requirements file used:"
         cat ${pypi_deps}
         echo
@@ -104,6 +106,6 @@ done
 
 if [ $rc != 0 ]; then
     echo "Hit errors while verifying some requirements. See above for details."
-    echo $error_messages
+    echo "$error_messages"
 fi
 exit ${rc}
