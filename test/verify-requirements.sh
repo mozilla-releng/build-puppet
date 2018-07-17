@@ -15,6 +15,8 @@ apt-get -q --yes install gcc automake autoconf libmariadbclient-dev liblzma-dev
 # into the system first
 pip install virtualenv hashin
 
+error_messages=""
+
 for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     req_python_version=$(grep python_version $req_file | cut -d: -f2 | xargs)
     if [ "${req_python_version}" != "${python_version}" ]; then
@@ -67,6 +69,7 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     # that are missing from the file will cause an error, rather than get
     # implicitly installed.
     ${pip} install -r ${pypi_deps} >>${log} 2>&1
+
     # if exit code is not 1, print message and mark overall as fail
     if [ $? != 0 ]; then
         echo "ERROR: pip install failed for ${req_file}. See below for details:"
@@ -78,9 +81,30 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
         echo
         rc=1
     fi
+
+    # Now make sure all deps align
+    ${pip} check >>${log} 2>&1
+    # if exit code is not 1, print message and mark overall as fail
+    if [ $? != 0 ]; then
+        echo "ERROR: pip check failed for ${req_file}. See below for details:"
+        echo "pip log:"
+        cat ${log}
+        actual_error=`grep "has requirement" ${log}`
+        if [ ".$actual_error" == "." ] ; then
+            actual_error="can't find the error; please read the full log. sorry\n"
+        fi
+        # actual_error has a newline already
+        error_messages="${error_messages}${req_file}: ${actual_error}"
+        echo "requirements file used:"
+        cat ${pypi_deps}
+        echo
+        echo
+        rc=1
+    fi
 done
 
 if [ $rc != 0 ]; then
     echo "Hit errors while verifying some requirements. See above for details."
+    echo "$error_messages"
 fi
 exit ${rc}
