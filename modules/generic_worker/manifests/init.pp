@@ -115,6 +115,11 @@ class generic_worker {
                         command => "generic-worker new-openpgp-keypair --file ${::users::builder::home}/generic-worker.openpgp.key",
                         unless  => "test -f ${::users::builder::home}/generic-worker.openpgp.key"
                     }
+                    # Enable proxy_http_module on apache2
+                    exec { 'enable proxy_http_module':
+                        path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin', '/usr/sbin'],
+                        command => 'a2enmod proxy_http'
+                    }
                     host {"${taskcluster_host}":
                         ip => '127.0.0.1'
                     }
