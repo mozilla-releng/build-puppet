@@ -22,7 +22,7 @@ python-dateutil==2.7.3
 python-jose==3.0.0
 redo==1.6
 # see bug 1467067
-requests==2.10.0  # pyup: ignore
+requests==2.4.3  # pyup: ignore
 rsa==3.4.2
 sh==1.12.14
 signingworker==0.15
