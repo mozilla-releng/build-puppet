@@ -91,7 +91,7 @@ class generic_worker {
                             owner  => $users::builder::username,
                             group  => $users::builder::group;
                         "${::users::builder::home}/.config/autostart/gnome-terminal.desktop":
-                            content => template('taskcluster_worker/gnome-terminal.desktop.erb'),
+                            content => template('generic-worker/gnome-terminal.desktop.erb'),
                             owner   => $users::builder::username,
                             group   => $users::builder::group;
                     }
