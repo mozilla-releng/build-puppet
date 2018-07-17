@@ -91,11 +91,10 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
         cat ${log}
         actual_error=`grep "has requirement" ${log}`
         if [ ".$actual_error" == "." ] ; then
-            actual_error="can't find the error; please read the full log. sorry"
+            actual_error="can't find the error; please read the full log. sorry\n"
         fi
-        error_messages="${error_messages}
-${req_file}: ${actual_error}
-"
+        # actual_error has a newline already
+        error_messages="${error_messages}${req_file}: ${actual_error}"
         echo "requirements file used:"
         cat ${pypi_deps}
         echo
