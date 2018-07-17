@@ -18,6 +18,7 @@ class generic_worker {
     case $::operatingsystem {
         Darwin: {
             $macos_version = regsubst($::macosx_productversion_major, '\.', '')
+            $task_dir = '/Users/cltbld/tasks'
             if ($environment == 'staging') {
                 $worker_type = "gecko-t-osx-${macos_version}-beta"
                 $taskcluster_client_id = secret('osx_staging_client')
@@ -74,6 +75,7 @@ class generic_worker {
         Ubuntu: {
             case $::operatingsystemrelease {
                 16.04: {
+                    $task_dir = '/home/cltbld/tasks'
                     if ($environment == 'staging') {
                         $worker_type = "gecko-t-osx-linux-talos-beta"
                         $taskcluster_client_id = secret('generic_worker_linux_staging_client_id')
