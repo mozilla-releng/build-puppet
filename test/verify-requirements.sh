@@ -67,10 +67,25 @@ for req_file in `find ${MODULES} -wholename "*files*requirements*.txt"`; do
     # that are missing from the file will cause an error, rather than get
     # implicitly installed.
     ${pip} install -r ${pypi_deps} >>${log} 2>&1
+    
     # if exit code is not 1, print message and mark overall as fail
     if [ $? != 0 ]; then
         echo "ERROR: pip install failed for ${req_file}. See below for details:"
         echo "pip install log:"
+        cat ${log}
+        echo "requirements file used:"
+        cat ${pypi_deps}
+        echo
+        echo
+        rc=1
+    fi
+    
+    # Now make sure all deps align
+    ${pip} check >>${log} 2>&1
+    # if exit code is not 1, print message and mark overall as fail
+    if [ $? != 0 ]; then
+        echo "ERROR: pip check failed for ${req_file}. See below for details:"
+        echo "pip log:"
         cat ${log}
         echo "requirements file used:"
         cat ${pypi_deps}
