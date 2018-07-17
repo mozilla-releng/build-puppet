@@ -75,7 +75,7 @@ class httpd {
                     }
                 }
                 default: {
-                    fail("Don't know how to set up httpd on ${::operatingsystemrelease}"
+                    fail("Don't know how to set up httpd on ${::operatingsystemrelease}")
                 }
             }
         }
