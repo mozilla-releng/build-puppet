@@ -24,4 +24,4 @@ idna==2.7
 enum34==1.1.6
 ipaddress==1.0.22
 asn1crypto==0.24.0
-sqlalchemy==1.2.9
+sqlalchemy==1.2.10

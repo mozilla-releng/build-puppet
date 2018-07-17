@@ -7,7 +7,7 @@ Jinja2==2.10
 PGPy==0.4.3
 PyHawk-with-a-single-extra-commit==0.1.5
 PyYAML==3.13
-SQLAlchemy==1.2.9
+SQLAlchemy==1.2.10
 Tempita==0.5.2
 # don't upgrade twisted because it doesn't work with our buildbot
 Twisted==12.3.0  # pyup: ignore
@@ -27,7 +27,7 @@ enum34==1.1.6
 future==0.16.0
 futures==3.2.0
 idna==2.7
-invoke==1.0.0
+invoke==1.1.0
 ipaddress==1.0.22
 MarkupSafe==1.0
 mohawk==0.3.4

@@ -1,5 +1,5 @@
 # python_version: 27
-gevent==1.3.4
+gevent==1.3.5
 greenlet==0.4.13
 pycrypto==2.6.1
 # unused, but one of the vendor libraries (Flask) requires it
@@ -23,7 +23,7 @@ python-dateutil==2.7.3
 # for aws cloud-tools
 MySQL-python==1.2.5
 PyYAML==3.13
-SQLAlchemy==1.2.9
+SQLAlchemy==1.2.10
 cfn-pyplates==0.6.0
 ecdsa==0.13
 idna==2.7
@@ -37,10 +37,10 @@ testtools==2.3.0
 pbr==4.1.0
 schema==0.6.8
 simplejson==3.16.0
-Fabric==2.1.3
+Fabric==2.2.0
 IPy==0.83
 argparse==1.4.0
-boto==2.48.0
+boto==2.49.0
 iso8601==0.1.12
 repoze.lru==0.7
 ssh==1.8.0
@@ -60,7 +60,7 @@ fixtures==3.0.0
 python-mimeparse==1.6.0
 unittest2==1.1.0
 traceback2==1.4.0
-invoke==1.0.0
+invoke==1.1.0
 cffi==1.11.5
 enum34==1.1.6
 asn1crypto==0.24.0
