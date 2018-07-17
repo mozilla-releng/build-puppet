@@ -1199,9 +1199,9 @@ node 'relops-patching1.srv.releng.mdc1.mozilla.com' {
 # Loaner for dcrisan; Bug 1410207
 node 't-linux64-ms-280.test.releng.mdc1.mozilla.com' {
     $aspects = [ 'low-security' ]
-    # $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
-    # $pin_puppet_env    = 'dcrian'
-    include toplevel::server
+    $environment       = 'staging'
+    include fw::profiles::osx_taskcluster_worker
+    include toplevel::worker::releng::generic_worker::test::gpu
 }
 
 # Loaner for dividehex; bug 1445842 and 1447766
