@@ -82,7 +82,8 @@ class generic_worker {
             case $::operatingsystemrelease {
                 16.04: {
                     if ($environment == 'staging') {
-                        $worker_type = "gecko-t-osx-linux-talos-beta"
+                        # We are limited to 22 characters for worker_type
+                        $worker_type = "gecko-t-linux-talos-b"
                         $taskcluster_client_id = secret('generic_worker_linux_staging_client_id')
                         $taskcluster_access_token = hiera('generic_worker_linux_staging_access_token')
                     }
@@ -125,6 +126,12 @@ class generic_worker {
 
                     host {"${taskcluster_host}":
                         ip => '127.0.0.1'
+                    }
+                    # Enable proxy_http_module on apache2
+                    exec { 'enable proxy_http_module':
+                        path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin', '/usr/sbin'],
+                        command => 'a2enmod proxy_http',
+                        notify  => Service['httpd'];
                     }
                     httpd::config {
                         'proxy.conf':
