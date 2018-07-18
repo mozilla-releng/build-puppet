@@ -30,6 +30,7 @@ create_bug_self_failure() {
        "summary" : "$summary",
        "description": "$description"
    }
+EOF
 )
 echo "$JSON" > $json_file
 
@@ -57,7 +58,8 @@ resolve_bug_self_failure() {
          "is_private": false
       }
    }
-  )
+EOF
+)
    echo "$JSON" > $json_file
 
   curl -v -X PUT -H Content-Type:application/json -H Accept:application/json -d @$json_file https://bugzilla.mozilla.org/rest/bug/$bug_id
