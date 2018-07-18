@@ -11,14 +11,20 @@ class generic_worker {
 
     $taskcluster_host = 'taskcluster'
     $livelog_secret = hiera('livelog_secret')
+    $livelog_certificate = "${::users::builder::home}/livelog.crt"
+    $livelog_key = "${::users::builder::home}/livelog.key"
     $worker_group = regsubst($::fqdn, '.*\.releng\.(.+)\.mozilla\..*', '\1')
+    $task_dir = "${::users::builder::home}/tasks"
+    $caches_dir = "${::users::builder::home}/cache"
+    $downloads_dir = "${::users::builder::home}/downloads"
+    $signing_key = "${::users::builder::home}/generic-worker.openpgp.key"
+
     $quarantine_client_id = secret('quarantine_client_id')
     $quarantine_access_token = hiera('quarantine_access_token')
 
     case $::operatingsystem {
         Darwin: {
             $macos_version = regsubst($::macosx_productversion_major, '\.', '')
-            $task_dir = '/Users/cltbld/tasks'
             if ($environment == 'staging') {
                 $worker_type = "gecko-t-osx-${macos_version}-beta"
                 $taskcluster_client_id = secret('osx_staging_client')
@@ -75,7 +81,6 @@ class generic_worker {
         Ubuntu: {
             case $::operatingsystemrelease {
                 16.04: {
-                    $task_dir = '/home/cltbld/tasks'
                     if ($environment == 'staging') {
                         $worker_type = "gecko-t-osx-linux-talos-beta"
                         $taskcluster_client_id = secret('generic_worker_linux_staging_client_id')
@@ -117,11 +122,7 @@ class generic_worker {
                         command => "generic-worker new-openpgp-keypair --file ${::users::builder::home}/generic-worker.openpgp.key",
                         unless  => "test -f ${::users::builder::home}/generic-worker.openpgp.key"
                     }
-                    # Enable proxy_http_module on apache2
-                    exec { 'enable proxy_http_module':
-                        path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin', '/usr/sbin'],
-                        command => 'a2enmod proxy_http'
-                    }
+
                     host {"${taskcluster_host}":
                         ip => '127.0.0.1'
                     }

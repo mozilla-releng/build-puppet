@@ -73,6 +73,12 @@ class httpd {
                             ensure => absent,
                             notify => Service['httpd'];
                     }
+                    # Enable proxy_http_module on apache2
+                    exec { 'enable proxy_http_module':
+                        path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin', '/usr/sbin'],
+                        command => 'a2enmod proxy_http',
+                        notify  => Service['httpd'];
+                    }
                 }
                 default: {
                     fail("Don't know how to set up httpd on ${::operatingsystemrelease}")
