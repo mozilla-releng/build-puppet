@@ -12,7 +12,7 @@ configobj==5.0.6
 ecdsa==0.13
 functools32==3.2.3-2
 future==0.16.0
-idna==2.6
+idna==2.7
 jsonschema==2.6.0
 kombu==4.2.1
 mohawk==0.3.4
@@ -22,13 +22,13 @@ python-dateutil==2.7.3
 python-jose==3.0.0
 redo==1.6
 # see bug 1467067
-requests==2.10.0  # pyup: ignore
+requests==2.4.3  # pyup: ignore
 rsa==3.4.2
 sh==1.12.14
 signingworker==0.15
 six==1.11.0
 slugid==1.0.7
-taskcluster==3.0.1
+taskcluster==3.0.2
 total-ordering==0.1.0
 wsgiref==0.1.2
 vine==1.1.4
