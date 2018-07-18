@@ -15,7 +15,7 @@ class generic_worker {
     $livelog_key = "${::users::builder::home}/livelog.key"
     $worker_group = regsubst($::fqdn, '.*\.releng\.(.+)\.mozilla\..*', '\1')
     $task_dir = "${::users::builder::home}/tasks"
-    $caches_dir = "${::users::builder::home}/cache"
+    $caches_dir = "${::users::builder::home}/caches"
     $downloads_dir = "${::users::builder::home}/downloads"
     $signing_key = "${::users::builder::home}/generic-worker.openpgp.key"
 
@@ -66,8 +66,8 @@ class generic_worker {
             exec { 'create gpg key':
                 path    => ['/bin', '/sbin', '/usr/local/bin'],
                 user    => 'cltbld',
-                command => 'generic-worker new-openpgp-keypair --file /Users/cltbld/generic-worker.openpgp.key',
-                unless  => 'test -f /Users/cltbld/generic-worker.openpgp.key'
+                command => "generic-worker new-openpgp-keypair --file ${::users::builder::home}/generic-worker.openpgp.key",
+                unless  => "test -f ${::users::builder::home}/generic-worker.openpgp.key"
             }
             host {"${taskcluster_host}":
                 ip => '127.0.0.1'
@@ -120,6 +120,7 @@ class generic_worker {
                     exec { 'create gpg key':
                         path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin'],
                         user    => 'cltbld',
+                        cwd     => $users::builder::home
                         command => "generic-worker new-openpgp-keypair --file ${::users::builder::home}/generic-worker.openpgp.key",
                         unless  => "test -f ${::users::builder::home}/generic-worker.openpgp.key"
                     }
