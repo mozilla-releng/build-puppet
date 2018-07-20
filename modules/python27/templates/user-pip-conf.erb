@@ -7,6 +7,3 @@ disable-pip-version-check = true
 find-links = <%- @user_python_repositories.each do |rep| %>
     <%= rep -%>
 <%- end %>
-trusted-host = <%- @user_python_repositories.each do |rep| %>
-    <%= URI.parse(rep).host -%>
-<%- end %>
