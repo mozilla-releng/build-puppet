@@ -32,7 +32,7 @@ ipaddress==1.0.22
 MarkupSafe==1.0
 mohawk==0.3.4
 paramiko==2.4.1
-pbr==4.1.0
+pbr==4.1.1
 pyasn1==0.4.3
 pycparser==2.18
 pycrypto==2.6.1
