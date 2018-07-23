@@ -126,8 +126,8 @@ class generic_worker {
                     }
                     # Enable proxy_http_module on apache2
                     exec { 'enable proxy_http_module':
-                        path      => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin', '/usr/sbin'],
-                        command   => 'a2enmod proxy_http';
+                        path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin', '/usr/sbin'],
+                        command => 'a2enmod proxy_http';
                     }
                     httpd::config {
                         'proxy.conf':
