@@ -1,6 +1,6 @@
 # python_version: 27
 gevent==1.3.5
-greenlet==0.4.13
+greenlet==0.4.14
 pycrypto==2.6.1
 # unused, but one of the vendor libraries (Flask) requires it
 Jinja2==2.10
