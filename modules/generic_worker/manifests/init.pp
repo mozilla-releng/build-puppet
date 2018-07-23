@@ -132,7 +132,8 @@ class generic_worker {
                     }
                     httpd::config {
                         'proxy.conf':
-                            content => template('generic_worker/proxy-httpd.conf.erb');
+                            content => template('generic_worker/proxy-httpd.conf.erb'),
+                            require => Exec['enable proxy_http_module'];
                     }
                 }
                 default: {
