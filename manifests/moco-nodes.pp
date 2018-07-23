@@ -1177,35 +1177,13 @@ node /^tb-tree-comm-\d+\.srv\.releng\..*\.mozilla\.com$/ {
 
 ## Loaners
 
-# Loaner for testing pip and python update
-# See Bug 1388816
-node 't-yosemite-r7-394.test.releng.mdc1.mozilla.com' {
-    $aspects           = [ 'low-security' ]
-    $slave_trustlevel  = 'try'
-    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
-    $pin_puppet_env    = 'dcrisan'
-    include fw::profiles::osx_taskcluster_worker
-    include toplevel::base
-    include generic_worker::disabled
-}
-
 # Loaner for testing security patches
 # See Bug 1433165 and Bug 1385050
-
 node 'relops-patching1.srv.releng.mdc1.mozilla.com' {
     $aspects = [ 'low-security' ]
     $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
     $pin_puppet_env    = 'dcrisan'
     include toplevel::server
-}
-
-# Worker in linux talos staging pool
-node 't-linux64-ms-280.test.releng.mdc1.mozilla.com' {
-    $aspects = [ 'low-security' ]
-    $slave_trustlevel  = 'try'
-    $environment       = 'staging'
-    include fw::profiles::osx_taskcluster_worker
-    include toplevel::worker::releng::generic_worker::test::gpu
 }
 
 # Loaner for dividehex; bug 1445842 and 1447766
@@ -1214,11 +1192,27 @@ node 'ds-test1.srv.releng.mdc2.mozilla.com' {
     include toplevel::server
 }
 
-# Worker in osx staging pool
-node 't-yosemite-r7-380.test.releng.mdc1.mozilla.com' {
+# Workers in osx staging pool
+node 't-yosemite-r7-380.test.releng.mdc1.mozilla.com',
+    't-yosemite-r7-394.test.releng.mdc1.mozilla.com',
+    't-yosemite-r7-100.test.releng.mdc2.mozilla.com',
+    't-yosemite-r7-101.test.releng.mdc2.mozilla.com' {
     $aspects           = [ 'low-security' ]
     $slave_trustlevel  = 'try'
-    $environment       = 'staging'
+    $tc_environment       = 'staging'
+    include fw::profiles::osx_taskcluster_worker
+    include toplevel::worker::releng::generic_worker::test::gpu
+}
+
+
+# Workers in linux talos staging pool
+node 't-linux64-ms-280.test.releng.mdc1.mozilla.com',
+    't-linux64-ms-240.test.releng.mdc1.mozilla.com',
+    't-linux64-ms-394.test.releng.mdc2.mozilla.com',
+    't-linux64-ms-395.test.releng.mdc2.mozilla.com' {
+    $aspects = [ 'low-security' ]
+    $slave_trustlevel  = 'try'
+    $tc_environment       = 'staging'
     include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
 }
