@@ -12,7 +12,7 @@
         },
 <% end -%>
 <% if @env_config["dep_maven_buckets"] -%>
-        "dep-maven": {
+        "maven-staging": {
             "credentials": {
                 "id": "<%= @env_config["dep_maven_beetmover_aws_access_key_id"] %>",
                 "key": "<%= @env_config["dep_maven_beetmover_aws_secret_access_key"] %>"
