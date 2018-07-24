@@ -10,13 +10,13 @@ class toplevel::server::signing inherits toplevel::server {
     $signing_server_dep_password     = secret('signing_server_dep_password')
     $signing_server_release_password = secret('signing_server_release_password')
     $signing_server_nightly_password = secret('signing_server_nightly_password')
-    $signing_server_ssl_cert     = $config::signing_server_ssl_certs[$hostname] ? {
+    $signing_server_ssl_cert     = $config::signing_server_ssl_certs[$fqdn] ? {
         undef => secret('signing_server_ssl_cert'),
-        default => $config::signing_server_ssl_certs[$hostname],
+        default => $config::signing_server_ssl_certs[$fqdn],
     }
-    $signing_server_ssl_private_key = $config::signing_server_ssl_private_keys[$hostname] ? {
+    $signing_server_ssl_private_key = $config::signing_server_ssl_private_keys[$fqdn] ? {
         undef => secret('signing_server_ssl_private_key'),
-        default => $config::signing_server_ssl_private_keys[$hostname],
+        default => $config::signing_server_ssl_private_keys[$fqdn],
     }
 
     assert {
