@@ -13,6 +13,7 @@ class beetmover_scriptworker {
     include packages::libffi
     include tweaks::scriptworkerlogrotate
     include tweaks::scriptworkerlogrotate
+    include beetmover_scriptworker::mime_types
 
     $env_config = $beetmover_scriptworker::settings::env_config[$beetmoverworker_env]
 
