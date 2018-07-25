@@ -11,7 +11,7 @@ class beetmover_scriptworker::mime_types {
         CentOS: {
             file { '/etc/mime.types':
                 mode    => '0644',
-                content => 'application/java-archive                    aar jar',
+                source => 'puppet:///modules/beetmover_scriptworker/mime.types',
             }
         }
         default: {
