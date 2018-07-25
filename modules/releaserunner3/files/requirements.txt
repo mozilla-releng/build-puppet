@@ -11,7 +11,7 @@ requests==2.19.1
 simplejson==3.16.0
 six==1.11.0
 slugid==1.0.7
-taskcluster==3.0.2
+taskcluster==3.0.2  # pyup: <4.0.0
 urllib3==1.22
 wsgiref==0.1.2
 zope.interface==4.5.0
