@@ -59,8 +59,8 @@ class config inherits config::base {
                           'releng-puppet2.srv.releng.mdc1.mozilla.com',
                           'releng-puppet1.srv.releng.mdc2.mozilla.com',
                           'releng-puppet2.srv.releng.mdc2.mozilla.com',
-                          'releng-puppet1.srv.releng.scl3.mozilla.com',
-#                          'releng-puppet2.srv.releng.scl3.mozilla.com',  # This intermediate CA is expiring on 2018/05/01, let's invalidate it until the cert is renewed
+#                          'releng-puppet1.srv.releng.scl3.mozilla.com', # Bug 1477554
+#                          'releng-puppet2.srv.releng.scl3.mozilla.com',
                           'releng-puppet1.srv.releng.use1.mozilla.com',
                           'releng-puppet1.srv.releng.usw2.mozilla.com',
                         ]
