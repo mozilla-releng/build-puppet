@@ -10,7 +10,7 @@ class beetmover_scriptworker::mime_types {
         # we're on. Without it, google-api-python-client refuses to handle files.
         CentOS: {
             file { '/etc/mime.types':
-                mode    => '0644',
+                mode   => '0644',
                 source => 'puppet:///modules/beetmover_scriptworker/mime.types',
             }
         }
