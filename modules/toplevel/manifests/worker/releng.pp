@@ -9,7 +9,6 @@ class toplevel::worker::releng inherits toplevel::worker {
     # packages common to all workers
     include dirs::tools
     include packages::mozilla::python27
-    include packages::mozilla::python3
     include packages::mozilla::tooltool
     include packages::wget
     include packages::mozilla::py27_mercurial
