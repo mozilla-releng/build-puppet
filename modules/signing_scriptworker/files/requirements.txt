@@ -28,12 +28,12 @@ python-jose==3.0.0
 requests==2.19.1
 rsa==3.4.2
 scriptworker==14.0.0
-signingscript==7.0.0  # puppet: nodownload
+signingscript==7.0.2  # puppet: nodownload
 signtool==3.2.0
 simplejson==3.16.0
 six==1.11.0
 slugid==1.0.7
-taskcluster==3.0.2
+taskcluster==3.0.2  # pyup: <4.0.0
 urllib3==1.23
 virtualenv==16.0.0
 yarl==1.2.6
