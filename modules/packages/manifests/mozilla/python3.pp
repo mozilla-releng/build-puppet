@@ -63,7 +63,7 @@ class packages::mozilla::python3 {
 
             # Added python3 information, to avoid error: $python3 must be defined in this manifest file
             # when run puppet on Ubuntu machines
-            $python3 = undef
+            $python3 = ' '
 
             # Python3 installation on Ubuntu machines will be part os other bug
         }
