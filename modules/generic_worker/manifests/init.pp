@@ -129,12 +129,12 @@ class generic_worker {
                         path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin', '/usr/sbin'],
                         command => 'a2enmod proxy_http',
                         onlyif  => 'test `apache2ctl -M|grep -c proxy_http` -eq 0',
-                        before  => Class['httpd::config']
                         notify  => Service['httpd'];
                     }
                     httpd::config {
                         'proxy.conf':
-                            content => template('generic_worker/proxy-httpd.conf.erb');
+                            content => template('generic_worker/proxy-httpd.conf.erb'),
+                            require => Exec['enable proxy_http_module'];
                     }
                 }
                 default: {
