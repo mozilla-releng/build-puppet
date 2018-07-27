@@ -32,12 +32,12 @@ pyxdg==0.26
 requests==2.19.1
 requests-toolbelt==0.8.0
 requests-unixsocket==0.1.5
-scriptworker==14.0.0  # pyup: <15.0.0
+scriptworker==15.0.0
 simplejson==3.16.0
 six==1.11.0
 slugid==1.0.7
 tabulate==0.8.2
-taskcluster==3.0.2  # pyup: <4.0.0
+taskcluster==4.0.1
 urllib3==1.23
 virtualenv==16.0.0
 yarl==1.2.6

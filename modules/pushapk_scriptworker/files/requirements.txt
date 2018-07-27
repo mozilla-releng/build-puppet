@@ -59,10 +59,10 @@ python-gnupg==0.4.3
 pytz==2018.5
 requests==2.19.1
 rsa==3.4.2
-scriptworker==14.0.0  # pyup: <15.0.0
+scriptworker==15.0.0
 simplegeneric==0.8.1
 slugid==1.0.7
-taskcluster==3.0.2  # pyup: <4.0.0
+taskcluster==4.0.1
 traitlets==4.3.2
 uritemplate==3.0.0
 urllib3==1.23
