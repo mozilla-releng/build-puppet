@@ -11,4 +11,4 @@ search: True
 
 # Because updates generally trigger service reloads/restarts, it's better to batch
 # these together when possible.
-schedule: every week
+schedule: every week on thursday
