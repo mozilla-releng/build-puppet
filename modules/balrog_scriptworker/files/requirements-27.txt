@@ -19,7 +19,7 @@ incremental==17.5.0
 ipaddress==1.0.21
 jinja2==2.10
 jsonschema==2.6.0
-mar==2.2.3
+mar==2.3.0
 markupsafe==1.0
 pyasn1==0.4.4
 pycparser==2.18
