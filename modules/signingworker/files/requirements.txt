@@ -16,7 +16,7 @@ idna==2.7
 jsonschema==2.6.0
 kombu==4.2.1
 mohawk==0.3.4
-pyasn1==0.4.3
+pyasn1==0.4.4
 pycrypto==2.6.1
 python-dateutil==2.7.3
 python-jose==3.0.0
