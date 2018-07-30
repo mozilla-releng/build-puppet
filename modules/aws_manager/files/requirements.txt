@@ -40,7 +40,7 @@ six==1.11.0
 invoke==1.1.0
 cryptography==2.3
 enum==0.4.6
-pyasn1==0.4.3
+pyasn1==0.4.4
 idna==2.7
 asn1crypto==0.24.0
 bcrypt==3.1.4
