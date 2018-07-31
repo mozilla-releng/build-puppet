@@ -50,13 +50,18 @@ elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
     # If exitstatus is different by 69 (grater than 69 or lower than 69)
     # The worker was removed from the quarantin and run with success a job
     /bin/rm -rf /Users/cltbld/quarantined
-    # Self resolve the bug
-    resolve_bug_self_failure
-    # Now reboot the machine immediately (time costs money)
-    /usr/bin/sudo /sbin/reboot
-    # Sleep to prevent this script from terminating naturally, and launchd restarting
-    # it. Instead, the shutdown should cause this script to terminate (so it won't
-    # really sleep for 2 mins). If shutdown doesn't kick in within 2 mins, it is sane
-    # for this script to exit, and allow launchd to fire up the worker again.
-    /bin/sleep 120
+    if 
+    # Self resolve the bug and remove bug_id file
+    [ -f /Users/cltbld/bug_id ]; then
+        resolve_bug_self_failure    
+        /bin/rm -rf /Users/cltbld/bug_id
+    else
+        # Now reboot the machine immediately (time costs money)
+        /usr/bin/sudo /sbin/reboot
+        # Sleep to prevent this script from terminating naturally, and launchd restarting
+        # it. Instead, the shutdown should cause this script to terminate (so it won't
+        # really sleep for 2 mins). If shutdown doesn't kick in within 2 mins, it is sane
+        # for this script to exit, and allow launchd to fire up the worker again.
+        /bin/sleep 120
+    fi
 fi
