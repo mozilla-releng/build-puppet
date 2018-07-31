@@ -50,9 +50,8 @@ elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
     # If exitstatus is different by 69 (grater than 69 or lower than 69)
     # The worker was removed from the quarantin and run with success a job
     /bin/rm -rf /Users/cltbld/quarantined
-    if 
     # Self resolve the bug and remove bug_id file
-    [ -f /Users/cltbld/bug_id ]; then
+    if [ -f /Users/cltbld/bug_id ]; then
         resolve_bug_self_failure    
         /bin/rm -rf /Users/cltbld/bug_id
     else
