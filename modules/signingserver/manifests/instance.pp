@@ -117,13 +117,17 @@ define signingserver::instance(
             packages        => $virtualenv_packages;
     }
 
-    mercurial::repo {
-        "signing-${title}-tools":
-            require => Python::Virtualenv[$basedir],
-            hg_repo => $tools_repo,
-            dst_dir => "${basedir}/tools",
-            user    => $user,
-            rev     => $code_tag;
+    # system hg is broken on mac signing servers =\
+    # a human should clone using the venv's bin/hg
+    if $::operatingsystem != 'Darwin' {
+        mercurial::repo {
+            "signing-${title}-tools":
+                require => Python::Virtualenv[$basedir],
+                hg_repo => $tools_repo,
+                dst_dir => "${basedir}/tools",
+                user    => $user,
+                rev     => $code_tag;
+        }
     }
 
     if $ssl_cert == '' {
