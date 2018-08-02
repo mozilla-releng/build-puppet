@@ -54,7 +54,7 @@ pynacl==1.2.1
 pyasn1==0.4.4
 bcrypt==3.1.4
 click==6.7
-docutils-0.14
+docutils==0.14
 lockfile==0.12.2
 fixtures==3.0.0
 python-mimeparse==1.6.0
