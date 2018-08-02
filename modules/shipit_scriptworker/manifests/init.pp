@@ -11,6 +11,8 @@ class shipit_scriptworker {
     include packages::make
     include tweaks::scriptworkerlogrotate
 
+    $env_config = $shipit_scriptworker::settings::env_config[$shipit_scriptworker_env]
+
     # If the Python installation changes, we need to rebuild the virtualenv
     # from scratch. Before doing that, we need to stop the running instance.
     exec {
@@ -42,16 +44,17 @@ class shipit_scriptworker {
             username                 => $shipit_scriptworker::settings::user,
             group                    => $shipit_scriptworker::settings::group,
 
-            taskcluster_client_id    => $shipit_scriptworker::settings::taskcluster_client_id,
-            taskcluster_access_token => $shipit_scriptworker::settings::taskcluster_access_token,
-            worker_group             => $shipit_scriptworker::settings::worker_group,
-            worker_type              => $shipit_scriptworker::settings::worker_type,
+            taskcluster_client_id    => $env_config["taskcluster_client_id"],
+            taskcluster_access_token => $env_config["taskcluster_access_token"],
+            worker_group             => $env_config['worker_group'],
+            worker_type              => $env_config["worker_type"],
 
             cot_job_type             => 'shipit',
+            cot_product              => $env_config['cot_product'],
 
-            sign_chain_of_trust      => $shipit_scriptworker::settings::sign_chain_of_trust,
-            verify_chain_of_trust    => $shipit_scriptworker::settings::verify_chain_of_trust,
-            verify_cot_signature     => $shipit_scriptworker::settings::verify_cot_signature,
+            sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
+            verify_chain_of_trust    => $env_config["verify_chain_of_trust"],
+            verify_cot_signature     => $env_config["verify_cot_signature"],
 
             verbose_logging          => $shipit_scriptworker::settings::verbose_logging,
     }
@@ -64,7 +67,14 @@ class shipit_scriptworker {
         show_diff   => false,
     }
 
-    $config_content = $shipit_scriptworker::settings::script_config_content
+    $config_content      = {
+        work_dir           => $shipit_scriptworker::settings::work_dir,
+        mark_as_shipped_schema_file => $shipit_scriptworker::settings::mark_as_shipped_schema_file,
+        mark_as_started_schema_file => $shipit_scriptworker::settings::mark_as_started_schema_file,
+        verbose            => $shipit_scriptworker::settings::verbose_logging,
+        ship_it_instances  => $env_config['ship_it_instances'],
+        taskcluster_scope_prefix => $env_config['taskcluster_scope_prefix'],
+    }
     file {
         $shipit_scriptworker::settings::script_config:
             require => Python3::Virtualenv[$shipit_scriptworker::settings::root],
