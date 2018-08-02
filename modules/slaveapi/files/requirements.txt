@@ -66,3 +66,5 @@ asn1crypto==0.24.0
 ipaddress==1.0.22
 linecache2==1.0.0
 pycparser==2.18
+cryptography==2.3
+six==1.11.0
