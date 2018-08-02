@@ -1177,18 +1177,6 @@ node /^tb-tree-comm-\d+\.srv\.releng\..*\.mozilla\.com$/ {
 
 ## Loaners
 
-# Loaner for testing pip and python update
-# See Bug 1388816
-node 't-yosemite-r7-394.test.releng.mdc1.mozilla.com' {
-    $aspects           = [ 'low-security' ]
-    $slave_trustlevel  = 'try'
-    $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'
-    $pin_puppet_env    = 'dcrisan'
-    include fw::profiles::osx_taskcluster_worker
-    include toplevel::base
-    include generic_worker::disabled
-}
-
 # Loaner for testing security patches
 # See Bug 1433165 and Bug 1385050
 
