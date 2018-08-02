@@ -11,4 +11,10 @@ search: True
 
 # Because updates generally trigger service reloads/restarts, it's better to batch
 # these together when possible.
-schedule: every week
+schedule: every week on Wednesday
+
+# Blacklist modules/slaveapi/files/requirements.txt
+# Upgrades to this module breaks the SlaveAPI dashboard. BUG 1467573
+requirements:
+  - modules/slaveapi/files/requirements.txt:
+      update: False
