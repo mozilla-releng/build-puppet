@@ -61,7 +61,7 @@ if [ -f ${logfile} ]; then
             # --no-deps beacuse we don't want to download implicit dependencies (we'd rather have errors, and make them explicit)
             # --python-version to make sure we're getting the correct wheels
             # -d to make sure the packages go to the right place
-            ${pip_binary} download -q --cache-dir=/root/.cache/pip-${python_version} --no-deps --python-version ${python_version} -d $download_dir $dep >> $logfile 2>&1
+            ${pip_binary} --disable-pip-version-check download -q --cache-dir=/root/.cache/pip-${python_version} --no-deps --python-version ${python_version} -d $download_dir $dep >> $logfile 2>&1
         done
     fi
 
