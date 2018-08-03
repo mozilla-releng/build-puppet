@@ -17,7 +17,7 @@ class generic_worker {
             $livelog_secret = hiera('livelog_secret')
             $worker_group = regsubst($::fqdn, '.*\.releng\.(.+)\.mozilla\..*', '\1')
 
-            if ($environment == 'staging') {
+            if ($tc_environment == 'staging') {
                 $worker_type = "gecko-t-osx-${macos_version}-beta"
             }
             else {
