@@ -8,7 +8,7 @@ class packages::mozilla::generic_worker {
         'packages::mozilla::generic_worker::end': ;
     }
 
-    if ($tc_environment == 'staging') {
+    if (has_aspect('staging')) {
         $tag = 'v10.11.3'
     } else {
         $tag = 'v10.11.3'
