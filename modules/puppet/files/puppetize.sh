@@ -14,6 +14,8 @@
 
 REBOOT_FLAG_FILE="/REBOOT_AFTER_PUPPET"
 OS=`facter operatingsystem`
+NTP_SERVER="ntp.build.mozilla.org"
+
 case "$OS" in
     Darwin) ROOT=/var/root ;;
     *) ROOT=/root ;;
@@ -102,6 +104,32 @@ function set_osx_names()
     scutil --set LocalHostName $HOST || exit 1
 }
 
+# make sure the time is set correctly, or SSL will fail, badly.
+function sync_clock()
+{
+    case "$OS" in
+        Darwin)
+            if launchctl list org.ntp.ntpd > /dev/null 2>&1 ; then
+                launchctl unload /System/Library/LaunchDaemons/org.ntp.ntpd.plist
+            fi
+            ntpdate $NTP_SERVER
+            launchctl load -w /System/Library/LaunchDaemons/org.ntp.ntpd.plist
+            ;;
+
+        CentOS)
+            ntprunning=`ps ax | grep ntpd | grep -v grep`
+            [ -n "$ntprunning" ] && /sbin/service ntpd stop
+            /usr/sbin/ntpdate $NTP_SERVER
+            [ -n "$ntprunning" ] && /sbin/service ntpd start
+            ;;
+
+        Ubuntu)
+            # no ntp service to worry about
+            /usr/sbin/ntpdate $NTP_SERVER
+            ;;
+    esac
+}
+
 # Wait for all networking to become available then lookup FQDN and set names in
 # systemconfig dynamic store. NOTE: ifconfig waitall is deprecated
 if [ "${OS}" = "Darwin" ]; then
@@ -119,6 +147,9 @@ while true; do
         break
     fi
 done
+
+# Sync the clock early on
+sync_clock
 
 # set up and clean up
 mkdir -p /var/lib/puppet/ssl/private_keys || exit 1
@@ -167,29 +198,6 @@ done
 if ! [[ -s ${ROOT}/certs.sh ]]; then
     hang "${ROOT}/certs.sh is empty"
 fi
-
-# make sure the time is set correctly, or SSL will fail, badly.
-case "$OS" in
-    Darwin)
-        if launchctl list org.ntp.ntpd > /dev/null 2>&1 ; then
-            launchctl unload /System/Library/LaunchDaemons/org.ntp.ntpd.plist
-        fi
-        ntpdate pool.ntp.org
-        launchctl load -w /System/Library/LaunchDaemons/org.ntp.ntpd.plist
-        ;;
-
-    CentOS)
-        ntprunning=`ps ax | grep ntpd | grep -v grep`
-        [ -n "$ntprunning" ] && /sbin/service ntpd stop
-        /usr/sbin/ntpdate pool.ntp.org
-        [ -n "$ntprunning" ] && /sbin/service ntpd start
-        ;;
-
-    Ubuntu)
-        # no ntp service to worry about
-        /usr/sbin/ntpdate pool.ntp.org
-        ;;
-esac
 
 # source the shell script we got from the deploy run
 cd /var/lib/puppet/ssl || exit 1
