@@ -87,6 +87,12 @@ class beetmover_scriptworker::settings {
                 firefox     => 'mozilla-releng-dep-partner',
             },
 
+            prod_maven_beetmover_aws_access_key_id => secret('prod_maven_beetmover_aws_access_key_id'),
+            prod_maven_beetmover_aws_secret_access_key => secret('prod_maven_beetmover_aws_secret_access_key'),
+            prod_maven_buckets => {
+                geckoview   => 'maven-default-s3-bucket-1svmqy68t6xd4',
+            },
+
             config_template                         => 'beetmover_scriptworker/prod_script_config.json.erb',
             worker_type                             => 'beetmoverworker-v1',
             worker_group                            => 'beetmoverworker-v1',
