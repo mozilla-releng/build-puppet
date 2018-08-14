@@ -16,9 +16,9 @@ class bouncer_scriptworker::settings {
     $bouncer_stage_instance_config = {
         api_root                  => 'https://admin-bouncer-releng.stage.mozaws.net/api',
         timeout_in_seconds        => 60,
-        username                  => 'ffxbld',
+        username                  => 'releng-ffx-staging',
         # TODO Split credentials
-        password                  => secret('tuxedo_password'),
+        password                  => secret('ffx-bouncer-staging_password'),
     }
 
     $env_config = {
