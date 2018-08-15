@@ -37,7 +37,7 @@ jmespath==0.9.3
 python-dateutil==2.7.3
 s3transfer==0.1.13
 six==1.11.0
-invoke==1.1.0
+invoke==1.1.1
 cryptography==2.3
 enum==0.4.6
 pyasn1==0.4.4
