@@ -12,7 +12,7 @@ jsonschema==2.6.0
 mohawk==0.3.4
 multidict==4.3.1
 mysql-connector-python==8.0.12
-protobuf==3.6.0
+protobuf==3.6.1
 py==1.5.4
 pyparsing==2.2.0
 python-dateutil==2.7.3
