@@ -28,7 +28,7 @@ pexpect==4.6.0
 ptyprocess==0.6.0
 python-dateutil==2.7.3
 python-gnupg==0.4.3
-redo==1.6
+redo==1.7
 requests==2.19.1
 s3transfer==0.1.13
 scriptworker==15.0.0
