@@ -36,7 +36,7 @@ json-e==2.6.0
 jsonschema==2.6.0
 kiwisolver==1.0.1
 lxml==4.2.4
-matplotlib==2.2.2
+matplotlib==2.2.3
 mohawk==0.3.4
 mozapkpublisher==0.8.0
 multidict==4.3.1
