@@ -10,7 +10,7 @@ attrs==18.1.0
 automat==0.7.0
 cffi==1.11.5
 constantly==15.1.0
-cryptography==2.3
+cryptography==2.3.1
 enum34==1.1.6
 hyperlink==18.0.0
 idna==2.7
