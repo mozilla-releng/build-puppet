@@ -16,7 +16,7 @@ asn1crypto==0.24.0
 backports.functools_lru_cache==1.5
 bcrypt==3.1.4
 buildbot==0.8.7p1  # pyup: ignore, puppet: nodownload
-certifi==2018.4.16
+certifi==2018.8.13
 cffi==1.11.5
 chardet==3.0.4
 chunkify==1.2
