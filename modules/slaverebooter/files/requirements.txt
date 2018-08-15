@@ -16,7 +16,7 @@ markupsafe==1.0
 orderedmultidict==1.0
 pyhamcrest==1.9.0
 python-dateutil==2.7.3
-redo==1.6
+redo==1.7
 requests==2.19.1
 simplejson==3.16.0
 six==1.11.0
