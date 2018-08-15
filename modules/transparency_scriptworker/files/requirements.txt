@@ -4,7 +4,7 @@ aiohttp==3.3.2
 arrow==0.12.1
 async_timeout==3.0.0
 attrs==18.1.0
-certifi==2018.4.16
+certifi==2018.8.13
 chardet==3.0.4
 defusedxml==0.5.0
 dictdiffer==0.7.1
