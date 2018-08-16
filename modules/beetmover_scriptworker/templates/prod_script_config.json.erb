@@ -37,7 +37,7 @@
         },
 <% end -%>
 <% if @env_config["prod_maven_buckets"] -%>
-        "maven-staging": {
+        "maven-production": {
             "credentials": {
                 "id": "<%= @env_config["prod_maven_beetmover_aws_access_key_id"] %>",
                 "key": "<%= @env_config["prod_maven_beetmover_aws_secret_access_key"] %>"
