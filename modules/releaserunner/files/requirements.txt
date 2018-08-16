@@ -16,18 +16,18 @@ asn1crypto==0.24.0
 backports.functools_lru_cache==1.5
 bcrypt==3.1.4
 buildbot==0.8.7p1  # pyup: ignore, puppet: nodownload
-certifi==2018.4.16
+certifi==2018.8.13
 cffi==1.11.5
 chardet==3.0.4
 chunkify==1.2
-cryptography==2.3
+cryptography==2.3.1
 decorator==4.2.1
 ecdsa==0.13
 enum34==1.1.6
 future==0.16.0
 futures==3.2.0
 idna==2.7
-invoke==1.1.0
+invoke==1.1.1
 ipaddress==1.0.22
 MarkupSafe==1.0
 mohawk==0.3.4
@@ -39,7 +39,7 @@ pycrypto==2.6.1
 pynacl==1.2.1
 python-dateutil==2.7.3
 python-jose==3.0.0
-redo==1.6
+redo==1.7
 releasetasks==0.4.1  # puppet: nodownload
 requests==2.7.0  # pyup: ignore
 requests-hawk==1.0.0
