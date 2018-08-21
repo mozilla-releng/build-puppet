@@ -1,7 +1,7 @@
 # python_version: 27
 MySQL-python==1.2.5
 SQLAlchemy==1.2.10
-certifi==2018.4.16
+certifi==2018.8.13
 chardet==3.0.4
 idna==2.7
 pytz==2018.5

@@ -3,7 +3,7 @@ argparse==1.4.0
 attrs==18.1.0
 automat==0.7.0
 buildtools==1.0.6
-certifi==2018.4.16
+certifi==2018.8.13
 chardet==3.0.4
 constantly==15.1.0
 docopt==0.6.2
@@ -16,7 +16,7 @@ markupsafe==1.0
 orderedmultidict==1.0
 pyhamcrest==1.9.0
 python-dateutil==2.7.3
-redo==1.6
+redo==1.7
 requests==2.19.1
 simplejson==3.16.0
 six==1.11.0

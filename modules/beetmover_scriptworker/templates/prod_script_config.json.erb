@@ -36,6 +36,15 @@
             "buckets": <%= require "json"; JSON.pretty_generate(@env_config["dep_partner_buckets"]) %>
         },
 <% end -%>
+<% if @env_config["prod_maven_buckets"] -%>
+        "maven-production": {
+            "credentials": {
+                "id": "<%= @env_config["prod_maven_beetmover_aws_access_key_id"] %>",
+                "key": "<%= @env_config["prod_maven_beetmover_aws_secret_access_key"] %>"
+            },
+            "buckets": <%= require "json"; JSON.pretty_generate(@env_config["prod_maven_buckets"]) %>
+        },
+<% end -%>
         "dep": {
             "credentials": {
                 "id": "<%= @env_config["dep_beetmover_aws_access_key_id"] %>",

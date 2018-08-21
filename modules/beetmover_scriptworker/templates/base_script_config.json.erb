@@ -11,3 +11,5 @@
     "release_schema_file": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python<%= scope.lookupvar("beetmover_scriptworker::settings::virtualenv_version") %>/site-packages/beetmoverscript/data/release_beetmover_task_schema.json",
 
     "verbose": <%= scope.lookupvar("beetmover_scriptworker::settings::verbose_logging") %>,
+
+    "zip_max_file_size_in_mb": 100,

@@ -4,7 +4,7 @@ aiohttp==3.3.2
 arrow==0.12.1
 async_timeout==3.0.0
 attrs==18.1.0
-certifi==2018.4.16
+certifi==2018.8.13
 chardet==3.0.4
 datadog==0.22.0
 decorator==4.3.0
@@ -21,19 +21,19 @@ mohawk==0.3.4
 multidict==4.3.1
 pexpect==4.6.0
 ptyprocess==0.6.0
-pyasn1==0.4.3
+pyasn1==0.4.4
 python-dateutil==2.7.3
 python-gnupg==0.4.3
 python-jose==3.0.0
 requests==2.19.1
 rsa==3.4.2
-scriptworker==14.0.0
-signingscript==7.0.2  # puppet: nodownload
+scriptworker==15.0.0
+signingscript==7.0.4  # puppet: nodownload
 signtool==3.2.0
 simplejson==3.16.0
 six==1.11.0
 slugid==1.0.7
-taskcluster==3.0.2  # pyup: <4.0.0
+taskcluster==4.0.1
 urllib3==1.23
 virtualenv==16.0.0
 yarl==1.2.6

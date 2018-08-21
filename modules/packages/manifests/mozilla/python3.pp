@@ -39,6 +39,9 @@ class packages::mozilla::python3 {
                         '/tools/python3':
                             ensure => link,
                             target => '/tools/python36';
+                        '/usr/local/bin/python3':
+                            ensure => link,
+                            target => '/tools/python36/bin/python3.6';
                     } -> Anchor['packages::mozilla::python3::end']
 
                     Anchor['packages::mozilla::python3::begin'] ->
@@ -52,6 +55,17 @@ class packages::mozilla::python3 {
                     fail("Cannot install on Darwin version ${::macosx_productversion_major}")
                 }
             }
+        }
+        Ubuntu: {
+            # Because we are in the migration process from taskcluster-worker to generic-worker
+            # I added the case entry for Ubuntu, to avoid the error message:
+            # Cannot install on Ubuntu, when run puppet on Ubuntu machines
+
+            # Added python3 information, to avoid error: $python3 must be defined in this manifest file
+            # when run puppet on Ubuntu machines
+            $python3 = ' '
+
+            # Python3 installation on Ubuntu machines will be part os other bug
         }
         default: {
             fail("Cannot install on ${::operatingsystem}")

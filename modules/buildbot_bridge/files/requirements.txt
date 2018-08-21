@@ -4,7 +4,7 @@ arrow==0.12.1
 taskcluster==3.0.2  # pyup: <4.0.0
 sqlalchemy==1.2.10
 kombu==4.2.1
-redo==1.6
+redo==1.7
 mysql-python==1.2.5
 amqp==2.3.2
 python-dateutil==2.7.3
@@ -21,7 +21,7 @@ backports.functools-lru-cache==1.5
 functools32==3.2.3-2
 urllib3==1.22
 chardet==3.0.4
-certifi==2018.4.16
+certifi==2018.8.13
 idna==2.7
 mohawk==0.3.4
 vine==1.1.4
