@@ -140,10 +140,11 @@ class config inherits config::base {
     }
 
     $relayhost                     = $::fqdn? {
-        /.*\.mdc1\.mozilla\.com/             => 'smtp1.private.mdc1.mozilla.com',
-        /.*\.mdc2\.mozilla\.com/             => 'smtp1.private.mdc2.mozilla.com',
-        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'smtp.mail.scl3.mozilla.com',
-        default                              => undef,
+        # mdc1 is west coast, mdc2 is east coast
+        /.*\.(usw2|mdc1)\.mozilla\.com/ => 'smtp1.private.mdc1.mozilla.com',
+        /.*\.(use1|mdc2)\.mozilla\.com/ => 'smtp1.private.mdc2.mozilla.com',
+        /.*\.scl3\.mozilla\.com/        => 'smtp.mail.scl3.mozilla.com',
+        default                         => undef,
     }
 
     $enable_mig_agent                = true
