@@ -302,6 +302,14 @@ node 'install2.test.releng.mdc2.mozilla.com' {
     include toplevel::server::deploystudio
 }
 
+## BSDPy hosts
+
+node /^bsdpy\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
+    # Same security level as Deploystudio
+    $aspects       = [ 'maximum-security' ]
+    include toplevel::server
+}
+
 ## Jump hosts
 
 node /^rejh\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
@@ -416,6 +424,7 @@ node 'dev-master2.bb.releng.use1.mozilla.com' {
 node 'buildbot-master01.bb.releng.use1.mozilla.com' {
     $aspects       = [ 'high-security' ]
     $only_user_ssh = true
+    $releaserunner3_env = 'prod'
     buildmaster::buildbot_master::mozilla {
         'bm01-tests1-linux32':
             http_port   => 8201,
@@ -425,6 +434,7 @@ node 'buildbot-master01.bb.releng.use1.mozilla.com' {
     $l10n_bumper_env = 'mozilla-beta'
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::l10n_bumper
+    include toplevel::mixin::releaserunner3
 }
 
 node 'buildbot-master02.bb.releng.use1.mozilla.com' {
@@ -581,6 +591,7 @@ node 'buildbot-master75.bb.releng.use1.mozilla.com' {
 node 'buildbot-master77.bb.releng.use1.mozilla.com' {
     $aspects         = [ 'high-security' ]
     $only_user_ssh   = true
+    $releaserunner3_env = 'dev'
     buildmaster::buildbot_master::mozilla {
         'bm77-build1':
             http_port   => 8001,
@@ -590,6 +601,7 @@ node 'buildbot-master77.bb.releng.use1.mozilla.com' {
     $l10n_bumper_env = 'mozilla-central'
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::l10n_bumper
+    include toplevel::mixin::releaserunner3
 }
 
 node 'buildbot-master78.bb.releng.usw2.mozilla.com' {
@@ -647,7 +659,6 @@ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
     $aspects           = [ 'high-security' ]
     $only_user_ssh     = true
     $releaserunner_env = 'dev'
-    $releaserunner3_env = 'dev'
     buildmaster::buildbot_master::mozilla {
         'bm83-try1':
             http_port   => 8101,
@@ -657,7 +668,6 @@ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::releaserunner
-    include toplevel::mixin::releaserunner3
 }
 
 node 'buildbot-master84.bb.releng.scl3.mozilla.com' {
@@ -681,7 +691,6 @@ node 'buildbot-master85.bb.releng.scl3.mozilla.com' {
     $aspects           = [ 'high-security' ]
     $only_user_ssh     = true
     $releaserunner_env = 'prod'
-    $releaserunner3_env = 'prod'
     buildmaster::buildbot_master::mozilla {
         'bm85-build1':
             http_port   => 8001,
@@ -691,7 +700,6 @@ node 'buildbot-master85.bb.releng.scl3.mozilla.com' {
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::releaserunner
-    include toplevel::mixin::releaserunner3
 }
 
 node 'buildbot-master86.bb.releng.scl3.mozilla.com' {

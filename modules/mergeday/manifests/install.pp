@@ -30,5 +30,11 @@ class mergeday::install {
             group     => $users::buildduty::group,
             show_diff => false,
             content   => secret('ssh_key_stage-ffxbld-merge');
+        "${users::buildduty::home}/.ssh/ffxbld-merge-key":
+            mode      => '0600',
+            owner     => $users::buildduty::username,
+            group     => $users::buildduty::group,
+            show_diff => false,
+            content   => secret('ssh_key_ffxbld-merge');
     }
 }
