@@ -302,6 +302,14 @@ node 'install2.test.releng.mdc2.mozilla.com' {
     include toplevel::server::deploystudio
 }
 
+## BSDPy hosts
+
+node /^bsdpy\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
+    # Same security level as Deploystudio
+    $aspects       = [ 'maximum-security' ]
+    include toplevel::server
+}
+
 ## Jump hosts
 
 node /^rejh\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
