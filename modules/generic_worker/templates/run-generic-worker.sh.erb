@@ -49,12 +49,15 @@ if [ $exitstatus -eq 69 ]; then
 elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
     # If exitstatus is different by 69 (grater than 69 or lower than 69)
     # The worker was removed from the quarantin and run with success a job
-    /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>/quarantined
-    # Self resolve the bug and remove bug_id file
+    # Remove quarantined file, if file exist
+    if [ -f <%= scope.lookupvar('users::builder::home') %>/quarantined ]; then
+        /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>/quarantined
+    fi
+    # Self resolve the bug and remove bug_id file if file exist
     if [ -f <%= scope.lookupvar('users::builder::home') %>/bug_id ]; then
         resolve_bug_self_failure    
         /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>bug_id
-    else
+    fi
         # Now reboot the machine immediately (time costs money)
         /usr/bin/sudo /sbin/reboot
         # Sleep to prevent this script from terminating naturally, and launchd restarting
@@ -62,5 +65,4 @@ elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
         # really sleep for 2 mins). If shutdown doesn't kick in within 2 mins, it is sane
         # for this script to exit, and allow launchd to fire up the worker again.
         /bin/sleep 120
-    fi
 fi
