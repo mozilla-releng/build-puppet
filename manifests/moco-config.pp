@@ -252,9 +252,10 @@ class config inherits config::base {
     $admin_users                     = $::fqdn ? {
         /^rejh\d\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla.com/  => $jumphost_admin_users,
         # signing machines have a very limited access list
-        /^(mac-)?(v2-)?signing\d\..*/                          => $shortlist,
-        /^signing-linux-\d\..*/                                => $shortlist,
-        /^tb-signing-\d\..*/                                   => $shortlist,
+        /^(mac-)?(v2-)?signing\d+\..*/                         => $shortlist,
+        /^signing-linux-\d+\..*/                               => $shortlist,
+        /^tb-signing-\d+\..*/                                  => $shortlist,
+        /^mobil-signing-linux-\d+\..*/                         => $shortlist,
         /signingworker-.*\.srv\.releng\..*\.mozilla\.com/      => $shortlist,
         default                                                => hiera('ldap_admin_users',
                                                                     # backup to ensure access in cas'e the sync fails:
