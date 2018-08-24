@@ -36,7 +36,7 @@ class beetmover_scriptworker::settings {
                 geckoview   => 'maven-default-s3-bucket-wj4w05pguw64',
             },
 
-            config_template                         => 'beetmover_scriptworker/dev_script_config.json.erb',
+            config_template                         => 'beetmover_scriptworker/script_config.json.erb',
             worker_type                             => 'beetmoverworker-dev',
             worker_group                            => 'beetmoverworker-v1',
             taskcluster_client_id                   => 'project/releng/scriptworker/beetmover-dev',
@@ -93,7 +93,7 @@ class beetmover_scriptworker::settings {
                 geckoview   => 'maven-default-s3-bucket-1svmqy68t6xd4',
             },
 
-            config_template                         => 'beetmover_scriptworker/prod_script_config.json.erb',
+            config_template                         => 'beetmover_scriptworker/script_config.json.erb',
             worker_type                             => 'beetmoverworker-v1',
             worker_group                            => 'beetmoverworker-v1',
             taskcluster_client_id                   => 'project/releng/scriptworker/beetmoverworker',
@@ -111,7 +111,7 @@ class beetmover_scriptworker::settings {
                 'thunderbird' => 'net-mozaws-stage-delivery-archive',
             },
 
-            config_template                         => 'beetmover_scriptworker/dev_script_config.json.erb',
+            config_template                         => 'beetmover_scriptworker/script_config.json.erb',
             worker_type                             => 'tb-beetmover-dev',
             worker_group                            => 'beetmoverworker-v1',
             taskcluster_client_id                   => 'project/comm/thunderbird/releng/scriptworker/beetmover/dev',
@@ -141,7 +141,7 @@ class beetmover_scriptworker::settings {
                 'thunderbird' => 'net-mozaws-stage-delivery-archive',
             },
 
-            config_template                         => 'beetmover_scriptworker/prod_script_config.json.erb',
+            config_template                         => 'beetmover_scriptworker/script_config.json.erb',
             worker_type                             => 'tb-beetmover-v1',
             worker_group                            => 'beetmoverworker-v1',
             taskcluster_client_id                   => 'project/comm/thunderbird/releng/scriptworker/beetmover/prod',
@@ -152,5 +152,32 @@ class beetmover_scriptworker::settings {
             verify_cot_signature                    => true,
             cot_product                             => 'thunderbird',
         },
+        'mobile-staging' => {
+            dep_beetmover_aws_access_key_id         => secret('stage-beetmover-aws_access_key_id'),
+            dep_beetmover_aws_secret_access_key     => secret('stage-beetmover-aws_secret_access_key'),
+            dep_buckets => {
+                devedition  => 'net-mozaws-stage-delivery-archive',
+                firefox     => 'net-mozaws-stage-delivery-firefox',
+                fennec      => 'net-mozaws-stage-delivery-archive',
+                mobile      => 'net-mozaws-stage-delivery-archive',
+            },
+
+            dep_maven_beetmover_aws_access_key_id => secret('dep_maven_beetmover_aws_access_key_id'),
+            dep_maven_beetmover_aws_secret_access_key => secret('dep_maven_beetmover_aws_secret_access_key'),
+            dep_maven_buckets => {
+                geckoview   => 'maven-default-s3-bucket-wj4w05pguw64',
+            },
+
+            config_template                         => 'beetmover_scriptworker/script_config.json.erb',
+            worker_type                             => 'mobile-beetmover-v1',
+            worker_group                            => 'mobile-beetmover-v1',
+            taskcluster_client_id                   => 'TODO', # TODO
+            taskcluster_access_token                => 'TODO', # TODO
+            taskcluster_scope_prefix                => 'project:mobile:android-components:releng',
+            sign_chain_of_trust                     => true,
+            verify_chain_of_trust                   => true,
+            verify_cot_signature                    => true,
+            cot_product                             => 'mobile',
+        }
     }
 }

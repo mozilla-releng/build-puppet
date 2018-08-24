@@ -1,7 +1,22 @@
 {
-<%= scope.function_template(["beetmover_scriptworker/base_script_config.json.erb"]) %>
+    "work_dir": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/work",
+    "artifact_dir": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/artifacts",
+    "aiohttp_max_connections": 10,
+    "checksums_digests": ["sha512", "sha256"],
+    "blobs_needing_prettynaming_contents": [
+        "target.test_packages.json"
+    ],
+    "taskcluster_scope_prefix": "<%= @env_config["taskcluster_scope_prefix"] %>",
+
+    "schema_file": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python<%= scope.lookupvar("beetmover_scriptworker::settings::virtualenv_version") %>/site-packages/beetmoverscript/data/beetmover_task_schema.json",
+    "release_schema_file": "<%= scope.lookupvar("beetmover_scriptworker::settings::root") %>/lib/python<%= scope.lookupvar("beetmover_scriptworker::settings::virtualenv_version") %>/site-packages/beetmoverscript/data/release_beetmover_task_schema.json",
+
+    "verbose": <%= scope.lookupvar("beetmover_scriptworker::settings::verbose_logging") %>,
+
+    "zip_max_file_size_in_mb": 100,
 
     "bucket_config": {
+<% if @env_config["nightly_buckets"] -%>
         "nightly": {
             "credentials": {
                 "id": "<%= @env_config["nightly_beetmover_aws_access_key_id"] %>",
@@ -10,6 +25,8 @@
             "buckets": <%= require "json"; JSON.pretty_generate(@env_config["nightly_buckets"]) %>,
             "url_prefix": "https://archive.mozilla.org"
         },
+<% end -%>
+<% if @env_config["release_buckets"] -%>
         "release": {
             "credentials": {
                 "id": "<%= @env_config["release_beetmover_aws_access_key_id"] %>",
@@ -18,6 +35,7 @@
             "buckets": <%= require "json"; JSON.pretty_generate(@env_config["release_buckets"]) %>,
             "url_prefix": "https://archive.mozilla.org"
         },
+<% end -%>
 <% if @env_config["partner_buckets"] -%>
         "partner": {
             "credentials": {
@@ -25,6 +43,15 @@
                 "key": "<%= @env_config["partner_beetmover_aws_secret_access_key"] %>"
             },
             "buckets": <%= require "json"; JSON.pretty_generate(@env_config["partner_buckets"]) %>
+        },
+<% end -%>
+<% if @env_config["prod_maven_buckets"] -%>
+        "maven-production": {
+            "credentials": {
+                "id": "<%= @env_config["prod_maven_beetmover_aws_access_key_id"] %>",
+                "key": "<%= @env_config["prod_maven_beetmover_aws_secret_access_key"] %>"
+            },
+            "buckets": <%= require "json"; JSON.pretty_generate(@env_config["prod_maven_buckets"]) %>
         },
 <% end -%>
 <% if @env_config["dep_partner_buckets"] -%>
@@ -36,13 +63,13 @@
             "buckets": <%= require "json"; JSON.pretty_generate(@env_config["dep_partner_buckets"]) %>
         },
 <% end -%>
-<% if @env_config["prod_maven_buckets"] -%>
-        "maven-production": {
+<% if @env_config["dep_maven_buckets"] -%>
+        "maven-staging": {
             "credentials": {
-                "id": "<%= @env_config["prod_maven_beetmover_aws_access_key_id"] %>",
-                "key": "<%= @env_config["prod_maven_beetmover_aws_secret_access_key"] %>"
+                "id": "<%= @env_config["dep_maven_beetmover_aws_access_key_id"] %>",
+                "key": "<%= @env_config["dep_maven_beetmover_aws_secret_access_key"] %>"
             },
-            "buckets": <%= require "json"; JSON.pretty_generate(@env_config["prod_maven_buckets"]) %>
+            "buckets": <%= require "json"; JSON.pretty_generate(@env_config["dep_maven_buckets"]) %>
         },
 <% end -%>
         "dep": {
