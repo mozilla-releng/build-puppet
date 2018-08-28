@@ -17,22 +17,22 @@ class toplevel::server::bsdpy inherits toplevel::server {
                 server_image_name => 'mozillarelops/bsdpy_server',
                 httpd_image_name  => 'mozillarelops/bsdpy_httpd',
                 tftpd_image_name  => 'mozillarelops/bsdpy_tftpd',
-                image_tag     => 'dev',
-                protocol      => 'http',
-                iface_name    => 'ens160',
-                nbi_root_path => '/nbi';
+                image_tag         => 'dev',
+                protocol          => 'http',
+                iface_name        => 'ens160',
+                nbi_root_path     => '/nbi';
         }
     }
     elsif (has_aspect('prod')) {
         bsdpy::instance {
-           'prod' :
+            'prod':
                 server_image_name => 'mozillarelops/bsdpy_server',
                 httpd_image_name  => 'mozillarelops/bsdpy_httpd',
                 tftpd_image_name  => 'mozillarelops/bsdpy_tftpd',
-                image_tag     => 'latest',
-                protocol      => 'http',
-                iface_name    => 'ens160',
-                nbi_root_path => '/nbi';
+                image_tag         => 'latest',
+                protocol          => 'http',
+                iface_name        => 'ens160',
+                nbi_root_path     => '/nbi';
         }
     } else {
         fail("Environemnt must be specified in \$aspects node-scope variable")

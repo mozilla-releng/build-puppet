@@ -17,12 +17,11 @@ define bsdpy::instance (
 
     $environment = $title
 
-    $motd_msg = "
-- bsdpy ${environment} server
--- server image:  ${server_image_name}:${image_tag}
--- httpd image:   ${httpd_image_name}:${image_tag}
--- tftpd image:   ${tftpd_image_name}:${image_tag}
--- nbi protocol:  ${protocol}
+    $motd_msg = "- bsdpy ${environment} server\n\
+-- server image:  ${server_image_name}:${image_tag}\n\
+-- httpd image:   ${httpd_image_name}:${image_tag}\n\
+-- tftpd image:   ${tftpd_image_name}:${image_tag}\n\
+-- nbi protocol:  ${protocol}\n\
 -- nbi root path: ${nbi_root_path}\n"
 
     motd {
