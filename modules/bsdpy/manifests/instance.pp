@@ -25,7 +25,7 @@ define bsdpy::instance (
 -- nbi root path: ${nbi_root_path}\n"
 
     motd {
-       "bsdpy-${environment}":
+        "bsdpy-${environment}":
             content => $motd_msg,
             order   => 91,
     }
