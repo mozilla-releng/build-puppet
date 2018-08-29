@@ -48,7 +48,7 @@ cffi==1.11.5
 pynacl==1.2.1
 urllib3==1.22
 chardet==3.0.4
-certifi==2018.8.13
+certifi==2018.8.24
 ipaddress==1.0.22
 enum34==1.1.6
 fixtures==3.0.0
