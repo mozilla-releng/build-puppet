@@ -25,7 +25,7 @@ attrs==18.1.0
 outcome==0.1.0
 SQLAlchemy==1.2.11
 sqlalchemy-aio==0.13.0
-statsd==3.2.2
+statsd==3.3.0
 # Held at 1.2.0 to avoid needing to upgrade aiohttp
 taskcluster==1.2.0  # pyup: ignore
 # Held at 1.22 because that's what requests requires
