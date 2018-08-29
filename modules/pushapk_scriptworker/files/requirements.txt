@@ -3,7 +3,7 @@
 six==1.11.0
 PyYAML==3.13
 Pygments==2.2.0
-aiohttp==3.3.2
+aiohttp==3.4.1
 androguard==3.2.1
 appnope==0.1.0
 arrow==0.12.1
