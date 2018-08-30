@@ -8,7 +8,11 @@ class packages::mozilla::generic_worker {
         'packages::mozilla::generic_worker::end': ;
     }
 
-    $tag = 'v10.8.4'
+    if (has_aspect('staging')) {
+        $tag = 'v10.11.3'
+    } else {
+        $tag = 'v10.11.3'
+    }
     $proxy_tag = 'v4.1.1'
     $quarantine_worker_tag = 'v1.0.0'
 
