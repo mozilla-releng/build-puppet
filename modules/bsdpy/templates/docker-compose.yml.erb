@@ -1,0 +1,27 @@
+version: '3.5'
+
+
+services:
+  server:
+    image: "<%= @server_image_name %>:<%= @image_tag %>"
+    network_mode: "host"
+    ports:
+      - "67:67/udp"
+    volumes:
+      - <%= @nbi_root_path %>:/nbi
+    command:  [ "-p", "/nbi", "-i", "<%= @iface_name %>", "-r", "<%= @protocol %>"]
+
+  tftpd:
+    image: "<%= @tftpd_image_name %>:<%= @image_tag %>"
+    volumes:
+      - <%= @nbi_root_path %>:/nbi
+    ports:
+      - "69:69/udp"
+
+  httpd:
+    image: "<%= @httpd_image_name %>:<%= @image_tag %>"
+    ports:
+      - "80:80/tcp"
+    volumes:
+      - <%= @nbi_root_path %>:/nbi
+

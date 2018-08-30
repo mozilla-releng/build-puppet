@@ -4,3 +4,8 @@
 
 Host github.com
     IdentityFile ~/.ssh/ffxbld_rsa
+
+Host hg.mozilla.org
+    # %r gets substituted with the remote username
+    # Missing files get ignored
+    IdentityFile ~/.ssh/%r-key

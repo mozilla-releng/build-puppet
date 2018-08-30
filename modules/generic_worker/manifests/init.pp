@@ -35,7 +35,7 @@ class generic_worker {
     case $::operatingsystem {
         Darwin: {
             $macos_version = regsubst($::macosx_productversion_major, '\.', '')
-            if ($tc_environment == 'staging') {
+            if (has_aspect('staging')) {
                 $worker_type = "gecko-t-osx-${macos_version}-beta"
                 $taskcluster_client_id = secret('osx_staging_client')
                 $taskcluster_access_token = hiera('osx_staging_client_token')
@@ -85,7 +85,7 @@ class generic_worker {
         Ubuntu: {
             case $::operatingsystemrelease {
                 16.04: {
-                    if ($tc_environment == 'staging') {
+                    if (has_aspect('staging')) {
                         # We are limited to 22 characters for worker_type
                         $worker_type = 'gecko-t-linux-talos-b'
                         $taskcluster_client_id = secret('generic_worker_linux_staging_client_id')

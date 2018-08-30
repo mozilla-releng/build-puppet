@@ -302,6 +302,14 @@ node 'install2.test.releng.mdc2.mozilla.com' {
     include toplevel::server::deploystudio
 }
 
+## BSDPy hosts
+
+node /^bsdpy\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
+    # Same security level as Deploystudio
+    $aspects       = [ 'maximum-security', 'prod' ]
+    include toplevel::server::bsdpy
+}
+
 ## Jump hosts
 
 node /^rejh\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
@@ -1213,9 +1221,8 @@ node 't-yosemite-r7-380.test.releng.mdc1.mozilla.com',
     't-yosemite-r7-394.test.releng.mdc1.mozilla.com',
     't-yosemite-r7-100.test.releng.mdc2.mozilla.com',
     't-yosemite-r7-101.test.releng.mdc2.mozilla.com' {
-    $aspects          = [ 'low-security' ]
+    $aspects          = [ 'low-security', 'staging' ]
     $slave_trustlevel = 'try'
-    $tc_environment   = 'staging'
     include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
 }
@@ -1226,9 +1233,8 @@ node 't-linux64-ms-280.test.releng.mdc1.mozilla.com',
     't-linux64-ms-240.test.releng.mdc1.mozilla.com',
     't-linux64-ms-394.test.releng.mdc2.mozilla.com',
     't-linux64-ms-395.test.releng.mdc2.mozilla.com' {
-    $aspects          = [ 'low-security' ]
+    $aspects          = [ 'low-security', 'staging' ]
     $slave_trustlevel = 'try'
-    $tc_environment   = 'staging'
     include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
 }

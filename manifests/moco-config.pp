@@ -140,10 +140,11 @@ class config inherits config::base {
     }
 
     $relayhost                     = $::fqdn? {
-        /.*\.mdc1\.mozilla\.com/             => 'smtp1.private.mdc1.mozilla.com',
-        /.*\.mdc2\.mozilla\.com/             => 'smtp1.private.mdc2.mozilla.com',
-        /.*\.(scl3|usw2|use1)\.mozilla\.com/ => 'smtp.mail.scl3.mozilla.com',
-        default                              => undef,
+        # mdc1 is west coast, mdc2 is east coast
+        /.*\.(usw2|mdc1)\.mozilla\.com/ => 'smtp1.private.mdc1.mozilla.com',
+        /.*\.(use1|mdc2)\.mozilla\.com/ => 'smtp1.private.mdc2.mozilla.com',
+        /.*\.scl3\.mozilla\.com/        => 'smtp.mail.scl3.mozilla.com',
+        default                         => undef,
     }
 
     $enable_mig_agent                = true
@@ -251,10 +252,7 @@ class config inherits config::base {
     $admin_users                     = $::fqdn ? {
         /^rejh\d\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla.com/  => $jumphost_admin_users,
         # signing machines have a very limited access list
-        /^(mac-)?(v2-)?signing\d\..*/                          => $shortlist,
-        /^signing-linux-\d\..*/                                => $shortlist,
-        /^tb-signing-\d\..*/                                   => $shortlist,
-        /signingworker-.*\.srv\.releng\..*\.mozilla\.com/      => $shortlist,
+        /^.*sign.*/                                            => $shortlist,
         default                                                => hiera('ldap_admin_users',
                                                                     # backup to ensure access in cas'e the sync fails:
                                                                     ['klibby', 'jwatkins'])

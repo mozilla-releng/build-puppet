@@ -56,7 +56,7 @@ elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
     # Self resolve the bug and remove bug_id file if file exist
     if [ -f <%= scope.lookupvar('users::builder::home') %>/bug_id ]; then
         resolve_bug_self_failure    
-        /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>bug_id
+        /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>/bug_id
     fi
         # Now reboot the machine immediately (time costs money)
         /usr/bin/sudo /sbin/reboot
