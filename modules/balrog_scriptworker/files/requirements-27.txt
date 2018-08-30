@@ -5,7 +5,7 @@ arrow==0.12.1
 asn1crypto==0.24.0
 backports.functools-lru-cache==1.5
 backports.lzma==0.0.12
-balrogscript==3.1.0  # puppet: nodownload
+balrogscript==3.2.0  # puppet: nodownload
 certifi==2018.8.24
 cffi==1.11.5
 chardet==3.0.4
