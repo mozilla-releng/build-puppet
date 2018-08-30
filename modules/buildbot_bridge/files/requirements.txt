@@ -16,12 +16,12 @@ anyjson==0.3.3
 PyYAML==3.13
 jsonschema==2.6.0
 slugid==1.0.7
-statsd==3.2.2
+statsd==3.3.0
 backports.functools-lru-cache==1.5
 functools32==3.2.3-2
 urllib3==1.22
 chardet==3.0.4
-certifi==2018.8.13
+certifi==2018.8.24
 idna==2.7
 mohawk==0.3.4
 vine==1.1.4
