@@ -1,6 +1,6 @@
 # python_version: 27
 argparse==1.4.0
-attrs==18.1.0
+attrs==18.2.0
 automat==0.7.0
 buildtools==1.0.6
 certifi==2018.8.24
