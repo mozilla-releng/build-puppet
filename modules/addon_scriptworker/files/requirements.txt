@@ -23,7 +23,7 @@ ptyprocess==0.6.0
 pyasn1==0.4.4
 python-dateutil==2.7.3
 python-gnupg==0.4.3
-python-jose==3.0.0
+python-jose==3.0.1
 requests==2.19.1
 rsa==3.4.2
 scriptworker==15.0.1
