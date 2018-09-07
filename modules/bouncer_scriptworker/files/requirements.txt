@@ -1,10 +1,10 @@
 # python_version: 36
 PyYAML==3.13
-aiohttp==3.4.1
+aiohttp==3.4.4
 arrow==0.12.1
 async_timeout==3.0.0
 bouncerscript==3.2.1  # puppet: nodownload
-attrs==18.1.0
+attrs==18.2.0
 certifi==2018.8.24
 chardet==3.0.4
 defusedxml==0.5.0
@@ -15,7 +15,7 @@ idna_ssl==1.1.0
 json-e==2.7.0
 jsonschema==2.6.0
 mohawk==0.3.4
-mozilla-version==0.2.0
+mozilla-version==0.2.2
 multidict==4.3.1
 pexpect==4.6.0
 ptyprocess==0.6.0
