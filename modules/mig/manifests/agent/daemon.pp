@@ -19,10 +19,13 @@ class mig::agent::daemon {
             case $::operatingsystemrelease {
                 16.04: {
                     exec {
-                        'kill mig':
-                            command   => "/bin/kill -s 2 $(${mig_path} -q=pid); ${mig_path}",
+                        # mig hangs sometimes after a package upgrade
+                        # so let systemd handle restarting it after an upgrade
+                        'systemd restart mig':
+                            command   => '/bin/systemctl restart mig-agent.service',
                             subscribe => Class['packages::mozilla::mig_agent'],
-                            notify    => Service['mig-agent']
+                            refreshonly => true,
+
                     }
                     service {
                         'mig-agent':
