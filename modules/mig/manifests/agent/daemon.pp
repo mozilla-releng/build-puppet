@@ -22,8 +22,8 @@ class mig::agent::daemon {
                         # mig hangs sometimes after a package upgrade
                         # so let systemd handle restarting it after an upgrade
                         'systemd restart mig':
-                            command   => '/bin/systemctl restart mig-agent.service',
-                            subscribe => Class['packages::mozilla::mig_agent'],
+                            command     => '/bin/systemctl restart mig-agent.service',
+                            subscribe   => Class['packages::mozilla::mig_agent'],
                             refreshonly => true,
 
                     }
