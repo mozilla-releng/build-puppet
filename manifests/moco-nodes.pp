@@ -436,6 +436,7 @@ node 'buildbot-master01.bb.releng.use1.mozilla.com' {
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::l10n_bumper
     include toplevel::mixin::releaserunner3
+    include toplevel::mixin::bouncer_check
 }
 
 node 'buildbot-master02.bb.releng.use1.mozilla.com' {
