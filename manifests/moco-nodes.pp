@@ -621,9 +621,6 @@ node 'buildbot-master78.bb.releng.usw2.mozilla.com' {
 node 'buildbot-master81.bb.releng.scl3.mozilla.com' {
     $aspects           = [ 'high-security' ]
     $only_user_ssh     = true
-    $releaserunner_env = 'prod-old'
-    # This runs the `old-release-runner` branch, but we can't set
-    # `$releaserunner_tools_branch` because we don't want to tag that branch.
     buildmaster::buildbot_master::mozilla {
         'bm81-build_scheduler':
             master_type => 'scheduler',
@@ -635,7 +632,6 @@ node 'buildbot-master81.bb.releng.scl3.mozilla.com' {
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::selfserve_agent
-    include toplevel::mixin::releaserunner
     include toplevel::mixin::buildmaster_db_maintenance
     include toplevel::mixin::bouncer_check
 }
@@ -660,7 +656,6 @@ node 'buildbot-master82.bb.releng.scl3.mozilla.com' {
 node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
     $aspects           = [ 'high-security' ]
     $only_user_ssh     = true
-    $releaserunner_env = 'dev'
     buildmaster::buildbot_master::mozilla {
         'bm83-try1':
             http_port   => 8101,
@@ -669,7 +664,6 @@ node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
     }
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::releaserunner
 }
 
 node 'buildbot-master84.bb.releng.scl3.mozilla.com' {
@@ -692,7 +686,6 @@ node 'buildbot-master84.bb.releng.scl3.mozilla.com' {
 node 'buildbot-master85.bb.releng.scl3.mozilla.com' {
     $aspects           = [ 'high-security' ]
     $only_user_ssh     = true
-    $releaserunner_env = 'prod'
     buildmaster::buildbot_master::mozilla {
         'bm85-build1':
             http_port   => 8001,
@@ -701,7 +694,6 @@ node 'buildbot-master85.bb.releng.scl3.mozilla.com' {
     }
     include fw::profiles::buildbot_master
     include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::releaserunner
 }
 
 node 'buildbot-master86.bb.releng.scl3.mozilla.com' {
