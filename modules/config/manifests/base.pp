@@ -238,6 +238,9 @@ class config::base {
     $buildmaster_ssh_keys                = []
 
     $releaserunner3_root                  = '/builds/releaserunner3'
+    # email to/from addresses and smtp server to use to send notifications
+    $releaserunner3_notify_from           = ''
+    $releaserunner3_smtp_server           = ''
 
     $releaserunner3_env_config = {
         'dev'  => {

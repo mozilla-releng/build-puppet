@@ -48,9 +48,9 @@ class releaserunner3 {
     mercurial::repo {
         'releaserunner3-tools':
             require => Python::Virtualenv[$releaserunner3::settings::root],
-            hg_repo => $config::releaserunner_tools,
+            hg_repo => $config::releaserunner3_tools,
             dst_dir => $releaserunner3::settings::tools_dst,
             user    => $users::builder::username,
-            branch  => $config::releaserunner_tools_branch,
+            branch  => $config::releaserunner3_tools_branch,
     }
 }
