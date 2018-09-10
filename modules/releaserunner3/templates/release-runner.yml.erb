@@ -9,10 +9,10 @@ api:
   auth0_audience: <%= @env_config["auth0_audience"] %>
 
 release-runner:
-  notify_from: <%= scope.lookupvar('config::releaserunner_notify_from') %>
+  notify_from: <%= scope.lookupvar('config::releaserunner3_notify_from') %>
   notify_to: <%= @env_config["notify_to"] %>
   notify_to_announce: <%= @env_config["notify_to_announce"] %>
-  smtp_server: <%= scope.lookupvar('config::releaserunner_smtp_server') %>
+  smtp_server: <%= scope.lookupvar('config::releaserunner3_smtp_server') %>
   verbose: true
   sleeptime: 30
 

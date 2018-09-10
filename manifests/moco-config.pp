@@ -291,6 +291,10 @@ class config inherits config::base {
     $vmwaretools_version              = '10.0.9-3917699'
     $vmwaretools_md5                  = '160979c6d9f5b0979d81b3b6c15d0b1a'
 
+    # These need to be in 'Foo <foo@bar.com>' style to work with release runner
+    $releaserunner3_notify_from       = 'Release Eng <release@mozilla.com>'
+    $releaserunner3_smtp_server       = 'localhost'
+
     $releaserunner3_env_config = {
         'dev' => {
             ship_it_root                          => 'https://ship-it-dev.allizom.org',
