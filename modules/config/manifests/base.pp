@@ -241,6 +241,8 @@ class config::base {
     # email to/from addresses and smtp server to use to send notifications
     $releaserunner3_notify_from           = ''
     $releaserunner3_smtp_server           = ''
+    $releaserunner3_tools                 = 'https://hg.mozilla.org/build/tools'
+    $releaserunner3_tools_branch          = 'default'
 
     $releaserunner3_env_config = {
         'dev'  => {
