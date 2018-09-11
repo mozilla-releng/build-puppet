@@ -1197,7 +1197,6 @@ node /^tb-tree-comm-\d+\.srv\.releng\..*\.mozilla\.com$/ {
 
 # Loaner for testing security patches
 # See Bug 1433165 and Bug 1385050
-
 node 'relops-patching1.srv.releng.mdc1.mozilla.com' {
     $aspects = [ 'low-security' ]
     $pin_puppet_server = 'releng-puppet2.srv.releng.scl3.mozilla.com'

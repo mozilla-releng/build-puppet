@@ -42,18 +42,41 @@ class httpd {
             }
         }
         Ubuntu: {
-            service {
-                'httpd':
-                    ensure  => running,
-                    name    => 'apache2',
-                    require => Class['packages::httpd'],
-                    enable  => true;
-            }
-            file {
-                # Bug 861200. Remove default vhost config
-                '/etc/apache2/sites-enabled/000-default':
-                    ensure => absent,
-                    notify => Service['httpd'];
+            case $::operatingsystemrelease {
+                12.04, 14.04: {
+                    service {
+                        'httpd':
+                            ensure  => running,
+                            name    => 'apache2',
+                            require => Class['packages::httpd'],
+                            enable  => true;
+                    }
+                    file {
+                        # Bug 861200. Remove default vhost config
+                        '/etc/apache2/sites-enabled/000-default':
+                            ensure => absent,
+                            notify => Service['httpd'];
+                    }
+                }
+                16.04: {
+                    service {
+                        'httpd':
+                            ensure   => running,
+                            name     => 'apache2',
+                            require  => Class['packages::httpd'],
+                            provider => 'systemd',
+                            enable   => true;
+                    }
+                    file {
+                        # Bug 861200. Remove default vhost config
+                        '/etc/apache2/sites-enabled/000-default':
+                            ensure => absent,
+                            notify => Service['httpd'];
+                    }
+                }
+                default: {
+                    fail("Don't know how to set up httpd on ${::operatingsystemrelease}")
+                }
             }
         }
         Windows: {

@@ -6,9 +6,9 @@ create_bug_self_failure() {
     product="Infrastructure & Operations"
     component="CIDuty"
     # Store the json into the file
-    json_file="bug.json"
+    json_file="<%= scope.lookupvar('users::builder::home') %>/bug.json"
     # Store the id of the bug into the file, for future use
-    bug_id_file="bug_id"
+    bug_id_file="<%= scope.lookupvar('users::builder::home') %>/bug_id"
     # Provide last20 lines from the log, and put this information into the bug
     log=`tail -20 $logfile|grep generic-worker`
     summary="Generic worker on host <%= @fqdn %> returned exit code 69"
@@ -30,6 +30,7 @@ create_bug_self_failure() {
        "summary" : "$summary",
        "description": "$description"
    }
+EOF
 )
 echo "$JSON" > $json_file
 
@@ -41,9 +42,9 @@ sed -i -e 's/}//g' $bug_id_file
 resolve_bug_self_failure() {
     BUGZILLA_API_KEY="<%= @bugzilla_api_key %>"
     # Store the json into the file
-    json_file="bug.json"
+    json_file="<%= scope.lookupvar('users::builder::home') %>/bug.json"
     # Store the id of the bug into the file
-    bug_id_file="bug_id"
+    bug_id_file="<%= scope.lookupvar('users::builder::home') %>/bug_id"
 
     bug_id=`awk -F: '{print $2}' $bug_id_file`
 
@@ -57,7 +58,8 @@ resolve_bug_self_failure() {
          "is_private": false
       }
    }
-  )
+EOF
+)
    echo "$JSON" > $json_file
 
   curl -v -X PUT -H Content-Type:application/json -H Accept:application/json -d @$json_file https://bugzilla.mozilla.org/rest/bug/$bug_id
