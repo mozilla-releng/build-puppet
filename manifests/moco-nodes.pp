@@ -29,7 +29,7 @@ node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1\.mozilla\.com$/ {
     include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
-# Linux on moonshot in mdc2 unning taskcluster-worker, but will be migrated to generic-worker once bug 1474570 lands
+# Linux on moonshot in mdc2 running taskcluster-worker, but will be migrated to generic-worker once bug 1474570 lands
 # The migration is underway such that all taskcluster-worker workload is being moved from worker type
 # gecko-t-linux-talos to gecko-t-linux-talos-tw, and that when that completes, gecko-t-linux-talos will then be used
 # for generic-worker implementation of talos linux tasks. For more details, please see:
