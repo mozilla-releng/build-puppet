@@ -34,8 +34,8 @@ node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc2\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     $taskcluster_worker_type  = 'gecko-t-linux-talos'
-    include fw::profiles::osx_taskcluster_worker
-    include toplevel::worker::releng::generic_worker::test::gpu
+    include fw::profiles::linux_taskcluster_worker
+    include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
 # taskcluster-host-secrets hosts
