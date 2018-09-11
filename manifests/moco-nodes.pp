@@ -21,14 +21,22 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
 }
 
 # Linux on moonshot in mdc1 running taskcluster worker
-node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
+node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
-    $taskcluster_worker_type  = 'gecko-t-linux-talos'
+    $taskcluster_worker_type  = 'gecko-t-linux-talos-tw'
     include fw::profiles::linux_taskcluster_worker
     include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
+# Linux on moonshot in mdc2 running generic worker
+node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc2\.mozilla\.com$/ {
+    $aspects          = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    $taskcluster_worker_type  = 'gecko-t-linux-talos'
+    include fw::profiles::osx_taskcluster_worker
+    include toplevel::worker::releng::generic_worker::test::gpu
+}
 
 # taskcluster-host-secrets hosts
 node /^tc-host-secrets\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
