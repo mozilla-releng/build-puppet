@@ -310,9 +310,9 @@ class config inherits config::base {
             partner_min_version                   => 61,
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [ 'projects/jamun', 'projects/maple', 'projects/birch' ],
-            # Exclude betas
-            fennec_pattern                        => 'Fennec-\d+\.\d+(\.\d+)?-.*',
-            firefox_pattern                       => 'Firefox-\d+\.\d+(\.\d+)?(esr)?-.*',
+            devedition_pattern                    => 'Devedition-.*',
+            fennec_pattern                        => 'Fennec-.*',
+            firefox_pattern                       => 'Firefox-.*',
             comm_allowed_branches                 => [ 'try-comm-central' ],
             thunderbird_pattern                   => 'Thunderbird-.*',
             shipitv2_api_root                     => 'https://shipit-workflow.staging.mozilla-releng.net',
