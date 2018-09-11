@@ -310,9 +310,9 @@ class config inherits config::base {
             partner_min_version                   => 61,
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [ 'projects/jamun', 'projects/maple', 'projects/birch' ],
-            fennec_pattern                        => 'Fennec-.*',
-            firefox_pattern                       => 'Firefox-(5[89]|6[0-9]).*',
-            devedition_pattern                    => 'Devedition-(5[89]|6[0-9]).*',
+            # Exclude betas
+            fennec_pattern                        => 'Fennec-\d+\.\d+(\.\d+)?-.*',
+            firefox_pattern                       => 'Firefox-\d+\.\d+(\.\d+)?(esr)?-.*',
             comm_allowed_branches                 => [ 'try-comm-central' ],
             thunderbird_pattern                   => 'Thunderbird-.*',
             shipitv2_api_root                     => 'https://shipit-workflow.staging.mozilla-releng.net',
@@ -337,12 +337,11 @@ class config inherits config::base {
             releaserunner_config_file             => 'release-runner.yml',
             allowed_branches                      => [
                                                         'releases/mozilla-release',
-                                                        'releases/mozilla-beta',
                                                         'releases/mozilla-esr*',
                                                       ],
-            fennec_pattern                        => 'Fennec-.*',
-            firefox_pattern                       => 'Firefox-(5[9]|6[0-9]).*',
-            devedition_pattern                    => 'Devedition-(5[9]|6[0-9]).*',
+            # exclude betas
+            fennec_pattern                        => 'Fennec-\d+\.\d+(\.\d+)?-.*',
+            firefox_pattern                       => 'Firefox-\d+\.\d+(\.\d+)?(esr)?-.*',
             comm_allowed_branches                 => [
                                                         'releases/comm-beta',
                                                         'releases/comm-esr6*',
