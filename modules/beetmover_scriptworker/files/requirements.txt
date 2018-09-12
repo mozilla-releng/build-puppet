@@ -32,7 +32,7 @@ python-gnupg==0.4.3
 redo==1.7
 requests==2.19.1
 s3transfer==0.1.13
-scriptworker==15.0.4
+scriptworker==16.0.0
 six==1.11.0
 slugid==1.0.7
 taskcluster==4.0.1
