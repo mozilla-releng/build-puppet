@@ -25,6 +25,6 @@ pyasn1==0.4.4
 pycparser==2.18
 python-dateutil==2.7.3
 requests==2.19.1
-toml==0.9.4
+toml==0.9.6
 towncrier==18.5.0  # pyup: ignore
 urllib3==1.22
