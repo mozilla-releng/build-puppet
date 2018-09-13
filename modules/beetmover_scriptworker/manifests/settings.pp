@@ -36,7 +36,6 @@ class beetmover_scriptworker::settings {
                 geckoview   => 'maven-default-s3-bucket-wj4w05pguw64',
             },
 
-            config_template                         => 'beetmover_scriptworker/dev_script_config.json.erb',
             worker_type                             => 'beetmoverworker-dev',
             worker_group                            => 'beetmoverworker-v1',
             taskcluster_client_id                   => 'project/releng/scriptworker/beetmover-dev',
@@ -93,7 +92,6 @@ class beetmover_scriptworker::settings {
                 geckoview   => 'maven-default-s3-bucket-1svmqy68t6xd4',
             },
 
-            config_template                         => 'beetmover_scriptworker/prod_script_config.json.erb',
             worker_type                             => 'beetmoverworker-v1',
             worker_group                            => 'beetmoverworker-v1',
             taskcluster_client_id                   => 'project/releng/scriptworker/beetmoverworker',
@@ -111,7 +109,6 @@ class beetmover_scriptworker::settings {
                 'thunderbird' => 'net-mozaws-stage-delivery-archive',
             },
 
-            config_template                         => 'beetmover_scriptworker/dev_script_config.json.erb',
             worker_type                             => 'tb-beetmover-dev',
             worker_group                            => 'beetmoverworker-v1',
             taskcluster_client_id                   => 'project/comm/thunderbird/releng/scriptworker/beetmover/dev',
@@ -141,7 +138,6 @@ class beetmover_scriptworker::settings {
                 'thunderbird' => 'net-mozaws-stage-delivery-archive',
             },
 
-            config_template                         => 'beetmover_scriptworker/prod_script_config.json.erb',
             worker_type                             => 'tb-beetmover-v1',
             worker_group                            => 'beetmoverworker-v1',
             taskcluster_client_id                   => 'project/comm/thunderbird/releng/scriptworker/beetmover/prod',
@@ -152,5 +148,25 @@ class beetmover_scriptworker::settings {
             verify_cot_signature                    => true,
             cot_product                             => 'thunderbird',
         },
+        'mobile-staging' => {
+            # TODO: once bug 1490381 is fixed, we should change these to more restrictive counterparts
+            dep_maven_beetmover_aws_access_key_id => secret('dep_maven_beetmover_aws_access_key_id'),
+            dep_maven_beetmover_aws_secret_access_key => secret('dep_maven_beetmover_aws_secret_access_key'),
+            dep_maven_buckets => {
+                geckoview   => 'maven-default-s3-bucket-wj4w05pguw64',
+            },
+
+            worker_type                             => 'mobile-beetmover-v1',
+            worker_group                            => 'mobile-beetmover-v1',
+            taskcluster_client_id                   => 'project/mobile/android-components/releng/scriptworker/beetmover/production',
+            taskcluster_access_token                => secret('beetmoverworker_prod_taskcluster_access_token_mobile'),
+            taskcluster_scope_prefix                => 'project:mobile:android-components:releng',
+            # TODO to turn this back on
+            sign_chain_of_trust                     => false,
+            verify_chain_of_trust                   => true,
+            # TODO to turn this back on
+            verify_cot_signature                    => false,
+            cot_product                             => 'mobile',
+        }
     }
 }

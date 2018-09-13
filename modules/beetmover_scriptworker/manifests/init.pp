@@ -71,7 +71,7 @@ class beetmover_scriptworker {
             mode      => '0600',
             owner     => $users::builder::username,
             group     => $users::builder::group,
-            content   => template($env_config["config_template"]),
+            content   => template('beetmover_scriptworker/script_config.json.erb'),
             show_diff => false;
     }
 }
