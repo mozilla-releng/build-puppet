@@ -72,6 +72,7 @@
             "buckets": <%= require "json"; JSON.pretty_generate(@env_config["dep_maven_buckets"]) %>
         },
 <% end -%>
+<% if @env_config["dep_buckets"] -%>
         "dep": {
             "credentials": {
                 "id": "<%= @env_config["dep_beetmover_aws_access_key_id"] %>",
@@ -79,6 +80,9 @@
             },
             "buckets": <%= require "json"; JSON.pretty_generate(@env_config["dep_buckets"]) %>,
             "url_prefix": "https://ftp.stage.mozaws.net"
-        }
+        },
+<% end -%>
+    <%-# Adding a dummy bucket to prevent JSON failing for trailing comma -%>
+        "dummy": {}
     }
 }
