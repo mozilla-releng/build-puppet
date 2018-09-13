@@ -19,12 +19,12 @@ incremental==17.5.0
 ipaddress==1.0.21
 jinja2==2.10
 jsonschema==2.6.0
-mar==2.3.0
+mar==3.0.0
 markupsafe==1.0
 pyasn1==0.4.4
 pycparser==2.18
 python-dateutil==2.7.3
 requests==2.19.1
-toml==0.9.4
+toml==0.9.6
 towncrier==18.5.0  # pyup: ignore
 urllib3==1.22
