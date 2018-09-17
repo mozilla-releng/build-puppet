@@ -352,7 +352,7 @@ class config inherits config::base {
     $aws_manager_mail_to               = 'release+aws-manager@mozilla.com'
     $cloudtrail_s3_bucket              = 'mozilla-releng-aws-logs'
     $cloudtrail_s3_base_prefix         = 'AWSLogs/314336048151/CloudTrail'
-    
+
     $buildmaster_ssh_keys              = [ 'ffxbld_rsa', 'tbirdbld_dsa', 'trybld_dsa' ]
 
     case $::fqdn {
