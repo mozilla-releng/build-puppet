@@ -8,7 +8,6 @@ class fw::profiles::linux_taskcluster_worker {
         /.*\.(mdc1|mdc2)\.mozilla\.com/: {
             include ::fw::roles::vnc_from_rejh_logging
             include ::fw::roles::ssh_from_rejh_logging
-            include ::fw::roles::ssh_from_slaveapi
             include ::fw::roles::ssh_from_roller
         }
         default:{
