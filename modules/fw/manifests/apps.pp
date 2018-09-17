@@ -30,9 +30,6 @@ class fw::apps {
                         'nightly_signing'     => { proto => 'tcp', port  => '9100' },
                         'syslog_udp'          => { proto => 'udp', port  => '514' },
                         'syslog_tcp'          => { proto => 'tcp', port  => '514' },
-                        'slave_api'           => { proto => 'tcp', port  => '8080' },
                         'roller_api'          => { proto => 'tcp', port  => '8000' },
-                        'buildbot_http_range' => { proto => 'tcp', port  => '8000-8999' },
-                        'buildbot_rpc_range'  => { proto => 'tcp', port  => '9000-9999' },
                         }
 }
