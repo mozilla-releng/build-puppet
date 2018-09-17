@@ -5,7 +5,7 @@
 class fw::profiles::mac_signing {
 
     case $::fqdn {
-        /.*\.(scl3|mdc1|mdc2)\.mozilla\.com/: {
+        /.*\.(mdc1|mdc2)\.mozilla\.com/: {
             include ::fw::roles::ssh_from_rejh_logging
             include ::fw::roles::nrpe_from_nagios
             include ::fw::roles::dep_signing_from_osx

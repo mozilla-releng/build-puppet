@@ -8,27 +8,12 @@ class fw::networks {
     $everywhere = [ '0.0.0.0/0' ]
 
     # Data Center CIDRs
-    $scl3_releng = [ '10.26.0.0/16' ]
     $mdc1_releng = [ '10.49.0.0/16' ]
     $mdc2_releng = [ '10.51.0.0/16' ]
 
     # AWS VPC CIDRs
     $use1_releng = [ '10.134.0.0/16' ]
     $usw2_releng = [ '10.132.0.0/16' ]
-
-    # SCL3 Network CIDRs
-    $bb_scl3       = [ '10.26.68.0/24' ] # *.bb.releng.scl3.mozilla.com
-    $build_scl3    = [ '10.26.52.0/22' ] # *.build.releng.scl3.mozilla.com
-    $inband_scl3   = [ '10.26.16.0/22' ] # *.inband.releng.scl3.mozilla.com
-    $srv_scl3      = [ '10.26.48.0/22' ] # *.srv.releng.scl3.mozilla.com
-    $test_scl3     = [ '10.26.56.0/22' ] # *.test.releng.scl3.mozilla.com
-    $try_scl3      = [ '10.26.64.0/22' ] # *.try.releng.scl3.mozilla.com
-    $wintest_scl3  = [ '10.26.40.0/22' ] # *.wintest.releng.scl3.mozilla.com
-    $winbuild_scl3 = [ '10.26.36.0/22' ] # *.winbuild.releng.scl3.mozilla.com
-    $wintry_scl3   = [ '10.26.44.0/22' ] # *.wintry.releng.scl3.mozilla.com
-
-    # SCL3 Infra CIDRs
-    $ad_scl3       = [ '10.22.69.0/24' ] # *.ad.mozilla.com, *.releng.ad.mozilla.com
 
     # MDC1 Releng Network CIDRs
     $ops_mdc1     = [ '10.49.8.0/21' ]  # *.ops.releng.mdc1.mozilla.com
@@ -71,15 +56,15 @@ class fw::networks {
     #
 
     # All releng subnets
-    $all_releng = [ $scl3_releng, $mdc1_releng, $mdc2_releng, $use1_releng, $usw2_releng ]
+    $all_releng = [ $mdc1_releng, $mdc2_releng, $use1_releng, $usw2_releng ]
 
     # All buildbot master subnets
-    $all_bb_masters = [ $bb_scl3, $use1_bb, $usw2_bb ]
+    $all_bb_masters = [ $use1_bb, $usw2_bb ]
 
-    $all_build = [ $build_scl3, $use1_build, $usw2_build ]
-    $all_try   = [ $try_scl3, $use1_try, $usw2_try ]
-    $dc_test   = [ $test_mdc1, $wintest_mdc1, $test_mdc2, $wintest_mdc2, $test_scl3, $wintest_scl3 ]
-    $all_bb_slaves = [ $build_scl3, $test_scl3, $try_scl3, $wintest_scl3, $winbuild_scl3, $wintry_scl3, $use1_test, $use1_build, $use1_try, $usw2_test, $usw2_build, $usw2_try ]
+    $all_build = [ $use1_build, $usw2_build ]
+    $all_try   = [ $use1_try, $usw2_try ]
+    $dc_test   = [ $test_mdc1, $wintest_mdc1, $test_mdc2, $wintest_mdc2 ]
+    $all_bb_slaves = [ $use1_test, $use1_build, $use1_try, $usw2_test, $usw2_build, $usw2_try ]
 
     $buildduty_tools = [ '10.132.51.74/32' ] # buildduty-tools.srv.releng.usw2.mozilla.com
 
@@ -88,12 +73,7 @@ class fw::networks {
                 '10.51.48.75/32',  # roller1.srv.releng.mdc2.mozilla.com
                 '10.51.48.76/32' ] # roller-dev1.srv.releng.mdc2.mozilla.com
 
-    $slaveapi = [ '10.26.48.16/32',  # slaveapi1.srv.releng.scl3.mozilla.com
-                  '10.26.48.17/32' ] # slaveapi-dev1.srv.releng.scl3.mozilla.com
-
-    $non_distingushed_puppetmasters = [ '10.26.48.45/32',  # releng-puppet1.srv.releng.scl3.mozilla.com
-                                        '10.26.48.50/32',  # releng-puppet2.srv.releng.scl3.mozilla.com
-                                        '10.134.48.16/32', # releng-puppet1.srv.releng.use1.mozilla.com
+    $non_distingushed_puppetmasters = [ '10.134.48.16/32', # releng-puppet1.srv.releng.use1.mozilla.com
                                         '10.132.48.16/32', # releng-puppet1.srv.releng.usw2.mozilla.com
                                         '10.49.48.21/32',  # releng-puppet1.srv.releng.mdc1.mozilla.com
                                         '10.49.48.22/32',  # releng-puppet2.srv.releng.mdc1.mozilla.com
@@ -102,14 +82,10 @@ class fw::networks {
 
     $distingushed_puppetmaster = [ '10.49.48.22/32' ] # releng-puppet2.srv.releng.mdc1.mozilla.com
 
-    $infra_bacula_scl3 = [ '10.22.75.200/32' ] # bacula1.private.scl3.mozilla.com
     $infra_bacula_mdc1 = [ '10.48.75.200/32' ] # bacula1.private.mdc1.mozilla.com
     $infra_bacula_mdc2 = [ '10.50.75.200/32' ] # bacula1.private.mdc2.mozilla.com
 
     # Jumphosts
-
-    # SCL3 Jumphosts
-    $scl3_rejh = [ '10.26.48.19/32', '10.26.48.20/32' ]   # rejhi[1,2].srv.releng.scl3.mozilla.com
 
     # MDC1 Jumphosts
     $mdc1_rejh = [ '10.49.48.100/32', '10.49.48.101/32' ] # rejhi[1,2].srv.releng.mdc1.mozilla.com
@@ -118,17 +94,15 @@ class fw::networks {
     $mdc2_rejh = [ '10.51.48.100/32', '10.51.48.101/32' ] # rejhi[1,2].srv.releng.mdc2.mozilla.com
 
     # ALL Jumphosts
-    $rejh      = [ $scl3_rejh, $mdc1_rejh, $mdc2_rejh ]
+    $rejh      = [ $mdc1_rejh, $mdc2_rejh ]
 
     # Nagios hosts
-    $nagios = [ '10.26.75.30/32',  # nagios1.private.releng.scl3.mozilla.com
-                '10.49.75.30/32',  # nagios1.private.releng.mdc1.mozilla.com
+    $nagios = [ '10.49.75.30/32',  # nagios1.private.releng.mdc1.mozilla.com
                 '10.51.75.30/32' ] # nagios1.private.releng.mdc2.mozilla.com
 
     # Partner-repack
     $mdc1_partner_repack = [ '10.49.48.16/32' ]
-    $scl3_partner_repack = [ '10.26.48.41/32' ]
-    $all_partner_repack = [ $mdc1_partner_repack, $scl3_partner_repack ]
+    $all_partner_repack = [ $mdc1_partner_repack ]
 
     # NOTE: The signing server application also limits by IP
     # See $signing_allowed_ips in moco-config.pp
@@ -214,18 +188,7 @@ class fw::networks {
 
     $all_signing_workers = [ $use1_signing_workers, $usw2_signing_workers ]
 
-    # Infra managed production releng web cluster
-    $releng_web_cluster = [ '10.22.81.88/32',  # web1.releng.webapp.scl3.mozilla.com
-                            '10.22.81.89/32',  # web2.releng.webapp.scl3.mozilla.com
-                            '10.22.81.90/32',  # web3.releng.webapp.scl3.mozilla.com
-                            '10.22.81.91/32' ] # web1.stage.releng.webapp.scl3.mozilla.com
-
-    $releng_web_admin = [ '10.22.75.138/32' ]  # relengwebadm.private.scl3.mozilla.com
-
     # Infra VPN Network Endpoints (CIDR blocks of IPs given to vpn clients)
-    $infra_scl3_vpn_users = [ '10.22.248.0/22',  # openvpn1.corpdmz.scl3 tcp clients
-                              '10.22.252.0/22' ] # openvpn1.corpdmz.scl3 udp clients
-
     # See bug 1419983
     $infra_mdc1_vpn_users = [ '10.48.236.0/23',  # 10.48.236.0/23 (stage TCP) = 10-48-Y-Z.vpn-stage.mdc1.mozilla.com
                               '10.48.238.0/23',  # 10.48.238.0/23 (stage UDP) = 10-48-Y-Z.vpn-stage.mdc1.mozilla.com
@@ -238,11 +201,10 @@ class fw::networks {
                               '10.50.242.0/23' ] # 10.50.242.0/23 (prod TCP)  = 10-50-Y-Z.vpn.mdc2.mozilla.com
 
     # All vpn endpoint ranges
-    $infra_vpn_users =  [ $infra_scl3_vpn_users, $infra_mdc1_vpn_users, $infra_mdc2_vpn_users ]
+    $infra_vpn_users =  [ $infra_mdc1_vpn_users, $infra_mdc2_vpn_users ]
 
     # Infra Jumphosts
-    $infra_corp_jumphost = [  '10.22.72.158/32',  # ssh1.corpdmz.scl3.mozilla.com
-                              '10.48.72.100/32',  # ssh1.corpdmz.mdc1.mozilla.com
+    $infra_corp_jumphost = [  '10.48.72.100/32',  # ssh1.corpdmz.mdc1.mozilla.com
                               '10.50.72.100/32' ] # ssh1.corpdmz.mdc2.mozilla.com
 
 }

@@ -21,14 +21,6 @@ class fw::profiles::distinguished_puppetmaster {
             include ::fw::roles::ssh_from_rejh_logging
             include ::fw::roles::nrpe_from_nagios
         }
-        /.*\.scl3\.mozilla\.com/: {
-            include ::fw::roles::bacula_from_scl3_bacula_host
-
-            include ::fw::roles::puppetmaster_from_all_releng
-            include ::fw::roles::puppetmaster_sync_from_all_puppetmasters
-            include ::fw::roles::ssh_from_rejh_logging
-            include ::fw::roles::nrpe_from_nagios
-        }
         default: {
             # Silently skip other DCs
         }

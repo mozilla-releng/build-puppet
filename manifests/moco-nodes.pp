@@ -2,18 +2,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-## Buildbot OS X
-# 19 machines that will remain in buildbot
-node /^t-yosemite-r7-00[0-1]\d+\.test\.releng\.scl3\.mozilla\.com$/ {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include fw::profiles::buildbot_slave
-    include toplevel::slave::releng::test::gpu
-}
 ## TaskCluster workers
 
 # OS X in mdc1 running generic worker
-node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
+node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     include fw::profiles::osx_taskcluster_worker
@@ -44,146 +36,16 @@ node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc2\.mozilla\.com$/ {
 }
 
 # taskcluster-host-secrets hosts
-node /^tc-host-secrets\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
+node /^tc-host-secrets\d+\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects                       = [ 'high-security' ]
     $taskcluster_host_secrets_port = 80
     include fw::profiles::taskcluster_host_secrets
     include toplevel::server::taskcluster_host_secrets
 }
 
-
-## Buildbot testers
-
-# Linux and OS X
-node /^t.*-\d+\.test\.releng\.scl3\.mozilla\.com$/ {
-    # hosts starting with t and ending in -digit.test.releng.scl3.mozilla.com
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include fw::profiles::buildbot_slave
-    include toplevel::slave::releng::test::gpu
-}
-
-# AWS
-node /^tst-.*\.test\.releng\.(use1|usw2)\.mozilla\.com$/ {
-    # tst-anything in any region of the test.releng mozilla zones
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::test::headless
-}
-
-# Windows
-node /^t-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com$/ {
-    # windows 7 nodes in wintest.releng.scl3.mozilla.com
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include toplevel::slave
-}
-node /^g-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com$/ {
-    # windows 7 nodes in wintest.releng.scl3.mozilla.com
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include toplevel::slave
-}
-
-# Node declaration is for Win 7 development
-# To keep development and production catalogs separate
-node /^d-w732.*\.(wintest|test)\.releng\.(scl3|use1|usw2)\.mozilla.com$/ {
-    # windows 7 nodes in wintest.releng.scl3.mozilla.com
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::test
-}
-
-## Buildbot builders
-
-# Windows
-node /^b-2008.*\.(winbuild|build)\.releng\.(scl3|use1|usw2)\.mozilla.com$/ {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'core'
-    include toplevel::slave::releng::build
-}
-
-# linux64
-node /^b-linux64-\w+-\d+.build.releng.scl3.mozilla.com$/ {
-    # any b-linux64-(something)-digit host in the scl3 build zone
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'core'
-    include toplevel::slave::releng::build::mock
-}
-
-node /^bld-.*\.build\.releng\.(use1|usw2)\.mozilla.com$/ {
-    # any bld-(something) host in the use1 and usw2 releng build zones
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'core'
-    include toplevel::slave::releng::build::mock
-}
-
-node /^av-linux64.*\.build\.releng\.(use1|usw2)\.mozilla\.com$/ {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'core'
-    include toplevel::slave::releng::build::mock::av
-}
-
-# OS X
-node /^bld-lion-r5-\d+\.build\.releng\.scl3\.mozilla\.com$/ {
-    # any bld-lion-r5-(digit) hosts in the scl3 build zone
-    $slave_trustlevel = 'core'
-    $aspects          = [ 'low-security' ]
-    include fw::profiles::buildbot_slave
-    include toplevel::slave::releng::build::standard
-}
-
-## Buildbot try builders
-
-# Windows
-node /^(b|y|try)-2008-.*\.(try|wintry).releng.(use1|usw2|scl3).mozilla.com$/ {
-    $slave_trustlevel = 'try'
-    $aspects          = [ 'low-security' ]
-    include toplevel::slave::releng::build
-}
-
-# Datacenter Windows builder for testing
-node 'ix-mn-w0864-002.wintest.releng.scl3.mozilla.com' {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::build
-}
-
-# linux64
-node /^b-linux64-\w+-\d+.try.releng.scl3.mozilla.com$/ {
-    # any b-linux64-(something)-digit host in the scl3 try zone
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::build::mock
-}
-
-node /^(dev|try)-.*\.(dev|try)\.releng\.(use1|usw2)\.mozilla.com$/ {
-    # any dev or try node in the dev or try zones of use1 and usw2
-    # dev-* hosts are *always* staging
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include toplevel::slave::releng::build::mock
-}
-
-# OS X
-
-node /^bld-(lion|yosemite)-r5-\d+.try.releng.scl3.mozilla.com$/ {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include fw::profiles::buildbot_slave
-    include toplevel::slave::releng::build::standard
-}
-
-node /^y-yosemite-r5-\d+.try.releng.scl3.mozilla.com$/ {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    include fw::profiles::buildbot_slave
-    include toplevel::slave::releng::build::standard
-}
-
 ## signing servers
 
-node /^mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
+node /^mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     # mac signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'GMT'
@@ -192,7 +54,7 @@ node /^mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
     include toplevel::server::signing
 }
 
-node /^signing\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
+node /^signing\d+\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     # linux signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'UTC'
@@ -201,7 +63,7 @@ node /^signing\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
     include toplevel::server::signing
 }
 
-node /^mac-depsigning\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
+node /^mac-depsigning\d+\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     # mac signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'GMT'
@@ -210,7 +72,7 @@ node /^mac-depsigning\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
     include toplevel::server::depsigning
 }
 
-node /^depsigning\d+\.srv\.releng\.(mdc1|mdc2|scl3|use1|usw2)\.mozilla\.com$/ {
+node /^depsigning\d+\.srv\.releng\.(mdc1|mdc2|use1|usw2)\.mozilla\.com$/ {
     # linux dev signing servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'UTC'
@@ -220,23 +82,11 @@ node /^depsigning\d+\.srv\.releng\.(mdc1|mdc2|scl3|use1|usw2)\.mozilla\.com$/ {
 
 ## puppetmasters
 
-node /^releng-puppet\d+\.srv\.releng\.(mdc1|mdc2|scl3|use1|usw2)\.mozilla\.com$/ {
+node /^releng-puppet\d+\.srv\.releng\.(mdc1|mdc2|use1|usw2)\.mozilla\.com$/ {
     $aspects       = [ 'maximum-security' ]
     $only_user_ssh = true
     include fw::profiles::puppetmasters
     include toplevel::server::puppetmaster
-}
-
-node 'releng-puppet2.srv.releng.scl3.mozilla.com' {
-    $aspects       = [ 'maximum-security' ]
-    $only_user_ssh = true
-    include fw::profiles::puppetmasters
-    include toplevel::server::puppetmaster
-    class {
-        'bacula_client':
-            cert => secret('releng_puppet2_srv_releng_scl3_bacula_cert'),
-            key  => secret('releng_puppet2_srv_releng_scl3_bacula_key');
-    }
 }
 
 node 'releng-puppet2.srv.releng.mdc1.mozilla.com' {
@@ -252,34 +102,6 @@ node 'releng-puppet2.srv.releng.mdc1.mozilla.com' {
 }
 
 ## deploystudio servers
-
-node 'install.build.releng.scl3.mozilla.com' {
-    $aspects = [ 'maximum-security' ]
-    include fw::profiles::deploystudio
-    include toplevel::server::deploystudio
-    class {
-        'bacula_client':
-            cert => secret('install_build_releng_scl3_bacula_cert'),
-            key  => secret('install_build_releng_scl3_bacula_key');
-    }
-}
-
-node 'install.test.releng.scl3.mozilla.com' {
-    $aspects = [ 'maximum-security' ]
-    include toplevel::server::deploystudio
-    include fw::profiles::deploystudio
-    class {
-        'bacula_client':
-            cert => secret('install_test_releng_scl3_bacula_cert'),
-            key  => secret('install_test_releng_scl3_bacula_key');
-    }
-}
-
-node 'install3.test.releng.scl3.mozilla.com' {
-    $aspects = [ 'maximum-security' ]
-    include fw::profiles::deploystudio
-    include toplevel::server::deploystudio
-}
 
 node 'install.test.releng.mdc1.mozilla.com' {
     $aspects = [ 'maximum-security' ]
@@ -326,7 +148,7 @@ node /^bsdpy\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
 
 ## Jump hosts
 
-node /^rejh\d+\.srv\.releng\.(mdc1|mdc2|scl3)\.mozilla\.com$/ {
+node /^rejh\d+\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     # jump host servers
     $aspects       = [ 'maximum-security' ]
     $timezone      = 'GMT'
@@ -361,14 +183,6 @@ node /^partner-repack-\d+\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     include toplevel::server
 }
 
-# aws-manager
-
-node /^aws-manager\d+\.srv\.releng\.scl3\.mozilla\.com$/ {
-    $aspects = [ 'high-security' ]
-    include fw::profiles::aws_manager
-    include toplevel::server::aws_manager
-}
-
 # buildduty-tools
 
 node /^buildduty-tools\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
@@ -381,20 +195,6 @@ node /^buildduty-tools\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
 node /^mergeday\d+\.srv\.releng\.(use1|usw2)\.mozilla\.com$/ {
     $aspects = [ 'high-security' ]
     include toplevel::server::mergeday
-}
-
-# slaveapi
-
-node 'slaveapi1.srv.releng.scl3.mozilla.com' {
-    $aspects = [ 'high-security' ]
-    include fw::profiles::slave_api
-    include toplevel::server::slaveapi
-}
-
-node 'slaveapi-dev1.srv.releng.scl3.mozilla.com' {
-    $aspects = [ 'high-security', 'dev' ]
-    include fw::profiles::slave_api
-    include toplevel::server::slaveapi
 }
 
 # Relops Controller
@@ -631,220 +431,6 @@ node 'buildbot-master78.bb.releng.usw2.mozilla.com' {
     include toplevel::server::buildmaster::mozilla
 }
 
-node 'buildbot-master81.bb.releng.scl3.mozilla.com' {
-    $aspects           = [ 'high-security' ]
-    $only_user_ssh     = true
-    buildmaster::buildbot_master::mozilla {
-        'bm81-build_scheduler':
-            master_type => 'scheduler',
-            basedir     => 'build_scheduler';
-        'bm81-tests_scheduler':
-            master_type => 'scheduler',
-            basedir     => 'tests_scheduler';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::selfserve_agent
-    include toplevel::mixin::buildmaster_db_maintenance
-    include toplevel::mixin::bouncer_check
-}
-
-node 'buildbot-master82.bb.releng.scl3.mozilla.com' {
-    $aspects              = [ 'high-security' ]
-    $only_user_ssh        = true
-    $buildbot_bridge_env  = 'prod'
-    $buildbot_bridge2_env = 'prod'
-    buildmaster::buildbot_master::mozilla {
-        'bm82-build1':
-            http_port   => 8001,
-            master_type => 'build',
-            basedir     => 'build1';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::buildbot_bridge
-    include toplevel::mixin::buildbot_bridge2
-}
-
-node 'buildbot-master83.bb.releng.scl3.mozilla.com' {
-    $aspects           = [ 'high-security' ]
-    $only_user_ssh     = true
-    buildmaster::buildbot_master::mozilla {
-        'bm83-try1':
-            http_port   => 8101,
-            master_type => 'try',
-            basedir     => 'try1';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master84.bb.releng.scl3.mozilla.com' {
-    $aspects              = [ 'high-security' ]
-    $only_user_ssh        = true
-    $buildbot_bridge_env  = 'dev'
-    $buildbot_bridge2_env = 'dev'
-    buildmaster::buildbot_master::mozilla {
-        'bm84-build1':
-            http_port   => 8001,
-            master_type => 'build',
-            basedir     => 'build1';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::buildbot_bridge
-    include toplevel::mixin::buildbot_bridge2
-}
-
-node 'buildbot-master85.bb.releng.scl3.mozilla.com' {
-    $aspects           = [ 'high-security' ]
-    $only_user_ssh     = true
-    buildmaster::buildbot_master::mozilla {
-        'bm85-build1':
-            http_port   => 8001,
-            master_type => 'build',
-            basedir     => 'build1';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master86.bb.releng.scl3.mozilla.com' {
-    $aspects              = [ 'high-security' ]
-    $only_user_ssh        = true
-    $buildbot_bridge_env  = 'prod'
-    $buildbot_bridge2_env = 'prod'
-    buildmaster::buildbot_master::mozilla {
-        'bm86-build1':
-            http_port   => 8001,
-            master_type => 'build',
-            basedir     => 'build1';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-    include toplevel::mixin::buildbot_bridge
-    include toplevel::mixin::buildbot_bridge2
-}
-
-node 'buildbot-master87.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm87-try1':
-            http_port   => 8101,
-            master_type => 'try',
-            basedir     => 'try1';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master103.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm103-tests1-linux':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-linux';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master104.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm104-tests1-linux':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-linux';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master105.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm105-tests1-linux':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-linux';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master106.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm106-tests1-macosx':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-macosx';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master107.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm107-tests1-macosx':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-macosx';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-}
-
-
-node 'buildbot-master109.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm109-tests1-windows':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-windows';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master110.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm110-tests1-windows':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-windows';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-}
-
-node 'buildbot-master111.bb.releng.scl3.mozilla.com' {
-    $aspects       = [ 'high-security' ]
-    $only_user_ssh = true
-    buildmaster::buildbot_master::mozilla {
-        'bm111-tests1-windows':
-            http_port   => 8201,
-            master_type => 'tests',
-            basedir     => 'tests1-windows';
-    }
-    include fw::profiles::buildbot_master
-    include toplevel::server::buildmaster::mozilla
-}
-
-
 node 'buildbot-master128.bb.releng.use1.mozilla.com' {
     $aspects       = [ 'high-security' ]
     $only_user_ssh = true
@@ -905,7 +491,7 @@ node 'buildbot-master140.bb.releng.usw2.mozilla.com' {
     include toplevel::server::buildmaster::mozilla
 }
 
-node /^log-aggregator\d+\.srv\.releng\.(mdc1|mdc2|scl3|use1|usw2)\.mozilla\.com$/ {
+node /^log-aggregator\d+\.srv\.releng\.(mdc1|mdc2|use1|usw2)\.mozilla\.com$/ {
     $aspects                = [ 'high-security' ]
     $is_log_aggregator_host = 'true'
     include fw::profiles::log_aggregator
