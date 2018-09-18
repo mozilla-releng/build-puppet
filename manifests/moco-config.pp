@@ -356,7 +356,7 @@ class config inherits config::base {
     $buildmaster_ssh_keys              = [ 'ffxbld_rsa', 'tbirdbld_dsa', 'trybld_dsa' ]
 
     case $::fqdn {
-        /.*\.mdc1\.mozilla\.com/: {
+        /.*\.(mdc1|use1|usw2)\.mozilla\.com/: {
                 $collectd_write = {
                     graphite_nodes => {
                         'graphite1.private.mdc1.mozilla.com' => {
