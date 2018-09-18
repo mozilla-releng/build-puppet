@@ -149,26 +149,12 @@ class config inherits config::base {
     # NOTE: signing is also limited by a host level firewall
     # See modules/fw/manifests/networks.pp
     $signing_allowed_ips             = [
-        '10.134.68.32/32', # dev-master2
-        '10.26.48.41/32',  # partner-repack1
-        '10.132.52.0/22',  # build.releng.usw2
-        '10.132.64.0/22',  # try.releng.usw2
-        '10.134.52.0/22',  # build.releng.use1
-        '10.134.64.0/22',  # try.releng.use1
-        '10.134.164.0/24', # build.releng.use1
-        '10.134.165.0/24', # try.releng.use1
-        '10.132.68.0/24',  # bb.releng.usw2
-        '10.134.68.0/24',  # bb.releng.use1
-        '10.132.30.0/24',  # srv.releng.usw2 (signing)
-        '10.134.30.0/24',  # srv.releng.use1 (signing)
+        '10.132.30.0/24',  # srv.releng.usw2 (signing scriptworkers)
+        '10.134.30.0/24',  # srv.releng.use1 (signing scriptworkers)
     ]
     $signing_new_token_allowed_ips   = [
-        '10.134.68.32/32', # dev-master2
-        '10.26.48.41/32',  # partner-repack1
-        '10.132.68.0/24',  # bb.releng.usw2
-        '10.134.68.0/24',  # bb.releng.use1
-        '10.132.30.0/24',  # srv.releng.usw2 (signing)
-        '10.134.30.0/24',  # srv.releng.use1 (signing)
+        '10.132.30.0/24',  # srv.releng.usw2 (signing scriptworkers)
+        '10.134.30.0/24',  # srv.releng.use1 (signing scriptworkers)
     ]
 
     $mac_netboot_ips = [ '10.49.56.16',  # install.test.releng.mdc1
