@@ -19,7 +19,7 @@ pexpect==4.6.0
 ptyprocess==0.6.0
 python-dateutil==2.7.3
 python-gnupg==0.4.3
-redo==1.7
+redo==2.0
 requests==2.19.1
 scriptworker==16.0.1
 shipitapi==1.0.0
