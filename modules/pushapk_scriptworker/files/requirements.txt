@@ -39,7 +39,7 @@ lxml==4.2.4
 matplotlib==2.2.3
 mohawk==0.3.4
 mozapkpublisher==0.8.0
-multidict==4.3.1
+multidict==4.4.2
 networkx==2.1
 numpy==1.15.1
 oauth2client==4.1.3
