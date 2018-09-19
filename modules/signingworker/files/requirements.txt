@@ -20,7 +20,7 @@ pyasn1==0.4.4
 pycrypto==2.6.1
 python-dateutil==2.7.3
 python-jose==3.0.1
-redo==1.7
+redo==2.0
 # see bug 1467067
 requests==2.4.3  # pyup: ignore
 rsa==3.4.2
