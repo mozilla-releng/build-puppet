@@ -17,11 +17,11 @@ idna_ssl==1.1.0
 json-e==2.7.0
 jsonschema==2.6.0
 mohawk==0.3.4
-multidict==4.3.1
+multidict==4.4.2
 pexpect==4.6.0
 progressbar33==2.4
 ptyprocess==0.6.0
-pycparser==2.18
+pycparser==2.19
 pyelftools==0.25
 pymacaroons==0.13.0
 pysha3==1.0.2
