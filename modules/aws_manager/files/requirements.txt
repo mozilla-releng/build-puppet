@@ -55,5 +55,5 @@ fixtures==3.0.0
 python-mimeparse==1.6.0
 unittest2==1.1.0
 traceback2==1.4.0
-pycparser==2.18
+pycparser==2.19
 linecache2==1.0.0
