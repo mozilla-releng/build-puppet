@@ -186,11 +186,14 @@ class packages::setup {
 
                 'dhcp':
                     url_path => "repos/yum/custom/dhcp/${::architecture}";
+
+                'libsodium':
+                    url_path => "repos/yum/custom/libsodium/${::architecture}";
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 95
+            $repoflag = 96
             file {
                 '/etc/.repo-flag':
                     content =>
