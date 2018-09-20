@@ -89,6 +89,7 @@ def group_users(l, group_cn):
 output = {}
 
 l = ldap.initialize(URI)
+l.start_tls_s() # bug 1492157
 l.simple_bind_s(DN, PASS)
 
 # first, get all of the ssh keys
