@@ -1,5 +1,0 @@
-MAILTO=<%=scope.lookupvar('config::buildbot_mail_to')%>
-@hourly <%=scope.lookupvar('users::builder::username')%> <%=@full_master_dir%>/bin/python <%=@full_master_dir%>/tools/buildfarm/maintenance/watch_twistd_log.py -t .<%=@master_name%>-last-time.txt -n <%=@master_name%> <%=@full_master_dir%>/master 2>&1 | logger -t watch_twistd_log.py
-15 * * * * <%=scope.lookupvar('users::builder::username')%> lockfile -60 -r 3 <%=scope.lookupvar('buildmaster::settings::lock_dir')%>/lockfile.<%=@master_name%>_cleanup 2>/dev/null && (nice -n 19 <%=@full_master_dir%>/bin/python <%=@full_master_dir%>/tools/buildfarm/maintenance/master_cleanup.py -t4 <%=@full_master_dir%>/master ; rm -f <%=scope.lookupvar('buildmaster::settings::lock_dir')%>/lockfile.<%=@master_name%>_cleanup) >> cleanup.log 2>&1
-@hourly <%=scope.lookupvar('users::builder::username')%> find <%=scope.lookupvar('buildmaster::settings::lock_dir')%> -name lockfile.bbdb -mmin +360 -delete
-@hourly <%=scope.lookupvar('users::builder::username')%> <%=@full_master_dir%>/tools/buildfarm/maintenance/maybe_reconfig.sh <%=@full_master_dir%> 2>&1 | logger -t maybe_reconfig.sh

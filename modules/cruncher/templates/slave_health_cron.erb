@@ -1,9 +1,0 @@
-MAILTO=release+cruncher@mozilla.com
-HOME=/home/buildduty
-
-# Slave Health
-PATH=/home/buildduty/slave_health/bin:/usr/local/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/buildduty/bin:/usr/pgsql-9.1/bin
-*/20 * * * * buildduty $HOME/slave_health/slave_health_cron.sh 2>&1 | logger -t slave_health_cron.sh
-19   0 * * * buildduty source $HOME/slave_health/bin/activate && python $HOME/slave_health/slave_health/scripts/generate_chart_objects.py -v 
-22   0 1 * * buildduty source $HOME/slave_health/bin/activate && python $HOME/slave_health/slave_health/scripts/generate_chart_objects.py -m -v
-58   * * * * buildduty $HOME/slave_health/buildduty_report.sh 2>&1 | logger -t buildduty_report.sh

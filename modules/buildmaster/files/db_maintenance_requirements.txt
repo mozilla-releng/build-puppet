@@ -1,3 +1,0 @@
-# python_version: 27
-SQLAlchemy==1.2.11
-MySQL-python==1.2.5
