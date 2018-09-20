@@ -4,10 +4,10 @@
 class signing_server_cert_check::cron {
     file {
         '/usr/local/bin/cert_check.sh':
-            source  => 'puppet:///modules/signing_server_cert_check/cert_check.sh',
-            mode    => '0755';
+            source => 'puppet:///modules/signing_server_cert_check/cert_check.sh',
+            mode   => '0755';
         '/etc/cron.weekly/check_sign_srv_ssl_exp.sh':
-            source  => 'puppet:///modules/signing_server_cert_check/check_sign_srv_ssl_exp.sh',
-            mode    => '0755';
+            source => 'puppet:///modules/signing_server_cert_check/check_sign_srv_ssl_exp.sh',
+            mode   => '0755';
     }
 }
