@@ -121,5 +121,6 @@ class signing_scriptworker {
         api_key            => $env_config['datadog_api_key'],
         puppet_run_reports => false,
         puppetmaster_user  => puppet,
+        dogstatsd_port     => 8135,
     }
 }
