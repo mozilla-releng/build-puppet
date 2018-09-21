@@ -189,11 +189,15 @@ class packages::setup {
 
                 'libsodium':
                     url_path => "repos/yum/custom/libsodium/${::architecture}";
+
+                'xdelta':
+                    url_path => "repos/yum/custom/mozilla-xdelta/${::architecture}";
+
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 96
+            $repoflag = 97
             file {
                 '/etc/.repo-flag':
                     content =>

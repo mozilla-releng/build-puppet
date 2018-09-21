@@ -12,6 +12,7 @@ class pushsnap_scriptworker {
     include packages::make
     include packages::libffi
     include packages::libsodium
+    include packages::xdelta3
     include packages::mozilla::squashfs_tools
     include tweaks::scriptworkerlogrotate
 
