@@ -11,8 +11,9 @@ class pushsnap_scriptworker {
     include packages::gcc
     include packages::make
     include packages::libffi
+    include packages::libsodium
+    include packages::xdelta3
     include packages::mozilla::squashfs_tools
-    include tweaks::scriptworkerlogrotate
     include tweaks::scriptworkerlogrotate
 
     # If the Python installation changes, we need to rebuild the virtualenv
