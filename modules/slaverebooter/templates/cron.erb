@@ -1,2 +1,0 @@
-MAILTO=<%=scope.lookupvar('config::slaverebooter_mail_to')%>
-43 * * * * <%=@owner%> lockfile -10 -r 3 <%=@basedir%>/slaverebooter.lock 2>/dev/null && (cd <%=@basedir%> && <%=@python%> <%=@basedir%>/bin/reboot-idle-slaves.py <%=@config%> ; rm -f <%=@basedir%>/slaverebooter.lock) >> <%=@basedir%>/slaverebooter.log 2>&1

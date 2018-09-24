@@ -1,3 +1,0 @@
-[db]
-status_db = mysql://<%=scope.function_secret(["buildbot_statusdb_username"])%>:<%=scope.function_secret(["buildbot_statusdb_password"])%>@<%=scope.function_secret(["buildbot_statusdb_hostname"])%>/<%=scope.function_secret(["buildbot_statusdb_database"])%>
-scheduler_db = mysql://<%=scope.function_secret(["buildbot_schedulerdb_username"])%>:<%=scope.function_secret(["buildbot_schedulerdb_password"])%>@<%=scope.function_secret(["buildbot_schedulerdb_hostname"])%>/<%=scope.function_secret(["buildbot_schedulerdb_database"])%>
