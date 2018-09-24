@@ -12,7 +12,11 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     include toplevel::worker::releng::generic_worker::test::gpu
 }
 
-# Linux on moonshot in mdc1 running taskcluster worker
+# Linux on moonshot in mdc1 running taskcluster-worker, but will be migrated to generic-worker once bug 1474570 lands
+# The migration is underway such that all taskcluster-worker workload is being moved from worker type
+# gecko-t-linux-talos to gecko-t-linux-talos-tw, and that when that completes, gecko-t-linux-talos will then be used
+# for generic-worker implementation of talos linux tasks. For more details, please see:
+# https://bugzilla.mozilla.org/show_bug.cgi?id=1474570#c32
 node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
@@ -21,18 +25,13 @@ node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1\.mozilla\.com$/ {
     include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
-# Linux on moonshot in mdc2 running taskcluster-worker, but will be migrated to generic-worker once bug 1474570 lands
-# The migration is underway such that all taskcluster-worker workload is being moved from worker type
-# gecko-t-linux-talos to gecko-t-linux-talos-tw, and that when that completes, gecko-t-linux-talos will then be used
-# for generic-worker implementation of talos linux tasks. For more details, please see:
-# https://bugzilla.mozilla.org/show_bug.cgi?id=1474570#c32
+# Linux on moonshot in mdc2 running generic-worker
 
 node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc2\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
-    $taskcluster_worker_type  = 'gecko-t-linux-talos'
     include fw::profiles::linux_taskcluster_worker
-    include toplevel::worker::releng::taskcluster_worker::test::gpu
+    include toplevel::worker::releng::generic_worker::test::gpu
 }
 
 # taskcluster-host-secrets hosts
