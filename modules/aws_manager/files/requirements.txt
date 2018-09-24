@@ -9,7 +9,7 @@ boto==2.49.0
 ecdsa==0.13
 invtool==4.4  # puppet: nodownload
 iso8601==0.1.12
-paramiko==2.4.1
+paramiko==2.4.2
 pycrypto==2.6.1
 repoze.lru==0.7
 requests==2.19.1
@@ -28,16 +28,16 @@ testtools==2.3.0
 pbr==4.2.0
 ordereddict==1.1
 schema==0.6.8
-redo==1.7
-boto3==1.9.2
-botocore==1.12.2
+redo==2.0
+boto3==1.9.6
+botocore==1.12.6
 docutils==0.14
 futures==3.2.0
 jmespath==0.9.3
 python-dateutil==2.7.3
 s3transfer==0.1.13
 six==1.11.0
-invoke==1.1.1
+invoke==1.2.0
 cryptography==2.3.1
 enum==0.4.7
 pyasn1==0.4.4
@@ -55,5 +55,5 @@ fixtures==3.0.0
 python-mimeparse==1.6.0
 unittest2==1.1.0
 traceback2==1.4.0
-pycparser==2.18
+pycparser==2.19
 linecache2==1.0.0
