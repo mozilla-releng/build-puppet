@@ -250,6 +250,7 @@ node 'buildbot-master01.bb.releng.use1.mozilla.com' {
     include toplevel::mixin::l10n_bumper
     include toplevel::mixin::releaserunner3
     include toplevel::mixin::bouncer_check
+    include toplevel::mixin::signing_server_cert_check
 }
 
 node 'buildbot-master02.bb.releng.use1.mozilla.com' {
@@ -417,6 +418,7 @@ node 'buildbot-master77.bb.releng.use1.mozilla.com' {
     include toplevel::server::buildmaster::mozilla
     include toplevel::mixin::l10n_bumper
     include toplevel::mixin::releaserunner3
+    include toplevel::mixin::signing_server_cert_check
 }
 
 node 'buildbot-master78.bb.releng.usw2.mozilla.com' {

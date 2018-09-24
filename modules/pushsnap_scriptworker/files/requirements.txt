@@ -1,12 +1,12 @@
+# pyup: ignore file
 # python_version: 36
-PyNaCl==1.2.1
+# Please do not update this file without end-to-end testing. pushsnapscript has a major hack in its
+# dependencies. Please read https://bugzilla.mozilla.org/show_bug.cgi?id=1447263#c15 for context.
 PyYAML==3.13
 aiohttp==3.4.4
 arrow==0.12.1
 async_timeout==3.0.0
 attrs==18.2.0
-certifi==2018.8.24
-cffi==1.11.5
 chardet==3.0.4
 click==6.7
 defusedxml==0.5.0
@@ -16,29 +16,30 @@ idna==2.7
 idna_ssl==1.1.0
 json-e==2.7.0
 jsonschema==2.6.0
+# Puppet check is deactivated because it requires some distro library (libsodium) to be installed.
+libnacl==1.3.6    # puppet: nodownload
 mohawk==0.3.4
 multidict==4.4.2
 pexpect==4.6.0
 progressbar33==2.4
 ptyprocess==0.6.0
-pycparser==2.19
-pyelftools==0.25
-pymacaroons==0.13.0
-pysha3==1.0.2
+pyelftools==0.24
+# Puppet check is deactivated because it requires some distro library (libsodium) to be installed.
+pymacaroons==0.9.2    # puppet: nodownload
 python-dateutil==2.7.3
-python-debian==0.1.33
+python-debian==0.1.28
 python-gnupg==0.4.3
-pyxdg==0.26
-requests==2.19.1
-requests-toolbelt==0.8.0
+pyxdg==0.25
+requests==2.9.1
+requests-toolbelt==0.6.0
 requests-unixsocket==0.1.5
 scriptworker==16.0.1
-simplejson==3.16.0
+simplejson==3.8.2
 six==1.11.0
 slugid==1.0.7
-tabulate==0.8.2
+tabulate==0.7.5
 taskcluster==4.0.1
 urllib3==1.23
 virtualenv==16.0.0
 yarl==1.2.6
-pushsnapscript==0.2.1  # puppet: nodownload
+pushsnapscript==0.2.2  # puppet: nodownload
