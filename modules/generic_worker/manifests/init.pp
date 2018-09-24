@@ -92,7 +92,7 @@ class generic_worker {
                         $taskcluster_access_token = hiera('generic_worker_linux_staging_access_token')
                     }
                     else {
-                        $worker_type = 'gecko-t-osx-linux-talos'
+                        $worker_type = 'gecko-t-linux-talos'
                         $taskcluster_client_id = secret('generic_worker_linux_client_id')
                         $taskcluster_access_token = hiera('generic_worker_linux_access_token')
                     }
