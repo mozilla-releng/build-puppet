@@ -89,10 +89,6 @@ class fw::networks {
     $nagios = [ '10.49.75.30/32',  # nagios1.private.releng.mdc1.mozilla.com
                 '10.51.75.30/32' ] # nagios1.private.releng.mdc2.mozilla.com
 
-    # Partner-repack
-    $mdc1_partner_repack = [ '10.49.48.16/32' ]
-    $all_partner_repack = [ $mdc1_partner_repack ]
-
     # NOTE: The signing server application also limits by IP
     # See $signing_allowed_ips in moco-config.pp
 

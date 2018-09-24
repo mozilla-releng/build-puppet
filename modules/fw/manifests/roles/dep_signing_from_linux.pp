@@ -7,8 +7,7 @@ class fw::roles::dep_signing_from_linux {
 
     fw::rules { 'allow_dep_signing_from_linux':
         # All signing sources
-        sources =>  [   $::fw::networks::all_partner_repack,
-                        $::fw::networks::all_signing_linux_workers,
+        sources =>  [   $::fw::networks::all_signing_linux_workers,
                         $::fw::networks::dev_signing_linux_workers,
                         $::fw::networks::all_dep_signing_workers ],
         app     => 'dep_signing'
