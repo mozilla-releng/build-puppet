@@ -32,6 +32,7 @@ class toplevel::server::signing inherits toplevel::server {
             }
             $concurrency = $::macosx_productversion_major ? {
                 10.9    => 2,
+                10.10   => 2,
                 default => 4
             }
 
