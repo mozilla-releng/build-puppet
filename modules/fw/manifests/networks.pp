@@ -36,10 +36,12 @@ class fw::networks {
     # AWS Networks; See https://github.com/mozilla-releng/build-cloud-tools/blob/master/configs/subnets.yml
 
     # USE1 Network CIDRs
+    $use1_srv     = [ '10.134.48.0/22' ]
     $use1_bb      = [ '10.134.68.0/26', '10.134.68.64/26', '10.134.68.128/26', '10.134.68.192/26' ]
     $use1_signing = [ '10.134.30.0/24' ]
 
     # USW2 Network CIDRs
+    $usw2_srv     = [ '10.132.48.0/22' ]
     $usw2_bb      = [ '10.132.68.0/26', '10.132.68.64/26', '10.132.68.128/26', '10.132.68.192/26' ]
     $usw2_signing = [ '10.132.30.0/24' ]
 
