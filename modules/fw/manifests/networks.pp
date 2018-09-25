@@ -36,18 +36,12 @@ class fw::networks {
     # AWS Networks; See https://github.com/mozilla-releng/build-cloud-tools/blob/master/configs/subnets.yml
 
     # USE1 Network CIDRs
-    $use1_test    = [ '10.134.40.0/21', '10.134.56.0/22', '10.134.60.0/22', '10.134.156.0/22' ]
-    $use1_build   = [ '10.134.52.0/22', '10.134.164.0/24' ]
     $use1_srv     = [ '10.134.48.0/22' ]
-    $use1_try     = [ '10.134.64.0/22', '10.134.165.0/24' ]
     $use1_bb      = [ '10.134.68.0/26', '10.134.68.64/26', '10.134.68.128/26', '10.134.68.192/26' ]
     $use1_signing = [ '10.134.30.0/24' ]
 
     # USW2 Network CIDRs
-    $usw2_test    = [ '10.132.40.0/21', '10.132.56.0/22', '10.132.60.0/22', '10.132.156.0/22' ]
-    $usw2_build   = [ '10.132.52.0/22' ]
     $usw2_srv     = [ '10.132.48.0/22' ]
-    $usw2_try     = [ '10.132.64.0/22' ]
     $usw2_bb      = [ '10.132.68.0/26', '10.132.68.64/26', '10.132.68.128/26', '10.132.68.192/26' ]
     $usw2_signing = [ '10.132.30.0/24' ]
 
@@ -61,10 +55,7 @@ class fw::networks {
     # All buildbot master subnets
     $all_bb_masters = [ $use1_bb, $usw2_bb ]
 
-    $all_build = [ $use1_build, $usw2_build ]
-    $all_try   = [ $use1_try, $usw2_try ]
     $dc_test   = [ $test_mdc1, $wintest_mdc1, $test_mdc2, $wintest_mdc2 ]
-    $all_bb_slaves = [ $use1_test, $use1_build, $use1_try, $usw2_test, $usw2_build, $usw2_try ]
 
     $buildduty_tools = [ '10.132.51.74/32' ] # buildduty-tools.srv.releng.usw2.mozilla.com
 
@@ -99,10 +90,6 @@ class fw::networks {
     # Nagios hosts
     $nagios = [ '10.49.75.30/32',  # nagios1.private.releng.mdc1.mozilla.com
                 '10.51.75.30/32' ] # nagios1.private.releng.mdc2.mozilla.com
-
-    # Partner-repack
-    $mdc1_partner_repack = [ '10.49.48.16/32' ]
-    $all_partner_repack = [ $mdc1_partner_repack ]
 
     # NOTE: The signing server application also limits by IP
     # See $signing_allowed_ips in moco-config.pp
@@ -143,8 +130,6 @@ class fw::networks {
                                     '10.134.30.42/32',   # tb-signing-9.srv.releng.use1.mozilla.com
                                     '10.134.30.184/32' ] # mobil-signing-linux-1.srv.releng.use1.mozilla.com
 
-
-
     $usw2_signing_linux_workers = [ '10.132.30.46/32',   # signing-linux-2.srv.releng.usw2.mozilla.com
                                     '10.132.30.82/32',   # signing-linux-4.srv.releng.usw2.mozilla.com
                                     '10.132.30.182/32',  # signing-linux-6.srv.releng.usw2.mozilla.com
@@ -167,26 +152,11 @@ class fw::networks {
                                     '10.132.30.190/32',  # tb-signing-8.srv.releng.usw2.mozilla.com
                                     '10.132.30.206/32' ] # tb-signing-10.srv.releng.usw2.mozilla.com
 
-
     $all_signing_linux_workers = [ $use1_signing_linux_workers, $usw2_signing_linux_workers ]
 
     # Dev linux signing workers
     $dev_signing_linux_workers = [ '10.134.30.207/32' ] # signing-linux-dev1.srv.releng.use1.mozilla.com
 
-
-    # Funsize signing workers
-    $use1_signing_workers =   [ '10.134.30.10/32',   # signingworker-1.srv.releng.use1.mozilla.com
-                                '10.134.30.11/32',   # signingworker-3.srv.releng.use1.mozilla.com
-                                '10.134.30.74/32',   # signingworker-5.srv.releng.use1.mozilla.com
-                                '10.134.30.137/32' ] # signingworker-6.srv.releng.use1.mozilla.com
-
-    $usw2_signing_workers =   [ '10.132.30.10/32',   # signingworker-2.srv.releng.usw2.mozilla.com
-                                '10.132.30.11/32',   # signingworker-4.srv.releng.usw2.mozilla.com
-                                '10.132.30.64/32',   # signingworker-7.srv.releng.usw2.mozilla.com
-                                '10.132.30.49/32' ]  # signingworker-8.srv.releng.usw2.mozilla.com
-
-
-    $all_signing_workers = [ $use1_signing_workers, $usw2_signing_workers ]
 
     # Infra VPN Network Endpoints (CIDR blocks of IPs given to vpn clients)
     # See bug 1419983
