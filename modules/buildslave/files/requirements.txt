@@ -1,6 +1,0 @@
-# python_version: 27
-# buildbot infrastructure is going away soon, and these packages are too risky to upgrade
-zope.interface==3.6.1  # pyup: ignore
-Twisted==10.2.0  # pyup: ignore
-# this is required for some mozilla custom classes
-simplejson==2.1.3  # pyup: ignore
