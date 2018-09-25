@@ -160,7 +160,7 @@ class beetmover_scriptworker::settings {
             worker_group                            => 'mobile-beetmover-v1',
             taskcluster_client_id                   => 'project/mobile/android-components/releng/scriptworker/beetmover/production',
             taskcluster_access_token                => secret('beetmoverworker_prod_taskcluster_access_token_mobile'),
-            taskcluster_scope_prefix                => 'project:mobile:android-components:releng',
+            taskcluster_scope_prefix                => 'project:mobile:android-components:releng:beetmover:',
             # TODO to turn this back on
             sign_chain_of_trust                     => false,
             verify_chain_of_trust                   => true,
