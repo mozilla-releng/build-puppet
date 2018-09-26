@@ -29,7 +29,7 @@ requests_hawk==1.0.0
 requests==2.19.1
 rsa==3.4.2
 scriptworker==16.0.1
-signingscript==9.0.2  # puppet: nodownload
+signingscript==9.0.3  # puppet: nodownload
 signtool==3.2.1
 simplejson==3.16.0
 six==1.11.0
