@@ -11,7 +11,7 @@ boto3==1.9.6
 botocore==1.12.6
 certifi==2018.8.24
 chardet==3.0.4
-click==6.7
+click==7.0
 defusedxml==0.5.0
 dictdiffer==0.7.1
 docutils==0.14
