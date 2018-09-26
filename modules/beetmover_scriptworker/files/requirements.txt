@@ -23,7 +23,7 @@ jmespath==0.9.3
 json-e==2.7.1
 jsonschema==2.6.0
 mohawk==0.3.4
-mozilla-version==0.2.2
+mozilla-version==0.3.0
 multidict==4.4.2
 pexpect==4.6.0
 ptyprocess==0.6.0
