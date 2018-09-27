@@ -7,11 +7,7 @@ class fw::roles::nightly_signing_from_osx {
 
     fw::rules { 'allow_nightly_signing_from_osx':
         # All sigining sources sans try
-        sources =>  [   $::fw::networks::all_partner_repack,
-                        $::fw::networks::all_bb_masters,
-                        $::fw::networks::all_build,
-                        $::fw::networks::all_signing_workers,
-                        $::fw::networks::all_signing_linux_workers,
+        sources =>  [   $::fw::networks::all_signing_linux_workers,
                         $::fw::networks::dev_signing_linux_workers,
                         $::fw::networks::all_dep_signing_workers ],
         app     => 'nightly_signing'
