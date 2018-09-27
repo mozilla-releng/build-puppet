@@ -17,5 +17,5 @@
     "gpg_pubkey": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/KEY",
 
     "datadog_port": <%= scope.lookupvar("signing_scriptworker::settings::datadog_port") %>,
-    "datadog_host": <%= scope.lookupvar("signing_scriptworker::settings::datadog_host") %>
+    "datadog_host": "<%= scope.lookupvar("signing_scriptworker::settings::datadog_host") %>"
 }
