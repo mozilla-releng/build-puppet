@@ -379,12 +379,10 @@ node /^tb-beetmover-dev\d+\.srv\.releng\..*\.mozilla\.com$/ {
 
 # https://github.com/mozilla-mobile workers.
 node /^mobile-beetmover-\d*\.srv\.releng\..*\.mozilla\.com$/ {
-    $aspects                  = [ 'maximum-security' ]
-    $beetmoverworker_env = 'mobile-staging'
-    $timezone                 = 'UTC'
-    $only_user_ssh            = true
-    $pin_puppet_server = 'releng-puppet2.srv.releng.mdc1.mozilla.com'
-    $pin_puppet_env    = 'mtabara'
+    $aspects             = [ 'maximum-security' ]
+    $beetmoverworker_env = 'mobile-prod'
+    $timezone            = 'UTC'
+    $only_user_ssh       = true
     include toplevel::server::beetmoverscriptworker
 }
 

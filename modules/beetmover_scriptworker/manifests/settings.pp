@@ -148,13 +148,12 @@ class beetmover_scriptworker::settings {
             verify_cot_signature                    => true,
             cot_product                             => 'thunderbird',
         },
-        'mobile-staging' => {
+        'mobile-prod' => {
             # TODO: once bug 1490381 is fixed, we should change these to more restrictive counterparts
-            dep_maven_beetmover_aws_access_key_id => secret('dep_maven_beetmover_aws_access_key_id'),
-            dep_maven_beetmover_aws_secret_access_key => secret('dep_maven_beetmover_aws_secret_access_key'),
-            dep_maven_buckets => {
-                geckoview   => 'maven-default-s3-bucket-wj4w05pguw64',
-                components   => 'maven-default-s3-bucket-wj4w05pguw64',
+            prod_maven_beetmover_aws_access_key_id => secret('prod_maven_beetmover_aws_access_key_id'),
+            prod_maven_beetmover_aws_secret_access_key => secret('prod_maven_beetmover_aws_secret_access_key'),
+            prod_maven_buckets => {
+                components   => 'maven-default-s3-bucket-1svmqy68t6xd4',
             },
 
             worker_type                             => 'mobile-beetmover-v1',
@@ -162,11 +161,9 @@ class beetmover_scriptworker::settings {
             taskcluster_client_id                   => 'project/mobile/android-components/releng/scriptworker/beetmover/production',
             taskcluster_access_token                => secret('beetmoverworker_prod_taskcluster_access_token_mobile'),
             taskcluster_scope_prefix                => 'project:mobile:android-components:releng:beetmover:',
-            # TODO to turn this back on
-            sign_chain_of_trust                     => false,
+            sign_chain_of_trust                     => true,
             verify_chain_of_trust                   => true,
-            # TODO to turn this back on
-            verify_cot_signature                    => false,
+            verify_cot_signature                    => true,
             cot_product                             => 'mobile',
         }
     }
