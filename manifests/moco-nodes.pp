@@ -40,7 +40,7 @@ node /^t-linux64-(ms|xe)-[3-4][0-9][0-9]\.test\.releng\.mdc2\.mozilla\.com$/ {
 node /^t-linux64-(ms|xe)-[5][0-9][0-9]\.test\.releng\.mdc2\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
-    $taskcluster_worker_type  = 'gecko-t-linux-talos-tw'
+    $taskcluster_worker_type  = 'gecko-t-linux-talos'
     include fw::profiles::linux_taskcluster_worker
     include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
