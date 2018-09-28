@@ -379,10 +379,10 @@ node /^tb-beetmover-dev\d+\.srv\.releng\..*\.mozilla\.com$/ {
 
 # https://github.com/mozilla-mobile workers.
 node /^mobile-beetmover-\d*\.srv\.releng\..*\.mozilla\.com$/ {
-    $aspects                  = [ 'maximum-security' ]
-    $beetmoverworker_env = 'mobile-staging'
-    $timezone                 = 'UTC'
-    $only_user_ssh            = true
+    $aspects             = [ 'maximum-security' ]
+    $beetmoverworker_env = 'mobile-prod'
+    $timezone            = 'UTC'
+    $only_user_ssh       = true
     include toplevel::server::beetmoverscriptworker
 }
 
