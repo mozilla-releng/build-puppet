@@ -84,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 24 2018 Dragos Crisan <dcrisan mozilla com> 4.7.1-1
+- update to hg 4.7.1
+
 * Thu Nov 16 2017 Dragos Crisan <dcrisan mozilla com> 4.4.1-1
 - update to hg 4.4.1
 

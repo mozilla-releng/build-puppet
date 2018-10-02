@@ -22,7 +22,7 @@ class packages::mozilla::py27_mercurial {
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             package {
                 'mozilla-python27-mercurial':
-                    ensure  => '4.4.1-1.el6',
+                    ensure  => '4.7.1-1.el6',
                     require => Class['packages::mozilla::python27'];
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
@@ -53,7 +53,7 @@ class packages::mozilla::py27_mercurial {
                     Anchor['packages::mozilla::py27_mercurial::begin'] ->
                     package {
                         ['mercurial', 'mercurial-common']:
-                            ensure  => '4.4.1~xenial1',
+                            ensure  => '4.7.1-1',
                             require => Class['packages::mozilla::python27'];
                     } -> Anchor['packages::mozilla::py27_mercurial::end']
 
@@ -77,7 +77,7 @@ class packages::mozilla::py27_mercurial {
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
             packages::pkgdmg {
                 'python27-mercurial':
-                    version => '4.4.1-1';
+                    version => '4.7.1-1';
             } -> Anchor['packages::mozilla::py27_mercurial::end']
         }
         Windows: {
