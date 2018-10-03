@@ -150,6 +150,23 @@ class beetmover_scriptworker::settings {
             verify_cot_signature                    => true,
             cot_product                             => 'thunderbird',
         },
+        'mobile-dev' => {
+            dep_maven_beetmover_aws_access_key_id => secret('dep_maven_android_components_beetmover_aws_access_key_id'),
+            dep_maven_beetmover_aws_secret_access_key => secret('dep_maven_android_components_beetmover_aws_secret_access_key'),
+            dep_maven_buckets => {
+                components   => 'maven-default-s3-bucket-wj4w05pguw64',
+            },
+
+            worker_type                             => 'mobile-beetmover-v1',
+            worker_group                            => 'mobile-beetmover-v1',
+            taskcluster_client_id                   => 'project/mobile/android-components/releng/scriptworker/beetmover/dev',
+            taskcluster_access_token                => secret('beetmoverworker_dev_taskcluster_access_token_mobile'),
+            taskcluster_scope_prefix                => 'project:mobile:android-components:releng:beetmover:',
+            sign_chain_of_trust                     => false,
+            verify_chain_of_trust                   => true,
+            verify_cot_signature                    => false,
+            cot_product                             => 'mobile',
+        }
         'mobile-prod' => {
             prod_maven_beetmover_aws_access_key_id => secret('prod_maven_android_components_beetmover_aws_access_key_id'),
             prod_maven_beetmover_aws_secret_access_key => secret('prod_maven_android_components_beetmover_aws_secret_access_key'),
