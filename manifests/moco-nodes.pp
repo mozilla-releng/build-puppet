@@ -2,13 +2,13 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+$macos_version = regsubst($::macosx_productversion_major, '\.', '')
 ## TaskCluster workers
 
 # OS X in mdc1 running generic worker
 node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
-    $macos_version = regsubst($::macosx_productversion_major, '\.', '')
     $worker_type = "gecko-t-osx-${macos_version}"
     include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
@@ -575,7 +575,7 @@ node 't-yosemite-r7-380.test.releng.mdc1.mozilla.com',
     't-yosemite-r7-101.test.releng.mdc2.mozilla.com' {
     $aspects          = [ 'low-security', 'staging' ]
     $slave_trustlevel = 'try'
-    $macos_version = regsubst($::macosx_productversion_major, '\.', '')
+#    $macos_version = regsubst($::macosx_productversion_major, '\.', '')
     $worker_type = "gecko-t-osx-${macos_version}-beta"
     include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
