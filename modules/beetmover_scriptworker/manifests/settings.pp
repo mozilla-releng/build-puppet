@@ -30,9 +30,8 @@ class beetmover_scriptworker::settings {
                 firefox     => 'mozilla-releng-dep-partner',
             },
 
-            # TODO rename secret to dep_maven_geckoview_beetmover_aws_*
-            dep_maven_beetmover_aws_access_key_id => secret('dep_maven_beetmover_aws_access_key_id'),
-            dep_maven_beetmover_aws_secret_access_key => secret('dep_maven_beetmover_aws_secret_access_key'),
+            dep_maven_beetmover_aws_access_key_id => secret('dep_maven_geckoview_beetmover_aws_access_key_id'),
+            dep_maven_beetmover_aws_secret_access_key => secret('dep_maven_geckoview_beetmover_aws_secret_access_key'),
             dep_maven_buckets => {
                 geckoview   => 'maven-default-s3-bucket-wj4w05pguw64',
             },
@@ -87,9 +86,8 @@ class beetmover_scriptworker::settings {
                 firefox     => 'mozilla-releng-dep-partner',
             },
 
-            # TODO rename secret to prod_maven_geckoview_beetmover_aws_*
-            prod_maven_beetmover_aws_access_key_id => secret('prod_maven_beetmover_aws_access_key_id'),
-            prod_maven_beetmover_aws_secret_access_key => secret('prod_maven_beetmover_aws_secret_access_key'),
+            prod_maven_beetmover_aws_access_key_id => secret('prod_maven_geckoview_beetmover_aws_access_key_id'),
+            prod_maven_beetmover_aws_secret_access_key => secret('prod_maven_geckoview_beetmover_aws_secret_access_key'),
             prod_maven_buckets => {
                 geckoview   => 'maven-default-s3-bucket-1svmqy68t6xd4',
             },
