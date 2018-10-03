@@ -164,7 +164,7 @@ class beetmover_scriptworker::settings {
             verify_chain_of_trust                   => true,
             verify_cot_signature                    => false,
             cot_product                             => 'mobile',
-        }
+        },
         'mobile-prod' => {
             prod_maven_beetmover_aws_access_key_id => secret('prod_maven_android_components_beetmover_aws_access_key_id'),
             prod_maven_beetmover_aws_secret_access_key => secret('prod_maven_android_components_beetmover_aws_secret_access_key'),
