@@ -21,6 +21,6 @@ pyasn1==0.4.4
 pycparser==2.19
 pycrypto==2.6.1
 pyhamcrest==1.9.0
-simplejson==3.16.0
+simplejson==3.16.0  # pyup: ignore
 wsgiref==0.1.2
 zope.interface==4.5.0
