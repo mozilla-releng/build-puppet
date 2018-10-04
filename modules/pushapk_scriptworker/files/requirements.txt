@@ -31,7 +31,7 @@ idna==2.7
 idna_ssl==1.1.0
 ipython==6.5.0
 ipython_genutils==0.2.0
-jedi==0.12.1
+jedi==0.13.1
 json-e==2.7.1
 jsonschema==2.6.0
 kiwisolver==1.0.1
@@ -53,7 +53,7 @@ pyOpenSSL==18.0.0
 pyasn1==0.4.4
 pyasn1-modules==0.2.2
 pycparser==2.19
-pyparsing==2.2.1
+pyparsing==2.2.2
 python-dateutil==2.7.3
 python-gnupg==0.4.3
 pytz==2018.5
