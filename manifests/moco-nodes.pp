@@ -8,6 +8,7 @@
 node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
+    $worker_type = "gecko-t-osx-1010"
     include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
 }
@@ -40,9 +41,9 @@ node /^t-linux64-(ms|xe)-[3-4][0-9][0-9]\.test\.releng\.mdc2\.mozilla\.com$/ {
 node /^t-linux64-(ms|xe)-[5][0-9][0-9]\.test\.releng\.mdc2\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
-    $taskcluster_worker_type  = 'gecko-t-linux-talos'
+    $worker_type  = 'gecko-t-linux-talos'
     include fw::profiles::linux_taskcluster_worker
-    include toplevel::worker::releng::taskcluster_worker::test::gpu
+    include toplevel::worker::releng::generic_worker::test::gpu
 }
 
 # taskcluster-host-secrets hosts
@@ -573,6 +574,7 @@ node 't-yosemite-r7-380.test.releng.mdc1.mozilla.com',
     't-yosemite-r7-101.test.releng.mdc2.mozilla.com' {
     $aspects          = [ 'low-security', 'staging' ]
     $slave_trustlevel = 'try'
+    $worker_type = "gecko-t-osx-1010-beta"
     include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
 }
@@ -585,6 +587,8 @@ node 't-linux64-ms-280.test.releng.mdc1.mozilla.com',
     't-linux64-ms-395.test.releng.mdc2.mozilla.com' {
     $aspects          = [ 'low-security', 'staging' ]
     $slave_trustlevel = 'try'
+    # We are limited to 22 characters for worker_type
+    $worker_type = 'gecko-t-linux-talos-b'
     include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
 }

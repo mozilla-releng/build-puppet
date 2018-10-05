@@ -34,14 +34,11 @@ class generic_worker {
 
     case $::operatingsystem {
         Darwin: {
-            $macos_version = regsubst($::macosx_productversion_major, '\.', '')
             if (has_aspect('staging')) {
-                $worker_type = "gecko-t-osx-${macos_version}-beta"
                 $taskcluster_client_id = secret('osx_staging_client')
                 $taskcluster_access_token = hiera('osx_staging_client_token')
             }
             else {
-                $worker_type = "gecko-t-osx-${macos_version}"
                 $taskcluster_client_id = secret('generic_worker_macosx_client_id')
                 $taskcluster_access_token = hiera('generic_worker_macosx_access_token')
             }
@@ -86,13 +83,10 @@ class generic_worker {
             case $::operatingsystemrelease {
                 16.04: {
                     if (has_aspect('staging')) {
-                        # We are limited to 22 characters for worker_type
-                        $worker_type = 'gecko-t-linux-talos-b'
                         $taskcluster_client_id = secret('generic_worker_linux_staging_client_id')
                         $taskcluster_access_token = hiera('generic_worker_linux_staging_access_token')
                     }
                     else {
-                        $worker_type = 'gecko-t-osx-linux-talos'
                         $taskcluster_client_id = secret('generic_worker_linux_client_id')
                         $taskcluster_access_token = hiera('generic_worker_linux_access_token')
                     }
