@@ -25,7 +25,7 @@ class packages::mozilla::python3 {
             Anchor['packages::mozilla::python3::begin'] ->
             package {
                 'mozilla-python36':
-                    ensure => '3.6.5-1.el6';
+                    ensure => '3.6.5-2.el6';
             } -> Anchor['packages::mozilla::python3::end']
         }
         Darwin: {
