@@ -35,7 +35,7 @@ python-gnupg==0.4.3
 python-jose==3.0.1
 requests==2.19.1
 requests-hawk==1.0.0
-rsa==4.0.0
+rsa==4.0
 scriptworker==16.0.1
 signingscript==9.2.0  # puppet: nodownload
 signtool==3.2.1
