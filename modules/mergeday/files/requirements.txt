@@ -1,2 +1,2 @@
 # python_version: 27
-simplejson==3.16.0
+simplejson==3.16.0  # pyup: ignore

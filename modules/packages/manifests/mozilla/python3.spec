@@ -7,7 +7,7 @@
 
 Name:       mozilla-%{realname}
 Version:        %{pyver}.%{pyrel}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        This is a packaging of %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
 
 Group:          mozilla
@@ -27,6 +27,7 @@ BuildRequires: tix-devel bzip2-devel sqlite-devel
 BuildRequires: autoconf
 BuildRequires: db4-devel
 BuildRequires: libffi-devel
+BuildRequires: xz-devel
 
 %description
 %{realname} %{version}-%{release} for Mozilla Release Engineering infrastructure
@@ -71,5 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc /usr/share/man/man1/python3.6.1.gz
 
 %changelog
+* Mon Sep 24 2018 Aki Sasaki <aki mozilla com> 3.6.5-2
+- add lzma support
 * Fri Apr 13 2018 Ben Hearsum <bhearsum mozilla com> 3.6.5-1
 - initial commit, copied from py35
