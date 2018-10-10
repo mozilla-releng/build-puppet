@@ -43,7 +43,7 @@ multidict==4.4.2
 networkx==2.2
 numpy==1.15.2
 oauth2client==4.1.3
-parso==0.3.0
+parso==0.3.1
 pexpect==4.6.0
 pickleshare==0.7.5
 # Prompt toolkit is pinned because of ipython 6.4.0
