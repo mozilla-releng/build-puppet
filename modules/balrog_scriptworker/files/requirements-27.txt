@@ -27,4 +27,4 @@ python-dateutil==2.7.3
 requests==2.19.1
 toml==0.10.0
 towncrier==18.5.0  # pyup: ignore
-urllib3==1.22
+urllib3==1.23
