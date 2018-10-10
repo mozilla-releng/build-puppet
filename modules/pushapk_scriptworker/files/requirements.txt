@@ -58,7 +58,7 @@ python-dateutil==2.7.3
 python-gnupg==0.4.3
 pytz==2018.5
 requests==2.19.1
-rsa==3.4.2
+rsa==4.0
 scriptworker==16.0.1
 simplegeneric==0.8.1
 slugid==1.0.7
