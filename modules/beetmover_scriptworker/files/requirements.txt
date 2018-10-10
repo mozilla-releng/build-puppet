@@ -32,10 +32,11 @@ python-gnupg==0.4.3
 redo==2.0
 requests==2.19.1
 s3transfer==0.1.13
-scriptworker==16.0.1
+scriptworker==16.1.0
 six==1.11.0
 slugid==1.0.7
-taskcluster==4.0.1
+taskcluster==5.0.0
+taskcluster-urls==10.1.0
 toml==0.10.0
 towncrier==18.6.0
 urllib3==1.23
