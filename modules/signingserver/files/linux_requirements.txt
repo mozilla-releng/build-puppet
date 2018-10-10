@@ -14,7 +14,7 @@ setuptools==40.4.3
 six==1.11.0
 argparse==1.4.0
 enum34==1.1.6
-ipaddress==1.0.21
+ipaddress==1.0.22
 asn1crypto==0.24.0
 cffi==1.11.5
 cryptography==2.3.1
