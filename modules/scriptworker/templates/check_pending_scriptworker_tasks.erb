@@ -75,6 +75,9 @@ async def async_main():
         "accessToken": "<%= @taskcluster_access_token %>"
     }
 
+    # fix taskcluster>=5.0.0
+    context.config = {'taskcluster_root_url': 'https://taskcluster.net'}
+
     async with aiohttp.ClientSession(connector=conn) as session:
         context.session = session
         context.credentials = credentials  # this creates a queue
