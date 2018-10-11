@@ -16,7 +16,7 @@ enum34==1.1.6
 functools32==3.2.3-2
 idna==2.7
 incremental==17.5.0
-ipaddress==1.0.21
+ipaddress==1.0.22
 jinja2==2.10
 jsonschema==2.6.0
 mar==3.0.0
@@ -25,6 +25,6 @@ pyasn1==0.4.4
 pycparser==2.19
 python-dateutil==2.7.3
 requests==2.19.1
-toml==0.9.6
+toml==0.10.0
 towncrier==18.5.0  # pyup: ignore
-urllib3==1.22
+urllib3==1.23

@@ -89,7 +89,7 @@ class beetmover_scriptworker::settings {
             prod_maven_beetmover_aws_access_key_id => secret('prod_maven_geckoview_beetmover_aws_access_key_id'),
             prod_maven_beetmover_aws_secret_access_key => secret('prod_maven_geckoview_beetmover_aws_secret_access_key'),
             prod_maven_buckets => {
-                geckoview   => 'maven-default-s3-bucket-1svmqy68t6xd4',
+                geckoview   => 'maven-default-s3-upload-bucket-1705kkmo2aj3c',
             },
 
             worker_type                             => 'beetmoverworker-v1',
@@ -169,7 +169,7 @@ class beetmover_scriptworker::settings {
             prod_maven_beetmover_aws_access_key_id => secret('prod_maven_android_components_beetmover_aws_access_key_id'),
             prod_maven_beetmover_aws_secret_access_key => secret('prod_maven_android_components_beetmover_aws_secret_access_key'),
             prod_maven_buckets => {
-                components   => 'maven-default-s3-bucket-1svmqy68t6xd4',
+                components   => 'maven-default-s3-upload-bucket-1705kkmo2aj3c',
             },
 
             worker_type                             => 'mobile-beetmover-v1',

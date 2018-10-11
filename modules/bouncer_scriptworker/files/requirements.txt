@@ -22,10 +22,11 @@ ptyprocess==0.6.0
 python-dateutil==2.7.3
 python-gnupg==0.4.3
 requests==2.19.1
-scriptworker==16.0.1
+scriptworker==16.1.0
 six==1.11.0
 slugid==1.0.7
-taskcluster==4.0.1
+taskcluster==5.0.0
+taskcluster-urls==10.1.0
 urllib3==1.23
 virtualenv==16.0.0
 yarl==1.2.6

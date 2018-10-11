@@ -12,7 +12,7 @@ chardet==3.0.4
 click==7.0
 construct==2.9.45
 cryptography==2.3.1
-datadog==0.17.0  # pyup: ignore
+datadog==0.17.0
 decorator==4.3.0
 defusedxml==0.5.0
 dictdiffer==0.7.1
@@ -36,13 +36,14 @@ python-jose==3.0.1
 requests==2.19.1
 requests-hawk==1.0.0
 rsa==4.0
-scriptworker==16.0.1
+scriptworker==16.1.0
 signingscript==9.2.0  # puppet: nodownload
 signtool==3.2.1
 simplejson==3.16.0  # pyup: ignore
 six==1.11.0
 slugid==1.0.7
-taskcluster==4.0.1
+taskcluster==5.0.0
+taskcluster-urls==10.1.0
 urllib3==1.23
 virtualenv==16.0.0
 yarl==1.2.6
