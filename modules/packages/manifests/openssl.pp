@@ -51,20 +51,11 @@ class packages::openssl {
                         ['openssl', 'libssl-dev']:
                             ensure => '1.0.2g-1ubuntu4.6';
                     }
-                    if $::fqdn =~ /^roller/ {
-                        realize(Packages::Aptrepo['openssl'])
-                        # This package is part of the OpenSSL project's implementation of the SSL and TLS cryptographic protocols
-                        # for secure communication over the Internet. It provides the libssl and libcrypto shared libraries.
-                        package { 'libssl1.1':
-                            ensure => '1.1.0f-3+deb9u2';
-                        }
-                    }
-                    else {
-                        # This package is part of the OpenSSL project's implementation of the SSL and TLS cryptographic protocols
-                        # for secure communication over the Internet. It provides the libssl and libcrypto shared libraries.
-                        package { 'libssl1.0.0':
-                            ensure => '1.0.2g-1ubuntu4.6';
-                        }
+                    realize(Packages::Aptrepo['openssl'])
+                    # This package is part of the OpenSSL project's implementation of the SSL and TLS cryptographic protocols
+                    # for secure communication over the Internet. It provides the libssl and libcrypto shared libraries.
+                    package { 'libssl1.1':
+                        ensure => '1.1.0f-3+deb9u2';
                     }
                 }
                 default: {
