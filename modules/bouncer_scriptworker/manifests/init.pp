@@ -64,21 +64,13 @@ class bouncer_scriptworker {
             verbose_logging          => $bouncer_scriptworker::settings::verbose_logging,
     }
 
-    File {
-        ensure      => present,
-        mode        => '0600',
-        owner       => $bouncer_scriptworker::settings::user,
-        group       => $bouncer_scriptworker::settings::group,
-        show_diff   => false,
-    }
-
     $bouncer_instances = $env_config['bouncer_instances']
     file {
         $bouncer_scriptworker::settings::script_config:
             require   => Python3::Virtualenv[$bouncer_scriptworker::settings::root],
             mode      => '0600',
-            owner     => $users::builder::username,
-            group     => $users::builder::group,
+            owner     => $bouncer_scriptworker::settings::user,
+            group     => $bouncer_scriptworker::settings::group,
             content   => template("${module_name}/script_config.json.erb"),
             show_diff => false;
     }
