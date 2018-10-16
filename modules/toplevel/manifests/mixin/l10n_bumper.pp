@@ -4,4 +4,12 @@
 
 class toplevel::mixin::l10n_bumper {
     include ::l10n_bumper
+
+    ssh::user_privkey {
+        "ffxbld_rsa":
+            home     => $::users::builder::home,
+            username => $::users::builder::username,
+            group    => $::users::builder::group,
+            key      => hiera("buildmaster_ssh_key_ffxbld_rsa");
+    }
 }
