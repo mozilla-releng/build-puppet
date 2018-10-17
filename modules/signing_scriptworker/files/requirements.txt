@@ -12,7 +12,7 @@ chardet==3.0.4
 click==7.0
 construct==2.9.45
 cryptography==2.3.1
-datadog==0.17.0
+datadog==0.22.0
 decorator==4.3.0
 defusedxml==0.5.0
 dictdiffer==0.7.1
