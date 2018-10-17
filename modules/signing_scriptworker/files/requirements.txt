@@ -6,7 +6,7 @@ asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==18.2.0
 backports.lzma==0.0.13
-certifi==2018.8.24
+certifi==2018.10.15
 cffi==1.11.5
 chardet==3.0.4
 click==7.0
