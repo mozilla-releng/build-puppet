@@ -8,7 +8,7 @@ androguard==3.2.1
 appnope==0.1.0
 arrow==0.12.1
 asn1crypto==0.24.0
-async_timeout==3.0.0
+async_timeout==3.0.1
 attrs==18.2.0
 backcall==0.1.0
 cachetools==2.1.0
