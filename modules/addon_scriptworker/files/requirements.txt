@@ -3,9 +3,9 @@ PyYAML==3.13
 addonscript==1.0  # puppet: nodownload
 aiohttp==3.4.4
 arrow==0.12.1
-async_timeout==3.0.0
+async_timeout==3.0.1
 attrs==18.2.0
-certifi==2018.8.24
+certifi==2018.10.15
 chardet==3.0.4
 defusedxml==0.5.0
 dictdiffer==0.7.1
@@ -26,7 +26,7 @@ python-gnupg==0.4.3
 python-jose==3.0.1
 requests==2.19.1
 rsa==4.0
-scriptworker==16.1.0
+scriptworker==16.2.1
 six==1.11.0
 slugid==1.0.7
 taskcluster==5.0.0
