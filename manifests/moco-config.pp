@@ -569,12 +569,12 @@ class config inherits config::base {
     $l10n_bumper_env_config = {
         'mozilla-central' => {
             mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
-            mozharness_revision => '9d21ea9afe7a61cfe80d577809bf3191e816baec',
+            mozharness_revision => 'd0d593bf9772',
             config_file         => 'l10n_bumper/mozilla-central.py',
         },
         'mozilla-beta'    => {
             mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
-            mozharness_revision => '9d21ea9afe7a61cfe80d577809bf3191e816baec',
+            mozharness_revision => 'd0d593bf9772',
             config_file         => 'l10n_bumper/mozilla-beta.py',
         },
     }
