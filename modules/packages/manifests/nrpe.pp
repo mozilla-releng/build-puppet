@@ -43,12 +43,15 @@ class packages::nrpe {
         }
         CentOS: {
             package {
-                'nrpe':
-                    ensure => latest;
-                'nagios-plugins-nrpe':
-                    ensure => latest;
                 'nagios-plugins-all':
                     ensure => latest;
+            }
+            realize(Packages::Yumrepo['nrpe'])
+            package {
+                'nrpe':
+                    ensure => '3.2.1-6.el6';
+                'nagios-plugins-nrpe':
+                    ensure => '3.2.1-6.el6';
             }
         }
         Darwin: {
