@@ -21,7 +21,7 @@ private_ssl_cert = <%=@full_private_ssl_cert%>
 public_ssl_cert = <%=@full_public_ssl_cert%>
 # ips that can connect at all
 allowed_ips = <%= @allowed_ips.join(', ') %>
-allowed_filenames = .*\.exe,.*\.mar,.*\.dll,.*\.bz2,.*\.zip,.*\.dmg,.*\.tar,.*\.checksums,.*\.bundle,.*SUMS,.*\.apk,.*\.bin,plugin-container,firefox(|-bin),libxul\.so,XUL,clearkey\.dll,libclearkey\.(dylib|so),SOURCE
+allowed_filenames = .*\.exe,.*\.msi,.*\.mar,.*\.dll,.*\.bz2,.*\.zip,.*\.dmg,.*\.tar,.*\.checksums,.*\.bundle,.*SUMS,.*\.apk,.*\.bin,plugin-container,firefox(|-bin),libxul\.so,XUL,clearkey\.dll,libclearkey\.(dylib|so),SOURCE
 min_filesize = 10
 <%# if these change frequently or differ per org, consider making them puppetagain config options -%>
 max_filesize_gpg = 812646400
