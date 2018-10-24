@@ -55,7 +55,7 @@ pycparser==2.19
 pyparsing==2.2.2
 python-dateutil==2.7.3
 python-gnupg==0.4.3
-pytz==2018.5
+pytz==2018.6
 requests==2.20.0
 rsa==4.0
 scriptworker==16.2.1
