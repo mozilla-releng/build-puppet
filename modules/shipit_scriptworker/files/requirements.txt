@@ -20,7 +20,7 @@ ptyprocess==0.6.0
 python-dateutil==2.7.3
 python-gnupg==0.4.3
 redo==2.0.1
-requests==2.19.1
+requests==2.20.0
 scriptworker==16.2.1
 shipitapi==1.0.0
 six==1.11.0
