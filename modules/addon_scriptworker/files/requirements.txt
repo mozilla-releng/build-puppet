@@ -24,7 +24,7 @@ pyasn1==0.4.4
 python-dateutil==2.7.3
 python-gnupg==0.4.3
 python-jose==3.0.1
-requests==2.19.1
+requests==2.20.0
 rsa==4.0
 scriptworker==16.2.1
 six==1.11.0
