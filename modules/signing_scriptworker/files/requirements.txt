@@ -12,7 +12,7 @@ chardet==3.0.4
 click==7.0
 construct==2.9.45
 cryptography==2.3.1
-datadog==0.22.0
+datadog==0.23.0
 decorator==4.3.0
 defusedxml==0.5.0
 dictdiffer==0.7.1
@@ -33,7 +33,7 @@ pycparser==2.19
 python-dateutil==2.7.3
 python-gnupg==0.4.3
 python-jose==3.0.1
-requests==2.19.1
+requests==2.20.0
 requests-hawk==1.0.0
 rsa==4.0
 scriptworker==16.2.1
@@ -44,6 +44,6 @@ six==1.11.0
 slugid==1.0.7
 taskcluster==5.0.0
 taskcluster-urls==10.1.0
-urllib3==1.23
+urllib3==1.24
 virtualenv==16.0.0
 yarl==1.2.6

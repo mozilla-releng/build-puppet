@@ -19,13 +19,13 @@ pexpect==4.6.0
 ptyprocess==0.6.0
 python-dateutil==2.7.3
 python-gnupg==0.4.3
-requests==2.19.1
+requests==2.20.0
 scriptworker==16.2.1
 six==1.11.0
 slugid==1.0.7
 taskcluster==5.0.0
 taskcluster-urls==10.1.0
 treescript==1.1.2  # puppet: nodownload
-urllib3==1.23
+urllib3==1.24
 virtualenv==16.0.0
 yarl==1.2.6
