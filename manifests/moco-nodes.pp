@@ -32,7 +32,7 @@ node /^t-linux64-(ms|xe)-[0][0-6,9][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
     include toplevel::worker::releng::generic_worker::test::gpu
 }
 
-node /^t-linux64-(ms|xe)-[1][3-5][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
+node /^t-linux64-(ms|xe)-[1][0,3-5][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     $worker_type  = 'gecko-t-linux-talos'
