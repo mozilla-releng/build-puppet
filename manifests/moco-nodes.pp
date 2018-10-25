@@ -24,7 +24,15 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
 # t-linux64-ms-136 - 150 - 15 workers
 # TOTAL = 60 workers
 
-node /^t-linux64-(ms|xe)-[0,1][0-6,9][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
+node /^t-linux64-(ms|xe)-[0][0-6,9][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
+    $aspects          = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    $worker_type  = 'gecko-t-linux-talos'
+    include fw::profiles::linux_taskcluster_worker
+    include toplevel::worker::releng::generic_worker::test::gpu
+}
+
+node /^t-linux64-(ms|xe)-[1][3-5][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     $worker_type  = 'gecko-t-linux-talos'
