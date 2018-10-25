@@ -4,7 +4,7 @@
 
 ## TaskCluster workers
 
-# OS X in mdc1 running generic worker
+# OS X in mdc1 and mdc2 running generic worker
 node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
@@ -13,21 +13,45 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     include toplevel::worker::releng::generic_worker::test::gpu
 }
 
-# Linux on moonshot in mdc1 running taskcluster worker, but will be migrated to generic worker once bug 1474570 lands
+# Linux on moonshot in mdc1 running generic worker
 # ms == moonshot == https://www.hpe.com/emea_europe/en/servers/moonshot.html
 # xe == xen virtual machines on moonshot
-# Now, we have 98 workers from mdc1 in gecko-t-linux-talos-tw queue
+# Now, we have 60 workers from mdc1 in gecko-t-linux-talos queue
 # Workers range:
 # t-linux64-ms-001 - 015 - 15 workers
 # t-linux64-ms-046 - 060 - 15 workers
 # t-linux64-ms-091 - 105 - 15 workers
 # t-linux64-ms-136 - 150 - 15 workers
+# TOTAL = 60 workers
+
+node /^t-linux64-(ms|xe)-[0][0-6,9][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
+    $aspects          = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    $worker_type  = 'gecko-t-linux-talos'
+    include fw::profiles::linux_taskcluster_worker
+    include toplevel::worker::releng::generic_worker::test::gpu
+}
+
+node /^t-linux64-(ms|xe)-[1][3-5][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
+    $aspects          = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    $worker_type  = 'gecko-t-linux-talos'
+    include fw::profiles::linux_taskcluster_worker
+    include toplevel::worker::releng::generic_worker::test::gpu
+}
+
+
+# Linux on moonshot in mdc1 running taskcluster worker, but will be migrated to generic worker once bug 1474570 lands
+# ms == moonshot == https://www.hpe.com/emea_europe/en/servers/moonshot.html
+# xe == xen virtual machines on moonshot
+# Now, we have 38 workers from mdc1 in gecko-t-linux-talos-tw queue
+# Workers range:
 # t-linux64-ms-181 - 195 - 15 workers
 # t-linux64-ms-226 - 239 - 14 workers
 # t-linux64-ms-271 - 279 - 9 workers
-# TOTAL = 98 workers
+# TOTAL = 38 workers
 
-node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1\.mozilla\.com$/ {
+node /^t-linux64-(ms|xe)-[1,2][2,3,7,8,9][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     $taskcluster_worker_type  = 'gecko-t-linux-talos-tw'
@@ -35,16 +59,9 @@ node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1\.mozilla\.com$/ {
     include toplevel::worker::releng::taskcluster_worker::test::gpu
 }
 
-# Linux on moonshot in mdc2 running generic-worker, but will be migrated to generic-worker once bug 1474570 lands
-# The migration is underway such that all taskcluster-worker workload is being moved from worker type
-# gecko-t-linux-talos to gecko-t-linux-talos-tw, and that when that completes, gecko-t-linux-talos will then be used
-# for generic-worker implementation of talos linux tasks. For more details, please see:
-# https://bugzilla.mozilla.org/show_bug.cgi?id=1474570#c32
-
+# Linux on moonshot in mdc2 running generic-worker
 # ms == moonshot == https://www.hpe.com/emea_europe/en/servers/moonshot.html
 # xe == xen virtual machines on moonshot
-
-# Now, we have 88 workers from mdc2 in gecko-t-linux-talos-tw queue
 # Workers range:
 # t-linux64-ms-301 - 315 - 15 workers
 # t-linux64-ms-346 - 360 - 15 workers
@@ -53,7 +70,6 @@ node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1\.mozilla\.com$/ {
 # t-linux64-ms-481 - 495 - 15 workers
 # t-linux64-ms-526 - 540 - 15 workers
 # TOTAL = 90 workers
-
 
 node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc2\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
