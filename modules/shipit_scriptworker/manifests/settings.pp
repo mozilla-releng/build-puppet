@@ -70,7 +70,7 @@ class shipit_scriptworker::settings {
         cot_product              => 'thunderbird',
 
         ship_it_instances        => {
-            "project:comm:thunderbird:releng:ship-it:staging" => $ship_it_stage_instance_config,
+            "project:comm:thunderbird:releng:ship-it:server:staging" => $ship_it_stage_instance_config,
         },
       },
       'tb-prod'  => {
@@ -86,8 +86,8 @@ class shipit_scriptworker::settings {
         cot_product              => 'thunderbird',
 
         ship_it_instances        => {
-            "project:comm:thunderbird:releng:ship-it:staging" => $ship_it_stage_instance_config,
-            'project:comm:thunderbird:releng:ship-it:production' => {
+            "project:comm:thunderbird:releng:ship-it:server:staging" => $ship_it_stage_instance_config,
+            'project:comm:thunderbird:releng:ship-it:server:production' => {
                 api_root                  => 'https://ship-it.mozilla.org',
                 timeout_in_seconds        => 60,
                 username                  => 'shipit-scriptworker',
