@@ -18,7 +18,7 @@ defusedxml==0.5.0
 dictdiffer==0.7.1
 ecdsa==0.13
 frozendict==1.2
-future==0.16.0
+future==0.17.1
 idna==2.7
 idna_ssl==1.1.0
 json-e==2.7.1
