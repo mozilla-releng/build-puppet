@@ -30,7 +30,7 @@ pexpect==4.6.0
 ptyprocess==0.6.0
 pyasn1==0.4.4
 pycparser==2.19
-python-dateutil==2.7.3
+python-dateutil==2.7.5
 python-gnupg==0.4.3
 python-jose==3.0.1
 requests==2.20.0
