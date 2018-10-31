@@ -23,7 +23,7 @@ mar==3.0.0
 markupsafe==1.0
 pyasn1==0.4.4
 pycparser==2.19
-python-dateutil==2.7.3
+python-dateutil==2.7.5
 requests==2.20.0
 toml==0.10.0
 towncrier==18.5.0  # pyup: ignore
