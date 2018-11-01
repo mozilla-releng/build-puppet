@@ -420,6 +420,15 @@ node /^tb-beetmover-dev\d+\.srv\.releng\..*\.mozilla\.com$/ {
     $only_user_ssh       = true
     include toplevel::server::beetmoverscriptworker
 }
+#
+# https://github.com/mozilla-mobile workers.
+node mobile-beetmover-2.srv.releng.use1.mozilla.com {
+    $aspects             = [ 'maximum-security' ]
+    $beetmoverworker_env = 'mobile-dev'
+    $timezone            = 'UTC'
+    $only_user_ssh       = true
+    include toplevel::server::beetmoverscriptworker
+}
 
 # https://github.com/mozilla-mobile workers.
 node /^mobile-beetmover-\d*\.srv\.releng\..*\.mozilla\.com$/ {
