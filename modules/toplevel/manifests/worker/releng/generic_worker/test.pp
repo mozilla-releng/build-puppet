@@ -20,6 +20,15 @@ class toplevel::worker::releng::generic_worker::test inherits toplevel::worker::
         'Ubuntu': {
         }
         'Darwin': {
+            include nrpe
+            include nrpe::check::puppet_agent
+            include nrpe::check::ntp_time
+            include nrpe::check::ntp_peer
+            include nrpe::check::procs_regex
+            include nrpe::check::child_procs_regex
+            include nrpe::check::swap
+            include nrpe::check::ide_smart
+            include nrpe::check::puppet_freshness
             include tweaks::disable_bonjour
             # This can be removed after ESR52
             # See 1396266
