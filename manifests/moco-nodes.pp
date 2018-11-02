@@ -429,6 +429,15 @@ node /^mobile-beetmover-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $only_user_ssh       = true
     include toplevel::server::beetmoverscriptworker
 }
+#
+# https://github.com/mozilla-mobile dev workers.
+node /^mobil-beetmover-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects             = [ 'maximum-security' ]
+    $beetmoverworker_env = 'mobile-dev'
+    $timezone            = 'UTC'
+    $only_user_ssh       = true
+    include toplevel::server::beetmoverscriptworker
+}
 
 # Bouncer scriptworkers
 node /^bouncerworker-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
