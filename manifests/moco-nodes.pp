@@ -36,7 +36,7 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
 # TOTAL workers in MDC2 = 90 workers
 # TOTAL workers in gecko-t-linux-talos queue (MDC1+MDC2) = 188 workers
 
-node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc2\.mozilla\.com$/ {
+node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     $worker_type  = 'gecko-t-linux-talos'
