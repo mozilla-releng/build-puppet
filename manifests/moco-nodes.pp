@@ -16,60 +16,25 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
 # Linux on moonshot in mdc1 running generic worker
 # ms == moonshot == https://www.hpe.com/emea_europe/en/servers/moonshot.html
 # xe == xen virtual machines on moonshot
-# Now, we have 60 workers from mdc1 in gecko-t-linux-talos queue
-# Workers range:
+# Workers range in MDC1:
 # t-linux64-ms-001 - 015 - 15 workers
 # t-linux64-ms-046 - 060 - 15 workers
 # t-linux64-ms-091 - 105 - 15 workers
 # t-linux64-ms-136 - 150 - 15 workers
-# TOTAL = 60 workers
-
-node /^t-linux64-(ms|xe)-[0][0-6,9][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    $worker_type  = 'gecko-t-linux-talos'
-    include fw::profiles::linux_taskcluster_worker
-    include toplevel::worker::releng::generic_worker::test::gpu
-}
-
-node /^t-linux64-(ms|xe)-[1][0,3-5][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    $worker_type  = 'gecko-t-linux-talos'
-    include fw::profiles::linux_taskcluster_worker
-    include toplevel::worker::releng::generic_worker::test::gpu
-}
-
-
-# Linux on moonshot in mdc1 running taskcluster worker, but will be migrated to generic worker once bug 1474570 lands
-# ms == moonshot == https://www.hpe.com/emea_europe/en/servers/moonshot.html
-# xe == xen virtual machines on moonshot
-# Now, we have 38 workers from mdc1 in gecko-t-linux-talos-tw queue
-# Workers range:
 # t-linux64-ms-181 - 195 - 15 workers
 # t-linux64-ms-226 - 239 - 14 workers
 # t-linux64-ms-271 - 279 - 9 workers
-# TOTAL = 38 workers
-
-node /^t-linux64-(ms|xe)-[1,2][2,3,7,8,9][0-9]\.test\.releng\.mdc1\.mozilla\.com$/ {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    $taskcluster_worker_type  = 'gecko-t-linux-talos-tw'
-    include fw::profiles::linux_taskcluster_worker
-    include toplevel::worker::releng::taskcluster_worker::test::gpu
-}
-
-# Linux on moonshot in mdc2 running generic-worker
-# ms == moonshot == https://www.hpe.com/emea_europe/en/servers/moonshot.html
-# xe == xen virtual machines on moonshot
-# Workers range:
+# TOTAL workers in MDC1 = 98 workers
+#
+# Workers range in MDC2:
 # t-linux64-ms-301 - 315 - 15 workers
 # t-linux64-ms-346 - 360 - 15 workers
 # t-linux64-ms-391 - 405 - 15 workers
 # t-linux64-ms-436 - 450 - 15 workers
 # t-linux64-ms-481 - 495 - 15 workers
 # t-linux64-ms-526 - 540 - 15 workers
-# TOTAL = 90 workers
+# TOTAL workers in MDC2 = 90 workers
+# TOTAL workers in gecko-t-linux-talos queue (MDC1+MDC2) = 188 workers
 
 node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc2\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
