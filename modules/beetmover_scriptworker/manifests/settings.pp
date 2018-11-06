@@ -155,7 +155,7 @@ class beetmover_scriptworker::settings {
                 components   => 'maven-default-s3-upload-bucket-13gy5ufwa3qv',
             },
 
-            worker_type                             => 'mobile-beetmover-v1',
+            worker_type                             => 'mobile-beetmover-dev',
             worker_group                            => 'mobile-beetmover-v1',
             taskcluster_client_id                   => 'project/mobile/android-components/releng/scriptworker/beetmover/dev',
             taskcluster_access_token                => secret('beetmoverworker_dev_taskcluster_access_token_mobile'),
