@@ -5,7 +5,7 @@ Twisted==12.3.0  # pyup: ignore
 certifi==2018.10.15
 chardet==3.0.4
 idna==2.7
-json-e==2.7.1
+json-e==3.0.0
 mohawk==0.3.4
 requests==2.20.0
 simplejson==3.16.0  # pyup: ignore
