@@ -21,7 +21,7 @@ frozendict==1.2
 future==0.17.1
 idna==2.7
 idna_ssl==1.1.0
-json-e==2.7.1
+json-e==3.0.0
 jsonschema==2.6.0
 mar==3.0.0
 mohawk==0.3.4
