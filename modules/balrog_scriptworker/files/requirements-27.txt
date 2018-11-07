@@ -20,7 +20,7 @@ ipaddress==1.0.22
 jinja2==2.10
 jsonschema==2.6.0
 mar==3.0.0
-markupsafe==1.0
+markupsafe==1.1.0
 pyasn1==0.4.4
 pycparser==2.19
 python-dateutil==2.7.5
