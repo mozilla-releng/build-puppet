@@ -168,6 +168,8 @@ class config inherits config::base {
     $roller_key_limits = join(['from="', join($roller_ips, ','), '",command="~/.ssh/allowed_commands.sh",',
                               'no-pty,no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-user-rc' ])
 
+    $roller_image_tag_prod = '1.0.11'
+
     $extra_user_ssh_keys = {
         # role accounts
 
