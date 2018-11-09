@@ -331,7 +331,7 @@ class config::base {
     # roller
     $roller_username             = 'roller'
 
-    $roller_image_tag_prod       = '1.0.7'
+    $roller_image_tag_prod       = 'latest'
     $roller_image_tag_dev        = 'latest'
 
     # roller git repo
