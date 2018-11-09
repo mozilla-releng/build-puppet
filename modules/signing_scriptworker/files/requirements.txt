@@ -21,7 +21,7 @@ frozendict==1.2
 future==0.17.1
 idna==2.7
 idna_ssl==1.1.0
-json-e==2.7.1
+json-e==3.0.0
 jsonschema==2.6.0
 mar==3.0.0
 mohawk==0.3.4
@@ -44,6 +44,6 @@ six==1.11.0
 slugid==1.0.7
 taskcluster==5.0.0
 taskcluster-urls==10.1.0
-urllib3==1.24
-virtualenv==16.0.0
+urllib3==1.24.1
+virtualenv==16.1.0
 yarl==1.2.6
