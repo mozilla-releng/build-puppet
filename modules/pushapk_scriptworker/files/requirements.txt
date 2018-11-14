@@ -57,7 +57,7 @@ pyparsing==2.3.0
 python-dateutil==2.7.5
 python-gnupg==0.4.3
 pytz==2018.7
-requests==2.20.0
+requests==2.20.1
 rsa==4.0
 scriptworker==16.2.1
 simplegeneric==0.8.1
