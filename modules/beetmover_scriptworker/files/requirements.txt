@@ -36,7 +36,7 @@ scriptworker==16.2.1
 six==1.11.0
 slugid==1.0.7
 taskcluster==5.0.0
-taskcluster-urls==10.1.0
+taskcluster-urls==11.0.0
 toml==0.10.0
 towncrier==18.6.0
 urllib3==1.24.1
