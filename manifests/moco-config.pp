@@ -243,6 +243,7 @@ class config inherits config::base {
         'acraciun', # Bug 1443668
         'tprince', # Bug 1449013
         'pmoore', # Bug 1492400
+        'mhentges', # Bug 1509144
     ]
 
     $users = $::fqdn ? {
