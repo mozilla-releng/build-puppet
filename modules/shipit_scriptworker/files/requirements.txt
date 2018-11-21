@@ -22,7 +22,7 @@ python-gnupg==0.4.3
 redo==2.0.1
 requests==2.20.1
 scriptworker==16.2.1
-shipitapi==1.0.0
+shipitapi==2.0.0
 six==1.11.0
 slugid==1.0.7
 taskcluster==5.0.0
@@ -30,4 +30,4 @@ taskcluster-urls==10.1.0 # pyup: ignore
 urllib3==1.24.1
 virtualenv==16.1.0
 yarl==1.2.6
-shipitscript==2.1.1  # puppet: nodownload
+shipitscript==3.0.0  # puppet: nodownload
