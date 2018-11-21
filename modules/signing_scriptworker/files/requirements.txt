@@ -25,7 +25,7 @@ json-e==3.0.0
 jsonschema==2.6.0
 mar==3.0.0
 mohawk==0.3.4
-multidict==4.4.2
+multidict==4.5.0
 pexpect==4.6.0
 ptyprocess==0.6.0
 pyasn1==0.4.4
@@ -43,7 +43,7 @@ simplejson==3.16.0  # pyup: ignore
 six==1.11.0
 slugid==1.0.7
 taskcluster==5.0.0
-taskcluster-urls==10.1.0
+taskcluster-urls==10.1.0 # pyup: ignore
 urllib3==1.24.1
 virtualenv==16.1.0
 yarl==1.2.6
