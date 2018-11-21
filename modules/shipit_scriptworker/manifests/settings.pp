@@ -13,6 +13,7 @@ class shipit_scriptworker::settings {
     $ship_it_stage_instance_scope = 'project:releng:ship-it:server:staging'
     $ship_it_stage_instance_config = {
         api_root                  => 'https://ship-it-dev.allizom.org',
+        api_root_v2               => 'https://api.shipit.staging.mozilla-releng.net',
         timeout_in_seconds        => 60,
         username                  => 'shipit-scriptworker-stage',
         password                  => secret('shipit_scriptworker_ship_it_password_dev'),
@@ -51,6 +52,7 @@ class shipit_scriptworker::settings {
             "${ship_it_stage_instance_scope}"   => $ship_it_stage_instance_config,
             'project:releng:ship-it:server:production' => {
                 api_root                  => 'https://ship-it.mozilla.org',
+                api_root_v2               => 'https://shipit-api.mozilla-releng.net',
                 timeout_in_seconds        => 60,
                 username                  => 'shipit-scriptworker',
                 password                  => secret('shipit_scriptworker_ship_it_password_prod'),
@@ -89,6 +91,7 @@ class shipit_scriptworker::settings {
             "project:comm:thunderbird:releng:ship-it:server:staging" => $ship_it_stage_instance_config,
             'project:comm:thunderbird:releng:ship-it:server:production' => {
                 api_root                  => 'https://ship-it.mozilla.org',
+                api_root_v2               => 'https://shipit-api.mozilla-releng.net',
                 timeout_in_seconds        => 60,
                 username                  => 'shipit-scriptworker',
                 password                  => secret('shipit_scriptworker_ship_it_password_prod'),
