@@ -155,6 +155,12 @@ class beetmover_scriptworker::settings {
                 components   => 'maven-default-s3-upload-bucket-13gy5ufwa3qv',
             },
 
+            dep_snapshot_maven_beetmover_aws_access_key_id => secret('snapshot_stage_maven_android_components_beetmover_aws_access_key_id'),
+            dep_snapshot_maven_beetmover_aws_secret_access_key => secret('snapshot_stage_maven_android_components_beetmover_aws_secret_access_key'),
+            dep_snapshot_maven_buckets => {
+                snapshot_components   => 'maven-snapshots-s3-upload-bucket-knc0jfluv2kn',
+            },
+
             worker_type                             => 'mobile-beetmover-dev',
             worker_group                            => 'mobile-beetmover-v1',
             taskcluster_client_id                   => 'project/mobile/android-components/releng/scriptworker/beetmover/dev',
