@@ -8,7 +8,6 @@ class balrog_scriptworker::settings {
     $task_script              = "${root}/py27venv/bin/balrogscript"
     $task_script_config       = "${root}/script_config.json"
     $task_max_timeout         = 1800
-    $tools_branch             = 'default'
     $worker_group             = 'balrogworker-v1'
     $verbose_logging          = true
 
@@ -19,7 +18,6 @@ class balrog_scriptworker::settings {
             balrog_api_root => 'https://balrog-admin.stage.mozaws.net/api',
 
             dummy => false,
-            tools_repo => 'https://hg.mozilla.org/build/tools',
             taskcluster_client_id => 'project/releng/scriptworker/balrogworker-dev',
             taskcluster_access_token => secret('balrogworker_dev_taskcluster_access_token'),
             taskcluster_scope_prefix => 'project:releng:balrog:',
@@ -35,7 +33,6 @@ class balrog_scriptworker::settings {
             balrog_api_root => 'https://aus4-admin.mozilla.org/api',
 
             dummy => false,
-            tools_repo => 'https://hg.mozilla.org/build/tools',
             taskcluster_client_id => 'project/releng/scriptworker/balrogworker',
             taskcluster_access_token => secret('balrogworker_prod_taskcluster_access_token'),
             taskcluster_scope_prefix => 'project:releng:balrog:',
@@ -51,7 +48,6 @@ class balrog_scriptworker::settings {
             balrog_api_root => 'https://balrog-admin.stage.mozaws.net/api',
 
             dummy => false,
-            tools_repo => 'https://hg.mozilla.org/build/tools',
             taskcluster_client_id => 'project/comm/thunderbird/releng/scriptworker/balrogworker/dev',
             taskcluster_access_token => secret('comm_thunderbird_balrogworker_dev_taskcluster_access_token'),
             taskcluster_scope_prefix => 'project:comm:thunderbird:releng:balrog:',
@@ -67,7 +63,6 @@ class balrog_scriptworker::settings {
             balrog_api_root => 'https://aus4-admin.mozilla.org/api',
 
             dummy => false,
-            tools_repo => 'https://hg.mozilla.org/build/tools',
             taskcluster_client_id => 'project/comm/thunderbird/releng/scriptworker/balrogworker/prod',
             taskcluster_access_token => secret('comm_thunderbird_balrogworker_prod_taskcluster_access_token'),
             taskcluster_scope_prefix => 'project:comm:thunderbird:releng:balrog:',
