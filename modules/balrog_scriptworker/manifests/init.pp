@@ -77,16 +77,6 @@ class balrog_scriptworker {
             verbose_logging          => $balrog_scriptworker::settings::verbose_logging,
     }
 
-    # Remove tools checkout before the code was merged to balrogscript.
-    file {
-        "${balrog_scriptworker::settings::root}/tools":
-            ensure  => absent,
-            recurse => true,
-            purge   => true,
-            force   => true,
-            backup  => false,
-    }
-
     file {
         "${balrog_scriptworker::settings::root}/script_config.json":
             require   => Python3::Virtualenv[$balrog_scriptworker::settings::root],
