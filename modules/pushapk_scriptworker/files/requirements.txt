@@ -71,4 +71,4 @@ virtualenv==16.1.0
 voluptuous==0.11.5
 wcwidth==0.1.7
 yarl==1.2.6
-pushapkscript==0.8.0  # puppet: nodownload
+pushapkscript==0.9.0  # puppet: nodownload
