@@ -59,7 +59,7 @@ elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
         /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>/bug_id
     fi
         # Now reboot the machine immediately (time costs money)
-    if [ <%= @operatingsystem %> = 'Ubuntu' ]; then
+    if [ <%= @operatingsystem %> = "Ubuntu" ]; then
         # According to bug 1501936, https://bugzilla.mozilla.org/show_bug.cgi?id=1501936,Linux machines stuck at reboot process.
         # Looking over the internet, I found this bug: https://lists.ubuntu.com/archives/foundations-bugs/2016-April/280724.html
         # They suspet systemd generate this behavior. I reproduced this by genereting a reboot cron job and run it every 10 minutes
