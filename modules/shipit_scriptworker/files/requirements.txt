@@ -21,7 +21,7 @@ python-dateutil==2.7.5
 python-gnupg==0.4.3
 redo==2.0.1
 requests==2.20.1
-scriptworker==16.2.1
+scriptworker==17.0.0
 shipitapi==1.0.0
 six==1.11.0
 slugid==1.0.7
