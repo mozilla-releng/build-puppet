@@ -42,6 +42,9 @@ class generic_worker {
                 $taskcluster_client_id = secret('generic_worker_macosx_client_id')
                 $taskcluster_access_token = hiera('generic_worker_macosx_access_token')
             }
+            # The reboot command in OSX not have --force option
+            $reboot_command = '/usr/bin/sudo /sbin/reboot'
+            $reboot_comment = '# Now reboot the machine immediately (time costs money)'
 
             file { '/Library/LaunchAgents/net.generic.worker.plist':
                 ensure  => present,
@@ -90,6 +93,17 @@ class generic_worker {
                         $taskcluster_client_id = secret('generic_worker_linux_client_id')
                         $taskcluster_access_token = hiera('generic_worker_linux_access_token')
                     }
+
+                    $reboot_command = '/usr/bin/sudo /sbin/reboot --force'
+                    $reboot_comment = ' # According to bug 1501936, https://bugzilla.mozilla.org/show_bug.cgi?id=1501936,Linux machines stuck at reboot process.\n
+        # Looking over the internet, I found this bug: https://lists.ubuntu.com/archives/foundations-bugs/2016-April/280724.html\n
+        # They suspet systemd generate this behavior. I reproduced this by genereting a reboot cron job and run it every 10 minutes\n
+        # After around 24 hours the worker stuck at reboot process. I tryed to update systemd to the last version, but without success\n
+        # to fix this, I plan to add --force option to reboot command, to shutdown without contacting the system manager.\n
+        # According reboot man page:\n
+        # -f, --force - Force immediate halt, power-off, or reboot. When specified once, this results in an immediate but clean shutdown by the system manager. When specified twice, this results in an immediate\n
+        # shutdown without contacting the system manager. See the description of --force in systemctl(1) for more details.\n'
+
                     file {
                         ["${::users::builder::home}/.config",
                         "${::users::builder::home}/.config/autostart"]:
