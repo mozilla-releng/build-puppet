@@ -59,10 +59,23 @@ elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
         /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>/bug_id
     fi
         # Now reboot the machine immediately (time costs money)
-        /usr/bin/sudo /sbin/reboot
+    if [ <%= @operatingsystem %> = 'Ubuntu' ]; then
+        # According to bug 1501936, https://bugzilla.mozilla.org/show_bug.cgi?id=1501936,Linux machines stuck at reboot process.
+        # Looking over the internet, I found this bug: https://lists.ubuntu.com/archives/foundations-bugs/2016-April/280724.html
+        # They suspet systemd generate this behavior. I reproduced this by genereting a reboot cron job and run it every 10 minutes
+        # After around 24 hours the worker stuck at reboot process. I tryed to update systemd to the last version, but without success
+        # to fix this, I plan to add --force option to reboot command, to shutdown without contacting the system manager. 
+        # According reboot man page:
+        # -f, --force - Force immediate halt, power-off, or reboot. When specified once, this results in an immediate but clean shutdown by the system manager. When specified twice, this results in an immediate
+        # shutdown without contacting the system manager. See the description of --force in systemctl(1) for more details.
+        /usr/bin/sudo /sbin/reboot --force
         # Sleep to prevent this script from terminating naturally, and launchd restarting
         # it. Instead, the shutdown should cause this script to terminate (so it won't
         # really sleep for 2 mins). If shutdown doesn't kick in within 2 mins, it is sane
         # for this script to exit, and allow launchd to fire up the worker again.
         /bin/sleep 120
+    else
+        /usr/bin/sudo /sbin/reboot
+        /bin/sleep 120
+    fi
 fi
