@@ -22,7 +22,7 @@ python-gnupg==0.4.3
 redo==2.0.2
 requests==2.20.1
 scriptworker==17.0.0
-shipitapi==1.0.0
+shipitapi==2.0.0
 six==1.11.0
 slugid==1.0.7
 taskcluster==5.0.0
