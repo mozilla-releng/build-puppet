@@ -7,7 +7,7 @@ MarkupSafe==1.1.0
 MySQL-python==1.2.5
 Paste==3.0.4
 PasteDeploy==1.5.2
-PasteScript==2.0.2
+PasteScript==3.0.0
 Pygments==2.3.0
 Pylons==1.0.3
 amqp==2.3.2
