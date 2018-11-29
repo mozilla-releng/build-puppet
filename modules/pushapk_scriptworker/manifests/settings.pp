@@ -146,6 +146,24 @@ class pushapk_scriptworker::settings {
               'release' => 'release',
             }
         }
+        'mobile-dep': {
+            $google_play_config = {
+                'dep'  => {
+                    service_account             => 'noop',
+                    certificate                 => 'noop',
+                    certificate_target_location => 'noop',
+                },
+            }
+            $google_play_accounts_config_content = {
+                'dep' => {
+                  'service_account' => 'noop',
+                  'certificate' => 'noop',
+                }
+            }
+            $jarsigner_certificate_aliases_content = {
+                'dep' => 'dep',
+            }
+        }
         'mobile-prod': {
             $google_play_config = {
                 'focus'  => {
