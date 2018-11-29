@@ -36,7 +36,7 @@ python-jose==3.0.1
 requests==2.20.1
 requests-hawk==1.0.0
 rsa==4.0
-scriptworker==17.0.0
+scriptworker==17.0.1
 signingscript==9.5.1  # puppet: nodownload
 signtool==3.2.1
 simplejson==3.16.0  # pyup: ignore
