@@ -161,7 +161,7 @@ class pushapk_scriptworker::settings {
                 }
             }
             $jarsigner_certificate_aliases_content = {
-                'dep' => 'dep',
+                'reference-browser' => 'reference-browser-dep',
             }
         }
         'mobile-prod': {
@@ -174,12 +174,13 @@ class pushapk_scriptworker::settings {
             }
             $google_play_accounts_config_content = {
                 'focus' => {
-                  'service_account' => $google_play_config['focus']['service_account'],
-                  'certificate' => $google_play_config['focus']['certificate_target_location'],
+                    'service_account' => $google_play_config['focus']['service_account'],
+                    'certificate' => $google_play_config['focus']['certificate_target_location'],
                 }
             }
             $jarsigner_certificate_aliases_content = {
                 'focus' => 'focus',
+                'reference-browser' => 'reference-browser-release'
             }
         }
         default: {
@@ -191,10 +192,12 @@ class pushapk_scriptworker::settings {
     $jarsigner_keystore_password         = secret('pushapk_scriptworker_jarsigner_keystore_password')
 
     $jarsigner_all_certificates = {
-        'nightly' => "${root}/nightly.cer",
-        'release' => "${root}/release.cer",
-        'dep'     => "${root}/dep.cer",
-        'focus'   => "${root}/focus.cer",
+        'nightly'                   => "${root}/nightly.cer",
+        'release'                   => "${root}/release.cer",
+        'dep'                       => "${root}/dep.cer",
+        'focus'                     => "${root}/focus.cer",
+        'reference-browser-dep'     => "${root}/reference_browser_dep.cer",
+        'reference-browser-release' => "${root}/reference_browser_release.cer"
     }
 
     $verbose_logging                     = $_env_config['verbose_logging']

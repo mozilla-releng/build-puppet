@@ -51,6 +51,25 @@ class pushapk_scriptworker::jarsigner_init {
                     certificate  => $release;
             }
         }
+        'mobile-dep': {
+            $dep = $pushapk_scriptworker::settings::jarsigner_all_certificates['reference-browser-dep']
+            $release = $pushapk_scriptworker::settings::jarsigner_all_certificates['reference-browser-release']
+            file {
+                $dep:
+                    source => 'puppet:///modules/pushapk_scriptworker/reference_browser_dep.pem';
+
+                $release:
+                    source => 'puppet:///modules/pushapk_scriptworker/reference_browser_release.pem';
+            }
+
+            java_ks {
+                'reference-browser-dep':
+                    certificate => $dep;
+
+                'reference-browser-release':
+                    certificate => $release;
+            }
+        }
         'mobile-prod': {
             $focus = $pushapk_scriptworker::settings::jarsigner_all_certificates['focus']
             file {

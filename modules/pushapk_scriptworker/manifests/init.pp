@@ -93,6 +93,12 @@ class pushapk_scriptworker {
                     content     => $google_play_config['release']['certificate'];
             }
         }
+        'mobile-dep': {
+            file {
+                $google_play_config['mobile-dep']['certificate_target_location']:
+                    content     => $google_play_config['mobile-dep']['certificate'];
+            }
+        }
         'mobile-prod': {
             file {
                 $google_play_config['focus']['certificate_target_location']:
