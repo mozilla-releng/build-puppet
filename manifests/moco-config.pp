@@ -301,13 +301,10 @@ class config inherits config::base {
             partner_repack_url                    => 'git@github.com:mozilla-partners/repack-manifests',
             partner_min_version                   => 60,
             releaserunner_config_file             => 'release-runner.yml',
-            allowed_branches                      => [
-                                                        'releases/mozilla-release',
-                                                        'releases/mozilla-esr*',
-                                                      ],
+            allowed_branches                      => [ 'no-more-branches' ],
             # exclude betas
-            fennec_pattern                        => 'Fennec-\d+\.\d+(\.\d+)?-.*',
-            firefox_pattern                       => 'Firefox-\d+\.\d+(\.\d+)?(esr)?-.*',
+            fennec_pattern                        => 'No such thing here',
+            firefox_pattern                       => 'No such thing here',
             comm_allowed_branches                 => [
                                                         'releases/comm-beta',
                                                         'releases/comm-esr6*',
