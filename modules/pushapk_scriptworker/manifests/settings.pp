@@ -19,8 +19,6 @@ class pushapk_scriptworker::settings {
         taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_dep'),
         scope_prefix               => 'project:releng:googleplay:',
         cot_product                => 'firefox',
-        # Though this is a "dep" config, it has historically not had "do_not_contact_google_play" to "true"
-        do_not_contact_google_play => false,
 
         sign_chain_of_trust        => false,
         verify_chain_of_trust      => true,
@@ -34,7 +32,6 @@ class pushapk_scriptworker::settings {
         taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_prod'),
         scope_prefix               => 'project:releng:googleplay:',
         cot_product                => 'firefox',
-        do_not_contact_google_play => false,
 
         sign_chain_of_trust        => true,
         verify_chain_of_trust      => true,
@@ -49,7 +46,6 @@ class pushapk_scriptworker::settings {
         taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_mobile_dep'),
         scope_prefix               => 'project:mobile:focus:releng:googleplay:product:',
         cot_product                => 'mobile',
-        do_not_contact_google_play => true,
 
         sign_chain_of_trust        => false,
         verify_chain_of_trust      => true,
@@ -64,7 +60,6 @@ class pushapk_scriptworker::settings {
         taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_mobile'),
         scope_prefix               => 'project:mobile:focus:releng:googleplay:product:',
         cot_product                => 'mobile',
-        do_not_contact_google_play => false,
 
         sign_chain_of_trust        => true,
         verify_chain_of_trust      => true,
@@ -98,15 +93,15 @@ class pushapk_scriptworker::settings {
         'dep': {
             $google_play_config = {
                 'dep'  => {
-                    service_account             => $_google_play_accounts['dep']['service_account'],
-                    certificate                 => $_google_play_accounts['dep']['certificate'],
+                    service_account             => 'dummy',
+                    certificate                 => 'dummy',
                     certificate_target_location => "${root}/dep.p12",
                 },
             }
             $google_play_accounts_config_content = {
                 'dep' => {
-                  'service_account' => $google_play_config['dep']['service_account'],
-                  'certificate' => $google_play_config['dep']['certificate_target_location'],
+                  'service_account' => 'dummy',
+                  'certificate' => 'dummy',
                 }
             }
             $jarsigner_certificate_aliases_content = {
@@ -153,16 +148,16 @@ class pushapk_scriptworker::settings {
         }
         'mobile-dep': {
             $google_play_config = {
-                'dep'  => {
-                    service_account             => 'noop',
-                    certificate                 => 'noop',
-                    certificate_target_location => 'noop',
+                'reference-browser'  => {
+                    service_account             => 'dummy',
+                    certificate                 => 'dummy',
+                    certificate_target_location => "${root}/dep.p12",
                 },
             }
             $google_play_accounts_config_content = {
-                'dep' => {
-                  'service_account' => 'noop',
-                  'certificate' => 'noop',
+                'reference-browser' => {
+                  'service_account' => 'dummy',
+                  'certificate' => 'dummy',
                 }
             }
             $jarsigner_certificate_aliases_content = {
@@ -214,7 +209,6 @@ class pushapk_scriptworker::settings {
         'jarsigner_key_store' => $jarsigner_keystore,
         'jarsigner_certificate_aliases' => $jarsigner_certificate_aliases_content,
 
-        'taskcluster_scope_prefix' => $_env_config['scope_prefix'],
-        'do_not_contact_google_play' => $_env_config['do_not_contact_google_play']
+        'taskcluster_scope_prefix' => $_env_config['scope_prefix']
     }
 }
