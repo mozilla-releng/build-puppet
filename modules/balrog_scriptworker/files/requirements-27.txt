@@ -6,7 +6,7 @@ asn1crypto==0.24.0
 backports.functools-lru-cache==1.5
 backports.lzma==0.0.12
 balrogclient==0.0.4
-balrogscript==3.2.1  # puppet: nodownload
+balrogscript==3.3.0  # puppet: nodownload
 certifi==2018.10.15
 cffi==1.11.5
 chardet==3.0.4
@@ -25,7 +25,7 @@ markupsafe==1.1.0
 pyasn1==0.4.4
 pycparser==2.19
 python-dateutil==2.7.5
-redo==2.0.1
+redo==2.0.2
 requests==2.20.1
 toml==0.10.0
 towncrier==18.5.0  # pyup: ignore

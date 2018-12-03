@@ -293,7 +293,18 @@ node /^tb-depsigning-worker.*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::signingscriptworker
 }
 
-# https://github.com/mozilla-mobile workers. The "e" in mobile was stripped out
+
+# Signing scriptworkers
+# In order to leave up to 100 workers, the "mobile" had to be shortened down to "m"
+node /^dep-m-signing-linux-\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $signing_scriptworker_env = 'mobile-dep'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::signingscriptworker
+}
+
+# The "e" in mobile was stripped out
 # in order to leave up to 100 workers instead of 10.
 node /^mobil-signing-linux-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
@@ -454,7 +465,17 @@ node /^pushapkworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::pushapkscriptworker
 }
 
-# https://github.com/mozilla-mobile workers. The "e" in mobile was stripped out
+# Mobile PushAPK scriptworkers
+# In order to leave up to 100 workers, the "mobile" had to be shortened down to "m"
+node /^dep-m-pushapkworker-\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $pushapk_scriptworker_env = 'mobile-dep'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::pushapkscriptworker
+}
+
+# The "e" in mobile was stripped out
 # in order to leave up to 100 workers instead of 10.
 node /^mobil-pushapkworker-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
