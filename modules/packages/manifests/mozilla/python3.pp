@@ -42,6 +42,9 @@ class packages::mozilla::python3 {
                         '/usr/local/bin/python3':
                             ensure => link,
                             target => '/tools/python36/bin/python3.6';
+                        '/etc/profile.d/append-python36-path.sh':
+                            mode    => '0755',
+                            content => 'PATH=$PATH:/tools/python36/bin/python3.6',
                     } -> Anchor['packages::mozilla::python3::end']
 
                     Anchor['packages::mozilla::python3::begin'] ->
