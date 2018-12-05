@@ -148,24 +148,29 @@ class pushapk_scriptworker::settings {
         }
         'mobile-dep': {
             $google_play_config = {
-                'reference-browser'  => {
+                'reference_browser'  => {
                     service_account             => 'dummy',
                     certificate                 => 'dummy',
                     certificate_target_location => "${root}/dep.p12",
                 },
             }
             $google_play_accounts_config_content = {
-                'reference-browser' => {
+                'reference_browser' => {
                   'service_account' => 'dummy',
                   'certificate' => 'dummy',
-                }
+                },
             }
             $jarsigner_certificate_aliases_content = {
-                'reference-browser' => 'reference-browser-dep',
+                'reference_browser' => 'referencereference_browser',
             }
         }
         'mobile-prod': {
             $google_play_config = {
+                'reference_browser' => {
+                    service_account             => $_google_play_accounts['reference_browser']['service_account'],
+                    certificate                 => $_google_play_accounts['reference_browser']['certificate'],
+                    certificate_target_location => "${root}/reference_browser.p12",
+                },
                 'focus'  => {
                     service_account             => $_google_play_accounts['focus']['service_account'],
                     certificate                 => $_google_play_accounts['focus']['certificate'],
@@ -173,14 +178,18 @@ class pushapk_scriptworker::settings {
                 },
             }
             $google_play_accounts_config_content = {
+                'reference_browser' => {
+                    'service_account' => $google_play_config['reference_browser']['service_account'],
+                    'certificate' => $google_play_config['reference_browser']['certificate_target_location'],
+                },
                 'focus' => {
                     'service_account' => $google_play_config['focus']['service_account'],
                     'certificate' => $google_play_config['focus']['certificate_target_location'],
-                }
+                },
             }
             $jarsigner_certificate_aliases_content = {
                 'focus' => 'focus',
-                'reference-browser' => 'reference-browser-release'
+                'reference_browser' => 'reference_browser'
             }
         }
         default: {
@@ -212,6 +221,6 @@ class pushapk_scriptworker::settings {
         'jarsigner_key_store' => $jarsigner_keystore,
         'jarsigner_certificate_aliases' => $jarsigner_certificate_aliases_content,
 
-        'taskcluster_scope_prefix' => $_env_config['scope_prefix']
+        'taskcluster_scope_prefix' => $_env_config['scope_prefix'],
     }
 }
