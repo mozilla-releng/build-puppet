@@ -6,7 +6,7 @@ Mako==1.0.7
 MarkupSafe==1.1.0
 MySQL-python==1.2.5
 Paste==3.0.5
-PasteDeploy==1.5.2
+PasteDeploy==2.0.1
 PasteScript==3.0.0
 Pygments==2.3.0
 Pylons==1.0.3
