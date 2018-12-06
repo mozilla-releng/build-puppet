@@ -161,7 +161,7 @@ class pushapk_scriptworker::settings {
                 },
             }
             $jarsigner_certificate_aliases_content = {
-                'reference_browser' => 'referencereference_browser',
+                'reference_browser' => 'reference_browser',
             }
         }
         'mobile-prod': {
