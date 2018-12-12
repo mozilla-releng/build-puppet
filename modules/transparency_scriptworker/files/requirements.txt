@@ -28,5 +28,5 @@ taskcluster==6.0.0
 taskcluster-urls==10.1.0 # pyup: ignore
 urllib3==1.24.1
 virtualenv==16.1.0
-yarl==1.2.6
+yarl==1.3.0
 transparencyscript==0.0.4  # puppet: nodownload
