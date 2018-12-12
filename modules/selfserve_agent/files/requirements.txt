@@ -15,7 +15,7 @@ buildapi==0.3.25  # puppet: nodownload
 buildbot==0.8.4-pre-moz2  # pyup: ignore, puppet: nodownload
 decorator==4.3.0
 funcsigs==1.0.2
-kombu==4.2.1
+kombu==4.2.2
 Routes==2.4.1
 SQLAlchemy==1.2.14
 Tempita==0.5.2
