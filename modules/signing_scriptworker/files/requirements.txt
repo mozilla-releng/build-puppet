@@ -33,7 +33,7 @@ pycparser==2.19
 python-dateutil==2.7.5
 python-gnupg==0.4.3
 python-jose==3.0.1
-requests==2.20.1
+requests==2.21.0
 requests-hawk==1.0.0
 rsa==4.0
 scriptworker==17.0.1
