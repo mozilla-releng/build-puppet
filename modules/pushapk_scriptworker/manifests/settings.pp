@@ -12,58 +12,58 @@ class pushapk_scriptworker::settings {
 
     $_env_configs                        = {
       'dep'  => {
-        worker_group             => 'dep-pushapk',
-        worker_type              => 'dep-pushapk',
-        verbose_logging          => true,
-        taskcluster_client_id    => secret('pushapk_scriptworker_taskcluster_client_id_dep'),
-        taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_dep'),
-        scope_prefix             => 'project:releng:googleplay:',
-        cot_product              => 'firefox',
+        worker_group               => 'dep-pushapk',
+        worker_type                => 'dep-pushapk',
+        verbose_logging            => true,
+        taskcluster_client_id      => secret('pushapk_scriptworker_taskcluster_client_id_dep'),
+        taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_dep'),
+        scope_prefix               => 'project:releng:googleplay:',
+        cot_product                => 'firefox',
 
-        sign_chain_of_trust      => false,
-        verify_chain_of_trust    => true,
-        verify_cot_signature     => false,
+        sign_chain_of_trust        => false,
+        verify_chain_of_trust      => true,
+        verify_cot_signature       => false,
       },
       'prod' => {
-        worker_group             => 'pushapk-v1',
-        worker_type              => 'pushapk-v1',
-        verbose_logging          => true,
-        taskcluster_client_id    => secret('pushapk_scriptworker_taskcluster_client_id_prod'),
-        taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_prod'),
-        scope_prefix             => 'project:releng:googleplay:',
-        cot_product              => 'firefox',
+        worker_group               => 'pushapk-v1',
+        worker_type                => 'pushapk-v1',
+        verbose_logging            => true,
+        taskcluster_client_id      => secret('pushapk_scriptworker_taskcluster_client_id_prod'),
+        taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_prod'),
+        scope_prefix               => 'project:releng:googleplay:',
+        cot_product                => 'firefox',
 
-        sign_chain_of_trust      => true,
-        verify_chain_of_trust    => true,
-        verify_cot_signature     => true,
+        sign_chain_of_trust        => true,
+        verify_chain_of_trust      => true,
+        verify_cot_signature       => true,
       },
       'mobile-dep' => {
-        worker_group             => 'mobile-pushapk-dep-v1',
-        worker_type              => 'mobile-pushapk-dep-v1',
-        verbose_logging          => true,
+        worker_group               => 'mobile-pushapk-dep-v1',
+        worker_type                => 'mobile-pushapk-dep-v1',
+        verbose_logging            => true,
         # TODO: simplify client_id to not include project ("focus")
-        taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/pushapk/dep',
-        taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile_dep'),
-        scope_prefix             => 'project:mobile:focus:releng:googleplay:product:',
-        cot_product              => 'mobile',
+        taskcluster_client_id      => 'project/mobile/focus/releng/scriptworker/pushapk/dep',
+        taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_mobile_dep'),
+        scope_prefix               => 'project:mobile:focus:releng:googleplay:product:',
+        cot_product                => 'mobile',
 
-        sign_chain_of_trust      => false,
-        verify_chain_of_trust    => true,
-        verify_cot_signature     => false,
+        sign_chain_of_trust        => false,
+        verify_chain_of_trust      => true,
+        verify_cot_signature       => false,
       },
       'mobile-prod' => {
-        worker_group             => 'mobile-pushapk-v1',
-        worker_type              => 'mobile-pushapk-v1',
-        verbose_logging          => true,
+        worker_group               => 'mobile-pushapk-v1',
+        worker_type                => 'mobile-pushapk-v1',
+        verbose_logging            => true,
         # TODO: simplify client_id to not include project ("focus")
-        taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/pushapk/production',
-        taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile'),
-        scope_prefix             => 'project:mobile:focus:releng:googleplay:product:',
-        cot_product              => 'mobile',
+        taskcluster_client_id      => 'project/mobile/focus/releng/scriptworker/pushapk/production',
+        taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_mobile'),
+        scope_prefix               => 'project:mobile:focus:releng:googleplay:product:',
+        cot_product                => 'mobile',
 
-        sign_chain_of_trust      => true,
-        verify_chain_of_trust    => true,
-        verify_cot_signature     => true,
+        sign_chain_of_trust        => true,
+        verify_chain_of_trust      => true,
+        verify_cot_signature       => true,
       },
     }
 
@@ -93,15 +93,15 @@ class pushapk_scriptworker::settings {
         'dep': {
             $google_play_config = {
                 'dep'  => {
-                    service_account             => $_google_play_accounts['dep']['service_account'],
-                    certificate                 => $_google_play_accounts['dep']['certificate'],
+                    service_account             => 'dummy',
+                    certificate                 => 'dummy',
                     certificate_target_location => "${root}/dep.p12",
                 },
             }
             $google_play_accounts_config_content = {
                 'dep' => {
-                  'service_account' => $google_play_config['dep']['service_account'],
-                  'certificate' => $google_play_config['dep']['certificate_target_location'],
+                  'service_account' => 'dummy',
+                  'certificate' => 'dummy',
                 }
             }
             $jarsigner_certificate_aliases_content = {
@@ -146,8 +146,31 @@ class pushapk_scriptworker::settings {
               'release' => 'release',
             }
         }
+        'mobile-dep': {
+            $google_play_config = {
+                'reference_browser'  => {
+                    service_account             => 'dummy',
+                    certificate                 => 'dummy',
+                    certificate_target_location => "${root}/dep.p12",
+                },
+            }
+            $google_play_accounts_config_content = {
+                'reference_browser' => {
+                  'service_account' => 'dummy',
+                  'certificate' => 'dummy',
+                },
+            }
+            $jarsigner_certificate_aliases_content = {
+                'reference_browser' => 'reference_browser',
+            }
+        }
         'mobile-prod': {
             $google_play_config = {
+                'reference_browser' => {
+                    service_account             => $_google_play_accounts['reference_browser']['service_account'],
+                    certificate                 => $_google_play_accounts['reference_browser']['certificate'],
+                    certificate_target_location => "${root}/reference_browser.p12",
+                },
                 'focus'  => {
                     service_account             => $_google_play_accounts['focus']['service_account'],
                     certificate                 => $_google_play_accounts['focus']['certificate'],
@@ -155,13 +178,18 @@ class pushapk_scriptworker::settings {
                 },
             }
             $google_play_accounts_config_content = {
+                'reference_browser' => {
+                    'service_account' => $google_play_config['reference_browser']['service_account'],
+                    'certificate' => $google_play_config['reference_browser']['certificate_target_location'],
+                },
                 'focus' => {
-                  'service_account' => $google_play_config['focus']['service_account'],
-                  'certificate' => $google_play_config['focus']['certificate_target_location'],
-                }
+                    'service_account' => $google_play_config['focus']['service_account'],
+                    'certificate' => $google_play_config['focus']['certificate_target_location'],
+                },
             }
             $jarsigner_certificate_aliases_content = {
                 'focus' => 'focus',
+                'reference_browser' => 'reference_browser'
             }
         }
         default: {
@@ -173,10 +201,12 @@ class pushapk_scriptworker::settings {
     $jarsigner_keystore_password         = secret('pushapk_scriptworker_jarsigner_keystore_password')
 
     $jarsigner_all_certificates = {
-        'nightly' => "${root}/nightly.cer",
-        'release' => "${root}/release.cer",
-        'dep'     => "${root}/dep.cer",
-        'focus'   => "${root}/focus.cer",
+        'nightly'                   => "${root}/nightly.cer",
+        'release'                   => "${root}/release.cer",
+        'dep'                       => "${root}/dep.cer",
+        'focus'                     => "${root}/focus.cer",
+        'reference-browser-dep'     => "${root}/reference_browser_dep.cer",
+        'reference-browser-release' => "${root}/reference_browser_release.cer"
     }
 
     $verbose_logging                     = $_env_config['verbose_logging']
