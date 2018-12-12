@@ -30,7 +30,7 @@ ptyprocess==0.6.0
 python-dateutil==2.7.5
 python-gnupg==0.4.3
 redo==2.0.2
-requests==2.20.1
+requests==2.21.0
 s3transfer==0.1.13
 scriptworker==17.0.1
 six==1.11.0
