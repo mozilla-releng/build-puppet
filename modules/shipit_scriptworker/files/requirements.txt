@@ -23,7 +23,7 @@ redo==2.0.2
 requests==2.21.0
 scriptworker==17.0.1
 shipitapi==2.0.0
-six==1.11.0
+six==1.12.0
 slugid==1.0.7
 taskcluster==5.0.0
 taskcluster-urls==10.1.0 # pyup: ignore
