@@ -62,7 +62,7 @@ rsa==4.0
 scriptworker==17.0.1
 simplegeneric==0.8.1
 slugid==1.0.7
-taskcluster==5.0.0
+taskcluster==6.0.0
 taskcluster-urls==10.1.0 # pyup: ignore
 traitlets==4.3.2
 uritemplate==3.0.0
