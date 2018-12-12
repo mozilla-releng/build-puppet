@@ -7,7 +7,7 @@ chardet==3.0.4
 idna==2.8
 json-e==3.0.0
 mohawk==0.3.4
-requests==2.20.1
+requests==2.21.0
 simplejson==3.16.0  # pyup: ignore
 six==1.11.0
 slugid==1.0.7
