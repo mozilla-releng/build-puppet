@@ -1,6 +1,6 @@
 # python_version: 27
 # install six before cryptography
-six==1.11.0
+six==1.12.0
 Jinja2==2.10
 MarkupSafe==1.1.0
 Twisted==18.9.0
