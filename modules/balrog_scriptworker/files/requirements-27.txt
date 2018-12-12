@@ -1,6 +1,6 @@
 # python_version: 27
 # install six before cryptography
-six==1.11.0
+six==1.12.0
 arrow==0.12.1
 asn1crypto==0.24.0
 backports.functools-lru-cache==1.5
