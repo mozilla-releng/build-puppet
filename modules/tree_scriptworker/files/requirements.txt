@@ -23,7 +23,7 @@ requests==2.21.0
 scriptworker==17.0.1
 six==1.12.0
 slugid==1.0.7
-taskcluster==5.0.0
+taskcluster==6.0.0
 taskcluster-urls==10.1.0 # pyup: ignore
 treescript==1.1.3  # puppet: nodownload
 urllib3==1.24.1
