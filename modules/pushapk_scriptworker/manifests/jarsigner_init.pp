@@ -60,7 +60,7 @@ class pushapk_scriptworker::jarsigner_init {
             }
 
             java_ks {
-                'reference_browser':
+                'reference-browser':
                     certificate => $reference_browser;
             }
         }
@@ -78,7 +78,7 @@ class pushapk_scriptworker::jarsigner_init {
             java_ks {
                 'focus':
                     certificate => $focus;
-                'reference_browser':
+                'reference-browser':
                     certificate => $reference_browser;
             }
         }

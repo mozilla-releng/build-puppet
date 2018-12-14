@@ -95,14 +95,14 @@ class pushapk_scriptworker {
         }
         'mobile-dep': {
             file {
-                $google_play_config['reference_browser']['certificate_target_location']:
-                    content     => $google_play_config['reference_browser']['certificate'];
+                $google_play_config['reference-browser']['certificate_target_location']:
+                    content     => $google_play_config['reference-browser']['certificate'];
             }
         }
         'mobile-prod': {
             file {
-                $google_play_config['reference_browser']['certificate_target_location']:
-                    content     => $google_play_config['reference_browser']['certificate'];
+                $google_play_config['reference-browser']['certificate_target_location']:
+                    content     => $google_play_config['reference-browser']['certificate'];
                 $google_play_config['focus']['certificate_target_location']:
                     content     => $google_play_config['focus']['certificate'];
             }
