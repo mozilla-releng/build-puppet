@@ -5,7 +5,7 @@ aiohttp==3.4.4
 arrow==0.12.1
 async_timeout==3.0.1
 attrs==18.2.0
-certifi==2018.10.15
+certifi==2018.11.29
 chardet==3.0.4
 defusedxml==0.5.0
 dictdiffer==0.7.1
@@ -17,7 +17,7 @@ idna_ssl==1.1.0
 json-e==3.0.0
 jsonschema==2.6.0
 mohawk==0.3.4
-multidict==4.5.1
+multidict==4.5.2
 pexpect==4.6.0
 ptyprocess==0.6.0
 pyasn1==0.4.4
