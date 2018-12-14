@@ -100,8 +100,8 @@ class pushapk_scriptworker::settings {
             }
             $google_play_accounts_config_content = {
                 'dep' => {
-                  'service_account' => 'dummy',
-                  'certificate' => 'dummy',
+                  'service_account' => $google_play_config['dep']['service_account'],
+                  'certificate' => $google_play_config['dep']['certificate_target_location'],
                 }
             }
             $jarsigner_certificate_aliases_content = {
@@ -156,8 +156,8 @@ class pushapk_scriptworker::settings {
             }
             $google_play_accounts_config_content = {
                 'reference-browser' => {
-                  'service_account' => 'dummy',
-                  'certificate' => 'dummy',
+                  'service_account' => $google_play_config['reference-browser']['service_account'],
+                  'certificate' => $google_play_config['reference-browser']['certificate_target_location'],
                 },
             }
             $jarsigner_certificate_aliases_content = {
