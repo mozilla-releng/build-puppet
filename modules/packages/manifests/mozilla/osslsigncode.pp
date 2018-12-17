@@ -8,7 +8,7 @@ class packages::mozilla::osslsigncode {
             realize(Packages::Yumrepo['osslsigncode'])
             package {
                 'osslsigncode':
-                    ensure => "1.7.1-1.el6";
+                    ensure => "1.7.1-2.el6";
             }
         }
 

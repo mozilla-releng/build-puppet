@@ -77,18 +77,6 @@ class balrog_scriptworker {
             verbose_logging          => $balrog_scriptworker::settings::verbose_logging,
     }
 
-    mercurial::repo {
-        'tools':
-            hg_repo => $env_config["tools_repo"],
-            dst_dir => "${balrog_scriptworker::settings::root}/tools",
-            user    => $users::builder::username,
-            branch  => $balrog_scriptworker::settings::tools_branch,
-            require => [
-                Class['packages::mozilla::py27_mercurial'],
-                Python3::Virtualenv[$balrog_scriptworker::settings::root],
-            ];
-    }
-
     file {
         "${balrog_scriptworker::settings::root}/script_config.json":
             require   => Python3::Virtualenv[$balrog_scriptworker::settings::root],

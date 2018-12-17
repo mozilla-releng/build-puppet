@@ -168,6 +168,8 @@ class config inherits config::base {
     $roller_key_limits = join(['from="', join($roller_ips, ','), '",command="~/.ssh/allowed_commands.sh",',
                               'no-pty,no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-user-rc' ])
 
+    $roller_image_tag_prod = '1.0.11'
+
     $extra_user_ssh_keys = {
         # role accounts
 
@@ -241,6 +243,7 @@ class config inherits config::base {
         'acraciun', # Bug 1443668
         'tprince', # Bug 1449013
         'pmoore', # Bug 1492400
+        'mhentges', # Bug 1509144
     ]
 
     $users = $::fqdn ? {
@@ -298,13 +301,10 @@ class config inherits config::base {
             partner_repack_url                    => 'git@github.com:mozilla-partners/repack-manifests',
             partner_min_version                   => 60,
             releaserunner_config_file             => 'release-runner.yml',
-            allowed_branches                      => [
-                                                        'releases/mozilla-release',
-                                                        'releases/mozilla-esr*',
-                                                      ],
+            allowed_branches                      => [ 'no-more-branches' ],
             # exclude betas
-            fennec_pattern                        => 'Fennec-\d+\.\d+(\.\d+)?-.*',
-            firefox_pattern                       => 'Firefox-\d+\.\d+(\.\d+)?(esr)?-.*',
+            fennec_pattern                        => 'No such thing here',
+            firefox_pattern                       => 'No such thing here',
             comm_allowed_branches                 => [
                                                         'releases/comm-beta',
                                                         'releases/comm-esr6*',
@@ -569,12 +569,12 @@ class config inherits config::base {
     $l10n_bumper_env_config = {
         'mozilla-central' => {
             mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
-            mozharness_revision => '9d21ea9afe7a61cfe80d577809bf3191e816baec',
+            mozharness_revision => 'd0d593bf9772',
             config_file         => 'l10n_bumper/mozilla-central.py',
         },
         'mozilla-beta'    => {
             mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
-            mozharness_revision => '9d21ea9afe7a61cfe80d577809bf3191e816baec',
+            mozharness_revision => 'd0d593bf9772',
             config_file         => 'l10n_bumper/mozilla-beta.py',
         },
     }

@@ -4,7 +4,7 @@
 
 ## TaskCluster workers
 
-# OS X in mdc1 running generic worker
+# OS X in mdc1 and mdc2 running generic worker
 node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
@@ -13,11 +13,10 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     include toplevel::worker::releng::generic_worker::test::gpu
 }
 
-# Linux on moonshot in mdc1 running taskcluster worker, but will be migrated to generic worker once bug 1474570 lands
+# Linux on moonshot in mdc1 running generic worker
 # ms == moonshot == https://www.hpe.com/emea_europe/en/servers/moonshot.html
 # xe == xen virtual machines on moonshot
-# Now, we have 98 workers from mdc1 in gecko-t-linux-talos-tw queue
-# Workers range:
+# Workers range in MDC1:
 # t-linux64-ms-001 - 015 - 15 workers
 # t-linux64-ms-046 - 060 - 15 workers
 # t-linux64-ms-091 - 105 - 15 workers
@@ -25,37 +24,19 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
 # t-linux64-ms-181 - 195 - 15 workers
 # t-linux64-ms-226 - 239 - 14 workers
 # t-linux64-ms-271 - 279 - 9 workers
-# TOTAL = 98 workers
-
-node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc1\.mozilla\.com$/ {
-    $aspects          = [ 'low-security' ]
-    $slave_trustlevel = 'try'
-    $taskcluster_worker_type  = 'gecko-t-linux-talos-tw'
-    include fw::profiles::linux_taskcluster_worker
-    include toplevel::worker::releng::taskcluster_worker::test::gpu
-}
-
-# Linux on moonshot in mdc2 running generic-worker, but will be migrated to generic-worker once bug 1474570 lands
-# The migration is underway such that all taskcluster-worker workload is being moved from worker type
-# gecko-t-linux-talos to gecko-t-linux-talos-tw, and that when that completes, gecko-t-linux-talos will then be used
-# for generic-worker implementation of talos linux tasks. For more details, please see:
-# https://bugzilla.mozilla.org/show_bug.cgi?id=1474570#c32
-
-# ms == moonshot == https://www.hpe.com/emea_europe/en/servers/moonshot.html
-# xe == xen virtual machines on moonshot
-
-# Now, we have 88 workers from mdc2 in gecko-t-linux-talos-tw queue
-# Workers range:
+# TOTAL workers in MDC1 = 98 workers
+#
+# Workers range in MDC2:
 # t-linux64-ms-301 - 315 - 15 workers
 # t-linux64-ms-346 - 360 - 15 workers
 # t-linux64-ms-391 - 405 - 15 workers
 # t-linux64-ms-436 - 450 - 15 workers
 # t-linux64-ms-481 - 495 - 15 workers
 # t-linux64-ms-526 - 540 - 15 workers
-# TOTAL = 90 workers
+# TOTAL workers in MDC2 = 90 workers
+# TOTAL workers in gecko-t-linux-talos queue (MDC1+MDC2) = 188 workers
 
-
-node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.mdc2\.mozilla\.com$/ {
+node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
     $worker_type  = 'gecko-t-linux-talos'
@@ -312,7 +293,18 @@ node /^tb-depsigning-worker.*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::signingscriptworker
 }
 
-# https://github.com/mozilla-mobile workers. The "e" in mobile was stripped out
+
+# Signing scriptworkers
+# In order to leave up to 100 workers, the "mobile" had to be shortened down to "m"
+node /^dep-m-signing-linux-\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $signing_scriptworker_env = 'mobile-dep'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::signingscriptworker
+}
+
+# The "e" in mobile was stripped out
 # in order to leave up to 100 workers instead of 10.
 node /^mobil-signing-linux-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
@@ -413,6 +405,15 @@ node /^mobile-beetmover-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $only_user_ssh       = true
     include toplevel::server::beetmoverscriptworker
 }
+#
+# https://github.com/mozilla-mobile dev workers.
+node /^mobil-beetmover-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects             = [ 'maximum-security' ]
+    $beetmoverworker_env = 'mobile-dev'
+    $timezone            = 'UTC'
+    $only_user_ssh       = true
+    include toplevel::server::beetmoverscriptworker
+}
 
 # Bouncer scriptworkers
 node /^bouncerworker-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
@@ -464,7 +465,17 @@ node /^pushapkworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::pushapkscriptworker
 }
 
-# https://github.com/mozilla-mobile workers. The "e" in mobile was stripped out
+# Mobile PushAPK scriptworkers
+# In order to leave up to 100 workers, the "mobile" had to be shortened down to "m"
+node /^dep-m-pushapkworker-\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $pushapk_scriptworker_env = 'mobile-dep'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::pushapkscriptworker
+}
+
+# The "e" in mobile was stripped out
 # in order to leave up to 100 workers instead of 10.
 node /^mobil-pushapkworker-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]

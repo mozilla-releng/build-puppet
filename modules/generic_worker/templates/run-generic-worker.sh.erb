@@ -58,11 +58,11 @@ elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
         resolve_bug_self_failure    
         /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>/bug_id
     fi
-        # Now reboot the machine immediately (time costs money)
-        /usr/bin/sudo /sbin/reboot
-        # Sleep to prevent this script from terminating naturally, and launchd restarting
-        # it. Instead, the shutdown should cause this script to terminate (so it won't
-        # really sleep for 2 mins). If shutdown doesn't kick in within 2 mins, it is sane
-        # for this script to exit, and allow launchd to fire up the worker again.
-        /bin/sleep 120
+    # Now reboot the machine immediately (time costs money)
+    <%= @reboot_command %>
+    # Sleep to prevent this script from terminating naturally, and launchd restarting
+    # it. Instead, the shutdown should cause this script to terminate (so it won't
+    # really sleep for 2 mins). If shutdown doesn't kick in within 2 mins, it is sane
+    # for this script to exit, and allow launchd to fire up the worker again.
+    /bin/sleep 120
 fi
