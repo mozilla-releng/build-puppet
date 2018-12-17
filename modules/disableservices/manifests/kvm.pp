@@ -2,16 +2,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 class disableservices::kvm {
-    include concat::setup
     case $::operatingsystem {
         Ubuntu: {
           case $::operatingsystemrelease {
             '16.04': {
                 # need at least one fragment, or concat will fail:
-                concat::fragment {
-                    'blacklist kvm':
-                        target  => '/etc/modprobe.d/blacklist.conf',
-                        content => "blacklist kvm\nblacklist kvm-intel\n"
+                file_line { 'blacklist kvm':
+                    path => '/etc/modprobe.d/blacklist.conf',
+                    line => "blacklist kvm\nblacklist kvm-intel\n"
                 }
             }
           }
