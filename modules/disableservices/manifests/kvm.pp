@@ -5,7 +5,7 @@ class disableservices::kvm {
     case $::operatingsystem {
         Ubuntu: {
             package {
-                ['kvm','kvm_intel']:
+                ['qemu-kvm']:
                     ensure => absent;
             }
         }
