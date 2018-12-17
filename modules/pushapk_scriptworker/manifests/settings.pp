@@ -167,8 +167,8 @@ class pushapk_scriptworker::settings {
         'mobile-prod': {
             $google_play_config = {
                 'reference-browser' => {
-                    service_account             => $_google_play_accounts['reference-browser']['service_account'],
-                    certificate                 => $_google_play_accounts['reference-browser']['certificate'],
+                    service_account             => $_google_play_accounts['reference_browser']['service_account'],
+                    certificate                 => $_google_play_accounts['reference_browser']['certificate'],
                     certificate_target_location => "${root}/reference_browser.p12",
                 },
                 'focus'  => {
