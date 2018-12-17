@@ -7,12 +7,6 @@ class disableservices::kvm {
         Ubuntu: {
           case $::operatingsystemrelease {
             '16.04': {
-                concat {
-                    '/etc/modprobe.d/blacklist.conf':
-                        owner => root,
-                        group => root,
-                        mode  => filemode(0644);
-                }
                 # need at least one fragment, or concat will fail:
                 concat::fragment {
                     'blacklist kvm':
