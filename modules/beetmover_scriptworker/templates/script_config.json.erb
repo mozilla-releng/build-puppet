@@ -55,6 +55,15 @@
             "buckets": <%= require "json"; JSON.pretty_generate(@env_config["prod_maven_buckets"]) %>
         },
 <% end -%>
+<% if @env_config["prod_snapshot_maven_buckets"] -%>
+        "maven-snapshot-production": {
+            "credentials": {
+                "id": "<%= @env_config["prod_snapshot_maven_beetmover_aws_access_key_id"] %>",
+                "key": "<%= @env_config["prod_snapshot_maven_beetmover_aws_secret_access_key"] %>"
+            },
+            "buckets": <%= require "json"; JSON.pretty_generate(@env_config["prod_snapshot_maven_buckets"]) %>
+        },
+<% end -%>
 <% if @env_config["dep_partner_buckets"] -%>
         "dep-partner": {
             "credentials": {
@@ -71,6 +80,15 @@
                 "key": "<%= @env_config["dep_maven_beetmover_aws_secret_access_key"] %>"
             },
             "buckets": <%= require "json"; JSON.pretty_generate(@env_config["dep_maven_buckets"]) %>
+        },
+<% end -%>
+<% if @env_config["dep_snapshot_maven_buckets"] -%>
+        "maven-snapshot-staging": {
+            "credentials": {
+                "id": "<%= @env_config["dep_snapshot_maven_beetmover_aws_access_key_id"] %>",
+                "key": "<%= @env_config["dep_snapshot_maven_beetmover_aws_secret_access_key"] %>"
+            },
+            "buckets": <%= require "json"; JSON.pretty_generate(@env_config["dep_snapshot_maven_buckets"]) %>
         },
 <% end -%>
 <% if @env_config["dep_buckets"] -%>
