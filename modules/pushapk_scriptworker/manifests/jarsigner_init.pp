@@ -7,15 +7,15 @@ class pushapk_scriptworker::jarsigner_init {
     include packages::jdk17
 
     File {
-      ensure      => 'present',
-      show_diff   => false,
+        ensure    => 'present',
+        show_diff => false,
     }
 
     Java_ks {
-      ensure       => latest,
-      target       => $pushapk_scriptworker::settings::jarsigner_keystore,
-      password     => $pushapk_scriptworker::settings::jarsigner_keystore_password,
-      trustcacerts => true,
+        ensure       => latest,
+        target       => $pushapk_scriptworker::settings::jarsigner_keystore,
+        password     => $pushapk_scriptworker::settings::jarsigner_keystore_password,
+        trustcacerts => true,
     }
 
     case $pushapk_scriptworker_env {

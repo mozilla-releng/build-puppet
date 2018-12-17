@@ -10,61 +10,61 @@ class pushapk_scriptworker::settings {
     $root                                = $config::scriptworker_root
     $python3_virtualenv_version          = $python3::settings::python3_virtualenv_version
 
-    $_env_configs                        = {
-      'dep'  => {
-        worker_group               => 'dep-pushapk',
-        worker_type                => 'dep-pushapk',
-        verbose_logging            => true,
-        taskcluster_client_id      => secret('pushapk_scriptworker_taskcluster_client_id_dep'),
-        taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_dep'),
-        scope_prefix               => 'project:releng:googleplay:',
-        cot_product                => 'firefox',
+    $_env_configs = {
+        'dep' => {
+            worker_group             => 'dep-pushapk',
+            worker_type              => 'dep-pushapk',
+            verbose_logging          => true,
+            taskcluster_client_id    => secret('pushapk_scriptworker_taskcluster_client_id_dep'),
+            taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_dep'),
+            scope_prefix             => 'project:releng:googleplay:',
+            cot_product              => 'firefox',
 
-        sign_chain_of_trust        => false,
-        verify_chain_of_trust      => true,
-        verify_cot_signature       => false,
-      },
-      'prod' => {
-        worker_group               => 'pushapk-v1',
-        worker_type                => 'pushapk-v1',
-        verbose_logging            => true,
-        taskcluster_client_id      => secret('pushapk_scriptworker_taskcluster_client_id_prod'),
-        taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_prod'),
-        scope_prefix               => 'project:releng:googleplay:',
-        cot_product                => 'firefox',
+            sign_chain_of_trust      => false,
+            verify_chain_of_trust    => true,
+            verify_cot_signature     => false,
+        },
+        'prod' => {
+            worker_group             => 'pushapk-v1',
+            worker_type              => 'pushapk-v1',
+            verbose_logging          => true,
+            taskcluster_client_id    => secret('pushapk_scriptworker_taskcluster_client_id_prod'),
+            taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_prod'),
+            scope_prefix             => 'project:releng:googleplay:',
+            cot_product              => 'firefox',
 
-        sign_chain_of_trust        => true,
-        verify_chain_of_trust      => true,
-        verify_cot_signature       => true,
-      },
-      'mobile-dep' => {
-        worker_group               => 'mobile-pushapk-dep-v1',
-        worker_type                => 'mobile-pushapk-dep-v1',
-        verbose_logging            => true,
-        # TODO: simplify client_id to not include project ("focus")
-        taskcluster_client_id      => 'project/mobile/focus/releng/scriptworker/pushapk/dep',
-        taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_mobile_dep'),
-        scope_prefix               => 'project:mobile:focus:releng:googleplay:product:',
-        cot_product                => 'mobile',
+            sign_chain_of_trust      => true,
+            verify_chain_of_trust    => true,
+            verify_cot_signature     => true,
+        },
+        'mobile-dep' => {
+            worker_group             => 'mobile-pushapk-dep-v1',
+            worker_type              => 'mobile-pushapk-dep-v1',
+            verbose_logging          => true,
+            # TODO: simplify client_id to not include project ("focus")
+            taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/pushapk/dep',
+            taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile_dep'),
+            scope_prefix             => 'project:mobile:focus:releng:googleplay:product:',
+            cot_product              => 'mobile',
 
-        sign_chain_of_trust        => false,
-        verify_chain_of_trust      => true,
-        verify_cot_signature       => false,
-      },
-      'mobile-prod' => {
-        worker_group               => 'mobile-pushapk-v1',
-        worker_type                => 'mobile-pushapk-v1',
-        verbose_logging            => true,
-        # TODO: simplify client_id to not include project ("focus")
-        taskcluster_client_id      => 'project/mobile/focus/releng/scriptworker/pushapk/production',
-        taskcluster_access_token   => secret('pushapk_scriptworker_taskcluster_access_token_mobile'),
-        scope_prefix               => 'project:mobile:focus:releng:googleplay:product:',
-        cot_product                => 'mobile',
+            sign_chain_of_trust      => false,
+            verify_chain_of_trust    => true,
+            verify_cot_signature     => false,
+        },
+        'mobile-prod' => {
+            worker_group             => 'mobile-pushapk-v1',
+            worker_type              => 'mobile-pushapk-v1',
+            verbose_logging          => true,
+            # TODO: simplify client_id to not include project ("focus")
+            taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/pushapk/production',
+            taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile'),
+            scope_prefix             => 'project:mobile:focus:releng:googleplay:product:',
+            cot_product              => 'mobile',
 
-        sign_chain_of_trust        => true,
-        verify_chain_of_trust      => true,
-        verify_cot_signature       => true,
-      },
+            sign_chain_of_trust      => true,
+            verify_chain_of_trust    => true,
+            verify_cot_signature     => true,
+        },
     }
 
     $_env_config                         = $_env_configs[$pushapk_scriptworker_env]
