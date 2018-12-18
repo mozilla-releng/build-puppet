@@ -9,7 +9,7 @@ class disableservices::kvm {
                 file_line { 'blacklist kvm':
                     ensure => present,
                     path   => '/etc/modprobe.d/blacklist.conf',
-                    line   => "blacklist kvm\nblacklist kvm-intel\n"
+                    line   => "blacklist kvm"
                 }
                 file_line { 'blacklist kvm-intel':
                     ensure => present,
