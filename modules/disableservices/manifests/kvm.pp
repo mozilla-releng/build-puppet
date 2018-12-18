@@ -6,10 +6,15 @@ class disableservices::kvm {
         Ubuntu: {
           case $::operatingsystemrelease {
             '16.04': {
-                # need at least one fragment, or concat will fail:
                 file_line { 'blacklist kvm':
-                    path => '/etc/modprobe.d/blacklist.conf',
-                    line => "blacklist kvm\nblacklist kvm-intel\n"
+                    ensure => present,
+                    path   => '/etc/modprobe.d/blacklist.conf',
+                    line   => "blacklist kvm\nblacklist kvm-intel\n"
+                }
+                file_line { 'blacklist kvm-intel':
+                    ensure => present,
+                    path   => '/etc/modprobe.d/blacklist.conf',
+                    line   => 'blacklist kvm-intel'
                 }
             }
           }
