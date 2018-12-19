@@ -221,6 +221,6 @@ class pushapk_scriptworker::settings {
         'jarsigner_key_store' => $jarsigner_keystore,
         'jarsigner_certificate_aliases' => $jarsigner_certificate_aliases_content,
 
-        'taskcluster_scope_prefix' => $_env_config['scope_prefix'],
+        'taskcluster_scope_prefixes' => [$_env_config['scope_prefix']],
     }
 }
