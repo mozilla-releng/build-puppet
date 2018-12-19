@@ -15,7 +15,7 @@ define signingserver::instance(
         $concurrency        = 4,
         # When signcode_maxsize changes, please inform
         # secops+fx-sig-verify@m.c as they have similar limit.
-        $signcode_maxsize   = 367001600) {
+        $signcode_maxsize   = 378420000) {
     include config
     include signingserver::base
     include users::signer
