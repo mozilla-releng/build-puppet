@@ -11,6 +11,7 @@ class disableservices::slave inherits disableservices::common {
     case $::operatingsystem {
         Ubuntu : {
             include disableservices::release_upgrader
+            include disableservices::kvm
         }
         Darwin : {
             case $::macosx_productversion_major {
