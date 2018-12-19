@@ -31,7 +31,7 @@ idna==2.8
 idna_ssl==1.1.0
 ipython==7.2.0
 ipython_genutils==0.2.0
-jedi==0.13.1
+jedi==0.13.2
 json-e==3.0.0
 jsonschema==2.6.0
 kiwisolver==1.0.1
