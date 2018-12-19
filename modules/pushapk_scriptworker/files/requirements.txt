@@ -2,7 +2,7 @@
 # install six and setuptools before cryptography
 six==1.12.0
 PyYAML==3.13
-Pygments==2.3.0
+Pygments==2.3.1
 aiohttp==3.4.4
 androguard==3.2.1
 appnope==0.1.0
@@ -24,7 +24,7 @@ dictdiffer==0.7.1
 frozendict==1.2
 future==0.17.1
 google-api-python-client==1.7.6
-google-auth==1.6.1
+google-auth==1.6.2
 google-auth-httplib2==0.0.3
 httplib2==0.12.0
 humanize==0.5.1
@@ -32,7 +32,7 @@ idna==2.8
 idna_ssl==1.1.0
 ipython==7.2.0
 ipython_genutils==0.2.0
-jedi==0.13.1
+jedi==0.13.2
 json-e==3.0.0
 jsonschema==2.6.0
 kiwisolver==1.0.1
