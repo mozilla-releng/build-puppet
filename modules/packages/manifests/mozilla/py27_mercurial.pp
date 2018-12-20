@@ -20,6 +20,11 @@ class packages::mozilla::py27_mercurial {
             $mercurial = '/tools/python27-mercurial/bin/hg'
             realize(Packages::Yumrepo['mozilla-mercurial'])
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
+            file {
+            '/etc/profile.d/append-hg-path.sh':
+                mode    => '0755',
+                content => 'PATH=$PATH:/tools/python27-mercurial/bin/hg',
+            }
             package {
                 'mozilla-python27-mercurial':
                     ensure  => '4.7.1-1.el6',
