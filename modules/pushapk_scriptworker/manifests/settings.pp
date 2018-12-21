@@ -68,7 +68,6 @@ class pushapk_scriptworker::settings {
     }
 
     $_env_config                         = $_env_configs[$pushapk_scriptworker_env]
-    $schema_file                         = "${root}/lib/python${python3_virtualenv_version}/site-packages/pushapkscript/data/pushapk_task_schema.json"
     $work_dir                            = "${root}/work"
     $task_script                         = "${root}/bin/pushapkscript"
 
@@ -214,7 +213,6 @@ class pushapk_scriptworker::settings {
     $script_config                       = "${root}/script_config.json"
     $script_config_content = {
         'work_dir'   => $work_dir,
-        'schema_file'=> $schema_file,
         'verbose'    => $verbose_logging,
 
         'google_play_accounts' => $google_play_accounts_config_content,
