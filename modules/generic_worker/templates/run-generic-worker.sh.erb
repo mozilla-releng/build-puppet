@@ -20,6 +20,7 @@ exitstatus="${PIPESTATUS[0]}"
 
 export TASKCLUSTER_CLIENT_ID="<%= @quarantine_client_id %>"
 export TASKCLUSTER_ACCESS_TOKEN="<%= @quarantine_access_token %>"
+PATH=PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
 
 if [ $exitstatus -eq 69 ]; then
 # If generic-worker considers that the host environment is in an invalid/corrupted

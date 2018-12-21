@@ -75,11 +75,6 @@ class packages::mozilla::py27_mercurial {
         Darwin: {
             $mercurial = '/tools/python27-mercurial/bin/hg'
             Anchor['packages::mozilla::py27_mercurial::begin'] ->
-            file {
-            '/etc/profile.d/append-hg-path.sh':
-                mode    => '0755',
-                content => 'PATH=$PATH:/tools/python27-mercurial/bin/hg',
-            }
             packages::pkgdmg {
                 'python27-mercurial':
                     version => '4.7.1-1';
