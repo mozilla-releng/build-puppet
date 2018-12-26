@@ -44,14 +44,6 @@ node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     include toplevel::worker::releng::generic_worker::test::gpu
 }
 
-# taskcluster-host-secrets hosts
-node /^tc-host-secrets\d+\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
-    $aspects                       = [ 'high-security' ]
-    $taskcluster_host_secrets_port = 80
-    include fw::profiles::taskcluster_host_secrets
-    include toplevel::server::taskcluster_host_secrets
-}
-
 ## signing servers
 
 node /^mac-(v2-|)signing\d+\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {

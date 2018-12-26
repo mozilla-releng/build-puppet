@@ -548,15 +548,6 @@ class config inherits config::base {
         }
     }
 
-    # TC host-secrets
-    $tc_host_secrets_servers = $::fqdn ? {
-        /.*\.(mdc1|mdc2)\.mozilla\.com/  => [
-            "tc-host-secrets1.srv.releng.${1}.mozilla.com",
-            "tc-host-secrets2.srv.releng.${1}.mozilla.com"
-        ],
-        default => '',
-    }
-
     # TC signing workers
     $signingworker_exchange                   = 'exchange/taskcluster-queue/v1/task-pending'
     $signingworker_worker_type                = 'signing-worker-v1'
