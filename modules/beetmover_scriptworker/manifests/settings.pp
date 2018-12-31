@@ -9,7 +9,6 @@ class beetmover_scriptworker::settings {
     $task_script              = "${root}/bin/beetmoverscript"
     $task_script_config       = "${root}/script_config.json"
     $task_max_timeout         = 1800
-    $virtualenv_version       = $python3::settings::python3_virtualenv_version
 
     $verbose_logging          = true
 

@@ -8,7 +8,6 @@ class pushsnap_scriptworker::settings {
     include python3::settings
 
     $root                       = $config::scriptworker_root
-    $python3_virtualenv_version = $python3::settings::python3_virtualenv_version
 
     $work_dir                 = "${root}/work"
     $task_script              = "${root}/bin/pushsnapscript"
@@ -72,7 +71,6 @@ class pushsnap_scriptworker::settings {
 
     $script_config_content      = {
         work_dir                 => $work_dir,
-        schema_file              => "${root}/lib/python${python3_virtualenv_version}/site-packages/pushsnapscript/data/push_snap_task_schema.json",
         macaroons_locations      => $macaroons_locations,
         verbose                  => $verbose_logging,
     }
