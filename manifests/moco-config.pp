@@ -324,18 +324,6 @@ class config inherits config::base {
     $slaveapi_bugzilla_dev_url         = 'https://bugzilla-dev.allizom.org/rest/'
     $slaveapi_bugzilla_prod_url        = 'https://bugzilla.mozilla.org/rest/'
 
-    $selfserve_agent_sendchange_master = 'bm81-build_scheduler'
-    $selfserve_agent_branches_json     = 'https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-branches.json'
-    $selfserve_agent_masters_json      = 'https://hg.mozilla.org/build/tools/raw-file/default/buildfarm/maintenance/production-masters.json'
-    $selfserve_agent_allthethings_json = 'https://secure.pub.build.mozilla.org/builddata/reports/allthethings.json'
-    $selfserve_agent_clobberer_url     = 'https://api.pub.build.mozilla.org/clobberer/clobber/by-builder'
-    $selfserve_agent_carrot_hostname   = 'releng-rabbitmq-zlb.webapp.scl3.mozilla.com'
-    $selfserve_agent_carrot_vhost      = '/buildapi'
-    $selfserve_agent_carrot_userid     = 'buildapi'
-    $selfserve_agent_carrot_exchange   = 'buildapi.control'
-    $selfserve_agent_carrot_queue      = 'buildapi-agent-rabbit2'
-    $selfserve_private_url             = 'http://buildapi.pvt.build.mozilla.org/buildapi/self-serve'
-
     $aws_manager_mail_to               = 'release+aws-manager@mozilla.com'
     $cloudtrail_s3_bucket              = 'mozilla-releng-aws-logs'
     $cloudtrail_s3_base_prefix         = 'AWSLogs/314336048151/CloudTrail'
