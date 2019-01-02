@@ -290,29 +290,6 @@ class config::base {
     $runner_buildbot_slave_dir     = ''
     $runner_clobberer_url          = ''
 
-    # selfserve (buildapi agent)
-
-    # fqdn:port of the buildmaster with which to invoke 'buildbot sendchange'
-    $selfserve_agent_sendchange_master = ''
-    # URL for masters.json, defaulting to $master_json from above
-    $selfserve_agent_masters_json      = $master_json
-    # URL for branches.json
-    $selfserve_agent_branches_json     = ''
-    # URL for allthethings.json
-    $selfserve_agent_allthethings_json = ''
-    # API URL for clobberer
-    $selfserve_agent_clobberer_url     = ''
-    # carrot (rabbitmq) credentials
-    $selfserve_agent_carrot_hostname   = ''
-    $selfserve_agent_carrot_vhost      = ''
-    $selfserve_agent_carrot_userid     = ''
-    $selfserve_agent_carrot_exchange   = ''
-    $selfserve_agent_carrot_queue      = ''
-    # root directory for selfserve; this must be under /builds
-    $selfserve_agent_root              = '/builds/selfserve-agent'
-
-    $selfserve_private_url             = ''
-
     # slaveapi
 
     # url for the slavealloc API (should end in '/api/')
