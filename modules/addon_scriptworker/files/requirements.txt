@@ -20,7 +20,7 @@ mohawk==0.3.4
 multidict==4.5.2
 pexpect==4.6.0
 ptyprocess==0.6.0
-pyasn1==0.4.4
+pyasn1==0.4.5
 python-dateutil==2.7.5
 python-gnupg==0.4.3
 python-jose==3.0.1
