@@ -213,10 +213,30 @@ class config inherits config::base {
         'sfraser',
     ]
 
+    $mobile_shortlist = [
+        # relops
+        'klibby',
+        'jwatkins',
+        'dhouse',
+
+        # releng
+        'asasaki',
+        'bhearsum',
+        'catlee',
+        'jlorenzo',
+        'jwood',
+        'mhentges',
+        'mtabara',
+        'nthomas',
+        'raliiev',
+        'sfraser',
+    ]
+
     $admin_users                     = $::fqdn ? {
         /^rejh\d\.srv\.releng\.(mdc1|mdc2)\.mozilla.com/  => $jumphost_admin_users,
         # signing machines have a very limited access list
-        /^.*sign.*/                                            => $shortlist,
+        /^(dep-m|mobil)-signing.*/                             => $mobile_shortlist,
+        /^(?!(dep-m|mobil)-signing).*sign.*/                   => $shortlist,
         default                                                => hiera('ldap_admin_users',
                                                                     # backup to ensure access in cas'e the sync fails:
                                                                     ['klibby', 'jwatkins'])
