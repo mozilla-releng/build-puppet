@@ -236,7 +236,7 @@ class config inherits config::base {
         /^rejh\d\.srv\.releng\.(mdc1|mdc2)\.mozilla.com/  => $jumphost_admin_users,
         # signing machines have a very limited access list
         /^(dep-m|mobil)-signing.*/                             => $mobile_shortlist,
-        /^.*sign.*/                                            => $shortlist,
+        /^(?!(dep-m|mobil)-signing).*sign.*/                   => $shortlist,
         default                                                => hiera('ldap_admin_users',
                                                                     # backup to ensure access in cas'e the sync fails:
                                                                     ['klibby', 'jwatkins'])
