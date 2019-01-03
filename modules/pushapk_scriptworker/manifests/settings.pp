@@ -17,7 +17,7 @@ class pushapk_scriptworker::settings {
             verbose_logging          => true,
             taskcluster_client_id    => secret('pushapk_scriptworker_taskcluster_client_id_dep'),
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_dep'),
-            scope_prefix             => 'project:releng:googleplay:',
+            scope_prefixes           => ['project:releng:googleplay:'],
             cot_product              => 'firefox',
 
             sign_chain_of_trust      => false,
@@ -30,7 +30,7 @@ class pushapk_scriptworker::settings {
             verbose_logging          => true,
             taskcluster_client_id    => secret('pushapk_scriptworker_taskcluster_client_id_prod'),
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_prod'),
-            scope_prefix             => 'project:releng:googleplay:',
+            scope_prefixes           => ['project:releng:googleplay:'],
             cot_product              => 'firefox',
 
             sign_chain_of_trust      => true,
@@ -44,7 +44,7 @@ class pushapk_scriptworker::settings {
             # TODO: simplify client_id to not include project ("focus")
             taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/pushapk/dep',
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile_dep'),
-            scope_prefix             => 'project:mobile:focus:releng:googleplay:product:',
+            scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:'],
             cot_product              => 'mobile',
 
             sign_chain_of_trust      => false,
@@ -58,7 +58,7 @@ class pushapk_scriptworker::settings {
             # TODO: simplify client_id to not include project ("focus")
             taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/pushapk/production',
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile'),
-            scope_prefix             => 'project:mobile:focus:releng:googleplay:product:',
+            scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:'],
             cot_product              => 'mobile',
 
             sign_chain_of_trust      => true,
@@ -221,6 +221,6 @@ class pushapk_scriptworker::settings {
         'jarsigner_key_store' => $jarsigner_keystore,
         'jarsigner_certificate_aliases' => $jarsigner_certificate_aliases_content,
 
-        'taskcluster_scope_prefix' => $_env_config['scope_prefix'],
+        'taskcluster_scope_prefixes' => $_env_config['scope_prefixes'],
     }
 }
