@@ -69,8 +69,6 @@ class shipit_scriptworker {
 
     $config_content      = {
         work_dir           => $shipit_scriptworker::settings::work_dir,
-        mark_as_shipped_schema_file => $shipit_scriptworker::settings::mark_as_shipped_schema_file,
-        mark_as_started_schema_file => $shipit_scriptworker::settings::mark_as_started_schema_file,
         verbose            => $shipit_scriptworker::settings::verbose_logging,
         ship_it_instances  => $env_config['ship_it_instances'],
         taskcluster_scope_prefix => $env_config['taskcluster_scope_prefix'],
