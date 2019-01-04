@@ -18,6 +18,15 @@ class toplevel::worker::releng::generic_worker::test inherits toplevel::worker::
 
     case $::operatingsystem {
         'Ubuntu': {
+            include nrpe
+            include nrpe::check::puppet_agent
+            include nrpe::check::ntp_time
+            include nrpe::check::ntp_peer
+            include nrpe::check::procs_regex
+            include nrpe::check::child_procs_regex
+            include nrpe::check::swap
+            include nrpe::check::ide_smart
+            include nrpe::check::puppet_freshness
         }
         'Darwin': {
             include nrpe
