@@ -40,6 +40,8 @@ script:
        -not -path 'modules/windows_path/*'`"
 gemfile: .gemfile
 
+before_install: gem install bundler -v1.17.3
+
 # The channel name "irc.mozilla.org#releng-bots" is encrypted against mozilla-releng/build-puppet to prevent IRC spam of forks
 # Generated with: travis encrypt --repo mozilla-releng/build-puppet --skip-version-check irc.mozilla.org#releng-bots
 notifications:
