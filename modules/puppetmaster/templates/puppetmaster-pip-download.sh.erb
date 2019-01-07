@@ -38,7 +38,7 @@ if [ -f ${logfile} ]; then
         # on each requirements files, many dependencies would be processed multiple times
         # which is pretty expensive.
         all_deps=""
-        for req_file in `find . -wholename "*files*requirements*.txt"`; do
+        for req_file in `find production -wholename "*files*requirements*.txt"`; do
             # Skip requirements files that aren't for the Python version that we're
             # operating on.
             # xargs is to remove leading/trailing whitespace
