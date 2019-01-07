@@ -60,7 +60,7 @@ python-gnupg==0.4.3
 pytz==2018.7
 requests==2.21.0
 rsa==4.0
-scriptworker==17.1.1
+scriptworker==17.2.0
 simplegeneric==0.8.1
 slugid==1.0.7
 taskcluster==6.0.0
