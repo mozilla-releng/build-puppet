@@ -36,7 +36,7 @@ jedi==0.13.2
 json-e==3.0.0
 jsonschema==2.6.0
 kiwisolver==1.0.1
-lxml==4.2.5
+lxml==4.3.0
 matplotlib==3.0.2
 mohawk==0.3.4
 mozapkpublisher==0.10.1
