@@ -43,7 +43,7 @@ class pushapk_scriptworker::settings {
             # TODO: simplify client_id to not include project ("focus")
             taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/pushapk/dep',
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile_dep'),
-            scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:'],
+            scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:', 'project:mobile:fenix:releng:googleplay:product:'],
             cot_product              => 'mobile',
 
             sign_chain_of_trust      => false,
@@ -57,7 +57,7 @@ class pushapk_scriptworker::settings {
             # TODO: simplify client_id to not include project ("focus")
             taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/pushapk/production',
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile'),
-            scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:'],
+            scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:', 'project:mobile:fenix:releng:googleplay:product:'],
             cot_product              => 'mobile',
 
             sign_chain_of_trust      => true,
@@ -146,24 +146,39 @@ class pushapk_scriptworker::settings {
         }
         'mobile-dep': {
             $google_play_config = {
+                'fenix'              => {
+                    service_account             => 'dummy',
+                    certificate                 => 'dummy',
+                    certificate_target_location => "${root}/fenix.p12",
+                },
                 'reference-browser'  => {
                     service_account             => 'dummy',
                     certificate                 => 'dummy',
-                    certificate_target_location => "${root}/dep.p12",
+                    certificate_target_location => "${root}/reference_browser.p12",
                 },
             }
             $google_play_accounts_config_content = {
+                'fenix'             => {
+                  'service_account' => $google_play_config['fenix']['service_account'],
+                  'certificate'     => $google_play_config['fenix']['certificate_target_location'],
+                },
                 'reference-browser' => {
                   'service_account' => $google_play_config['reference-browser']['service_account'],
                   'certificate' => $google_play_config['reference-browser']['certificate_target_location'],
                 },
             }
             $jarsigner_certificate_aliases_content = {
+                'fenix' => 'fenix',
                 'reference-browser' => 'reference-browser',
             }
         }
         'mobile-prod': {
             $google_play_config = {
+                'fenix' => {
+                    service_account             => $_google_play_accounts['fenix']['service_account'],
+                    certificate                 => $_google_play_accounts['fenix']['certificate'],
+                    certificate_target_location => "${root}/fenix.p12",
+                },
                 'reference-browser' => {
                     service_account             => $_google_play_accounts['reference_browser']['service_account'],
                     certificate                 => $_google_play_accounts['reference_browser']['certificate'],
@@ -176,16 +191,21 @@ class pushapk_scriptworker::settings {
                 },
             }
             $google_play_accounts_config_content = {
-                'reference-browser' => {
-                    'service_account' => $google_play_config['reference-browser']['service_account'],
-                    'certificate' => $google_play_config['reference-browser']['certificate_target_location'],
+                'fenix'             => {
+                  'service_account' => $google_play_config['fenix']['service_account'],
+                  'certificate'     => $google_play_config['fenix']['certificate_target_location'],
                 },
                 'focus' => {
                     'service_account' => $google_play_config['focus']['service_account'],
                     'certificate' => $google_play_config['focus']['certificate_target_location'],
                 },
+                'reference-browser' => {
+                    'service_account' => $google_play_config['reference-browser']['service_account'],
+                    'certificate' => $google_play_config['reference-browser']['certificate_target_location'],
+                },
             }
             $jarsigner_certificate_aliases_content = {
+                'fenix' => 'fenix',
                 'focus' => 'focus',
                 'reference-browser' => 'reference-browser'
             }
@@ -202,9 +222,11 @@ class pushapk_scriptworker::settings {
         'nightly'                   => "${root}/nightly.cer",
         'release'                   => "${root}/release.cer",
         'dep'                       => "${root}/dep.cer",
+        'fenix-dep'                 => "${root}/fenix_dep.cer",
+        'fenix-release'             => "${root}/fenix_release.cer",
         'focus'                     => "${root}/focus.cer",
         'reference-browser-dep'     => "${root}/reference_browser_dep.cer",
-        'reference-browser-release' => "${root}/reference_browser_release.cer"
+        'reference-browser-release' => "${root}/reference_browser_release.cer",
     }
 
     $verbose_logging                     = $_env_config['verbose_logging']
