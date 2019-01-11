@@ -1,0 +1,52 @@
+# Telegraf Configuration
+#
+# THIS FILE IS MANAGED BY PUPPET
+#
+<% if @global_tags -%>
+[global_tags]
+<%   @global_tags.sort.each do |key, value| -%>
+  <%= key %> = "<%= value %>"
+<%   end -%>
+<% end -%>
+
+[agent]
+  hostname = "<%= @hostname %>"
+  omit_hostname = <%= @omit_hostname %>
+  interval = "<%= @interval %>"
+  round_interval = <%= @round_interval %>
+  metric_batch_size = <%= @metric_batch_size %>
+  metric_buffer_limit = <%= @metric_buffer_limit %>
+  collection_jitter = "<%= @collection_jitter %>"
+  flush_interval = "<%= @flush_interval %>"
+  flush_jitter = "<%= @flush_jitter %>"
+  logfile = "<%= @logfile %>"
+  debug = <%= @debug %>
+  quiet = <%= @quiet %>
+
+<% if @_outputs -%>
+#
+# OUTPUTS:
+#
+<%   @_outputs.sort.each do | output, options | -%>
+[[outputs.<%= output %>]]
+<%      unless options == nil -%>
+<%          options.sort.each do | option, value | -%>
+  <%= option -%> = <% if value.is_a?(String) %>"<%= value %>"<% elsif value.is_a?(Array) %><%= value.inspect %><% else %><%= value %><% end %>
+<%          end -%>
+<%      end -%>
+<%   end -%>
+<% end -%>
+
+<% if @_inputs -%>
+#
+# INPUTS:
+#
+<%   @_inputs.sort.each do | input, options | -%>
+[[inputs.<%= input %>]]
+<%      unless options == nil -%>
+<%          options.sort.each do | option, value | -%>
+  <%= option -%> = <% if value.is_a?(String) %>"<%= value %>"<% elsif value.is_a?(Array) %><%= value.inspect %><% else %><%= value %><% end %>
+<%          end -%>
+<%      end -%>
+<%   end -%>
+<% end -%>
