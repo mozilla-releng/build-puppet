@@ -74,4 +74,28 @@ class beetmover_scriptworker {
             content   => template('beetmover_scriptworker/script_config.json.erb'),
             show_diff => false;
     }
+
+    class { 'telegraf':
+        hostname => $hostname,
+        outputs  => {
+            'influxdb' => {
+                'urls'     => [ secret('releng_influx_url') ],
+                'database' => 'releng',
+                'username' => 'releng_wo',
+                'password' => secret('releng_influx_wo_password'),
+            }
+        },
+        inputs   => {
+            'cpu' => {
+                'percpu'   => true,
+                'totalcpu' => true,
+            },
+            'net' => {
+            },
+            'socket_listener' => {
+                'service_address' => 'udp://127.0.0.1:8094',
+                'data_format' => 'influx'
+            }
+        }
+    }
 }
