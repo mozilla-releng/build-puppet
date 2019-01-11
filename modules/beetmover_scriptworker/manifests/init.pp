@@ -86,15 +86,15 @@ class beetmover_scriptworker {
             }
         },
         inputs   => {
-            'cpu' => {
+            'cpu'             => {
                 'percpu'   => true,
                 'totalcpu' => true,
             },
-            'net' => {
+            'net'             => {
             },
             'socket_listener' => {
                 'service_address' => 'udp://127.0.0.1:8094',
-                'data_format' => 'influx'
+                'data_format'     => 'influx'
             }
         }
     }
