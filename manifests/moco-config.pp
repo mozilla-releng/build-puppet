@@ -494,6 +494,7 @@ class config inherits config::base {
     $scriptworker_root                        = '/builds/scriptworker' # Used by scriptworker instances
     $scriptworker_gpg_private_key             = secret('scriptworker_gpg_private_key')
     $scriptworker_gpg_public_key              = secret('scriptworker_gpg_public_key')
+    $scriptworker_ed25519_private_key         = secret('scriptworker_ed25519_private_key')
 
     $l10n_bumper_env_config = {
         'mozilla-central' => {

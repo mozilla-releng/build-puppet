@@ -8,8 +8,9 @@ define scriptworker::chain_of_trust(
   $git_key_repo_url,
   $git_pubkey_dir,
 
-  $pubkey,
-  $privkey,
+  $gpg_pubkey,
+  $gpg_privkey,
+  $ed25519_privkey,
 
   $username,
 ) {
@@ -50,10 +51,12 @@ define scriptworker::chain_of_trust(
         notify  => Exec['rebuild_gpg_homedirs'];
     "/home/${username}/pubkey":
         mode      => '0644',
-        content   => $pubkey,
+        content   => $gpg_pubkey,
         show_diff => true;
     "/home/${username}/privkey":
-        content => $privkey;
+        content => $gpg_privkey;
+    "/home/${username}/ed25519_privkey":
+        content => $ed25519_privkey;
   }
 
   exec {
