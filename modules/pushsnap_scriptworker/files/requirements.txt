@@ -34,7 +34,7 @@ pyxdg==0.25
 requests==2.9.1
 requests-toolbelt==0.6.0
 requests-unixsocket==0.1.5
-scriptworker==17.2.1  # puppet: nodownload
+scriptworker==17.2.1
 simplejson==3.8.2
 six==1.11.0
 slugid==1.0.7
