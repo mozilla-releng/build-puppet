@@ -151,6 +151,11 @@ class pushapk_scriptworker::settings {
                     certificate                 => 'dummy',
                     certificate_target_location => "${root}/fenix.p12",
                 },
+                'focus'              => {
+                    service_account             => 'dummy',
+                    certificate                 => 'dummy',
+                    certificate_target_location => "${root}/focus.p12",
+                },
                 'reference-browser'  => {
                     service_account             => 'dummy',
                     certificate                 => 'dummy',
@@ -159,16 +164,21 @@ class pushapk_scriptworker::settings {
             }
             $google_play_accounts_config_content = {
                 'fenix'             => {
-                  'service_account' => $google_play_config['fenix']['service_account'],
-                  'certificate'     => $google_play_config['fenix']['certificate_target_location'],
+                    'service_account' => $google_play_config['fenix']['service_account'],
+                    'certificate'     => $google_play_config['fenix']['certificate_target_location'],
+                },
+                'focus'             => {
+                    'service_account' => $google_play_config['focus']['service_account'],
+                    'certificate' => $google_play_config['focus']['service_account'],
                 },
                 'reference-browser' => {
-                  'service_account' => $google_play_config['reference-browser']['service_account'],
-                  'certificate' => $google_play_config['reference-browser']['certificate_target_location'],
+                    'service_account' => $google_play_config['reference-browser']['service_account'],
+                    'certificate' => $google_play_config['reference-browser']['certificate_target_location'],
                 },
             }
             $jarsigner_certificate_aliases_content = {
                 'fenix' => 'fenix',
+                'focus' => 'focus',
                 'reference-browser' => 'reference-browser',
             }
         }
@@ -179,21 +189,21 @@ class pushapk_scriptworker::settings {
                     certificate                 => $_google_play_accounts['fenix']['certificate'],
                     certificate_target_location => "${root}/fenix.p12",
                 },
-                'reference-browser' => {
-                    service_account             => $_google_play_accounts['reference_browser']['service_account'],
-                    certificate                 => $_google_play_accounts['reference_browser']['certificate'],
-                    certificate_target_location => "${root}/reference_browser.p12",
-                },
                 'focus'  => {
                     service_account             => $_google_play_accounts['focus']['service_account'],
                     certificate                 => $_google_play_accounts['focus']['certificate'],
                     certificate_target_location => "${root}/focus.p12",
                 },
+                'reference-browser' => {
+                    service_account             => $_google_play_accounts['reference_browser']['service_account'],
+                    certificate                 => $_google_play_accounts['reference_browser']['certificate'],
+                    certificate_target_location => "${root}/reference_browser.p12",
+                },
             }
             $google_play_accounts_config_content = {
                 'fenix'             => {
-                  'service_account' => $google_play_config['fenix']['service_account'],
-                  'certificate'     => $google_play_config['fenix']['certificate_target_location'],
+                    'service_account' => $google_play_config['fenix']['service_account'],
+                    'certificate'     => $google_play_config['fenix']['certificate_target_location'],
                 },
                 'focus' => {
                     'service_account' => $google_play_config['focus']['service_account'],
@@ -224,7 +234,8 @@ class pushapk_scriptworker::settings {
         'dep'                       => "${root}/dep.cer",
         'fenix-dep'                 => "${root}/fenix_dep.cer",
         'fenix-release'             => "${root}/fenix_release.cer",
-        'focus'                     => "${root}/focus.cer",
+        'focus-dep'                 => "${root}/focus_dep.cer",
+        'focus-release'             => "${root}/focus_release.cer",
         'reference-browser-dep'     => "${root}/reference_browser_dep.cer",
         'reference-browser-release' => "${root}/reference_browser_release.cer",
     }

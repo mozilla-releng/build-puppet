@@ -97,6 +97,8 @@ class pushapk_scriptworker {
             file {
                 $google_play_config['fenix']['certificate_target_location']:
                     content     => $google_play_config['fenix']['certificate'];
+                $google_play_config['focus']['certificate_target_location']:
+                    content     => $google_play_config['focus']['certificate'];
                 $google_play_config['reference-browser']['certificate_target_location']:
                     content     => $google_play_config['reference-browser']['certificate'];
             }
