@@ -1,0 +1,16 @@
+[[outputs.<%= @plugin_type %>]]
+<%      unless @options == nil -%>
+<%          @options.sort.each do | option, value | -%>
+  <%= option -%> = <% if value.is_a?(String) %>"<%= value %>"<% elsif value.is_a?(Array) %><%= value.inspect %><% else %><%= value %><% end %>
+<%          end -%>
+<%      end -%>
+<% if @sections -%>
+<% @suboptions.sort.each do |section, option| -%>
+  [outputs.<%= @plugin_type %>.<%= section %>]
+<%      unless option == nil -%>
+<%          option.sort.each do | suboption, value | -%>
+    <%= suboption -%> = <% if value.is_a?(String) %>"<%= value %>"<% elsif value.is_a?(Array) %><%= value.inspect %><% else %><%= value %><% end %>
+<%          end -%>
+<%      end -%>
+<%   end -%>
+<% end -%>

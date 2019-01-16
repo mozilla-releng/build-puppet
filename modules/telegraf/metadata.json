@@ -1,0 +1,70 @@
+{
+  "name": "datacentred-telegraf",
+  "version": "1.5.0",
+  "author": "DataCentred Ltd",
+  "summary": "Configuration and management of InfluxData's Telegraf metrics collection agent",
+  "license": "GPL-3.0",
+  "source": "https://github.com/datacentred/puppet-telegraf",
+  "project_page": "https://github.com/datacentred/puppet-telegraf",
+  "issues_url": "https://github.com/datacentred/puppet-telegraf/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">=4.10.0 < 5.0.0"},
+    {"name":"puppetlabs-apt","version_requirement":">= 2.0.0 < 5.0.0"}
+  ],
+  "data_provider": null,
+  "tags": [
+    "telegraf",
+    "influxdb",
+    "influxdata"
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "14.04"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Windows",
+      "operatingsystemrelease": [
+        "Server 2008",
+        "Server 2008 R2",
+        "Server 2012",
+        "Server 2012 R2"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": "> = 3.0.0 < 5.0.0"
+    }
+  ]
+}

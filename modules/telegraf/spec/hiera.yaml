@@ -1,0 +1,11 @@
+---
+:backends:
+  - yaml
+
+:hierarchy:
+  - test/%{::role}
+
+:yaml:
+  :datadir: ./spec/hieradata
+
+:logger: noop
