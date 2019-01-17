@@ -48,6 +48,15 @@ class nrpe::base {
                     notify  => Class['nrpe::service'];
             }
 
+            if $::operatingsystem == 'CentOS' {
+                exec { 'change pid file path':
+                    command => "sed -i 's/PID_FILE=\/var\/run\/nrpe\/nrpe.pid/PID_FILE=\/var\/run\/nrpe.pid/g' /etc/init.d/nrpe",
+                    path    => ['/bin', '/sbin'],
+                    notify  => Class['nrpe::service'],
+                    require => Class['packages::nrpe'];
+                }
+            }
+
             # Make sure nrpe uses SSL by default on Ubuntu 16.04
             if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease == '16.04' {
                 file { '/etc/default/nagios-nrpe-server':

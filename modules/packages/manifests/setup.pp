@@ -193,12 +193,15 @@ class packages::setup {
                 'xdelta':
                     url_path => "repos/yum/custom/mozilla-xdelta/${::architecture}";
 
+                'nrpe':
+                    url_path => "repos/yum/custom/nrpe/${::architecture}";
+
             }
 
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
 
-            $repoflag = 100
+            $repoflag = 101
 
             file {
                 '/etc/.repo-flag':
