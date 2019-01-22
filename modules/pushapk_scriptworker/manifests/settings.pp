@@ -96,10 +96,11 @@ class pushapk_scriptworker::settings {
                     certificate_target_location => "${root}/dep.p12",
                 },
             }
-            $google_play_accounts_config_content = {
+            $product_config = {
                 'dep' => {
-                  'service_account' => $google_play_config['dep']['service_account'],
-                  'certificate' => $google_play_config['dep']['certificate_target_location'],
+                    'has_nightly_track' => false,
+                    'service_account' => $google_play_config['dep']['service_account'],
+                    'certificate' => $google_play_config['dep']['certificate_target_location'],
                 }
             }
             $jarsigner_certificate_aliases_content = {
@@ -125,18 +126,24 @@ class pushapk_scriptworker::settings {
                     certificate_target_location => "${root}/release.p12",
                 },
             }
-            $google_play_accounts_config_content = {
+            $product_config = {
               'aurora' => {
-                'service_account' => $google_play_config['aurora']['service_account'],
-                'certificate' => $google_play_config['aurora']['certificate_target_location'],
+                  'has_nightly_track' => false,
+                  'service_account' => $google_play_config['aurora']['service_account'],
+                  'certificate' => $google_play_config['aurora']['certificate_target_location'],
+                  'skip_check_package_names' => true,
               },
               'beta' => {
-                'service_account' => $google_play_config['beta']['service_account'],
-                'certificate' => $google_play_config['beta']['certificate_target_location'],
+                  'has_nightly_track' => false,
+                  'service_account' => $google_play_config['beta']['service_account'],
+                  'certificate' => $google_play_config['beta']['certificate_target_location'],
+                  'skip_check_package_names' => true,
               },
               'release' => {
-                'service_account' => $google_play_config['release']['service_account'],
-                'certificate' => $google_play_config['release']['certificate_target_location'],
+                  'has_nightly_track' => false,
+                  'service_account' => $google_play_config['release']['service_account'],
+                  'certificate' => $google_play_config['release']['certificate_target_location'],
+                  'skip_check_package_names' => true,
               },
             }
             $jarsigner_certificate_aliases_content = {
@@ -164,18 +171,35 @@ class pushapk_scriptworker::settings {
                     certificate_target_location => "${root}/reference_browser.p12",
                 },
             }
-            $google_play_accounts_config_content = {
+            $product_config = {
                 'fenix'             => {
+                    'has_nightly_track' => true,
                     'service_account' => $google_play_config['fenix']['service_account'],
-                    'certificate'     => $google_play_config['fenix']['certificate_target_location'],
+                    'certificate' => $google_play_config['fenix']['certificate_target_location'],
+                    'expected_package_names' => ['org.mozilla.fenix'],
+                    'skip_check_multiple_locales' => true,
+                    'skip_check_same_locales' => true,
+                    'skip_checks_fennec' => true,
                 },
                 'focus'             => {
+                    'has_nightly_track' => true,
                     'service_account' => $google_play_config['focus']['service_account'],
                     'certificate' => $google_play_config['focus']['certificate_target_location'],
+                    'expected_package_names' => ['org.mozilla.focus', 'org.mozilla.klar'],
+                    'skip_check_ordered_version_codes' => true,
+                    'skip_check_multiple_locales' => true,
+                    'skip_check_same_locales' => true,
+                    'skip_check_same_package_name' => true,
+                    'skip_checks_fennec' => true,
                 },
                 'reference-browser' => {
+                    'has_nightly_track' => true,
                     'service_account' => $google_play_config['reference-browser']['service_account'],
                     'certificate' => $google_play_config['reference-browser']['certificate_target_location'],
+                    'expected_package_names' => ['org.mozilla.reference.browser'],
+                    'skip_check_multiple_locales' => true,
+                    'skip_check_same_locales' => true,
+                    'skip_checks_fennec' => true,
                 },
             }
             $jarsigner_certificate_aliases_content = {
@@ -203,18 +227,35 @@ class pushapk_scriptworker::settings {
                     certificate_target_location => "${root}/reference_browser.p12",
                 },
             }
-            $google_play_accounts_config_content = {
+            $product_config = {
                 'fenix'             => {
+                    'has_nightly_track' => true,
                     'service_account' => $google_play_config['fenix']['service_account'],
-                    'certificate'     => $google_play_config['fenix']['certificate_target_location'],
+                    'certificate' => $google_play_config['fenix']['certificate_target_location'],
+                    'expected_package_names' => ['org.mozilla.fenix'],
+                    'skip_check_multiple_locales' => true,
+                    'skip_check_same_locales' => true,
+                    'skip_checks_fennec' => true,
                 },
                 'focus' => {
+                    'has_nightly_track' => true,
                     'service_account' => $google_play_config['focus']['service_account'],
                     'certificate' => $google_play_config['focus']['certificate_target_location'],
+                    'expected_package_names' => ['org.mozilla.focus', 'org.mozilla.klar'],
+                    'skip_check_ordered_version_codes' => true,
+                    'skip_check_multiple_locales' => true,
+                    'skip_check_same_locales' => true,
+                    'skip_check_same_package_name' => true,
+                    'skip_checks_fennec' => true,
                 },
                 'reference-browser' => {
+                    'has_nightly_track' => true,
                     'service_account' => $google_play_config['reference-browser']['service_account'],
                     'certificate' => $google_play_config['reference-browser']['certificate_target_location'],
+                    'expected_package_names' => ['org.mozilla.reference.browser'],
+                    'skip_check_multiple_locales' => true,
+                    'skip_check_same_locales' => true,
+                    'skip_checks_fennec' => true,
                 },
             }
             $jarsigner_certificate_aliases_content = {
@@ -251,7 +292,9 @@ class pushapk_scriptworker::settings {
         'work_dir'   => $work_dir,
         'verbose'    => $verbose_logging,
 
-        'google_play_accounts' => $google_play_accounts_config_content,
+        # TODO after releng RFC #6 is merged, 'google_play_accounts' is no longer needed
+        'google_play_accounts' => $product_config,
+        'products' => $product_config,
         'jarsigner_key_store' => $jarsigner_keystore,
         'jarsigner_certificate_aliases' => $jarsigner_certificate_aliases_content,
 
