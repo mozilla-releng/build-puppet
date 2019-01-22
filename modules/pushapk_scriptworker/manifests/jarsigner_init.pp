@@ -52,30 +52,45 @@ class pushapk_scriptworker::jarsigner_init {
             }
         }
         'mobile-dep': {
+            $fenix = $pushapk_scriptworker::settings::jarsigner_all_certificates['fenix-dep']
+            $focus = $pushapk_scriptworker::settings::jarsigner_all_certificates['focus-dep']
             $reference_browser = $pushapk_scriptworker::settings::jarsigner_all_certificates['reference-browser-dep']
 
             file {
+                $fenix:
+                    source => 'puppet:///modules/pushapk_scriptworker/fenix_dep.pem';
+                $focus:
+                    source => 'puppet:///modules/pushapk_scriptworker/focus_dep.pem';
                 $reference_browser:
                     source => 'puppet:///modules/pushapk_scriptworker/reference_browser_dep.pem';
             }
 
             java_ks {
+                'fenix':
+                    certificate => $fenix;
+                'focus':
+                    certificate => $focus;
                 'reference-browser':
                     certificate => $reference_browser;
             }
         }
         'mobile-prod': {
-            $focus = $pushapk_scriptworker::settings::jarsigner_all_certificates['focus']
+            $fenix = $pushapk_scriptworker::settings::jarsigner_all_certificates['fenix-release']
+            $focus = $pushapk_scriptworker::settings::jarsigner_all_certificates['focus-release']
             $reference_browser = $pushapk_scriptworker::settings::jarsigner_all_certificates['reference-browser-release']
 
             file {
+                $fenix:
+                    source => 'puppet:///modules/pushapk_scriptworker/fenix_release.pem';
                 $focus:
-                    source => 'puppet:///modules/pushapk_scriptworker/focus.pem';
+                    source => 'puppet:///modules/pushapk_scriptworker/focus_release.pem';
                 $reference_browser:
                     source => 'puppet:///modules/pushapk_scriptworker/reference_browser_release.pem';
             }
 
             java_ks {
+                'fenix':
+                    certificate => $fenix;
                 'focus':
                     certificate => $focus;
                 'reference-browser':

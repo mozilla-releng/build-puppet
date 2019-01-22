@@ -2,12 +2,6 @@
     "work_dir": "<%= scope.lookupvar("bouncer_scriptworker::settings::root") %>/work",
     "artifact_dir": "<%= scope.lookupvar("bouncer_scriptworker::settings::root") %>/artifacts",
 
-    "schema_files": {
-        "submission": "<%= scope.lookupvar("bouncer_scriptworker::settings::root") %>/lib/python<%= scope.lookupvar("python3::settings::python3_virtualenv_version") %>/site-packages/bouncerscript/data/bouncer_submission_task_schema.json",
-        "aliases": "<%= scope.lookupvar("bouncer_scriptworker::settings::root") %>/lib/python<%= scope.lookupvar("python3::settings::python3_virtualenv_version") %>/site-packages/bouncerscript/data/bouncer_aliases_task_schema.json",
-        "locations": "<%= scope.lookupvar("bouncer_scriptworker::settings::root") %>/lib/python<%= scope.lookupvar("python3::settings::python3_virtualenv_version") %>/site-packages/bouncerscript/data/bouncer_locations_task_schema.json"
-    },
-
     "verbose": <%= scope.lookupvar("bouncer_scriptworker::settings::verbose_logging") %>,
     "taskcluster_scope_prefix": "<%= @env_config['taskcluster_scope_prefix'] %>",
 

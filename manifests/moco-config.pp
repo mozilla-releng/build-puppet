@@ -168,7 +168,7 @@ class config inherits config::base {
     $roller_key_limits = join(['from="', join($roller_ips, ','), '",command="~/.ssh/allowed_commands.sh",',
                               'no-pty,no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-user-rc' ])
 
-    $roller_image_tag_prod = '1.0.11'
+    $roller_image_tag_prod = '1.0.13'
 
     $extra_user_ssh_keys = {
         # role accounts
@@ -213,10 +213,30 @@ class config inherits config::base {
         'sfraser',
     ]
 
+    $mobile_shortlist = [
+        # relops
+        'klibby',
+        'jwatkins',
+        'dhouse',
+
+        # releng
+        'asasaki',
+        'bhearsum',
+        'catlee',
+        'jlorenzo',
+        'jwood',
+        'mhentges',
+        'mtabara',
+        'nthomas',
+        'raliiev',
+        'sfraser',
+    ]
+
     $admin_users                     = $::fqdn ? {
         /^rejh\d\.srv\.releng\.(mdc1|mdc2)\.mozilla.com/  => $jumphost_admin_users,
         # signing machines have a very limited access list
-        /^.*sign.*/                                            => $shortlist,
+        /^(dep-m|mobil)-signing.*/                             => $mobile_shortlist,
+        /^(?!(dep-m|mobil)-signing).*sign.*/                   => $shortlist,
         default                                                => hiera('ldap_admin_users',
                                                                     # backup to ensure access in cas'e the sync fails:
                                                                     ['klibby', 'jwatkins'])
@@ -466,75 +486,6 @@ class config inherits config::base {
     }
 
     $bacula_pki_enabled = true
-
-    # Buildbot <-> Taskcluster bridge configuration
-    $buildbot_bridge_root                               = '/builds/bbb'
-    $buildbot_bridge_tclistener_pulse_exchange_basename = 'exchange/taskcluster-queue/v1'
-    $buildbot_bridge_worker_type                        = 'buildbot-bridge'
-    $buildbot_bridge_provisioner_id                     = 'buildbot-bridge'
-    $buildbot_bridge_bblistener_pulse_exchange          = 'exchange/build'
-    $buildbot_bridge_worker_group                       = 'buildbot-bridge'
-    $buildbot_bridge_worker_id                          = 'buildbot-bridge'
-    $buildbot_bridge_reflector_interval                 = 60
-
-    $buildbot_bridge_env_config = {
-        'dev'  => {
-            version              => '1.6.6',
-            client_id            => secret('buildbot_bridge_dev_taskcluster_client_id'),
-            access_token         => secret('buildbot_bridge_dev_taskcluster_access_token'),
-            dburi                => secret('buildbot_bridge_dev_dburi'),
-            pulse_username       => secret('buildbot_bridge_dev_pulse_username'),
-            pulse_password       => secret('buildbot_bridge_dev_pulse_password'),
-            pulse_queue_basename => 'queue/buildbot-bridge-dev',
-            restricted_builders  => [
-                '^release-.*$',
-            ],
-            ignored_builders     => [
-                '^((?!(alder|birch|-date|jamun|maple)).)*$',
-            ],
-        },
-        'prod' => {
-            version              => '1.6.6',
-            client_id            => secret('buildbot_bridge_prod_taskcluster_client_id'),
-            access_token         => secret('buildbot_bridge_prod_taskcluster_access_token'),
-            dburi                => secret('buildbot_bridge_prod_dburi'),
-            pulse_username       => secret('buildbot_bridge_prod_pulse_username'),
-            pulse_password       => secret('buildbot_bridge_prod_pulse_password'),
-            pulse_queue_basename => 'queue/buildbot-bridge',
-            restricted_builders  => [
-                '^release-.*$',
-            ],
-            ignored_builders     => [
-                '^.*alder.*$',
-                '^.*birch.*$',
-                '^.*jamun.*$',
-                '^.*-date.*$',
-                '^.*maple.*$',
-            ],
-        }
-    }
-
-    # Buildbot Bridge 2 configuration
-    $buildbot_bridge2_root                        = '/builds/bbb2'
-    $buildbot_bridge2_reflector_poll_interval     = 60
-    $buildbot_bridge2_reflector_reclaim_threshold = 600
-
-    $buildbot_bridge2_env_config = {
-        'dev' => {
-            version               => '2.0.0',
-            client_id             => secret('buildbot_bridge2_dev_taskcluster_client_id'),
-            access_token          => secret('buildbot_bridge2_dev_taskcluster_access_token'),
-            dburi                 => secret('buildbot_bridge2_dev_dburi'),
-            selfserve_private_url => 'http://buildapi.pvt.build.mozilla.org/buildapi/self-serve',
-        },
-        'prod' => {
-            version               => '2.0.0',
-            client_id             => secret('buildbot_bridge2_prod_taskcluster_client_id'),
-            access_token          => secret('buildbot_bridge2_prod_taskcluster_access_token'),
-            dburi                 => secret('buildbot_bridge2_prod_dburi'),
-            selfserve_private_url => 'http://buildapi.pvt.build.mozilla.org/buildapi/self-serve',
-        }
-    }
 
     # TC signing workers
     $signingworker_exchange                   = 'exchange/taskcluster-queue/v1/task-pending'

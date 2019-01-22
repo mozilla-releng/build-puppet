@@ -1,6 +1,6 @@
 # python_version: 27
-gevent==1.3.7
-WebOb==1.8.4
+gevent==1.4.0
+WebOb==1.8.5
 poster==0.8.1
 IPy==0.83
 greenlet==0.4.15
@@ -9,4 +9,4 @@ redis==3.0.1
 flufl.lock==2.4.1  # pyup: <3.0
 pexpect==4.6.0
 ptyprocess==0.6.0
-mercurial==4.8.1
+mercurial==4.8.2
