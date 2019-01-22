@@ -51,7 +51,7 @@ class packages::mozilla::python3 {
                     packages::pkgdmg {
                         'python36':
                             os_version_specific => true,
-                            version             => '3.6.5-1';
+                            version             => '3.6.5-2';
                     }  -> Anchor['packages::mozilla::python3::end']
                 }
                 default: {
