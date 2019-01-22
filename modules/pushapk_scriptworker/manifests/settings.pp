@@ -101,6 +101,7 @@ class pushapk_scriptworker::settings {
                     'has_nightly_track' => false,
                     'service_account' => $google_play_config['dep']['service_account'],
                     'certificate' => $google_play_config['dep']['certificate_target_location'],
+                    'skip_checks_fennec' => true
                 }
             }
             $jarsigner_certificate_aliases_content = {
