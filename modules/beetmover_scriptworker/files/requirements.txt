@@ -22,7 +22,7 @@ incremental==17.5.0
 jmespath==0.9.3
 json-e==3.0.0
 jsonschema==2.6.0
-mohawk==1.0.0
+mohawk==0.3.4
 mozilla-version==0.3.1
 multidict==4.5.2
 pexpect==4.6.0
