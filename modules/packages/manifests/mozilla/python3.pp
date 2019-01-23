@@ -52,6 +52,9 @@ class packages::mozilla::python3 {
                         'python36':
                             os_version_specific => true,
                             version             => '3.6.5-2';
+                        'xz':
+                            os_version_specific => true,
+                            version             => '5.2.4-1';
                     }  -> Anchor['packages::mozilla::python3::end']
                 }
                 default: {
