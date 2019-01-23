@@ -105,6 +105,7 @@ class pushapk_scriptworker::settings {
             $jarsigner_certificate_aliases_content = {
                 'dep' => 'dep',
             }
+            $do_not_contact_google_play = true
         }
         'prod': {
             $google_play_config = {
@@ -143,6 +144,7 @@ class pushapk_scriptworker::settings {
               'beta'    => 'release',
               'release' => 'release',
             }
+            $do_not_contact_google_play = false
         }
         'mobile-dep': {
             $google_play_config = {
@@ -181,6 +183,7 @@ class pushapk_scriptworker::settings {
                 'focus' => 'focus',
                 'reference-browser' => 'reference-browser',
             }
+            $do_not_contact_google_play = true
         }
         'mobile-prod': {
             $google_play_config = {
@@ -219,6 +222,7 @@ class pushapk_scriptworker::settings {
                 'focus' => 'focus',
                 'reference-browser' => 'reference-browser'
             }
+            $do_not_contact_google_play = false
         }
         default: {
             fail("Invalid pushapk_scriptworker_env given: ${pushapk_scriptworker_env}")
@@ -252,5 +256,6 @@ class pushapk_scriptworker::settings {
         'jarsigner_certificate_aliases' => $jarsigner_certificate_aliases_content,
 
         'taskcluster_scope_prefixes' => $_env_config['scope_prefixes'],
+        'do_not_contact_google_play' => $do_not_contact_google_play,
     }
 }
