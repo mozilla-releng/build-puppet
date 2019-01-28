@@ -15,6 +15,9 @@ class toplevel::worker inherits toplevel::base {
         include users::roller
     }
 
+    # validate apple firmware versions
+    include hardware::apple_firmware
+
     # apply tweaks
     include tweaks::dev_ptmx
     include tweaks::locale
