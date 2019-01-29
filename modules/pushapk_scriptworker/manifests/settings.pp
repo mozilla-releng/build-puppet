@@ -103,7 +103,6 @@ class pushapk_scriptworker::settings {
                     'certificate' => $google_play_config['dep']['certificate_target_location'],
                     'update_google_play_strings' => true,
                     'digest_algorithm' => 'SHA1',
-                    'skip_checks_fennec' => true
                 }
             }
             $jarsigner_certificate_aliases_content = {
