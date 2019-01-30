@@ -16,7 +16,7 @@ hyperlink==18.0.0
 idna==2.8
 incremental==17.5.0
 ipaddress==1.0.22
-pyOpenSSL==18.0.0
+pyOpenSSL==19.0.0
 pyasn1==0.4.5
 pycparser==2.19
 pycrypto==2.6.1
