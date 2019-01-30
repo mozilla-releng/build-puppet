@@ -75,3 +75,4 @@ yarl==1.3.0
 pushapkscript==0.12.0  # puppet: nodownload
 typing-extensions==3.6.5
 pydot==1.4.1
+click==7.0.0
