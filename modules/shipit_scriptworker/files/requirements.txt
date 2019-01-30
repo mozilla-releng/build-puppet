@@ -18,7 +18,7 @@ multidict==4.5.2
 pexpect==4.6.0
 ptyprocess==0.6.0
 python-dateutil==2.7.5
-python-gnupg==0.4.3
+python-gnupg==0.4.4
 redo==2.0.2
 requests==2.21.0
 scriptworker==18.0.1
