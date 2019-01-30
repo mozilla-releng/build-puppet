@@ -4,13 +4,13 @@ WebOb==1.8.5
 poster==0.8.1
 IPy==0.83
 greenlet==0.4.15
-redis==3.0.1
+redis==3.1.0
 # fluf.lock 3.0+ requires python 3
 flufl.lock==2.4.1  # pyup: <3.0
 pexpect==4.6.0
 # widevine: osx cant build cryptography and doesnt need these!
 ## install six and setuptools before cryptography
-setuptools==40.6.3
+setuptools==40.7.1
 six==1.12.0
 argparse==1.4.0
 enum34==1.1.6
