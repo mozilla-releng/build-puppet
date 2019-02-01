@@ -171,7 +171,7 @@ class pushapk_scriptworker::settings {
                 },
                 'focus'             => {
                     'service_account' => $google_play_config['focus']['service_account'],
-                    'certificate' => $google_play_config['focus']['service_account'],
+                    'certificate' => $google_play_config['focus']['certificate_target_location'],
                 },
                 'reference-browser' => {
                     'service_account' => $google_play_config['reference-browser']['service_account'],
