@@ -17,6 +17,8 @@ define scriptworker::instance(
     $cot_job_type,
     $cot_product                  = 'firefox',
 
+    $github_oauth_token           = '',
+
     $work_dir                     = "${basedir}/work",
     $script_worker_config         = "${basedir}/scriptworker.yaml",
     $task_script_executable       = "${basedir}/bin/python",

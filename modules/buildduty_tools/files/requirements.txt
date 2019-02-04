@@ -10,6 +10,7 @@ attrs==18.2.0
 automat==0.7.0
 cffi==1.12.1
 constantly==15.1.0
+# Bug 1507497 - Cryptography unable to update past 2.3.x on scriptworkers
 cryptography==2.3.1  # pyup: ignore
 enum34==1.1.6
 hyperlink==18.0.0

@@ -18,6 +18,7 @@ class pushapk_scriptworker::settings {
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_dep'),
             scope_prefixes           => ['project:releng:googleplay:'],
             cot_product              => 'firefox',
+            github_oauth_token       => '',
 
             sign_chain_of_trust      => false,
             verify_chain_of_trust    => true,
@@ -31,6 +32,7 @@ class pushapk_scriptworker::settings {
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_prod'),
             scope_prefixes           => ['project:releng:googleplay:'],
             cot_product              => 'firefox',
+            github_oauth_token       => '',
 
             sign_chain_of_trust      => true,
             verify_chain_of_trust    => true,
@@ -45,6 +47,7 @@ class pushapk_scriptworker::settings {
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile_dep'),
             scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:', 'project:mobile:fenix:releng:googleplay:product:'],
             cot_product              => 'mobile',
+            github_oauth_token       => secret('scriptworker_github_oauth_token_staging'),
 
             sign_chain_of_trust      => false,
             verify_chain_of_trust    => true,
@@ -59,6 +62,7 @@ class pushapk_scriptworker::settings {
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile'),
             scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:', 'project:mobile:fenix:releng:googleplay:product:'],
             cot_product              => 'mobile',
+            github_oauth_token       => secret('scriptworker_github_oauth_token_production'),
 
             sign_chain_of_trust      => true,
             verify_chain_of_trust    => true,
@@ -82,6 +86,7 @@ class pushapk_scriptworker::settings {
     $verify_chain_of_trust               = $_env_config['verify_chain_of_trust']
     $verify_cot_signature                = $_env_config['verify_cot_signature']
     $cot_product                         = $_env_config['cot_product']
+    $github_oauth_token                  = $_env_config['github_oauth_token']
 
     $_google_play_all_accounts           = hiera_hash('pushapk_scriptworker_google_play_accounts')
     $_google_play_accounts               = $_google_play_all_accounts[$fqdn]
