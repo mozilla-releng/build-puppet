@@ -24,7 +24,7 @@ idna_ssl==1.1.0
 json-e==3.0.0
 jsonschema==2.6.0
 mar==3.0.0
-mohawk==1.0.0
+mohawk==0.3.4 # pyup: ignore
 multidict==4.5.2
 pexpect==4.6.0
 ptyprocess==0.6.0
