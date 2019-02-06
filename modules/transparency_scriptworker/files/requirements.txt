@@ -17,7 +17,7 @@ mohawk==1.0.0
 multidict==4.5.2
 pexpect==4.6.0
 ptyprocess==0.6.0
-python-dateutil==2.7.5
+python-dateutil==2.8.0
 python-gnupg==0.4.4
 redo==2.0.2
 requests==2.21.0
