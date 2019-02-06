@@ -55,7 +55,7 @@ pyasn1==0.4.5
 pyasn1-modules==0.2.4
 pycparser==2.19
 pyparsing==2.3.1
-python-dateutil==2.7.5
+python-dateutil==2.8.0
 python-gnupg==0.4.4
 pytz==2018.9
 requests==2.21.0
