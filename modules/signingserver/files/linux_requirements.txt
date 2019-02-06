@@ -10,7 +10,7 @@ flufl.lock==2.4.1  # pyup: <3.0
 pexpect==4.6.0
 # widevine: osx cant build cryptography and doesnt need these!
 ## install six and setuptools before cryptography
-setuptools==40.7.1
+setuptools==40.8.0
 six==1.12.0
 argparse==1.4.0
 enum34==1.1.6
@@ -24,4 +24,4 @@ idna==2.8
 pycparser==2.19
 wsgiref==0.1.2
 ptyprocess==0.6.0
-mercurial==4.8.2
+mercurial==4.9
