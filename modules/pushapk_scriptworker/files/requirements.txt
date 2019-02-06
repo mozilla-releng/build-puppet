@@ -73,6 +73,6 @@ voluptuous==0.11.5
 wcwidth==0.1.7
 yarl==1.3.0
 pushapkscript==0.13.0  # puppet: nodownload
-typing-extensions==3.6.5
+typing-extensions==3.7.2
 pydot==1.4.1
 click==7.0
