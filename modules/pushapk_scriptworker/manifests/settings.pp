@@ -103,6 +103,7 @@ class pushapk_scriptworker::settings {
                     'certificate' => $google_play_config['dep']['certificate_target_location'],
                     'update_google_play_strings' => true,
                     'digest_algorithm' => 'SHA1',
+                    'skip_check_package_names' => true,
                 }
             }
             $jarsigner_certificate_aliases_content = {
@@ -135,7 +136,7 @@ class pushapk_scriptworker::settings {
                   'certificate' => $google_play_config['aurora']['certificate_target_location'],
                   'update_google_play_strings' => true,
                   'digest_algorithm' => 'SHA1',
-                  'skip_check_package_names' => true,
+                  'expected_package_names' => ['org.mozilla.fennec_aurora'],
               },
               'beta' => {
                   'has_nightly_track' => false,
@@ -143,7 +144,7 @@ class pushapk_scriptworker::settings {
                   'certificate' => $google_play_config['beta']['certificate_target_location'],
                   'update_google_play_strings' => true,
                   'digest_algorithm' => 'SHA1',
-                  'skip_check_package_names' => true,
+                  'expected_package_names' => ['org.mozilla.firefox_beta'],
               },
               'release' => {
                   'has_nightly_track' => false,
@@ -151,7 +152,7 @@ class pushapk_scriptworker::settings {
                   'certificate' => $google_play_config['release']['certificate_target_location'],
                   'update_google_play_strings' => true,
                   'digest_algorithm' => 'SHA1',
-                  'skip_check_package_names' => true,
+                  'expected_package_names' => ['org.mozilla.firefox'],
               },
             }
             $jarsigner_certificate_aliases_content = {
