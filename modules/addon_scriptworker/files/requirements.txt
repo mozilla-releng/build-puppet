@@ -2,7 +2,7 @@
 PyYAML==3.13
 addonscript==1.0  # puppet: nodownload
 aiohttp==3.5.4
-arrow==0.13.0
+arrow==0.13.1
 async_timeout==3.0.1
 attrs==18.2.0
 certifi==2018.11.29
