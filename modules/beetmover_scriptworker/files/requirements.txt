@@ -3,7 +3,7 @@ Jinja2==2.10
 MarkupSafe==1.1.0
 PyYAML==3.13
 aiohttp==3.5.4
-arrow==0.13.0
+arrow==0.13.1
 async_timeout==3.0.1
 attrs==18.2.0
 beetmoverscript==8.4.1  # puppet: nodownload
