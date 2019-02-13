@@ -1,7 +1,7 @@
 # python_version: 36
 PyYAML==3.13
 aiohttp==3.5.4
-arrow==0.13.0
+arrow==0.13.1
 async_timeout==3.0.1
 bouncerscript==3.5.0  # puppet: nodownload
 attrs==18.2.0
