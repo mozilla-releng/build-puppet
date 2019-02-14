@@ -1,0 +1,56 @@
+
+import bugzilla
+import socket
+
+
+
+def get_hostname():
+    return socket.gethostname()
+
+def set_bug_structure(bugzilla, hostname):
+    bug_alias = hostname+"_code69"
+    bug_product = "Infrastructure & Operations"
+    bug_component = "CIDuty"
+    bug_version = "unspecified"
+    bug_summary = "Generic worker on host " + hostname + " returned exit code 69"
+    bug_description = ("Error code 69 means: worker panic - either a worker bug, or the environment is not suitable for running "
+                    "a task, e.g. a file cannot be written to the file system, or something else did "
+                    "not work that was required in order to execute a task. See config setting "
+                    "shutdownMachineOnInternalError. "
+                    "The following log were provided: "
+                    "https://papertrailapp.com/systems/"+hostname+"/events?q=program%3Ageneric-worker")
+    bug_info = bugzilla.build_createbug(
+        alias       = bug_alias,
+        product     = bug_product,
+        component   = bug_component,
+        version     = bug_version,
+        summary     = bug_summary,
+        description = bug_description
+    )
+    return bug_info
+
+def login():
+    """ First time loged in to bugzilla """
+    api_key = "<%= @bugzilla_url %>"
+    bz = bugzilla.Bugzilla(url="https://bugzilla.mozilla.org", api_key = api_key)
+    assert bz.logged_in
+    return bz
+
+def create_bug(bugzilla):
+    buginfo = set_bug_structure(bugzilla,get_hostname())
+    new_bug = bugzilla.createbug(buginfo)
+    return new_bug.id
+
+def find_bug(bugzilla,bug_id):
+    return bugzilla.getbug(bug_id)
+
+def close_bug(bugzilla,bug_id):
+    bug = find_bug(bugzilla,bug_id)
+    update = bugzilla.build_update(comment="The worker is now in working state", status="RESOLVED", resolution="FIXED")
+    bugzilla.update_bugs([bug.id], update)
+
+def find_alias(bugzilla,alias_name):
+    query = bugzilla.build_query(
+        alias=alias_name
+    )
+    return bugzilla.query(query)
