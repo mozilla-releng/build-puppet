@@ -49,9 +49,9 @@ class packages::mozilla::python3 {
 
                     Anchor['packages::mozilla::python3::begin'] ->
                     packages::pkgdmg {
-                        'python36':
+                        'python37':
                             os_version_specific => true,
-                            version             => '3.6.5-2';
+                            version             => '3.7.1-1';
                         'xz':
                             os_version_specific => true,
                             version             => '5.2.4-1';
