@@ -31,20 +31,20 @@ class packages::mozilla::python3 {
         Darwin: {
             case $::macosx_productversion_major {
                 '10.10': {
-                    $python3 = '/tools/python36/bin/python3.6'
+                    $python3 = '/tools/python37/bin/python3.7'
 
-                    # Install python36 into /tools/python36 on OSX workers
+                    # Install python37 into /tools/python37 on OSX workers
                     Anchor['packages::mozilla::python3::begin'] ->
                     file {
                         '/tools/python3':
                             ensure => link,
-                            target => '/tools/python36';
+                            target => '/tools/python37';
                         '/usr/local/bin/python3':
                             ensure => link,
-                            target => '/tools/python36/bin/python3.6';
-                        '/etc/profile.d/append-python36-path.sh':
+                            target => '/tools/python37/bin/python3.7';
+                        '/etc/profile.d/append-python37-path.sh':
                             mode    => '0755',
-                            content => 'PATH=$PATH:/tools/python36/bin/python3.6',
+                            content => 'PATH=$PATH:/tools/python37/bin/python3.7',
                     } -> Anchor['packages::mozilla::python3::end']
 
                     Anchor['packages::mozilla::python3::begin'] ->
