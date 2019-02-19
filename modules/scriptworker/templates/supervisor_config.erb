@@ -4,3 +4,7 @@ redirect_stderr=true
 stdout_logfile=syslog
 autorestart=true
 autostart=true
+
+# scriptworker needs to report "worker shutdown" to Taskcluster
+# on shutdown. The default of 10 seconds is too short
+stopwaitsecs=30
