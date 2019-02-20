@@ -41,7 +41,7 @@ signingscript==9.5.1  # puppet: nodownload
 signtool==3.2.1
 simplejson==3.16.0  # pyup: ignore
 six==1.12.0
-slugid==1.0.7
+slugid==2.0.0
 taskcluster==6.0.0
 taskcluster-urls==10.1.0 # pyup: ignore
 urllib3==1.24.1
