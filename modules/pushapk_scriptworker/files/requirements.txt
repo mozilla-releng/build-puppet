@@ -26,7 +26,7 @@ future==0.17.1
 google-api-python-client==1.7.8
 google-auth==1.6.3
 google-auth-httplib2==0.0.3
-httplib2==0.12.0
+httplib2==0.12.1
 humanize==0.5.1
 idna==2.8
 idna_ssl==1.1.0
