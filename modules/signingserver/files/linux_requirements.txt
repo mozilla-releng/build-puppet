@@ -4,7 +4,7 @@ WebOb==1.8.5
 poster==0.8.1
 IPy==0.83
 greenlet==0.4.15
-redis==3.1.0
+redis==3.2.0
 # fluf.lock 3.0+ requires python 3
 flufl.lock==2.4.1  # pyup: <3.0
 pexpect==4.6.0
@@ -16,7 +16,7 @@ argparse==1.4.0
 enum34==1.1.6
 ipaddress==1.0.22
 asn1crypto==0.24.0
-cffi==1.11.5
+cffi==1.12.1
 cryptography==2.5
 macholib==1.11
 altgraph==0.16.1

@@ -4,7 +4,7 @@ six==1.12.0
 PyYAML==3.13
 Pygments==2.3.1
 aiohttp==3.5.4
-androguard==3.3.4
+androguard==3.3.5
 appnope==0.1.0
 arrow==0.13.1
 asn1crypto==0.24.0
@@ -13,7 +13,7 @@ attrs==18.2.0
 backcall==0.1.0
 cachetools==3.1.0
 certifi==2018.11.29
-cffi==1.11.5
+cffi==1.12.1
 chardet==3.0.4
 colorama==0.4.1
 cryptography==2.3.1  # pyup: ignore
@@ -24,13 +24,13 @@ dictdiffer==0.7.1
 frozendict==1.2
 future==0.17.1
 google-api-python-client==1.7.8
-google-auth==1.6.2
+google-auth==1.6.3
 google-auth-httplib2==0.0.3
-httplib2==0.12.0
+httplib2==0.12.1
 humanize==0.5.1
 idna==2.8
 idna_ssl==1.1.0
-ipython==7.2.0
+ipython==7.3.0
 ipython_genutils==0.2.0
 jedi==0.13.2
 json-e==3.0.0
