@@ -11,6 +11,7 @@ cffi==1.12.1
 chardet==3.0.4
 click==7.0
 construct==2.9.45
+# Bug 1507497 - Cryptography unable to update past 2.3.x on scriptworkers
 cryptography==2.3.1  # pyup: ignore
 datadog==0.26.0
 decorator==4.3.2
@@ -19,10 +20,12 @@ dictdiffer==0.7.1
 ecdsa==0.13
 frozendict==1.2
 future==0.17.1
+github3.py==1.3.0
 idna==2.8
 idna_ssl==1.1.0
 json-e==3.0.0
 jsonschema==2.6.0
+jwcrypto==0.6.0
 mar==3.1.0
 mohawk==0.3.4 # pyup: ignore
 multidict==4.5.2
@@ -36,7 +39,7 @@ python-jose==3.0.1
 requests==2.21.0
 requests-hawk==1.0.0
 rsa==4.0
-scriptworker==19.0.0
+scriptworker==20.0.0
 signingscript==9.5.1  # puppet: nodownload
 signtool==3.2.1
 simplejson==3.16.0  # pyup: ignore
@@ -44,7 +47,8 @@ six==1.12.0
 slugid==1.0.7
 taskcluster==6.0.0
 taskcluster-urls==10.1.0 # pyup: ignore
+typing-extensions==3.7.2
+uritemplate==3.0.0
 urllib3==1.24.1
 virtualenv==16.4.0
 yarl==1.3.0
-typing-extensions==3.7.2

@@ -17,6 +17,9 @@ verify_chain_of_trust: <%= @verify_chain_of_trust %>
 verify_cot_signature: <%= @verify_cot_signature %>
 cot_job_type: <%= @cot_job_type %>
 cot_product: <%= @cot_product %>
+# Calls to Github API are limited to 60 an hour. Using an API token allows to raise the limit to
+# 5000 per hour. https://developer.github.com/v3/#rate-limiting
+github_oauth_token: "<%= @github_oauth_token %>"
 
 log_dir: <%= @basedir %>/logs
 work_dir: <%= @work_dir %>

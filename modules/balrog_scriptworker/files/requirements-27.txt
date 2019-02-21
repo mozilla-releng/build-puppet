@@ -12,6 +12,7 @@ cffi==1.12.1
 chardet==3.0.4
 click==7.0
 construct==2.9.45
+# Bug 1507497 - Cryptography unable to update past 2.3.x on scriptworkers
 cryptography==2.3.1  # pyup: ignore
 enum34==1.1.6
 functools32==3.2.3-2
