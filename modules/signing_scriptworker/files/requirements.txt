@@ -40,7 +40,7 @@ requests==2.21.0
 requests-hawk==1.0.0
 rsa==4.0
 scriptworker==20.0.1
-signingscript==9.5.1  # puppet: nodownload
+signingscript==9.6.0  # puppet: nodownload
 signtool==3.2.1
 simplejson==3.16.0  # pyup: ignore
 six==1.12.0
