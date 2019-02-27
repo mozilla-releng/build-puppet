@@ -16,7 +16,7 @@ cryptography==2.3.1  # pyup: ignore
 datadog==0.26.0
 decorator==4.3.2
 defusedxml==0.5.0
-dictdiffer==0.7.1
+dictdiffer==0.7.2
 ecdsa==0.13
 frozendict==1.2
 future==0.17.1
