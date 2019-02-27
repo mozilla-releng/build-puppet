@@ -68,7 +68,7 @@ requests==2.21.0
 rsa==4.0
 scriptworker==20.0.1
 simplegeneric==0.8.1
-slugid==2.0.0
+slugid==1.0.7
 taskcluster==6.0.0
 taskcluster-urls==10.1.0 # pyup: ignore
 traitlets==4.3.2
