@@ -18,8 +18,8 @@ class generic_worker {
     $task_dir = "${::users::builder::home}/tasks"
     $caches_dir = "${::users::builder::home}/caches"
     $downloads_dir = "${::users::builder::home}/downloads"
-    $opengpg_signing_key = "${::users::builder::home}/generic-worker.openpgp.key"
-    $ed25519_signing_key = "${::users::builder::home}/generic-worker.ed25519.key"
+    $opengpg_signing_key = "${::users::builder::home}/generic-worker.openpgp.signing.key"
+    $ed25519_signing_key = "${::users::builder::home}/generic-worker.ed25519.signing.key"
 
     $quarantine_client_id = secret('quarantine_client_id')
     $quarantine_access_token = hiera('quarantine_access_token')
