@@ -12,7 +12,7 @@ chardet==3.0.4
 # Bug 1507497 - Cryptography unable to update past 2.3.x on scriptworkers
 cryptography==2.3.1  # pyup: ignore
 defusedxml==0.5.0
-dictdiffer==0.7.1
+dictdiffer==0.7.2
 ecdsa==0.13
 frozendict==1.2
 future==0.17.1
