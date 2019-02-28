@@ -5,20 +5,26 @@ import socket
 
 
 def get_hostname():
-    return socket.gethostname()
+    return socket.getfqdn().split('.')[0]
+
+def get_domain():
+    return socket.getfqdn().split('.')[3].upper()
+
+def get_fullname():
+    return socket.getfqdn()
 
 def set_bug_structure(bugzilla, hostname):
     bug_alias = hostname+"_code69"
     bug_product = "Infrastructure & Operations"
     bug_component = "CIDuty"
     bug_version = "unspecified"
-    bug_summary = "Generic worker on host " + hostname + " returned exit code 69"
+    bug_summary = "["+get_domain()+"] "+ hostname + " Generic worker exit code 69"
     bug_description = ("Error code 69 means: worker panic - either a worker bug, or the environment is not suitable for running "
                     "a task, e.g. a file cannot be written to the file system, or something else did "
                     "not work that was required in order to execute a task. See config setting "
                     "shutdownMachineOnInternalError. "
                     "The following log were provided: "
-                    "https://papertrailapp.com/systems/"+hostname+"/events?q=program%3Ageneric-worker")
+                    "https://papertrailapp.com/systems/"+get_fullname()+"/events?q=program%3Ageneric-worker")
     bug_info = bugzilla.build_createbug(
         alias       = bug_alias,
         product     = bug_product,
