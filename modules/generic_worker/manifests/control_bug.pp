@@ -31,9 +31,9 @@ class generic_worker::control_bug {
         group  => $users::root::group
     }
 
-    file { '/usr/local/share/generic-worker/bugzilla-utils.sh':
+    file { '/usr/local/share/generic-worker/bugzilla-utils.py':
         ensure  => present,
-        content => template('generic_worker/bugzilla-utils.sh.erb'),
+        content => template('generic_worker/bug_utility.py.erb'),
         mode    => '0755',
         owner   => $users::root::username,
         group   => $users::root::group,
