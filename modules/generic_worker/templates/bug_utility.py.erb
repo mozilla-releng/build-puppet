@@ -13,7 +13,7 @@ def get_domain():
 def get_fullname():
     return socket.getfqdn()
 
-def set_bug_structure(bugzilla, hostname):
+def bug_structure(bugzilla, hostname):
     bug_alias = hostname+"_code69"
     bug_product = "Infrastructure & Operations"
     bug_component = "CIDuty"
@@ -37,7 +37,7 @@ def set_bug_structure(bugzilla, hostname):
 
 def login():
     """ First time loged in to bugzilla """
-    api_key = "<%= @bugzilla_url %>"
+    api_key = "<%= @bugzilla_api_key %>"
     bz = bugzilla.Bugzilla(url="https://bugzilla.mozilla.org", api_key = api_key)
     assert bz.logged_in
     return bz
