@@ -13,12 +13,12 @@ def get_domain():
 def get_fullname():
     return socket.getfqdn()
 
-def bug_structure(bugzilla, hostname):
-    bug_alias = hostname+"_code69"
+def bug_structure(bugzilla):
+    bug_alias = get_hostname()+"_code69"
     bug_product = "Infrastructure & Operations"
     bug_component = "CIDuty"
     bug_version = "unspecified"
-    bug_summary = "["+get_domain()+"] "+ hostname + " Generic worker exit code 69"
+    bug_summary = "["+get_domain()+"] "+ get_hostname() + " Generic worker exit code 69"
     bug_description = ("Error code 69 means: worker panic - either a worker bug, or the environment is not suitable for running "
                     "a task, e.g. a file cannot be written to the file system, or something else did "
                     "not work that was required in order to execute a task. See config setting "
@@ -27,6 +27,7 @@ def bug_structure(bugzilla, hostname):
                     "https://papertrailapp.com/systems/"+get_fullname()+"/events?q=program%3Ageneric-worker")
     bug_info = bugzilla.build_createbug(
         alias       = bug_alias,
+        cc          = "ciduty@mozilla.com",
         product     = bug_product,
         component   = bug_component,
         version     = bug_version,
@@ -43,7 +44,7 @@ def login():
     return bz
 
 def create_bug(bugzilla):
-    buginfo = set_bug_structure(bugzilla,get_hostname())
+    buginfo = bug_structure(bugzilla)
     new_bug = bugzilla.createbug(buginfo)
     return new_bug.id
 
@@ -59,4 +60,4 @@ def find_alias(bugzilla,alias_name):
     query = bugzilla.build_query(
         alias=alias_name
     )
-    return bugzilla.query(query)
+    return bugzilla.query(query)[0].id
