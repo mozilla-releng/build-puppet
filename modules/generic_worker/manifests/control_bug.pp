@@ -8,7 +8,7 @@ class generic_worker::control_bug {
 
     include ::users::root
     include ::users::builder
-    include ackages::mozilla::python_bugzilla
+    include packages::mozilla::python_bugzilla
 
     $bugzilla_api_key = secret('roller_bugzilla_api_key!prod')
     $bugzilla_url = 'https://bugzilla.mozilla.org'
