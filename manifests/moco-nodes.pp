@@ -587,6 +587,18 @@ node 'ds-test1.srv.releng.mdc2.mozilla.com' {
     include toplevel::server
 }
 
+# Workers in osx level 3 trusted pool
+node 't-yosemite-r7-471.test.releng.mdc1.mozilla.com',
+    't-yosemite-r7-472.test.releng.mdc1.mozilla.com',
+    't-yosemite-r7-235.test.releng.mdc2.mozilla.com',
+    't-yosemite-r7-236.test.releng.mdc2.mozilla.com' {
+    $aspects          = [ 'maxium-security' ]
+    $slave_trustlevel = 'core'
+    $worker_type = "gecko-3-t-osx-1010"
+    include fw::profiles::osx_taskcluster_worker
+    include toplevel::worker::releng::generic_worker::test::gpu
+}
+
 # Workers in osx staging pool
 node 't-yosemite-r7-380.test.releng.mdc1.mozilla.com',
     't-yosemite-r7-394.test.releng.mdc1.mozilla.com',
