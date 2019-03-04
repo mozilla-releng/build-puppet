@@ -592,7 +592,7 @@ node 't-yosemite-r7-471.test.releng.mdc1.mozilla.com',
     't-yosemite-r7-472.test.releng.mdc1.mozilla.com',
     't-yosemite-r7-235.test.releng.mdc2.mozilla.com',
     't-yosemite-r7-236.test.releng.mdc2.mozilla.com' {
-    $aspects          = [ 'maxium-security' ]
+    $aspects          = [ 'maximum-security' ]
     $slave_trustlevel = 'core'
     $worker_type = "gecko-3-t-osx-1010"
     include fw::profiles::osx_taskcluster_worker
