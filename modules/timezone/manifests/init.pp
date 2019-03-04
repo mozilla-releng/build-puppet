@@ -63,7 +63,6 @@ class timezone {
         Darwin: {
             # GMT
             $timezone = 'GMT'
-            }
             osxutils::systemsetup {
                 'timezone':
                     setting => $timezone;
