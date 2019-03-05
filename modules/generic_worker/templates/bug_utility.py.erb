@@ -13,6 +13,9 @@ def get_domain():
 def get_fullname():
     return socket.getfqdn()
 
+def get_bug_alias():
+    return get_hostname()+"_code69"
+
 def bug_structure(bugzilla):
     bug_alias = get_hostname()+"_code69"
     bug_product = "Infrastructure & Operations"
@@ -43,7 +46,7 @@ def login():
     assert bz.logged_in
     return bz
 
-def create_bug(bugzilla):
+def create_new_bug(bugzilla):
     buginfo = bug_structure(bugzilla)
     new_bug = bugzilla.createbug(buginfo)
     return new_bug.id
@@ -60,4 +63,8 @@ def find_alias(bugzilla,alias_name):
     query = bugzilla.build_query(
         alias=alias_name
     )
-    return bugzilla.query(query)[0].id
+    if len(bugzilla.query(query)) == 0:
+        result = 0
+    else:
+        result = bugzilla.query(query)[0].id
+    return result
