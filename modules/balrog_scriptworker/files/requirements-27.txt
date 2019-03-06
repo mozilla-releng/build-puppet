@@ -20,7 +20,7 @@ idna==2.8
 incremental==17.5.0
 ipaddress==1.0.22
 jinja2==2.10
-jsonschema==3.0.1
+jsonschema==2.6.0 # pyup: ignore
 mar==3.1.0
 markupsafe==1.1.1
 pyasn1==0.4.5
