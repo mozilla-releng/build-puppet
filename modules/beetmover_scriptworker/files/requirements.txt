@@ -6,10 +6,10 @@ aiohttp==3.5.4
 arrow==0.13.1
 asn1crypto==0.24.0
 async_timeout==3.0.1
-attrs==18.2.0
+attrs==19.1.0
 beetmoverscript==8.4.1  # puppet: nodownload
-boto3==1.9.103
-botocore==1.12.103
+boto3==1.9.108
+botocore==1.12.108
 certifi==2018.11.29
 cffi==1.12.2
 chardet==3.0.4
@@ -26,7 +26,7 @@ idna_ssl==1.1.0
 incremental==17.5.0
 jmespath==0.9.4
 json-e==3.0.0
-jsonschema==2.6.0
+jsonschema==2.6.0 # pyup: ignore
 jwcrypto==0.6.0
 mohawk==0.3.4 # pyup: ignore
 mozilla-version==0.3.1
@@ -41,7 +41,7 @@ requests==2.21.0
 s3transfer==0.2.0
 scriptworker==21.0.0
 six==1.12.0
-slugid==1.0.7
+slugid==1.0.7 # pyup: ignore
 taskcluster==6.0.0
 taskcluster-urls==10.1.0 # pyup: ignore
 toml==0.10.0
@@ -49,5 +49,5 @@ towncrier==19.2.0
 typing-extensions==3.7.2
 uritemplate==3.0.0
 urllib3==1.24.1
-virtualenv==16.4.1
+virtualenv==16.4.3
 yarl==1.3.0
