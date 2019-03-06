@@ -57,6 +57,7 @@ class beetmover_scriptworker {
 
             cot_job_type             => 'beetmover',
             cot_product              => $env_config['cot_product'],
+            github_oauth_token       => $env_config['github_oauth_token'],
 
             sign_chain_of_trust      => $env_config["sign_chain_of_trust"],
             verify_chain_of_trust    => $env_config["verify_chain_of_trust"],

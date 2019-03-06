@@ -44,6 +44,7 @@ class beetmover_scriptworker::settings {
             verify_chain_of_trust                   => true,
             verify_cot_signature                    => false,
             cot_product                             => 'firefox',
+            github_oauth_token                      => '',
         },
         'prod' => {
             nightly_beetmover_aws_access_key_id     => secret('nightly-beetmover-aws_access_key_id'),
@@ -100,6 +101,7 @@ class beetmover_scriptworker::settings {
             verify_chain_of_trust                   => true,
             verify_cot_signature                    => true,
             cot_product                             => 'firefox',
+            github_oauth_token                      => '',
         },
         'comm-thunderbird-dev' => {
             dep_beetmover_aws_access_key_id         => secret('comm_thunderbird_dev-beetmover-aws_access_key_id'),
@@ -117,6 +119,7 @@ class beetmover_scriptworker::settings {
             verify_chain_of_trust                   => true,
             verify_cot_signature                    => false,
             cot_product                             => 'thunderbird',
+            github_oauth_token                      => '',
         },
         'comm-thunderbird-prod' => {
             nightly_beetmover_aws_access_key_id     => secret('comm_nightly-beetmover-aws_access_key_id'),
@@ -146,6 +149,7 @@ class beetmover_scriptworker::settings {
             verify_chain_of_trust                   => true,
             verify_cot_signature                    => true,
             cot_product                             => 'thunderbird',
+            github_oauth_token                      => '',
         },
         'mobile-dev' => {
             dep_maven_beetmover_aws_access_key_id => secret('dep_maven_android_components_beetmover_aws_access_key_id'),
@@ -169,6 +173,7 @@ class beetmover_scriptworker::settings {
             verify_chain_of_trust                   => true,
             verify_cot_signature                    => false,
             cot_product                             => 'mobile',
+            github_oauth_token                      => secret('scriptworker_github_oauth_token_staging'),
         },
         'mobile-prod' => {
             prod_maven_beetmover_aws_access_key_id => secret('prod_maven_android_components_beetmover_aws_access_key_id'),
@@ -192,6 +197,7 @@ class beetmover_scriptworker::settings {
             verify_chain_of_trust                   => true,
             verify_cot_signature                    => true,
             cot_product                             => 'mobile',
+            github_oauth_token                      => secret('scriptworker_github_oauth_token_production'),
         }
     }
 }

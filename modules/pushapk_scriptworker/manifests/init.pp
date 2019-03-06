@@ -52,6 +52,7 @@ class pushapk_scriptworker {
 
             cot_job_type             => 'pushapk',
             cot_product              => $pushapk_scriptworker::settings::cot_product,
+            github_oauth_token       => $pushapk_scriptworker::settings::github_oauth_token,
 
             sign_chain_of_trust      => $pushapk_scriptworker::settings::sign_chain_of_trust,
             verify_chain_of_trust    => $pushapk_scriptworker::settings::verify_chain_of_trust,
