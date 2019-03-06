@@ -41,7 +41,7 @@ jsonschema==3.0.1
 jwcrypto==0.6.0
 kiwisolver==1.0.1
 lxml==4.3.2
-matplotlib==3.0.2
+matplotlib==3.0.3
 mohawk==0.3.4 # pyup: ignore
 mozapkpublisher==1.0.1
 mozilla-version==0.3.1
