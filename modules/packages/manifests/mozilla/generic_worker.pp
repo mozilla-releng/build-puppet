@@ -9,7 +9,7 @@ class packages::mozilla::generic_worker {
     }
 
     if (has_aspect('staging')) {
-        $tag = 'v13.0.2'
+        $tag = 'v13.0.3'
     } else {
         $tag = 'v10.11.3'
     }
