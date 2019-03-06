@@ -30,7 +30,7 @@ redo==2.0.2
 requests==2.21.0
 scriptworker==21.0.0
 six==1.12.0
-slugid==2.0.0
+slugid==1.0.7 # pyup: ignore
 taskcluster==6.0.0
 taskcluster-urls==10.1.0 # pyup: ignore
 transparencyscript==0.0.4  # puppet: nodownload
