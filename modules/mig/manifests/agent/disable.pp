@@ -48,6 +48,10 @@ class mig::agent::disable {
             file {'/etc/mig':
                 ensure => absent,
                 force  => true,
+            }->
+            # Remove executable
+            file {"${mig_path}":
+                ensure => 'absent'
             }
         }
     }
