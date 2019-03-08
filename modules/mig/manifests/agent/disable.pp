@@ -12,7 +12,7 @@ class mig::agent::disable {
                     # Kill mig agent service if mig-agent is running
                     exec {
                         'kill mig':
-                            command   => "/bin/kill -s 2 $(${mig_path} -q=pid)",
+                            command   => "/bin/kill -9 $(${mig_path} -q=pid)",
                             subscribe => Package['mig-agent'],
                             notify    => Service['mig-agent'],
                             onlyif    => "/bin/test `mig-agent -q=pid|wc -l` -eq 1"
