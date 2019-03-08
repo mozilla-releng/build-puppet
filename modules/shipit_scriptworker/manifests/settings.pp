@@ -15,6 +15,9 @@ class shipit_scriptworker::settings {
         timeout_in_seconds        => 60,
         username                  => 'shipit-scriptworker-stage',
         password                  => secret('shipit_scriptworker_ship_it_password_dev'),
+        api_root_v2               => 'https://api.shipit.staging.mozilla-releng.net',
+        taskcluster_client_id     => 'project/releng/scriptworker/shipit/dev',
+        taskcluster_access_token  => secret('shipit_scriptworker_taskcluster_access_token_dev'),
     }
 
     $env_config = {
@@ -53,6 +56,9 @@ class shipit_scriptworker::settings {
                 timeout_in_seconds        => 60,
                 username                  => 'shipit-scriptworker',
                 password                  => secret('shipit_scriptworker_ship_it_password_prod'),
+                api_root_v2               => 'https://shipit-api.mozilla-releng.net',
+                taskcluster_client_id     => 'project/releng/scriptworker/shipit/production',
+                taskcluster_access_token  => secret('shipit_scriptworker_taskcluster_access_token_prod'),
             },
         },
       },
@@ -91,6 +97,9 @@ class shipit_scriptworker::settings {
                 timeout_in_seconds        => 60,
                 username                  => 'shipit-scriptworker',
                 password                  => secret('shipit_scriptworker_ship_it_password_prod'),
+                api_root_v2               => 'https://shipit-api.mozilla-releng.net',
+                taskcluster_client_id     => 'project/comm/thunderbird/releng/scriptworker/shipit/prod',
+                taskcluster_access_token  => secret('comm_thunderbird_shipit_scriptworker_taskcluster_access_token_prod'),
             },
         },
       },
