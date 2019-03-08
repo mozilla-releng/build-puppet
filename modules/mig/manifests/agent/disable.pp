@@ -15,7 +15,7 @@ class mig::agent::disable {
                             command   => "/bin/kill -9 $(${mig_path} -q=pid)",
                             subscribe => Package['mig-agent'],
                             notify    => Service['mig-agent'],
-                            onlyif    => "/bin/test `mig-agent -q=pid|wc -l` -eq 1"
+                            onlyif    => "/usr/bin/test `mig-agent -q=pid|wc -l` -eq 1"
                     }
                     # Sopt the mig-agent service and disable it
                     service {
