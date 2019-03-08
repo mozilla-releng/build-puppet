@@ -31,7 +31,7 @@ class mig::agent::disable {
                 }
             }
         }
-        Darwin {
+        Darwin: {
             # Kill the process, if mig-agent is running
             exec {
                 'kill mig':
