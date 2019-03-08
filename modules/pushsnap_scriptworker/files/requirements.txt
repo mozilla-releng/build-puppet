@@ -31,7 +31,7 @@ multidict==4.4.2
 pexpect==4.6.0
 progressbar33==2.4
 ptyprocess==0.6.0
-pushsnapscript==0.2.5  # puppet: nodownload
+pushsnapscript==0.2.6  # puppet: nodownload
 pycparser==2.19
 pyelftools==0.24
 # Puppet check is deactivated because it requires some distro library (libsodium) to be installed.
