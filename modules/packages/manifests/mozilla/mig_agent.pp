@@ -25,11 +25,16 @@ class packages::mozilla::mig_agent {
             Anchor['packages::mozilla::mig_agent::begin'] ->
             package {
                 'mig-agent':
-                    ensure => 'absent'
+                    ensure => '20180803-0.e8eb90a.prod'
             } -> Anchor['packages::mozilla::mig_agent::end']
         }
         'Darwin': {
-            # No instalation package on darwin
+            Anchor['packages::mozilla::mig_agent::begin'] ->
+            packages::pkgdmg {
+                'mig-agent':
+                    version             => '20180807-0.e8eb90a1.prod-x86_64',
+                    os_version_specific => false;
+            } -> Anchor['packages::mozilla::mig_agent::end']
         }
         default: {
             fail("mig is not supported on ${::operatingsystem}")

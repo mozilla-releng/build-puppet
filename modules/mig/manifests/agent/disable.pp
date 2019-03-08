@@ -9,33 +9,44 @@ class mig::agent::disable {
         Ubuntu: {
             case $::operatingsystemrelease {
                 16.04: {
-                    # Kill mig agent service if it is running
+                    # Kill mig agent service if mig-agent is running
                     exec {
                         'kill mig':
                             command   => "/bin/kill -s 2 $(${mig_path} -q=pid)",
-                            subscribe => Class['packages::mozilla::mig_agent'],
-                            notify    => Service['mig-agent']
+                            subscribe => Package['mig-agent'],
+                            notify    => Service['mig-agent'],
+                            onlyif    => "/bin/test `mig-agent -q=pid|wc -l` -eq 1"
                     }
+                    # Sopt the mig-agent service and disable it
                     service {
                         'mig-agent':
                             ensure   => stopped,
                             enable   => false,
                             provider => 'systemd'
                     }
+                    # remove the package from the worker
+                    package {'mig-agent':
+                        ensure => absent
+                    }
                 }
             }
         }
         Darwin {
-            # Kill the process
+            # Kill the process, if mig-agent is running
             exec {
                 'kill mig':
-                    command   => "/bin/kill -s 2 $(${mig_path} -q=pid)",
-                    subscribe => Class['packages::mozilla::mig_agent'],
-                    notify    => Service['mig-agent']
-            }
-            # Remove the package
-            file {'/var/db/.mig-agent':
+                    command => "/bin/kill -s 2 $(${mig_path} -q=pid)",
+                    onlyif  => "/bin/test `mig-agent -q=pid|wc -l` -eq 1"
+            } ->
+            # Remove the dmg package
+            file {'/var/db/.puppet_pkgdmg_installed_mig-agent-20180807-0.e8eb90a1.prod-x86_64.dmg':
                 ensure => 'absent',
+                force  => true,
+            } ->
+            # Remove mig configuration file and keys
+            # Configuration file and keys are stored in /etc/mig directory
+            file {'/etc/mig':
+                ensure => absent,
                 force  => true,
             }
         }
