@@ -68,3 +68,14 @@ def find_alias(bugzilla,alias_name):
     else:
         result = bugzilla.query(query)[0].id
     return result
+
+def reopen_bug(bugzilla, bug_id):
+
+def open_bug(bugzilla):
+''' Check if alias for the worker exist or not. If the alias exist, then reopen the existing bug, if not, will create one '''
+
+    bug_id = find_alias(bugzilla,get_bug_alias())
+    if  bug_id == 0:
+        bug_id = create_new_bug(bugzilla)
+    else:
+        reopen_bug(bugzilla,bug_id)
