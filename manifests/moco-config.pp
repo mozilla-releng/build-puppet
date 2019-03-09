@@ -326,9 +326,9 @@ class config inherits config::base {
             fennec_pattern                        => 'No such thing here',
             firefox_pattern                       => 'No such thing here',
             comm_allowed_branches                 => [
-                                                        'releases/comm-esr6*',
+                                                        'no_such_branch_here',
                                                       ],
-            thunderbird_pattern                   => 'Thunderbird-6[0-9]\.*',
+            thunderbird_pattern                   => 'No such thing here',
         }
     }
 
