@@ -17,16 +17,22 @@ class mig::agent::disable {
                             notify    => Service['mig-agent'],
                             onlyif    => "/usr/bin/test `mig-agent -q=pid|wc -l` -eq 1"
                     }
-                    # Sopt the mig-agent service and disable it
+                    # Stop the mig-agent service and disable it
                     service {
                         'mig-agent':
                             ensure   => stopped,
                             enable   => false,
                             provider => 'systemd'
                     }
-                    # remove the package from the worker and delete configuration file
+                    # remove the package from the worker
                     package {'mig-agent':
-                        ensure => purged
+                        ensure => absent
+                    }
+                    # Remove mig configuration file and keys
+                    # Configuration file and keys are stored in /etc/mig directory
+                    file {'/etc/mig':
+                        ensure => absent,
+                        force  => true,
                     }
                 }
             }
