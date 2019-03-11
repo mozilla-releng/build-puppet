@@ -7,10 +7,8 @@ class timezone {
     case $::operatingsystem {
         CentOS: {
             include packages::tzdata
-            # UTC or US/Pacific
-            if ($timezone != 'UTC') {
-                $timezone = 'US/Pacific'
-            }
+            # explicitly set to UTC
+            $timezone = 'UTC'
             file {
                 '/etc/localtime':
                     mode    => '0644',
@@ -36,27 +34,35 @@ class timezone {
         }
         Ubuntu: {
             include packages::tzdata
-            file {
-                '/etc/timezone':
-                    mode    => '0644',
-                    owner   => root,
-                    group   => $users::root::group,
-                    content => "America/Los_Angeles\n",
-                    force   => true,
-                    require => Class['packages::tzdata'];
-            }
-            exec {
-                'dpkg-reconfigure-tzdata':
-                    command     => '/usr/sbin/dpkg-reconfigure -f noninteractive tzdata',
-                    subscribe   => File['/etc/timezone'],
-                    refreshonly => true;
+            case $::operatingsystemrelease {
+                '12.04', '14.04': {
+                    file {
+                        '/etc/timezone':
+                            mode    => '0644',
+                            owner   => root,
+                            group   => $users::root::group,
+                            content => "UTC\n",
+                            force   => true,
+                            require => Class['packages::tzdata'];
+                    }
+                    exec {
+                        'dpkg-reconfigure-tzdata':
+                            command     => '/usr/sbin/dpkg-reconfigure -f noninteractive tzdata',
+                            subscribe   => File['/etc/timezone'],
+                            refreshonly => true;
+                    }
+                }
+                default: {
+                    exec { 'ubuntu_set_timezone':
+                        command => '/usr/bin/timedatectl set-timezone UTC',
+                        unless  => '/usr/bin/timedatectl status | grep -q \'Time zone: UTC\''
+                    }
+                }
             }
         }
         Darwin: {
-            # GMT or America/Los_Angeles
-            if ($timezone != 'GMT') {
-                $timezone = 'America/Los_Angeles'
-            }
+            # GMT
+            $timezone = 'GMT'
             osxutils::systemsetup {
                 'timezone':
                     setting => $timezone;
