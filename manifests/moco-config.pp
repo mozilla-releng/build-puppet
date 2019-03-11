@@ -326,9 +326,9 @@ class config inherits config::base {
             fennec_pattern                        => 'No such thing here',
             firefox_pattern                       => 'No such thing here',
             comm_allowed_branches                 => [
-                                                        'releases/comm-esr6*',
+                                                        'no_such_branch_here',
                                                       ],
-            thunderbird_pattern                   => 'Thunderbird-6[0-9]\.*',
+            thunderbird_pattern                   => 'No such thing here',
         }
     }
 
@@ -494,6 +494,7 @@ class config inherits config::base {
     $scriptworker_root                        = '/builds/scriptworker' # Used by scriptworker instances
     $scriptworker_gpg_private_key             = secret('scriptworker_gpg_private_key')
     $scriptworker_gpg_public_key              = secret('scriptworker_gpg_public_key')
+    $scriptworker_ed25519_private_key         = secret('scriptworker_ed25519_private_key')
 
     $l10n_bumper_env_config = {
         'mozilla-central' => {
