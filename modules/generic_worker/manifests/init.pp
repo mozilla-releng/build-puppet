@@ -18,17 +18,26 @@ class generic_worker {
     $task_dir = "${::users::builder::home}/tasks"
     $caches_dir = "${::users::builder::home}/caches"
     $downloads_dir = "${::users::builder::home}/downloads"
-    $signing_key = "${::users::builder::home}/generic-worker.openpgp.key"
+    $opengpg_signing_key = "${::users::builder::home}/generic-worker.openpgp.signing.key"
+    $ed25519_signing_key = "${::users::builder::home}/generic-worker.ed25519.signing.key"
 
     $quarantine_client_id = secret('quarantine_client_id')
     $quarantine_access_token = hiera('quarantine_access_token')
 
-    exec { 'create gpg key':
+    exec { 'create opengpg signing key':
         path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin'],
         user    => 'cltbld',
         cwd     => $users::builder::home,
-        command => "generic-worker new-openpgp-keypair --file ${::users::builder::home}/generic-worker.openpgp.key",
-        unless  => "test -f ${::users::builder::home}/generic-worker.openpgp.key",
+        command => "generic-worker new-openpgp-keypair --file ${opengpg_signing_key}",
+        unless  => "test -f ${opengpg_signing_key}",
+        require => Class['packages::mozilla::generic_worker']
+    }
+    exec { 'create ed25519 signing key':
+        path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin'],
+        user    => 'cltbld',
+        cwd     => $users::builder::home,
+        command => "generic-worker new-ed25519-keypair --file ${ed25519_signing_key}",
+        unless  => "test -f ${ed25519_signing_key}",
         require => Class['packages::mozilla::generic_worker']
     }
 
