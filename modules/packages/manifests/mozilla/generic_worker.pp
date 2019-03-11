@@ -11,7 +11,7 @@ class packages::mozilla::generic_worker {
     if (has_aspect('staging')) {
         $tag = 'v13.0.3'
     } else {
-        $tag = 'v10.11.3'
+        $tag = 'v13.0.3'
     }
     $proxy_tag = 'v5.1.0'
     $quarantine_worker_tag = 'v1.0.0'
