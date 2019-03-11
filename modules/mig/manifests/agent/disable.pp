@@ -24,9 +24,9 @@ class mig::agent::disable {
                             enable   => false,
                             provider => 'systemd'
                     }
-                    # remove the package from the worker
+                    # remove the package from the worker and delete configuration file
                     package {'mig-agent':
-                        ensure => absent
+                        ensure => purge
                     }
                 }
             }
