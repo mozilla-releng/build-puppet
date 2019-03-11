@@ -26,7 +26,7 @@ class mig::agent::disable {
                     }
                     # remove the package from the worker and delete configuration file
                     package {'mig-agent':
-                        ensure => purge
+                        ensure => purged
                     }
                 }
             }
