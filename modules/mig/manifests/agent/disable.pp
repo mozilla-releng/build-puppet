@@ -9,6 +9,7 @@ class mig::agent::disable {
         Ubuntu: {
             case $::operatingsystemrelease {
                 16.04: {
+                    # Stop teh mig agent service
                     service {
                         'mig-agent':
                             ensure   => stopped,
