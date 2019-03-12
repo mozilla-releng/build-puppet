@@ -26,6 +26,13 @@ class packages::mozilla::python_bugzilla {
             }
         }
         Ubuntu: {
+            realize(Packages::Aptrepo['python3-bugzilla'])
+            # Install python-bugzilla on Linux workers
+            Anchor['packages::mozilla::python_bugzilla::begin'] ->
+            package {
+                ['python3-bugzilla','bugzilla-cli']:
+                    ensure => '2.2.0-1'
+            }  -> Anchor['packages::mozilla::python_bugzilla::end']
         }
         default: {
             fail("Cannot install on ${::operatingsystem}")
