@@ -27,7 +27,7 @@ class mig::agent::disable {
             exec {
                 'kill mig':
                     command => "/bin/kill -9 $(${mig_path} -q=pid)",
-                    onlyif  => "/bin/test `ps aux|grep mig-agent|grep -v mig-agent|wc -l` -eq 1"
+                    onlyif  => "/bin/test `ps aux|grep '[m]ig-agent'|wc -l` -eq 1"
             } ->
             # Remove the flag that puppet sets indicating the package has been installed.
             file {'/var/db/.puppet_pkgdmg_installed_mig-agent-20180807-0.e8eb90a1.prod-x86_64.dmg':
