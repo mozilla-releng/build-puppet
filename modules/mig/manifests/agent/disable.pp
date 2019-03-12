@@ -11,7 +11,7 @@ class mig::agent::disable {
                 16.04: {
                     service {
                         'mig-agent':
-                            ensure   => stopprd,
+                            ensure   => stopped,
                             enable   => false,
                             provider => 'systemd'
                     }
