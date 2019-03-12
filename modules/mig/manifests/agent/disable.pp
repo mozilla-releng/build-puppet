@@ -9,21 +9,6 @@ class mig::agent::disable {
         Ubuntu: {
             case $::operatingsystemrelease {
                 16.04: {
-                    # Kill mig agent service if mig-agent is running
-                    exec {
-                        'kill mig':
-                            command   => "/bin/kill -9 $(${mig_path} -q=pid)",
-                            subscribe => Package['mig-agent'],
-                            notify    => Service['mig-agent'],
-                            onlyif    => "/usr/bin/test `mig-agent -q=pid|wc -l` -eq 1"
-                    }
-                    # Stop the mig-agent service and disable it
-                    service {
-                        'mig-agent':
-                            ensure   => stopped,
-                            enable   => false,
-                            provider => 'systemd'
-                    }
                     # remove the package from the worker
                     package {'mig-agent':
                         ensure => absent
@@ -42,9 +27,9 @@ class mig::agent::disable {
             exec {
                 'kill mig':
                     command => "/bin/kill -9 $(${mig_path} -q=pid)",
-                    onlyif  => "/bin/test `mig-agent -q=pid|wc -l` -eq 1"
+                    onlyif  => "/bin/test `ps aux|grep mig-agent|grep -v mig-agent|wc -l` -eq 1"
             } ->
-            # Remove the dmg package
+            # Remove the flag that puppet sets indicating the package has been installed.
             file {'/var/db/.puppet_pkgdmg_installed_mig-agent-20180807-0.e8eb90a1.prod-x86_64.dmg':
                 ensure => 'absent',
                 force  => true,
@@ -57,6 +42,10 @@ class mig::agent::disable {
             }->
             # Remove executable
             file {"${mig_path}":
+                ensure => 'absent'
+            }->
+            # Remove launchd plist file
+            file {'/Library/LaunchDaemons/mig-agent.plist':
                 ensure => 'absent'
             }
         }
