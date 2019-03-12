@@ -9,6 +9,12 @@ class mig::agent::disable {
         Ubuntu: {
             case $::operatingsystemrelease {
                 16.04: {
+                    service {
+                        'mig-agent':
+                            ensure   => stopprd,
+                            enable   => false,
+                            provider => 'systemd'
+                    }
                     # remove the package from the worker
                     package {'mig-agent':
                         ensure => absent
