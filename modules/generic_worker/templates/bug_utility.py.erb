@@ -54,7 +54,7 @@ def create_new_bug(bugzilla):
 def find_bug(bugzilla,bug_id):
     return bugzilla.getbug(bug_id)
 
-def close_bug(bugzilla,bug_id):
+def close_this_bug(bugzilla,bug_id):
     bug = find_bug(bugzilla,bug_id)
     update = bugzilla.build_update(comment="The worker is now in working state", status="RESOLVED", resolution="FIXED")
     bugzilla.update_bugs([bug.id], update)
@@ -85,3 +85,11 @@ def open_bug():
         bug_status = bugzilla.getbug(bug_id).status
         if bug_status == "RESOLVED":
             reopen_bug(bugzilla,bug_id)
+
+def close_bug():
+    '''Let's close the bug'''
+    bugzilla = login()
+    bug_id = find_bug_for_alias(bugzilla,get_bug_alias())
+    bug_status = bugzilla.getbug(bug_id).status
+    if bug_status != "RESOLVED":
+        close_this_bug(bugzilla,bug_id)
