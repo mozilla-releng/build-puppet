@@ -45,7 +45,7 @@ if [ $exitstatus -eq 69 ]; then
 
         # Submit a new bug to Bugzilla that reports that the worker has been quarantined, 
         # in order to alert CI Duty to the failure, track status and facilitate resolution.
-        create_bug_self_failure
+        python3 -c "import imp; imp.load_source('bugzillautils', '/usr/local/share/generic-worker/bugzilla-utils.py'); from bugzillautils import *; create_open_bug_self_failure()"
     fi
 elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
     # If exitstatus is different by 69 (grater than 69 or lower than 69)
@@ -55,10 +55,7 @@ elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
         /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>/quarantined
     fi
     # Self resolve the bug and remove bug_id file if file exist
-    if [ -f <%= scope.lookupvar('users::builder::home') %>/bug_id ]; then
-        resolve_bug_self_failure    
-        /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>/bug_id
-    fi
+    python3 -c "import imp; imp.load_source('bugzillautils', '/usr/local/share/generic-worker/bugzilla-utils.py'); from bugzillautils import *; close_bug_self_failure()"
     # Now reboot the machine immediately (time costs money)
     <%= @reboot_command %>
     # Sleep to prevent this script from terminating naturally, and launchd restarting
