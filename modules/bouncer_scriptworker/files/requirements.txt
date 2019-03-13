@@ -29,7 +29,7 @@ pyrsistent==0.14.11
 python-dateutil==2.8.0
 python-gnupg==0.4.4
 requests==2.21.0
-scriptworker==22.0.0
+scriptworker==22.0.1
 six==1.12.0
 slugid==1.0.7 # pyup: ignore
 taskcluster==6.0.0
