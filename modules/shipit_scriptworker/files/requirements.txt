@@ -26,7 +26,7 @@ pycparser==2.19
 pyrsistent==0.14.11
 python-dateutil==2.8.0
 python-gnupg==0.4.4
-redo==2.0.2
+redo==2.0.3
 requests==2.21.0
 scriptworker==22.0.0
 shipitapi==2.1.0
