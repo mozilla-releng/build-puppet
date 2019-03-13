@@ -92,4 +92,4 @@ def close_bug_self_failure():
     bug_id = find_bug_for_alias(bugzilla, get_bug_alias())
     bug_status = bugzilla.getbug(bug_id).status
     if bug_status != "RESOLVED":
-        close_this_bug(bugzilla, bug_id)
+        close_bug(bugzilla, bug_id)
