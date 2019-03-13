@@ -26,7 +26,7 @@ markupsafe==1.1.1
 pyasn1==0.4.5
 pycparser==2.19
 python-dateutil==2.8.0
-redo==2.0.2
+redo==2.0.3
 requests==2.21.0
 toml==0.10.0
 towncrier==18.5.0  # pyup: ignore
