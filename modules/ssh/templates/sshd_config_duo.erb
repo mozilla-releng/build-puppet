@@ -17,11 +17,12 @@ PermitRootLogin no
 PasswordAuthentication no
 
 # Required for Duo MFA
-AuthenticationMethods publickey,keyboard-interactive
+AuthenticationMethods publickey,keyboard-interactive:pam
 PubkeyAuthentication yes
-ChallengeResponseAuthentication yes
+KbdInteractiveAuthentication yes
 UsePAM yes
 UseDns no
+UseLogin no
 
 <% if @sftp_line %>
 <%= @sftp_line %>
