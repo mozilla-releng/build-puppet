@@ -5,7 +5,7 @@ arrow==0.13.1
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
-certifi==2018.11.29
+certifi==2019.3.9
 cffi==1.12.2
 chardet==3.0.4
 cryptography==2.6.1
@@ -26,7 +26,7 @@ pycparser==2.19
 pyrsistent==0.14.11
 python-dateutil==2.8.0
 python-gnupg==0.4.4
-redo==2.0.2
+redo==2.0.3
 requests==2.21.0
 scriptworker==22.0.1
 shipitapi==2.1.0
