@@ -43,7 +43,7 @@ pyxdg==0.25
 requests==2.21.0
 requests-toolbelt==0.6.0
 requests-unixsocket==0.1.5
-scriptworker==22.0.0
+scriptworker==22.0.1
 simplejson==3.8.2
 six==1.12.0
 slugid==1.0.7

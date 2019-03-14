@@ -6,7 +6,7 @@ arrow==0.13.1
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
-certifi==2018.11.29
+certifi==2019.3.9
 cffi==1.12.2
 chardet==3.0.4
 cryptography==2.6.1
@@ -33,7 +33,7 @@ python-gnupg==0.4.4
 python-jose==3.0.1
 requests==2.21.0
 rsa==4.0
-scriptworker==22.0.0
+scriptworker==22.0.1
 six==1.12.0
 slugid==1.0.7 # pyup: ignore
 taskcluster==6.0.0

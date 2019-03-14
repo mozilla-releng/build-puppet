@@ -8,9 +8,9 @@ asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
 beetmoverscript==8.4.2  # puppet: nodownload
-boto3==1.9.110
-botocore==1.12.110
-certifi==2018.11.29
+boto3==1.9.112
+botocore==1.12.113
+certifi==2019.3.9
 cffi==1.12.2
 chardet==3.0.4
 click==7.0
@@ -36,10 +36,10 @@ pycparser==2.19
 pyrsistent==0.14.11
 python-dateutil==2.8.0
 python-gnupg==0.4.4
-redo==2.0.2
+redo==2.0.3
 requests==2.21.0
 s3transfer==0.2.0
-scriptworker==22.0.0
+scriptworker==22.0.1
 six==1.12.0
 slugid==1.0.7 # pyup: ignore
 taskcluster==6.0.0
