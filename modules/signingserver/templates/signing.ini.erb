@@ -29,6 +29,8 @@ max_filesize_dmg = 125829120
 max_filesize_mar = 125829120
 max_filesize_sha2signcode = <%= @signcode_maxsize %>
 max_filesize_sha2signcodestub = 2097152
+max_filesize_sha2signcode-v2 = <%= @signcode_maxsize %>
+max_filesize_sha2signcodestub-v2 = 2097152
 token_secret = <%=@token_secret%>
 <%- if @token_secret0 != '' -%>
 token_secret0 = <%=@token_secret0%>
@@ -53,6 +55,8 @@ testfile_mar = <%=@testfile_mar%>
 testfile_gpg = <%=@testfile_gpg%>
 testfile_sha2signcode = <%=@testfile_osslsigncode%>
 testfile_sha2signcodestub = <%=@testfile_osslsigncode%>
+testfile_sha2signcode-v2 = <%=@testfile_osslsigncode%>
+testfile_sha2signcodestub-v2 = <%=@testfile_osslsigncode%>
 testfile_dmg = <%=@testfile_dmg%>
 testfile_widevine = <%=@testfile_widevine%>
 testfile_widevine_blessed = <%=@testfile_widevine_blessed%>
