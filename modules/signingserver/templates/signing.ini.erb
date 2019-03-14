@@ -27,12 +27,8 @@ min_filesize = 10
 max_filesize_gpg = 812646400
 max_filesize_dmg = 125829120
 max_filesize_mar = 125829120
-max_filesize_mar_sha384 = 209715200
-max_filesize_signcode = <%= @signcode_maxsize %>
-max_filesize_osslsigncode = <%= @signcode_maxsize %>
 max_filesize_sha2signcode = <%= @signcode_maxsize %>
 max_filesize_sha2signcodestub = 2097152
-max_filesize_emevoucher = 2097152
 token_secret = <%=@token_secret%>
 <%- if @token_secret0 != '' -%>
 token_secret0 = <%=@token_secret0%>
@@ -54,16 +50,10 @@ unsigned_dir = <%=@unsigned_dir%>
 signscript = <%=@signscript%>
 concurrency = <%=@concurrency%>
 testfile_mar = <%=@testfile_mar%>
-testfile_mar_sha384 = <%=@testfile_mar_sha384%>
 testfile_gpg = <%=@testfile_gpg%>
-testfile_signcode = <%=@testfile_signcode%>
-testfile_osslsigncode = <%=@testfile_osslsigncode%>
 testfile_sha2signcode = <%=@testfile_osslsigncode%>
 testfile_sha2signcodestub = <%=@testfile_osslsigncode%>
-testfile_emevoucher = <%=@testfile_emevoucher%>
 testfile_dmg = <%=@testfile_dmg%>
-testfile_jar = <%=@testfile_jar%>
-testfile_focus-jar = <%=@testfile_jar%>
 testfile_widevine = <%=@testfile_widevine%>
 testfile_widevine_blessed = <%=@testfile_widevine_blessed%>
 formats = <%=@formats.join(",")%>

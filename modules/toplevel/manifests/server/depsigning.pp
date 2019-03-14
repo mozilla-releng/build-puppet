@@ -21,7 +21,7 @@ class toplevel::server::depsigning inherits toplevel::server {
         moco: {
             $signing_formats = $::operatingsystem ? {
                 Darwin => ['dmg'],
-                CentOS => ['gpg', 'sha2signcode', 'sha2signcodestub', 'osslsigncode', 'signcode', 'mar', 'mar_sha384', 'jar', 'emevoucher', 'widevine', 'widevine_blessed']
+                CentOS => ['gpg', 'sha2signcode', 'sha2signcodestub', 'mar', 'widevine', 'widevine_blessed']
             }
             $concurrency = $::macosx_productversion_major ? {
                 10.9    => 6,
@@ -42,41 +42,11 @@ class toplevel::server::depsigning inherits toplevel::server {
                     new_token_auth      => "${signing_server_username}:${signing_server_dep_password}",
                     new_token_auth0     => "${signing_server_username}:${signing_server_dep_password}",
                     mar_key_name        => 'dep1',
-                    mar_sha384_key_name => 'dep1',
-                    jar_key_name        => 'dep',
-                    jar_digestalg       => 'SHA1',
-                    jar_sigalg          => 'SHA1withRSA',
                     formats             => $signing_formats,
                     signcode_timestamp  => 'no',
                     ssl_cert            => $signing_server_ssl_cert,
                     ssl_private_key     => $signing_server_ssl_private_key,
                     concurrency         => $concurrency;
-            }
-        }
-        relabs: {
-            $signing_formats = $operatingsystem ? {
-                Darwin => ["gpg", "dmg", "mar"],
-                CentOS => ["gpg", "signcode", "mar", "mar_sha384", "jar"]
-            }
-
-            signingserver::instance {
-                'relabs-signing-server-1':
-                    listenaddr          => '0.0.0.0',
-                    port                => '9100',
-                    code_tag            => 'SIGNING_SERVER',
-                    mac_cert_subject_ou => 'RELABS RELABS RELABS',
-                    token_secret        => secret('relabs_signing_server_token_secret'),
-                    token_secret0       => secret('relabs_signing_server_token_secret'),
-                    new_token_auth      => "${signing_server_username}:${signing_server_dep_password}",
-                    new_token_auth0     => "${signing_server_username}:${signing_server_dep_password}",
-                    mar_key_name        => 'relabs1',
-                    mar_sha384_key_name => 'relabs1',
-                    jar_key_name        => 'relabs',
-                    jar_digestalg       => 'SHA1',
-                    jar_sigalg          => 'SHA1withDSA',
-                    formats             => $signing_formats,
-                    ssl_cert            => secret('relabs_signing_server_ssl_cert'),
-                    ssl_private_key     => secret('relabs_signing_server_ssl_private_key');
             }
         }
         default: {
