@@ -18,7 +18,7 @@ def start_generic_worker(param1,param2,param3, param4):
     gw_command = [param1, param2, param3, param4, '2>&1']
     os.environ["PATH"] = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
     generic_worker = subprocess.Popen(gw_command, stdout=subprocess.PIPE)
-    logger = subprocess(['logger','-t','generic-worker','-s'], stdin=generic-worker.stdout, stdout=subprocess.PIPE)
+    logger = subprocess(['logger','-t','generic-worker','-s'], stdin=generic_worker.stdout, stdout=subprocess.PIPE)
     return generic-worker.returncode
 
 def quarantine_worker():
