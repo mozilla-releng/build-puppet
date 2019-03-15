@@ -23,7 +23,7 @@ def start_generic_worker(param1,param2,param3, param4):
 
 def quarantine_worker():
     # Quarantine the worker, if worker is in bad state
-    quarantine_command = ["/usr/local/bin/quarantine-worker", "releng-hardware", "<%= @worker_type %>", "<%= @worker_group %>", "<%= @hostname %>", 720h5s]
+    quarantine_command = ["/usr/local/bin/quarantine-worker", "releng-hardware", "<%= @worker_type %>", "<%= @worker_group %>", "<%= @hostname %>", "720h5s"]
     os environ["TASKCLUSTER_CLIENT_ID"] = "<%= @quarantine_client_id %>" 
     os.environ["TASKCLUSTER_ACCESS_TOKEN"] = "<%= @quarantine_access_token %>"
     quarantine = subcommand.Popen(quarantine_command, stdout=subprocess.PIPE)
