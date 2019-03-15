@@ -3,17 +3,15 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-## DIFFERENCES FROM RPM:
-# - no tk, tcl bindings (not installed)
-# - no readline (not detected at build time)
-
+# Usage: ./python-bugzilla-dmg python, or ./python-bugzilla-dmg python3
 set -e
 
-# variables to parallel the spec file
 relname=python-bugzilla
 ver=2.2
 rel=0
 release=1
+pythontool=$1
+packagename=$pythontool-bugzilla
 
 # ensure the same build environment (you can change this if necessary, just test carefully)
 
@@ -51,7 +49,7 @@ ROOT=$BUILD/root
 curl -o certifi-2018.11.29.tar.gz https://files.pythonhosted.org/packages/55/54/3ce77783acba5979ce16674fc98b1920d00b01d337cfaaf5db22543505ed/certifi-2018.11.29.tar.gz
 tar zxvf certifi-2018.11.29.tar.gz
 cd certifi-2018.11.29
-python3.6 setup.py install --root $ROOT
+$pythontool setup.py install --root $ROOT
 cd ..
 
 # Urllib3
@@ -59,14 +57,14 @@ cd ..
 curl -o urllib3-1.24.1.tar.gz https://files.pythonhosted.org/packages/b1/53/37d82ab391393565f2f831b8eedbffd57db5a718216f82f1a8b4d381a1c1/urllib3-1.24.1.tar.gz
 tar zxvf urllib3-1.24.1.tar.gz
 cd urllib3-1.24.1
-python3.6 setup.py install --root $ROOT
+$pythontool setup.py install --root $ROOT
 cd ..
 
 # idna
 curl -o idna-2.8.tar.gz https://files.pythonhosted.org/packages/ad/13/eb56951b6f7950cadb579ca166e448ba77f9d24efc03edd7e55fa57d04b7/idna-2.8.tar.gz
 tar zxvf idna-2.8.tar.gz
 cd idna-2.8
-python3.6 setup.py install --root $ROOT
+$pythontool setup.py install --root $ROOT
 cd ..
 
 # chardet
@@ -74,7 +72,7 @@ cd ..
 curl -o chardet-3.0.4.tar.gz https://files.pythonhosted.org/packages/fc/bb/a5768c230f9ddb03acc9ef3f0d4a3cf93462473795d18e9535498c8f929d/chardet-3.0.4.tar.gz
 tar zxvf chardet-3.0.4.tar.gz
 cd chardet-3.0.4
-python3.6 setup.py install --root $ROOT
+$pythontool setup.py install --root $ROOT
 cd ..
 
 
@@ -83,7 +81,7 @@ curl -o requests-2.21.0.tar.gz https://files.pythonhosted.org/packages/52/2c/514
 
 tar zxvf requests-2.21.0.tar.gz
 cd requests-2.21.0
-python3.6 setup.py install --root $ROOT
+$pythontool setup.py install --root $ROOT
 cd ..
 
 curl -o $relname-$ver.$rel.tar.gz https://files.pythonhosted.org/packages/70/dc/470c8a5693e46ca9deadecbac9eff5a6c04877add84d63d6ae7927ce9580/$relname-$ver.$rel.tar.gz
@@ -94,14 +92,14 @@ cd $relname-$ver.$rel
 
 
 # %install
-python3.6 setup.py install --root $ROOT
+$pythontool setup.py install --root $ROOT
 
 cd $BUILD
 mkdir dmg
-fullname=$relname-$ver.$rel-$release
+fullname=$packagename-$ver.$rel-$release
 pkg=dmg/$fullname.pkg
 dmg=$fullname.dmg
 /usr/bin/pkgbuild -r $ROOT -i com.mozilla.$relname --install-location / $pkg
-hdiutil makehybrid -hfs -hfs-volume-name "mozilla-xz-$ver.$rel-$release" -o ./$dmg dmg
+hdiutil makehybrid -hfs -hfs-volume-name "mozilla-xz-$ver.$rel-$release" -o ../$dmg dmg
 echo "Result:"
-echo $PWD/$dmg
+echo ../$dmg
