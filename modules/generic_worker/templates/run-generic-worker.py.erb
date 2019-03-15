@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 import sys
 import imp
@@ -15,7 +15,7 @@ def start_generic_worker(param1,param2,param3, param4):
 
     subprocess.Popen(['rm', '-f', 'tasks-resolved-count.txt'], stdout=subprocess.PIPE)
 
-    ge_command = [generic_worker_bin, param1, param2, param3, param4]
+    gw_command = [generic_worker_bin, param1, param2, param3, param4]
     os.environ["PATH"] = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
     generic_worker = subprocess.Popen(gw_command, stdout=subprocess.PIPE)
     logger = subprocess(['logger','-t','generic-worker','-s'], stdin=generic-worker.stdout, stdout=subprocess.PIPE)
@@ -24,7 +24,7 @@ def start_generic_worker(param1,param2,param3, param4):
 def quarantine_worker():
     # Quarantine the worker, if worker is in bad state
     quarantine_command = ["/usr/local/bin/quarantine-worker", "releng-hardware", "<%= @worker_type %>", "<%= @worker_group %>", "<%= @hostname %>", "720h5s"]
-    os environ["TASKCLUSTER_CLIENT_ID"] = "<%= @quarantine_client_id %>" 
+    os.environ["TASKCLUSTER_CLIENT_ID"] = "<%= @quarantine_client_id %>" 
     os.environ["TASKCLUSTER_ACCESS_TOKEN"] = "<%= @quarantine_access_token %>"
     quarantine = subcommand.Popen(quarantine_command, stdout=subprocess.PIPE)
     return quarantine.returncode
@@ -48,7 +48,7 @@ def exist_semaphore_file(filename):
     if os.path.exist(filename):
         return True
     else:
-        returne False
+        return False
 
 def sleep(time):
     # Sleep to prevent this script from terminating naturally, and launchd restarting
@@ -97,5 +97,5 @@ def main():
         restart_worker()
         sleep(120)
 
-if __name__ == "__main__"
+if __name__ == "__main__":
     main()
