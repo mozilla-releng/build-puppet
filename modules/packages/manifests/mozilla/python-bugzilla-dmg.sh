@@ -13,25 +13,6 @@ release=1
 pythontool=$1
 packagename=$pythontool-bugzilla
 
-# ensure the same build environment (you can change this if necessary, just test carefully)
-
-ffi_option=--without-system-ffi
-shared_option=--enable-shared
-case "$(sw_vers -productVersion)" in
-    10.7) ;;  # ?? lost to the sands of time
-    10.8) ;;  # ?? lost to the sands of time
-    10.9) ;;  # ?? lost to the sands of time
-    10.10)
-        # This was built with XCode 6.1 command line tools, but that version of XCode no longer
-        # supports a way to find its version on the command line.
-
-        # The built-in ffi fails on Yosemite
-        ffi_option=
-        # and --enable-shared appears to fail, too..
-        shared_option=
-        ;;
-esac
-
 # use the current xcode
 export PATH=`xcode-select -print-path`:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
@@ -45,6 +26,7 @@ cd $BUILD
 
 ROOT=$BUILD/root
 
+# Install dependencies
 # certifi
 curl -o certifi-2018.11.29.tar.gz https://files.pythonhosted.org/packages/55/54/3ce77783acba5979ce16674fc98b1920d00b01d337cfaaf5db22543505ed/certifi-2018.11.29.tar.gz
 tar zxvf certifi-2018.11.29.tar.gz
@@ -76,7 +58,7 @@ $pythontool setup.py install --root $ROOT
 cd ..
 
 
-# Download requests
+#requests
 curl -o requests-2.21.0.tar.gz https://files.pythonhosted.org/packages/52/2c/514e4ac25da2b08ca5a464c50463682126385c4272c18193876e91f4bc38/requests-2.21.0.tar.gz#sha256=502a824f31acdacb3a35b6690b5fbf0bc41d63a24a45c4004352b0242707598e
 
 tar zxvf requests-2.21.0.tar.gz
@@ -84,6 +66,7 @@ cd requests-2.21.0
 $pythontool setup.py install --root $ROOT
 cd ..
 
+# bugzilla-pyhon
 curl -o $relname-$ver.$rel.tar.gz https://files.pythonhosted.org/packages/70/dc/470c8a5693e46ca9deadecbac9eff5a6c04877add84d63d6ae7927ce9580/$relname-$ver.$rel.tar.gz
 
 # %prep
@@ -102,4 +85,4 @@ dmg=$fullname.dmg
 /usr/bin/pkgbuild -r $ROOT -i com.mozilla.$relname --install-location / $pkg
 hdiutil makehybrid -hfs -hfs-volume-name "mozilla-xz-$ver.$rel-$release" -o ../$dmg dmg
 echo "Result:"
-echo ../$dmg
+echo $dmg
