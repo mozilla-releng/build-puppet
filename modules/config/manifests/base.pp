@@ -237,44 +237,6 @@ class config::base {
     # buildmaster_ssh_key_caminobld_dsa.
     $buildmaster_ssh_keys                = []
 
-    $releaserunner3_root                  = '/builds/releaserunner3'
-    # email to/from addresses and smtp server to use to send notifications
-    $releaserunner3_notify_from           = ''
-    $releaserunner3_smtp_server           = ''
-    $releaserunner3_tools                 = 'https://hg.mozilla.org/build/tools'
-    $releaserunner3_tools_branch          = 'default'
-
-    $releaserunner3_env_config = {
-        'dev'  => {
-            ship_it_root             => '',
-            ship_it_username         => '',
-            ship_it_password         => '',
-            notify_to                => '',
-            notify_to_announce       => '',
-            taskcluster_client_id    => '',
-            taskcluster_access_token => '',
-            shipitv2_api_root        => '',
-            auth0_client_id          => '',
-            auth0_client_secret      => '',
-            auth0_auth_domain        => '',
-            auth0_audience           => '',
-        },
-        'prod' => {
-            ship_it_root             => '',
-            ship_it_username         => '',
-            ship_it_password         => '',
-            notify_to                => '',
-            notify_to_announce       => '',
-            taskcluster_client_id    => '',
-            taskcluster_access_token => '',
-            shipitv2_api_root        => '',
-            auth0_client_id          => '',
-            auth0_client_secret      => '',
-            auth0_auth_domain        => '',
-            auth0_audience           => '',
-        }
-    }
-
     # runner task settings
 
     $runner_hg_tools_path          = '/tools/checkouts/build-tools'

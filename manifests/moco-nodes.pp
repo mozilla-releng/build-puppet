@@ -210,11 +210,9 @@ node /.*packager\d+\.srv\.releng\.use1\.mozilla\.com$/ {
 node 'buildbot-master01.bb.releng.use1.mozilla.com' {
     $aspects       = [ 'high-security' ]
     $only_user_ssh = true
-    $releaserunner3_env = 'prod'
     $l10n_bumper_env = 'mozilla-beta'
     include toplevel::server::buildmaster
     include toplevel::mixin::l10n_bumper
-    include toplevel::mixin::releaserunner3
     include toplevel::mixin::bouncer_check
     include toplevel::mixin::signing_server_cert_check
 }
@@ -222,11 +220,9 @@ node 'buildbot-master01.bb.releng.use1.mozilla.com' {
 node 'buildbot-master77.bb.releng.use1.mozilla.com' {
     $aspects         = [ 'high-security' ]
     $only_user_ssh   = true
-    $releaserunner3_env = 'dev'
     $l10n_bumper_env = 'mozilla-central'
     include toplevel::server::buildmaster
     include toplevel::mixin::l10n_bumper
-    include toplevel::mixin::releaserunner3
     include toplevel::mixin::signing_server_cert_check
 }
 
