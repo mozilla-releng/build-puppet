@@ -69,6 +69,13 @@ class generic_worker {
                 owner   => $users::root::username,
                 group   => $users::root::group;
             }
+            file { '/usr/local/bin/run-generic-worker.py':
+                ensure  => present,
+                content => template('generic_worker/run-generic-worker.py.erb'),
+                mode    => '0755',
+                owner   => $users::root::username,
+                group   => $users::root::group;
+            }
             file { '/etc/generic-worker.config':
                 ensure  => present,
                 content => template('generic_worker/generic-worker.config.erb'),
@@ -128,6 +135,13 @@ class generic_worker {
                     file { '/usr/local/bin/run-generic-worker.sh':
                         ensure  => present,
                         content => template('generic_worker/run-generic-worker.sh.erb'),
+                        mode    => '0755',
+                        owner   => $users::root::username,
+                        group   => $users::root::group;
+                    }
+                    file { '/usr/local/bin/run-generic-worker.py':
+                        ensure  => present,
+                        content => template('generic_worker/run-generic-worker.py.erb'),
                         mode    => '0755',
                         owner   => $users::root::username,
                         group   => $users::root::group;
