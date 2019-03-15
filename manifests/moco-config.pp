@@ -177,7 +177,6 @@ class config inherits config::base {
         'roller_ssh_pub_key' => [ "${roller_key_limits} ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDkgMMlWHbReAix1HaCdWzUkGrT7gGrV++uLDEm9HQH6NjYM1i0zh+RwCEGduJs9yuDLxvznpI9HkQWPgNLPRl7Bh8TQI2lAgnjFegOLNwGZyXrbLeQsDATFQnPY/alJE//c9yCzs59PENyjtfU4VF6tG8m8F6/kcNxJxQ4b07q/aPqQR+Aeg5i0MbXgULgjVgWbYlQ8lV+8P1UY1RGric0TIKM3Q1JGs0zvOxdgEvOX2HcEHePCEwKE4hZXvJnkC2wTCjy9+ppkanh2dM5i2UT7Z520dwKX0kX7O30Luv9ln3SflIF4nEGwHrbJfGerHdhJXbyRuctYrVoSj5CYdnFLYiAxTSVc+dbPkeOts7X5QghE6pLRwUFz4CBktR0Vrn8u00enyl6Ae95Rl+ut0P5yyLCJ78nBRroLE6TyuK1jsxVeSZv2WNx9tZTbSCkv3+xF56sRKpIs2jDAQKM3LsR5iNVauixsI7Q3QUSPuxDATY7zmwhKe2O3euhTN/tWfub+4GibzF64vaMZhkZaR5JF2kWK3tj1O/kbhwmeWQqTp08TcIk3YoWQjEClOO794mNGuLoWwd5WWPjq9mCKZ5qzUiWNpJxhcjJZETSaLHEn8ChtC+QxBrdc1DBxXfwvVznwu6L3LfAVHKaHtMaEOw+Y59bZktsVm0bd6OXazPxKQ== roller ssh key 2018-04-26" ],
 
         # used on buildbot masters
-        'release-runner' => [ 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCjq0iMalKswxR5xl0mQIMA0YdKVwxTidy4pA/IAN9e4OwOkk4iknvnfpzAft7F4erxDDWhETerqrVN7oVgCFtwXrLQ/OGDEFZg98dPXvMCn80+DqpKB8LlZXBf66B8UDfJJAlM2uvRsqKMCJP826k6aARmiYgKlTMUM4DR2+F7ArY/7OV4hfecx70q9hKK1ZmpMXIDQWDvcu6ltSYRmmPo4Qdzig1Yu9Yjl0KLsWHu+N5QP9McWfJ9QGYHlVsrlywjoweytwIWpFhnUIPh1OlD3YuGi9qs9pfKI4PDfKFa25FDDTLBh9RlUr0x4V1WKYDsvCr4+TKGb1gR4JGo6esZB+lx8QH+zwgxRamzst1pdM1WyFN+csyjHCX2AuWa2/qfLAJIglqXRcEfXEy26GclP6d1uRK4s2vCF9YmLO8FGbvqqlC1rg36pOjR8WGJAGY4eB1AsQSW1HKqvB2exDv+90FSV9iTmCE8aR3mxSLrE1zTJfeNn9x07UURtBStq83PMA8vUjRvKP0mLyKZ5Bpne3rNUO192g/6+4KAuOxrzS/70dlPzmtFhZOapsFcKsIAj3zlu7JGfwOt8ycOLLlH3pjQIKq3JUaO3FgiYXvEB92VhbDadngVJiiq+8VUlcGSFSrFMg6idx2Vu9EAs5zPjYCA5k1pKQ+340POr5oxHw== Releng RSA key release-runner on 2017-05-19' ],
         'aws-ssh-key'    => [ 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC9iiSg20Kr4F/L9GfkJauYw15zxb8ND6zMrfoPha7nj2hzc+E7D8fzZzWyuSBFeH2N1LqJCMw0UQGhEX555iSmRk6Dn0tJQjM8pg27VbuYjNWpBH+Tdi34qyK/BWc36dNPF741paEiWZHqfq6HEMU/xjLRcUGXzjBFgx6hI/7bCd4Q8g+oD57tCxWtSPMoz7zan1eJUzPrw9T/EJCqVzjp5d6LIpMeCZ8n6xbaS8GmQk2fDxXpkVKHaxCPZ4i2tgVG5Bjei+Z451GgTgWmre/EbhbY8vtBs9UTyqmiioZX/2L3xOzqr3sArS4UPyJKSUKISDIOnyyKjzaWRkHciqBq6p15f+FfwaYLQXjfRapyGEfB/4O7t7Qt2E/2Xyi+LebIKS8PG1SKdNCL8vjeSZ6tQtAGQ6aKtQL285r28w3pdW5MIrhW5eafwGyqh0byGx6F04eqxyncWsA2EWkzpWwM9mDLRit3DrpeFMx0ikcMsDVpwJUTkUAQT/3la2EA6sn3MMijSc/nJIhvUoDbnxAZhmiCJgztTCXaPEpwNmvvYsa9urqll6TT/aI8hIL3CwQMAgcpNHS+hpiZrSuDyy9Ny+nUvT9fMlFYopTkmDL/D1XJT05osDqVEJgWkFaHfDn94iDWD6CTnUua0lWjuHqYpIZh1BpVsYZ/7HQrDJSKVw== Releng RSA key aws-releng on 2017-05-19' ],
     }
     $signing_server_ssl_private_keys = secret('signing_server_ssl_private_keys')
@@ -276,62 +275,6 @@ class config inherits config::base {
 
     $vmwaretools_version              = '10.0.9-3917699'
     $vmwaretools_md5                  = '160979c6d9f5b0979d81b3b6c15d0b1a'
-
-    # These need to be in 'Foo <foo@bar.com>' style to work with release runner
-    $releaserunner3_notify_from       = 'Release Eng <release@mozilla.com>'
-    $releaserunner3_smtp_server       = 'localhost'
-
-    $releaserunner3_env_config = {
-        'dev' => {
-            ship_it_root                          => 'https://ship-it-dev.allizom.org',
-            ship_it_username                      => secret('releaserunner_dev_ship_it_username'),
-            ship_it_password                      => secret('releaserunner_dev_ship_it_password'),
-            notify_to                             => 'Release Notifications Dev <release-automation-notifications-dev@mozilla.com>',
-            notify_to_announce                    => 'Release Notifications Dev <release-automation-notifications-dev@mozilla.com>',
-            taskcluster_client_id                 => secret('releaserunner_dev_taskcluster_client_id'),
-            taskcluster_access_token              => secret('releaserunner_dev_taskcluster_access_token'),
-            github_token                          => secret('releaserunner_github_token'),
-            eme_free_url                          => 'https://github.com/mozilla-partners/mozilla-EME-free-manifest',
-            partner_repack_url                    => 'git@github.com:mozilla-partners/repack-manifests',
-            partner_min_version                   => 61,
-            releaserunner_config_file             => 'release-runner.yml',
-            allowed_branches                      => [ 'projects/jamun', 'projects/maple', 'projects/birch' ],
-            devedition_pattern                    => 'Devedition-.*',
-            fennec_pattern                        => 'Fennec-.*',
-            firefox_pattern                       => 'Firefox-.*',
-            comm_allowed_branches                 => [ 'try-comm-central' ],
-            thunderbird_pattern                   => 'Thunderbird-.*',
-            shipitv2_api_root                     => 'https://shipit-workflow.staging.mozilla-releng.net',
-            auth0_client_id                       => secret('releaserunner_auth0_client_id_dev'),
-            auth0_client_secret                   => secret('releaserunner_auth0_client_secret_dev'),
-            auth0_auth_domain                     => 'auth.mozilla.auth0.com',
-            auth0_audience                        => 'https://shipit-workflow.staging.mozilla-releng.net/',
-        },
-        'prod' => {
-            ship_it_root                          => 'https://ship-it.mozilla.org',
-            ship_it_username                      => secret('releaserunner_prod_ship_it_username'),
-            ship_it_password                      => secret('releaserunner_prod_ship_it_password'),
-            notify_to                             => 'Release Notifications <release-automation-notifications@mozilla.com>',
-            notify_to_announce                    => 'Release Signoff <release-signoff@mozilla.org>',
-            thunderbird_notify_to_announce        => 'Thunderbird Drivers <thunderbird-drivers@mozilla.org>',
-            taskcluster_client_id                 => secret('releaserunner_prod_taskcluster_client_id'),
-            taskcluster_access_token              => secret('releaserunner_prod_taskcluster_access_token'),
-            github_token                          => secret('releaserunner_github_token'),
-            eme_free_url                          => 'https://github.com/mozilla-partners/mozilla-EME-free-manifest',
-            partner_repack_url                    => 'git@github.com:mozilla-partners/repack-manifests',
-            partner_min_version                   => 60,
-            releaserunner_config_file             => 'release-runner.yml',
-            allowed_branches                      => [ 'no-more-branches' ],
-            # exclude betas
-            fennec_pattern                        => 'No such thing here',
-            firefox_pattern                       => 'No such thing here',
-            comm_allowed_branches                 => [
-                                                        'no_such_branch_here',
-                                                      ],
-            thunderbird_pattern                   => 'No such thing here',
-        }
-    }
-
 
     $slaveapi_slavealloc_url           = 'http://slavealloc.build.mozilla.org/api/'
     $slaveapi_inventory_url            = 'https://inventory.mozilla.org/en-US/tasty/v3/'
