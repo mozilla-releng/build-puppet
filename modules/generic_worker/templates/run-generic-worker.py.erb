@@ -15,7 +15,7 @@ def start_generic_worker(param1,param2,param3, param4):
 
     subprocess.Popen(['rm', '-f', 'tasks-resolved-count.txt'], stdout=subprocess.PIPE)
 
-    gw_command = [param1, param2, param3, param4]
+    gw_command = [param1, param2, param3, param4, '2>&1']
     os.environ["PATH"] = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
     generic_worker = subprocess.Popen(gw_command, stdout=subprocess.PIPE)
     logger = subprocess(['logger','-t','generic-worker','-s'], stdin=generic-worker.stdout, stdout=subprocess.PIPE)
@@ -45,7 +45,7 @@ def restart_worker():
 
 def exist_semaphore_file(filename):
     # Check if quarantine file exist
-    if os.path.exist(filename):
+    if os.path.exists(filename):
         return True
     else:
         return False
@@ -65,7 +65,7 @@ def main():
     # will exit after running a single task. This script is then responsible for
     # rebooting the machine.    
     generic_worker_bin = '/usr/local/bin/generic-worker'
-    quarantine_file = "<%= scope.lookupvar('users::builder::home') %>"+"/quarantined"
+    quarantine_file = <%= scope.lookupvar('users::builder::home') %>/quarantined
 
     # start generic-worker process
     return_code = start_generic_worker(generic_worker_bin, sys.argv[1], sys.argv[2], sys.argv[3])
