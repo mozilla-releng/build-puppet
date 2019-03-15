@@ -65,7 +65,7 @@ def main():
     # will exit after running a single task. This script is then responsible for
     # rebooting the machine.    
     generic_worker_bin = '/usr/local/bin/generic-worker'
-    quarantine_file = <%= scope.lookupvar('users::builder::home') %>/quarantined
+    quarantine_file = "<%= scope.lookupvar('users::builder::home') %>/quarantined"
 
     # start generic-worker process
     return_code = start_generic_worker(generic_worker_bin, sys.argv[1], sys.argv[2], sys.argv[3])
