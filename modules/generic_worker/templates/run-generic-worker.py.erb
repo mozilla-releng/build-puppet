@@ -15,7 +15,7 @@ def start_generic_worker(param1,param2,param3, param4):
 
     subprocess.Popen(['rm', '-f', 'tasks-resolved-count.txt'], stdout=subprocess.PIPE)
 
-    gw_command = [generic_worker_bin, param1, param2, param3, param4]
+    gw_command = [param1, param2, param3, param4]
     os.environ["PATH"] = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
     generic_worker = subprocess.Popen(gw_command, stdout=subprocess.PIPE)
     logger = subprocess(['logger','-t','generic-worker','-s'], stdin=generic-worker.stdout, stdout=subprocess.PIPE)
@@ -68,7 +68,7 @@ def main():
     quarantine_file = "<%= scope.lookupvar('users::builder::home') %>"+"/quarantined"
 
     # start generic-worker process
-    return_code = start_generic_worker(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+    return_code = start_generic_worker(generic_worker_bin, sys.argv[1], sys.argv[2], sys.argv[3])
     if return_code == 69:
         # If generic-worker considers that the host environment is in an invalid/corrupted
         # state (for example, it cannot write to disk), it will return the exit code 69.
