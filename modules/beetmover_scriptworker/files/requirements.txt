@@ -41,8 +41,8 @@ requests==2.21.0
 s3transfer==0.2.0
 scriptworker==22.0.1
 six==1.12.0
-slugid==1.0.7 # pyup: ignore
-taskcluster==6.0.0
+slugid==2.0.0
+taskcluster==7.0.0
 taskcluster-urls==11.0.0
 toml==0.10.0
 towncrier==19.2.0

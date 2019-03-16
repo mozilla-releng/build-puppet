@@ -68,8 +68,8 @@ requests==2.21.0
 rsa==4.0
 scriptworker==22.0.1
 simplegeneric==0.8.1
-slugid==1.0.7 # pyup: ignore
-taskcluster==6.0.0
+slugid==2.0.0
+taskcluster==7.0.0
 taskcluster-urls==11.0.0
 traitlets==4.3.2
 typing-extensions==3.7.2
