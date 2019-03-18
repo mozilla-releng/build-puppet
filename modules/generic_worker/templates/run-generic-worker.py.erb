@@ -13,7 +13,7 @@ def start_generic_worker(param1,param2,param3, param4):
     # If this file exists when the worker starts up, and its content is equal
     # to numberOfTasksToRun, the worker won't exit and machine won't reboot.
 
-    subprocess.Popen(['rm', '-f', 'tasks-resolved-count.txt'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subprocess.Popen(['rm', '-f', 'tasks-resolved-count.txt'], stdout=subprocess.PIPE)
 
     gw_command = [param1, param2, param3, param4]
     os.environ["PATH"] = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
