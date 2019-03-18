@@ -1,8 +1,33 @@
-
 import bugzilla
 import socket
 
+exit_codes = {
+    64: " Not able to load generic-worker config. This could be a problem reading the
+        " generic-worker config file on the filesystem, a problem talking to AWS/GCP "
+        " metadata service, or a problem retrieving config/files from the taskcluster "
+        " secrets service ."
+    65: " Not able to install generic-worker on the system."
+    66: " Not able to create an OpenPGP key pair."
+    69: " Worker panic - either a worker bug, or the environment is not suitable for running "
+        " a task, e.g. a file cannot be written to the file system, or something else did "
+        " not work that was required in order to execute a task. See config setting "
+        " shutdownMachineOnInternalError."
+    70: " A new deploymentId has been issued in the AWS worker type configuration, meaning "
+        " this worker environment is no longer up-to-date. Typcially workers should "
+        " terminate."
+    71: " The worker was terminated via an interrupt signal (e.g. Ctrl-C pressed)."
+    72: " The worker is running on spot infrastructure in AWS EC2 and has been served a ""
+        " spot termination notice, and therefore has shut down."
+    73: " The config provided to the worker is invalid."
+    74: " Could not grant provided SID full control of interactive windows stations and desktop.""
+    75: " Not able to create an ed25519 key pair."
+    76: " Not able to save generic-worker config file after fetching it from AWS provisioner or Google Cloud metadata."
+    77: " Not able to apply required file access permissions to the generic-worker config file so that task users can't read from or write to it."
+}
 
+def get_exitcode_description(exitcode):
+    # Return the description for an exit code
+    return exit_codes[exit_code]
 
 def get_hostname():
     return socket.getfqdn().split('.')[0]
@@ -14,20 +39,19 @@ def get_fullname():
     return socket.getfqdn()
 
 def get_bug_alias():
-    return get_hostname()+"_code69"
+    return get_hostname()
 
-def bug_structure(bugzilla):
-    bug_alias = get_hostname()+"_code69"
+def bug_structure(bugzilla, exit_code):
+    bug_alias = get_hostname()
     bug_product = "Infrastructure & Operations"
     bug_component = "CIDuty"
     bug_version = "unspecified"
-    bug_summary = "["+get_domain()+"] "+ get_hostname() + " Generic worker exit code 69"
-    bug_description = ("Error code 69 means: worker panic - either a worker bug, or the environment is not suitable for running "
-                    "a task, e.g. a file cannot be written to the file system, or something else did "
-                    "not work that was required in order to execute a task. See config setting "
-                    "shutdownMachineOnInternalError. "
-                    "The following log were provided: "
+    bug_summary = "["+get_domain()+"] "+ get_hostname() + " problem tracking"
+    bug_description = "Problem tracking for " + get_hostname() + " mahine"
+    bug_comment = ( str(exit_code) + ":" + get_exitcode_description(exit_code)
+                    " The following log were provided: "
                     "https://papertrailapp.com/systems/"+get_fullname()+"/events?q=program%3Ageneric-worker")
+)
     bug_info = bugzilla.build_createbug(
         alias       = bug_alias,
         cc          = "ciduty@mozilla.com",
@@ -35,7 +59,8 @@ def bug_structure(bugzilla):
         component   = bug_component,
         version     = bug_version,
         summary     = bug_summary,
-        description = bug_description
+        description = bug_description,
+        comment     = bug_comment
     )
     return bug_info
 
@@ -46,8 +71,8 @@ def login():
     assert bz.logged_in
     return bz
 
-def create_new_bug(bugzilla):
-    buginfo = bug_structure(bugzilla)
+def create_new_bug(bugzilla, exit_code):
+    buginfo = bug_structure(bugzilla, exit_code)
     new_bug = bugzilla.createbug(buginfo)
     return new_bug.id
 
@@ -69,17 +94,20 @@ def find_bug_for_alias(bugzilla, alias_name):
         result = bugzilla.query(query)[0].id
     return result
 
-def reopen_bug(bugzilla, bug_id):
+def reopen_bug(bugzilla, bug_id, exit_code):
     bug = find_bug(bugzilla, bug_id)
-    update = bugzilla.build_update(status="REOPENED")
+    bug_comment =  str(exit_code) + ":" + get_exitcode_description(exit_code)
+                    " The following log were provided: "
+                    "https://papertrailapp.com/systems/"+get_fullname()+"/events?q=program%3Ageneric-worker")
+    update = bugzilla.build_update(comment=bug_comment, status="REOPENED")
     bugzilla.update_bugs([bug.id], update)
 
-def create_open_bug_self_failure():
+def create_open_bug_self_failure(exit_code):
     # Check if alias for the worker exist or not. If the alias exist, then reopen the existing bug, if not, will create one
     bugzilla = login()
     bug_id = find_bug_for_alias(bugzilla, get_bug_alias())
     if  bug_id == 0:
-        bug_id = create_new_bug(bugzilla)
+        bug_id = create_new_bug(bugzilla, exit_code)
     else:
         # Check if the bug is resolved or not
         bug_status = bugzilla.getbug(bug_id).status

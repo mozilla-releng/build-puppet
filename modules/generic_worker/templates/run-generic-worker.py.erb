@@ -36,6 +36,7 @@ def start_generic_worker(param1,param2,param3, param4):
     generic_worker = subprocess.Popen(gw_command, preexec_fn=demote(user_id_gid[0], user_id_gid[1]) ,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     generic_worker.wait()
     logger = subprocess.Popen(['logger','-t','generic-worker','-s'], preexec_fn=demote(user_id_gid[0], user_id_gid[1]),stdin=generic_worker.stdout, stdout=subprocess.PIPE)
+    logger.wait()
     return generic_worker.returncode
 
 def quarantine_worker():
@@ -102,7 +103,7 @@ def main():
         else:
             create_semaphore_file(quarantine_file)
         # Quarantine the worker        
-        quarantine_worker()
+        quarantine_worker(return_code)
         # Open the bug
         create_open_bug_self_failure()
     else:
