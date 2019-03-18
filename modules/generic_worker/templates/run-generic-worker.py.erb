@@ -94,8 +94,8 @@ def main():
         if exist_semaphore_file(quarantine_file):
             remove_semaphore_file(quarantine_file)
         close_bug_self_failure()
-        restart_worker()
-        sleep(120)
+       # restart_worker()
+       # sleep(120)
 
 if __name__ == "__main__":
     main()
