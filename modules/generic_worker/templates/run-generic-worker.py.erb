@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/local/bin/python3.6
 
 import sys
 import imp
@@ -17,7 +17,7 @@ def start_generic_worker(param1,param2,param3, param4):
 
     gw_command = [param1, param2, param3, param4]
     os.environ["PATH"] = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
-    generic_worker = subprocess.Popen(gw_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    generic_worker = subprocess.Popen(gw_command, stdout=subprocess.PIPE)
     logger = subprocess.Popen(['logger','-t','generic-worker','-s'], stdin=generic_worker.stdout, stdout=subprocess.PIPE)
     return generic_worker.returncode
 
