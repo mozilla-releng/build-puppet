@@ -17,7 +17,7 @@ def start_generic_worker(param1,param2,param3, param4):
 
     gw_command = [param1, param2, param3, param4]
     os.environ["PATH"] = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
-    generic_worker = subprocess.Popen(gw_command, stdout=subprocess.PIPE)
+    generic_worker = subprocess.Popen(gw_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     logger = subprocess.Popen(['logger','-t','generic-worker','-s'], stdin=generic_worker.stdout, stdout=subprocess.PIPE)
     return generic_worker.returncode
 
@@ -26,7 +26,7 @@ def quarantine_worker():
     quarantine_command = ["/usr/local/bin/quarantine-worker", "releng-hardware", "<%= @worker_type %>", "<%= @worker_group %>", "<%= @hostname %>", "720h5s"]
     os.environ["TASKCLUSTER_CLIENT_ID"] = "<%= @quarantine_client_id %>" 
     os.environ["TASKCLUSTER_ACCESS_TOKEN"] = "<%= @quarantine_access_token %>"
-    quarantine = subcommand.Popen(quarantine_command, stdout=subprocess.PIPE)
+    quarantine = subprocess.Popen(quarantine_command, stdout=subprocess.PIPE)
     return quarantine.returncode
 
 def create_semaphore_file(filename):
