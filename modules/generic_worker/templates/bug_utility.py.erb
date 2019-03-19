@@ -25,7 +25,7 @@ exit_codes = {
     77: " Not able to apply required file access permissions to the generic-worker config file so that task users can't read from or write to it."
 }
 
-def get_exitcode_description(exitcode):
+def get_exitcode_description(exit_code):
     # Return the description for an exit code
     return exit_codes[exit_code]
 
@@ -51,7 +51,7 @@ def bug_structure(bugzilla, exit_code):
     bug_comment = ( str(exit_code) + ":" + get_exitcode_description(exit_code) + 
                     " The following log were provided: "
                     "https://papertrailapp.com/systems/"+get_fullname()+"/events?q=program%3Ageneric-worker" )
-    bug_whiteboard = exit_code
+    bug_whiteboard = "code - " + exit_code
     bug_info = bugzilla.build_createbug(
         alias       = bug_alias,
         cc          = "ciduty@mozilla.com",
@@ -97,10 +97,10 @@ def find_bug_for_alias(bugzilla, alias_name):
 
 def reopen_bug(bugzilla, bug_id, exit_code):
     bug = find_bug(bugzilla, bug_id)
-    bug_comment =  str(exit_code) + ":" + get_exitcode_description(exit_code) + 
+    bug_comment = ( str(exit_code) + ":" + get_exitcode_description(exit_code) + 
                     " The following log were provided: "
                     "https://papertrailapp.com/systems/"+get_fullname()+"/events?q=program%3Ageneric-worker")
-    update = bugzilla.build_update(whiteboard=exit_code, comment=bug_comment, status="REOPENED")
+    update = bugzilla.build_update(whiteboard="code - " + exit_code, comment=bug_comment, status="REOPENED")
     bugzilla.update_bugs([bug.id], update)
 
 def create_open_bug_self_failure(exit_code):
