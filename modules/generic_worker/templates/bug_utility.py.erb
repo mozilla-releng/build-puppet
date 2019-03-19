@@ -51,7 +51,7 @@ def bug_structure(bugzilla, exit_code):
     bug_comment = ( str(exit_code) + ":" + get_exitcode_description(exit_code) + 
                     " The following log were provided: "
                     "https://papertrailapp.com/systems/"+get_fullname()+"/events?q=program%3Ageneric-worker" )
-    bug_whiteboard = "code - " + exit_code
+    bug_whiteboard = "code - " + str(exit_code)
     bug_info = bugzilla.build_createbug(
         alias       = bug_alias,
         cc          = "ciduty@mozilla.com",
@@ -100,7 +100,7 @@ def reopen_bug(bugzilla, bug_id, exit_code):
     bug_comment = ( str(exit_code) + ":" + get_exitcode_description(exit_code) + 
                     " The following log were provided: "
                     "https://papertrailapp.com/systems/"+get_fullname()+"/events?q=program%3Ageneric-worker")
-    update = bugzilla.build_update(whiteboard="code - " + exit_code, comment=bug_comment, status="REOPENED")
+    update = bugzilla.build_update(whiteboard="code - " + str(exit_code), comment=bug_comment, status="REOPENED")
     bugzilla.update_bugs([bug.id], update)
 
 def create_open_bug_self_failure(exit_code):
