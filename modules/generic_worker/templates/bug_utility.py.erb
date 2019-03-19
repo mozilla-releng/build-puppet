@@ -2,26 +2,26 @@ import bugzilla
 import socket
 
 exit_codes = {
-    64: " Not able to load generic-worker config. This could be a problem reading the
+    64: " Not able to load generic-worker config. This could be a problem reading the "
         " generic-worker config file on the filesystem, a problem talking to AWS/GCP "
         " metadata service, or a problem retrieving config/files from the taskcluster "
-        " secrets service ."
-    65: " Not able to install generic-worker on the system."
-    66: " Not able to create an OpenPGP key pair."
+        " secrets service .",
+    65: " Not able to install generic-worker on the system.",
+    66: " Not able to create an OpenPGP key pair.",
     69: " Worker panic - either a worker bug, or the environment is not suitable for running "
         " a task, e.g. a file cannot be written to the file system, or something else did "
         " not work that was required in order to execute a task. See config setting "
-        " shutdownMachineOnInternalError."
+        " shutdownMachineOnInternalError.",
     70: " A new deploymentId has been issued in the AWS worker type configuration, meaning "
         " this worker environment is no longer up-to-date. Typcially workers should "
-        " terminate."
-    71: " The worker was terminated via an interrupt signal (e.g. Ctrl-C pressed)."
-    72: " The worker is running on spot infrastructure in AWS EC2 and has been served a ""
-        " spot termination notice, and therefore has shut down."
-    73: " The config provided to the worker is invalid."
-    74: " Could not grant provided SID full control of interactive windows stations and desktop.""
-    75: " Not able to create an ed25519 key pair."
-    76: " Not able to save generic-worker config file after fetching it from AWS provisioner or Google Cloud metadata."
+        " terminate.",
+    71: " The worker was terminated via an interrupt signal (e.g. Ctrl-C pressed).",
+    72: " The worker is running on spot infrastructure in AWS EC2 and has been served a "
+        " spot termination notice, and therefore has shut down.",
+    73: " The config provided to the worker is invalid.",
+    74: " Could not grant provided SID full control of interactive windows stations and desktop.",
+    75: " Not able to create an ed25519 key pair.",
+    76: " Not able to save generic-worker config file after fetching it from AWS provisioner or Google Cloud metadata.",
     77: " Not able to apply required file access permissions to the generic-worker config file so that task users can't read from or write to it."
 }
 
@@ -48,10 +48,10 @@ def bug_structure(bugzilla, exit_code):
     bug_version = "unspecified"
     bug_summary = "["+get_domain()+"] "+ get_hostname() + " problem tracking"
     bug_description = "Problem tracking for " + get_hostname() + " mahine"
-    bug_comment = ( str(exit_code) + ":" + get_exitcode_description(exit_code)
+    bug_comment = ( str(exit_code) + ":" + get_exitcode_description(exit_code) + 
                     " The following log were provided: "
-                    "https://papertrailapp.com/systems/"+get_fullname()+"/events?q=program%3Ageneric-worker")
-)
+                    "https://papertrailapp.com/systems/"+get_fullname()+"/events?q=program%3Ageneric-worker" )
+    bug_whiteboard = exit_code
     bug_info = bugzilla.build_createbug(
         alias       = bug_alias,
         cc          = "ciduty@mozilla.com",
@@ -60,7 +60,8 @@ def bug_structure(bugzilla, exit_code):
         version     = bug_version,
         summary     = bug_summary,
         description = bug_description,
-        comment     = bug_comment
+        comment     = bug_comment,
+        whiteboard  = bug_whiteboard
     )
     return bug_info
 
@@ -81,7 +82,7 @@ def find_bug(bugzilla, bug_id):
 
 def close_bug(bugzilla, bug_id):
     bug = find_bug(bugzilla, bug_id)
-    update = bugzilla.build_update(comment="The worker is now in working state", status="RESOLVED", resolution="FIXED")
+    update = bugzilla.build_update(whiteboard='', comment="The worker is now in working state", status="RESOLVED", resolution="FIXED")
     bugzilla.update_bugs([bug.id], update)
 
 def find_bug_for_alias(bugzilla, alias_name):
@@ -96,10 +97,10 @@ def find_bug_for_alias(bugzilla, alias_name):
 
 def reopen_bug(bugzilla, bug_id, exit_code):
     bug = find_bug(bugzilla, bug_id)
-    bug_comment =  str(exit_code) + ":" + get_exitcode_description(exit_code)
+    bug_comment =  str(exit_code) + ":" + get_exitcode_description(exit_code) + 
                     " The following log were provided: "
                     "https://papertrailapp.com/systems/"+get_fullname()+"/events?q=program%3Ageneric-worker")
-    update = bugzilla.build_update(comment=bug_comment, status="REOPENED")
+    update = bugzilla.build_update(whiteboard=exit_code, comment=bug_comment, status="REOPENED")
     bugzilla.update_bugs([bug.id], update)
 
 def create_open_bug_self_failure(exit_code):
@@ -112,7 +113,7 @@ def create_open_bug_self_failure(exit_code):
         # Check if the bug is resolved or not
         bug_status = bugzilla.getbug(bug_id).status
         if bug_status == "RESOLVED":
-            reopen_bug(bugzilla, bug_id)
+            reopen_bug(bugzilla, bug_id, exit_code)
 
 def close_bug_self_failure():
     # Let's close the bug
