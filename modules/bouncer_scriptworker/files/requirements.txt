@@ -29,7 +29,7 @@ pyrsistent==0.14.11
 python-dateutil==2.8.0
 python-gnupg==0.4.4
 requests==2.21.0
-scriptworker==22.0.1
+scriptworker==22.1.0
 six==1.12.0
 slugid==2.0.0
 taskcluster==7.0.0
