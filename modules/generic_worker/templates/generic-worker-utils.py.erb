@@ -50,11 +50,11 @@ def main():
     # rebooting the machine.    
     quarantine_file = "<%= scope.lookupvar('users::builder::home') %>/quarantined"
 
-    # Chex the exitcode for generic-worker process
+    # Checks the exitcode for generic-worker process
     exit_code = int(sys.argv[1])
     if exit_code in get_exitcodes_dictionary():
-        # If generic-worker considers that the host environment is in an invalid/corrupted
-        # state (for example, it cannot write to disk), it will return an exit code other that 0, 67 or 68.
+        # If generic-worker considers that the host environment is in an invalid/corrupted state, 
+        # (for example, it cannot write to disk), it will return an exit code other than 0, 67 or 68.
         #
         # More information about generic-worker exit codes can be seen here:
         # https://docs.taskcluster.net/docs/reference/workers/generic-worker#set-up-your-env
