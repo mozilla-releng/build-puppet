@@ -1,43 +1,9 @@
-#!/usr/local/bin/python3.6
-
 import sys
 import imp
 imp.load_source('bugzillautils', '/usr/local/share/generic-worker/bugzilla-utils.py')
 from bugzillautils import *
 import subprocess
 import os
-
-def get_uid_gid():
-    # return the gid and uid for current user
-    gid_uid = []
-    gid_uid.append(os.getuid())
-    gid_uid.append(os.getgid())
-    return gid_uid
-
-def demote(user_uid, user_gid):
-	# Pass the function 'set_ids' to preexec_fn, rather than just calling
-	# setuid and setgid. This will change the ids for that subprocess only
-    def set_ids():
-        os.setgid(user_gid)
-        os.setuid(user_uid)
-    return set_ids
-
-def start_generic_worker(param1,param2,param3, param4):
-    # Start generic worker and return exit status code for generic worker
-
-    # If this file exists when the worker starts up, and its content is equal
-    # to numberOfTasksToRun, the worker won't exit and machine won't reboot.
-    user_id_gid = get_uid_gid()
-    subprocess.Popen(['rm', '-f', 'tasks-resolved-count.txt'], stdout=subprocess.PIPE)
-
-    gw_command = [param1, param2, param3, param4]
-    os.environ["PATH"] = "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
-    # Run generic-worker process as cltbld user
-    generic_worker = subprocess.Popen(gw_command, preexec_fn=demote(user_id_gid[0], user_id_gid[1]) ,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    generic_worker.wait()
-    logger = subprocess.Popen(['logger','-t','generic-worker','-s'], preexec_fn=demote(user_id_gid[0], user_id_gid[1]),stdin=generic_worker.stdout, stdout=subprocess.PIPE)
-    logger.wait()
-    return generic_worker.returncode
 
 def quarantine_worker():
     # Quarantine the worker, if worker is in bad state
@@ -82,14 +48,13 @@ def main():
     # (/etc/generic-worker.config) we set numberOfTasksToRun to 1 so that the worker
     # will exit after running a single task. This script is then responsible for
     # rebooting the machine.    
-    generic_worker_bin = '/usr/local/bin/generic-worker'
     quarantine_file = "<%= scope.lookupvar('users::builder::home') %>/quarantined"
 
-    # start generic-worker process
-    return_code = start_generic_worker(generic_worker_bin, sys.argv[1], sys.argv[2], sys.argv[3])
-    if return_code == 69:
+    # Chex the exitcode for generic-worker process
+    exit_code = sys.argv[1]
+    if exit_code in get_exitcodes_dictionary():
         # If generic-worker considers that the host environment is in an invalid/corrupted
-        # state (for example, it cannot write to disk), it will return the exit code 69.
+        # state (for example, it cannot write to disk), it will return an exit code other that 0, 67 or 68.
         #
         # More information about generic-worker exit codes can be seen here:
         # https://docs.taskcluster.net/docs/reference/workers/generic-worker#set-up-your-env
@@ -112,8 +77,8 @@ def main():
         if exist_semaphore_file(quarantine_file):
             remove_semaphore_file(quarantine_file)
         close_bug_self_failure()
-       # restart_worker()
-       # sleep(120)
+        restart_worker()
+        sleep(120)
 
 if __name__ == "__main__":
     main()

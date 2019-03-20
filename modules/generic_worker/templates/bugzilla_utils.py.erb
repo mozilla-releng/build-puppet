@@ -25,6 +25,9 @@ exit_codes = {
     77: " Not able to apply required file access permissions to the generic-worker config file so that task users can't read from or write to it."
 }
 
+def get_exitcodes_dictionary():
+    return exit_codes
+
 def get_exitcode_description(exit_code):
     # Return the description for an exit code
     return exit_codes[exit_code]

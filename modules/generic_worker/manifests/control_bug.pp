@@ -34,7 +34,7 @@ class generic_worker::control_bug {
 
     file { '/usr/local/share/generic-worker/bugzilla-utils.py':
         ensure  => present,
-        content => template('generic_worker/bug_utility.py.erb'),
+        content => template('generic_worker/bugzilla_utils.py.erb'),
         mode    => '0755',
         owner   => $users::root::username,
         group   => $users::root::group,
