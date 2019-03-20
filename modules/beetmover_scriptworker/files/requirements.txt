@@ -1,7 +1,7 @@
 # python_version: 36
 Jinja2==2.10
 MarkupSafe==1.1.1
-PyYAML==3.13
+PyYAML==5.1
 aiohttp==3.5.4
 arrow==0.13.1
 asn1crypto==0.24.0
