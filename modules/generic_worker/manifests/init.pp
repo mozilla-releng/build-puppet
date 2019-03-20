@@ -139,9 +139,9 @@ class generic_worker {
                         owner   => $users::root::username,
                         group   => $users::root::group;
                     }
-                    file { '/usr/local/bin/run-generic-worker.py':
+                    file { '/usr/local/share/generic-worker/generic-worker-utils.py':
                         ensure  => present,
-                        content => template('generic_worker/run-generic-worker.py.erb'),
+                        content => template('generic_worker/generic-worker-utils.py.erb'),
                         mode    => '0755',
                         owner   => $users::root::username,
                         group   => $users::root::group;
