@@ -52,6 +52,7 @@ def main():
 
     # Chex the exitcode for generic-worker process
     exit_code = sys.argv[1]
+    print(exit_code)
     if exit_code in get_exitcodes_dictionary():
         # If generic-worker considers that the host environment is in an invalid/corrupted
         # state (for example, it cannot write to disk), it will return an exit code other that 0, 67 or 68.

@@ -19,4 +19,4 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
 exitcode="${PIPESTATUS[0]}"
 
 # Check exit code. If exitcode is 0, 67, 68 then reboot the worker, else quarantine worker and open the bug
-/usr/local/bin/python3 /usr/local/share/generic-worker/generic-worker-utils.py $exitcode
+/usr/local/bin/python3.6 /usr/local/share/generic-worker/generic-worker-utils.py $exitcode
