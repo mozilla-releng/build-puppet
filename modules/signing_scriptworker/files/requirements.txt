@@ -15,7 +15,7 @@ cryptography==2.6.1
 datadog==0.27.0
 decorator==4.3.2
 defusedxml==0.5.0
-dictdiffer==0.7.2
+dictdiffer==0.8.0
 ecdsa==0.13
 frozendict==1.2
 future==0.17.1
