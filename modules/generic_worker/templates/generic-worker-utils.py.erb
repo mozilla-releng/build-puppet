@@ -51,8 +51,7 @@ def main():
     quarantine_file = "<%= scope.lookupvar('users::builder::home') %>/quarantined"
 
     # Chex the exitcode for generic-worker process
-    exit_code = sys.argv[1]
-    print(exit_code)
+    exit_code = int(sys.argv[1])
     if exit_code in get_exitcodes_dictionary():
         # If generic-worker considers that the host environment is in an invalid/corrupted
         # state (for example, it cannot write to disk), it will return an exit code other that 0, 67 or 68.
@@ -69,9 +68,9 @@ def main():
         else:
             create_semaphore_file(quarantine_file)
         # Quarantine the worker        
-        quarantine_worker(return_code)
+        quarantine_worker()
         # Open the bug
-        create_open_bug_self_failure()
+        create_open_bug_self_failure(exit_code)
     else:
         # If the exit code is other that 69, close the bug, if is a bug open for this worker
         # and restart the worker
