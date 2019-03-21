@@ -1,5 +1,5 @@
 # python_version: 36
-PyYAML==3.13
+PyYAML==5.1
 addonscript==1.0  # puppet: nodownload
 aiohttp==3.5.4
 arrow==0.13.1
@@ -11,7 +11,7 @@ cffi==1.12.2
 chardet==3.0.4
 cryptography==2.6.1
 defusedxml==0.5.0
-dictdiffer==0.7.2
+dictdiffer==0.8.0
 ecdsa==0.13
 frozendict==1.2
 future==0.17.1
