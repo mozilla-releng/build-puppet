@@ -15,7 +15,7 @@ class packages::mozilla::python_bugzilla {
                     # Install python-bugzilla on OSX workers
                     Anchor['packages::mozilla::python_bugzilla::begin'] ->
                     packages::pkgdmg {
-                        ['python-bugzilla','python3-bugzilla']:
+                        ['python-bugzilla','python3.6-bugzilla']:
                             os_version_specific => true,
                             version             => '2.2.0-1';
                     }  -> Anchor['packages::mozilla::python_bugzilla::end']
