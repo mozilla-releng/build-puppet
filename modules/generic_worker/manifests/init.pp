@@ -129,7 +129,7 @@ class generic_worker {
                     $reboot_command = '/usr/bin/sudo /sbin/reboot --force'
 
                     # Use python3, who is pinned to python 3.5
-                    $python3 = '/usr/local/bin/python3'
+                    $python3 = '/usr/bin/python3'
 
                     file {
                         ["${::users::builder::home}/.config",
