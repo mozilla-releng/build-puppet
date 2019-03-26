@@ -12,36 +12,60 @@
             "api_root": "<%= @env_config["balrog_api_root"] %>",
             "balrog_username": "<%= @env_config["balrog_username"] %>",
             "balrog_password": "<%= @env_config["balrog_password"] %>",
+            "auth0_domain": "<%= @env_config["auth0_domain"] %>",
+            "auth0_client_id": "<%= @env_config["auth0_client_id"] %>",
+            "auth0_client_secret": "<%= @env_config["auth0_client_secret"] %>",
+            "auth0_audience": "<%= @env_config["auth0_audience"] %>",
             "allowed_channels": ["nightly"]
         },
         "aurora": {
             "api_root": "<%= @env_config["balrog_api_root"] %>",
             "balrog_username": "<%= @env_config["balrog_username"] %>",
             "balrog_password": "<%= @env_config["balrog_password"] %>",
+            "auth0_domain": "<%= @env_config["auth0_domain"] %>",
+            "auth0_client_id": "<%= @env_config["auth0_client_id"] %>",
+            "auth0_client_secret": "<%= @env_config["auth0_client_secret"] %>",
+            "auth0_audience": "<%= @env_config["auth0_audience"] %>",
             "allowed_channels": ["aurora"]
         },
         "beta": {
             "api_root": "<%= @env_config["balrog_api_root"] %>",
             "balrog_username": "<%= @env_config["balrog_username"] %>",
             "balrog_password": "<%= @env_config["balrog_password"] %>",
+            "auth0_domain": "<%= @env_config["auth0_domain"] %>",
+            "auth0_client_id": "<%= @env_config["auth0_client_id"] %>",
+            "auth0_client_secret": "<%= @env_config["auth0_client_secret"] %>",
+            "auth0_audience": "<%= @env_config["auth0_audience"] %>",
             "allowed_channels": ["beta", "beta-localtest", "beta-cdntest"]
         },
         "release": {
             "api_root": "<%= @env_config["balrog_api_root"] %>",
             "balrog_username": "<%= @env_config["balrog_username"] %>",
             "balrog_password": "<%= @env_config["balrog_password"] %>",
+            "auth0_domain": "<%= @env_config["auth0_domain"] %>",
+            "auth0_client_id": "<%= @env_config["auth0_client_id"] %>",
+            "auth0_client_secret": "<%= @env_config["auth0_client_secret"] %>",
+            "auth0_audience": "<%= @env_config["auth0_audience"] %>",
             "allowed_channels": ["release", "release-localtest", "release-cdntest"]
         },
         "esr": {
             "api_root": "<%= @env_config["balrog_api_root"] %>",
             "balrog_username": "<%= @env_config["balrog_username"] %>",
             "balrog_password": "<%= @env_config["balrog_password"] %>",
+            "auth0_domain": "<%= @env_config["auth0_domain"] %>",
+            "auth0_client_id": "<%= @env_config["auth0_client_id"] %>",
+            "auth0_client_secret": "<%= @env_config["auth0_client_secret"] %>",
+            "auth0_audience": "<%= @env_config["auth0_audience"] %>",
             "allowed_channels": ["esr", "esr-localtest", "esr-cdntest"]
         },
         "dep": {
             "api_root": "https://balrog-admin.stage.mozaws.net/api",
             "balrog_username": "balrog-stage-ffxbld",
             "balrog_password": "",
+            "auth0_domain": "<%= @env_config["auth0_domain"] %>",
+            "auth0_client_id": "<%= @env_config["auth0_client_id"] %>",
+            "auth0_client_secret": "<%= @env_config["auth0_client_secret"] %>",
+            "auth0_audience": "<%= @env_config["auth0_audience"] %>",
             "allowed_channels": [
                 "nightly", "aurora", "beta", "beta-localtest", "beta-cdntest",
                 "release", "release-localtest", "release-cdntest", "esr",

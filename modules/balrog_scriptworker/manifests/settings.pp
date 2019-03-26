@@ -26,6 +26,10 @@ class balrog_scriptworker::settings {
             sign_chain_of_trust => false,
             verify_chain_of_trust => true,
             verify_cot_signature => false,
+            auth0_domain => 'auth.mozilla.auth0.com',
+            auth0_client_id => secret('balrog_auth0_client_id_stage'),
+            auth0_client_secret => secret('balrog_auth0_client_secret_stage'),
+            auth0_audience => 'balrog-stage',
         },
         'prod' => {
             balrog_username => 'balrog-ffxbld',
@@ -41,6 +45,10 @@ class balrog_scriptworker::settings {
             sign_chain_of_trust => true,
             verify_chain_of_trust => true,
             verify_cot_signature => true,
+            auth0_domain => 'auth.mozilla.auth0.com',
+            auth0_client_id => secret('balrog_auth0_client_id_prod'),
+            auth0_client_secret => secret('balrog_auth0_client_secret_prod'),
+            auth0_audience => 'balrog-production',
         },
         'comm-thunderbird-dev' => {
             balrog_username => 'balrog-stage-tbirdbld',
@@ -56,6 +64,10 @@ class balrog_scriptworker::settings {
             sign_chain_of_trust => false,
             verify_chain_of_trust => true,
             verify_cot_signature => false,
+            auth0_domain => 'auth.mozilla.auth0.com',
+            auth0_client_id => secret('balrog_auth0_tb_client_id_stage'),
+            auth0_client_secret => secret('balrog_auth0_tb_client_secret_stage'),
+            auth0_audience => 'balrog-stage',
         },
         'comm-thunderbird-prod' => {
             balrog_username => 'balrog-tbirdbld',
@@ -72,6 +84,10 @@ class balrog_scriptworker::settings {
             sign_chain_of_trust => true,
             verify_chain_of_trust => true,
             verify_cot_signature => true,
+            auth0_domain => 'auth.mozilla.auth0.com',
+            auth0_client_id => secret('balrog_auth0_tb_client_id_prod'),
+            auth0_client_secret => secret('balrog_auth0_tb_client_secret_prod'),
+            auth0_audience => 'balrog-production',
         },
     }
 }
