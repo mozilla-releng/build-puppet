@@ -36,7 +36,7 @@ rsa==4.0
 scriptworker==22.1.0
 six==1.12.0
 slugid==2.0.0
-taskcluster==7.0.0
+taskcluster==7.0.1
 taskcluster-urls==11.0.0
 typing-extensions==3.7.2
 uritemplate==3.0.0

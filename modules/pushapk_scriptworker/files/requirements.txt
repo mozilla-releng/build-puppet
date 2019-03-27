@@ -32,14 +32,14 @@ httplib2==0.12.1
 humanize==0.5.1
 idna==2.8
 idna_ssl==1.1.0
-ipython==7.3.0
+ipython==7.4.0
 ipython_genutils==0.2.0
 jedi==0.13.3
 json-e==3.0.0
 jsonschema==3.0.1
 jwcrypto==0.6.0
 kiwisolver==1.0.1
-lxml==4.3.2
+lxml==4.3.3
 matplotlib==3.0.3
 mohawk==0.3.4  # pyup: ignore
 mozapkpublisher==1.0.1
@@ -69,7 +69,7 @@ rsa==4.0
 scriptworker==22.1.0
 simplegeneric==0.8.1
 slugid==2.0.0
-taskcluster==7.0.0
+taskcluster==7.0.1
 taskcluster-urls==11.0.0
 traitlets==4.3.2
 typing-extensions==3.7.2
