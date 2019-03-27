@@ -20,7 +20,6 @@ colorama==0.4.1
 cryptography==2.6.1
 Cycler==0.10.0
 decorator==4.4.0
-defusedxml==0.5.0
 dictdiffer==0.8.0
 frozendict==1.2
 future==0.17.1
@@ -62,11 +61,10 @@ pyOpenSSL==19.0.0
 pyparsing==2.3.1
 pyrsistent==0.14.11
 python-dateutil==2.8.0
-python-gnupg==0.4.4
 pytz==2018.9
 requests==2.21.0
 rsa==4.0
-scriptworker==22.1.0
+scriptworker==23.0.0
 simplegeneric==0.8.1
 slugid==2.0.0
 taskcluster==7.0.1

@@ -14,7 +14,6 @@ construct==2.9.45
 cryptography==2.6.1
 datadog==0.27.0
 decorator==4.4.0
-defusedxml==0.5.0
 dictdiffer==0.8.0
 ecdsa==0.13
 frozendict==1.2
@@ -28,18 +27,15 @@ jwcrypto==0.6.0
 mar==3.1.0
 mohawk==0.3.4  # pyup: ignore
 multidict==4.5.2
-pexpect==4.6.0
-ptyprocess==0.6.0
 pyasn1==0.4.5
 pycparser==2.19
 pyrsistent==0.14.11
 python-dateutil==2.8.0
-python-gnupg==0.4.4
 python-jose==3.0.1
 requests==2.21.0
 requests-hawk==1.0.0
 rsa==4.0
-scriptworker==22.1.0
+scriptworker==23.0.0
 signingscript==9.6.0  # puppet: nodownload
 signtool==3.2.1
 six==1.12.0
