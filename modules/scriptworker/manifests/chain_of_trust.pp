@@ -8,8 +8,6 @@ define scriptworker::chain_of_trust(
   $git_key_repo_url,
   $git_pubkey_dir,
 
-  $gpg_pubkey,
-  $gpg_privkey,
   $ed25519_privkey,
 
   $username,

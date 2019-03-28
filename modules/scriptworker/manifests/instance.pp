@@ -109,8 +109,6 @@ define scriptworker::instance(
         git_key_repo_url => $scriptworker::instance::settings::git_key_repo_url,
         git_pubkey_dir   => $git_pubkey_dir,
 
-        gpg_pubkey       => $config::scriptworker_gpg_public_key,
-        gpg_privkey      => $config::scriptworker_gpg_private_key,
         ed25519_privkey  => $config::scriptworker_ed25519_private_key,
 
         username         => $username,
