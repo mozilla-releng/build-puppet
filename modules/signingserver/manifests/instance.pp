@@ -6,11 +6,8 @@ define signingserver::instance(
         $listenaddr, $port, $code_tag,
         $token_secret, $token_secret0,
         $new_token_auth, $new_token_auth0,
-        $mar_key_name, $mar_sha384_key_name,
-        $jar_key_name, $jar_digestalg, $jar_sigalg,
-        $formats, $mac_cert_subject_ou,
+        $mar_key_name, $formats, $mac_cert_subject_ou,
         $ssl_cert, $ssl_private_key,
-        $focus_jar_key_name = '', $focus_jar_digestalg = '', $focus_jar_sigalg = '',
         $signcode_timestamp = 'yes',
         $concurrency        = 4,
         # When signcode_maxsize changes, please inform
@@ -40,16 +37,10 @@ define signingserver::instance(
     $unsigned_dir          = "${basedir}/unsigned-files"
 
     $secrets_dir           = "${basedir}/secrets"
-    $signcode_keydir       = "${secrets_dir}/signcode"
     $sha2signcode_keydir   = "${secrets_dir}/sha2signcode"
     $gpg_homedir           = "${secrets_dir}/gpg"
     $mar_keydir            = "${secrets_dir}/mar"
-    $mar_sha384_keydir     = "${secrets_dir}/mar-sha384"
-    $jar_keystore          = "${secrets_dir}/jar"
-    $focus_jar_keystore    = "${secrets_dir}/focus-jar"
     $server_certdir        = "${secrets_dir}/server"
-    $emevoucher_key        = "${secrets_dir}/emevouch.pem"
-    $emevoucher_chain      = "${secrets_dir}/emechain.pem"
 
     $dmg_keydir            = "${secrets_dir}/dmg"
     $dmg_keychain          = "${dmg_keydir}/signing.keychain"
@@ -64,23 +55,17 @@ define signingserver::instance(
 
     # paths in packages
     $signmar               = '/tools/signmar/bin/signmar'
-    $signmar_sha384        = '/tools/signmar-sha384/bin/signmar'
     $testfile_dir          = '/tools/signing-test-files'
-    $testfile_signcode     = "${testfile_dir}/test.exe"
-    $testfile_osslsigncode = "${testfile_dir}/test64.exe"
-    $testfile_emevoucher   = "${testfile_dir}/test.bin"
+    $testfile_sha2signcode = "${testfile_dir}/test64.exe"
     $testfile_mar          = "${testfile_dir}/test.mar"
-    $testfile_mar_sha384   = "${testfile_dir}/test.mar"
     $testfile_gpg          = "${testfile_dir}/test.mar"
     $testfile_dmg          = "${testfile_dir}/test.tar.gz"
-    $testfile_jar          = "${testfile_dir}/test.zip"
     $testfile_widevine     = "${testfile_dir}/test.tar.gz"
     $testfile_widevine_blessed = "${testfile_dir}/test.exe"
 
     # commands
     $signscript            = "${basedir}/bin/python2.7 ${script_dir}/signscript.py -c ${basedir}/signscript.ini"
     $mar_cmd               = "${signmar} -d ${basedir}/secrets/mar -n ${mar_key_name} -s"
-    $mar_sha384_cmd        = "${signmar_sha384} -d ${basedir}/secrets/mar-sha384 -n ${mar_sha384_key_name} -s"
     $widevine_cmd          = "${basedir}/bin/python2.7 ${widevine_dir}/widevine_signer.py --private_key %(widevine_key)s --certificate %(widevine_cert)s --input %(input)s --output_file %(output)s --flags %(blessed)s --prompt_passphrase"
 
     # copy vars from config
@@ -150,11 +135,9 @@ define signingserver::instance(
         [ $signed_dir,
           $unsigned_dir,
           $secrets_dir,
-          $signcode_keydir,
           $sha2signcode_keydir,
           $gpg_homedir,
           $mar_keydir,
-          $mar_sha384_keydir,
           $dmg_keydir,
           $server_certdir,
           $widevine_keydir,
