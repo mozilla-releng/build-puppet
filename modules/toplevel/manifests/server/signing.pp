@@ -48,7 +48,7 @@ class toplevel::server::signing inherits toplevel::server {
                     # that is consistent for all certs from the same account.
                     mac_cert_subject_ou => '43AQ936H96',
                     token_secret        => secret('moco_signing_server_nightly_token_secret'),
-                    token_secret0       => secret('moco_signing_server_old_token_secret'),
+                    token_secret0       => secret('moco_signing_server_nightly_token_secret'),
                     new_token_auth      => "${signing_server_username}:${signing_server_nightly_password}",
                     new_token_auth0     => "${signing_server_username}:${signing_server_nightly_password}",
                     mar_key_name        => 'nightly1',
@@ -65,7 +65,7 @@ class toplevel::server::signing inherits toplevel::server {
                     code_tag            => 'SIGNING_SERVER',
                     mac_cert_subject_ou => 'Release Engineering',
                     token_secret        => secret('moco_signing_server_dep_token_secret'),
-                    token_secret0       => secret('moco_signing_server_old_token_secret'),
+                    token_secret0       => secret('moco_signing_server_dep_token_secret'),
                     new_token_auth      => "${signing_server_username}:${signing_server_dep_password}",
                     new_token_auth0     => "${signing_server_username}:${signing_server_dep_password}",
                     mar_key_name        => 'dep1',
@@ -88,7 +88,7 @@ class toplevel::server::signing inherits toplevel::server {
                     # that is consistent for all certs from the same account.
                     mac_cert_subject_ou => '43AQ936H96',
                     token_secret        => secret('moco_signing_server_release_token_secret'),
-                    token_secret0       => secret('moco_signing_server_old_token_secret'),
+                    token_secret0       => secret('moco_signing_server_release_token_secret'),
                     new_token_auth      => "${signing_server_username}:${signing_server_release_password}",
                     new_token_auth0     => "${signing_server_username}:${moco_signing_server_repack_password}",
                     mar_key_name        => 'rel1',
