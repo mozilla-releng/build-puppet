@@ -12,7 +12,7 @@ chardet==3.0.4
 click==7.0
 construct==2.9.45
 cryptography==2.6.1
-datadog==0.27.0
+datadog==0.28.0
 decorator==4.4.0
 dictdiffer==0.8.0
 ecdsa==0.13
