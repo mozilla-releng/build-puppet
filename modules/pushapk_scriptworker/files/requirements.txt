@@ -52,7 +52,7 @@ pexpect==4.6.0
 pickleshare==0.7.5
 prompt_toolkit==2.0.9
 ptyprocess==0.6.0
-pushapkscript==0.14.0  # puppet: nodownload
+pushapkscript==1.0.0  # puppet: nodownload
 pyasn1==0.4.5
 pyasn1-modules==0.2.4
 pycparser==2.19
