@@ -63,8 +63,6 @@ class nrpe::base {
                 file { '/etc/default/nagios-nrpe-server':
                     ensure  => present,
                     content => "NRPE_OPTS=\"\"\n",
-                    path    => ['/bin', '/sbin', '/usr/bin'],
-                    unless  => 'test `grep -w "^NRPE_OPTS=\"\"" /etc/default/nagios-nrpe-server`',
                     notify  => Class['nrpe::service'],
                     require => Class['packages::nrpe'];
                 }
