@@ -13,10 +13,7 @@ class balrog_scriptworker::settings {
 
     $env_config = {
         'dev' => {
-            balrog_username => 'balrog-stage-ffxbld',
-            balrog_password => '',
             balrog_api_root => 'https://balrog-admin.stage.mozaws.net/api',
-
             dummy => false,
             taskcluster_client_id => 'project/releng/scriptworker/balrogworker-dev',
             taskcluster_access_token => secret('balrogworker_dev_taskcluster_access_token'),
@@ -32,10 +29,7 @@ class balrog_scriptworker::settings {
             auth0_audience => 'balrog-stage',
         },
         'prod' => {
-            balrog_username => 'balrog-ffxbld',
-            balrog_password => secret('balrog-ffxbld_ldap_password'),
             balrog_api_root => 'https://aus4-admin.mozilla.org/api',
-
             dummy => false,
             taskcluster_client_id => 'project/releng/scriptworker/balrogworker',
             taskcluster_access_token => secret('balrogworker_prod_taskcluster_access_token'),
@@ -51,10 +45,7 @@ class balrog_scriptworker::settings {
             auth0_audience => 'balrog-production',
         },
         'comm-thunderbird-dev' => {
-            balrog_username => 'balrog-stage-tbirdbld',
-            balrog_password => '',
             balrog_api_root => 'https://balrog-admin.stage.mozaws.net/api',
-
             dummy => false,
             taskcluster_client_id => 'project/comm/thunderbird/releng/scriptworker/balrogworker/dev',
             taskcluster_access_token => secret('comm_thunderbird_balrogworker_dev_taskcluster_access_token'),
@@ -70,10 +61,7 @@ class balrog_scriptworker::settings {
             auth0_audience => 'balrog-stage',
         },
         'comm-thunderbird-prod' => {
-            balrog_username => 'balrog-tbirdbld',
-            balrog_password => secret('balrog-tbirdbld_ldap_password'),
             balrog_api_root => 'https://aus4-admin.mozilla.org/api',
-
             dummy => false,
             taskcluster_client_id => 'project/comm/thunderbird/releng/scriptworker/balrogworker/prod',
             taskcluster_access_token => secret('comm_thunderbird_balrogworker_prod_taskcluster_access_token'),
