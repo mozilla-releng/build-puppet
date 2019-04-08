@@ -17,7 +17,7 @@ class packages::telegraf {
                    Anchor['packages::telegraf::begin'] ->
                    package {
                        'telegraf':
-                           ensure => 'latest';
+                           ensure => '1.10.2';
                            #    install_options => [ '--no-install-recommends' ];
                    } -> Anchor['packages::telegraf::end']
                 }
@@ -29,7 +29,7 @@ class packages::telegraf {
         Darwin: {
             packages::pkgdmg {
                 'telegraf':
-                    version             => '1.9.3',
+                    version             => '1.10.2',
                     os_version_specific => false,
                     private             => false;
             }
