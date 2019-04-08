@@ -292,6 +292,12 @@ class config inherits config::base {
 
     $buildmaster_ssh_keys              = [ 'ffxbld_rsa', 'tbirdbld_dsa', 'trybld_dsa' ]
 
+    # monitoring
+    $telegraf_host                     = 'https://telegraf.relops.mozops.net'
+    $telegraf_db                       = 'relops'
+    $telegraf_user                     = 'relops_wo'
+    $telegraf_password                 = secret('relops_influx_wo_password')
+
     case $::fqdn {
         /.*\.(mdc1|use1|usw2)\.mozilla\.com/: {
                 $collectd_write = {

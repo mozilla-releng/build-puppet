@@ -132,6 +132,12 @@ class config::base {
     # a comma-separated list of hosts which can connect to the NRPE daemon
     $nrpe_allowed_hosts     = '127.0.0.1'
 
+    # influxdb_host for telegraf monitoring output
+    $telegraf_host          = undef
+    $telegraf_db            = undef
+    $telegraf_user          = undef
+    $telegraf_password      = undef
+
     # a hash of collectd write modules and there configurations.
     # If undef, module is disabled
     $collectd_write         = undef
