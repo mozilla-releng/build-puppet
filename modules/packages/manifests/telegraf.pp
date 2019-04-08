@@ -17,7 +17,7 @@ class packages::telegraf {
                    Anchor['packages::telegraf::begin'] ->
                    package {
                        'telegraf':
-                           ensure => '1.10.2';
+                           ensure => '1.10.2-1';
                            #    install_options => [ '--no-install-recommends' ];
                    } -> Anchor['packages::telegraf::end']
                 }
