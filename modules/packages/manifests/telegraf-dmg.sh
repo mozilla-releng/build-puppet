@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=${1:-1.9.3}
+version=${1:-1.10.2}
 url=${2:-https://homebrew.bintray.com/bottles/telegraf-${version}.mojave.bottle.tar.gz}
 fullname=telegraf-$version
 
