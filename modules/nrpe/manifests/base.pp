@@ -51,7 +51,8 @@ class nrpe::base {
             if $::operatingsystem == 'CentOS' {
                 exec { 'change pid file path':
                     command => "sed -i 's/PID_FILE=\/var\/run\/nrpe\/nrpe.pid/PID_FILE=\/var\/run\/nrpe.pid/g' /etc/init.d/nrpe",
-                    path    => ['/bin', '/sbin'],
+                    path    => ['/bin', '/sbin', '/usr/bin'],
+                    unless  => 'test `grep -w "PID_FILE=\/var\/run\/nrpe.pid" /etc/init.d/nrpe`',
                     notify  => Class['nrpe::service'],
                     require => Class['packages::nrpe'];
                 }
