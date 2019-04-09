@@ -18,13 +18,13 @@ class telegraf::service {
 
   if $::telegraf::manage_service {
     service { 'telegraf':
-      name      => $service_name,
       ensure    => $telegraf::service_ensure,
       hasstatus => $telegraf::service_hasstatus,
       enable    => $telegraf::service_enable,
       restart   => $telegraf::service_restart,
       require   => Class['::telegraf::config'],
       provider  => $service_provider,
+      name      => $service_name,
     }
   }
 }

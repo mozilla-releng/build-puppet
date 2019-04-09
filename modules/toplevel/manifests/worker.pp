@@ -24,27 +24,27 @@ class toplevel::worker inherits toplevel::base {
     }
 
     class { 'telegraf':
-        interval       => '60s',
-        flush_interval => '600s',
-        hostname => regsubst($::fqdn, '([^\.]+)\..*', '\1'),
+        interval          => '60s',
+        flush_interval    => '600s',
+        hostname          => regsubst($::fqdn, '([^\.]+)\..*', '\1'),
         config_file_group => $group,
 
-        global_tags    => {
+        global_tags       => {
             'fqdn'        => $::fqdn,
             'workerType'  => $generic_worker::worker_type,
             'workerGroup' => $generic_worker::worker_group,
             'dataCenter'  => regsubst($::fqdn, '.*\.releng\.(.+)\.mozilla\..*', '\1'),
         },
-        outputs        => {
-            'influxdb' => {
-                'urls'     => [ $::config::telegraf_host ],
-                'database' => $::config::telegraf_db,
-                'username' => $::config::telegraf_user,
-                'password' => $::config::telegraf_password,
+        outputs           => {
+            'influxdb'    => {
+                'urls'                   => [ $::config::telegraf_host ],
+                'database'               => $::config::telegraf_db,
+                'username'               => $::config::telegraf_user,
+                'password'               => $::config::telegraf_password,
                 'skip_database_creation' => true,
             }
         },
-        inputs => {
+        inputs            => {
         },
     }
 
@@ -54,15 +54,15 @@ class toplevel::worker inherits toplevel::base {
 
     telegraf::input { 'procstat':
         plugin_type => 'procstat',
-        options => {
-          'exe' => 'generic-worker',
+        options     => {
+          'exe'     => 'generic-worker',
         },
     }
 
     telegraf::input { 'logparser':
-        plugin_type => 'logparser',
-        options => {
-          'files' => [ '~cltbld/tasks/task*/logs/*error.log' ],
+        plugin_type    => 'logparser',
+        options        => {
+          'files'          => [ '~cltbld/tasks/task*/logs/*error.log' ],
           'from_beginning' => false,
         },
         single_section => {

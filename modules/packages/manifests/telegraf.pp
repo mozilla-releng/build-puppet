@@ -14,12 +14,12 @@ class packages::telegraf {
             case $::operatingsystemrelease {
                 16.04:  {
                     realize(Packages::Aptrepo['telegraf'])
-                   Anchor['packages::telegraf::begin'] ->
-                   package {
-                       'telegraf':
-                           ensure => '1.10.2-1';
-                           #    install_options => [ '--no-install-recommends' ];
-                   } -> Anchor['packages::telegraf::end']
+                    Anchor['packages::telegraf::begin'] ->
+                    package {
+                        'telegraf':
+                            ensure => '1.10.2-1';
+                            #    install_options => [ '--no-install-recommends' ];
+                    } -> Anchor['packages::telegraf::end']
                 }
                 default: {
                     fail("Ubuntu ${::operatingsystemrelease} is not supported")

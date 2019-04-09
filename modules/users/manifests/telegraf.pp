@@ -17,7 +17,7 @@ class users::telegraf {
     user {
         'telegraf':
             # password   => '*',  # none allowed
-            groups     => $group,
-            comment    => 'metrics collection';
+            groups  => $group,
+            comment => 'metrics collection';
     }
 }
