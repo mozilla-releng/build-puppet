@@ -58,7 +58,7 @@ pyasn1-modules==0.2.4
 pycparser==2.19
 pydot==1.4.1
 pyOpenSSL==19.0.0
-pyparsing==2.3.1
+pyparsing==2.4.0
 pyrsistent==0.14.11
 python-dateutil==2.8.0
 pytz==2018.9
