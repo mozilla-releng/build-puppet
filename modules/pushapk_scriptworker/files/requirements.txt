@@ -41,7 +41,7 @@ kiwisolver==1.0.1
 lxml==4.3.3
 matplotlib==3.0.3
 mohawk==0.3.4  # pyup: ignore
-mozapkpublisher==1.0.1
+mozapkpublisher==2.0.1
 mozilla-version==0.3.1
 multidict==4.5.2
 networkx==2.2
@@ -52,7 +52,7 @@ pexpect==4.7.0
 pickleshare==0.7.5
 prompt_toolkit==2.0.9
 ptyprocess==0.6.0
-pushapkscript==1.0.0  # puppet: nodownload
+pushapkscript==1.0.1  # puppet: nodownload
 pyasn1==0.4.5
 pyasn1-modules==0.2.4
 pycparser==2.19
