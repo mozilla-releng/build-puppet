@@ -15,9 +15,10 @@ class users::telegraf {
     }
 
     user {
-        'telegraf':
+        $username:
             # password   => '*',  # none allowed
-            groups  => $group,
+            gid     => $group,
+            home    => $home,
             comment => 'metrics collection';
     }
 }
