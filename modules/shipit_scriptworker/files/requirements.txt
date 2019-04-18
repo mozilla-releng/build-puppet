@@ -24,7 +24,7 @@ pyrsistent==0.14.11
 python-dateutil==2.8.0
 redo==2.0.3
 requests==2.21.0
-scriptworker==23.0.2
+scriptworker==23.0.3
 shipitapi==3.0.0
 shipitscript==4.0.0  # puppet: nodownload
 six==1.12.0
