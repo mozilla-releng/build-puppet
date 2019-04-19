@@ -403,6 +403,25 @@ node /^mobil-beetmover-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::beetmoverscriptworker
 }
 
+# https://github.com/mozilla/application-services/ workers.
+node /^appsv-beetmover-\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects             = [ 'maximum-security' ]
+    $beetmoverworker_env = 'appservices-prod'
+    $timezone            = 'UTC'
+    $only_user_ssh       = true
+    include toplevel::server::beetmoverscriptworker
+}
+#
+# https://github.com/mozilla/application-services/ dev workers.
+# appsv-beetmover-dev1.srv.releng.usw2.mozilla.com
+node /^appsv-beetmover-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects             = [ 'maximum-security' ]
+    $beetmoverworker_env = 'appservices-dev'
+    $timezone            = 'UTC'
+    $only_user_ssh       = true
+    include toplevel::server::beetmoverscriptworker
+}
+
 # Bouncer scriptworkers
 node /^bouncerworker-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]

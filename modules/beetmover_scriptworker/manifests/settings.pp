@@ -198,6 +198,42 @@ class beetmover_scriptworker::settings {
             verify_cot_signature                    => true,
             cot_product                             => 'mobile',
             github_oauth_token                      => secret('scriptworker_github_oauth_token_production'),
-        }
+        },
+        'appservices-dev' => {
+            dep_maven_beetmover_aws_access_key_id => secret('dep_maven_application_services_beetmover_aws_access_key_id'),
+            dep_maven_beetmover_aws_secret_access_key => secret('dep_maven_application_services_beetmover_aws_secret_access_key'),
+            dep_maven_buckets => {
+                appservices   => 'maven-default-s3-upload-bucket-13gy5ufwa3qv',
+            },
+
+            worker_type                             => 'appsv-beetmover-dev',
+            worker_group                            => 'appsv-beetmover-v1',
+            taskcluster_client_id                   => 'project/mozilla/application-services/releng/scriptworker/beetmover/dev',
+            taskcluster_access_token                => secret('beetmoverworker_dev_taskcluster_access_token_appservices'),
+            taskcluster_scope_prefix                => 'project:mozilla:application-services:releng:beetmover:',
+            sign_chain_of_trust                     => false,
+            verify_chain_of_trust                   => true,
+            verify_cot_signature                    => false,
+            cot_product                             => 'application-services',
+            github_oauth_token                      => secret('scriptworker_github_oauth_token_staging'),
+        },
+        'appservices-prod' => {
+            prod_maven_beetmover_aws_access_key_id => secret('prod_maven_application_services_beetmover_aws_access_key_id'),
+            prod_maven_beetmover_aws_secret_access_key => secret('prod_maven_application_services_beetmover_aws_secret_access_key'),
+            prod_maven_buckets => {
+                appservices   => 'maven-default-s3-upload-bucket-1705kkmo2aj3c',
+            },
+
+            worker_type                             => 'appsv-beetmover-v1',
+            worker_group                            => 'appsv-beetmover-v1',
+            taskcluster_client_id                   => 'project/mozilla/application-services/releng/scriptworker/beetmover/production',
+            taskcluster_access_token                => secret('beetmoverworker_prod_taskcluster_access_token_appservices'),
+            taskcluster_scope_prefix                => 'project:mozilla:application-services:releng:beetmover:',
+            sign_chain_of_trust                     => true,
+            verify_chain_of_trust                   => true,
+            verify_cot_signature                    => true,
+            cot_product                             => 'application-services',
+            github_oauth_token                      => secret('scriptworker_github_oauth_token_production'),
+        },
     }
 }
