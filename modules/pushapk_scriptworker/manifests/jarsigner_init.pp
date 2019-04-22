@@ -75,13 +75,21 @@ class pushapk_scriptworker::jarsigner_init {
             }
         }
         'mobile-prod': {
+            # deprecated, use $fenix_nightly instead
             $fenix = $pushapk_scriptworker::settings::jarsigner_all_certificates['fenix-release']
+
+            $fenix_nightly = $pushapk_scriptworker::settings::jarsigner_all_certificates['fenix-nightly']
+            $fenix_beta = $pushapk_scriptworker::settings::jarsigner_all_certificates['fenix-beta']
             $focus = $pushapk_scriptworker::settings::jarsigner_all_certificates['focus-release']
             $reference_browser = $pushapk_scriptworker::settings::jarsigner_all_certificates['reference-browser-release']
 
             file {
                 $fenix:
-                    source => 'puppet:///modules/pushapk_scriptworker/fenix_release.pem';
+                    source => 'puppet:///modules/pushapk_scriptworker/fenix_nightly.pem';
+                $fenix_nightly:
+                    source => 'puppet:///modules/pushapk_scriptworker/fenix_nightly.pem';
+                $fenix_beta:
+                    source => 'puppet:///modules/pushapk_scriptworker/fenix_beta.pem';
                 $focus:
                     source => 'puppet:///modules/pushapk_scriptworker/focus_release.pem';
                 $reference_browser:
@@ -89,8 +97,15 @@ class pushapk_scriptworker::jarsigner_init {
             }
 
             java_ks {
+                # deprecated, use "fenix-nightly" instead
                 'fenix':
                     certificate => $fenix;
+
+
+                'fenix-nightly':
+                    certificate => $fenix_nightly;
+                'fenix-beta':
+                    certificate => $fenix_beta;
                 'focus':
                     certificate => $focus;
                 'reference-browser':
