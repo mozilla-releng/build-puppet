@@ -231,10 +231,15 @@ class pushapk_scriptworker::settings {
         }
         'mobile-prod': {
             $google_play_config = {
-                'fenix' => {
-                    service_account             => $_google_play_accounts['fenix']['service_account'],
-                    certificate                 => $_google_play_accounts['fenix']['certificate'],
-                    certificate_target_location => "${root}/fenix.p12",
+                'fenix-nightly' => {
+                    service_account             => $_google_play_accounts['fenix-nightly']['service_account'],
+                    certificate                 => $_google_play_accounts['fenix-nightly']['certificate'],
+                    certificate_target_location => "${root}/fenix-nightly.p12",
+                },
+                'fenix-beta' => {
+                    service_account             => $_google_play_accounts['fenix-beta']['service_account'],
+                    certificate                 => $_google_play_accounts['fenix-beta']['certificate'],
+                    certificate_target_location => "${root}/fenix-beta.p12",
                 },
                 'focus'  => {
                     service_account             => $_google_play_accounts['focus']['service_account'],
@@ -248,13 +253,24 @@ class pushapk_scriptworker::settings {
                 },
             }
             $product_config = {
-                'fenix'             => {
+                'fenix-nightly' => {
                     'has_nightly_track' => true,
-                    'service_account' => $google_play_config['fenix']['service_account'],
-                    'certificate' => $google_play_config['fenix']['certificate_target_location'],
+                    'service_account' => $google_play_config['fenix-nightly']['service_account'],
+                    'certificate' => $google_play_config['fenix-nightly']['certificate_target_location'],
                     'update_google_play_strings' => false,
                     'digest_algorithm' => 'SHA-256',
                     'expected_package_names' => ['org.mozilla.fenix'],
+                    'skip_check_multiple_locales' => true,
+                    'skip_check_same_locales' => true,
+                    'skip_checks_fennec' => true,
+                },
+                'fenix-beta' => {
+                    'has_nightly_track' => true,
+                    'service_account' => $google_play_config['fenix-beta']['service_account'],
+                    'certificate' => $google_play_config['fenix-beta']['certificate_target_location'],
+                    'update_google_play_strings' => false,
+                    'digest_algorithm' => 'SHA-256',
+                    'expected_package_names' => ['org.mozilla.fenix.beta'],
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
@@ -304,7 +320,6 @@ class pushapk_scriptworker::settings {
         'release'                   => "${root}/release.cer",
         'dep'                       => "${root}/dep.cer",
         'fenix-dep'                 => "${root}/fenix_dep.cer",
-        'fenix-release'             => "${root}/fenix_release.cer",
         'focus-dep'                 => "${root}/focus_dep.cer",
         'focus-release'             => "${root}/focus_release.cer",
         'reference-browser-dep'     => "${root}/reference_browser_dep.cer",
