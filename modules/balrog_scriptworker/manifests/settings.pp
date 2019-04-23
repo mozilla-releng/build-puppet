@@ -13,7 +13,7 @@ class balrog_scriptworker::settings {
 
     $env_config = {
         'dev' => {
-            balrog_api_root => 'https://balrog-admin.stage.mozaws.net/api',
+            balrog_api_root => 'https://admin-stage.balrog.nonprod.cloudops.mozgcp.net/api',
             dummy => false,
             taskcluster_client_id => 'project/releng/scriptworker/balrogworker-dev',
             taskcluster_access_token => secret('balrogworker_dev_taskcluster_access_token'),
@@ -45,7 +45,7 @@ class balrog_scriptworker::settings {
             auth0_audience => 'balrog-production',
         },
         'comm-thunderbird-dev' => {
-            balrog_api_root => 'https://balrog-admin.stage.mozaws.net/api',
+            balrog_api_root => 'https://admin-stage.balrog.nonprod.cloudops.mozgcp.net/api',
             dummy => false,
             taskcluster_client_id => 'project/comm/thunderbird/releng/scriptworker/balrogworker/dev',
             taskcluster_access_token => secret('comm_thunderbird_balrogworker_dev_taskcluster_access_token'),
