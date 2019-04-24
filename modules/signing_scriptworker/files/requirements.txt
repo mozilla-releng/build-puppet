@@ -15,7 +15,7 @@ cryptography==2.6.1
 datadog==0.28.0
 decorator==4.4.0
 dictdiffer==0.8.0
-ecdsa==0.13
+ecdsa==0.13.2
 frozendict==1.2
 future==0.17.1
 github3.py==1.3.0
