@@ -26,7 +26,7 @@ class balrog_scriptworker::settings {
             auth0_domain => 'auth.mozilla.auth0.com',
             auth0_client_id => secret('balrog_auth0_client_id_stage'),
             auth0_client_secret => secret('balrog_auth0_client_secret_stage'),
-            auth0_audience => 'balrog-stage',
+            auth0_audience => 'balrog-cloudops-stage',
         },
         'prod' => {
             balrog_api_root => 'https://aus4-admin.mozilla.org/api',
