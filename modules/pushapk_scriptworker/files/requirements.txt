@@ -72,7 +72,7 @@ taskcluster-urls==11.0.0
 traitlets==4.3.2
 typing-extensions==3.7.2
 uritemplate==3.0.0
-urllib3==1.25
+urllib3==1.24.2  # pyup: ignore
 virtualenv==16.5.0
 voluptuous==0.11.5
 wcwidth==0.1.7
