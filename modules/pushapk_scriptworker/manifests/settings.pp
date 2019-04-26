@@ -274,7 +274,7 @@ class pushapk_scriptworker::settings {
                 },
 
                 'fenix-nightly' => {
-                    'has_nightly_track' => true,
+                    'require_track' => 'nightly',
                     'service_account' => $google_play_config['fenix-nightly']['service_account'],
                     'certificate' => $google_play_config['fenix-nightly']['certificate_target_location'],
                     'update_google_play_strings' => false,
@@ -285,7 +285,7 @@ class pushapk_scriptworker::settings {
                     'skip_checks_fennec' => true,
                 },
                 'fenix-beta' => {
-                    'has_nightly_track' => true,
+                    'require_track' => 'beta',
                     'service_account' => $google_play_config['fenix-beta']['service_account'],
                     'certificate' => $google_play_config['fenix-beta']['certificate_target_location'],
                     'update_google_play_strings' => false,
