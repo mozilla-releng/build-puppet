@@ -106,8 +106,14 @@ class pushapk_scriptworker {
         }
         'mobile-prod': {
             file {
+                # deprecated, use "fenix-nightly" instead
                 $google_play_config['fenix']['certificate_target_location']:
                     content     => $google_play_config['fenix']['certificate'];
+
+                $google_play_config['fenix-nightly']['certificate_target_location']:
+                    content     => $google_play_config['fenix-nightly']['certificate'];
+                $google_play_config['fenix-beta']['certificate_target_location']:
+                    content     => $google_play_config['fenix-beta']['certificate'];
                 $google_play_config['focus']['certificate_target_location']:
                     content     => $google_play_config['focus']['certificate'];
                 $google_play_config['reference-browser']['certificate_target_location']:
