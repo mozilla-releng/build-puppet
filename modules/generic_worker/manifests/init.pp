@@ -11,9 +11,6 @@ class generic_worker {
     include ::httpd
 
     $taskcluster_host = 'taskcluster'
-    $livelog_secret = hiera('livelog_secret')
-    $livelog_certificate = "${::users::builder::home}/livelog.crt"
-    $livelog_key = "${::users::builder::home}/livelog.key"
     $worker_group = regsubst($::fqdn, '.*\.releng\.(.+)\.mozilla\..*', '\1')
     $task_dir = "${::users::builder::home}/tasks"
     $caches_dir = "${::users::builder::home}/caches"
