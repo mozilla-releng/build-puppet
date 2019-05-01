@@ -20,12 +20,12 @@ jwcrypto==0.6.0
 mohawk==0.3.4  # pyup: ignore
 multidict==4.5.2
 pycparser==2.19
-pyrsistent==0.14.11
+pyrsistent==0.15.1
 python-dateutil==2.8.0
 redo==2.0.3
 requests==2.21.0
 scriptworker==23.0.3
-shipitapi==3.0.0
+shipitapi==3.1.0
 shipitscript==4.0.0  # puppet: nodownload
 six==1.12.0
 slugid==2.0.0
