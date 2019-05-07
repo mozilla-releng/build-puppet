@@ -77,17 +77,12 @@ class pushapk_scriptworker::jarsigner_init {
             }
         }
         'mobile-prod': {
-            # deprecated, use $fenix_nightly instead
-            $fenix = "${root}/fenix_rel.cer"
-
             $fenix_nightly = "${root}/fenix_nightly.cer"
             $fenix_beta = "${root}/fenix_beta.cer"
             $focus = "${root}/focus_release.cer"
             $reference_browser = "${root}/reference_browser_release.cer"
 
             file {
-                $fenix:
-                    source => 'puppet:///modules/pushapk_scriptworker/fenix_nightly.pem';
                 $fenix_nightly:
                     source => 'puppet:///modules/pushapk_scriptworker/fenix_nightly.pem';
                 $fenix_beta:
@@ -99,9 +94,6 @@ class pushapk_scriptworker::jarsigner_init {
             }
 
             java_ks {
-                # deprecated, use "fenix-nightly" instead
-                'fenix':
-                    certificate => $fenix;
                 'fenix-nightly':
                     certificate => $fenix_nightly;
                 'fenix-beta':
