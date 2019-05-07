@@ -335,19 +335,6 @@ class pushapk_scriptworker::settings {
     $jarsigner_keystore                  = "${root}/mozilla-android-keystore"
     $jarsigner_keystore_password         = secret('pushapk_scriptworker_jarsigner_keystore_password')
 
-    $jarsigner_all_certificates = {
-        'nightly'                   => "${root}/nightly.cer",
-        'release'                   => "${root}/release.cer",
-        'dep'                       => "${root}/dep.cer",
-        'fenix-dep'                 => "${root}/fenix_dep.cer",
-        'fenix-release'             => "${root}/fenix_rel.cer", # deprecated, use "fenix-nightly" instead
-        'fenix-nightly'             => "${root}/fenix_nightly.cer",
-        'fenix-beta'                => "${root}/fenix_beta.cer",
-        'focus-release'             => "${root}/focus_release.cer",
-        'reference-browser-dep'     => "${root}/reference_browser_dep.cer",
-        'reference-browser-release' => "${root}/reference_browser_release.cer",
-    }
-
     $verbose_logging                     = $_env_config['verbose_logging']
 
     $script_config                       = "${root}/script_config.json"
