@@ -231,13 +231,6 @@ class pushapk_scriptworker::settings {
         }
         'mobile-prod': {
             $google_play_config = {
-                # deprecated, use "fenix-nightly" instead
-                'fenix' => {
-                    service_account             => $_google_play_accounts['fenix']['service_account'],
-                    certificate                 => $_google_play_accounts['fenix']['certificate'],
-                    certificate_target_location => "${root}/fenix.p12",
-                },
-
                 'fenix-nightly' => {
                     service_account             => $_google_play_accounts['fenix-nightly']['service_account'],
                     certificate                 => $_google_play_accounts['fenix-nightly']['certificate'],
@@ -260,19 +253,6 @@ class pushapk_scriptworker::settings {
                 },
             }
             $product_config = {
-                # deprecated, use "fenix-nightly" instead
-                'fenix' => {
-                    'has_nightly_track' => true,
-                    'service_account' => $google_play_config['fenix']['service_account'],
-                    'certificate' => $google_play_config['fenix']['certificate_target_location'],
-                    'update_google_play_strings' => false,
-                    'digest_algorithm' => 'SHA-256',
-                    'expected_package_names' => ['org.mozilla.fenix'],
-                    'skip_check_multiple_locales' => true,
-                    'skip_check_same_locales' => true,
-                    'skip_checks_fennec' => true,
-                },
-
                 'fenix-nightly' => {
                     'require_track' => 'nightly',
                     'service_account' => $google_play_config['fenix-nightly']['service_account'],
@@ -321,7 +301,6 @@ class pushapk_scriptworker::settings {
                 },
             }
             $jarsigner_certificate_aliases_content = {
-                'fenix' => 'fenix',
                 'focus' => 'focus',
                 'reference-browser' => 'reference-browser'
             }
