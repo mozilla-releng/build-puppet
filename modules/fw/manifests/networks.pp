@@ -146,7 +146,6 @@ class fw::networks {
                                     '10.132.30.224/32',  # signing-linux-20.srv.releng.usw2.mozilla.com
                                     '10.132.30.20/32',   # signing-linux-21.srv.releng.usw2.mozilla.com
                                     '10.132.30.114/32',  # signing-linux-22.srv.releng.usw2.mozilla.com
-                                    '10.132.30.187/32',  # signing-linux-23.srv.releng.usw2.mozilla.com
                                     '10.132.30.76/32',   # tb-signing-2.srv.releng.usw2.mozilla.com
                                     '10.132.30.63/32',   # tb-signing-4.srv.releng.usw2.mozilla.com
                                     '10.132.30.163/32',  # tb-signing-6.srv.releng.usw2.mozilla.com
