@@ -111,6 +111,17 @@ class signing_scriptworker {
             source    => "puppet:///modules/signing_scriptworker/gpg/${env_config['gpg_keyfile']}",
             show_diff => false;
     }
+    if $env_config['widevine_cert'] {
+        file {
+            "${signing_scriptworker::settings::root}/widevine.crt":
+                require   => Python3::Virtualenv[$signing_scriptworker::settings::root],
+                mode      => '0600',
+                owner     => $users::signer::username,
+                group     => $users::signer::group,
+                source    => "puppet:///modules/signing_scriptworker/widevine/${env_config['widevine_cert']}",
+                show_diff => false;
+        }
+    }
 
     packages::mozilla::android_sdk {
       $build_tools_version:

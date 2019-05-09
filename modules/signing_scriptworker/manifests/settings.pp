@@ -29,6 +29,7 @@ class signing_scriptworker::settings {
             github_oauth_token       => '',
             datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
+            widevine_cert            => 'widevine_dep.crt',
         },
         'dep' => {
             worker_type              => 'depsigning',
@@ -44,6 +45,7 @@ class signing_scriptworker::settings {
             github_oauth_token       => '',
             datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
+            widevine_cert            => 'widevine_dep.crt',
         },
         'prod' => {
             worker_type              => 'signing-linux-v1',
@@ -59,6 +61,7 @@ class signing_scriptworker::settings {
             github_oauth_token       => '',
             datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_prod',
+            widevine_cert            => 'widevine_prod.crt',
         },
         'comm-thunderbird-dep' => {
             worker_type              => 'tb-depsigning',
