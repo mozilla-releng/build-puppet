@@ -22,7 +22,7 @@ class auditd($host_type) {
             fail("Invalid auditd host_type ${host_type}")
         }
     }
-    $audisp_json_server = $::config::audisp_json_server
+    $audisp_json_url = $::config::audisp_json_url
 
     case $::operatingsystem {
         CentOS: {

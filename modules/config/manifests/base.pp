@@ -60,8 +60,8 @@ class config::base {
     # the hostname of a cef server for auditd output
     $cef_syslog_server             = ''
 
-    # the hostname of a server for auditd json output
-    $audisp_json_server            = ''
+    # the url of a server for auditd json output
+    $audisp_json_url               = ''
 
     # extra hostnames to be included in the puppetmaster certificates as
     # alternate hostnames.  If $apt_repo_server is not the hostname of your master,
