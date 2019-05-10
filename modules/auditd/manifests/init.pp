@@ -5,9 +5,11 @@
 class auditd($host_type) {
     include packages::auditd
     include packages::audisp_cef
+    include packages::audisp_json
     $packages = [
         Class['packages::auditd'],
         Class['packages::audisp_cef'],
+        Class['packages::audisp_json'],
     ]
 
     # filter legitimate host types; these are used by the
@@ -53,6 +55,15 @@ class auditd($host_type) {
                     group   => 'root',
                     mode    => '0600',
                     source  => 'puppet:///modules/auditd/audispd.conf';
+
+                '/etc/audisp/audisp-json.conf':
+                    ensure  => file,
+                    require => $packages,
+                    notify  => Service['auditd'],
+                    owner   => 'root',
+                    group   => 'root',
+                    mode    => '0600',
+                    source  => 'puppet:///modules/auditd/audisp-json.conf';
 
                 '/etc/audisp/plugins.d/syslog.conf':
                     ensure  => file,
