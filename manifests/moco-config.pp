@@ -329,6 +329,14 @@ class config inherits config::base {
         default => '',
     }
 
+    # server for auditd json output
+    $audisp_json_server = $::fqdn ? {
+        /.*\.mdc1\.mozilla\.com/        => 'https://syslog1.private.mdc1.mozilla.com:8443/events',
+        /.*\.mdc2\.mozilla\.com/        => 'https://syslog1.private.mdc2.mozilla.com:8443/events',
+        /.*\.(usw2|use1)\.mozilla\.com/ => 'https://syslog1.private.mdc1.mozilla.com:8443/events',
+        default => '',
+    }
+
     # log aggregator settings per location/region
     #
     # note that the log aggregation file is overwritten via cloud-init in AWS
