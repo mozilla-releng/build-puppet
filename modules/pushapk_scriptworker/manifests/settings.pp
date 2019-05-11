@@ -231,6 +231,11 @@ class pushapk_scriptworker::settings {
         }
         'mobile-prod': {
             $google_play_config = {
+                'fenix' => { # TODO replace with fenix-nightly
+                    service_account             => $_google_play_accounts['fenix-nightly']['service_account'],
+                    certificate                 => $_google_play_accounts['fenix-nightly']['certificate'],
+                    certificate_target_location => "${root}/fenix-nightly.p12",
+                },
                 'fenix-nightly' => {
                     service_account             => $_google_play_accounts['fenix-nightly']['service_account'],
                     certificate                 => $_google_play_accounts['fenix-nightly']['certificate'],
@@ -253,8 +258,21 @@ class pushapk_scriptworker::settings {
                 },
             }
             $product_config = {
+                'fenix' => { # TODO replace with fenix-nightly
+                    'require_track' => 'nightly',
+                    'has_nightly_track' => true,
+                    'service_account' => $google_play_config['fenix-nightly']['service_account'],
+                    'certificate' => $google_play_config['fenix-nightly']['certificate_target_location'],
+                    'update_google_play_strings' => false,
+                    'digest_algorithm' => 'SHA-256',
+                    'expected_package_names' => ['org.mozilla.fenix'],
+                    'skip_check_multiple_locales' => true,
+                    'skip_check_same_locales' => true,
+                    'skip_checks_fennec' => true,
+                },
                 'fenix-nightly' => {
                     'require_track' => 'nightly',
+                    'has_nightly_track' => true,
                     'service_account' => $google_play_config['fenix-nightly']['service_account'],
                     'certificate' => $google_play_config['fenix-nightly']['certificate_target_location'],
                     'update_google_play_strings' => false,
@@ -266,6 +284,7 @@ class pushapk_scriptworker::settings {
                 },
                 'fenix-beta' => {
                     'require_track' => 'beta',
+                    'has_nightly_track' => false,
                     'service_account' => $google_play_config['fenix-beta']['service_account'],
                     'certificate' => $google_play_config['fenix-beta']['certificate_target_location'],
                     'update_google_play_strings' => false,
