@@ -9,9 +9,9 @@ class packages::mozilla::generic_worker {
     }
 
     if (has_aspect('staging')) {
-        $tag = 'v14.1.0'
+        $tag = 'v13.0.3'
     } else {
-        $tag = 'v14.1.0'
+        $tag = 'v13.0.3'
     }
     $proxy_tag = 'v5.1.0'
     $quarantine_worker_tag = 'v1.0.0'
@@ -25,7 +25,7 @@ class packages::mozilla::generic_worker {
         Darwin: {
             file {
                 '/usr/local/bin/generic-worker':
-                    source => "puppet:///repos/EXEs/generic-worker-nativeEngine-${tag}-darwin-amd64",
+                    source => "puppet:///repos/EXEs/generic-worker-${tag}-darwin-amd64",
                     mode   => '0755',
                     owner  => root,
                     group  => wheel,
@@ -61,7 +61,7 @@ class packages::mozilla::generic_worker {
                     # to /data/repos/EXEs/generic-worker-${tag}-${os}-${arch}
                     file {
                         '/usr/local/bin/generic-worker':
-                            source => "puppet:///repos/EXEs/generic-worker-nativeEngine-${tag}-linux-amd64",
+                            source => "puppet:///repos/EXEs/generic-worker-${tag}-linux-amd64",
                             mode   => '0755',
                             owner  => $::users::root::username,
                             group  => $::users::root::group,

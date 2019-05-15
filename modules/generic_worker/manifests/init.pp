@@ -24,8 +24,14 @@ class generic_worker {
     $quarantine_client_id = secret('quarantine_client_id')
     $quarantine_access_token = hiera('quarantine_access_token')
 
-    # Remove openpgpSigningKeyLocation property and creat sequence
-    # https://github.com/taskcluster/generic-worker#in-v1400-since-v1304
+    exec { 'create opengpg signing key':
+        path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin'],
+        user    => 'cltbld',
+        cwd     => $users::builder::home,
+        command => "generic-worker new-openpgp-keypair --file ${opengpg_signing_key}",
+        unless  => "test -f ${opengpg_signing_key}",
+        require => Class['packages::mozilla::generic_worker']
+    }
     exec { 'create ed25519 signing key':
         path    => ['/bin', '/sbin', '/usr/local/bin', '/usr/bin'],
         user    => 'cltbld',
@@ -99,16 +105,12 @@ class generic_worker {
 
                     # According to bug 1501936, https://bugzilla.mozilla.org/show_bug.cgi?id=1501936,Linux machines stuck at reboot process.
                     # Looking over the internet, I found this bug: https://lists.ubuntu.com/archives/foundations-bugs/2016-April/280724.html
-                    # They suspet systemd generate this behavior. I reproduced this by genereting a reboot cron job 
-                    # and run it every 10 minutes.
-                    # After around 24 hours the worker stuck at reboot process. I tryed to update systemd to the last version,
-                    # but without success. To fix this, I plan to add --force option to reboot command, 
-                    # to shutdown without contacting the system manager.
+                    # They suspet systemd generate this behavior. I reproduced this by genereting a reboot cron job and run it every 10 minutes
+                    # After around 24 hours the worker stuck at reboot process. I tryed to update systemd to the last version, but without success
+                    # to fix this, I plan to add --force option to reboot command, to shutdown without contacting the system manager.
                     # According reboot man page:
-                    # -f, --force - Force immediate halt, power-off, or reboot. When specified once, 
-                    # this results in an immediate but clean shutdown by the system manager. When specified twice, 
-                    # this results in an immediate shutdown without contacting the system manager. 
-                    # See the description of --force in systemctl(1) for more details.
+                    # -f, --force - Force immediate halt, power-off, or reboot. When specified once, this results in an immediate but clean shutdown by the system manager. When specified twice, this results in an immediate
+                    # shutdown without contacting the system manager. See the description of --force in systemctl(1) for more details.
 
                     $reboot_command = '/usr/bin/sudo /sbin/reboot --force'
 
