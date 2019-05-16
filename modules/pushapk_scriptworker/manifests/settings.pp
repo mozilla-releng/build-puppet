@@ -89,239 +89,171 @@ class pushapk_scriptworker::settings {
     $github_oauth_token                  = $_env_config['github_oauth_token']
 
     $_google_play_all_accounts           = hiera_hash('pushapk_scriptworker_google_play_accounts')
-    $_google_play_accounts               = $_google_play_all_accounts[$fqdn]
+    $google_play_accounts                = $_google_play_all_accounts[$fqdn]
 
     # TODO: Replace this cumbersome logic by an `each` loop once we switch to Puppet 4
     case $pushapk_scriptworker_env {
         'dep': {
-            $google_play_config = {
-                'dep'  => {
-                    service_account             => 'dummy',
-                    certificate                 => 'dummy',
-                    certificate_target_location => "${root}/dep.p12",
-                },
-            }
-            $product_config = {
-                'dep' => {
-                    'has_nightly_track' => false,
-                    'service_account' => $google_play_config['dep']['service_account'],
-                    'certificate' => $google_play_config['dep']['certificate_target_location'],
-                    'update_google_play_strings' => true,
+            $product_config = [
+                {
+                    'product_names' => ['dep'],
                     'digest_algorithm' => 'SHA1',
-                    'skip_check_package_names' => true,
+                    'update_google_play_strings' => true,
+                    'map_channels_to_apps' => false,
+                    'single_app_config' => {
+                        'package_names' => ['org.mozilla.fennec_aurora'],
+                        'service_account' => 'dummy',
+                        'google_credentials_file' => "${root}/dep.p12",
+                        'certificate_alias' => 'dep',
+                    }
                 }
-            }
-            $jarsigner_certificate_aliases_content = {
-                'dep' => 'dep',
-            }
+            ]
             $do_not_contact_google_play = true
         }
         'prod': {
-            $google_play_config = {
-                'aurora'  => {
-                    service_account             => $_google_play_accounts['aurora']['service_account'],
-                    certificate                 => $_google_play_accounts['aurora']['certificate'],
-                    certificate_target_location => "${root}/aurora.p12",
+            $product_config = [
+                {
+                    'product_names' => ['aurora', 'beta', 'release'],
+                    'digest_algorithm' => 'SHA1',
+                    'update_google_play_strings' => true,
+                    'map_channels_to_apps' => true,
+                    'apps' => {
+                        'aurora' => {
+                            'package_names' => ['org.mozilla.fennec_aurora'],
+                            'google_play_track' => 'beta',
+                            'service_account' => $google_play_accounts['aurora']['service_account'],
+                            'google_credentials_file' => "${root}/aurora.p12",
+                            'certificate_alias' => 'nightly',
+                        },
+                        'beta' => {
+                            'package_names' => ['org.mozilla.firefox_beta'],
+                            'google_play_track' => 'production',
+                            'service_account' => $google_play_accounts['beta']['service_account'],
+                            'google_credentials_file' => "${root}/beta.p12",
+                            'certificate_alias' => 'release',
+                        },
+                        'release' => {
+                            'package_names' => ['org.mozilla.firefox'],
+                            'google_play_track' => 'production',
+                            'service_account' => $google_play_accounts['release']['service_account'],
+                            'google_credentials_file' => "${root}/release.p12",
+                            'certificate_alias' => 'release',
+                        },
+                    }
                 },
-                'beta'    => {
-                    service_account             => $_google_play_accounts['beta']['service_account'],
-                    certificate                 => $_google_play_accounts['beta']['certificate'],
-                    certificate_target_location => "${root}/beta.p12",
-                },
-                'release' => {
-                    service_account             => $_google_play_accounts['release']['service_account'],
-                    certificate                 => $_google_play_accounts['release']['certificate'],
-                    certificate_target_location => "${root}/release.p12",
-                },
-            }
-            $product_config = {
-              'aurora' => {
-                  'has_nightly_track' => false,
-                  'service_account' => $google_play_config['aurora']['service_account'],
-                  'certificate' => $google_play_config['aurora']['certificate_target_location'],
-                  'update_google_play_strings' => true,
-                  'digest_algorithm' => 'SHA1',
-                  'expected_package_names' => ['org.mozilla.fennec_aurora'],
-              },
-              'beta' => {
-                  'has_nightly_track' => false,
-                  'service_account' => $google_play_config['beta']['service_account'],
-                  'certificate' => $google_play_config['beta']['certificate_target_location'],
-                  'update_google_play_strings' => true,
-                  'digest_algorithm' => 'SHA1',
-                  'expected_package_names' => ['org.mozilla.firefox_beta'],
-              },
-              'release' => {
-                  'has_nightly_track' => false,
-                  'service_account' => $google_play_config['release']['service_account'],
-                  'certificate' => $google_play_config['release']['certificate_target_location'],
-                  'update_google_play_strings' => true,
-                  'digest_algorithm' => 'SHA1',
-                  'expected_package_names' => ['org.mozilla.firefox'],
-              },
-            }
-            $jarsigner_certificate_aliases_content = {
-              'aurora'  => 'nightly',
-              'beta'    => 'release',
-              'release' => 'release',
-            }
+            ]
             $do_not_contact_google_play = false
         }
         'mobile-dep': {
-            $google_play_config = {
-                'fenix'              => {
-                    service_account             => 'dummy',
-                    certificate                 => 'dummy',
-                    certificate_target_location => "${root}/fenix.p12",
-                },
-                'focus'              => {
-                    service_account             => 'dummy',
-                    certificate                 => 'dummy',
-                    certificate_target_location => "${root}/focus.p12",
-                },
-                'reference-browser'  => {
-                    service_account             => 'dummy',
-                    certificate                 => 'dummy',
-                    certificate_target_location => "${root}/reference_browser.p12",
-                },
-            }
-            $product_config = {
-                'fenix'             => {
-                    'has_nightly_track' => true,
-                    'service_account' => $google_play_config['fenix']['service_account'],
-                    'certificate' => $google_play_config['fenix']['certificate_target_location'],
-                    'update_google_play_strings' => false,
+            $product_config = [
+                {
+                    'product_names' => ['fenix'],
                     'digest_algorithm' => 'SHA-256',
-                    'expected_package_names' => ['org.mozilla.fenix'],
+                    'update_google_play_strings' => false,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
+                    'map_channels_to_apps' => false,
+                    'single_app_config' => {
+                        'package_names' => ['org.mozilla.fenix'],
+                        'service_account' => 'dummy',
+                        'google_credentials_file' => "${root}/fenix.p12",
+                        'certificate_alias' => 'fenix',
+                    }
                 },
-                'focus'             => {
-                    'has_nightly_track' => true,
-                    'service_account' => $google_play_config['focus']['service_account'],
-                    'certificate' => $google_play_config['focus']['certificate_target_location'],
-                    'update_google_play_strings' => false,
+                {
+                    'product_names' => ['focus'],
                     'digest_algorithm' => 'SHA-256',
-                    'expected_package_names' => ['org.mozilla.focus', 'org.mozilla.klar'],
+                    'update_google_play_strings' => false,
                     'skip_check_ordered_version_codes' => true,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
-                    'skip_check_same_package_name' => true,
                     'skip_checks_fennec' => true,
+                    'map_channels_to_apps' => false,
+                    'single_app_config' => {
+                        'package_names' => ['org.mozilla.focus', 'org.mozilla.klar'],
+                        'service_account' => 'dummy',
+                        'google_credentials_file' => "${root}/focus.p12",
+                        'certificate_alias' => 'focus',
+                    }
                 },
-                'reference-browser' => {
-                    'has_nightly_track' => true,
-                    'service_account' => $google_play_config['reference-browser']['service_account'],
-                    'certificate' => $google_play_config['reference-browser']['certificate_target_location'],
-                    'update_google_play_strings' => false,
+                {
+                    'product_names' => ['reference-browser'],
                     'digest_algorithm' => 'SHA-256',
-                    'expected_package_names' => ['org.mozilla.reference.browser'],
+                    'update_google_play_strings' => false,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
+                    'map_channels_to_apps' => false,
+                    'single_app_config' => {
+                        'package_names' => ['org.mozilla.reference.browser'],
+                        'service_account' => 'dummy',
+                        'google_credentials_file' => "${root}/reference_browser.p12",
+                        'certificate_alias' => 'reference-browser',
+                    }
                 },
-            }
-            $jarsigner_certificate_aliases_content = {
-                'focus' => 'focus',
-                'reference-browser' => 'reference-browser',
-            }
+            ]
             $do_not_contact_google_play = true
         }
         'mobile-prod': {
-            $google_play_config = {
-                'fenix' => { # TODO replace with fenix-nightly
-                    service_account             => $_google_play_accounts['fenix-nightly']['service_account'],
-                    certificate                 => $_google_play_accounts['fenix-nightly']['certificate'],
-                    certificate_target_location => "${root}/fenix-nightly.p12",
-                },
-                'fenix-nightly' => {
-                    service_account             => $_google_play_accounts['fenix-nightly']['service_account'],
-                    certificate                 => $_google_play_accounts['fenix-nightly']['certificate'],
-                    certificate_target_location => "${root}/fenix-nightly.p12",
-                },
-                'fenix-beta' => {
-                    service_account             => $_google_play_accounts['fenix-beta']['service_account'],
-                    certificate                 => $_google_play_accounts['fenix-beta']['certificate'],
-                    certificate_target_location => "${root}/fenix-beta.p12",
-                },
-                'focus'  => {
-                    service_account             => $_google_play_accounts['focus']['service_account'],
-                    certificate                 => $_google_play_accounts['focus']['certificate'],
-                    certificate_target_location => "${root}/focus.p12",
-                },
-                'reference-browser' => {
-                    service_account             => $_google_play_accounts['reference_browser']['service_account'],
-                    certificate                 => $_google_play_accounts['reference_browser']['certificate'],
-                    certificate_target_location => "${root}/reference_browser.p12",
-                },
-            }
-            $product_config = {
-                'fenix' => { # TODO replace with fenix-nightly
-                    'require_track' => 'nightly',
-                    'has_nightly_track' => true,
-                    'service_account' => $google_play_config['fenix-nightly']['service_account'],
-                    'certificate' => $google_play_config['fenix-nightly']['certificate_target_location'],
-                    'update_google_play_strings' => false,
+            $product_config = [
+                {
+                    'product_names' => ['fenix'],
                     'digest_algorithm' => 'SHA-256',
-                    'expected_package_names' => ['org.mozilla.fenix'],
+                    'update_google_play_strings' => false,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
+                    'map_channels_to_apps' => true,
+                    'apps' => {
+                        'nightly' => {
+                            'package_names' => ['org.mozilla.fenix'],
+                            'google_play_track' => 'nightly',
+                            'service_account' => $google_play_accounts['fenix-nightly']['service_account'],
+                            'google_credentials_file' => "${root}/fenix_nightly.p12",
+                            'certificate_alias' => 'fenix-nightly',
+                        },
+                        'beta' => {
+                            'package_names' => ['org.mozilla.fenix.beta'],
+                            'google_play_track' => 'internal',
+                            'service_account' => $google_play_accounts['fenix-beta']['service_account'],
+                            'google_credentials_file' => "${root}/fenix_beta.p12",
+                            'certificate_alias' => 'fenix-beta',
+                        },
+                    }
                 },
-                'fenix-nightly' => {
-                    'require_track' => 'nightly',
-                    'has_nightly_track' => true,
-                    'service_account' => $google_play_config['fenix-nightly']['service_account'],
-                    'certificate' => $google_play_config['fenix-nightly']['certificate_target_location'],
-                    'update_google_play_strings' => false,
+                {
+                    'product_names' => ['focus'],
                     'digest_algorithm' => 'SHA-256',
-                    'expected_package_names' => ['org.mozilla.fenix'],
-                    'skip_check_multiple_locales' => true,
-                    'skip_check_same_locales' => true,
-                    'skip_checks_fennec' => true,
-                },
-                'fenix-beta' => {
-                    'require_track' => 'beta',
-                    'has_nightly_track' => false,
-                    'service_account' => $google_play_config['fenix-beta']['service_account'],
-                    'certificate' => $google_play_config['fenix-beta']['certificate_target_location'],
                     'update_google_play_strings' => false,
-                    'digest_algorithm' => 'SHA-256',
-                    'expected_package_names' => ['org.mozilla.fenix.beta'],
-                    'skip_check_multiple_locales' => true,
-                    'skip_check_same_locales' => true,
-                    'skip_checks_fennec' => true,
-                },
-                'focus' => {
-                    'has_nightly_track' => true,
-                    'service_account' => $google_play_config['focus']['service_account'],
-                    'certificate' => $google_play_config['focus']['certificate_target_location'],
-                    'update_google_play_strings' => false,
-                    'digest_algorithm' => 'SHA-256',
-                    'expected_package_names' => ['org.mozilla.focus', 'org.mozilla.klar'],
                     'skip_check_ordered_version_codes' => true,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
-                    'skip_check_same_package_name' => true,
                     'skip_checks_fennec' => true,
+                    'map_channels_to_apps' => false,
+                    'single_app_config' => {
+                        'service_account' => $google_play_accounts['focus']['service_account'],
+                        'google_credentials_file' => "${root}/focus.p12",
+                        'package_names' => ['org.mozilla.focus', 'org.mozilla.klar'],
+                        'certificate_alias' => 'focus',
+                    }
                 },
-                'reference-browser' => {
-                    'has_nightly_track' => true,
-                    'service_account' => $google_play_config['reference-browser']['service_account'],
-                    'certificate' => $google_play_config['reference-browser']['certificate_target_location'],
-                    'update_google_play_strings' => false,
+                {
+                    'product_names' => ['reference-browser'],
                     'digest_algorithm' => 'SHA-256',
-                    'expected_package_names' => ['org.mozilla.reference.browser'],
+                    'update_google_play_strings' => false,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
+                    'map_channels_to_apps' => false,
+                    'single_app_config' => {
+                        'service_account' => $google_play_accounts['reference_browser']['service_account'],
+                        'certificate' => "${root}/reference_browser.p12",
+                        'package_names' => ['org.mozilla.reference.browser'],
+                        'certificate_alias' => 'reference-browser',
+                    }
                 },
-            }
-            $jarsigner_certificate_aliases_content = {
-                'focus' => 'focus',
-                'reference-browser' => 'reference-browser'
-            }
+            ]
             $do_not_contact_google_play = false
         }
         default: {
@@ -339,11 +271,8 @@ class pushapk_scriptworker::settings {
         'work_dir'   => $work_dir,
         'verbose'    => $verbose_logging,
 
-        # TODO after releng RFC #6 is merged, 'google_play_accounts' is no longer needed
-        'google_play_accounts' => $product_config,
         'products' => $product_config,
         'jarsigner_key_store' => $jarsigner_keystore,
-        'jarsigner_certificate_aliases' => $jarsigner_certificate_aliases_content,
 
         'taskcluster_scope_prefixes' => $_env_config['scope_prefixes'],
         'do_not_contact_google_play' => $do_not_contact_google_play,

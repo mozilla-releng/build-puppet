@@ -14,6 +14,8 @@ class pushapk_scriptworker {
     include pushapk_scriptworker::mime_types
     include tweaks::scriptworkerlogrotate
 
+    $root = $config::scriptworker_root
+
     # If the Python installation changes, we need to rebuild the virtualenv
     # from scratch. Before doing that, we need to stop the running instance.
     exec {
@@ -69,7 +71,7 @@ class pushapk_scriptworker {
         show_diff   => false,
     }
 
-    $google_play_config = $pushapk_scriptworker::settings::google_play_config
+    $google_play_accounts = $pushapk_scriptworker::settings::google_play_accounts
     $config_content = $pushapk_scriptworker::settings::script_config_content
     file {
         $pushapk_scriptworker::settings::script_config:
@@ -80,40 +82,40 @@ class pushapk_scriptworker {
     case $pushapk_scriptworker_env {
         'dep': {
             file {
-                $google_play_config['dep']['certificate_target_location']:
-                    content     => $google_play_config['dep']['certificate'];
+                "${root}/dep.p12":
+                    content => 'dummy';
             }
         }
         'prod': {
             file {
-                $google_play_config['aurora']['certificate_target_location']:
-                    content     => $google_play_config['aurora']['certificate'];
-                $google_play_config['beta']['certificate_target_location']:
-                    content     => $google_play_config['beta']['certificate'];
-                $google_play_config['release']['certificate_target_location']:
-                    content     => $google_play_config['release']['certificate'];
+                "${root}/aurora.p12":
+                    content => $google_play_accounts['aurora']['certificate'];
+                "${root}/beta.p12":
+                    content => $google_play_accounts['beta']['certificate'];
+                "${root}/release.p12":
+                    content => $google_play_accounts['release']['certificate'];
             }
         }
         'mobile-dep': {
             file {
-                $google_play_config['fenix']['certificate_target_location']:
-                    content     => $google_play_config['fenix']['certificate'];
-                $google_play_config['focus']['certificate_target_location']:
-                    content     => $google_play_config['focus']['certificate'];
-                $google_play_config['reference-browser']['certificate_target_location']:
-                    content     => $google_play_config['reference-browser']['certificate'];
+                "${root}/fenix.p12":
+                    content => 'dummy';
+                "${root}/focus.p12":
+                    content => 'dummy';
+                "${root}/reference_browser.p12":
+                    content => 'dummy';
             }
         }
         'mobile-prod': {
             file {
-                $google_play_config['fenix-nightly']['certificate_target_location']:
-                    content     => $google_play_config['fenix-nightly']['certificate'];
-                $google_play_config['fenix-beta']['certificate_target_location']:
-                    content     => $google_play_config['fenix-beta']['certificate'];
-                $google_play_config['focus']['certificate_target_location']:
-                    content     => $google_play_config['focus']['certificate'];
-                $google_play_config['reference-browser']['certificate_target_location']:
-                    content     => $google_play_config['reference-browser']['certificate'];
+                "${root}/fenix_nightly.p12":
+                    content => $google_play_accounts['fenix-nightly']['certificate'];
+                "${root}/fenix_beta.p12":
+                    content => $google_play_accounts['fenix-beta']['certificate'];
+                "${root}/focus.p12":
+                    content => $google_play_accounts['focus']['certificate'];
+                "${root}/reference_browser.p12":
+                    content => $google_play_accounts['reference_browser']['certificate'];
             }
         }
         default: {
