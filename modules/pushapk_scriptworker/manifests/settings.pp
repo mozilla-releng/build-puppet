@@ -231,13 +231,11 @@ class pushapk_scriptworker::settings {
         }
         'mobile-prod': {
             $google_play_config = {
-                # deprecated, use "fenix-nightly" instead
-                'fenix' => {
-                    service_account             => $_google_play_accounts['fenix']['service_account'],
-                    certificate                 => $_google_play_accounts['fenix']['certificate'],
-                    certificate_target_location => "${root}/fenix.p12",
+                'fenix' => { # TODO replace with fenix-nightly
+                    service_account             => $_google_play_accounts['fenix-nightly']['service_account'],
+                    certificate                 => $_google_play_accounts['fenix-nightly']['certificate'],
+                    certificate_target_location => "${root}/fenix-nightly.p12",
                 },
-
                 'fenix-nightly' => {
                     service_account             => $_google_play_accounts['fenix-nightly']['service_account'],
                     certificate                 => $_google_play_accounts['fenix-nightly']['certificate'],
@@ -260,11 +258,11 @@ class pushapk_scriptworker::settings {
                 },
             }
             $product_config = {
-                # deprecated, use "fenix-nightly" instead
-                'fenix' => {
+                'fenix' => { # TODO replace with fenix-nightly
+                    'require_track' => 'nightly',
                     'has_nightly_track' => true,
-                    'service_account' => $google_play_config['fenix']['service_account'],
-                    'certificate' => $google_play_config['fenix']['certificate_target_location'],
+                    'service_account' => $google_play_config['fenix-nightly']['service_account'],
+                    'certificate' => $google_play_config['fenix-nightly']['certificate_target_location'],
                     'update_google_play_strings' => false,
                     'digest_algorithm' => 'SHA-256',
                     'expected_package_names' => ['org.mozilla.fenix'],
@@ -272,9 +270,9 @@ class pushapk_scriptworker::settings {
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
                 },
-
                 'fenix-nightly' => {
                     'require_track' => 'nightly',
+                    'has_nightly_track' => true,
                     'service_account' => $google_play_config['fenix-nightly']['service_account'],
                     'certificate' => $google_play_config['fenix-nightly']['certificate_target_location'],
                     'update_google_play_strings' => false,
@@ -286,6 +284,7 @@ class pushapk_scriptworker::settings {
                 },
                 'fenix-beta' => {
                     'require_track' => 'beta',
+                    'has_nightly_track' => false,
                     'service_account' => $google_play_config['fenix-beta']['service_account'],
                     'certificate' => $google_play_config['fenix-beta']['certificate_target_location'],
                     'update_google_play_strings' => false,
@@ -321,7 +320,6 @@ class pushapk_scriptworker::settings {
                 },
             }
             $jarsigner_certificate_aliases_content = {
-                'fenix' => 'fenix',
                 'focus' => 'focus',
                 'reference-browser' => 'reference-browser'
             }
@@ -334,19 +332,6 @@ class pushapk_scriptworker::settings {
 
     $jarsigner_keystore                  = "${root}/mozilla-android-keystore"
     $jarsigner_keystore_password         = secret('pushapk_scriptworker_jarsigner_keystore_password')
-
-    $jarsigner_all_certificates = {
-        'nightly'                   => "${root}/nightly.cer",
-        'release'                   => "${root}/release.cer",
-        'dep'                       => "${root}/dep.cer",
-        'fenix-dep'                 => "${root}/fenix_dep.cer",
-        'fenix-release'             => "${root}/fenix_rel.cer", # deprecated, use "fenix-nightly" instead
-        'fenix-nightly'             => "${root}/fenix_nightly.cer",
-        'fenix-beta'                => "${root}/fenix_beta.cer",
-        'focus-release'             => "${root}/focus_release.cer",
-        'reference-browser-dep'     => "${root}/reference_browser_dep.cer",
-        'reference-browser-release' => "${root}/reference_browser_release.cer",
-    }
 
     $verbose_logging                     = $_env_config['verbose_logging']
 

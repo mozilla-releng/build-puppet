@@ -3,11 +3,14 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class auditd($host_type) {
+    include ::config
     include packages::auditd
     include packages::audisp_cef
+    include packages::audisp_json
     $packages = [
         Class['packages::auditd'],
         Class['packages::audisp_cef'],
+        Class['packages::audisp_json'],
     ]
 
     # filter legitimate host types; these are used by the
@@ -19,6 +22,7 @@ class auditd($host_type) {
             fail("Invalid auditd host_type ${host_type}")
         }
     }
+    $audisp_json_url = $::config::audisp_json_url
 
     case $::operatingsystem {
         CentOS: {
@@ -53,6 +57,15 @@ class auditd($host_type) {
                     group   => 'root',
                     mode    => '0600',
                     source  => 'puppet:///modules/auditd/audispd.conf';
+
+                '/etc/audisp/audisp-json.conf':
+                    ensure  => file,
+                    require => $packages,
+                    notify  => Service['auditd'],
+                    owner   => 'root',
+                    group   => 'root',
+                    mode    => '0600',
+                    content => template('auditd/audisp-json.conf.erb');
 
                 '/etc/audisp/plugins.d/syslog.conf':
                     ensure  => file,

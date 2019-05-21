@@ -6,6 +6,8 @@ class pushapk_scriptworker::jarsigner_init {
     include ::config
     include packages::jdk17
 
+    $root = $config::scriptworker_root
+
     File {
         ensure    => 'present',
         show_diff => false,
@@ -20,7 +22,7 @@ class pushapk_scriptworker::jarsigner_init {
 
     case $pushapk_scriptworker_env {
         'dep': {
-            $dep = $pushapk_scriptworker::settings::jarsigner_all_certificates['dep']
+            $dep = "${root}/dep.cer"
             file {
                 $dep:
                     source => 'puppet:///modules/pushapk_scriptworker/dep.pem';
@@ -32,8 +34,8 @@ class pushapk_scriptworker::jarsigner_init {
             }
         }
         'prod': {
-            $nightly = $pushapk_scriptworker::settings::jarsigner_all_certificates['nightly']
-            $release = $pushapk_scriptworker::settings::jarsigner_all_certificates['release']
+            $nightly = "${root}/nightly.cer"
+            $release = "${root}/release.cer"
 
             file {
                 $nightly:
@@ -52,9 +54,9 @@ class pushapk_scriptworker::jarsigner_init {
             }
         }
         'mobile-dep': {
-            $fenix = $pushapk_scriptworker::settings::jarsigner_all_certificates['fenix-dep']
-            $focus = $pushapk_scriptworker::settings::jarsigner_all_certificates['focus-dep']
-            $reference_browser = $pushapk_scriptworker::settings::jarsigner_all_certificates['reference-browser-dep']
+            $fenix = "${root}/fenix_dep.cer"
+            $focus = "${root}/focus_dep.cer"
+            $reference_browser = "${root}/reference_browser_dep.cer"
 
             file {
                 $fenix:
@@ -75,17 +77,12 @@ class pushapk_scriptworker::jarsigner_init {
             }
         }
         'mobile-prod': {
-            # deprecated, use $fenix_nightly instead
-            $fenix = $pushapk_scriptworker::settings::jarsigner_all_certificates['fenix-release']
-
-            $fenix_nightly = $pushapk_scriptworker::settings::jarsigner_all_certificates['fenix-nightly']
-            $fenix_beta = $pushapk_scriptworker::settings::jarsigner_all_certificates['fenix-beta']
-            $focus = $pushapk_scriptworker::settings::jarsigner_all_certificates['focus-release']
-            $reference_browser = $pushapk_scriptworker::settings::jarsigner_all_certificates['reference-browser-release']
+            $fenix_nightly = "${root}/fenix_nightly.cer"
+            $fenix_beta = "${root}/fenix_beta.cer"
+            $focus = "${root}/focus_release.cer"
+            $reference_browser = "${root}/reference_browser_release.cer"
 
             file {
-                $fenix:
-                    source => 'puppet:///modules/pushapk_scriptworker/fenix_nightly.pem';
                 $fenix_nightly:
                     source => 'puppet:///modules/pushapk_scriptworker/fenix_nightly.pem';
                 $fenix_beta:
@@ -97,11 +94,6 @@ class pushapk_scriptworker::jarsigner_init {
             }
 
             java_ks {
-                # deprecated, use "fenix-nightly" instead
-                'fenix':
-                    certificate => $fenix;
-
-
                 'fenix-nightly':
                     certificate => $fenix_nightly;
                 'fenix-beta':

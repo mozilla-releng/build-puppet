@@ -20,11 +20,11 @@ jwcrypto==0.6.0
 mohawk==0.3.4  # pyup: ignore
 multidict==4.5.2
 pycparser==2.19
-pyrsistent==0.15.1
+pyrsistent==0.15.2
 python-dateutil==2.8.0
 redo==2.0.3
 requests==2.21.0
-scriptworker==23.0.3
+scriptworker==23.0.5
 shipitapi==3.1.0
 shipitscript==4.0.0  # puppet: nodownload
 six==1.12.0
@@ -34,6 +34,6 @@ taskcluster-urls==11.0.0
 typing-extensions==3.7.2
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
-virtualenv==16.5.0
-wheel==0.33.1
+virtualenv==16.6.0
+wheel==0.33.4
 yarl==1.3.0
