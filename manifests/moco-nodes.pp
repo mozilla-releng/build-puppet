@@ -398,6 +398,8 @@ node /^mobile-beetmover-\d*\.srv\.releng\..*\.mozilla\.com$/ {
 node /^mobil-beetmover-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects             = [ 'maximum-security' ]
     $beetmoverworker_env = 'mobile-dev'
+    $pin_puppet_server = 'releng-puppet2.srv.releng.mdc1.mozilla.com'
+    $pin_puppet_env    = 'mtabara'
     $timezone            = 'UTC'
     $only_user_ssh       = true
     include toplevel::server::beetmoverscriptworker
