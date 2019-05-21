@@ -9,9 +9,9 @@ class packages::mozilla::generic_worker {
     }
 
     if (has_aspect('staging')) {
-        $tag = 'v14.1.0'
+        $tag = 'v14.1.2'
     } else {
-        $tag = 'v14.1.0'
+        $tag = 'v14.1.2'
     }
     $proxy_tag = 'v5.1.0'
     $quarantine_worker_tag = 'v1.0.0'
