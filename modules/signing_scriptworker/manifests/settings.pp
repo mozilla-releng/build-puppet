@@ -114,7 +114,7 @@ class signing_scriptworker::settings {
             taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/signing/production',
             taskcluster_access_token => secret('mobile_focus_signing_scriptworker_taskcluster_access_token'),
             passwords_template       => 'passwords-mobile.json.erb',
-            scope_prefixes           => ['project:mobile:focus:releng:signing:', 'project:mobile:fenix:releng:signing:', 'project:mobile:reference-browser:releng:signing:'],
+            scope_prefixes           => ['project:mobile:focus:releng:signing:', 'project:mobile:android-components:releng:signing:', 'project:mobile:fenix:releng:signing:', 'project:mobile:reference-browser:releng:signing:'],
             sign_chain_of_trust      => true,
             verify_chain_of_trust    => true,
             verify_cot_signature     => true,
