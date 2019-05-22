@@ -62,7 +62,7 @@ pyparsing==2.4.0
 pyrsistent==0.15.2
 python-dateutil==2.8.0
 pytz==2019.1
-requests==2.21.0
+requests==2.22.0
 rsa==4.0
 scriptworker==23.0.6
 simplegeneric==0.8.1
