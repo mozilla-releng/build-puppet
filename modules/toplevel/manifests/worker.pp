@@ -48,10 +48,6 @@ class toplevel::worker inherits toplevel::base {
         },
     }
 
-    telegraf::input { 'puppet-agent':
-        plugin_type => 'puppetagent',
-    }
-
     telegraf::input { 'procstat':
         plugin_type => 'procstat',
         options     => {
