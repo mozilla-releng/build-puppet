@@ -51,7 +51,7 @@ class packages::mozilla::python3 {
                     packages::pkgdmg {
                         'python37':
                             os_version_specific => true,
-                            version             => '3.7.1-1';
+                            version             => '3.7.1-2';
                         'xz':
                             os_version_specific => true,
                             version             => '5.2.4-1';
