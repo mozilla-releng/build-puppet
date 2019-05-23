@@ -223,7 +223,6 @@ class pushapk_scriptworker::settings {
                 },
             }
             $jarsigner_certificate_aliases_content = {
-                'fenix' => 'fenix',
                 'focus' => 'focus',
                 'reference-browser' => 'reference-browser',
             }
