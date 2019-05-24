@@ -2,7 +2,7 @@
 PyYAML==5.1
 aiohttp==3.5.4
 altgraph==0.16.1
-arrow==0.13.1
+arrow==0.13.2
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
@@ -34,7 +34,7 @@ pycparser==2.19
 pyrsistent==0.15.2
 python-dateutil==2.8.0
 python-jose==3.0.1
-requests==2.21.0
+requests==2.22.0
 requests-hawk==1.0.0
 rsa==4.0
 scriptworker==23.0.7
