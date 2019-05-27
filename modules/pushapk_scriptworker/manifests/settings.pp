@@ -99,7 +99,7 @@ class pushapk_scriptworker::settings {
                     'product_names' => ['dep'],
                     'digest_algorithm' => 'SHA1',
                     'update_google_play_strings' => true,
-                    'map_channels_to_apps' => false,
+                    'map_channels_to_tracks' => true,
                     'single_app_config' => {
                         'package_names' => ['org.mozilla.fennec_aurora'],
                         'service_account' => 'dummy',
@@ -116,7 +116,7 @@ class pushapk_scriptworker::settings {
                     'product_names' => ['aurora', 'beta', 'release'],
                     'digest_algorithm' => 'SHA1',
                     'update_google_play_strings' => true,
-                    'map_channels_to_apps' => true,
+                    'use_scope_for_channel' => true,
                     'apps' => {
                         'aurora' => {
                             'package_names' => ['org.mozilla.fennec_aurora'],
@@ -153,7 +153,7 @@ class pushapk_scriptworker::settings {
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
-                    'map_channels_to_apps' => false,
+                    'map_channels_to_tracks' => true,
                     'single_app_config' => {
                         'package_names' => ['org.mozilla.fenix'],
                         'service_account' => 'dummy',
@@ -169,7 +169,7 @@ class pushapk_scriptworker::settings {
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
-                    'map_channels_to_apps' => false,
+                    'map_channels_to_tracks' => true,
                     'single_app_config' => {
                         'package_names' => ['org.mozilla.focus', 'org.mozilla.klar'],
                         'service_account' => 'dummy',
@@ -184,7 +184,7 @@ class pushapk_scriptworker::settings {
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
-                    'map_channels_to_apps' => false,
+                    'map_channels_to_tracks' => true,
                     'single_app_config' => {
                         'package_names' => ['org.mozilla.reference.browser'],
                         'service_account' => 'dummy',
@@ -204,7 +204,6 @@ class pushapk_scriptworker::settings {
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
-                    'map_channels_to_apps' => true,
                     'apps' => {
                         'nightly' => {
                             'package_names' => ['org.mozilla.fenix'],
@@ -230,7 +229,7 @@ class pushapk_scriptworker::settings {
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
-                    'map_channels_to_apps' => false,
+                    'map_channels_to_tracks' => true,
                     'single_app_config' => {
                         'service_account' => $google_play_accounts['focus']['service_account'],
                         'google_credentials_file' => "${root}/focus.p12",
@@ -245,10 +244,10 @@ class pushapk_scriptworker::settings {
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
-                    'map_channels_to_apps' => false,
+                    'map_channels_to_tracks' => true,
                     'single_app_config' => {
                         'service_account' => $google_play_accounts['reference_browser']['service_account'],
-                        'certificate' => "${root}/reference_browser.p12",
+                        'google_credentials_file' => "${root}/reference_browser.p12",
                         'package_names' => ['org.mozilla.reference.browser'],
                         'certificate_alias' => 'reference-browser',
                     }
