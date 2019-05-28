@@ -41,7 +41,7 @@ kiwisolver==1.1.0
 lxml==4.3.3
 matplotlib==3.1.0
 mohawk==0.3.4  # pyup: ignore
-mozapkpublisher==2.0.2
+mozapkpublisher==3.0.0
 mozilla-version==0.3.1
 multidict==4.5.2
 networkx==2.3
