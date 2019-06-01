@@ -16,7 +16,7 @@ class signing_scriptworker {
     $env_config          = $signing_scriptworker::settings::env_config[$signing_scriptworker_env]
 
     # because puppet barfs whenever I try to put it in settings.pp
-    $verbose_logging     = true
+    $verbose_logging     = false
     $build_tools_version = '23.0.3'
     # See value defined in packages::mozilla::android_sdk
     $zipalign_location   = "/tools/android-sdk/build-tools/${build_tools_version}/zipalign"
