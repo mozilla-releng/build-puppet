@@ -9,7 +9,7 @@ class signing_scriptworker::settings {
     $task_max_timeout   = 7200
     $task_script        = "${root}/bin/signingscript"
     $task_script_config = "${root}/script_config.json"
-    $verbose            = false
+    $verbose            = true
     $virtualenv_version = $python3::settings::python3_virtualenv_version
     $datadog_port       = 8135
     $datadog_host       = "localhost"
