@@ -2,7 +2,7 @@
 PyYAML==5.1
 aiohttp==3.5.4
 altgraph==0.16.1
-arrow==0.13.2
+arrow==0.14.2
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
@@ -12,7 +12,7 @@ cffi==1.12.3
 chardet==3.0.4
 click==7.0
 construct==2.9.45
-cryptography==2.6.1
+cryptography==2.7
 datadog==0.28.0
 decorator==4.4.0
 dictdiffer==0.8.0

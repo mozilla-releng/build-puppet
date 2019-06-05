@@ -2,14 +2,14 @@
 PyYAML==5.1
 addonscript==1.0  # puppet: nodownload
 aiohttp==3.5.4
-arrow==0.13.2
+arrow==0.14.2
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
 certifi==2019.3.9
 cffi==1.12.3
 chardet==3.0.4
-cryptography==2.6.1
+cryptography==2.7
 dictdiffer==0.8.0
 ecdsa==0.13.2
 frozendict==1.2
