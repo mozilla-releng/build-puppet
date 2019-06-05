@@ -1,6 +1,16 @@
 #!/bin/sh
 
-/tools/python37/bin/python3.7 << "EOF"
+curl -o certifi-2019.3.9.tar.gz https://files.pythonhosted.org/packages/06/b8/d1ea38513c22e8c906275d135818fee16ad8495985956a9b7e2bb21942a1/certifi-2019.3.9.tar.gz
+tar zxvf certifi-2019.3.9.tar.gz
+cd certifi-2019.3.9
+
+/usr/local/bin/python3 setup.py install
+
+cd ..
+rm -rf certifi-2019.3.9.tar.gz
+rm -rf certifi-2019.3.9
+
+/usr/local/bin/python3 << "EOF"
 
 # install_certifi.py
 #
@@ -22,10 +32,6 @@ STAT_0o775 = ( stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR
 def main():
     openssl_dir, openssl_cafile = os.path.split(
         ssl.get_default_verify_paths().openssl_cafile)
-
-    print(" -- pip install --upgrade certifi")
-    subprocess.check_call([sys.executable,
-        "-E", "-s", "-m", "pip", "install", "--upgrade", "certifi"])
 
     import certifi
 
