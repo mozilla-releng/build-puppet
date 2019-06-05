@@ -45,7 +45,7 @@ class packages::mozilla::python3 {
                         '/etc/profile.d/append-python37-path.sh':
                             mode    => '0755',
                             content => 'PATH=$PATH:/tools/python37/bin/python3.7';
-
+                    }
                     file { '/tools/python37/install_certificates.command':
                         ensure  => present,
                         content => template('packages/install_certificates.command.erb'),
