@@ -54,7 +54,7 @@ class packages::mozilla::python3 {
                     -> Anchor['packages::mozilla::python3::end']
 
                     Anchor['packages::mozilla::python3::begin'] ->
-                    exect { 'install certificates':
+                    exec { 'install certificates':
                         command => '/tools/python37/install_certificates.command'
                     } -> Anchor['packages::mozilla::python3::end']
 
