@@ -9,7 +9,7 @@ attrs==19.1.0
 certifi==2019.3.9
 cffi==1.12.3
 chardet==3.0.4
-cryptography==2.6.1
+cryptography==2.7
 dictdiffer==0.8.0
 ecdsa==0.13.2
 frozendict==1.2
