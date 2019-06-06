@@ -16,7 +16,7 @@ enum34==1.1.6
 ipaddress==1.0.22
 asn1crypto==0.24.0
 cffi==1.12.3
-cryptography==2.6.1
+cryptography==2.7
 macholib==1.11
 altgraph==0.16.1
 idna==2.8
