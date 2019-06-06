@@ -19,6 +19,9 @@ class packages::openssl_non_xcode {
                     private             => false;
             } -> Anchor['packages::openssl_non_xcode::end']
         }
+        Ubuntu: {
+            #Nothing to do
+        }
         default: {
             fail("Cannot install on ${::operatingsystem}")
         }
