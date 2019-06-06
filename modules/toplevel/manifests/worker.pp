@@ -12,6 +12,7 @@ class toplevel::worker inherits toplevel::base {
     include sudoers::reboot
     include users::builder
     include python::system_pip_conf
+    include packages::openssl_non_xcode
 
     if ($::operatingsystem == 'Darwin') or ($::operatingsystem == 'Ubuntu') {
         # roller user ssh
