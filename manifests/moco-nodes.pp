@@ -364,6 +364,8 @@ node /^beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
 node /^beetmover-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects             = [ 'maximum-security' ]
     $beetmoverworker_env = 'dev'
+    $pin_puppet_server = 'releng-puppet2.srv.releng.mdc1.mozilla.com'
+    $pin_puppet_env    = 'mtabara'
     $timezone            = 'UTC'
     $only_user_ssh       = true
     include toplevel::server::beetmoverscriptworker
