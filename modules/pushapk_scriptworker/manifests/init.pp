@@ -112,6 +112,8 @@ class pushapk_scriptworker {
                     content => $google_play_accounts['fenix-nightly']['certificate'];
                 "${root}/fenix_beta.p12":
                     content => $google_play_accounts['fenix-beta']['certificate'];
+                "${root}/fenix_production.p12":
+                    content => $google_play_accounts['fenix-production']['certificate'];
                 "${root}/focus.p12":
                     content => $google_play_accounts['focus']['certificate'];
                 "${root}/reference_browser.p12":

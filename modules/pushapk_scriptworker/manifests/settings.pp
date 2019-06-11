@@ -206,8 +206,8 @@ class pushapk_scriptworker::settings {
                     'skip_checks_fennec' => true,
                     'apps' => {
                         'nightly' => {
-                            'package_names' => ['org.mozilla.fenix'],
-                            'google_play_track' => 'nightly',
+                            'package_names' => ['org.mozilla.fenix.nightly'],
+                            'google_play_track' => 'beta',
                             'service_account' => $google_play_accounts['fenix-nightly']['service_account'],
                             'google_credentials_file' => "${root}/fenix_nightly.p12",
                             'certificate_alias' => 'fenix-nightly',
@@ -218,6 +218,13 @@ class pushapk_scriptworker::settings {
                             'service_account' => $google_play_accounts['fenix-beta']['service_account'],
                             'google_credentials_file' => "${root}/fenix_beta.p12",
                             'certificate_alias' => 'fenix-beta',
+                        },
+                        'production' => {
+                            'package_names' => ['org.mozilla.fenix'],
+                            'google_play_track' => 'internal',
+                            'service_account' => $google_play_accounts['fenix-production']['service_account'],
+                            'google_credentials_file' => "${root}/fenix_production.p12",
+                            'certificate_alias' => 'fenix-production',
                         },
                     }
                 },
