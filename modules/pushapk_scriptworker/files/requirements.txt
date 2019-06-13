@@ -1,7 +1,7 @@
 # python_version: 36
 # install six and setuptools before cryptography
 six==1.12.0
-PyYAML==5.1
+PyYAML==5.1.1
 Pygments==2.4.2
 aiohttp==3.5.4
 androguard==3.3.5
@@ -27,7 +27,7 @@ github3.py==1.3.0
 google-api-python-client==1.7.9
 google-auth==1.6.3
 google-auth-httplib2==0.0.3
-httplib2==0.12.3
+httplib2==0.13.0
 humanize==0.5.1
 idna==2.8
 idna_ssl==1.1.0
@@ -38,7 +38,7 @@ json-e==3.0.0
 jsonschema==3.0.1
 jwcrypto==0.6.0
 kiwisolver==1.1.0
-lxml==4.3.3
+lxml==4.3.4
 matplotlib==3.1.0
 mohawk==0.3.4  # pyup: ignore
 mozapkpublisher==3.1.0
