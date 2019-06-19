@@ -79,6 +79,7 @@ class pushapk_scriptworker::jarsigner_init {
         'mobile-prod': {
             $fenix_nightly = "${root}/fenix_nightly.cer"
             $fenix_beta = "${root}/fenix_beta.cer"
+            $fenix_production = "${root}/fenix_production.cer"
             $focus = "${root}/focus_release.cer"
             $reference_browser = "${root}/reference_browser_release.cer"
 
@@ -87,6 +88,8 @@ class pushapk_scriptworker::jarsigner_init {
                     source => 'puppet:///modules/pushapk_scriptworker/fenix_nightly.pem';
                 $fenix_beta:
                     source => 'puppet:///modules/pushapk_scriptworker/fenix_beta.pem';
+                $fenix_production:
+                    source => 'puppet:///modules/pushapk_scriptworker/fenix_production.pem';
                 $focus:
                     source => 'puppet:///modules/pushapk_scriptworker/focus_release.pem';
                 $reference_browser:
@@ -98,6 +101,8 @@ class pushapk_scriptworker::jarsigner_init {
                     certificate => $fenix_nightly;
                 'fenix-beta':
                     certificate => $fenix_beta;
+                'fenix-production':
+                    certificate => $fenix_production;
                 'focus':
                     certificate => $focus;
                 'reference-browser':

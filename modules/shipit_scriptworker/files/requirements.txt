@@ -1,5 +1,5 @@
 # python_version: 36
-PyYAML==5.1
+PyYAML==5.1.1
 aiohttp==3.5.4
 arrow==0.14.2
 asn1crypto==0.24.0
@@ -24,7 +24,7 @@ pyrsistent==0.15.2
 python-dateutil==2.8.0
 redo==2.0.3
 requests==2.22.0
-scriptworker==23.0.7
+scriptworker==23.0.10
 shipitapi==3.1.0
 shipitscript==4.0.0  # puppet: nodownload
 six==1.12.0

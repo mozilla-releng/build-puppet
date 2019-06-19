@@ -44,14 +44,25 @@ class packages::mozilla::python3 {
                             target => '/tools/python37/bin/python3.7';
                         '/etc/profile.d/append-python37-path.sh':
                             mode    => '0755',
-                            content => 'PATH=$PATH:/tools/python37/bin/python3.7',
+                            content => 'PATH=$PATH:/tools/python37/bin/python3.7';
+                    }
+                    file { '/tools/python37/install_certificates.command':
+                        ensure  => present,
+                        content => template('packages/install_certificates.command.erb'),
+                        mode    => '0755'
+                    }
+                    -> Anchor['packages::mozilla::python3::end']
+
+                    Anchor['packages::mozilla::python3::begin'] ->
+                    exec { 'install certificates':
+                        command => '/tools/python37/install_certificates.command'
                     } -> Anchor['packages::mozilla::python3::end']
 
                     Anchor['packages::mozilla::python3::begin'] ->
                     packages::pkgdmg {
                         'python37':
                             os_version_specific => true,
-                            version             => '3.7.1-1';
+                            version             => '3.7.1-2';
                         'xz':
                             os_version_specific => true,
                             version             => '5.2.4-1';
