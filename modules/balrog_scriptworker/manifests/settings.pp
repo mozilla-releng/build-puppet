@@ -3,10 +3,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class balrog_scriptworker::settings {
+    include python3::settings
+
     $root                     = '/builds/scriptworker'
-    $task_script_executable   = "${root}/py27venv/bin/python"
-    $task_script              = "${root}/py27venv/bin/balrogscript"
+    $task_script              = "${root}/bin/balrogscript"
     $task_script_config       = "${root}/script_config.json"
+    $virtualenv_version       = $python3::settings::python3_virtualenv_version
     $task_max_timeout         = 1800
     $worker_group             = 'balrogworker-v1'
     $verbose_logging          = true
