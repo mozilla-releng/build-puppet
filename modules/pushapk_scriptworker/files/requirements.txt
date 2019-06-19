@@ -73,7 +73,7 @@ traitlets==4.3.2
 typing-extensions==3.7.2
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
-virtualenv==16.6.0
+virtualenv==16.6.1
 voluptuous==0.11.5
 wcwidth==0.1.7
 wheel==0.33.4
