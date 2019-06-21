@@ -6,7 +6,6 @@ class balrog_scriptworker {
     include balrog_scriptworker::settings
     include dirs::builds
     include packages::mozilla::python3
-    include packages::mozilla::python27
     include users::builder
     include tweaks::swap_on_instance_storage
     include packages::gcc
@@ -34,19 +33,6 @@ class balrog_scriptworker {
             user            => $users::builder::username,
             group           => $users::builder::group,
             mode            => '0700',
-            packages        => file("balrog_scriptworker/requirements.txt");
-    }
-
-    # TODO: remove once https://github.com/mozilla-releng/build-puppet/pull/520 is landed and ensure => absent has been
-    # propogated to all balrog workers
-    python27::virtualenv {
-        "${balrog_scriptworker::settings::root}/py27venv":
-            ensure          => 'absent',
-            python          => $packages::mozilla::python27::python,
-            rebuild_trigger => Class['packages::mozilla::python27'],
-            require         => Class['packages::mozilla::python27'],
-            user            => $users::builder::username,
-            group           => $users::builder::group,
             packages        => file("balrog_scriptworker/requirements.txt");
     }
 
