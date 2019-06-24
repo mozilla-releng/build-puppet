@@ -298,27 +298,6 @@ class config inherits config::base {
     $telegraf_user                     = 'relops_wo'
     $telegraf_password                 = secret('relops_influx_wo_password')
 
-    case $::fqdn {
-        /.*\.(mdc1|use1|usw2)\.mozilla\.com/: {
-                $collectd_write = {
-                    graphite_nodes => {
-                        'graphite1.private.mdc1.mozilla.com' => {
-                            'port' => '2003', 'prefix' => 'hosts.',
-                        },
-                    },
-                }
-        }
-        /.*\.mdc2\.mozilla\.com/: {
-                $collectd_write = {
-                    graphite_nodes => {
-                        'graphite1.private.mdc2.mozilla.com' => {
-                            'port' => '2003', 'prefix' => 'hosts.',
-                        },
-                    },
-                }
-        }
-    }
-
     #### start configuration information for rsyslog logging
 
     # cef server for auditd output
