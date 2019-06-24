@@ -22,37 +22,66 @@ exitstatus="${PIPESTATUS[0]}"
 export TASKCLUSTER_CLIENT_ID="<%= @quarantine_client_id %>"
 export TASKCLUSTER_ACCESS_TOKEN="<%= @quarantine_access_token %>"
 
-if [ $exitstatus -eq 69 ]; then
-# If generic-worker considers that the host environment is in an invalid/corrupted
-# state (for example, it cannot write to disk), it will return the exit code 69.
-#
-# More information about generic-worker exit codes can be seen here:
-# https://docs.taskcluster.net/docs/reference/workers/generic-worker#set-up-your-env
-#
-# If this happens, we make a call to Taskcluster Queue to quarantine the worker, so
-# that no further tasks will be provided to the worker until the quarantine expires.
-# This prevents the worker from burning through tasks that it is not able to execute
-# properly.
-    if [ -f <%= scope.lookupvar('users::builder::home') %>/quarantined ]; then
-        echo "Worker is quarantined"
-    else
-        echo "Quarantine worker"
-        # quarantine the worker using github.com/mozilla-platform-ops/quarantine-worker CLI
-        /usr/local/bin/quarantine-worker releng-hardware "<%= @worker_type %>" "<%= @worker_group %>" "<%= @hostname %>" 720h5s
+quarantine_exitcodes_array=(64 65 66 69 70 71 72 73 74 75 76 77)
 
-        # create a semaphore file
-        echo "quarantined worker" > <%= scope.lookupvar('users::builder::home') %>/quarantined
+if [[ "${quarantine_exitcodes_array[@]}" =~ "${exitstatus}" ]]; then
+# If the generic-worker exit with exit condes defined in quarantine exitcodes_array,
+# that means the worker is in bad state:
+# Available exit codes:
+# 64     Not able to load generic-worker config. This could be a problem reading the
+#        generic-worker config file on the filesystem, a problem talking to AWS/GCP
+#        metadata service, or a problem retrieving config/files from the taskcluster
+#        secrets service.
+# 65     Not able to install generic-worker on the system.
+# 66     Not able to create an OpenPGP key pair.
+# 69     Worker panic - either a worker bug, or the environment is not suitable for running
+#        a task, e.g. a file cannot be written to the file system, or something else did
+#        not work that was required in order to execute a task. See config setting
+#        shutdownMachineOnInternalError.
+# 70     A new deploymentId has been issued in the AWS worker type configuration, meaning
+#        this worker environment is no longer up-to-date. Typcially workers should
+#        terminate.
+# 71     The worker was terminated via an interrupt signal (e.g. Ctrl-C pressed).
+# 72     The worker is running on spot infrastructure in AWS EC2 and has been served a
+#        spot termination notice, and therefore has shut down.
+# 73     The config provided to the worker is invalid.
+# 74     Could not grant provided SID full control of interactive windows stations and desktop.
+# 75     Not able to create an ed25519 key pair.
+# 76     Not able to save generic-worker config file after fetching it from AWS provisioner
+#        or Google Cloud metadata.
+# 77     Not able to apply required file access permissions to the generic-worker config
+#        file so that task users can't read from or write to it.
 
-        # Submit a new bug to Bugzilla that reports that the worker has been quarantined, 
-        # in order to alert CI Duty to the failure, track status and facilitate resolution.
-        create_bug_self_failure
+# If worker is in bad state, reboot it first time. If after reboot the worker continue to be
+# in bad state, quarantine the worker and stop reboot it
+    if [ -f <%= scope.lookupvar('users::builder::home') %>/reboot_semaphore ]; then
+        # The worker was rebooted once
+        if [ -f <%= scope.lookupvar('users::builder::home') %>/quarantined ]; then
+            echo "Worker is quarantined"
+        else
+            echo "Quarantine worker"
+            # quarantine the worker using github.com/mozilla-platform-ops/quarantine-worker CLI
+            /usr/local/bin/quarantine-worker releng-hardware "<%= @worker_type %>" "<%= @worker_group %>" "<%= @hostname %>" 720h5s
+
+            # create a semaphore file
+            echo "quarantined worker" > <%= scope.lookupvar('users::builder::home') %>/quarantined
+        fi
+    else 
+        # first time reboot, create the reboot semaphore file and reboot the machine
+        date > <%= scope.lookupvar('users::builder::home') %>/reboot_semaphore
+        <%= @reboot_command %>
+        /bin/sleep 120
     fi
-elif [ $exitstatus -gt 69 -o $exitstatus -lt 69 ]; then
+else 
     # If exitstatus is different by 69 (grater than 69 or lower than 69)
     # The worker was removed from the quarantin and run with success a job
     # Remove quarantined file, if file exist
     if [ -f <%= scope.lookupvar('users::builder::home') %>/quarantined ]; then
         /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>/quarantined
+    fi
+    # Remove reboot semaphore file
+    if [ -f <%= scope.lookupvar('users::builder::home') %>/reboot ]; then
+        /bin/rm -rf <%= scope.lookupvar('users::builder::home') %>/reboot_semaphore
     fi
     # Self resolve the bug and remove bug_id file if file exist
     if [ -f <%= scope.lookupvar('users::builder::home') %>/bug_id ]; then
