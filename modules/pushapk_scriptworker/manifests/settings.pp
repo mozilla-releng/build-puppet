@@ -99,12 +99,14 @@ class pushapk_scriptworker::settings {
                     'product_names' => ['dep'],
                     'digest_algorithm' => 'SHA1',
                     'update_google_play_strings' => true,
-                    'map_channels_to_tracks' => true,
-                    'single_app_config' => {
-                        'package_names' => ['org.mozilla.fennec_aurora'],
-                        'service_account' => 'dummy',
-                        'google_credentials_file' => "${root}/dep.p12",
-                        'certificate_alias' => 'dep',
+                    'use_scope_for_channel' => true,
+                    'apps' => {
+                        'dep' => {
+                            'package_names' => ['org.mozilla.fennec_aurora'],
+                            'service_account' => 'dummy',
+                            'google_credentials_file' => "${root}/dep.p12",
+                            'certificate_alias' => 'dep',
+                        }
                     }
                 }
             ]
