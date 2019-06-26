@@ -33,7 +33,7 @@ idna==2.8
 idna_ssl==1.1.0
 ipython==7.5.0
 ipython_genutils==0.2.0
-jedi==0.13.3
+jedi==0.14.0
 json-e==3.0.0
 jsonschema==3.0.1
 jwcrypto==0.6.0
