@@ -5,7 +5,7 @@ arrow==0.14.2
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
-bouncerscript==3.5.1  # puppet: nodownload
+bouncerscript==3.6.0  # puppet: nodownload
 certifi==2019.6.16
 cffi==1.12.3
 chardet==3.0.4
@@ -30,7 +30,7 @@ six==1.12.0
 slugid==2.0.0
 taskcluster==7.0.1
 taskcluster-urls==11.0.0
-typing-extensions==3.7.2
+typing-extensions==3.7.4
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
 virtualenv==16.6.1
