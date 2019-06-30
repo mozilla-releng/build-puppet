@@ -364,8 +364,6 @@ node /^beetmoverworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
 node /^beetmover-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects             = [ 'maximum-security' ]
     $beetmoverworker_env = 'dev'
-    $pin_puppet_server = 'releng-puppet2.srv.releng.mdc1.mozilla.com'
-    $pin_puppet_env    = 'mtabara'
     $timezone            = 'UTC'
     $only_user_ssh       = true
     include toplevel::server::beetmoverscriptworker
@@ -400,8 +398,6 @@ node /^mobile-beetmover-\d*\.srv\.releng\..*\.mozilla\.com$/ {
 node /^mobil-beetmover-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects             = [ 'maximum-security' ]
     $beetmoverworker_env = 'mobile-dev'
-    $pin_puppet_server = 'releng-puppet2.srv.releng.mdc1.mozilla.com'
-    $pin_puppet_env    = 'mtabara'
     $timezone            = 'UTC'
     $only_user_ssh       = true
     include toplevel::server::beetmoverscriptworker
@@ -421,8 +417,6 @@ node /^appsv-beetmover-\d*\.srv\.releng\..*\.mozilla\.com$/ {
 node /^appsv-beetmover-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects             = [ 'maximum-security' ]
     $beetmoverworker_env = 'appservices-dev'
-    $pin_puppet_server = 'releng-puppet2.srv.releng.mdc1.mozilla.com'
-    $pin_puppet_env    = 'mtabara'
     $timezone            = 'UTC'
     $only_user_ssh       = true
     include toplevel::server::beetmoverscriptworker
