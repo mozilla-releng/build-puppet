@@ -294,8 +294,6 @@ node /^dep-m-signing-linux-\d*\.srv\.releng\..*\.mozilla\.com$/ {
 
 node /^dep-appsv-signing-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
-    $pin_puppet_server = 'releng-puppet2.srv.releng.mdc1.mozilla.com'
-    $pin_puppet_env    = 'mtabara'
     $signing_scriptworker_env = 'appsv-dep'
     $timezone                 = 'UTC'
     $only_user_ssh            = true
@@ -314,8 +312,6 @@ node /^mobil-signing-linux-\d*\.srv\.releng\..*\.mozilla\.com$/ {
 
 node /^appsv-signing-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
-    $pin_puppet_server = 'releng-puppet2.srv.releng.mdc1.mozilla.com'
-    $pin_puppet_env    = 'mtabara'
     $signing_scriptworker_env = 'appsv-prod'
     $timezone                 = 'UTC'
     $only_user_ssh            = true
