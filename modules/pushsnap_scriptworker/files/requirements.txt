@@ -27,7 +27,7 @@ mohawk==0.3.4
 mozilla-version==0.3.1
 multidict==4.5.2
 progressbar33==2.4
-pushsnapscript==2.0.0  # puppet: nodownload
+pushsnapscript==2.0.1  # puppet: nodownload
 pycparser==2.19
 pyelftools==0.24
 # Puppet check is deactivated because it requires some distro library (libsodium) to be installed.
