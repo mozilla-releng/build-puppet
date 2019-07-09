@@ -24,7 +24,7 @@ jwcrypto==0.6.0
 # Puppet check is deactivated because it requires some distro library (libsodium) to be installed.
 libnacl==1.3.6  # puppet: nodownload
 mohawk==0.3.4
-mozilla-version==0.3.1
+mozilla-version==0.3.4
 multidict==4.5.2
 progressbar33==2.4
 pushsnapscript==2.0.1  # puppet: nodownload
