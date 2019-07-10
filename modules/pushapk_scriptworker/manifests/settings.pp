@@ -154,7 +154,7 @@ class pushapk_scriptworker::settings {
                     'skip_checks_fennec' => true,
                     'map_channels_to_tracks' => true,
                     'single_app_config' => {
-                        'package_names' => ['org.mozilla.fenix'],
+                        'package_names' => ['org.mozilla.fenix', 'org.mozilla.fenix.beta', 'org.mozilla.fenix.nightly'],
                         'service_account' => 'dummy',
                         'google_credentials_file' => "${root}/fenix.p12",
                         'certificate_alias' => 'fenix',
