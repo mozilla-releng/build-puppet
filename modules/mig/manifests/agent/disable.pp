@@ -10,9 +10,9 @@ class mig::agent::disable {
                 '/etc/init/mig-agent.conf':
                     ensure => absent;
                 '/etc/mig':
-                    force  => true,
-                    ensure => absent;
-                '${mig_path}':
+                    ensure => absent,
+                    force  => true;
+                "${mig_path}":
                     ensure => absent;
             }
             exec { 'kill mig':
