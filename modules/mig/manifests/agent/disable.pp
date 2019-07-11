@@ -16,8 +16,8 @@ class mig::agent::disable {
                     ensure => absent;
             }
             exec { 'kill mig':
-                command => "pkill -9 mig-agent",
-                onlyif  => "pgrep mig-agent",
+                command => "/usr/bin/pkill -9 mig-agent",
+                onlyif  => "/usr/bin/pgrep mig-agent",
             }
         }
         # We want to disable mig-agent on Linux and MacOS workers
