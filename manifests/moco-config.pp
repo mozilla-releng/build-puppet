@@ -130,8 +130,6 @@ class config inherits config::base {
         default                         => undef,
     }
 
-    $enable_mig_agent                = true
-
     # Conditional puppet run at boot for Mac slaves
     case $::fqdn {
         /t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2|usw2|use1)\.mozilla\.com/: {

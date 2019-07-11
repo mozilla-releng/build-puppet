@@ -5,6 +5,21 @@ class mig::agent::disable {
 
     $mig_path = $::operatingsystem ? { /(CentOS|Ubuntu)/ => '/sbin/mig-agent', Darwin => '/usr/local/bin/mig-agent' }
     case $::operatingsystem {
+        CentOS: {
+            file {
+                '/etc/init/mig-agent.conf':
+                    ensure => absent;
+                '/etc/mig':
+                    ensure => absent,
+                    force  => true;
+                "${mig_path}":
+                    ensure => absent;
+            }
+            exec { 'kill mig':
+                command => "/usr/bin/pkill -9 mig-agent",
+                onlyif  => "/usr/bin/pgrep mig-agent",
+            }
+        }
         # We want to disable mig-agent on Linux and MacOS workers
         Ubuntu: {
             case $::operatingsystemrelease {
