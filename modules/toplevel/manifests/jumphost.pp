@@ -81,7 +81,5 @@ class toplevel::jumphost {
         exceptions => $::config::web_proxy_exceptions
     }
 
-    if ($::config::enable_mig_agent) {
-        include mig::agent::daemon
-    }
+    include mig::agent::disable
 }
