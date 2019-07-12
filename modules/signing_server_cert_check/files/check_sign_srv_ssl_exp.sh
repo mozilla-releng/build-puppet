@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SSL="https://hg.mozilla.org/build/tools/raw-file/default/release/signing/host.cert"
+SSL="https://raw.githubusercontent.com/mozilla-releng/signingscript/master/signingscript/data/host.cert"
 CERT=/tmp/host.cert
 CERT1=/tmp/cert.pem
 CERT2=/tmp/cert1.pem
