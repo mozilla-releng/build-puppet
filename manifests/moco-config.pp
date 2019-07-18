@@ -251,13 +251,6 @@ class config inherits config::base {
         'rgarbas',
         'sfraser',
         'bhearsum', # Bug 1409806
-        'bcrisan', # Bug 1434170
-        'dlabici', # Bug 1434170
-        'riman', # Bug 1434170
-        'rmutter', # Bug 1434170
-        'zfay', # Bug 1434170
-        'apop', # Bug 1442124
-        'acraciun', # Bug 1443668
         'tprince', # Bug 1449013
         'pmoore', # Bug 1492400
         'mhentges', # Bug 1509144
