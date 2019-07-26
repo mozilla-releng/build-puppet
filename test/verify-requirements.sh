@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 MY_DIR=$(dirname $(readlink -f $0))
 MODULES=$(readlink -f "${MY_DIR}/../modules")
 
