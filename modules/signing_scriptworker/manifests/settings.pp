@@ -11,8 +11,6 @@ class signing_scriptworker::settings {
     $task_script_config = "${root}/script_config.json"
     $verbose            = true
     $virtualenv_version = $python3::settings::python3_virtualenv_version
-    $datadog_port       = 8135
-    $datadog_host       = "localhost"
 
     $env_config = {
         'dev' => {
@@ -27,7 +25,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => false,
             cot_product              => 'firefox',
             github_oauth_token       => '',
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
             widevine_cert            => 'widevine_dep.crt',
         },
@@ -43,7 +40,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => false,
             cot_product              => 'firefox',
             github_oauth_token       => '',
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
             widevine_cert            => 'widevine_dep.crt',
         },
@@ -59,7 +55,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => true,
             cot_product              => 'firefox',
             github_oauth_token       => '',
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_prod',
             widevine_cert            => 'widevine_prod.crt',
         },
@@ -75,7 +70,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => false,
             cot_product              => 'thunderbird',
             github_oauth_token       => '',
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
         },
         'comm-thunderbird-prod' => {
@@ -90,7 +84,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => true,
             cot_product              => 'thunderbird',
             github_oauth_token       => '',
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_prod',
         },
         'mobile-dep' => {
@@ -105,7 +98,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => false,
             cot_product              => 'mobile',
             github_oauth_token       => secret('scriptworker_github_oauth_token_staging'),
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
         },
         'mobile-prod' => {
@@ -120,7 +112,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => true,
             cot_product              => 'mobile',
             github_oauth_token       => secret('scriptworker_github_oauth_token_production'),
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
         },
         'appsv-dep' => {
@@ -135,7 +126,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => false,
             cot_product              => 'application-services',
             github_oauth_token       => secret('scriptworker_github_oauth_token_staging'),
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
         },
         'appsv-prod' => {
@@ -150,7 +140,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => true,
             cot_product              => 'application-services',
             github_oauth_token       => secret('scriptworker_github_oauth_token_production'),
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_prod',
         },
     }
