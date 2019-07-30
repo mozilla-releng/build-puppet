@@ -5,7 +5,7 @@ arrow==0.14.2
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
-bouncerscript==3.6.1  # puppet: nodownload
+bouncerscript==3.7.0  # puppet: nodownload
 certifi==2019.6.16
 cffi==1.12.3
 chardet==3.0.4
@@ -19,20 +19,20 @@ json-e==3.0.0
 jsonschema==3.0.1
 jwcrypto==0.6.0
 mohawk==0.3.4  # pyup: ignore
-mozilla-version==0.3.1
+mozilla-version==0.3.4
 multidict==4.5.2
 pycparser==2.19
-pyrsistent==0.15.2
+pyrsistent==0.15.3
 python-dateutil==2.8.0
 requests==2.22.0
-scriptworker==23.3.1
+scriptworker==23.6.1
 six==1.12.0
 slugid==2.0.0
-taskcluster==7.0.1
+taskcluster==15.0.0
 taskcluster-urls==11.0.0
 typing-extensions==3.7.4
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
-virtualenv==16.6.1
+virtualenv==16.7.0
 wheel==0.33.4
 yarl==1.3.0

@@ -98,7 +98,6 @@ class pushapk_scriptworker::settings {
                 {
                     'product_names' => ['dep'],
                     'digest_algorithm' => 'SHA1',
-                    'update_google_play_strings' => true,
                     'use_scope_for_channel' => true,
                     'apps' => {
                         'dep' => {
@@ -117,7 +116,6 @@ class pushapk_scriptworker::settings {
                 {
                     'product_names' => ['aurora', 'beta', 'release'],
                     'digest_algorithm' => 'SHA1',
-                    'update_google_play_strings' => true,
                     'use_scope_for_channel' => true,
                     'apps' => {
                         'aurora' => {
@@ -151,13 +149,12 @@ class pushapk_scriptworker::settings {
                 {
                     'product_names' => ['fenix'],
                     'digest_algorithm' => 'SHA-256',
-                    'update_google_play_strings' => false,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
                     'map_channels_to_tracks' => true,
                     'single_app_config' => {
-                        'package_names' => ['org.mozilla.fenix'],
+                        'package_names' => ['org.mozilla.fenix', 'org.mozilla.fenix.beta', 'org.mozilla.fenix.nightly'],
                         'service_account' => 'dummy',
                         'google_credentials_file' => "${root}/fenix.p12",
                         'certificate_alias' => 'fenix',
@@ -166,7 +163,6 @@ class pushapk_scriptworker::settings {
                 {
                     'product_names' => ['focus'],
                     'digest_algorithm' => 'SHA-256',
-                    'update_google_play_strings' => false,
                     'skip_check_ordered_version_codes' => true,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
@@ -182,7 +178,6 @@ class pushapk_scriptworker::settings {
                 {
                     'product_names' => ['reference-browser'],
                     'digest_algorithm' => 'SHA-256',
-                    'update_google_play_strings' => false,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
@@ -202,7 +197,6 @@ class pushapk_scriptworker::settings {
                 {
                     'product_names' => ['fenix'],
                     'digest_algorithm' => 'SHA-256',
-                    'update_google_play_strings' => false,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
@@ -233,7 +227,6 @@ class pushapk_scriptworker::settings {
                 {
                     'product_names' => ['focus'],
                     'digest_algorithm' => 'SHA-256',
-                    'update_google_play_strings' => false,
                     'skip_check_ordered_version_codes' => true,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
@@ -249,7 +242,6 @@ class pushapk_scriptworker::settings {
                 {
                     'product_names' => ['reference-browser'],
                     'digest_algorithm' => 'SHA-256',
-                    'update_google_play_strings' => false,
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,

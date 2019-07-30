@@ -13,7 +13,7 @@ apt-get -q --yes install gcc automake autoconf libmariadbclient-dev liblzma-dev
 
 # We need virtualenv and hashin to do our work, so we install them
 # into the system first
-pip install virtualenv hashin
+pip install virtualenv pyparsing==2.4.0 hashin
 
 error_messages=""
 

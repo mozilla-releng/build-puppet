@@ -129,11 +129,4 @@ class signing_scriptworker {
         group             => $users::signer::group,
         zipalign_location => $zipalign_location;
     }
-
-    class { 'datadog_agent':
-        api_key            => $env_config['datadog_api_key'],
-        puppet_run_reports => false,
-        puppetmaster_user  => puppet,
-        dogstatsd_port     => $signing_scriptworker::settings::datadog_port,
-    }
 }

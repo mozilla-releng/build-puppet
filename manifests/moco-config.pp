@@ -130,8 +130,6 @@ class config inherits config::base {
         default                         => undef,
     }
 
-    $enable_mig_agent                = true
-
     # Conditional puppet run at boot for Mac slaves
     case $::fqdn {
         /t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2|usw2|use1)\.mozilla\.com/: {
@@ -253,13 +251,6 @@ class config inherits config::base {
         'rgarbas',
         'sfraser',
         'bhearsum', # Bug 1409806
-        'bcrisan', # Bug 1434170
-        'dlabici', # Bug 1434170
-        'riman', # Bug 1434170
-        'rmutter', # Bug 1434170
-        'zfay', # Bug 1434170
-        'apop', # Bug 1442124
-        'acraciun', # Bug 1443668
         'tprince', # Bug 1449013
         'pmoore', # Bug 1492400
         'mhentges', # Bug 1509144
@@ -297,27 +288,6 @@ class config inherits config::base {
     $telegraf_db                       = 'relops'
     $telegraf_user                     = 'relops_wo'
     $telegraf_password                 = secret('relops_influx_wo_password')
-
-    case $::fqdn {
-        /.*\.(mdc1|use1|usw2)\.mozilla\.com/: {
-                $collectd_write = {
-                    graphite_nodes => {
-                        'graphite1.private.mdc1.mozilla.com' => {
-                            'port' => '2003', 'prefix' => 'hosts.',
-                        },
-                    },
-                }
-        }
-        /.*\.mdc2\.mozilla\.com/: {
-                $collectd_write = {
-                    graphite_nodes => {
-                        'graphite1.private.mdc2.mozilla.com' => {
-                            'port' => '2003', 'prefix' => 'hosts.',
-                        },
-                    },
-                }
-        }
-    }
 
     #### start configuration information for rsyslog logging
 

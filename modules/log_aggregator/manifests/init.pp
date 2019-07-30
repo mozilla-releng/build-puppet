@@ -20,7 +20,6 @@ class log_aggregator {
             source => 'puppet:///modules/log_aggregator/etc/limits.conf';
     }
 
-    $cef_syslog_server = $::config::cef_syslog_server
     $logging_port      = $::config::logging_port
 
     rsyslog::config {

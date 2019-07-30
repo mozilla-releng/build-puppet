@@ -14,8 +14,5 @@
     "hfsplus": "<%= @hfsplus_location %>",
     "zipalign": "<%= @zipalign_location %>",
     "gpg_pubkey": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/KEY",
-    "widevine_cert": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/widevine.crt",
-
-    "datadog_port": <%= scope.lookupvar("signing_scriptworker::settings::datadog_port") %>,
-    "datadog_host": "<%= scope.lookupvar("signing_scriptworker::settings::datadog_host") %>"
+    "widevine_cert": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/widevine.crt"
 }

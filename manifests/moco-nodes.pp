@@ -140,7 +140,7 @@ node 'install2.test.releng.mdc2.mozilla.com' {
 
 ## BSDPy hosts
 
-node /^bsdpy\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
+node /^bsdpy\d+\.(test|tier3)\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     # Same security level as Deploystudio
     $aspects       = [ 'maximum-security', 'prod' ]
     include fw::profiles::bsdpy
