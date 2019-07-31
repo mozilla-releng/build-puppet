@@ -59,7 +59,7 @@ pycparser==2.19
 pydot==1.4.1
 pyOpenSSL==19.0.0
 pyparsing==2.4.0
-pyrsistent==0.15.3
+pyrsistent==0.15.4
 python-dateutil==2.8.0
 pytz==2019.1
 requests==2.22.0
