@@ -20,7 +20,6 @@ class config inherits config::base {
     $install_ceph_cfg                = true
     $install_mozilla_geoloc_api_keys = true
     $install_google_oauth_api_key    = true
-    $install_crash_stats_api_token   = true
     $install_adjust_sdk_token        = true
     $install_relengapi_token         = true
     $install_release_s3_credentials  = true
