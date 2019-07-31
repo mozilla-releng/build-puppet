@@ -30,7 +30,7 @@ mohawk==0.3.4  # pyup: ignore
 mozilla-version==0.3.4
 multidict==4.5.2
 pycparser==2.19
-pyrsistent==0.15.3
+pyrsistent==0.15.4
 python-dateutil==2.8.0
 redo==2.0.3
 requests==2.22.0
