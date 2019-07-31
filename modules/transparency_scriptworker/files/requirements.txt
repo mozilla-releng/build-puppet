@@ -24,7 +24,7 @@ pyrsistent==0.15.4
 python-dateutil==2.8.0
 redo==2.0.3
 requests==2.22.0
-scriptworker==23.6.1
+scriptworker==23.6.2
 six==1.12.0
 slugid==2.0.0
 taskcluster==15.0.0
