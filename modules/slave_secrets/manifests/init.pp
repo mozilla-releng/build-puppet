@@ -59,8 +59,6 @@ class slave_secrets($slave_type, $ensure=present) {
         class {
             'slave_secrets::google_api_key':
                 ensure => $ensure;
-            'slave_secrets::google_oauth_api_key':
-                ensure => $ensure;
             'slave_secrets::ceph_config':
                 ensure => $ensure;
             'slave_secrets::mozilla_geoloc_api_keys':
@@ -73,8 +71,6 @@ class slave_secrets($slave_type, $ensure=present) {
     } else {
         class {
             'slave_secrets::google_api_key':
-                ensure => absent;
-            'slave_secrets::google_oauth_api_key':
                 ensure => absent;
             'slave_secrets::ceph_config':
                 ensure => absent;
