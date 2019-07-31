@@ -46,7 +46,7 @@ taskcluster-urls==11.0.0
 typing-extensions==3.7.4
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
-virtualenv==16.7.0
+virtualenv==16.7.2
 wheel==0.33.4
 widevine==0.1.0  # puppet: nodownload
 yarl==1.3.0
