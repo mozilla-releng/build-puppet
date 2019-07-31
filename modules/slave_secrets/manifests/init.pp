@@ -50,7 +50,6 @@ class slave_secrets($slave_type, $ensure=present) {
 
     # install the following secrets only on build slaves
     # * google API key
-    # * google oauth API
     # * ceph credentials
     # * mozilla API
     # * Adjust SDK token
