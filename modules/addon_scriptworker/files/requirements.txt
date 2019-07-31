@@ -24,7 +24,7 @@ mohawk==0.3.4  # pyup: ignore
 multidict==4.5.2
 pyasn1==0.4.5
 pycparser==2.19
-pyrsistent==0.15.3
+pyrsistent==0.15.4
 python-dateutil==2.8.0
 python-jose==3.0.1
 requests==2.22.0
