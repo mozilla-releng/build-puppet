@@ -1,7 +1,7 @@
 # python_version: 36
 PyYAML==5.1.1
 aiohttp==3.5.4
-arrow==0.14.2
+arrow==0.14.4
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
@@ -21,10 +21,10 @@ mohawk==0.3.4  # pyup: ignore
 mozilla-version==0.3.4
 multidict==4.5.2
 pycparser==2.19
-pyrsistent==0.15.3
+pyrsistent==0.15.4
 python-dateutil==2.8.0
 requests==2.22.0
-scriptworker==23.6.1
+scriptworker==23.6.2
 six==1.12.0
 slugid==2.0.0
 taskcluster==15.0.0
@@ -33,6 +33,6 @@ treescript==1.2.1  # puppet: nodownload
 typing-extensions==3.7.4
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
-virtualenv==16.7.0
+virtualenv==16.7.2
 wheel==0.33.4
 yarl==1.3.0
