@@ -13,8 +13,6 @@ class toplevel::worker::releng inherits toplevel::worker {
     include packages::wget
     include packages::mozilla::py27_mercurial
 
-    include mig::agent::disable
-
     if ($::operatingsystem == 'Darwin') {
         include packages::mozilla::py27_virtualenv
     }

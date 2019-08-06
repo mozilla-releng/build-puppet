@@ -163,9 +163,6 @@ class config::base {
     # content to be placed in authorized_keys (so, '<type> <key> <comment>')
     $extra_user_ssh_keys    = {}
 
-    # a flag that controls which nodes should install and run MIG Agent
-    $enable_mig_agent       = false
-
     # Conditional puppet run atboot for macs
     $puppet_run_atboot_if_more_than_n_reboots = undef
     $puppet_run_atboot_if_more_than_seconds   = undef
