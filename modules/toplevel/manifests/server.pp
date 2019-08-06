@@ -27,8 +27,6 @@ class toplevel::server inherits toplevel::base {
     include packages::security_updates_1433165
     include python::system_pip_conf
 
-    include mig::agent::disable
-
     # auditd only runs on CentOS at the moment
     case $::operatingsystem {
         'CentOS': {

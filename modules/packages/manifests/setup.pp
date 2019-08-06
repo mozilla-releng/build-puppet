@@ -66,9 +66,6 @@ class packages::setup {
                 'hp-proliantsupportpack':
                     url_path => "repos/yum/mirrors/hp/proliantsupportpack/CentOS/${majorver}/${::architecture}/current";
 
-                'mig-agent':
-                    url_path => "repos/yum/custom/mig-agent/${::architecture}";
-
                 'git-remote-hg':
                     url_path => "repos/yum/custom/git-remote-hg/${::architecture}";
 
@@ -201,7 +198,7 @@ class packages::setup {
             # to flush the metadata cache, increase this value by one (or
             # anything, really, just change it).
 
-            $repoflag = 111
+            $repoflag = 112
 
             file {
                 '/etc/.repo-flag':
@@ -237,7 +234,7 @@ class packages::setup {
             }
             # to flush the package index, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 48
+            $repoflag = 49
             file {
                 '/etc/.repo-flag':
                     content =>
@@ -330,11 +327,6 @@ class packages::setup {
                     url_path     => 'repos/apt/nginx-development',
                     distribution => $::lsbdistcodename,
                     components   => ['main'];
-                'mig-agent':
-                    url_path     => 'repos/apt/custom/mig-agent',
-                    distribution => $::lsbdistcodename,
-                    options      => ['trusted=yes'],
-                    components   => ['all'];
                 'openssl':
                     url_path     => 'repos/apt/custom/openssl',
                     distribution => $::lsbdistcodename,
