@@ -53,7 +53,6 @@ class slave_secrets($slave_type, $ensure=present) {
     # * google oauth API
     # * ceph credentials
     # * mozilla API
-    # * crash stats API token
     # * Adjust SDK token
     # * Release automation S3 credentials
     if ($slave_type == 'build') {
@@ -65,8 +64,6 @@ class slave_secrets($slave_type, $ensure=present) {
             'slave_secrets::ceph_config':
                 ensure => $ensure;
             'slave_secrets::mozilla_geoloc_api_keys':
-                ensure => $ensure;
-            'slave_secrets::crash_stats_api_token':
                 ensure => $ensure;
             'slave_secrets::adjust_sdk_token':
                 ensure => $ensure;
@@ -82,8 +79,6 @@ class slave_secrets($slave_type, $ensure=present) {
             'slave_secrets::ceph_config':
                 ensure => absent;
             'slave_secrets::mozilla_geoloc_api_keys':
-                ensure => absent;
-            'slave_secrets::crash_stats_api_token':
                 ensure => absent;
             'slave_secrets::adjust_sdk_token':
                 ensure => absent;
