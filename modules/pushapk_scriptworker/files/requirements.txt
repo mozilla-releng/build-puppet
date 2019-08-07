@@ -1,7 +1,7 @@
 # python_version: 36
 # install six and setuptools before cryptography
 six==1.12.0
-PyYAML==5.1.1
+PyYAML==5.1.2
 Pygments==2.4.2
 aiohttp==3.5.4
 androguard==3.3.5
@@ -35,14 +35,14 @@ ipython==7.7.0
 ipython_genutils==0.2.0
 jedi==0.14.1
 json-e==3.0.0
-jsonschema==3.0.1
+jsonschema==3.0.2
 jwcrypto==0.6.0
 kiwisolver==1.1.0
 lxml==4.4.0
 matplotlib==3.1.1
 mohawk==0.3.4  # pyup: ignore
 mozapkpublisher==4.1.0
-mozilla-version==0.3.4
+mozilla-version==0.4.1
 multidict==4.5.2
 networkx==2.3
 numpy==1.17.0
@@ -53,21 +53,21 @@ pickleshare==0.7.5
 prompt_toolkit==2.0.9
 ptyprocess==0.6.0
 pushapkscript==3.1.0  # puppet: nodownload
-pyasn1==0.4.5
-pyasn1-modules==0.2.5
+pyasn1==0.4.6
+pyasn1-modules==0.2.6
 pycparser==2.19
 pydot==1.4.1
 pyOpenSSL==19.0.0
 pyparsing==2.4.2
 pyrsistent==0.15.4
 python-dateutil==2.8.0
-pytz==2019.1
+pytz==2019.2
 requests==2.22.0
 rsa==4.0
 scriptworker==23.6.2
 simplegeneric==0.8.1
 slugid==2.0.0
-taskcluster==15.0.0
+taskcluster==16.0.0
 taskcluster-urls==11.0.0
 traitlets==4.3.2
 typing-extensions==3.7.4

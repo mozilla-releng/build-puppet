@@ -1,7 +1,7 @@
 # python_version: 36
 Jinja2==2.10.1
 MarkupSafe==1.1.1
-PyYAML==5.1.1
+PyYAML==5.1.2
 aiohttp==3.5.4
 arrow==0.14.4
 asn1crypto==0.24.0
@@ -18,16 +18,17 @@ cryptography==2.7
 dictdiffer==0.8.0
 docutils==0.14  # pyup: ignore
 frozendict==1.2
+future==0.17.1
 github3.py==1.3.0
 idna==2.8
 idna_ssl==1.1.0
 incremental==17.5.0
 jmespath==0.9.4
 json-e==3.0.0
-jsonschema==3.0.1
+jsonschema==3.0.2
 jwcrypto==0.6.0
 mohawk==0.3.4  # pyup: ignore
-mozilla-version==0.3.4
+mozilla-version==0.4.1
 multidict==4.5.2
 pycparser==2.19
 pyrsistent==0.15.4
@@ -38,7 +39,7 @@ s3transfer==0.2.1
 scriptworker==23.6.2
 six==1.12.0
 slugid==2.0.0
-taskcluster==15.0.0
+taskcluster==16.0.0
 taskcluster-urls==11.0.0
 toml==0.10.0
 towncrier==19.2.0
