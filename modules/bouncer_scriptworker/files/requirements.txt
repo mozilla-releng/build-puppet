@@ -28,7 +28,7 @@ requests==2.22.0
 scriptworker==23.6.2
 six==1.12.0
 slugid==2.0.0
-taskcluster==15.0.0
+taskcluster==16.0.0
 taskcluster-urls==11.0.0
 typing-extensions==3.7.4
 uritemplate==3.0.0
