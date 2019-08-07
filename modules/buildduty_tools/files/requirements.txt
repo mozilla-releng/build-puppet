@@ -3,7 +3,7 @@
 six==1.12.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
-Twisted==19.2.1
+Twisted==19.7.0
 argparse==1.4.0
 asn1crypto==0.24.0
 attrs==19.1.0
