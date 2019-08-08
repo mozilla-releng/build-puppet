@@ -140,7 +140,7 @@ node 'install2.test.releng.mdc2.mozilla.com' {
 
 ## BSDPy hosts
 
-node /^bsdpy\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
+node /^bsdpy\d+\.(test|tier3)\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     # Same security level as Deploystudio
     $aspects       = [ 'maximum-security', 'prod' ]
     include fw::profiles::bsdpy
@@ -292,11 +292,27 @@ node /^dep-m-signing-linux-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     include toplevel::server::signingscriptworker
 }
 
+node /^dep-appsv-signing-\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $signing_scriptworker_env = 'appsv-dep'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::signingscriptworker
+}
+
 # The "e" in mobile was stripped out
 # in order to leave up to 100 workers instead of 10.
 node /^mobil-signing-linux-\d*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
     $signing_scriptworker_env = 'mobile-prod'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::signingscriptworker
+}
+
+node /^appsv-signing-\d*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $signing_scriptworker_env = 'appsv-prod'
     $timezone                 = 'UTC'
     $only_user_ssh            = true
     include toplevel::server::signingscriptworker

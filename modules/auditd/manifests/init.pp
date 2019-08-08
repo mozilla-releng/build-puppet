@@ -5,11 +5,9 @@
 class auditd($host_type) {
     include ::config
     include packages::auditd
-    include packages::audisp_cef
     include packages::audisp_json
     $packages = [
         Class['packages::auditd'],
-        Class['packages::audisp_cef'],
         Class['packages::audisp_json'],
     ]
 
@@ -57,6 +55,12 @@ class auditd($host_type) {
                     group   => 'root',
                     mode    => '0600',
                     source  => 'puppet:///modules/auditd/audispd.conf';
+
+                '/etc/audisp/audisp-cef.conf':
+                    ensure  => absent;
+
+                '/etc/audisp/plugins.d/au-cef.conf':
+                    ensure  => absent;
 
                 '/etc/audisp/audisp-json.conf':
                     ensure  => file,

@@ -11,8 +11,6 @@ class signing_scriptworker::settings {
     $task_script_config = "${root}/script_config.json"
     $verbose            = true
     $virtualenv_version = $python3::settings::python3_virtualenv_version
-    $datadog_port       = 8135
-    $datadog_host       = "localhost"
 
     $env_config = {
         'dev' => {
@@ -27,7 +25,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => false,
             cot_product              => 'firefox',
             github_oauth_token       => '',
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
             widevine_cert            => 'widevine_dep.crt',
         },
@@ -43,7 +40,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => false,
             cot_product              => 'firefox',
             github_oauth_token       => '',
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
             widevine_cert            => 'widevine_dep.crt',
         },
@@ -59,7 +55,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => true,
             cot_product              => 'firefox',
             github_oauth_token       => '',
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_prod',
             widevine_cert            => 'widevine_prod.crt',
         },
@@ -75,7 +70,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => false,
             cot_product              => 'thunderbird',
             github_oauth_token       => '',
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
         },
         'comm-thunderbird-prod' => {
@@ -90,7 +84,6 @@ class signing_scriptworker::settings {
             verify_cot_signature     => true,
             cot_product              => 'thunderbird',
             github_oauth_token       => '',
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_prod',
         },
         'mobile-dep' => {
@@ -99,13 +92,12 @@ class signing_scriptworker::settings {
             taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/signing/dep',
             taskcluster_access_token => secret('mobile_focus_signing_dep_scriptworker_taskcluster_access_token'),
             passwords_template       => 'dep-passwords-mobile.json.erb',
-            scope_prefixes           => ['project:mobile:focus:releng:signing:', 'project:mobile:fenix:releng:signing:', 'project:mobile:reference-browser:releng:signing:'],
+            scope_prefixes           => ['project:mobile:focus:releng:signing:', 'project:mobile:android-components:releng:signing:', 'project:mobile:fenix:releng:signing:', 'project:mobile:reference-browser:releng:signing:'],
             sign_chain_of_trust      => false,
             verify_chain_of_trust    => true,
             verify_cot_signature     => false,
             cot_product              => 'mobile',
             github_oauth_token       => secret('scriptworker_github_oauth_token_staging'),
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
         },
         'mobile-prod' => {
@@ -114,14 +106,41 @@ class signing_scriptworker::settings {
             taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/signing/production',
             taskcluster_access_token => secret('mobile_focus_signing_scriptworker_taskcluster_access_token'),
             passwords_template       => 'passwords-mobile.json.erb',
-            scope_prefixes           => ['project:mobile:focus:releng:signing:', 'project:mobile:fenix:releng:signing:', 'project:mobile:reference-browser:releng:signing:'],
+            scope_prefixes           => ['project:mobile:focus:releng:signing:', 'project:mobile:android-components:releng:signing:', 'project:mobile:fenix:releng:signing:', 'project:mobile:reference-browser:releng:signing:'],
             sign_chain_of_trust      => true,
             verify_chain_of_trust    => true,
             verify_cot_signature     => true,
             cot_product              => 'mobile',
             github_oauth_token       => secret('scriptworker_github_oauth_token_production'),
-            datadog_api_key          => secret('scriptworker_datadog_api_key'),
             gpg_keyfile              => 'KEY_dep',
+        },
+        'appsv-dep' => {
+            worker_type              => 'appsv-signing-dep-v1',
+            worker_group             => 'appsv-signing-dep-v1',
+            taskcluster_client_id    => 'project/mozilla/application-services/releng/scriptworker/signing/dep',
+            taskcluster_access_token => secret('application_services_signing_dep_scriptworker_taskcluster_access_token'),
+            passwords_template       => 'dep-passwords-appsv.json.erb',
+            scope_prefixes           => ['project:mozilla:application-services:releng:signing'],
+            sign_chain_of_trust      => false,
+            verify_chain_of_trust    => true,
+            verify_cot_signature     => false,
+            cot_product              => 'application-services',
+            github_oauth_token       => secret('scriptworker_github_oauth_token_staging'),
+            gpg_keyfile              => 'KEY_dep',
+        },
+        'appsv-prod' => {
+            worker_type              => 'appsv-signing-v1',
+            worker_group             => 'appsv-signing-v1',
+            taskcluster_client_id    => 'project/mozilla/application-services/releng/scriptworker/signing/production',
+            taskcluster_access_token => secret('application_services_signing_scriptworker_taskcluster_access_token'),
+            passwords_template       => 'passwords-appsv.json.erb',
+            scope_prefixes           => ['project:mozilla:application-services:releng:signing'],
+            sign_chain_of_trust      => true,
+            verify_chain_of_trust    => true,
+            verify_cot_signature     => true,
+            cot_product              => 'application-services',
+            github_oauth_token       => secret('scriptworker_github_oauth_token_production'),
+            gpg_keyfile              => 'KEY_prod',
         },
     }
 }

@@ -163,9 +163,6 @@ class config::base {
     # content to be placed in authorized_keys (so, '<type> <key> <comment>')
     $extra_user_ssh_keys    = {}
 
-    # a flag that controls which nodes should install and run MIG Agent
-    $enable_mig_agent       = false
-
     # Conditional puppet run atboot for macs
     $puppet_run_atboot_if_more_than_n_reboots = undef
     $puppet_run_atboot_if_more_than_seconds   = undef
@@ -201,10 +198,6 @@ class config::base {
     $install_ceph_cfg                = false
     # true if mozilla geo location API keys should be installed on build slaves
     $install_mozilla_geoloc_api_keys = false
-    # true if secret('google_oauth_api_key') should be installed at /builds/google-oauth-api.key
-    $install_google_oauth_api_key    = false
-    # true if secret('crash_stats_api_token') should be installed on build slaves
-    $install_crash_stats_api_token   = false
     # true if secret('adjust_sdk_token') and secret('adjust_sdk_beta_token')
     # should be installed on build slaves
     $install_adjust_sdk_token        = false

@@ -27,15 +27,6 @@ class toplevel::server inherits toplevel::base {
     include packages::security_updates_1433165
     include python::system_pip_conf
 
-    if ($::config::enable_mig_agent) {
-        case $::operatingsystem {
-            # Darwin support is coming soon
-            'CentOS', 'RedHat', 'Ubuntu', 'Darwin': {
-                include mig::agent::daemon
-            }
-        }
-    }
-
     # auditd only runs on CentOS at the moment
     case $::operatingsystem {
         'CentOS': {

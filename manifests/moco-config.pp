@@ -19,8 +19,6 @@ class config inherits config::base {
     $install_google_api_key          = true
     $install_ceph_cfg                = true
     $install_mozilla_geoloc_api_keys = true
-    $install_google_oauth_api_key    = true
-    $install_crash_stats_api_token   = true
     $install_adjust_sdk_token        = true
     $install_relengapi_token         = true
     $install_release_s3_credentials  = true
@@ -129,8 +127,6 @@ class config inherits config::base {
         /.*\.(use1|mdc2)\.mozilla\.com/ => 'smtp1.private.mdc2.mozilla.com',
         default                         => undef,
     }
-
-    $enable_mig_agent                = true
 
     # Conditional puppet run at boot for Mac slaves
     case $::fqdn {
@@ -253,13 +249,6 @@ class config inherits config::base {
         'rgarbas',
         'sfraser',
         'bhearsum', # Bug 1409806
-        'bcrisan', # Bug 1434170
-        'dlabici', # Bug 1434170
-        'riman', # Bug 1434170
-        'rmutter', # Bug 1434170
-        'zfay', # Bug 1434170
-        'apop', # Bug 1442124
-        'acraciun', # Bug 1443668
         'tprince', # Bug 1449013
         'pmoore', # Bug 1492400
         'mhentges', # Bug 1509144
@@ -297,27 +286,6 @@ class config inherits config::base {
     $telegraf_db                       = 'relops'
     $telegraf_user                     = 'relops_wo'
     $telegraf_password                 = secret('relops_influx_wo_password')
-
-    case $::fqdn {
-        /.*\.(mdc1|use1|usw2)\.mozilla\.com/: {
-                $collectd_write = {
-                    graphite_nodes => {
-                        'graphite1.private.mdc1.mozilla.com' => {
-                            'port' => '2003', 'prefix' => 'hosts.',
-                        },
-                    },
-                }
-        }
-        /.*\.mdc2\.mozilla\.com/: {
-                $collectd_write = {
-                    graphite_nodes => {
-                        'graphite1.private.mdc2.mozilla.com' => {
-                            'port' => '2003', 'prefix' => 'hosts.',
-                        },
-                    },
-                }
-        }
-    }
 
     #### start configuration information for rsyslog logging
 

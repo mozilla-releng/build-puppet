@@ -23,4 +23,4 @@ idna==2.8
 pycparser==2.19
 wsgiref==0.1.2
 ptyprocess==0.6.0
-mercurial==5.0.1
+mercurial==5.1

@@ -29,6 +29,7 @@ class pushsnap_scriptworker::settings {
             $verify_chain_of_trust      = true
             $verify_cot_signature       = false
 
+            $push_to_store              = false
             $macaroons_locations = {}  # dep instance shouldn't have any credentials for Snap store
         }
         'prod': {
@@ -41,6 +42,7 @@ class pushsnap_scriptworker::settings {
             $verify_chain_of_trust      = true
             $verify_cot_signature       = true
 
+            $push_to_store              = true
             $_snap_store_all_macaroons  = hiera_hash('pushsnap_scriptworker_snap_store_macaroons')
             $_snap_store_macaroons      = $_snap_store_all_macaroons[$fqdn]
             $macaroons_config = {
@@ -71,6 +73,7 @@ class pushsnap_scriptworker::settings {
 
     $script_config_content      = {
         work_dir                 => $work_dir,
+        push_to_store            => $push_to_store,
         macaroons_locations      => $macaroons_locations,
         verbose                  => $verbose_logging,
     }
