@@ -4,7 +4,7 @@ create_bug_self_failure() {
     BUGZILLA_API_KEY="<%= @bugzilla_api_key %>"
     logfile="<%= @log_file %>"
     product="Infrastructure & Operations"
-    component="CIDuty"
+    component="RelOps: Hardware"
     # Store the json into the file
     json_file="<%= scope.lookupvar('users::builder::home') %>/bug.json"
     # Store the id of the bug into the file, for future use
