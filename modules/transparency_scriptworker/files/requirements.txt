@@ -1,7 +1,7 @@
 # python_version: 36
 PyYAML==5.1.2
 aiohttp==3.5.4
-arrow==0.14.4
+arrow==0.14.5
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
