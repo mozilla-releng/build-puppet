@@ -26,8 +26,7 @@ class bouncer_scriptworker::settings {
     $bouncer_nazgul_stage_instance_config = {
         api_root                  => 'https://bounceradmin-default.stage.mozaws.net/api',
         timeout_in_seconds        => 60,
-        # FIXME: rename this to be consistent with others
-        username                  => 'taskcluster',
+        username                  => 'releng-ffx-staging-nazgul',
         password                  => secret('ffx-bouncer-nazgul-staging_password'),
     }
 
@@ -74,8 +73,7 @@ class bouncer_scriptworker::settings {
             'project:releng:bouncer:server:production-nazgul' => {
                 api_root                  => 'https://bounceradmin-default.prod.mozaws.net/api',
                 timeout_in_seconds        => 60,
-                # FIXME: rename this to be consistent with others
-                username                  => 'taskcluster',
+                username                  => 'ffxbld-nazgul',
                 password                  => secret('ffx-bouncer-nazgul_password'),
             },
         },
@@ -101,10 +99,9 @@ class bouncer_scriptworker::settings {
           "project:comm:thunderbird:releng:bouncer:server:staging-nazgul" => {
             api_root                  => 'https://bounceradmin-default.stage.mozaws.net/api',
             timeout_in_seconds        => 60,
+            username                  => 'releng-tbird-staging-nazgul',
             # FIXME: replace with TB-dedicated credentials
-            username                  => 'taskcluster',
-            # FIXME: replace with TB-dedicated credentials
-            password                  => secret('ffx-bouncer-nazgul-staging_password'),
+            password                  => secret('TODO'),
           },
         },
       },
@@ -129,9 +126,9 @@ class bouncer_scriptworker::settings {
             api_root                  => 'https://bounceradmin-default.stage.mozaws.net/api',
             timeout_in_seconds        => 60,
             # FIXME: replace with TB-dedicated credentials
-            username                  => 'taskcluster',
+            username                  => 'releng-tbird-staging-nazgul',
             # FIXME: replace with TB-dedicated credentials
-            password                  => secret('ffx-bouncer-nazgul-staging_password'),
+            password                  => secret('TODO'),
           },
           "project:comm:thunderbird:releng:bouncer:server:production" => {
             api_root                  => 'https://bounceradmin.mozilla.com/api',
@@ -143,10 +140,9 @@ class bouncer_scriptworker::settings {
           "project:comm:thunderbird:releng:bouncer:server:production-nazgul" => {
             api_root                  => 'https://bounceradmin-default.prod.mozaws.net/api',
             timeout_in_seconds        => 60,
+            username                  => 'tbird-nazgul',
             # FIXME: replace with TB-dedicated credentials
-            username                  => 'taskcluster',
-            # FIXME: replace with TB-dedicated credentials
-            password                  => secret('ffx-bouncer-nazgul_password'),
+            password                  => secret('TODO'),
           },
         },
       },
