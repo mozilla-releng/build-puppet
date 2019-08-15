@@ -135,15 +135,14 @@ class bouncer_scriptworker::settings {
             # FIXME: replace with TB-dedicated credentials
             password                  => secret('ffx-bouncer-nazgul-staging_password'),
           },
-        },
-          'project:comm:thunderbird:releng:bouncer:server:production' => {
+          "project:comm:thunderbird:releng:bouncer:server:production"' => {
             api_root                  => 'https://bounceradmin.mozilla.com/api',
             timeout_in_seconds        => 60,
             username                  => 'ffxbld',
             # TODO Split credentials
             password                  => secret('tuxedo_password'),
           },
-          'project:comm:thunderbird:releng:bouncer:server:production-nazgul' => {
+          "project:comm:thunderbird:releng:bouncer:server:production-nazgul"' => {
             api_root                  => 'https://bounceradmin-default.prod.mozaws.net/api',
             timeout_in_seconds        => 60,
             # FIXME: replace with TB-dedicated credentials
