@@ -13,12 +13,21 @@ class bouncer_scriptworker::settings {
     $verbose_logging            = true
 
     $bouncer_stage_instance_scope = 'project:releng:bouncer:server:staging'
+    $bouncer_nazgul_stage_instance_scope = 'project:releng:bouncer:server:staging-nazgul'
+
     $bouncer_stage_instance_config = {
         api_root                  => 'https://admin-bouncer-releng.stage.mozaws.net/api',
         timeout_in_seconds        => 60,
         username                  => 'releng-ffx-staging',
         # TODO Split credentials
         password                  => secret('ffx-bouncer-staging_password'),
+    }
+
+    $bouncer_nazgul_stage_instance_config = {
+        api_root                  => 'https://bounceradmin-default.stage.mozaws.net/api',
+        timeout_in_seconds        => 60,
+        username                  => 'releng-ffx-staging-nazgul',
+        password                  => secret('ffx-bouncer-nazgul-staging_password'),
     }
 
     $env_config = {
@@ -36,6 +45,7 @@ class bouncer_scriptworker::settings {
 
         bouncer_instances        => {
             "${bouncer_stage_instance_scope}" => $bouncer_stage_instance_config,
+            "${bouncer_nazgul_stage_instance_scope}" => $bouncer_nazgul_stage_instance_config,
         },
       },
       'prod' => {
@@ -52,12 +62,19 @@ class bouncer_scriptworker::settings {
 
         bouncer_instances        => {
             "${bouncer_stage_instance_scope}"   => $bouncer_stage_instance_config,
+            "${bouncer_nazgul_stage_instance_scope}" => $bouncer_nazgul_stage_instance_config,
             'project:releng:bouncer:server:production' => {
                 api_root                  => 'https://bounceradmin.mozilla.com/api',
                 timeout_in_seconds        => 60,
                 username                  => 'ffxbld',
                 # TODO Split credentials
                 password                  => secret('tuxedo_password'),
+            },
+            'project:releng:bouncer:server:production-nazgul' => {
+                api_root                  => 'https://bounceradmin-default.prod.mozaws.net/api',
+                timeout_in_seconds        => 60,
+                username                  => 'ffxbld-nazgul',
+                password                  => secret('ffx-bouncer-nazgul_password'),
             },
         },
       },
@@ -79,6 +96,12 @@ class bouncer_scriptworker::settings {
             username                  => 'releng-tbird-staging',
             password                  => secret('tbird-bouncer-staging_password'),
           },
+          "project:comm:thunderbird:releng:bouncer:server:staging-nazgul" => {
+            api_root                  => 'https://bounceradmin-default.stage.mozaws.net/api',
+            timeout_in_seconds        => 60,
+            username                  => 'releng-tbird-staging-nazgul',
+            password                  => secret('tbird-bouncer-nazgul-staging_password'),
+          },
         },
       },
       'comm-thunderbird-prod' => {
@@ -98,12 +121,24 @@ class bouncer_scriptworker::settings {
             username                  => 'releng-tbird-staging',
             password                  => secret('tbird-bouncer-staging_password'),
           },
-          'project:comm:thunderbird:releng:bouncer:server:production' => {
+          "project:comm:thunderbird:releng:bouncer:server:staging-nazgul" => {
+            api_root                  => 'https://bounceradmin-default.stage.mozaws.net/api',
+            timeout_in_seconds        => 60,
+            username                  => 'releng-tbird-staging-nazgul',
+            password                  => secret('tbird-bouncer-nazgul-staging_password'),
+          },
+          "project:comm:thunderbird:releng:bouncer:server:production" => {
             api_root                  => 'https://bounceradmin.mozilla.com/api',
             timeout_in_seconds        => 60,
             username                  => 'ffxbld',
             # TODO Split credentials
             password                  => secret('tuxedo_password'),
+          },
+          "project:comm:thunderbird:releng:bouncer:server:production-nazgul" => {
+            api_root                  => 'https://bounceradmin-default.prod.mozaws.net/api',
+            timeout_in_seconds        => 60,
+            username                  => 'tbird-nazgul',
+            password                  => secret('tbird-bouncer-nazgul_password'),
           },
         },
       },
