@@ -11,7 +11,7 @@ class addon_scriptworker::settings {
     $amo_stage_instance_scope = 'project:releng:addons.mozilla.org:server:staging'
     $amo_stage_instance_config = {
         amo_server                => 'https://addons.allizom.org',
-        jwt_user                  => 'user:11686445:783',
+        jwt_user                  => secret('addon_scriptworker_amo_user_staging'),
         jwt_secret                => secret('addon_scriptworker_amo_password_staging'),
     }
 
@@ -47,7 +47,7 @@ class addon_scriptworker::settings {
             "${amo_stage_instance_scope}"   => $amo_stage_instance_config,
             'project:releng:addons.mozilla.org:server:production' => {
                 amo_server     => 'https://addons.mozilla.org',
-                jwt_user       => 'user:13856839:824',
+                jwt_user       => secret('addon_scriptworker_amo_user_prod'),
                 jwt_secret     => secret('addon_scriptworker_amo_password_prod'),
             },
         },
