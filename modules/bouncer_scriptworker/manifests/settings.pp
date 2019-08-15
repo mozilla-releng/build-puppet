@@ -98,8 +98,6 @@ class bouncer_scriptworker::settings {
             username                  => 'releng-tbird-staging',
             password                  => secret('tbird-bouncer-staging_password'),
           },
-        },
-        bouncer_instances        => {
           "project:comm:thunderbird:releng:bouncer:server:staging-nazgul" => {
             api_root                  => 'https://bounceradmin-default.stage.mozaws.net/api',
             timeout_in_seconds        => 60,
