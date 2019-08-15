@@ -441,8 +441,6 @@ node /^appsv-beetmover-dev\d*\.srv\.releng\..*\.mozilla\.com$/ {
 # Bouncer scriptworkers
 node /^bouncerworker-dev.*\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
-    $pin_puppet_server = 'releng-puppet2.srv.releng.mdc1.mozilla.com'
-    $pin_puppet_env    = 'mtabara'
     $bouncer_scriptworker_env = 'dev'
     $timezone                 = 'UTC'
     $only_user_ssh            = true
