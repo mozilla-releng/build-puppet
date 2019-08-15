@@ -74,7 +74,6 @@ class bouncer_scriptworker::settings {
                 api_root                  => 'https://bounceradmin-default.prod.mozaws.net/api',
                 timeout_in_seconds        => 60,
                 username                  => 'taskcluster',
-                # TODO Split credentials
                 password                  => secret('ffx-bouncer-nazgul_password'),
             },
         },
