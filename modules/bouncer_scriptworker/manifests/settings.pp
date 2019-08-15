@@ -13,7 +13,7 @@ class bouncer_scriptworker::settings {
     $verbose_logging            = true
 
     $bouncer_stage_instance_scope = 'project:releng:bouncer:server:staging'
-    $bouncer_nazgul_stage_instance_scope = 'project:releng:bouncer:server:staging_nazgul'
+    $bouncer_nazgul_stage_instance_scope = 'project:releng:bouncer:server:staging-nazgul'
 
     $bouncer_stage_instance_config = {
         api_root                  => 'https://admin-bouncer-releng.stage.mozaws.net/api',
@@ -62,12 +62,20 @@ class bouncer_scriptworker::settings {
 
         bouncer_instances        => {
             "${bouncer_stage_instance_scope}"   => $bouncer_stage_instance_config,
+            "${bouncer_nazgul_stage_instance_scope}" => $bouncer_nazgul_stage_instance_config,
             'project:releng:bouncer:server:production' => {
                 api_root                  => 'https://bounceradmin.mozilla.com/api',
                 timeout_in_seconds        => 60,
                 username                  => 'ffxbld',
                 # TODO Split credentials
                 password                  => secret('tuxedo_password'),
+            },
+            'project:releng:bouncer:server:production-nazgul' => {
+                api_root                  => 'https://bounceradmin-default.prod.mozaws.net/api',
+                timeout_in_seconds        => 60,
+                username                  => 'taskcluster',
+                # TODO Split credentials
+                password                  => secret('ffx-bouncer-nazgul_password'),
             },
         },
       },
