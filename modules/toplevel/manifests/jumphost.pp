@@ -27,7 +27,7 @@ class toplevel::jumphost {
     include timezone
     include powermanagement
     include ssh
-    include collectd:disable
+    include collectd::disable
     include ntp::daemon
     include smarthost
     include cron
