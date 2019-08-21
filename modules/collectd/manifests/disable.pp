@@ -5,6 +5,9 @@
 class collectd::disable {
     include collectd::settings
 
+    # collectd must be installed for the service to be stopped and disabled
+    include packages::collectd
+
     service {
         $collectd::settings::servicename:
             ensure     => stopped,
