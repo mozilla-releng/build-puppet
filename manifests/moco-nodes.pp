@@ -536,6 +536,22 @@ node /^binarytransparencyworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
 }
 
 # shipit scriptworkers
+node /^shipitworker-dev-.*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $shipit_scriptworker_env  = 'dev'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::shipitscriptworker
+}
+
+node /^shipitworker-.*\.srv\.releng\..*\.mozilla\.com$/ {
+    $aspects                  = [ 'maximum-security' ]
+    $shipit_scriptworker_env  = 'prod'
+    $timezone                 = 'UTC'
+    $only_user_ssh            = true
+    include toplevel::server::shipitscriptworker
+}
+
 node /^tb-shipit-dev-\d+\.srv\.releng\..*\.mozilla\.com$/ {
     $aspects                  = [ 'maximum-security' ]
     $shipit_scriptworker_env  = 'tb-dev'
