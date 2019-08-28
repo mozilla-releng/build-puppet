@@ -39,7 +39,7 @@ s3transfer==0.2.1
 scriptworker==26.0.1
 six==1.12.0
 slugid==2.0.0
-taskcluster==16.1.0
+taskcluster==16.2.0
 taskcluster-urls==11.0.0
 toml==0.10.0
 towncrier==19.2.0
