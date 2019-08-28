@@ -1,7 +1,7 @@
 # python_version: 36
 PyYAML==5.1.2
 aiohttp==3.5.4
-arrow==0.14.5
+arrow==0.14.6
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
@@ -38,13 +38,13 @@ requests==2.22.0
 scriptworker==26.0.1
 six==1.12.0
 slugid==2.0.0
-taskcluster==16.1.0
+taskcluster==16.2.0
 taskcluster-urls==11.0.0
 toml==0.10.0
 towncrier==18.5.0  # pyup: ignore
 typing-extensions==3.7.4
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
-virtualenv==16.7.3
+virtualenv==16.7.4
 wheel==0.33.6
 yarl==1.3.0
