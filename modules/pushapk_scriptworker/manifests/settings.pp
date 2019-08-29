@@ -98,51 +98,52 @@ class pushapk_scriptworker::settings {
                 {
                     'product_names' => ['dep'],
                     'digest_algorithm' => 'SHA1',
-                    'use_scope_for_channel' => true,
+                    'override_channel_model' => 'choose_google_app_with_scope',
                     'apps' => {
                         'dep' => {
                             'package_names' => ['org.mozilla.fennec_aurora'],
+                            'default_track' => 'beta',
                             'service_account' => 'dummy',
-                            'google_credentials_file' => "${root}/dep.p12",
+                            'credentials_file' => "${root}/dep.p12",
                             'certificate_alias' => 'dep',
                         }
                     }
                 }
             ]
-            $do_not_contact_google_play = true
+            $do_not_contact_server = true
         }
         'prod': {
             $product_config = [
                 {
                     'product_names' => ['aurora', 'beta', 'release'],
                     'digest_algorithm' => 'SHA1',
-                    'use_scope_for_channel' => true,
+                    'override_channel_model' => 'choose_google_app_with_scope',
                     'apps' => {
                         'aurora' => {
                             'package_names' => ['org.mozilla.fennec_aurora'],
-                            'google_play_track' => 'beta',
+                            'default_track' => 'beta',
                             'service_account' => $google_play_accounts['aurora']['service_account'],
-                            'google_credentials_file' => "${root}/aurora.p12",
+                            'credentials_file' => "${root}/aurora.p12",
                             'certificate_alias' => 'nightly',
                         },
                         'beta' => {
                             'package_names' => ['org.mozilla.firefox_beta'],
-                            'google_play_track' => 'production',
+                            'default_track' => 'production',
                             'service_account' => $google_play_accounts['beta']['service_account'],
-                            'google_credentials_file' => "${root}/beta.p12",
+                            'credentials_file' => "${root}/beta.p12",
                             'certificate_alias' => 'release',
                         },
                         'release' => {
                             'package_names' => ['org.mozilla.firefox'],
-                            'google_play_track' => 'production',
+                            'default_track' => 'production',
                             'service_account' => $google_play_accounts['release']['service_account'],
-                            'google_credentials_file' => "${root}/release.p12",
+                            'credentials_file' => "${root}/release.p12",
                             'certificate_alias' => 'release',
                         },
                     }
                 },
             ]
-            $do_not_contact_google_play = false
+            $do_not_contact_server = false
         }
         'mobile-dep': {
             $product_config = [
@@ -152,11 +153,11 @@ class pushapk_scriptworker::settings {
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
-                    'map_channels_to_tracks' => true,
-                    'single_app_config' => {
+                    'override_channel_model' => 'single_google_app',
+                    'app' => {
                         'package_names' => ['org.mozilla.fenix', 'org.mozilla.fenix.beta', 'org.mozilla.fenix.nightly'],
                         'service_account' => 'dummy',
-                        'google_credentials_file' => "${root}/fenix.p12",
+                        'credentials_file' => "${root}/fenix.p12",
                         'certificate_alias' => 'fenix',
                     }
                 },
@@ -167,11 +168,11 @@ class pushapk_scriptworker::settings {
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
-                    'map_channels_to_tracks' => true,
-                    'single_app_config' => {
+                    'override_channel_model' => 'single_google_app',
+                    'app' => {
                         'package_names' => ['org.mozilla.focus', 'org.mozilla.klar'],
                         'service_account' => 'dummy',
-                        'google_credentials_file' => "${root}/focus.p12",
+                        'credentials_file' => "${root}/focus.p12",
                         'certificate_alias' => 'focus',
                     }
                 },
@@ -181,16 +182,16 @@ class pushapk_scriptworker::settings {
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
-                    'map_channels_to_tracks' => true,
-                    'single_app_config' => {
+                    'override_channel_model' => 'single_google_app',
+                    'app' => {
                         'package_names' => ['org.mozilla.reference.browser'],
                         'service_account' => 'dummy',
-                        'google_credentials_file' => "${root}/reference_browser.p12",
+                        'credentials_file' => "${root}/reference_browser.p12",
                         'certificate_alias' => 'reference-browser',
                     }
                 },
             ]
-            $do_not_contact_google_play = true
+            $do_not_contact_server = true
         }
         'mobile-prod': {
             $product_config = [
@@ -203,24 +204,30 @@ class pushapk_scriptworker::settings {
                     'apps' => {
                         'nightly' => {
                             'package_names' => ['org.mozilla.fenix.nightly'],
-                            'google_play_track' => 'beta',
-                            'service_account' => $google_play_accounts['fenix-nightly']['service_account'],
-                            'google_credentials_file' => "${root}/fenix_nightly.p12",
                             'certificate_alias' => 'fenix-nightly',
+                            'google' => {
+                                'default_track' => 'beta',
+                                'service_account' => $google_play_accounts['fenix-nightly']['service_account'],
+                                'credentials_file' => "${root}/fenix_nightly.p12",
+                            }
                         },
                         'beta' => {
                             'package_names' => ['org.mozilla.fenix.beta'],
-                            'google_play_track' => 'internal',
-                            'service_account' => $google_play_accounts['fenix-beta']['service_account'],
-                            'google_credentials_file' => "${root}/fenix_beta.p12",
                             'certificate_alias' => 'fenix-beta',
+                            'google' => {
+                                'default_track' => 'internal',
+                                'service_account' => $google_play_accounts['fenix-beta']['service_account'],
+                                'credentials_file' => "${root}/fenix_beta.p12",
+                            }
                         },
                         'production' => {
                             'package_names' => ['org.mozilla.fenix'],
-                            'google_play_track' => 'internal',
-                            'service_account' => $google_play_accounts['fenix-production']['service_account'],
-                            'google_credentials_file' => "${root}/fenix_production.p12",
                             'certificate_alias' => 'fenix-production',
+                            'google' => {
+                                'default_track' => 'internal',
+                                'service_account' => $google_play_accounts['fenix-production']['service_account'],
+                                'credentials_file' => "${root}/fenix_production.p12",
+                            }
                         },
                     }
                 },
@@ -231,10 +238,10 @@ class pushapk_scriptworker::settings {
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
-                    'map_channels_to_tracks' => true,
-                    'single_app_config' => {
+                    'override_channel_model' => 'single_google_app',
+                    'app' => {
                         'service_account' => $google_play_accounts['focus']['service_account'],
-                        'google_credentials_file' => "${root}/focus.p12",
+                        'credentials_file' => "${root}/focus.p12",
                         'package_names' => ['org.mozilla.focus', 'org.mozilla.klar'],
                         'certificate_alias' => 'focus',
                     }
@@ -245,16 +252,16 @@ class pushapk_scriptworker::settings {
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
-                    'map_channels_to_tracks' => true,
-                    'single_app_config' => {
+                    'override_channel_model' => 'single_google_app',
+                    'app' => {
                         'service_account' => $google_play_accounts['reference_browser']['service_account'],
-                        'google_credentials_file' => "${root}/reference_browser.p12",
+                        'credentials_file' => "${root}/reference_browser.p12",
                         'package_names' => ['org.mozilla.reference.browser'],
                         'certificate_alias' => 'reference-browser',
                     }
                 },
             ]
-            $do_not_contact_google_play = false
+            $do_not_contact_server = false
         }
         default: {
             fail("Invalid pushapk_scriptworker_env given: ${pushapk_scriptworker_env}")
@@ -275,6 +282,6 @@ class pushapk_scriptworker::settings {
         'jarsigner_key_store' => $jarsigner_keystore,
 
         'taskcluster_scope_prefixes' => $_env_config['scope_prefixes'],
-        'do_not_contact_google_play' => $do_not_contact_google_play,
+        'do_not_contact_server' => $do_not_contact_server,
     }
 }
