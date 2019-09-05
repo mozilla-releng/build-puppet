@@ -10,8 +10,8 @@ class packages::mozilla::google_chrome {
 
     case $::operatingsystem {
         Ubuntu: {
+            realize(Packages::Aptrepo['google_chrome'])
             case $::operatingsystemrelease {
-                realize(Packages::Aptrepo['google_chrome'])
                 16.04: {
                     Anchor['packages::mozilla::google_chrome::begin'] ->
                     package {
