@@ -14,5 +14,9 @@
     "hfsplus": "<%= @hfsplus_location %>",
     "zipalign": "<%= @zipalign_location %>",
     "gpg_pubkey": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/KEY",
-    "widevine_cert": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/widevine.crt"
+    "widevine_cert": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/widevine.crt",
+    "authenticode_cert": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/authenticode_cert.crt",
+    "authenticode_url": "<%= @env_config['authenticode_url'] %>",
+    "authenticode_cross_cert": "<%= scope.lookupvar("signing_scriptworker::settings::root") %>/authenticode_stub.crt",
+    "authenticode_timestamp_style": <%= @env_config['authenticode_timestamp'] %>
 }

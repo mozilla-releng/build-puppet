@@ -27,6 +27,9 @@ class signing_scriptworker::settings {
             github_oauth_token       => '',
             gpg_keyfile              => 'KEY_dep',
             widevine_cert            => 'widevine_dep.crt',
+            authenticode_cert        => 'dep.crt',
+            authenticode_url         => 'https://mozilla.com',
+            authenticode_timestamp   => 'null',
         },
         'dep' => {
             worker_type              => 'depsigning',
@@ -42,6 +45,9 @@ class signing_scriptworker::settings {
             github_oauth_token       => '',
             gpg_keyfile              => 'KEY_dep',
             widevine_cert            => 'widevine_dep.crt',
+            authenticode_cert        => 'dep.crt',
+            authenticode_url         => 'https://mozilla.com',
+            authenticode_timestamp   => 'null',
         },
         'prod' => {
             worker_type              => 'signing-linux-v1',
@@ -57,6 +63,9 @@ class signing_scriptworker::settings {
             github_oauth_token       => '',
             gpg_keyfile              => 'KEY_prod',
             widevine_cert            => 'widevine_prod.crt',
+            authenticode_cert        => 'nightly.crt',
+            authenticode_url         => 'https://mozilla.com',
+            authenticode_timestamp   => '"old"',
         },
         'comm-thunderbird-dep' => {
             worker_type              => 'tb-depsigning',
@@ -71,6 +80,9 @@ class signing_scriptworker::settings {
             cot_product              => 'thunderbird',
             github_oauth_token       => '',
             gpg_keyfile              => 'KEY_dep',
+            authenticode_cert        => 'dep.crt',
+            authenticode_url         => 'https://mozilla.com',
+            authenticode_timestamp   => 'null',
         },
         'comm-thunderbird-prod' => {
             worker_type              => 'tb-signing-v1',
@@ -85,6 +97,8 @@ class signing_scriptworker::settings {
             cot_product              => 'thunderbird',
             github_oauth_token       => '',
             gpg_keyfile              => 'KEY_prod',
+            authenticode_cert        => 'nightly.crt',
+            authenticode_timestamp   => '"old"',
         },
         'mobile-dep' => {
             worker_type              => 'mobile-signing-dep-v1',
