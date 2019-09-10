@@ -99,6 +99,7 @@ class signing_scriptworker::settings {
             gpg_keyfile              => 'KEY_prod',
             authenticode_cert        => 'nightly.crt',
             authenticode_timestamp   => '"old"',
+            authenticode_url         => 'https://mozilla.com',
         },
         'mobile-dep' => {
             worker_type              => 'mobile-signing-dep-v1',
@@ -113,6 +114,9 @@ class signing_scriptworker::settings {
             cot_product              => 'mobile',
             github_oauth_token       => secret('scriptworker_github_oauth_token_staging'),
             gpg_keyfile              => 'KEY_dep',
+            authenticode_cert        => '',
+            authenticode_timestamp   => 'null',
+            authenticode_url         => '',
         },
         'mobile-prod' => {
             worker_type              => 'mobile-signing-v1',
@@ -127,6 +131,9 @@ class signing_scriptworker::settings {
             cot_product              => 'mobile',
             github_oauth_token       => secret('scriptworker_github_oauth_token_production'),
             gpg_keyfile              => 'KEY_dep',
+            authenticode_cert        => '',
+            authenticode_timestamp   => 'null',
+            authenticode_url         => '',
         },
         'appsv-dep' => {
             worker_type              => 'appsv-signing-dep-v1',
@@ -141,6 +148,9 @@ class signing_scriptworker::settings {
             cot_product              => 'application-services',
             github_oauth_token       => secret('scriptworker_github_oauth_token_staging'),
             gpg_keyfile              => 'KEY_dep',
+            authenticode_cert        => '',
+            authenticode_timestamp   => 'null',
+            authenticode_url         => '',
         },
         'appsv-prod' => {
             worker_type              => 'appsv-signing-v1',
@@ -155,6 +165,9 @@ class signing_scriptworker::settings {
             cot_product              => 'application-services',
             github_oauth_token       => secret('scriptworker_github_oauth_token_production'),
             gpg_keyfile              => 'KEY_prod',
+            authenticode_cert        => '',
+            authenticode_timestamp   => 'null',
+            authenticode_url         => '',
         },
     }
 }
