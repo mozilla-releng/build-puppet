@@ -201,10 +201,7 @@ class config inherits config::base {
         'bhearsum',
         'catlee',
         'jlorenzo',
-        'jwood',
-        'mtabara',
         'nthomas',
-        'raliiev',
         'sfraser',
     ]
 
@@ -219,11 +216,8 @@ class config inherits config::base {
         'bhearsum',
         'catlee',
         'jlorenzo',
-        'jwood',
-        'mhentges',
         'mtabara',
         'nthomas',
-        'raliiev',
         'sfraser',
     ]
 
