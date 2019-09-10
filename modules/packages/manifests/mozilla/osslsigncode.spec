@@ -1,12 +1,12 @@
 Summary: Tool for Authenticode signing of EXE/CAB files
 Name: osslsigncode
 Version: 1.7.1
-Release: 2%{?dist}
+Release: 3moz1
 License: GPLv2+
 Group: Applications/System
-URL: http://sourceforge.net/projects/osslsigncode/
-Source: http://downloads.sf.net/osslsigncode/osslsigncode-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+URL: https://github.com/theuni/osslsigncode
+Source: https://sourceforge.net/code-snapshots/git/o/os/osslsigncode/osslsigncode.git/osslsigncode-osslsigncode-e72a1937d1a13e87074e4584f012f13e03fc1d64.zip
+BuildRoot: %{_tmppath}/%{name}-%{name}-%{version}
 BuildRequires: openssl-devel
 BuildRequires: curl-devel
 BuildRequires: libgsf-devel
@@ -14,21 +14,17 @@ BuildRequires: libgsf-devel
 %description
 Tool for Authenticode signing of EXE/CAB files.
 
-
 %prep
-%setup -q
-
+%setup -n osslsigncode-osslsigncode-e72a1937d1a13e87074e4584f012f13e03fc1d64
 
 %build
-%{__aclocal}
-%{__automake}
+./autogen.sh
 %configure
 %{__make} %{?_smp_mflags}
 
 
 %install
 %{__rm} -rf %{buildroot}
-# make install DESTDIR doesn't work (home made Makefile.in)
 %makeinstall
 
 
@@ -42,6 +38,9 @@ Tool for Authenticode signing of EXE/CAB files.
 
 
 %changelog
+* Fri Aug 30 2019 Chris AtLee <catlee@mozilla.com> 1.7.1-moz0
+- Update to 1.7.1 for Mozilla
+
 * Tue Dec  8 2009 Matthias Saou <http://freshrpms.net/> 1.3.1-1
 - Update to 1.3.1.
 

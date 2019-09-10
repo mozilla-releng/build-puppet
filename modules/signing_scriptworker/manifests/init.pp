@@ -12,6 +12,7 @@ class signing_scriptworker {
     include packages::make
     include packages::xz_devel
     include tweaks::scriptworkerlogrotate
+    class { 'packages::mozilla::osslsigncode': version => '1.7.1-3moz1'}
 
     $env_config          = $signing_scriptworker::settings::env_config[$signing_scriptworker_env]
 
@@ -109,6 +110,20 @@ class signing_scriptworker {
             owner     => $users::signer::username,
             group     => $users::signer::group,
             source    => "puppet:///modules/signing_scriptworker/gpg/${env_config['gpg_keyfile']}",
+            show_diff => false;
+        "${signing_scriptworker::settings::root}/authenticode_stub.crt":
+            require   => Python3::Virtualenv[$signing_scriptworker::settings::root],
+            mode      => '0600',
+            owner     => $users::signer::username,
+            group     => $users::signer::group,
+            source    => "puppet:///modules/signing_scriptworker/authenticode/stub.crt",
+            show_diff => false;
+        "${signing_scriptworker::settings::root}/authenticode_cert.crt":
+            require   => Python3::Virtualenv[$signing_scriptworker::settings::root],
+            mode      => '0600',
+            owner     => $users::signer::username,
+            group     => $users::signer::group,
+            source    => "puppet:///modules/signing_scriptworker/authenticode/${env_config['authenticode_cert']}",
             show_diff => false;
     }
     if $env_config['widevine_cert'] {
