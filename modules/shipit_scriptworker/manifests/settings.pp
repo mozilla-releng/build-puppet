@@ -11,10 +11,7 @@ class shipit_scriptworker::settings {
 
     $ship_it_stage_instance_scope = 'project:releng:ship-it:server:staging'
     $ship_it_stage_instance_config = {
-        api_root                  => 'https://ship-it-dev.allizom.org',
         timeout_in_seconds        => 60,
-        username                  => 'shipit-scriptworker-stage',
-        password                  => secret('shipit_scriptworker_ship_it_password_dev'),
         api_root_v2               => 'https://api.shipit.staging.mozilla-releng.net',
         taskcluster_client_id     => 'project/releng/scriptworker/shipit/dev',
         taskcluster_access_token  => secret('shipit_scriptworker_taskcluster_access_token_dev'),
@@ -52,10 +49,7 @@ class shipit_scriptworker::settings {
         ship_it_instances        => {
             "${ship_it_stage_instance_scope}"   => $ship_it_stage_instance_config,
             'project:releng:ship-it:server:production' => {
-                api_root                  => 'https://ship-it.mozilla.org',
                 timeout_in_seconds        => 60,
-                username                  => 'shipit-scriptworker',
-                password                  => secret('shipit_scriptworker_ship_it_password_prod'),
                 api_root_v2               => 'https://shipit-api.mozilla-releng.net',
                 taskcluster_client_id     => 'project/releng/scriptworker/shipit/production',
                 taskcluster_access_token  => secret('shipit_scriptworker_taskcluster_access_token_prod'),
@@ -93,10 +87,7 @@ class shipit_scriptworker::settings {
         ship_it_instances        => {
             "project:comm:thunderbird:releng:ship-it:server:staging" => $ship_it_stage_instance_config,
             'project:comm:thunderbird:releng:ship-it:server:production' => {
-                api_root                  => 'https://ship-it.mozilla.org',
                 timeout_in_seconds        => 60,
-                username                  => 'shipit-scriptworker',
-                password                  => secret('shipit_scriptworker_ship_it_password_prod'),
                 api_root_v2               => 'https://shipit-api.mozilla-releng.net',
                 taskcluster_client_id     => 'project/comm/thunderbird/releng/scriptworker/shipit/prod',
                 taskcluster_access_token  => secret('comm_thunderbird_shipit_scriptworker_taskcluster_access_token_prod'),
