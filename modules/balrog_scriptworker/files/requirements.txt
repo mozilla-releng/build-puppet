@@ -7,7 +7,7 @@ async_timeout==3.0.1
 attrs==19.1.0
 backports.lzma==0.0.12
 balrogclient==0.6.0
-balrogscript==6.0.1  # puppet: nodownload
+balrogscript==6.0.2  # puppet: nodownload
 certifi==2019.6.16
 cffi==1.12.3
 chardet==3.0.4
