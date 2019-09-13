@@ -29,7 +29,7 @@ python-dateutil==2.8.0
 python-jose==3.0.1
 requests==2.22.0
 rsa==4.0
-scriptworker==26.0.3
+scriptworker==26.0.4
 six==1.12.0
 slugid==2.0.0
 taskcluster==16.2.0
