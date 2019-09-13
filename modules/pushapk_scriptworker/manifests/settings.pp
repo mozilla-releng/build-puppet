@@ -45,7 +45,7 @@ class pushapk_scriptworker::settings {
             # TODO: simplify client_id to not include project ("focus")
             taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/pushapk/dep',
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile_dep'),
-            scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:', 'project:mobile:fenix:releng:googleplay:product:'],
+            scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:', 'project:mobile:fenix:releng:googleplay:product:', 'project:mobile:firefox-tv:releng:googleplay:product:'],
             cot_product              => 'mobile',
             github_oauth_token       => secret('scriptworker_github_oauth_token_staging'),
 
@@ -60,7 +60,7 @@ class pushapk_scriptworker::settings {
             # TODO: simplify client_id to not include project ("focus")
             taskcluster_client_id    => 'project/mobile/focus/releng/scriptworker/pushapk/production',
             taskcluster_access_token => secret('pushapk_scriptworker_taskcluster_access_token_mobile'),
-            scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:', 'project:mobile:fenix:releng:googleplay:product:'],
+            scope_prefixes           => ['project:mobile:focus:releng:googleplay:product:', 'project:mobile:reference-browser:releng:googleplay:product:', 'project:mobile:fenix:releng:googleplay:product:', 'project:mobile:firefox-tv:releng:googleplay:product:'],
             cot_product              => 'mobile',
             github_oauth_token       => secret('scriptworker_github_oauth_token_production'),
 
@@ -190,6 +190,22 @@ class pushapk_scriptworker::settings {
                         'certificate_alias' => 'reference-browser',
                     }
                 },
+                {
+                    'product-names' => ['firefox-tv'],
+                    'skip_check_multiple_locales' => true,
+                    'skip_check_same_locales' => true,
+                    'skip_checks_fennec' => true,
+                    'skip_check_signature' => true,
+                    'apps' => {
+                        'dep' => {
+                            'package_names' => ['org.mozilla.video.firefox'],
+                            'amazon' => {
+                                'client_id' => 'dummy',
+                                'client_secret' => 'dummy'
+                            }
+                        },
+                    }
+                },
             ]
             $do_not_contact_server = true
         }
@@ -258,6 +274,22 @@ class pushapk_scriptworker::settings {
                         'credentials_file' => "${root}/reference_browser.p12",
                         'package_names' => ['org.mozilla.reference.browser'],
                         'certificate_alias' => 'reference-browser',
+                    }
+                },
+                {
+                    'product-names' => ['firefox-tv'],
+                    'skip_check_multiple_locales' => true,
+                    'skip_check_same_locales' => true,
+                    'skip_checks_fennec' => true,
+                    'skip_check_signature' => true,
+                    'apps' => {
+                        'production' => {
+                            'package_names' => ['org.mozilla.video.firefox'],
+                            'amazon' => {
+                                'client_id' => $google_play_accounts['firefox_tv-production']['client_id'],
+                                'client_secret' => $google_play_accounts['firefox_tv-production']['client_secret']
+                            }
+                        },
                     }
                 },
             ]
