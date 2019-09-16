@@ -234,7 +234,7 @@ class packages::setup {
             }
             # to flush the package index, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 49
+            $repoflag = 50
             file {
                 '/etc/.repo-flag':
                     content =>
@@ -364,6 +364,11 @@ class packages::setup {
                     components   => ['all'];
                 'git':
                     url_path     => 'repos/apt/custom/git',
+                    distribution => $::lsbdistcodename,
+                    options      => ['trusted=yes'],
+                    components   => ['all'];
+                'google_chrome':
+                    url_path     => 'repos/apt/custom/google_chrome',
                     distribution => $::lsbdistcodename,
                     options      => ['trusted=yes'],
                     components   => ['all'];
