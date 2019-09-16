@@ -191,14 +191,15 @@ class pushapk_scriptworker::settings {
                     }
                 },
                 {
-                    'product-names' => ['firefox-tv'],
+                    'product_names' => ['firefox-tv'],
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
                     'skip_check_signature' => true,
+                    'skip_check_ordered_version_codes' => true,
                     'apps' => {
-                        'dep' => {
-                            'package_names' => ['org.mozilla.video.firefox'],
+                        'production' => {
+                            'package_names' => ['org.mozilla.tv.firefox'],
                             'amazon' => {
                                 'client_id' => 'dummy',
                                 'client_secret' => 'dummy'
@@ -277,14 +278,15 @@ class pushapk_scriptworker::settings {
                     }
                 },
                 {
-                    'product-names' => ['firefox-tv'],
+                    'product_names' => ['firefox-tv'],
                     'skip_check_multiple_locales' => true,
                     'skip_check_same_locales' => true,
                     'skip_checks_fennec' => true,
                     'skip_check_signature' => true,
+                    'skip_check_ordered_version_codes' => true,
                     'apps' => {
                         'production' => {
-                            'package_names' => ['org.mozilla.video.firefox'],
+                            'package_names' => ['org.mozilla.tv.firefox'],
                             'amazon' => {
                                 'client_id' => $google_play_accounts['firefox_tv-production']['client_id'],
                                 'client_secret' => $google_play_accounts['firefox_tv-production']['client_secret']
