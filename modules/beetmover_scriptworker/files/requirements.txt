@@ -2,7 +2,7 @@
 Jinja2==2.10.1
 MarkupSafe==1.1.1
 PyYAML==5.1.2
-aiohttp==3.5.4
+aiohttp==3.6.0
 arrow==0.14.6
 asn1crypto==0.24.0
 async_timeout==3.0.1
