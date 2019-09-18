@@ -5,7 +5,7 @@ arrow==0.15.2
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
-backports.lzma==0.0.12
+backports.lzma==0.0.14
 balrogclient==0.6.0
 balrogscript==6.0.2  # puppet: nodownload
 certifi==2019.9.11
