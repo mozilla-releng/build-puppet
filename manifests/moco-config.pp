@@ -216,6 +216,7 @@ class config inherits config::base {
         'bhearsum',
         'catlee',
         'jlorenzo',
+        'mhentges',
         'mtabara',
         'nthomas',
         'sfraser',
