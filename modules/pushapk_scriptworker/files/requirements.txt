@@ -6,7 +6,7 @@ Pygments==2.4.2
 aiohttp==3.6.1
 androguard==3.3.5
 appnope==0.1.0
-arrow==0.14.6
+arrow==0.15.2
 asn1crypto==0.24.0
 async_timeout==3.0.1
 attrs==19.1.0
