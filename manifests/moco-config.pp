@@ -123,8 +123,8 @@ class config inherits config::base {
     }
 
     $relayhost                     = $::fqdn? {
-        /.*\.(usw2|mdc1)\.mozilla\.com/ => 'smtp1.private.mdc1.mozilla.com',
-        /.*\.(use1|mdc2)\.mozilla\.com/ => 'smtp1.private.mdc2.mozilla.com',
+        /.*\.(usw2|mdc1)\.mozilla\.com/ => 'smtp1.mail.mdc1.mozilla.com',
+        /.*\.(use1|mdc2)\.mozilla\.com/ => 'smtp1.mail.mdc2.mozilla.com',
         default                         => undef,
     }
 
