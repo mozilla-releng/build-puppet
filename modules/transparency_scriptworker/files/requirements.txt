@@ -4,7 +4,7 @@ aiohttp==3.6.1
 arrow==0.15.2
 asn1crypto==0.24.0
 async_timeout==3.0.1
-attrs==19.1.0
+attrs==19.2.0
 certifi==2019.9.11
 cffi==1.12.3
 chardet==3.0.4
@@ -24,7 +24,7 @@ pyrsistent==0.15.4
 python-dateutil==2.8.0
 redo==2.0.3
 requests==2.22.0
-scriptworker==26.0.4
+scriptworker==27.0.0
 six==1.12.0
 slugid==2.0.0
 taskcluster==16.2.0
