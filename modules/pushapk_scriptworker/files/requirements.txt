@@ -69,7 +69,7 @@ simplegeneric==0.8.1
 slugid==2.0.0
 taskcluster==19.0.0
 taskcluster-urls==11.0.0
-traitlets==4.3.2
+traitlets==4.3.3
 typing-extensions==3.7.4
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
