@@ -4,7 +4,7 @@ MarkupSafe==1.1.1
 PyYAML==5.1.2
 aiohttp==3.6.1
 arrow==0.15.2
-asn1crypto==0.24.0
+asn1crypto==1.0.1
 async_timeout==3.0.1
 attrs==19.2.0
 beetmoverscript==8.5.7  # puppet: nodownload
