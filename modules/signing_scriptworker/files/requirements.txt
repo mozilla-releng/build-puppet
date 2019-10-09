@@ -15,7 +15,7 @@ construct==2.9.45
 cryptography==2.7
 decorator==4.4.0
 dictdiffer==0.8.0
-ecdsa==0.13.2
+ecdsa==0.13.3
 frozendict==1.2
 future==0.17.1
 github3.py==1.3.0
