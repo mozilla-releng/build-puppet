@@ -46,17 +46,34 @@ class toplevel::worker inherits toplevel::base {
             }
         },
         inputs            => {
+            'disk' => {
+                'ignore_fs' => ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"],
+            },
+            'diskio' => {},
+            'mem' => {},
+            'swap' => {},
+            'system' => {},
+            'filecount' => {
+                'directories' => ["~cltbld/tasks/"],
+            },
+            'cpu' => {
+                'percpu'           => true,
+                'totalcpu'         => true,
+                'collect_cpu_time' => false,
+                'report_active'    => false,
+            },
         },
     }
 
-    telegraf::input { 'cpu':
-        'plugin_type' => 'cpu',
-        options     => {
-          'percpu'           => true,
-          'totalcpu'         => true,
-          'collect_cpu_time' => false,
-          'report_active'    => false,
-        },
+    if ($::operatingsystem != 'Darwin') {
+        telegraf::input { 'temp':
+            plugin_type => 'temp',
+            options     => {},
+        }
+        telegraf::input { 'hddtemp':
+            plugin_type => 'hddtemp',
+            options     => {},
+        }
     }
 
     telegraf::input { 'procstat':
@@ -79,7 +96,6 @@ class toplevel::worker inherits toplevel::base {
                             '%{TIME}%{SPACE}%{LOGLEVEL} - %{NOTSPACE:exception:tag}E[roxceptin]*: %{GREEDYDATA:message}',
                             '\[([^:]*): %{TIMESTAMP_ISO8601:timestamp:ts-"2006-01-02 15:04:05.000000Z07:00"}\] %{WORD:state} %{GREEDYDATA:step} step(\.| \(%{WORD:result}\))',
             ]
-          },
         },
     }
 
