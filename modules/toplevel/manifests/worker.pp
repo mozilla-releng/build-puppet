@@ -49,6 +49,16 @@ class toplevel::worker inherits toplevel::base {
         },
     }
 
+    telegraf::input { 'cpu':
+        'plugin_type' => 'cpu',
+        options     => {
+          'percpu'           => true,
+          'totalcpu'         => true,
+          'collect_cpu_time' => false,
+          'report_active'    => false,
+        },
+    }
+
     telegraf::input { 'procstat':
         plugin_type => 'procstat',
         options     => {
