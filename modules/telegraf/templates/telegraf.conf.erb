@@ -50,3 +50,21 @@
 <%      end -%>
 <%   end -%>
 <% end -%>
+
+<% if scope.lookupvar('::operatingsystem') == 'Darwin' -%>
+[[inputs.exec]]
+  # trailing comma, add boottime following
+  commands = [
+    "/bin/bash -c \"printf \\\"thermal %sboottime=$(/usr/sbin/sysctl -n kern.boottime | cut -d' ' -f4 | cut -d',' -f1)\\\" $(printf \\\"%s\\\" $(/usr/bin/pmset -g therm 2>/dev/null | sed -Ee '/^Note/d' -e 's/.*(CPU[^ ]*)[[:space:]=]*([0-9]+)/\\1=\\2,/'))\""
+  ]
+  timeout = "60s"
+  data_format = "influx"
+
+[[inputs.exec]]
+  # trailing comma, add boottime following
+  commands = [
+    "/bin/bash -c \"printf \\\"thermal %sboottime=$(/usr/sbin/sysctl -n kern.boottime | cut -d' ' -f4 | cut -d',' -f1)\\\" $(/usr/sbin/sysctl -ie machdep.xcpm.cpu_thermal_level machdep.xcpm.gpu_thermal_level machdep.xcpm.io_thermal_level | awk $'/=/{printf $1$2$3\\\",\\\"}')\""
+  ]
+  timeout = "60s"
+  data_format = "influx"
+<% end -%>
