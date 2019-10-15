@@ -96,6 +96,7 @@ class toplevel::worker inherits toplevel::base {
                             '%{TIME}%{SPACE}%{LOGLEVEL} - %{NOTSPACE:exception:tag}E[roxceptin]*: %{GREEDYDATA:message}',
                             '\[([^:]*): %{TIMESTAMP_ISO8601:timestamp:ts-"2006-01-02 15:04:05.000000Z07:00"}\] %{WORD:state} %{GREEDYDATA:step} step(\.| \(%{WORD:result}\))',
             ]
+          },
         },
     }
 
