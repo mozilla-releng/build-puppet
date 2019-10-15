@@ -46,17 +46,17 @@ class toplevel::worker inherits toplevel::base {
             }
         },
         inputs            => {
-            'disk' => {
-                'ignore_fs' => ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"],
+            'disk'      => {
+                'ignore_fs' => ['tmpfs', 'devtmpfs', 'devfs', 'iso9660', 'overlay', 'aufs', 'squashfs'],
             },
-            'diskio' => {},
-            'mem' => {},
-            'swap' => {},
-            'system' => {},
+            'diskio'    => {},
+            'mem'       => {},
+            'swap'      => {},
+            'system'    => {},
             'filecount' => {
-                'directories' => ["~cltbld/tasks/"],
+                'directories' => ['~cltbld/tasks/'],
             },
-            'cpu' => {
+            'cpu'       => {
                 'percpu'           => true,
                 'totalcpu'         => true,
                 'collect_cpu_time' => false,
