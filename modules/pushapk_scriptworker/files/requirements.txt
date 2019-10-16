@@ -67,7 +67,7 @@ rsa==4.0
 scriptworker==27.0.0
 simplegeneric==0.8.1
 slugid==2.0.0
-taskcluster==19.0.0
+taskcluster==20.0.0
 taskcluster-urls==11.0.0
 traitlets==4.3.3
 typing-extensions==3.7.4
