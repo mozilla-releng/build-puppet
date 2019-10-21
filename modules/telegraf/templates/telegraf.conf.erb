@@ -42,6 +42,7 @@
 # INPUTS:
 #
 <%   @_inputs.sort.each do | input, options | -%>
+<%      next if input.end_with?('temp') and scope.lookupvar('::operatingsystem') == 'Darwin' -%>
 [[inputs.<%= input %>]]
 <%      unless options == nil -%>
 <%          options.sort.each do | option, value | -%>
