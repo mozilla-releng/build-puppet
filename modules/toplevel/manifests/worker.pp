@@ -53,7 +53,9 @@ class toplevel::worker inherits toplevel::base {
             },
             'diskio'    => {},
             'mem'       => {},
-            'temp'      => {},
+            'temp'      => {
+                'name_override' => 'thermal',
+            },
             'hddtemp'   => {},
             'swap'      => {},
             'system'    => {},
