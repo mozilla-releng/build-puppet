@@ -14,8 +14,8 @@ six==1.12.0
 argparse==1.4.0
 enum34==1.1.6
 ipaddress==1.0.22
-asn1crypto==1.0.1
-cffi==1.12.3
+asn1crypto==1.1.0
+cffi==1.13.0
 cryptography==2.7
 macholib==1.11
 altgraph==0.16.1
