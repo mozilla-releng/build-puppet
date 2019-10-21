@@ -42,6 +42,7 @@
 # INPUTS:
 #
 <%   @_inputs.sort.each do | input, options | -%>
+<%      # the telegraf *temp plugins do not support MacOS yet -%>
 <%      next if input.end_with?('temp') and scope.lookupvar('::operatingsystem') == 'Darwin' -%>
 [[inputs.<%= input %>]]
 <%      unless options == nil -%>
@@ -52,7 +53,9 @@
 <%   end -%>
 <% end -%>
 
-<% if scope.lookupvar('::operatingsystem') == 'Darwin' -%>
+<% # Workaround to lookup temperatures on MacOS -%>
+<% # the telegraf *temp plugins do not support MacOS yet -%>
+<% if @_inputs.include? 'temp' and scope.lookupvar('::operatingsystem') == 'Darwin' -%>
 [[inputs.exec]]
   # trailing comma, add boottime following
   commands = [

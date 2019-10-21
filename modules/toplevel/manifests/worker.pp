@@ -29,6 +29,8 @@ class toplevel::worker inherits toplevel::base {
         flush_interval    => '600s',
         hostname          => regsubst($::fqdn, '([^\.]+)\..*', '\1'),
         config_file_group => $group,
+        quiet             => true,
+        logfile           => '',
 
         global_tags       => {
             'fqdn'        => $::fqdn,
@@ -51,6 +53,8 @@ class toplevel::worker inherits toplevel::base {
             },
             'diskio'    => {},
             'mem'       => {},
+            'temp'      => {},
+            'hddtemp'   => {},
             'swap'      => {},
             'system'    => {},
             'filecount' => {
@@ -63,17 +67,6 @@ class toplevel::worker inherits toplevel::base {
                 'report_active'    => false,
             },
         },
-    }
-
-    if ($::operatingsystem != 'Darwin') {
-        telegraf::input { 'temp':
-            plugin_type => 'temp',
-            options     => {},
-        }
-        telegraf::input { 'hddtemp':
-            plugin_type => 'hddtemp',
-            options     => {},
-        }
     }
 
     telegraf::input { 'procstat':
