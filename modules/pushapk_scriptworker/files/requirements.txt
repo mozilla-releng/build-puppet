@@ -19,7 +19,7 @@ click==7.0
 colorama==0.4.1
 cryptography==2.7  # pyup: ignore
 Cycler==0.10.0
-decorator==4.4.0
+decorator==4.4.1
 dictdiffer==0.8.0
 frozendict==1.2
 future==0.18.1
