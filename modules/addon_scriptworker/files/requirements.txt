@@ -26,7 +26,7 @@ more-itertools==7.2.0
 multidict==4.5.2
 pyasn1==0.4.7
 pycparser==2.19
-pyrsistent==0.15.4
+pyrsistent==0.15.5
 python-dateutil==2.8.0
 python-jose==3.0.1
 requests==2.22.0
