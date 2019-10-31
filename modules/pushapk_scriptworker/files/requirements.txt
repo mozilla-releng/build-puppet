@@ -19,7 +19,7 @@ click==7.0
 colorama==0.4.1
 cryptography==2.7  # pyup: ignore
 Cycler==0.10.0
-decorator==4.4.0
+decorator==4.4.1
 dictdiffer==0.8.0
 frozendict==1.2
 future==0.18.1
@@ -32,7 +32,7 @@ humanize==0.5.1
 idna==2.8
 idna_ssl==1.1.0
 importlib-metadata==0.23
-ipython==7.8.0
+ipython==7.9.0
 ipython_genutils==0.2.0
 jedi==0.15.1
 json-e==3.0.0
@@ -61,18 +61,18 @@ pycparser==2.19
 pydot==1.4.1
 pyOpenSSL==19.0.0
 pyparsing==2.4.2
-pyrsistent==0.15.4
+pyrsistent==0.15.5
 python-dateutil==2.8.0
 pytz==2019.3
 requests==2.22.0
 rsa==4.0
-scriptworker==27.0.0
+scriptworker==27.1.0
 simplegeneric==0.8.1
 slugid==2.0.0
-taskcluster==21.0.0
+taskcluster==21.2.0
 taskcluster-urls==11.0.0
 traitlets==4.3.3
-typing-extensions==3.7.4
+typing-extensions==3.7.4.1
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
 virtualenv==16.7.7
