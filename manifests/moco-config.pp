@@ -187,6 +187,7 @@ class config inherits config::base {
         'qfortier',
         'rthijssen',
         'dcrisan',
+        'aerickson',
     ]
 
     # a few users from each team as the 'short list' of people with access
