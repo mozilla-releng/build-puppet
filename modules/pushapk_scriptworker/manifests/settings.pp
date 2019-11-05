@@ -232,7 +232,7 @@ class pushapk_scriptworker::settings {
                             'package_names' => ['org.mozilla.fenix.beta'],
                             'certificate_alias' => 'fenix-beta',
                             'google' => {
-                                'default_track' => 'internal',
+                                'default_track' => 'beta-closed',
                                 'service_account' => $google_play_accounts['fenix-beta']['service_account'],
                                 'credentials_file' => "${root}/fenix_beta.p12",
                             }
