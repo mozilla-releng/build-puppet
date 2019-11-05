@@ -27,7 +27,7 @@ pycparser==2.19
 pyrsistent==0.15.5
 python-dateutil==2.8.0
 requests==2.22.0
-scriptworker==27.1.0
+scriptworker==27.3.0
 six==1.12.0
 slugid==2.0.0
 taskcluster==21.2.0
