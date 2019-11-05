@@ -392,20 +392,10 @@ class config inherits config::base {
     }
 
     # bacula configuration
-    $bacula_director = $::fqdn? {
-        /.*\.mdc1\.mozilla\.com/             => 'bacula1.private.mdc1.mozilla.com',
-        /.*\.mdc2\.mozilla\.com/             => 'bacula1.private.mdc2.mozilla.com',
-        default => undef,
-    }
-
-    $bacula_fd_port                                     = 9102
+    $bacula_director = 'bacula1.private.mdc1.mozilla.com'
+    $bacula_fd_port = 9102
     # this isn't actually secret, but it's long, so we stick it in hiera.
-    $bacula_cacert = $::fqdn? {
-        /.*\.mdc1\.mozilla\.com/             => secret('bacula_mdc1_ca_cert'),
-        /.*\.mdc2\.mozilla\.com/             => secret('bacula_mdc2_ca_cert'),
-        default => undef,
-    }
-
+    $bacula_cacert = secret('bacula_mdc1_ca_cert')
     $bacula_pki_enabled = true
 
     # TC signing workers
