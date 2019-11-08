@@ -6,8 +6,8 @@ metadata:
   owner: "{{ event.head.user.email }}"
   source: "{{ event.head.repo.url }}"
 tasks:
-  - provisionerId: "{{ taskcluster.docker.provisionerId }}"
-    workerType: "{{ taskcluster.docker.workerType }}"
+  - provisionerId: "releng-t"
+    workerType: "linux"
     payload:
       maxRunTime: 3600
       image: "python:2.7-slim"
@@ -30,8 +30,8 @@ tasks:
       description: PuppetAgain Python 2.7 requirements file verification
       owner: "{{ event.head.user.email }}"
       source: "{{ event.head.repo.url }}"
-  - provisionerId: "{{ taskcluster.docker.provisionerId }}"
-    workerType: "{{ taskcluster.docker.workerType }}"
+  - provisionerId: "releng-t"
+    workerType: "linux"
     payload:
       maxRunTime: 3600
       image: "python:3.6-slim"
