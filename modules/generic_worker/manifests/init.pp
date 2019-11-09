@@ -38,12 +38,12 @@ class generic_worker {
     case $::operatingsystem {
         Darwin: {
             if (has_aspect('staging')) {
-                $taskcluster_client_id = secret('osx_staging_client')
-                $taskcluster_access_token = hiera('osx_staging_client_token')
+                $taskcluster_client_id = secret('datacenter_gecko_t_osx_staging_client_id')
+                $taskcluster_access_token = hiera('datacenter_gecko_t_osx_staging_access_token')
             }
             else {
-                $taskcluster_client_id = secret('generic_worker_macosx_client_id')
-                $taskcluster_access_token = hiera('generic_worker_macosx_access_token')
+                $taskcluster_client_id = secret('datacenter_gecko_t_osx_client_id')
+                $taskcluster_access_token = hiera('datacenter_gecko_t_osx_access_token')
             }
             # The reboot command in OSX not have --force option
             $reboot_command = '/usr/bin/sudo /sbin/reboot'
@@ -89,12 +89,12 @@ class generic_worker {
             case $::operatingsystemrelease {
                 16.04: {
                     if (has_aspect('staging')) {
-                        $taskcluster_client_id = secret('generic_worker_linux_staging_client_id')
-                        $taskcluster_access_token = hiera('generic_worker_linux_staging_access_token')
+                        $taskcluster_client_id = secret('datacenter_gecko_t_linux_staging_client_id')
+                        $taskcluster_access_token = hiera('datacenter_gecko_t_linux_staging_access_token')
                     }
                     else {
-                        $taskcluster_client_id = secret('generic_worker_linux_client_id')
-                        $taskcluster_access_token = hiera('generic_worker_linux_access_token')
+                        $taskcluster_client_id = secret('datacenter_gecko_t_linux_client_id')
+                        $taskcluster_access_token = hiera('datacenter_gecko_t_linux_access_token')
                     }
 
                     # According to bug 1501936, https://bugzilla.mozilla.org/show_bug.cgi?id=1501936,Linux machines stuck at reboot process.
