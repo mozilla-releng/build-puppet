@@ -7,6 +7,7 @@ class toplevel::worker::releng::generic_worker::test inherits toplevel::worker::
     include vnc
     include ntp::daemon
     include packages::mozilla::python3
+    include packages::zstandard
     include dirs::builds::hg_shared
     include dirs::builds::git_shared
     include dirs::builds::tooltool_cache
