@@ -5,15 +5,15 @@
 class packages::zstamdard {
     case $::operatingsystem {
         Ubuntu: {
-            package { ['zstd']:
+            package { 'zstd':
                 ensure => installed,
             }
 
-            package { ['python3-pip']:
+            package { 'python3-pip':
                 ensure => installed,
             }
 
-            package { ['python-pip']:
+            package { 'python-pip':
                 ensure => installed,
             }
 
