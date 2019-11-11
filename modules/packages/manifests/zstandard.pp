@@ -17,7 +17,7 @@ class packages::zstandard {
                 ensure => installed,
             }
 
-            package { 'zstandard@2':
+            package { 'zstandard-py2':
                 ensure   => '0.11.1',
                 name     => 'zstandard',
                 provider => 'pip',
@@ -26,7 +26,7 @@ class packages::zstandard {
 
             # BUG: on Puppet < 6, this requires two runs to install 
             # https://tickets.puppetlabs.com/browse/PUP-7644
-            package { 'zstandard@3':
+            package { 'zstandard-py3':
                 ensure   => '0.11.1',
                 name     => 'zstandard',
                 provider => 'pip3',
