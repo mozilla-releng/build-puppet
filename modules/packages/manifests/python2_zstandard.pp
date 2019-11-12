@@ -10,7 +10,7 @@ class packages::python2_zstandard {
             }
 
             # BUG: on Puppet < 5, naming collision issue:
-            #  https://projects.puppetlabs.com/issues/1398
+            #  https://tickets.puppetlabs.com/browse/PUP-1073
             #  - can't use package to install zstandard for pip and pip3
 
             # BUG: on Puppet < 6, package with pip3 requires two runs to install
