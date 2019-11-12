@@ -23,7 +23,7 @@ class packages::zstandard {
                 ensure   => '0.11.1',
                 name     => 'zstandard',
                 provider => ['pip', 'pip3'],
-                require  => Package['python-pip'],
+                require  => [ Package['python-pip'], Package['python3-pip']]
             }
         }
         default: {
