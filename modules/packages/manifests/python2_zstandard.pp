@@ -13,6 +13,9 @@ class packages::python2_zstandard {
             #  https://projects.puppetlabs.com/issues/1398
             #  - can't use package to install zstandard for pip and pip3
 
+            # BUG: on Puppet < 6, package with pip3 requires two runs to install
+            # https://tickets.puppetlabs.com/browse/PUP-7644
+
             package { 'zstandard':
                 ensure   => '0.11.1',
                 provider => 'pip',
