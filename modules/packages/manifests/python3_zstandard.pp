@@ -24,7 +24,7 @@ class packages::python3_zstandard {
             # }
 
             exec { 'install zstandard':
-                command => 'pip3 install zstandard==0.11.1',
+                command => '/usr/bin/pip3 install zstandard==0.11.1',
                 # TODO: avoid unecessary runs with unless
             }
         }
