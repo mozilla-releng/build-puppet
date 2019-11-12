@@ -2,14 +2,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-class packages::zstandard {
+class packages::python2_zstandard {
     case $::operatingsystem {
         Ubuntu: {
             package { 'zstd':
-                ensure => installed,
-            }
-
-            package { 'python3-pip':
                 ensure => installed,
             }
 
@@ -17,13 +13,14 @@ class packages::zstandard {
                 ensure => installed,
             }
 
-            # BUG: on Puppet < 6, this requires two runs to install
-            # https://tickets.puppetlabs.com/browse/PUP-7644
+            # BUG: on Puppet < 5, naming collision issue:
+            #  https://projects.puppetlabs.com/issues/1398
+            #  - can't use package to install zstandard for pip and pip3
+
             package { 'zstandard':
                 ensure   => '0.11.1',
-                name     => 'zstandard',
-                provider => ['pip', 'pip3'],
-                require  => [ Package['python-pip'], Package['python3-pip']]
+                provider => 'pip',
+                require  => Package['python-pip'],
             }
         }
         default: {
