@@ -17,21 +17,14 @@ class packages::zstandard {
                 ensure => installed,
             }
 
+            # BUG: on Puppet < 6, this requires two runs to install
+            # https://tickets.puppetlabs.com/browse/PUP-7644
             package { 'zstandard':
                 ensure   => '0.11.1',
                 name     => 'zstandard',
                 provider => ['pip', 'pip3'],
                 require  => Package['python-pip'],
             }
-
-            # BUG: on Puppet < 6, this requires two runs to install 
-            # https://tickets.puppetlabs.com/browse/PUP-7644
-            # package { 'zstandard-py3':
-            #     ensure   => '0.11.1',
-            #     name     => 'zstandard',
-            #     provider => 'pip3',
-            #     require  => Package['python3-pip'],
-            # }
         }
         default: {
             fail("Cannot install on ${::operatingsystem}")
