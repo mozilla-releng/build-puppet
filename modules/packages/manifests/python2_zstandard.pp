@@ -5,10 +5,6 @@
 class packages::python2_zstandard {
     case $::operatingsystem {
         Ubuntu: {
-            package { 'zstd':
-                ensure => installed,
-            }
-
             package { 'python-pip':
                 ensure => installed,
             }

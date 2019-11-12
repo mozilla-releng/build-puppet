@@ -5,10 +5,6 @@
 class packages::python3_zstandard {
     case $::operatingsystem {
         Ubuntu: {
-            package { 'zstd':
-                ensure => installed,
-            }
-
             package { 'python3-pip':
                 ensure => installed,
             }
