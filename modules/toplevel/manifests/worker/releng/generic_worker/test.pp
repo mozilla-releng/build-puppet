@@ -19,6 +19,9 @@ class toplevel::worker::releng::generic_worker::test inherits toplevel::worker::
     case $::operatingsystem {
         'Ubuntu': {
             include packages::mozilla::google_chrome
+            include packages::zstd
+            include packages::python2_zstandard
+            include packages::python3_zstandard
             include nrpe
             include nrpe::check::puppet_agent
             include nrpe::check::ntp_time
