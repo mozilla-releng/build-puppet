@@ -406,16 +406,4 @@ class config inherits config::base {
     $scriptworker_root                        = '/builds/scriptworker' # Used by scriptworker instances
     $scriptworker_ed25519_private_key         = secret('scriptworker_ed25519_private_key')
 
-    $l10n_bumper_env_config = {
-        'mozilla-central' => {
-            mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
-            mozharness_revision => 'fdceb5ba6e8c542945e20c1554720160f3247838',
-            config_file         => 'l10n_bumper/mozilla-central.py',
-        },
-        'mozilla-beta'    => {
-            mozharness_repo     => 'https://hg.mozilla.org/mozilla-central',
-            mozharness_revision => 'fdceb5ba6e8c542945e20c1554720160f3247838',
-            config_file         => 'l10n_bumper/mozilla-beta.py',
-        },
-    }
 }
