@@ -8,7 +8,7 @@
 
 # add PID into msg because papertrail doesn't show it
 $SystemLogUsePIDFromSystem on
-$template PIDInMsgTemplate, "<%pri%>%timestamp% %hostname% %syslogtag% [%syslogtag:R,ERE,1,BLANK,0:\[([0-9]{1,5})\]--end%]%msg%\n"
+$template PIDInMsgTemplate, "<%%pri%>%timestamp% %hostname% %syslogtag% [%syslogtag:R,ERE,1,BLANK,0:\[([0-9]{1,5})\]--end%]%msg%\n"
 $ActionForwardDefaultTemplate PIDInMsgTemplate
 
 # forward all syslog data to the aggregation server
