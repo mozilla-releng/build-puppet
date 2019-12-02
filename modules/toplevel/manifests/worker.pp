@@ -56,12 +56,8 @@ class toplevel::worker inherits toplevel::base {
             'temp'      => {
                 'name_override' => 'thermal',
             },
-            'hddtemp'   => {},
             'swap'      => {},
             'system'    => {},
-            'filecount' => {
-                'directories' => ['~cltbld/tasks/'],
-            },
             'cpu'       => {
                 'percpu'           => true,
                 'totalcpu'         => true,
