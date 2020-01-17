@@ -29,6 +29,8 @@ class toplevel::worker inherits toplevel::base {
         flush_interval    => '600s',
         hostname          => regsubst($::fqdn, '([^\.]+)\..*', '\1'),
         config_file_group => $group,
+        quiet             => true,
+        logfile           => '',
 
         global_tags       => {
             'fqdn'        => $::fqdn,
@@ -46,6 +48,22 @@ class toplevel::worker inherits toplevel::base {
             }
         },
         inputs            => {
+            'disk'      => {
+                'ignore_fs' => ['tmpfs', 'devtmpfs', 'devfs', 'iso9660', 'overlay', 'aufs', 'squashfs'],
+            },
+            'diskio'    => {},
+            'mem'       => {},
+            'temp'      => {
+                'name_override' => 'thermal',
+            },
+            'swap'      => {},
+            'system'    => {},
+            'cpu'       => {
+                'percpu'           => true,
+                'totalcpu'         => true,
+                'collect_cpu_time' => false,
+                'report_active'    => false,
+            },
         },
     }
 
