@@ -35,10 +35,12 @@ class config inherits config::base {
             'releng-puppet2.srv.releng.mdc2.mozilla.com',
         ],
         '.*\.releng\.use1\.mozilla\.com' => [
-            'releng-puppet1.srv.releng.use1.mozilla.com',
+            'releng-puppet1.srv.releng.mdc1.mozilla.com',
+            'releng-puppet2.srv.releng.mdc1.mozilla.com',
         ],
         '.*\.releng\.usw2\.mozilla\.com' => [
-            'releng-puppet1.srv.releng.usw2.mozilla.com',
+            'releng-puppet1.srv.releng.mdc1.mozilla.com',
+            'releng-puppet2.srv.releng.mdc1.mozilla.com',
         ],
     }
 
@@ -307,16 +309,13 @@ class config inherits config::base {
     $log_aggregator    = $::fqdn ? {
         /.*\.mdc1\.mozilla\.com/ => 'log-aggregator.srv.releng.mdc1.mozilla.com',
         /.*\.mdc2\.mozilla\.com/ => 'log-aggregator.srv.releng.mdc2.mozilla.com',
-        /.*\.use1\.mozilla\.com/ => 'log-aggregator.srv.releng.use1.mozilla.com',
-        /.*\.usw2\.mozilla\.com/ => 'log-aggregator.srv.releng.usw2.mozilla.com',
-        default => '',
+        default => 'log-aggregator.srv.releng.mdc1.mozilla.com',
     }
 
     # we need to pick a logging port > 1024 for AWS to use the ELB
     $logging_port = $::fqdn ? {
         /.*\.(mdc1|mdc2)\.mozilla\.com/ => '514',
-        /.*\.(usw2|use1)\.mozilla\.com/ => '1514',
-        default => '',
+        default => '514',
     }
 
     #### end configuration information for rsyslog logging
