@@ -48,17 +48,17 @@ class toplevel::worker inherits toplevel::base {
             }
         },
         inputs            => {
-            'disk'      => {
+            'disk'   => {
                 'ignore_fs' => ['tmpfs', 'devtmpfs', 'devfs', 'iso9660', 'overlay', 'aufs', 'squashfs'],
             },
-            'diskio'    => {},
-            'mem'       => {},
-            'temp'      => {
+            'diskio' => {},
+            'mem'    => {},
+            'temp'   => {
                 'name_override' => 'thermal',
             },
-            'swap'      => {},
-            'system'    => {},
-            'cpu'       => {
+            'swap'   => {},
+            'system' => {},
+            'cpu'    => {
                 'percpu'           => true,
                 'totalcpu'         => true,
                 'collect_cpu_time' => false,
