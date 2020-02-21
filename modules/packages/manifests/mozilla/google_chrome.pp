@@ -16,7 +16,7 @@ class packages::mozilla::google_chrome {
                     Anchor['packages::mozilla::google_chrome::begin'] ->
                     package {
                         'google-chrome-stable':
-                            ensure => '79.0.3945.117-1';
+                            ensure => '80.0.3987.106-1';
                     } -> Anchor['packages::mozilla::google_chrome::end']
                 }
                 default: {
