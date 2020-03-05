@@ -186,7 +186,6 @@ class config inherits config::base {
         'mcornmesser',
         'qfortier',
         'rthijssen',
-        'dcrisan',
         'aerickson',
     ]
 
