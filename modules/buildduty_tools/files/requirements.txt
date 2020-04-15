@@ -18,7 +18,7 @@ idna==2.9
 incremental==17.5.0
 ipaddress==1.0.23
 pyOpenSSL==19.0.0
-pyasn1==0.4.7
+pyasn1==0.4.8
 pycparser==2.19
 pycrypto==2.6.1
 pyhamcrest==1.9.0
