@@ -51,6 +51,8 @@ class config inherits config::base {
 
     # Puppet masters CAs we deem valid
     $valid_puppet_cas = [
+                          'releng-puppet1.srv.releng.mdc1.mozilla.com',
+                          'releng-puppet2.srv.releng.mdc1.mozilla.com',
                           'releng-puppet1.srv.releng.mdc2.mozilla.com',
                           'releng-puppet2.srv.releng.mdc2.mozilla.com',
                         ]
