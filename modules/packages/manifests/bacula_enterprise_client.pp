@@ -13,7 +13,7 @@ class packages::bacula_enterprise_client {
 
             package {
                 'bacula-enterprise-client':
-                    ensure => '8.2.6-1.el6';
+                    ensure => '12.2.2-20013009.el6';
                 'bacula-common':
                     ensure => absent;
                 'bacula-client':
@@ -24,10 +24,10 @@ class packages::bacula_enterprise_client {
         Darwin: {
             packages::pkgdmg {
                 'bacula-enterprise-client':
-                    version             => '8.8.5-1',
+                    version             => '12.0.2-1',
                     private             => true,
                     os_version_specific => false,
-                    dmgname             => 'bacula-enterprise-client-8.8.5-1.dmg';
+                    dmgname             => 'bacula-enterprise-client-12.0.2-1.dmg';
             }
         }
 
