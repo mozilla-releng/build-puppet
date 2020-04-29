@@ -6,6 +6,6 @@ IPy==1.00
 greenlet==0.4.15
 # fluf.lock 3.0+ requires python 3
 flufl.lock==2.4.1  # pyup: <3.0
-pexpect==4.7.0
+pexpect==4.8.0
 ptyprocess==0.6.0
 mercurial==5.1.2
