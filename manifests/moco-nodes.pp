@@ -39,7 +39,7 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
 node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
-    $worker_type  = 'gecko-t-linux-talos'
+    $worker_type  = 'gecko-t-linux-talos-beta'
     include fw::profiles::linux_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
 }
@@ -222,6 +222,29 @@ node 't-linux64-ms-280.test.releng.mdc1.mozilla.com',
     $slave_trustlevel = 'try'
     # We are limited to 22 characters for worker_type
     $worker_type = 'gecko-t-linux-talos-b'
-    include fw::profiles::osx_taskcluster_worker
+    include fw::profiles::linux_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
 }
+
+# moonshot chassis 6,7  t-linux64-ms-{226..240,271..280} mdc1
+#                 12,13 t-linux64-ms-{481..495,526..540} mdc2
+#                 14    t-linux64-ms-{571..580}          mdc2
+node /^t-linux64-ms-(?:2(?:[2][6-9]|[3][0-9]|40|7[1-9]|80))\.test\.releng\.mdc1\.mozilla\.com$/,
+    /^t-linux64-ms-(?:4(8[1-9]|9[0-5])|5(2[6-9]|3[0-9]|40))\.test\.releng\.mdc2\.mozilla\.com$/,
+    't-linux64-ms-571.test.releng.mdc2.mozilla.com',
+    't-linux64-ms-572.test.releng.mdc2.mozilla.com',
+    't-linux64-ms-573.test.releng.mdc2.mozilla.com',
+    't-linux64-ms-574.test.releng.mdc2.mozilla.com',
+    't-linux64-ms-575.test.releng.mdc2.mozilla.com',
+    't-linux64-ms-576.test.releng.mdc2.mozilla.com',
+    't-linux64-ms-577.test.releng.mdc2.mozilla.com',
+    't-linux64-ms-578.test.releng.mdc2.mozilla.com',
+    't-linux64-ms-579.test.releng.mdc2.mozilla.com',
+    't-linux64-ms-580.test.releng.mdc2.mozilla.com' {
+    $aspects          = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    # We are limited to 22 characters for worker_type
+    $worker_type = 'gecko-t-linux-talos-beta'
+    include fw::profiles::linux_taskcluster_worker
+    include toplevel::worker::releng::generic_worker::test::gpu
+}                                                                                                                      
