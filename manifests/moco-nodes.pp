@@ -39,7 +39,7 @@ node /^t-yosemite-r7-\d+\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
 node /^t-linux64-(ms|xe)-\d{3}\.test\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $aspects          = [ 'low-security' ]
     $slave_trustlevel = 'try'
-    $worker_type  = 'gecko-t-linux-talos-beta'
+    $worker_type  = 'gecko-t-linux-talos'
     include fw::profiles::linux_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
 }
@@ -247,4 +247,4 @@ node /^t-linux64-ms-(?:2(?:[2][6-9]|[3][0-9]|40|7[1-9]|80))\.test\.releng\.mdc1\
     $worker_type = 'gecko-t-linux-talos-beta'
     include fw::profiles::linux_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
-}                                                                                                                      
+}
