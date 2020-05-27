@@ -42,7 +42,7 @@ kiwisolver==1.1.0
 lxml==4.4.1
 matplotlib==3.1.1
 mohawk==0.3.4  # pyup: ignore
-more-itertools==7.2.0
+more-itertools==8.3.0
 mozapkpublisher==6.1.0
 mozilla-version==0.4.1
 multidict==4.5.2
