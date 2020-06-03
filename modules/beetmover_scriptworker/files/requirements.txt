@@ -29,7 +29,7 @@ json-e==4.1.0
 jsonschema==3.2.0
 jwcrypto==0.7
 mohawk==0.3.4  # pyup: ignore
-more-itertools==7.2.0
+more-itertools==8.3.0
 mozilla-version==0.4.1
 multidict==4.5.2
 pycparser==2.19
