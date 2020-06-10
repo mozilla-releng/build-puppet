@@ -1,5 +1,5 @@
 # python_version: 27
-gevent==1.4.0
+gevent==20.6.0
 WebOb==1.8.5
 poster==0.8.1
 IPy==1.00
