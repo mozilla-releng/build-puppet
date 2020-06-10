@@ -31,7 +31,7 @@ markupsafe==1.1.1
 mohawk==0.3.4  # pyup: ignore
 more-itertools==8.3.0
 multidict==4.7.6
-pyasn1==0.4.7
+pyasn1==0.4.8
 pycparser==2.19
 pyrsistent==0.15.5
 python-dateutil==2.8.0
