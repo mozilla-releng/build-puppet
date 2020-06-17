@@ -27,7 +27,7 @@ multidict==4.7.6
 pyasn1==0.4.8
 pycparser==2.20
 pyrsistent==0.16.0
-python-dateutil==2.8.0
+python-dateutil==2.8.1
 python-jose==3.0.1
 requests==2.22.0
 rsa==4.0
