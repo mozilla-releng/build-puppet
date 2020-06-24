@@ -45,7 +45,7 @@ mohawk==0.3.4  # pyup: ignore
 more-itertools==8.4.0
 mozapkpublisher==6.1.0
 mozilla-version==0.4.1
-multidict==4.5.2
+multidict==4.7.6
 networkx==2.4
 numpy==1.17.3
 oauth2client==4.1.3
