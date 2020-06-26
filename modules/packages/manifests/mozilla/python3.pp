@@ -74,15 +74,23 @@ class packages::mozilla::python3 {
             }
         }
         Ubuntu: {
-            # Because we are in the migration process from taskcluster-worker to generic-worker
-            # I added the case entry for Ubuntu, to avoid the error message:
-            # Cannot install on Ubuntu, when run puppet on Ubuntu machines
-
-            # Added python3 information, to avoid error: $python3 must be defined in this manifest file
-            # when run puppet on Ubuntu machines
+            # We have used the ubuntu 16.04 base included python 3.5.2
+            # upgrading to 3.6+ for tests:
+            # 2020-06-25 latest stable: python3.8_3.8.3-1+xenial1_amd64.deb
             $python3 = ' '
-
-            # Python3 installation on Ubuntu machines will be part os other bug
+            realize(Packages::Aptrepo['python3'])
+            case $::operatingsystemrelease {
+                16.04: {
+                    Anchor['packages::mozilla::python3::begin'] ->
+                    package {
+                        'python3.8':
+                            ensure => '3.8.3-1+xenial1';
+                    } -> Anchor['packages::mozilla::python3::end']
+                }
+                default: {
+                    fail("Unrecognized Ubuntu version ${::operatingsystemrelease}")
+                }
+            }
         }
         default: {
             fail("Cannot install on ${::operatingsystem}")
