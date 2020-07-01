@@ -18,7 +18,7 @@ idna==2.10
 idna_ssl==1.1.0
 importlib-metadata==1.7.0
 json-e==4.1.0
-jsonschema==3.1.1
+jsonschema==3.2.0
 jwcrypto==0.6.0
 mohawk==0.3.4  # pyup: ignore
 more-itertools==7.2.0
