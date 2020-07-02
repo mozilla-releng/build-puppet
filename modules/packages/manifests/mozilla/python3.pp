@@ -85,6 +85,8 @@ class packages::mozilla::python3 {
                     package {
                         'python3.8':
                             ensure => '3.8.3-1+xenial1';
+                        'python3.8-distutils':
+                            ensure => '3.8.3-1+xenial1';
                     } -> Anchor['packages::mozilla::python3::end']
                 }
                 default: {
