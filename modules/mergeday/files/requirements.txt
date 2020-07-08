@@ -1,6 +1,6 @@
 # python_version: 27
 attrs==19.3.0
-enum34==1.1.6
+enum34==1.1.10
 future==0.18.2
 mozilla-version==0.5.2
 simplejson==3.16.0  # pyup: ignore
