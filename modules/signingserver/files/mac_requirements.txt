@@ -8,4 +8,4 @@ greenlet==0.4.16
 flufl.lock==2.4.1  # pyup: <3.0
 pexpect==4.8.0
 ptyprocess==0.6.0
-mercurial==5.1.2
+mercurial==5.4.2
