@@ -40,7 +40,7 @@ jsonschema==3.2.0
 jwcrypto==0.7
 kiwisolver==1.2.0
 lxml==4.5.2
-matplotlib==3.1.1
+matplotlib==3.2.2
 mohawk==0.3.4  # pyup: ignore
 more-itertools==8.4.0
 mozapkpublisher==6.1.0
