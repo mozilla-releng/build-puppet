@@ -42,7 +42,7 @@ six==1.15.0
 slugid==2.0.0
 taskcluster==34.0.1
 taskcluster-urls==11.0.0
-toml==0.10.0
+toml==0.10.1
 towncrier==18.5.0  # pyup: ignore
 typing-extensions==3.7.4.2
 uritemplate==3.0.1
