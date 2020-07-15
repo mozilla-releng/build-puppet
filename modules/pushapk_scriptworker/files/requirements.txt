@@ -72,7 +72,7 @@ slugid==2.0.0
 taskcluster==34.0.1
 taskcluster-urls==11.0.0
 traitlets==4.3.3
-typing-extensions==3.7.4.1
+typing-extensions==3.7.4.2
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
 virtualenv==16.7.7
