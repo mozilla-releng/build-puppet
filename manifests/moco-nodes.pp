@@ -156,3 +156,21 @@ node 't-linux64-ms-280.test.releng.mdc1.mozilla.com',
     include fw::profiles::osx_taskcluster_worker
     include toplevel::worker::releng::generic_worker::test::gpu
 }
+
+node 't-linux64-ms-141.test.releng.mdc1.mozilla.com',
+    't-linux64-ms-142.test.releng.mdc1.mozilla.com',
+    't-linux64-ms-143.test.releng.mdc1.mozilla.com',
+    't-linux64-ms-144.test.releng.mdc1.mozilla.com',
+    't-linux64-ms-145.test.releng.mdc1.mozilla.com',
+    't-linux64-ms-146.test.releng.mdc1.mozilla.com',
+    't-linux64-ms-147.test.releng.mdc1.mozilla.com',
+    't-linux64-ms-148.test.releng.mdc1.mozilla.com',
+    't-linux64-ms-149.test.releng.mdc1.mozilla.com',
+    't-linux64-ms-150.test.releng.mdc1.mozilla.com' {
+    $aspects          = [ 'low-security' ]
+    $slave_trustlevel = 'try'
+    $worker_type = "gecko-t-linux-talos-dev"
+    include fw::profiles::linux_taskcluster_worker
+    include toplevel::worker::releng::generic_worker::test::gpu
+}
+
