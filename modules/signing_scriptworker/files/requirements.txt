@@ -30,7 +30,7 @@ mar==3.1.0
 mohawk==0.3.4  # pyup: ignore
 more-itertools==8.4.0
 multidict==4.7.6
-pyasn1==0.4.7
+pyasn1==0.4.8
 pyasn1-modules==0.2.7
 pycparser==2.19
 pyrsistent==0.15.5
