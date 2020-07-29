@@ -32,7 +32,7 @@ slugid==2.0.0
 taskcluster==35.0.0
 taskcluster-urls==13.0.1
 transparencyscript==0.0.4  # puppet: nodownload
-typing-extensions==3.7.4.1
+typing-extensions==3.7.4.2
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
 virtualenv==16.7.7
