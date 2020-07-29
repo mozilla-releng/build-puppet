@@ -32,7 +32,7 @@ shipitscript==4.0.0  # puppet: nodownload
 six==1.15.0
 slugid==2.0.0
 taskcluster==35.0.0
-taskcluster-urls==11.0.0
+taskcluster-urls==13.0.1
 typing-extensions==3.7.4.1
 uritemplate==3.0.0
 urllib3==1.24.2  # pyup: ignore
