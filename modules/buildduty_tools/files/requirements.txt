@@ -7,7 +7,7 @@ Twisted==20.3.0
 argparse==1.4.0
 asn1crypto==1.4.0
 attrs==19.3.0
-automat==0.8.0
+automat==20.2.0
 cffi==1.14.1
 constantly==15.1.0
 # Bug 1507497 - Cryptography unable to update past 2.3.x on scriptworkers
