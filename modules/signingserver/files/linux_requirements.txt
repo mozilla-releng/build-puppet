@@ -17,7 +17,7 @@ ipaddress==1.0.23
 asn1crypto==1.4.0
 cffi==1.14.1
 cryptography==2.7  # pyup: ignore
-macholib==1.11
+macholib==1.14
 altgraph==0.17
 idna==2.10
 pycparser==2.20
