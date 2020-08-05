@@ -11,7 +11,7 @@ cffi==1.14.1
 chardet==3.0.4
 cryptography==2.7  # pyup: ignore
 dictdiffer==0.8.1
-ecdsa==0.13.3
+ecdsa==0.15
 frozendict==1.2
 future==0.18.1
 github3.py==1.3.0
