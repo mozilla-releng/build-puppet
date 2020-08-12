@@ -30,7 +30,7 @@ scriptworker==35.2.0
 six==1.15.0
 slugid==2.0.0
 taskcluster==36.0.0
-taskcluster-urls==11.0.0
+taskcluster-urls==13.0.1
 transparencyscript==0.0.4  # puppet: nodownload
 typing-extensions==3.7.4.1
 uritemplate==3.0.0
