@@ -50,4 +50,4 @@ urllib3==1.24.2  # pyup: ignore
 virtualenv==20.0.31
 wheel==0.35.1
 yarl==1.5.1
-zipp==0.6.0
+zipp==3.1.0
