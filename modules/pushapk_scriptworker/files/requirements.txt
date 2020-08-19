@@ -35,7 +35,7 @@ importlib-metadata==1.7.0
 ipython==7.9.0
 ipython_genutils==0.2.0
 jedi==0.15.1
-json-e==3.0.0
+json-e==4.2.0
 jsonschema==3.1.1
 jwcrypto==0.6.0
 kiwisolver==1.1.0
