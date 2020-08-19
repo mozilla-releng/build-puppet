@@ -31,7 +31,7 @@ shipitapi==3.1.0
 shipitscript==4.0.0  # puppet: nodownload
 six==1.15.0
 slugid==2.0.0
-taskcluster==21.2.0
+taskcluster==36.0.0
 taskcluster-urls==11.0.0
 typing-extensions==3.7.4.1
 uritemplate==3.0.0
