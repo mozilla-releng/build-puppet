@@ -19,7 +19,7 @@ cffi==1.14.2
 cryptography==2.7  # pyup: ignore
 macholib==1.11
 altgraph==0.16.1
-idna==2.8
+idna==2.10
 pycparser==2.19
 wsgiref==0.1.2
 ptyprocess==0.6.0
