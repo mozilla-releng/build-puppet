@@ -14,7 +14,7 @@ click==7.0
 construct==2.9.45
 cryptography==2.7  # pyup: ignore
 decorator==4.4.1
-dictdiffer==0.8.0
+dictdiffer==0.8.1
 ecdsa==0.13.3
 frozendict==1.2
 future==0.18.1
