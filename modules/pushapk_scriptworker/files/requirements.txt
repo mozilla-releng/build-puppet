@@ -29,7 +29,7 @@ google-auth==1.6.3
 google-auth-httplib2==0.0.3
 httplib2==0.14.0
 humanize==0.5.1
-idna==2.8
+idna==2.10
 idna_ssl==1.1.0
 importlib-metadata==0.23
 ipython==7.9.0
