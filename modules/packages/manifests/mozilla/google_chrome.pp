@@ -14,9 +14,21 @@ class packages::mozilla::google_chrome {
             case $::operatingsystemrelease {
                 16.04: {
                     Anchor['packages::mozilla::google_chrome::begin'] ->
+                    file {
+                        '/etc/apt/sources.list.d/google-chrome.list':
+                            source => 'puppet:///modules/packages/google-chrome.list',
+                    }
+                    schedule { 'update-chrome-schedule':
+                        period => weekly,
+                        repeat => 1,
+                    }
+                    exec { 'update-chrome-action':
+                        schedule => 'update-chrome-schedule',
+                        command  => '/usr/bin/apt-get update -o Dir::Etc::sourcelist="sources.list.d/google-chrome.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"',
+                    }
                     package {
                         'google-chrome-stable':
-                            ensure => '81.0.4044.129-1';
+                            ensure => latest;
                     } -> Anchor['packages::mozilla::google_chrome::end']
                 }
                 default: {
