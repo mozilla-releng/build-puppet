@@ -24,7 +24,7 @@ class packages::mozilla::google_chrome {
                     }
                     exec { 'update-chrome-action':
                         schedule => 'update-chrome-schedule',
-                        command => '/usr/bin/apt-get update -o Dir::Etc::sourcelist="sources.list.d/google-chrome.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"',
+                        command  => '/usr/bin/apt-get update -o Dir::Etc::sourcelist="sources.list.d/google-chrome.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"',
                     }
                     package {
                         'google-chrome-stable':
