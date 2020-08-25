@@ -182,7 +182,7 @@ class config::base {
     # a list of pypi mirrors that should be included in every user's pip.conf.  The
     # default points to Release Engineering's mirror, which is not a complete mirror
     # of pypi
-    $user_python_repositories = [ 'http://pypi.pub.build.mozilla.org/pub' ]
+    $user_python_repositories = [ 'http://pypi.pub.build.mozilla.org/pub/' ]
 
     ##
     ## application-specific configs
