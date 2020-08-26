@@ -37,7 +37,7 @@ ipython_genutils==0.2.0
 jedi==0.15.1
 json-e==4.2.0
 jsonschema==3.2.0
-jwcrypto==0.6.0
+jwcrypto==0.8
 kiwisolver==1.1.0
 lxml==4.4.1
 matplotlib==3.1.1
