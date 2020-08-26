@@ -35,7 +35,7 @@ transparencyscript==0.0.4  # puppet: nodownload
 typing-extensions==3.7.4.3
 uritemplate==3.0.1
 urllib3==1.24.2  # pyup: ignore
-virtualenv==16.7.7
+virtualenv==20.0.31
 wheel==0.33.6
 yarl==1.3.0
 zipp==0.6.0
