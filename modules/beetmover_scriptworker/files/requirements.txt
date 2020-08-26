@@ -43,7 +43,7 @@ six==1.15.0
 slugid==2.0.0
 taskcluster==37.0.0
 taskcluster-urls==13.0.1
-toml==0.10.0
+toml==0.10.1
 towncrier==19.2.0
 typing-extensions==3.7.4.3
 uritemplate==3.0.1
