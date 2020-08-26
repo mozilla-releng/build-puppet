@@ -4,7 +4,7 @@ aiohttp==3.6.2
 arrow==0.14.7  # pyup: ignore
 asn1crypto==1.4.0
 async_timeout==3.0.1
-attrs==19.3.0
+attrs==20.1.0
 backports.lzma==0.0.14
 balrogclient==0.6.0
 balrogscript==6.0.2  # puppet: nodownload
