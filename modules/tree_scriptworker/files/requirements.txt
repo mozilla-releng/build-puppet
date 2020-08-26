@@ -34,7 +34,7 @@ taskcluster==37.0.0
 taskcluster-urls==13.0.1
 treescript==1.2.1  # puppet: nodownload
 typing-extensions==3.7.4.3
-uritemplate==3.0.0
+uritemplate==3.0.1
 urllib3==1.24.2  # pyup: ignore
 virtualenv==16.7.7
 wheel==0.33.6
