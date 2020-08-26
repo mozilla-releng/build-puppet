@@ -7,7 +7,7 @@ aiohttp==3.6.2
 androguard==3.3.5
 appnope==0.1.0
 arrow==0.16.0
-asn1crypto==1.2.0
+asn1crypto==1.4.0
 async_timeout==3.0.1
 attrs==19.3.0
 backcall==0.1.0
