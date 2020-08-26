@@ -41,7 +41,7 @@ scriptworker==35.2.0
 six==1.15.0
 slugid==2.0.0
 taskcluster==37.0.0
-taskcluster-urls==11.0.0
+taskcluster-urls==13.0.1
 toml==0.10.0
 towncrier==18.5.0  # pyup: ignore
 typing-extensions==3.7.4.1
