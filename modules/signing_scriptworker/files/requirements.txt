@@ -2,7 +2,7 @@
 PyYAML==5.3.1
 aiohttp==3.6.2
 altgraph==0.16.1
-arrow==0.15.2
+arrow==0.16.0
 asn1crypto==1.2.0
 async_timeout==3.0.1
 attrs==19.3.0
