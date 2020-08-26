@@ -29,7 +29,7 @@ jwcrypto==0.8
 mar==3.1.0
 markupsafe==1.1.1
 mohawk==0.3.4  # pyup: ignore
-more-itertools==7.2.0
+more-itertools==8.4.0
 multidict==4.5.2
 pyasn1==0.4.7
 pycparser==2.19
