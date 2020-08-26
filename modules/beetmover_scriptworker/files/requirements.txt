@@ -6,7 +6,7 @@ aiohttp==3.6.2
 arrow==0.16.0
 asn1crypto==1.4.0
 async_timeout==3.0.1
-attrs==19.3.0
+attrs==20.1.0
 beetmoverscript==8.5.7  # puppet: nodownload
 boto3==1.9.176  # pyup: ignore
 botocore==1.12.176  # pyup: ignore
