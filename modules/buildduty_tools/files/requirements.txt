@@ -6,7 +6,7 @@ MarkupSafe==1.1.1
 Twisted==19.7.0
 argparse==1.4.0
 asn1crypto==1.4.0
-attrs==19.3.0
+attrs==20.1.0
 automat==0.8.0
 cffi==1.13.1
 constantly==15.1.0
