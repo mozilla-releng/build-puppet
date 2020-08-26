@@ -24,4 +24,4 @@ pycrypto==2.6.1
 pyhamcrest==2.0.2
 simplejson==3.16.0  # pyup: ignore
 wsgiref==0.1.2
-zope.interface==4.6.0
+zope.interface==5.1.0
