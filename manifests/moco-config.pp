@@ -180,11 +180,9 @@ class config inherits config::base {
 
     $jumphost_admin_users = [
         # a few folks from relops..
-        'klibby',
         'jwatkins',
         'dhouse',
         'mcornmesser',
-        'qfortier',
         'rthijssen',
         'aerickson',
     ]
@@ -192,7 +190,6 @@ class config inherits config::base {
     # a few users from each team as the 'short list' of people with access
     $shortlist = [
         # a few folks from relops..
-        'klibby',
         'jwatkins',
         'dhouse',
 
@@ -201,14 +198,11 @@ class config inherits config::base {
         'bhearsum',
         'catlee',
         'jlorenzo',
-        'jwood',
-        'nthomas',
         'sfraser',
     ]
 
     $mobile_shortlist = [
         # relops
-        'klibby',
         'jwatkins',
         'dhouse',
 
@@ -218,7 +212,6 @@ class config inherits config::base {
         'catlee',
         'jlorenzo',
         'mtabara',
-        'nthomas',
         'sfraser',
     ]
 
@@ -229,21 +222,16 @@ class config inherits config::base {
         /^(?!(dep-m|mobil)-signing).*sign.*/                   => $shortlist,
         default                                                => hiera('ldap_admin_users',
                                                                     # backup to ensure access in cas'e the sync fails:
-                                                                    ['klibby', 'jwatkins'])
+                                                                    ['dhouse', 'jwatkins'])
     }
 
     $jumphost_users = [
         'asasaki',
         'catlee',
         'jlorenzo',
-        'jlund',
-        'jwood',
         'mtabara',
-        'nthomas',
-        'raliiev',
         'sfraser',
         'bhearsum', # Bug 1409806
-        'tprince', # Bug 1449013
         'pmoore', # Bug 1492400
     ]
 
