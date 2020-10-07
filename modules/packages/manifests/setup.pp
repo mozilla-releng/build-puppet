@@ -234,7 +234,7 @@ class packages::setup {
             }
             # to flush the package index, increase this value by one (or
             # anything, really, just change it).
-            $repoflag = 60
+            $repoflag = 72
             file {
                 '/etc/.repo-flag':
                     content =>
@@ -396,6 +396,16 @@ class packages::setup {
                     components   => ['all'];
                 'python3':
                     url_path     => 'repos/apt/custom/python3',
+                    distribution => $::lsbdistcodename,
+                    options      => ['trusted=yes'],
+                    components   => ['all'];
+                'ffmpeg':
+                    url_path     => 'repos/apt/custom/ffmpeg',
+                    distribution => $::lsbdistcodename,
+                    options      => ['trusted=yes'],
+                    components   => ['all'];
+                'imagemagick':
+                    url_path     => 'repos/apt/custom/imagemagick',
                     distribution => $::lsbdistcodename,
                     options      => ['trusted=yes'],
                     components   => ['all'];
