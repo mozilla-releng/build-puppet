@@ -22,6 +22,8 @@ class toplevel::worker::releng::generic_worker::test inherits toplevel::worker::
             include packages::zstd
             include packages::python2_zstandard
             include packages::python3_zstandard
+            include packages::mozilla::ffmpeg
+            include packages::mozilla::imagemagick
             include nrpe
             include nrpe::check::puppet_agent
             include nrpe::check::ntp_time
