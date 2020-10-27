@@ -9,7 +9,7 @@ bouncerscript==3.7.0  # puppet: nodownload
 certifi==2019.9.11
 cffi==1.13.1
 chardet==3.0.4
-cryptography==2.7  # pyup: ignore
+cryptography==3.2  # pyup: ignore
 dictdiffer==0.8.0
 frozendict==1.2
 future==0.18.1
