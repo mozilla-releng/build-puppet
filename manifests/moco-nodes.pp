@@ -56,32 +56,10 @@ node 'releng-puppet2.srv.releng.mdc1.mozilla.com' {
 
 ## deploystudio servers
 
-node 'install.test.releng.mdc1.mozilla.com' {
-    $aspects = [ 'maximum-security' ]
-    include fw::profiles::deploystudio
-    include toplevel::server::deploystudio
-    class {
-        'bacula_client':
-            cert => secret('install_test_releng_mdc1_bacula_cert'),
-            key  => secret('install_test_releng_mdc1_bacula_key');
-    }
-}
-
 node 'install2.test.releng.mdc1.mozilla.com' {
     $aspects = [ 'maximum-security' ]
     include fw::profiles::deploystudio
     include toplevel::server::deploystudio
-}
-
-node 'install.test.releng.mdc2.mozilla.com' {
-    $aspects = [ 'maximum-security' ]
-    include fw::profiles::deploystudio
-    include toplevel::server::deploystudio
-    class {
-        'bacula_client':
-            cert => secret('install_test_releng_mdc2_bacula_cert'),
-            key  => secret('install_test_releng_mdc2_bacula_key');
-    }
 }
 
 node 'install2.test.releng.mdc2.mozilla.com' {
@@ -109,30 +87,6 @@ node /^rejh\d+\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
     $duo_enabled   = true
     include fw::profiles::rejh
     include toplevel::jumphost
-}
-
-## Misc servers
-
-node /^partner-repack-\d+\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
-    $aspects       = [ 'maximum-security' ]
-    $only_user_ssh = true
-    include fw::profiles::partner_repack
-    include toplevel::server
-}
-
-# Relops Controller
-
-node /^roller1\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
-    $aspects = [ 'high-security', 'prod' ]
-    include fw::profiles::roller
-    include toplevel::server::roller
-}
-
-node /^roller-dev1\.srv\.releng\.(mdc1|mdc2)\.mozilla\.com$/ {
-    $aspects = [ 'high-security', 'dev' ]
-    realize(Users::Person['gguthe'])
-    include fw::profiles::roller
-    include toplevel::server::roller
 }
 
 ## Log Aggregators
