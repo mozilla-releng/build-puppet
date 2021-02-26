@@ -6,7 +6,7 @@ class fw::profiles::roller {
 
     case $::fqdn {
         /.*\.(mdc1|mdc2)\.mozilla\.com/: {
-            include ::fw::roles::ssh_from_rejh_logging
+            include ::fw::roles::ssh_from_anywhere_logging
             include ::fw::roles::nrpe_from_nagios
             include ::fw::roles::roller_api_from_anywhere
         }

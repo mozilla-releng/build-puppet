@@ -6,12 +6,12 @@ class fw::profiles::bsdpy {
 
     case $::fqdn {
         /.*\.mdc1\.mozilla\.com/: {
-            include ::fw::roles::ssh_from_rejh_logging
+            include ::fw::roles::ssh_from_anywhere_logging
             include ::fw::roles::nrpe_from_nagios
             include ::fw::roles::bsdpy_from_mdc1_releng
         }
         /.*\.mdc2\.mozilla\.com/: {
-            include ::fw::roles::ssh_from_rejh_logging
+            include ::fw::roles::ssh_from_anywhere_logging
             include ::fw::roles::nrpe_from_nagios
             include ::fw::roles::bsdpy_from_mdc2_releng
         }
