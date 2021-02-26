@@ -1,6 +1,6 @@
 # python_version: 36
 PyYAML==5.1.2
-aiohttp==3.6.2
+aiohttp==3.7.4
 arrow==0.14.7  # pyup: ignore
 asn1crypto==1.2.0
 async_timeout==3.0.1
