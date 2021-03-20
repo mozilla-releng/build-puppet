@@ -22,7 +22,7 @@ idna_ssl==1.1.0
 importlib-metadata==0.23
 incremental==17.5.0
 ipaddress==1.0.23
-jinja2==2.10.3
+jinja2==2.11.3
 json-e==3.0.0
 jsonschema==3.1.1
 jwcrypto==0.6.0
