@@ -65,7 +65,7 @@ pyrsistent==0.15.5
 python-dateutil==2.8.0
 pytz==2019.3
 requests==2.22.0
-rsa==4.0
+rsa==4.1
 scriptworker==27.3.0
 simplegeneric==0.8.1
 slugid==2.0.0
