@@ -2,7 +2,7 @@
 # python_version: 36
 # Please do not update this file without end-to-end testing. pushsnapscript has a major hack in its
 # dependencies. Please read https://bugzilla.mozilla.org/show_bug.cgi?id=1447263#c15 for context.
-PyYAML==3.13
+PyYAML==5.4
 aiohttp==3.5.4
 arrow==0.13.1
 asn1crypto==0.24.0
