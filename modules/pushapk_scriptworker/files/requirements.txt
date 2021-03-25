@@ -1,7 +1,7 @@
 # python_version: 36
 # install six and setuptools before cryptography
 six==1.12.0
-PyYAML==5.1.2
+PyYAML==5.4
 Pygments==2.4.2
 aiohttp==3.6.2
 androguard==3.3.5
