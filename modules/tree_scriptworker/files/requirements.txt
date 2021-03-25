@@ -1,5 +1,5 @@
 # python_version: 36
-PyYAML==5.1.2
+PyYAML==5.4
 aiohttp==3.6.2
 arrow==0.15.2
 asn1crypto==1.2.0
