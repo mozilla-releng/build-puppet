@@ -26,19 +26,7 @@ class config inherits config::base {
     # we use the sort_servers_by_group function to sort the list of servers, and then just use
     # the first as the primary server
     $grouped_puppet_servers          = {
-        '.*\.releng\.mdc1\.mozilla\.com' => [
-            'releng-puppet1.srv.releng.mdc1.mozilla.com',
-            'releng-puppet2.srv.releng.mdc1.mozilla.com',
-        ],
-        '.*\.releng\.mdc2\.mozilla\.com' => [
-            'releng-puppet1.srv.releng.mdc2.mozilla.com',
-            'releng-puppet2.srv.releng.mdc2.mozilla.com',
-        ],
-        '.*\.releng\.use1\.mozilla\.com' => [
-            'releng-puppet1.srv.releng.mdc1.mozilla.com',
-            'releng-puppet2.srv.releng.mdc1.mozilla.com',
-        ],
-        '.*\.releng\.usw2\.mozilla\.com' => [
+        '.*\.releng\.(mdc1|mdc2)\.mozilla\.com' => [
             'releng-puppet1.srv.releng.mdc1.mozilla.com',
             'releng-puppet2.srv.releng.mdc1.mozilla.com',
         ],
@@ -291,11 +279,7 @@ class config inherits config::base {
     # log-aggregator.srv.releng.use1.mozilla.com even for usw2 hosts
     # See https://github.com/mozilla/build-cloud-tools/pull/45
 
-    $log_aggregator    = $::fqdn ? {
-        /.*\.mdc1\.mozilla\.com/ => 'log-aggregator.srv.releng.mdc1.mozilla.com',
-        /.*\.mdc2\.mozilla\.com/ => 'log-aggregator.srv.releng.mdc2.mozilla.com',
-        default => 'log-aggregator.srv.releng.mdc1.mozilla.com',
-    }
+    $log_aggregator = 'log-aggregator.srv.releng.mdc1.mozilla.com'
 
     # we need to pick a logging port > 1024 for AWS to use the ELB
     $logging_port = $::fqdn ? {
