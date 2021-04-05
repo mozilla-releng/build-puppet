@@ -182,9 +182,6 @@ class config inherits config::base {
         # ..and a few folks from releng
         'asasaki',
         'bhearsum',
-        'catlee',
-        'jlorenzo',
-        'sfraser',
     ]
 
     $mobile_shortlist = [
@@ -195,10 +192,7 @@ class config inherits config::base {
         # releng
         'asasaki',
         'bhearsum',
-        'catlee',
-        'jlorenzo',
         'mtabara',
-        'sfraser',
     ]
 
     $admin_users                     = $::fqdn ? {
@@ -213,10 +207,7 @@ class config inherits config::base {
 
     $jumphost_users = [
         'asasaki',
-        'catlee',
-        'jlorenzo',
         'mtabara',
-        'sfraser',
         'bhearsum', # Bug 1409806
         'pmoore', # Bug 1492400
     ]
