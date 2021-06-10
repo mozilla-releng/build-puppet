@@ -7,8 +7,8 @@ class fw::profiles::linux_taskcluster_worker {
     case $::fqdn {
         /.*\.(mdc1|mdc2)\.mozilla\.com/: {
             include ::fw::roles::nrpe_from_nagios
-            include ::fw::roles::vnc_from_rejh_logging
-            include ::fw::roles::ssh_from_rejh_logging
+            include ::fw::roles::vnc_from_anywhere_logging
+            include ::fw::roles::ssh_from_anywhere_logging
             include ::fw::roles::ssh_from_roller
         }
         default:{
