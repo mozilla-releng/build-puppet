@@ -52,7 +52,7 @@ class ntp::daemon {
             # seen.
             cron {
                 'whack-apple-ntpd':
-                    command => '/usr/bin/killall ntpd',
+                    command => '/usr/bin/killall ntpd >/dev/null 2>&1',
                     minute  => 0;
             }
         }
