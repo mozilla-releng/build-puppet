@@ -1,3 +1,5 @@
+# -= This project has been archived # New Document# New Document =-
+
 See https://wiki.mozilla.org/ReleaseEngineering/PuppetAgain.
 
 [![Build Status](https://travis-ci.org/mozilla-releng/build-puppet.png)](https://travis-ci.org/mozilla-releng/build-puppet)
