@@ -1,4 +1,4 @@
-# -= This project has been archived # New Document# New Document =-
+# -= This project has been archived =-
 
 See https://wiki.mozilla.org/ReleaseEngineering/PuppetAgain.
 
